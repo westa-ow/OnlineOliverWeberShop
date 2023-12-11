@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-av+bzqy62h9m=9%^%c11v16=7h(aq(e*j2zn9-vk6r20wpn%_n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -54,7 +54,7 @@ ROOT_URLCONF = 'OnlineShop.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
+        'DIRS': [BASE_DIR / 'shop/templates']
         ,
         'APP_DIRS': True,
         'OPTIONS': {
