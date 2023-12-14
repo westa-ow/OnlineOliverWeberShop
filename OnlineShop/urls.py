@@ -19,5 +19,10 @@ from django.urls import path
 from shop import views
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('shop/', views.form_page, name='shop_page')
+    path('shop/', views.form_page, name='shop_page'),
+    path('cart/', views.form_page, name='cart'),
+    path('fetch-numbers/', views.fetch_numbers, name='fetch_numbers'),
+    path('add/',views.add_to_cart, name='add_to_cart'),
+    path('update-quantity/', views.update_quantity, name='update_quantity'),
+path('delete-document/', views.deleteProduct, name='delete_document'),
 ]

@@ -1,9 +1,11 @@
 
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
 </head>
 <style>
     .products{
@@ -22,7 +24,8 @@
         font-size: 18px;
         width: 100px;
         border-radius: 5px;
-        margin-top: 10px;
+        margin-top: -11px;
+
         /*margin-left: 100px;*/
     }
     .search:hover{
@@ -34,18 +37,18 @@
     }
     .search:focus{
     }
-form{
-    text-align: center;
-}
-body{
+.form {
+        position: relative;
+        text-align: center;
+    }
 
-}
 .results{
 text-align: center;
 }
 .NoRes{
     text-align: center;
     font-size: 20px;
+    margin-top: 200px;
 
 }
 .document-container {
@@ -90,15 +93,108 @@ text-align: center;
     {#background-color: #f8f8f8;#}
     padding: 5px;
 }
+ #dropdown {
+        max-height: 200px;
+        overflow-y: auto;
+        width: 250px; /* Match the width of your input field */
+        background-color: white;
+        border: 1px solid #ddd;
+        position: absolute;
+        left: 50%; /* Set left to 50% of the parent element */
+        transform: translateX(-50%); /* Move back by 50% of its own width */
+        top: 80px; /* Adjust based on the height of your input field and label */
+        z-index: 1000;
+    }
+
+    #dropdown div {
+        cursor: pointer;
+        padding: 5px;
+    }
+
+    #dropdown div:hover {
+        background-color: #f0f0f0;
+    }
+    .price-and-cart {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .purchase,.quantity-control{
+position: absolute;
+
+    bottom: 0;
+    padding: 10px;
+        left: 50%; /* Set left to 50% of the parent element */
+        transform: translateX(-50%); /* Move back by 50% of its own width */
+ margin-bottom: 5px;
+
+    }
+    .purchase{
+   background-color: #01447B;
+         width: 120px;
+        height: 50px;
+         border-radius: 5px;
+        color: #efefef;
+    }
+    .quantity-control{
+    border: 1px solid ;
+border-color: #cbcbcb;
+         border-radius: 5px;
+
+    }
+
+    .quantity-increase, .quantity-decrease {
+    background-color: #f8f8f8; /* Light gray background */
+    color: rgba(51, 51, 51, 0.84); /* Darker text for contrast */
+
+    border: 1px solid; /* No border for a modern look */
+        border-color: #cbcbcb ;
+    padding: 5px 10px; /* Padding for better touch area */
+    font-size: 18px; /* Larger font for readability */
+    font-weight: bold; /* Bold font for emphasis */
+    cursor: pointer; /* Cursor changes to pointer to indicate clickability */
+    border-radius: 3px; /* Slightly rounded corners */
+        width: 50px;
+
+        height: 40px;
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+    .quantity-increase{
+        margin-left:20px ;
+    }
+    .quantity-decrease{
+        margin-right:20px ;
+    }
+
+.quantity-increase:hover, .quantity-decrease:hover {
+    background-color: #e6e6e6; /* Slightly darker background on hover */
+}
+
+.quantity-increase:active, .quantity-decrease:active {
+    background-color: #cccccc; /* Even darker background when clicked */
+}
+.deleteBut{
+    font-size: 28px;
+    position: absolute;
+    top:0;
+    right:0;
+    color: #CC4500;
+    margin-right:10px;
+    cursor: pointer;
+}
+
 </style>
 <body>
-
+{% include 'base.html' %}
 <div class="form">
 <form action="" method="Post">
     {% csrf_token %}
     <label for="number" style="font-size: 22px">Product number</label>
     <br>
-    <input name="number" id="number">
+    <input name="number" id="number" onkeyup="updateDropdown()" autocomplete="off">
+    <br>
+    <div id="dropdown"></div>
     <br>
     <button type="submit" class="search">Search</button>
 </form>
@@ -115,13 +211,25 @@ text-align: center;
     <ul>
       {% for document in documents %}
 
-    <div class="document-container">
+    <div class="document-container" data-document="{{ document }}">
+
         <img class="document-image" src="{{ document.image_url }}" alt="{{ document.name }}">
         <div class="document-info">
             <div class="document-number">{{ document.name }}</div> <br>
             <div class="document-description">{{ document.description }}</div>
-{#            <div class="document-quantity">Quantity: {{ document.quantity }}</div>#}
+            <br>
             <div class="document-price">€{{ document.price }}</div>
+ <div class="deleteBut"  data-product-id="{{ document.name }}" style="{% if not inside %} display: none {% endif %}" ><i class="fa-solid fa-trash"></i></div>
+                <div class="quantity-control" id="quantity-control-{{ document.name }}" style="{% if not inside %} display: none {% endif %}">
+
+
+                    <button class="quantity-decrease" data-product-id="{{ document.name }}">-</button>
+                    <span class="quantity" id="quantity-{{ document.name }}">{{ quantity }}</span>
+                    <button class="quantity-increase" data-product-id="{{ document.name }}">+</button>
+                </div>
+
+                <button class="purchase" data-product-id="{{ document.name }}" style="{% if inside %} display: none {% endif %}">Purchase</button>
+
         </div>
     </div>
 {% endfor %}
@@ -135,3 +243,145 @@ text-align: center;
 
 </body>
 </html>
+    <script>
+    function updateDropdown() {
+        var inputVal = document.getElementById('number').value;
+        if (inputVal.length === 0) {
+            document.getElementById('dropdown').innerHTML = '';
+            return;
+        }
+        fetch('/fetch-numbers/?term=' + inputVal)
+            .then(response => response.json())
+            .then(data => {
+                let dropdownHTML = '';
+                data.forEach((item) => {
+                    dropdownHTML += `<div onclick="fillInput('${item}')">${item}</div>`;
+                });
+                document.getElementById('dropdown').innerHTML = dropdownHTML;
+            });
+    }
+
+    function fillInput(value) {
+        document.getElementById('number').value = value;
+        document.getElementById('dropdown').innerHTML = '';
+    }
+    document.querySelectorAll('.purchase').forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.getAttribute('data-product-id');
+            const documentContainer = this.closest('.document-container');
+            const documentValue = documentContainer.getAttribute('data-document');
+            fetch('{% url "add_to_cart" %}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ document: documentValue })
+            }).then(response => response.json())
+              .then(data => {
+                  // Assuming the response includes the quantity
+                  if (data.status === 'success') {
+                      document.getElementById('quantity-' + productId).innerText = data.quantity;
+                      togglePurchaseButton(productId);
+                  }
+              });
+        });
+    });
+
+    function togglePurchaseButton(productId) {
+        const purchaseButton = document.querySelector('.purchase[data-product-id="' + productId + '"]');
+        const deleteButton = document.querySelector('.deleteBut[data-product-id="' + productId + '"]');
+        const quantityControl = document.getElementById('quantity-control-' + productId);
+        purchaseButton.style.display = 'none';
+
+        quantityControl.style.display = 'block';
+        deleteButton.style.display = 'inline';
+    }
+
+    document.querySelectorAll('.quantity-increase').forEach(button => {
+    button.addEventListener('click', function() {
+        const productId = this.getAttribute('data-product-id');
+        updateQuantity(productId, 1);  // Increase quantity by 1
+    });
+});
+
+document.querySelectorAll('.quantity-decrease').forEach(button => {
+    button.addEventListener('click', function() {
+        const productId = this.getAttribute('data-product-id');
+        updateQuantity(productId, -1);  // Decrease quantity by 1
+    });
+});
+
+function updateQuantity(productId, change) {
+    fetch('{% url "update_quantity" %}', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ product_id: productId, quantity_change: change })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            const quantityElement = document.getElementById('quantity-' + productId);
+            quantityElement.innerText = data.quantity;
+        } else {
+            console.error('Failed to update quantity:', data.message);
+        }
+    });
+}
+document.querySelectorAll('.deleteBut').forEach(button => {
+    button.addEventListener('click', function() {
+        const documentId = this.getAttribute('data-product-id');
+
+        const confirmed = confirm("Do you really want to delete this product from your cart?");
+
+        if (confirmed) {
+            fetch('{% url "delete_document" %}', {  // Replace with your actual URL
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ document_id: documentId })
+            })
+            .then(response => {
+                if(response.ok) {
+                    console.log('Document deleted successfully');
+                    toggleQuantityForm(documentId);
+                } else {
+                    console.error('Error in deletion');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    });
+});
+ function toggleQuantityForm(productId) {
+    const quantityControl = document.getElementById('quantity-control-' + productId);
+    const purchaseButton = document.querySelector('.purchase[data-product-id="' + productId + '"]');
+    const delBut = document.querySelector('.deleteBut[data-product-id="' + productId + '"]');
+    if (quantityControl && purchaseButton && delBut) {
+        quantityControl.style.display = 'none'; // Hide the quantity control
+        purchaseButton.style.display = 'block'; // Show the purchase button
+        delBut.style.display = 'none';
+    }
+}
+    function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+</script>
+{%endblock%}
