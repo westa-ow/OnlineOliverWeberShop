@@ -337,8 +337,8 @@ text-align: center;
 
             <div class="quantity-slider" id="quantity-slider-{{ document.name }}" style="display: none">
                 <span class="quantitySlider" id="quantity-slider-text-{{ document.name }}">{{ quantity }}</span> <br>
-                <span class="min">{{ 0 }}</span>
-                <input type="range" min="0" max="{{ document.quantity }}" value="{{ quantity }}" class="slider" id="slider-{{ document.name }}">
+                <span class="min">{{ 1 }}</span>
+                <input type="range" min="1" max="{{ document.quantity }}" value="{{ quantity }}" class="slider" id="slider-{{ document.name }}">
                 <span class="max">{{ document.quantity }}</span>
             </div>
 
@@ -438,8 +438,9 @@ text-align: center;
     button.addEventListener('click', function() {
         const documentContainer = this.closest('.document-container');
             const documentValue = documentContainer.getAttribute('data-document');
-            console.log(documentValue);
+
             const productId = this.getAttribute('data-product-id');
+            console.log(productId);
         updateQuantity(productId, 1, documentValue);  // Increase quantity by 1
     });
 });
@@ -449,6 +450,7 @@ document.querySelectorAll('.quantity-decrease').forEach(button => {
         const documentContainer = this.closest('.document-container');
             const documentValue = documentContainer.getAttribute('data-document');
         const productId = this.getAttribute('data-product-id');
+
         updateQuantity(productId, -1, documentValue);  // Decrease quantity by 1
     });
 });
@@ -471,6 +473,7 @@ function updateQuantity(productId, change, documentValue) {
             const sum  = document.getElementById('sum-'+productId);
             sum.innerText = data.sum;
             saveState('sum-'+productId, data.sum);
+            saveState('quantity', data.quantity);
         } else {
             if(data.message === 'You have reached maximum quantity') {
                 alert(data.message);
@@ -542,7 +545,7 @@ document.querySelectorAll('.radio-buttons input[type="radio"]').forEach(radio =>
         const documentContainer = this.closest('.document-container');
         const documentString = documentContainer.getAttribute('data-document');
         const doc = documentString.replace(/'/g, '"');
-        console.log(document);
+
         const dataObject = JSON.parse(doc);
 
         const docName = dataObject.name;
@@ -553,7 +556,7 @@ document.querySelectorAll('.radio-buttons input[type="radio"]').forEach(radio =>
         if (this.value === 'quantityControl') {
             const quantityElement = document.getElementById('quantity-slider-text-' + docName);
             const quantityElementCOntrol = document.getElementById('quantity-' + docName);
-            quantityElementCOntrol.innerText = quantityElement.innerText;
+            quantityElementCOntrol.innerText = localStorage.getItem('quantity');
             quantityControl.style.display = 'block';
             quantitySlider.style.display = 'none';
             quantityInput.style.display = 'none';
@@ -561,8 +564,8 @@ document.querySelectorAll('.radio-buttons input[type="radio"]').forEach(radio =>
             const quantityElement = document.getElementById('quantity-slider-text-' + docName);
             const quantityElementCOntrol = document.getElementById('quantity-' + docName);
             const slider = document.getElementById('slider-'+docName);
-            quantityElement.innerText = quantityElementCOntrol.innerText;
-            slider.value = quantityElement.innerText;
+            quantityElement.innerText = localStorage.getItem('quantity');
+            slider.value = localStorage.getItem('quantity');
             quantitySlider.style.display = 'flex';
             quantityControl.style.display = 'none';
             quantityInput.style.display = 'none';
@@ -570,6 +573,8 @@ document.querySelectorAll('.radio-buttons input[type="radio"]').forEach(radio =>
             quantitySlider.style.display = 'none';
             quantityControl.style.display = 'none';
             quantityInput.style.display = 'block';
+            const inp = document.getElementById('quantity-input-inp-' + docName);
+            inp.value = '';
         }
         saveState(this.name, this.value);
     });
@@ -580,10 +585,9 @@ document.querySelectorAll('.radio-buttons input[type="radio"]').forEach(radio =>
  function restoreState() {
     document.querySelectorAll('.radio-buttons input[type="radio"]').forEach(radio => {
         let savedValue = localStorage.getItem(radio.name);
-        console.log(radio.name);
+
         if (radio.value === savedValue) {
             radio.checked = true;
-            // Manually trigger the change event
             radio.dispatchEvent(new Event('change'));
         }
     });
@@ -591,7 +595,8 @@ document.querySelectorAll('.radio-buttons input[type="radio"]').forEach(radio =>
     document.querySelector('.number-in-cart').innerText = localStorage.getItem('number-'+Id);
 
     const sum = document.getElementById('sum-'+Id);
-    sum.innerText = localStorage.getItem('sum-'+Id);
+    console.log(localStorage.getItem('sum-'+Id));
+    sum.innerHTML = sum.innerHTML = "Total" + "<br>" +localStorage.getItem('sum-'+Id);
 }
  $(document).ready(function(){
     $('.slider').on('input change', function() {
@@ -617,7 +622,9 @@ function updateQuantitySlider(product_id, quantity_new, doc) {
             const quantityElement = document.getElementById('quantity-slider-text-' + response.product_id);
             quantityElement.innerText = response.quantity;
             const sum  = document.getElementById('sum-'+response.product_id);
-            sum.innerText = response.sum;
+            sum.innerHTML = "Total" + "<br>" + response.sum;
+            saveState('sum-'+product_id, response.sum);
+            saveState('quantity', response.quantity);
         },
         error: function(error) {
             console.log(error);
@@ -632,7 +639,7 @@ document.querySelectorAll('.quantity-input-button').forEach(button => {
         const documentValue = JSON.parse(documentContainer.getAttribute('data-document').replace(/'/g, '"'));
         // Extract the product ID from the document value
         const productId = documentValue['name'];
-        console.log(productId);
+
 
         // Find the corresponding input element for the product ID
         const inp = document.getElementById('quantity-input-inp-' + productId);
@@ -644,6 +651,7 @@ document.querySelectorAll('.quantity-input-button').forEach(button => {
             alert("Type of written quantity has to be numeric and greater than 0");
         }
         else if (quantity > documentValue.quantity) {
+
             alert("Quantity has to be less than maximum on storage");
         }
         else {
@@ -660,14 +668,20 @@ document.querySelectorAll('.quantity-input-button').forEach(button => {
             'X-CSRFToken': getCookie('csrftoken'),
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ product_id: product_id, quantity_new: quantity_new, 'document': doc})
+        body: JSON.stringify({ product_id: product_id, quantity_new: quantity_new, 'document': doc, price:doc.price})
     })
     .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
             const button = document.getElementById("quantity-input-apply-"+ product_id);
             button.innerText = "Applied!";
-            button.style.background = "#06b206"
+            button.style.background = "#06b206";
+            const quantityElement = document.getElementById('quantity-slider-text-' + data.product_id);
+            quantityElement.innerText = quantity_new;
+            const sum  = document.getElementById('sum-'+data.product_id);
+            sum.innerHTML = "Total" + "<br>" + data.sum;
+            saveState('sum-'+product_id, data.sum);
+            saveState('quantity', data.quantity);
         } else {
         }
     });
