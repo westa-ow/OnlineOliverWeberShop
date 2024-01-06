@@ -6,6 +6,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 <style>
     .products{
@@ -57,14 +59,30 @@ text-align: center;
     border: 2px solid #ddd;
     margin-bottom: 10px;
     width: 1000px;
+    height: 200px;
     {#padding: 10px;#}
 }
 
 .document-image {
-    width: 150px;
-    height: 150px;
+    width: 199px;
+    height: 196px;
     margin-right: 10px;
     border-right:  2px solid #ddd;
+}
+.number-in-cart{
+    width: 32px;
+    height: 196px;
+    margin-right: 10px;
+    border-right:  2px solid #ddd;
+    text-align: center;
+    display: flex;        /* Use flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center;  /* Center vertically */
+    font-size: 30px;
+    position: relative;
+    {#align-items: center;#}
+    {#justify-content: center;#}
+    {#bottom:50%;#}
 }
 
 .document-info {
@@ -87,10 +105,9 @@ text-align: center;
 .document-price {
     position: absolute;
     bottom: 0;
-    right: 0;
+    left: 0;
     font-weight: bold;
     font-size: 25px;
-    {#background-color: #f8f8f8;#}
     padding: 5px;
 }
  #dropdown {
@@ -120,16 +137,37 @@ text-align: center;
         justify-content: space-between;
     }
 
-    .purchase,.quantity-control{
-position: absolute;
-
-    bottom: 0;
-    padding: 10px;
+    .purchase,.quantity-control, .quantity-input {
+        position: absolute;
+        bottom: 0;
+        padding: 10px;
         left: 50%; /* Set left to 50% of the parent element */
         transform: translateX(-50%); /* Move back by 50% of its own width */
- margin-bottom: 5px;
-
+        margin-bottom: 5px;
     }
+    .quantity-slider, .quantity-slider .quantitySlider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
+    {#padding: 10px;#}
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 5px;
+        height: 60px;
+}
+    .quantity-slider .quantitySlider {
+        margin-bottom: 15px;
+    }
+
+.quantity-slider .min, .quantity-slider .max {
+    margin: 0 10px; /* Add some space around min and max */
+    font-size: 18px;
+}
+.quantity-slider .slider{
+    transform: translateY(+10px);
+}
     .purchase{
    background-color: #01447B;
          width: 120px;
@@ -139,10 +177,48 @@ position: absolute;
     }
     .quantity-control{
     border: 1px solid ;
-border-color: #cbcbcb;
-         border-radius: 5px;
+    border-color: #cbcbcb;
+    border-radius: 5px;
 
     }
+     .radio-buttons input[type="radio"] {
+    display: none;
+}
+    .radio-buttons {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.radio-buttons label {
+    display: inline-block;
+    background-color: #f0f0f0;
+    padding: 10px 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+    {#left: 150%;#}
+    {#margin-bottom: 15px;#}
+
+}
+
+/* Change the appearance when the radio button is checked */
+.radio-buttons input[type="radio"]:checked + label {
+    background-color: #033e7e;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-color: #0056b3;
+}
+.inp{
+    width: 200px;
+}
+
+
 
     .quantity-increase, .quantity-decrease {
     background-color: #f8f8f8; /* Light gray background */
@@ -183,7 +259,25 @@ border-color: #cbcbcb;
     margin-right:10px;
     cursor: pointer;
 }
-
+.quantity-input-button{
+    background-color: #1daede;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        font-size: 18px;
+        cursor: pointer;
+        width: 100px;
+        border-radius: 5px;
+        margin-top: -11px;
+}
+.sum{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-weight: bold;
+    font-size: 25px;
+    padding: 5px;
+}
 </style>
 <body>
 {% include 'base.html' %}
@@ -212,24 +306,52 @@ border-color: #cbcbcb;
       {% for document in documents %}
 
     <div class="document-container" data-document="{{ document }}">
-
+        <div class="number-in-cart" data-product-id="{{ document.name }}" style="{% if not inside %} display: none {% endif %}">{{ document.number }}</div>
         <img class="document-image" src="{{ document.image_url }}" alt="{{ document.name }}">
-        <div class="document-info">
+        <div class="document-info" id="info-{{ document.name }}">
+
             <div class="document-number">{{ document.name }}</div> <br>
             <div class="document-description">{{ document.description }}</div>
             <br>
-            <div class="document-price">€{{ document.price }}</div>
- <div class="deleteBut"  data-product-id="{{ document.name }}" style="{% if not inside %} display: none {% endif %}" ><i class="fa-solid fa-trash"></i></div>
-                <div class="quantity-control" id="quantity-control-{{ document.name }}" style="{% if not inside %} display: none {% endif %}">
+            <div class="document-price" >€{{ document.price }}</div>
+            <div class="deleteBut"  data-product-id="{{ document.name }}" style="{% if not inside %} display: none {% endif %}" ><i class="fa-solid fa-trash"></i></div>
 
 
+            <div class="radio-buttons" data-product-id="{{ document.name }}" id="radio-buttons-{{ document.name }}" style="{% if not inside %} display: none {% endif %}">
+                <input type="radio" id="quantityControlRadio-{{ document.name }}" name="displayOption-{{ document.name }}" value="quantityControl" checked>
+                <label for="quantityControlRadio-{{ document.name }}">Quantity Control</label>
+
+                <input type="radio" id="quantitySliderRadio-{{ document.name }}" name="displayOption-{{ document.name }}" value="quantitySlider">
+                <label for="quantitySliderRadio-{{ document.name }}">Quantity Slider</label>
+
+                <input type="radio" id="quantityInputRadio-{{ document.name }}" name="displayOption-{{ document.name }}" value="quantityInput">
+                <label for="quantityInputRadio-{{ document.name }}">Quantity Input</label>
+            </div>
+
+
+            <div class="quantity-input" id="quantity-input-{{ document.name }}" style="display: none">
+                   <input class="inp" min=1 id="quantity-input-inp-{{ document.name }}" type="number" placeholder="Enter the quantity">
+                <button class="quantity-input-button" id="quantity-input-apply-{{ document.name }}">Apply</button>
+            </div>
+
+
+            <div class="quantity-slider" id="quantity-slider-{{ document.name }}" style="display: none">
+                <span class="quantitySlider" id="quantity-slider-text-{{ document.name }}">{{ quantity }}</span> <br>
+                <span class="min">{{ 0 }}</span>
+                <input type="range" min="0" max="{{ document.quantity }}" value="{{ quantity }}" class="slider" id="slider-{{ document.name }}">
+                <span class="max">{{ document.quantity }}</span>
+            </div>
+
+
+            <div class="quantity-control" id="quantity-control-{{ document.name }}" style="{% if not inside %} display: none {% endif %}">
                     <button class="quantity-decrease" data-product-id="{{ document.name }}">-</button>
                     <span class="quantity" id="quantity-{{ document.name }}">{{ quantity }}</span>
                     <button class="quantity-increase" data-product-id="{{ document.name }}">+</button>
-                </div>
+            </div>
 
-                <button class="purchase" data-product-id="{{ document.name }}" style="{% if inside %} display: none {% endif %}">Purchase</button>
-
+            <button class="purchase" data-product-id="{{ document.name }}" style="{% if inside %} display: none {% endif %}">Add to cart</button>
+            <br>
+            <span class="sum" id="sum-{{ document.name }}" style="{% if not inside %} display: none {% endif %}">{{ document.price }}</span>
         </div>
     </div>
 {% endfor %}
@@ -265,6 +387,7 @@ border-color: #cbcbcb;
         document.getElementById('number').value = value;
         document.getElementById('dropdown').innerHTML = '';
     }
+
     document.querySelectorAll('.purchase').forEach(button => {
         button.addEventListener('click', function() {
             const productId = this.getAttribute('data-product-id');
@@ -279,55 +402,82 @@ border-color: #cbcbcb;
                 body: JSON.stringify({ document: documentValue })
             }).then(response => response.json())
               .then(data => {
-                  // Assuming the response includes the quantity
                   if (data.status === 'success') {
                       document.getElementById('quantity-' + productId).innerText = data.quantity;
                       togglePurchaseButton(productId);
+                      saveState("number-"+productId, data.number);
+                      saveState("sum-"+productId, "€"+data.sum);
+                      restoreState();
+
+
                   }
               });
         });
     });
 
     function togglePurchaseButton(productId) {
-        const purchaseButton = document.querySelector('.purchase[data-product-id="' + productId + '"]');
-        const deleteButton = document.querySelector('.deleteBut[data-product-id="' + productId + '"]');
-        const quantityControl = document.getElementById('quantity-control-' + productId);
-        purchaseButton.style.display = 'none';
+    const purchaseButton = document.querySelector('.purchase[data-product-id="' + productId + '"]');
+    const deleteButton = document.querySelector('.deleteBut[data-product-id="' + productId + '"]');
+    const number = document.querySelector('.number-in-cart');
+    const quantityControl = document.getElementById('quantity-control-' + productId);
+    const radioButtons = document.getElementById('radio-buttons-'+productId); // Assuming each set of radio buttons has an ID like this
+    const sum = document.getElementById('sum-'+productId);
 
-        quantityControl.style.display = 'block';
-        deleteButton.style.display = 'inline';
-    }
+    purchaseButton.style.display = 'none';
+    number.style.display = 'flex';
+    quantityControl.style.display = 'block';
+    deleteButton.style.display = 'inline';
+    radioButtons.style.display = 'flex';
+    sum.style.display = 'block';
+
+    const quantityControlRadio = document.getElementById('quantityControlRadio-' + productId);
+    quantityControlRadio.checked = true;
+}
 
     document.querySelectorAll('.quantity-increase').forEach(button => {
     button.addEventListener('click', function() {
-        const productId = this.getAttribute('data-product-id');
-        updateQuantity(productId, 1);  // Increase quantity by 1
+        const documentContainer = this.closest('.document-container');
+            const documentValue = documentContainer.getAttribute('data-document');
+            console.log(documentValue);
+            const productId = this.getAttribute('data-product-id');
+        updateQuantity(productId, 1, documentValue);  // Increase quantity by 1
     });
 });
 
 document.querySelectorAll('.quantity-decrease').forEach(button => {
     button.addEventListener('click', function() {
+        const documentContainer = this.closest('.document-container');
+            const documentValue = documentContainer.getAttribute('data-document');
         const productId = this.getAttribute('data-product-id');
-        updateQuantity(productId, -1);  // Decrease quantity by 1
+        updateQuantity(productId, -1, documentValue);  // Decrease quantity by 1
     });
 });
 
-function updateQuantity(productId, change) {
+function updateQuantity(productId, change, documentValue) {
+
     fetch('{% url "update_quantity" %}', {
         method: 'POST',
         headers: {
             'X-CSRFToken': getCookie('csrftoken'),
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ product_id: productId, quantity_change: change })
+        body: JSON.stringify({ product_id: productId, quantity_change: change, 'document': documentValue})
     })
     .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
             const quantityElement = document.getElementById('quantity-' + productId);
             quantityElement.innerText = data.quantity;
+            const sum  = document.getElementById('sum-'+productId);
+            sum.innerText = data.sum;
+            saveState('sum-'+productId, data.sum);
         } else {
-            console.error('Failed to update quantity:', data.message);
+            if(data.message === 'You have reached maximum quantity') {
+                alert(data.message);
+            }
+            else{
+                console.error('Failed to update quantity:', data.message);
+            }
         }
     });
 }
@@ -350,6 +500,10 @@ document.querySelectorAll('.deleteBut').forEach(button => {
                 if(response.ok) {
                     console.log('Document deleted successfully');
                     toggleQuantityForm(documentId);
+                    {#let savedValue = localStorage.getItem('displayOption-'+documentId);#}
+                    saveState('displayOption-'+documentId, null);
+                    saveState('sum-'+documentId, '0');
+                    saveState('number-'+documentId, null);
                 } else {
                     console.error('Error in deletion');
                 }
@@ -362,12 +516,174 @@ document.querySelectorAll('.deleteBut').forEach(button => {
     const quantityControl = document.getElementById('quantity-control-' + productId);
     const purchaseButton = document.querySelector('.purchase[data-product-id="' + productId + '"]');
     const delBut = document.querySelector('.deleteBut[data-product-id="' + productId + '"]');
-    if (quantityControl && purchaseButton && delBut) {
+    const radioButtons = document.getElementById('radio-buttons-'+productId); // Assuming each set of radio buttons has an ID like this
+     const slider = document.getElementById('quantity-slider-'+productId);
+     const input = document.getElementById('quantity-input-'+productId);
+     const number = document.querySelector('.number-in-cart');
+     const sum = document.getElementById('sum-'+productId);
+
+
+    if (quantityControl && purchaseButton && delBut && radioButtons) {
         quantityControl.style.display = 'none'; // Hide the quantity control
         purchaseButton.style.display = 'block'; // Show the purchase button
         delBut.style.display = 'none';
+        radioButtons.style.display = 'none';
+        slider.style.display = 'none';
+        number.style.display = 'none';
+        input.style.display = 'none';
+        sum.style.display = 'none';
     }
 }
+document.addEventListener('DOMContentLoaded', function() {
+    restoreState();
+});
+document.querySelectorAll('.radio-buttons input[type="radio"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        const documentContainer = this.closest('.document-container');
+        const documentString = documentContainer.getAttribute('data-document');
+        const doc = documentString.replace(/'/g, '"');
+        console.log(document);
+        const dataObject = JSON.parse(doc);
+
+        const docName = dataObject.name;
+
+        const quantityControl = document.getElementById('quantity-control-' + docName);
+        const quantitySlider = document.getElementById('quantity-slider-' + docName);
+        const quantityInput = document.getElementById('quantity-input-' + docName);
+        if (this.value === 'quantityControl') {
+            const quantityElement = document.getElementById('quantity-slider-text-' + docName);
+            const quantityElementCOntrol = document.getElementById('quantity-' + docName);
+            quantityElementCOntrol.innerText = quantityElement.innerText;
+            quantityControl.style.display = 'block';
+            quantitySlider.style.display = 'none';
+            quantityInput.style.display = 'none';
+        } else if (this.value === 'quantitySlider') {
+            const quantityElement = document.getElementById('quantity-slider-text-' + docName);
+            const quantityElementCOntrol = document.getElementById('quantity-' + docName);
+            const slider = document.getElementById('slider-'+docName);
+            quantityElement.innerText = quantityElementCOntrol.innerText;
+            slider.value = quantityElement.innerText;
+            quantitySlider.style.display = 'flex';
+            quantityControl.style.display = 'none';
+            quantityInput.style.display = 'none';
+        }else if (this.value === 'quantityInput') {
+            quantitySlider.style.display = 'none';
+            quantityControl.style.display = 'none';
+            quantityInput.style.display = 'block';
+        }
+        saveState(this.name, this.value);
+    });
+});
+ function saveState(name, value) {
+    localStorage.setItem(name, value);
+}
+ function restoreState() {
+    document.querySelectorAll('.radio-buttons input[type="radio"]').forEach(radio => {
+        let savedValue = localStorage.getItem(radio.name);
+        console.log(radio.name);
+        if (radio.value === savedValue) {
+            radio.checked = true;
+            // Manually trigger the change event
+            radio.dispatchEvent(new Event('change'));
+        }
+    });
+    const Id =  document.querySelector('.number-in-cart').getAttribute('data-product-id');
+    document.querySelector('.number-in-cart').innerText = localStorage.getItem('number-'+Id);
+
+    const sum = document.getElementById('sum-'+Id);
+    sum.innerText = localStorage.getItem('sum-'+Id);
+}
+ $(document).ready(function(){
+    $('.slider').on('input change', function() {
+        let product_id = $(this).attr('id').split('-')[1]; // Assuming ID is 'slider-{{ document.name }}'
+        let quantity_new = $(this).val();
+        const price= document.getElementById('info-'+product_id).querySelector('.document-price').textContent.replace("€","");
+        let doc = { 'name': product_id, 'quantity': $(this).attr('max'), 'price': price };
+        updateQuantitySlider(product_id, quantity_new, doc);
+    });
+});
+
+function updateQuantitySlider(product_id, quantity_new, doc) {
+    $.ajax({
+        url: '{% url "update_slider" %}',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            product_id: product_id,
+            quantity_new: quantity_new,
+            document: doc
+        }),
+        success: function(response) {
+            const quantityElement = document.getElementById('quantity-slider-text-' + response.product_id);
+            quantityElement.innerText = response.quantity;
+            const sum  = document.getElementById('sum-'+response.product_id);
+            sum.innerText = response.sum;
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+}
+document.querySelectorAll('.quantity-input-button').forEach(button => {
+    button.addEventListener('click', function() {
+        // Find the closest '.document-container' ancestor of the clicked button
+        const documentContainer = this.closest('.document-container');
+        // Parse the 'data-document' attribute value as JSON
+        const documentValue = JSON.parse(documentContainer.getAttribute('data-document').replace(/'/g, '"'));
+        // Extract the product ID from the document value
+        const productId = documentValue['name'];
+        console.log(productId);
+
+        // Find the corresponding input element for the product ID
+        const inp = document.getElementById('quantity-input-inp-' + productId);
+        // Parse the input value as an integer
+        const quantity = parseInt(inp.value);
+
+        // Validate the input quantity
+        if (isNaN(quantity) || quantity <= 0) {
+            alert("Type of written quantity has to be numeric and greater than 0");
+        }
+        else if (quantity > documentValue.quantity) {
+            alert("Quantity has to be less than maximum on storage");
+        }
+        else {
+            // Call a function to handle the quantity input update
+            updateQuantityInput(productId, quantity, documentValue);
+        }
+    });
+});
+
+    function updateQuantityInput(product_id, quantity_new, doc) {
+    fetch('{% url "update_input" %}', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ product_id: product_id, quantity_new: quantity_new, 'document': doc})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            const button = document.getElementById("quantity-input-apply-"+ product_id);
+            button.innerText = "Applied!";
+            button.style.background = "#06b206"
+        } else {
+        }
+    });
+
+    }
+    document.querySelectorAll('.quantity-input input[type="number"]').forEach(input => {
+    input.addEventListener('input', function() {
+
+        const documentContainer = this.closest('.document-container');
+        const documentValue = JSON.parse(documentContainer.getAttribute('data-document').replace(/'/g, '"'));
+        const productId = documentValue['name'];
+        const button = document.getElementById("quantity-input-apply-"+ productId);
+            button.innerText = "Apply!";
+            button.style.background = "#1daede"
+    });
+});
     function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -382,6 +698,14 @@ document.querySelectorAll('.deleteBut').forEach(button => {
     }
     return cookieValue;
 }
+let csrftoken = getCookie('csrftoken');
 
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
 </script>
 {%endblock%}
