@@ -1,0 +1,469 @@
+{% block content %}
+    {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{#    <script type="text/css" src="main.css"></script>#}
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+</head>
+<style>
+.headers{
+    font-size: 20px;
+    font-weight: 600;
+}
+.order {
+    background-color: #E6EBF0; /* Lighter blue for default state */
+    color: #003665; /* White text/icon for contrast */
+    border: none;
+    cursor: pointer;
+    padding: 5px 20px;
+    {#margin: 0 2px;#}
+
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.order:hover {
+    background-color: #4a789b; /* Slightly darker on hover */
+}
+
+.finish-order{
+    position: fixed;
+    bottom: 0;
+    right:0;
+    margin: 20px;
+    padding: 15px 40px;
+    border-radius: 10px;
+    background-color: #00572C;
+    color:white;
+    font-size:18px;
+    cursor: pointer;
+}
+</style>
+<body>
+{% include 'base.html' %}
+<table style="margin: 0 auto; width: 1000px;height:80px ;text-align: center; border: 2px solid #ddd; transform: translateX(20px)">
+
+    <tr>
+        <td>
+            <span class="headers">Order</span>
+            <button class="order" data-order-type="asc" name="number"><i class="fa-solid fa-arrow-up"></i></button>
+            <button class="order" data-order-type="desc" name="number"><i class="fa-solid fa-arrow-down"></i></button>
+        </td>
+        <td>
+           <span class="headers">Quantity</span>
+            <button class="order" data-order-type="asc" name="quantity"><i class="fa-solid fa-arrow-up"></i></button>
+            <button class="order" data-order-type="desc" name="quantity"><i class="fa-solid fa-arrow-down"></i></button>
+        </td>
+        <td>
+            <span class="headers">Name</span>
+            <button class="order" data-order-type="asc" name="name"><i class="fa-solid fa-arrow-up"></i></button>
+            <button class="order" data-order-type="desc" name="name"><i class="fa-solid fa-arrow-down"></i></button>
+        </td>
+        <td>
+            <span class="headers">Total</span>
+            <button class="order" data-order-type="asc" name="price"><i class="fa-solid fa-arrow-up"></i></button>
+            <button class="order" data-order-type="desc" name="price"><i class="fa-solid fa-arrow-down"></i></button>
+        </td>
+    </tr>
+</table>
+<ul id="documents-list">
+      {% for document in documents %}
+
+    <div class="document-container" data-document="{{ document }}">
+
+        <div class="number-in-cart" data-product-id="{{ document.name }}">{{ document.number }}</div>
+        <img class="document-image" src="{{ document.image_url }}" alt="{{ document.name }}">
+        <div class="document-info" id="info-{{ document.name }}">
+
+            <div class="document-number">{{ document.name }}</div> <br>
+            <div class="document-description">{{ document.description }}</div>
+            <br>
+            <div class="document-price" >€{{ document.price }}</div>
+            <div class="deleteBut"  data-product-id="{{ document.name }}" ><i class="fa-solid fa-trash"></i></div>
+
+
+<div class="radio-buttons" data-product-id="{{ document.name }}" id="radio-buttons-{{ document.name }}" >
+    <input type="radio" id="quantityControlRadio-{{ document.name }}" name="displayOption-{{ document.name }}" value="quantityControl" checked>
+    <label for="quantityControlRadio-{{ document.name }}">Quantity Control</label>
+
+    <input type="radio" id="quantitySliderRadio-{{ document.name }}" name="displayOption-{{ document.name }}" value="quantitySlider">
+    <label for="quantitySliderRadio-{{ document.name }}">Quantity Slider</label>
+
+    <input type="radio" id="quantityInputRadio-{{ document.name }}" name="displayOption-{{ document.name }}" value="quantityInput">
+    <label for="quantityInputRadio-{{ document.name }}">Quantity Input</label>
+</div>
+{##}
+{##}
+            <div class="quantity-input" id="quantity-input-{{ document.name }}" style="display: none">
+                   <input class="inp" min=1 id="quantity-input-inp-{{ document.name }}" type="number" placeholder="Enter the quantity">
+                <button class="quantity-input-button" id="quantity-input-apply-{{ document.name }}">Apply</button>
+            </div>
+{##}
+{##}
+            <div class="quantity-slider" id="quantity-slider-{{ document.name }}" style="display: none">
+                <span class="quantitySlider" id="quantity-slider-text-{{ document.name }}">{{ document.quantity }}</span> <br>
+                <span class="min">{{ 1 }}</span>
+                <input type="range" min="1" max="{{ document.quantity_max }}" value="{{ document.quantity }}" class="slider" id="slider-{{ document.name }}">
+                <span class="max">{{ document.quantity_max }}</span>
+            </div>
+{##}
+{##}
+            <div class="quantity-control" id="quantity-control-{{ document.name }}" >
+                    <button class="quantity-decrease" data-product-id="{{ document.name }}">-</button>
+                    <span class="quantity" id="quantity-{{ document.name }}">{{ document.quantity }}</span>
+                    <button class="quantity-increase" data-product-id="{{ document.name }}">+</button>
+            </div>
+
+            <br>
+            <div class="sum" id="sum-{{ document.name }}">Total<br> €{{ document.sum  }}</div>
+        </div>
+    </div>
+{% endfor %}
+</ul>
+<button class="finish-order">Finish order</button>
+</body>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+   document.querySelectorAll('.document-container').forEach(documentContainer => {
+        // Select the first radio button within this document container
+       const dataDocument = documentContainer.getAttribute('data-document');
+       const doc = JSON.parse(dataDocument.replaceAll("'",'"'));
+
+        let firstRadio = documentContainer.querySelector('.radio-buttons input[type="radio"]');
+
+        if (firstRadio) {
+            // Set it to checked
+            firstRadio.checked = true;
+
+            // If you need to perform any additional actions when the radio is checked,
+            // like dispatching a 'change' event, you can do so here
+            // firstRadio.dispatchEvent(new Event('change'));
+        }
+        saveState('quantity-'+doc.name, doc.quantity)
+    });
+
+});
+function saveState(name, value) {
+    localStorage.setItem(name, value);
+}
+$('.order').click(function() {
+    var orderDirection = $(this).attr('data-order-type'); // 'asc' or 'desc'
+    var orderName = $(this).attr('name'); // 'asc' or 'desc'
+    console.log(orderDirection);
+    console.log(orderName);
+    $.ajax({
+        url: '{% url "sort_documents" %}',
+        data: {
+            'order_by': orderName,
+            'direction': orderDirection
+        },
+        dataType: 'json',
+        success: function(data) {
+            console.log(data);
+            // Clear existing documents
+            $('#documents-list').empty();
+
+            // Add the sorted documents
+            data.documents.forEach(function(docc) {console.log(typeof(docc));
+                console.log(JSON.stringify(docc));
+                var jsonStr = JSON.stringify(docc).replace(/"/g, '&quot;');
+               var docHtml = '<div class="document-container" data-document="' + jsonStr + '">' +
+                  '<div class="number-in-cart" data-product-id="' + docc.name + '">' + docc.number + '</div>' +
+                  '<img class="document-image" src="' + docc.image_url + '" alt="' + docc.name + '">' +
+                  '<div class="document-info" id="info-' + docc.name + '">' +
+                  '<div class="document-number">' + docc.name + '</div><br>' +
+                  '<div class="document-description">' + docc.description + '</div><br>' +
+                  '<div class="document-price">€' + docc.price + '</div>' +
+                  '<div class="deleteBut" data-product-id="' + docc.name + '"><i class="fa-solid fa-trash"></i></div>' +
+
+                  '<div class="radio-buttons" data-product-id="' + docc.name + '" id="radio-buttons-' + docc.name + '">' +
+                  '<input type="radio" id="quantityControlRadio-' + docc.name + '" name="displayOption-' + docc.name + '" value="quantityControl" checked>' +
+                  '<label for="quantityControlRadio-' + docc.name + '">Quantity Control</label>' +
+
+                  '<input type="radio" id="quantitySliderRadio-' + docc.name + '" name="displayOption-' + docc.name + '" value="quantitySlider">' +
+                  '<label for="quantitySliderRadio-' + docc.name + '">Quantity Slider</label>' +
+
+                  '<input type="radio" id="quantityInputRadio-' + docc.name + '" name="displayOption-' + docc.name + '" value="quantityInput">' +
+                  '<label for="quantityInputRadio-' + docc.name + '">Quantity Input</label>' +
+                  '</div>' +
+
+                  '<div class="quantity-input" id="quantity-input-' + docc.name + '" style="display: none">' +
+                  '<input class="inp" min="1" id="quantity-input-inp-' + docc.name + '" type="number" placeholder="Enter the quantity">' +
+                  '<button class="quantity-input-button" id="quantity-input-apply-' + docc.name + '">Apply</button>' +
+                  '</div>' +
+
+                  '<div class="quantity-slider" id="quantity-slider-' + docc.name + '" style="display: none">' +
+                  '<span class="quantitySlider" id="quantity-slider-text-' + docc.name + '">' + docc.quantity + '</span> <br>' +
+                  '<span class="min">1</span>' +
+                  '<input type="range" min="1" max="' + docc.quantity_max + '" value="' + docc.quantity + '" class="slider" id="slider-' + docc.name + '">' +
+                  '<span class="max">' + docc.quantity_max + '</span>' +
+                  '</div>' +
+
+                  '<div class="quantity-control" id="quantity-control-' + docc.name + '">' +
+                  '<button class="quantity-decrease" data-product-id="' + docc.name + '">-</button>' +
+                  '<span class="quantity" id="quantity-' + docc.name + '">' + docc.quantity + '</span>' +
+                  '<button class="quantity-increase" data-product-id="' + docc.name + '">+</button>' +
+                  '</div>' +
+
+                  '<br>' +
+                  '<div class="sum" id="sum-' + docc.name + '">Total<br> €' + docc.sum + '</div>' +
+                  '</div></div>';
+
+                // Append each document to the container
+                // Use the document data to construct your HTML elements
+                $('#documents-list').append(docHtml)
+            });
+        },
+        error: function(xhr, status, error) {
+        console.error("Error occurred: " + status, error);
+    }
+    });
+});
+
+
+document.getElementById('documents-list').addEventListener('click', function(event) {
+    // Check if the clicked element or its closest parent has the class 'quantity-decrease'
+    var decreaseButton = event.target.closest('.quantity-decrease');
+    if (decreaseButton) {
+        const documentContainer = decreaseButton.closest('.document-container');
+        const documentValue = documentContainer.getAttribute('data-document');
+        const productId = decreaseButton.getAttribute('data-product-id');
+        updateQuantity(productId, -1, documentValue); // Decrease quantity by 1
+    }
+
+    // Check if the clicked element or its closest parent has the class 'quantity-increase'
+    var increaseButton = event.target.closest('.quantity-increase');
+    if (increaseButton) {
+        const documentContainer = increaseButton.closest('.document-container');
+        const documentValue = documentContainer.getAttribute('data-document');
+        const productId = increaseButton.getAttribute('data-product-id');
+        updateQuantity(productId, 1, documentValue); // Increase quantity by 1
+    }
+
+    var deleteButton = event.target.closest('.deleteBut');
+    if (deleteButton) {
+        const documentId = deleteButton.getAttribute('data-product-id');
+        const documentContainer = deleteButton.closest('.document-container');
+
+        const confirmed = confirm("Do you really want to delete this product from your cart?");
+
+        if (confirmed) {
+            deleteBut(documentId, documentContainer);
+        }
+    }
+
+    if (event.target.matches('.quantity-input input[type="number"]')) {
+        const input = event.target;
+        const documentContainer = input.closest('.document-container');
+        const documentValue = JSON.parse(documentContainer.getAttribute('data-document').replace(/'/g, '"'));
+        const productId = documentValue['name'];
+        const button = document.getElementById("quantity-input-apply-" + productId);
+        button.innerText = "Apply!";
+        button.style.background = "#1daede";
+    }
+
+    var quantityInputButton = event.target.closest('.quantity-input-button');
+    if (quantityInputButton) {
+        const documentContainer = quantityInputButton.closest('.document-container');
+        const documentValue = JSON.parse(documentContainer.getAttribute('data-document').replace(/'/g, '"'));
+        const productId = documentValue['name'];
+
+        const inp = document.getElementById('quantity-input-inp-' + productId);
+        const quantity = parseInt(inp.value);
+
+        if (isNaN(quantity) || quantity <= 0) {
+            alert("Type of written quantity has to be numeric and greater than 0");
+        }
+        else if (quantity > documentValue.quantity_max) {
+            alert("Quantity has to be less than maximum on storage");
+        }
+        else {
+            updateQuantityInput(productId, quantity, documentValue);
+        }
+    }
+
+});
+document.getElementById('documents-list').addEventListener('change', function(event) {
+    // Check if the event is triggered by a radio button within .radio-buttons
+    if (event.target.closest('.radio-buttons') && event.target.type === 'radio') {
+        const documentContainer = event.target.closest('.document-container');
+        const documentString = documentContainer.getAttribute('data-document');
+        const doc = documentString.replace(/'/g, '"');
+        const dataObject = JSON.parse(doc);
+
+        const docName = dataObject.name;
+
+        const quantityControl = document.getElementById('quantity-control-' + docName);
+        const quantitySlider = document.getElementById('quantity-slider-' + docName);
+        const quantityInput = document.getElementById('quantity-input-' + docName);
+
+        if (event.target.value === 'quantityControl') {
+            const quantityElementControl = document.getElementById('quantity-' + docName);
+            quantityElementControl.innerText = localStorage.getItem('quantity-'+docName);
+            quantityControl.style.display = 'block';
+            quantitySlider.style.display = 'none';
+            quantityInput.style.display = 'none';
+        } else if (event.target.value === 'quantitySlider') {
+            const quantityElement = document.getElementById('quantity-slider-text-' + docName);
+            const quantityElementControl = document.getElementById('quantity-' + docName);
+            const slider = document.getElementById('slider-' + docName);
+            quantityElement.innerText = localStorage.getItem('quantity-'+docName);
+            slider.value = localStorage.getItem('quantity-'+docName);
+            quantitySlider.style.display = 'flex';
+            quantityControl.style.display = 'none';
+            quantityInput.style.display = 'none';
+        } else if (event.target.value === 'quantityInput') {
+            quantitySlider.style.display = 'none';
+            quantityControl.style.display = 'none';
+            quantityInput.style.display = 'block';
+            const inp = document.getElementById('quantity-input-inp-' + docName);
+            inp.value = '';
+        }
+    }
+});
+$(document).ready(function() {
+    $('#documents-list').on('input change', '.slider', function() {
+        let product_id = $(this).attr('id').split('-')[1]; // Assuming ID is 'slider-{{ document.name }}'
+        let quantity_new = $(this).val();
+        const price = document.getElementById('info-'+product_id).querySelector('.document-price').textContent.replace("€","");
+        let doc = { 'name': product_id, 'quantity': $(this).attr('max'), 'price': price };
+        updateQuantitySlider(product_id, quantity_new, doc);
+    });
+});
+function updateQuantitySlider(product_id, quantity_new, doc) {
+    $.ajax({
+        url: '{% url "update_slider" %}',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            product_id: product_id,
+            quantity_new: quantity_new,
+            document: doc
+        }),
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+        },
+        success: function(response) {
+            const quantityElement = document.getElementById('quantity-slider-text-' + response.product_id);
+            quantityElement.innerText = response.quantity;
+            const sum  = document.getElementById('sum-'+response.product_id);
+            sum.innerHTML = "Total" + "<br>" + response.sum;
+            saveState('quantity-'+response.product_id, response.quantity);
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+}
+
+function updateQuantityInput(product_id, quantity_new, doc) {
+    fetch('{% url "update_input" %}', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ product_id: product_id, quantity_new: quantity_new, 'document': doc, price:doc.price})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            const button = document.getElementById("quantity-input-apply-"+ product_id);
+            button.innerText = "Applied!";
+            button.style.background = "#06b206";
+            const quantityElement = document.getElementById('quantity-slider-text-' + data.product_id);
+            quantityElement.innerText = quantity_new;
+            const sum  = document.getElementById('sum-'+data.product_id);
+            sum.innerHTML = "Total" + "<br>" + data.sum;
+            saveState('sum-'+product_id, data.sum);
+            saveState('quantity-'+data.product_id, data.quantity);
+        } else {
+        }
+    });
+}
+
+function updateQuantity(productId, change, documentValue) {
+    console.log("is ok");
+    console.log(documentValue);
+    fetch('{% url "update_quantity" %}', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ product_id: productId, quantity_change: change, 'document': documentValue})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            const quantityElement = document.getElementById('quantity-' + productId);
+            quantityElement.innerText = data.quantity;
+            const sum  = document.getElementById('sum-'+productId);
+            sum.innerHTML = "Total" + "<br>" + data.sum;
+            saveState('quantity-'+productId, data.quantity);
+        } else {
+            if(data.message === 'You have reached maximum quantity') {
+                alert(data.message);
+            }
+            else{
+                console.error('Failed to update quantity:', data.message);
+            }
+        }
+    });
+}
+function deleteBut(documentId, documentContainer){
+    fetch('{% url "delete_document" %}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ document_id: documentId })
+            })
+            .then(response => response.json())
+                .then(data => {
+                  if (data.status === 'success') {
+
+                    console.log('Document deleted successfully');
+                    documentContainer.remove();
+
+                    {#console.log(data.updated_document);#}
+                    data.updated_documents.forEach(doc => {
+                        console.log(`${doc.id}`);
+                        let docElement = document.querySelector(`[data-document="${doc.id}"]`);
+                        console.log(docElement);
+
+                        if(docElement) {
+                            docElement.querySelector('.number-in-cart').textContent = doc.number;
+                        }
+                    });
+                    } else {
+                    console.error('Error in deletion');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+}
+    function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+</html>
+
+{%endblock%}
