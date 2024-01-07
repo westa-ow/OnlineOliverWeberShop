@@ -471,7 +471,7 @@ function updateQuantity(productId, change, documentValue) {
             const quantityElement = document.getElementById('quantity-' + productId);
             quantityElement.innerText = data.quantity;
             const sum  = document.getElementById('sum-'+productId);
-            sum.innerText = data.sum;
+             sum.innerHTML = "Total" + "<br>" + data.sum;
             saveState('sum-'+productId, data.sum);
             saveState('quantity', data.quantity);
         } else {
