@@ -1,0 +1,25 @@
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% include 'base.html' %}
+    <style>
+        .centered-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh; /* This makes sure the container takes the full viewport height */
+        }
+    </style>
+</head>
+<body style="text-align: center">
+
+<div class="centered-container">
+      <h1 style="font-weight: 650">Welcome to the home page, {{ user.username }}!</h1>
+</div>
+
+</body>
+</html>
+{%endblock%}
