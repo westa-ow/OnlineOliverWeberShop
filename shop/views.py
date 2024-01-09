@@ -1,13 +1,18 @@
 import ast
 
-from django.shortcuts import render
+from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
 import os
 import json
 import firebase_admin
-from django.template.loader import render_to_string
 from firebase_admin import credentials, firestore
 from django.conf import settings
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+
+from shop.forms import UserRegisterForm
 
 json_file_path = os.path.join(settings.BASE_DIR,"shop", "static", "key2.json")
 cred = credentials.Certificate(json_file_path)
@@ -15,6 +20,12 @@ if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)
 db = firestore.client()
 
+
+
+def home_page(request):
+    return render(request, 'home.html')
+
+@login_required
 def form_page(request):
     documents = []
     search_term=''
@@ -25,7 +36,7 @@ def form_page(request):
         query = db.collection('item').where('name', '==', search_term)
         documents = query.stream()
 
-    cart = get_cart()
+    cart = get_cart(request)
     quantity = 1
     inside = False
     for prod in cart:
@@ -33,17 +44,21 @@ def form_page(request):
             inside = True
             quantity = prod['quantity']
             break
+
     context = {
         'documents': [doc.to_dict() for doc in documents],
         'search_term': search_term,
         'inside': inside,
-        'quantity':quantity
+        'quantity': quantity,
+        'is_authenticated': 'False',
+        'in_cart': 'False'
     }
 
     return render(request, 'shop_page.html', context)
+@login_required
 def cart_page(request):
     context = {
-        'documents': sorted(get_cart(), key=lambda x: x['number'])
+        'documents': sorted(get_cart(request), key=lambda x: x['number'])
     }
     return render(request, 'cart.html', context=context)
 
@@ -68,7 +83,8 @@ def add_to_cart(request):
         data = json.loads(request.body)
         product = ast.literal_eval(data.get('document'))
 
-        email = "eramcheg@gmail.com"  # Replace with actual user email
+        email = request.user.email  # Replace with actual user email
+        print(email)
         quantity = 1  # Replace with actual quantity
         price = product['price']  # Replace with actual price
         name = product['name']  # Replace with actual product name
@@ -111,7 +127,8 @@ def update_quantity(request):
         cart_ref = db.collection('Cart')
 
         # Get current quantity and update
-        docs = cart_ref.where('emailOwner', '==', "eramcheg@gmail.com").where('name', '==', product_id).limit(1).stream()
+        email = request.user.email
+        docs = cart_ref.where('emailOwner', '==', email).where('name', '==', product_id).limit(1).stream()
         for doc in docs:
             current_quantity = doc.to_dict().get('quantity', 0)
             new_quantity = max(current_quantity + quantity_change, 1)  # Ensure quantity doesn't go below 0
@@ -136,7 +153,8 @@ def update_quantity_slider(request):
         cart_ref = db.collection('Cart')
 
         # Get current quantity and update
-        docs = cart_ref.where('emailOwner', '==', "eramcheg@gmail.com").where('name', '==', product_id).limit(
+        email = request.user.email
+        docs = cart_ref.where('emailOwner', '==', email).where('name', '==', product_id).limit(
             1).stream()
         for doc in docs:
             # Update the quantity in Firestore
@@ -158,7 +176,8 @@ def update_quantity_input(request):
         cart_ref = db.collection('Cart')
 
         # Get current quantity and update
-        docs = cart_ref.where('emailOwner', '==', "eramcheg@gmail.com").where('name', '==', product_id).limit(1).stream()
+        email = request.user.email
+        docs = cart_ref.where('emailOwner', '==', email).where('name', '==', product_id).limit(1).stream()
         for doc in docs:
             doc.reference.update({'quantity': int(quantity_new)})
             return JsonResponse({'status': 'success', 'quantity': quantity_new, 'product_id': product_id, 'sum': "€"+str(round((quantity_new * price),2))})
@@ -167,13 +186,13 @@ def update_quantity_input(request):
             return JsonResponse({'status': 'error', 'message': 'Product not found'}, status=404)
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
-def get_cart():
+def get_cart(request):
     # Access the Firebase database
 
     cart_ref = db.collection('Cart')
-
+    email = request.user.email
     # Get all the documents
-    docs = cart_ref.where('emailOwner', '==', "eramcheg@gmail.com").stream()
+    docs = cart_ref.where('emailOwner', '==', email).stream()
 
     cart = []
     for doc in docs:
@@ -184,11 +203,12 @@ def deleteProduct(request):
         data = json.loads(request.body)
         name = data.get('document_id')
         cart_ref = db.collection('Cart')
-        docs = cart_ref.where('emailOwner', '==', "eramcheg@gmail.com").where('name', '==', name).stream()
+        email = request.user.email
+        docs = cart_ref.where('emailOwner', '==', email).where('name', '==', name).stream()
         for doc in docs:
             doc.reference.delete()
 
-        remaining_docs = cart_ref.order_by('number').stream()
+        remaining_docs = cart_ref.where('emailOwner', '==', email).order_by('number').stream()
         new_number = 1
         updated_documents = []
         for doc in remaining_docs:
@@ -203,13 +223,58 @@ def sort_documents(request):
     direction = request.GET.get('direction', 'asc')
 
     # Get documents from Firebase
-    documents = get_cart()
+    documents = get_cart(request)
     print(documents)
-    sorted_documents = []
-    # Sort the documents
-    if direction == 'asc':
-        sorted_documents = sorted(documents, key=lambda x: x.get(order_by, ""))
+    if order_by == 'sum':
+        key_function = lambda x: x.get('price', 0) * x.get('quantity', 0)
     else:
-        sorted_documents = sorted(documents, key=lambda x: x.get(order_by, ""), reverse=True)
+        key_function = lambda x: x.get(order_by, "")
+
+    sorted_documents = sorted(documents, key=key_function, reverse=(direction == 'desc'))
+
     print(sorted_documents)
     return JsonResponse({'documents': sorted_documents})
+
+def register(request):
+    form= UserRegisterForm()
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('home')
+    else:
+        form = UserRegisterForm()
+    return render(request, 'registration/register.html', {'form': form, 'errors': form.errors})
+
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'registration/login.html', {'form': form})
+def logout_view(request):
+    logout(request)
+    return redirect('home')
+def send_email(request):
+    if request.method == 'POST':
+        # Define email parameters
+        subject = 'Test mail'
+        message = 'Test mail from order-form!'
+        recipient_list = ['eramcheg@gmail.com']  # replace with your recipient list
+
+        # Send the email
+        send_mail(subject, message, 'setting.EMAIL_HOST_USER', recipient_list)
+
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error'}, status=400)

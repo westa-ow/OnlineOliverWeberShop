@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Order form</title>
     <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -282,7 +282,7 @@ text-align: center;
 <body>
 {% include 'base.html' %}
 <div class="form">
-<form action="" method="Post">
+<form action="" method="Post" id="searchForm">
     {% csrf_token %}
     <label for="number" style="font-size: 22px">Product number</label>
     <br>
@@ -366,6 +366,9 @@ text-align: center;
 </body>
 </html>
     <script>
+    document.getElementById('searchForm').addEventListener('submit', function() {
+        {#localStorage.clear();#}
+    });
     function updateDropdown() {
         var inputVal = document.getElementById('number').value;
         if (inputVal.length === 0) {
@@ -404,7 +407,9 @@ text-align: center;
               .then(data => {
                   if (data.status === 'success') {
                       document.getElementById('quantity-' + productId).innerText = data.quantity;
+                      console.log(document.getElementById('quantity-' + productId).innerText);
                       togglePurchaseButton(productId);
+                      saveState('quantity-'+productId, 1);
                       saveState("number-"+productId, data.number);
                       saveState("sum-"+productId, "€"+data.sum);
                       restoreState();
@@ -473,7 +478,7 @@ function updateQuantity(productId, change, documentValue) {
             const sum  = document.getElementById('sum-'+productId);
              sum.innerHTML = "Total" + "<br>" + data.sum;
             saveState('sum-'+productId, data.sum);
-            saveState('quantity', data.quantity);
+            saveState('quantity-'+productId, data.quantity);
         } else {
             if(data.message === 'You have reached maximum quantity') {
                 alert(data.message);
@@ -504,9 +509,7 @@ document.querySelectorAll('.deleteBut').forEach(button => {
                     console.log('Document deleted successfully');
                     toggleQuantityForm(documentId);
                     {#let savedValue = localStorage.getItem('displayOption-'+documentId);#}
-                    saveState('displayOption-'+documentId, null);
-                    saveState('sum-'+documentId, '0');
-                    saveState('number-'+documentId, null);
+                    {#localStorage.clear();#}
                 } else {
                     console.error('Error in deletion');
                 }
@@ -555,15 +558,15 @@ document.querySelectorAll('.radio-buttons input[type="radio"]').forEach(radio =>
         const quantityInput = document.getElementById('quantity-input-' + docName);
         if (this.value === 'quantityControl') {
             const quantityElementCOntrol = document.getElementById('quantity-' + docName);
-            quantityElementCOntrol.innerText = localStorage.getItem('quantity');
+            quantityElementCOntrol.innerText = localStorage.getItem('quantity-'+docName);
             quantityControl.style.display = 'block';
             quantitySlider.style.display = 'none';
             quantityInput.style.display = 'none';
         } else if (this.value === 'quantitySlider') {
             const quantityElement = document.getElementById('quantity-slider-text-' + docName);
             const slider = document.getElementById('slider-'+docName);
-            quantityElement.innerText = localStorage.getItem('quantity');
-            slider.value = localStorage.getItem('quantity');
+            quantityElement.innerText = localStorage.getItem('quantity-'+docName);
+            slider.value = localStorage.getItem('quantity-'+docName);
             quantitySlider.style.display = 'flex';
             quantityControl.style.display = 'none';
             quantityInput.style.display = 'none';
@@ -574,21 +577,21 @@ document.querySelectorAll('.radio-buttons input[type="radio"]').forEach(radio =>
             const inp = document.getElementById('quantity-input-inp-' + docName);
             inp.value = '';
         }
-        saveState(this.name, this.value);
+        {#saveState(this.name, this.value);#}
     });
 });
  function saveState(name, value) {
     localStorage.setItem(name, value);
 }
  function restoreState() {
-    document.querySelectorAll('.radio-buttons input[type="radio"]').forEach(radio => {
-        let savedValue = localStorage.getItem(radio.name);
+    document.querySelectorAll('.radio-buttons').forEach(group => {
+    let radios = group.querySelectorAll('input[type="radio"]');
 
-        if (radio.value === savedValue) {
-            radio.checked = true;
-            radio.dispatchEvent(new Event('change'));
-        }
-    });
+    if (radios.length > 0) {
+        radios[0].checked = true;
+        {#radios[0].dispatchEvent(new Event('change'));#}
+    }
+});
     const Id =  document.querySelector('.number-in-cart').getAttribute('data-product-id');
     document.querySelector('.number-in-cart').innerText = localStorage.getItem('number-'+Id);
 
@@ -622,7 +625,7 @@ function updateQuantitySlider(product_id, quantity_new, doc) {
             const sum  = document.getElementById('sum-'+response.product_id);
             sum.innerHTML = "Total" + "<br>" + response.sum;
             saveState('sum-'+product_id, response.sum);
-            saveState('quantity', response.quantity);
+            saveState('quantity-'+response.product_id, response.quantity);
         },
         error: function(error) {
             console.log(error);
@@ -679,7 +682,7 @@ document.querySelectorAll('.quantity-input-button').forEach(button => {
             const sum  = document.getElementById('sum-'+data.product_id);
             sum.innerHTML = "Total" + "<br>" + data.sum;
             saveState('sum-'+product_id, data.sum);
-            saveState('quantity', data.quantity);
+            saveState('quantity-'+data.product_id, data.quantity);
         } else {
         }
     });

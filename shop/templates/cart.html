@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>My cart</title>
     <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 {#    <script type="text/css" src="main.css"></script>#}
@@ -66,15 +66,15 @@
         </td>
         <td>
             <span class="headers">Total</span>
-            <button class="order" data-order-type="asc" name="price"><i class="fa-solid fa-arrow-up"></i></button>
-            <button class="order" data-order-type="desc" name="price"><i class="fa-solid fa-arrow-down"></i></button>
+            <button class="order" data-order-type="asc" name="sum"><i class="fa-solid fa-arrow-up"></i></button>
+            <button class="order" data-order-type="desc" name="sum"><i class="fa-solid fa-arrow-down"></i></button>
         </td>
     </tr>
 </table>
 <ul id="documents-list">
       {% for document in documents %}
 
-    <div class="document-container" data-document="{{ document }}">
+    <div class="document-container" data-document-id="{{ document.name }}" data-document="{{ document }}">
 
         <div class="number-in-cart" data-product-id="{{ document.name }}">{{ document.number }}</div>
         <img class="document-image" src="{{ document.image_url }}" alt="{{ document.name }}">
@@ -125,7 +125,7 @@
     </div>
 {% endfor %}
 </ul>
-<button class="finish-order">Finish order</button>
+<button class="finish-order" id="finishOrderButton">Finish order</button>
 </body>
 
 <script>
@@ -173,7 +173,7 @@ $('.order').click(function() {
             data.documents.forEach(function(docc) {console.log(typeof(docc));
                 console.log(JSON.stringify(docc));
                 var jsonStr = JSON.stringify(docc).replace(/"/g, '&quot;');
-               var docHtml = '<div class="document-container" data-document="' + jsonStr + '">' +
+               var docHtml = '<div class="document-container" '+'data-document-id="'+docc.name+'"' + 'data-document="' + jsonStr + '">' +
                   '<div class="number-in-cart" data-product-id="' + docc.name + '">' + docc.number + '</div>' +
                   '<img class="document-image" src="' + docc.image_url + '" alt="' + docc.name + '">' +
                   '<div class="document-info" id="info-' + docc.name + '">' +
@@ -436,7 +436,7 @@ function deleteBut(documentId, documentContainer){
                     {#console.log(data.updated_document);#}
                     data.updated_documents.forEach(doc => {
                         console.log(`${doc.id}`);
-                        let docElement = document.querySelector(`[data-document="${doc.id}"]`);
+                        let docElement = document.querySelector(`[data-document-id="${doc.id}"]`);
                         console.log(docElement);
 
                         if(docElement) {
@@ -449,6 +449,15 @@ function deleteBut(documentId, documentContainer){
             })
             .catch(error => console.error('Error:', error));
 }
+    document.getElementById('finishOrderButton').addEventListener('click', function() {
+        fetch('{% url 'send_email'%}', { method: 'POST',headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'Content-Type': 'application/json',
+                }, })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+    });
     function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
