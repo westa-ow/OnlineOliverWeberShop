@@ -8,7 +8,7 @@
     <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 {#    <script type="text/css" src="main.css"></script>#}
-    <link rel="stylesheet" href="{% static 'main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
 </head>
 <style>
 .headers{
@@ -30,12 +30,20 @@
 .order:hover {
     background-color: #4a789b; /* Slightly darker on hover */
 }
-
+@media screen and (max-width: 768px) {
+    .finish-order {
+        position: relative; /* Change to relative for smaller screens */
+        margin: 20px auto; /* Center it */
+        width: 90%; /* Make it wider to fit screen */
+        /* Other styles as needed */
+    }
+}
 .finish-order{
     position: fixed;
+    margin: 20px auto;
     bottom: 0;
     right:0;
-    margin: 20px;
+    {#margin: 20px;#}
     padding: 15px 40px;
     border-radius: 10px;
     background-color: #00572C;
@@ -84,36 +92,41 @@
             <div class="document-description">{{ document.description }}</div>
             <br>
             <div class="document-price" >€{{ document.price }}</div>
+            <div class="document-in-stock">In stock: {{ document.quantity }}</div>
+
             <div class="deleteBut"  data-product-id="{{ document.name }}" ><i class="fa-solid fa-trash"></i></div>
 
 
 <div class="radio-buttons" data-product-id="{{ document.name }}" id="radio-buttons-{{ document.name }}" >
-    <input type="radio" id="quantityControlRadio-{{ document.name }}" name="displayOption-{{ document.name }}" value="quantityControl" checked>
+
+    <input type="radio" id="quantityInputRadio-{{ document.name }}" name="displayOption-{{ document.name }}" value="quantityInput" checked>
+    <label for="quantityInputRadio-{{ document.name }}">Quantity Input</label>
+
+    <input type="radio" id="quantityControlRadio-{{ document.name }}" name="displayOption-{{ document.name }}" value="quantityControl" >
     <label for="quantityControlRadio-{{ document.name }}">Quantity Control</label>
 
     <input type="radio" id="quantitySliderRadio-{{ document.name }}" name="displayOption-{{ document.name }}" value="quantitySlider">
     <label for="quantitySliderRadio-{{ document.name }}">Quantity Slider</label>
 
-    <input type="radio" id="quantityInputRadio-{{ document.name }}" name="displayOption-{{ document.name }}" value="quantityInput">
-    <label for="quantityInputRadio-{{ document.name }}">Quantity Input</label>
 </div>
 {##}
 {##}
-            <div class="quantity-input" id="quantity-input-{{ document.name }}" style="display: none">
+            <div class="quantity-input" id="quantity-input-{{ document.name }}">
                    <input class="inp" min=1 id="quantity-input-inp-{{ document.name }}" type="number" placeholder="Enter the quantity">
                 <button class="quantity-input-button" id="quantity-input-apply-{{ document.name }}">Apply</button>
             </div>
-{##}
-{##}
+
+
             <div class="quantity-slider" id="quantity-slider-{{ document.name }}" style="display: none">
                 <span class="quantitySlider" id="quantity-slider-text-{{ document.name }}">{{ document.quantity }}</span> <br>
                 <span class="min">{{ 1 }}</span>
                 <input type="range" min="1" max="{{ document.quantity_max }}" value="{{ document.quantity }}" class="slider" id="slider-{{ document.name }}">
                 <span class="max">{{ document.quantity_max }}</span>
+                <button class="quantity-slider-button" id="quantity-slider-apply-{{ document.name }}">Apply</button>
             </div>
-{##}
-{##}
-            <div class="quantity-control" id="quantity-control-{{ document.name }}" >
+
+
+            <div class="quantity-control" id="quantity-control-{{ document.name }}" style="display: none">
                     <button class="quantity-decrease" data-product-id="{{ document.name }}">-</button>
                     <span class="quantity" id="quantity-{{ document.name }}">{{ document.quantity }}</span>
                     <button class="quantity-increase" data-product-id="{{ document.name }}">+</button>
@@ -125,6 +138,8 @@
     </div>
 {% endfor %}
 </ul>
+<div id="final-quantity"></div>
+<div id="final-sum"></div>
 <button class="finish-order" id="finishOrderButton">Finish order</button>
 </body>
 
@@ -180,17 +195,20 @@ $('.order').click(function() {
                   '<div class="document-number">' + docc.name + '</div><br>' +
                   '<div class="document-description">' + docc.description + '</div><br>' +
                   '<div class="document-price">€' + docc.price + '</div>' +
+                  '<div class="document-in-stock">In stock: '+ docc.quantity_max +'</div>'+
                   '<div class="deleteBut" data-product-id="' + docc.name + '"><i class="fa-solid fa-trash"></i></div>' +
 
                   '<div class="radio-buttons" data-product-id="' + docc.name + '" id="radio-buttons-' + docc.name + '">' +
-                  '<input type="radio" id="quantityControlRadio-' + docc.name + '" name="displayOption-' + docc.name + '" value="quantityControl" checked>' +
-                  '<label for="quantityControlRadio-' + docc.name + '">Quantity Control</label>' +
+
+                  '<input type="radio" id="quantityInputRadio-' + docc.name + '" name="displayOption-' + docc.name + '" value="quantityInput">' +
+                  '<label for="quantityInputRadio-' + docc.name + '">Quantity Input</label>' +
 
                   '<input type="radio" id="quantitySliderRadio-' + docc.name + '" name="displayOption-' + docc.name + '" value="quantitySlider">' +
                   '<label for="quantitySliderRadio-' + docc.name + '">Quantity Slider</label>' +
 
-                  '<input type="radio" id="quantityInputRadio-' + docc.name + '" name="displayOption-' + docc.name + '" value="quantityInput">' +
-                  '<label for="quantityInputRadio-' + docc.name + '">Quantity Input</label>' +
+                  '<input type="radio" id="quantityControlRadio-' + docc.name + '" name="displayOption-' + docc.name + '" value="quantityControl" checked>' +
+                  '<label for="quantityControlRadio-' + docc.name + '">Quantity Control</label>' +
+
                   '</div>' +
 
                   '<div class="quantity-input" id="quantity-input-' + docc.name + '" style="display: none">' +
@@ -287,10 +305,20 @@ document.getElementById('documents-list').addEventListener('click', function(eve
             updateQuantityInput(productId, quantity, documentValue);
         }
     }
+    var quantitySliderButton = event.target.closest('.quantity-slider-button');
+    if (quantitySliderButton) {
+        const documentContainer = quantitySliderButton.closest('.document-container');
+        const documentValue = JSON.parse(documentContainer.getAttribute('data-document').replace(/'/g, '"'));
+        const productId = documentValue['name'];
+        const quantityElement = document.getElementById('quantity-slider-text-' + productId).textContent;
+        const quantity = parseInt(quantityElement);
+        console.log(quantity);
 
+        updateQuantitySlider(productId, quantity, documentValue);
+
+    }
 });
 document.getElementById('documents-list').addEventListener('change', function(event) {
-    // Check if the event is triggered by a radio button within .radio-buttons
     if (event.target.closest('.radio-buttons') && event.target.type === 'radio') {
         const documentContainer = event.target.closest('.document-container');
         const documentString = documentContainer.getAttribute('data-document');
@@ -328,12 +356,14 @@ document.getElementById('documents-list').addEventListener('change', function(ev
     }
 });
 $(document).ready(function() {
-    $('#documents-list').on('input change', '.slider', function() {
-        let product_id = $(this).attr('id').split('-')[1]; // Assuming ID is 'slider-{{ document.name }}'
+    $('#documents-list').on('input change', '.slider', function () {
+        let product_id = $(this).attr('id').split('-')[1];
         let quantity_new = $(this).val();
-        const price = document.getElementById('info-'+product_id).querySelector('.document-price').textContent.replace("€","");
-        let doc = { 'name': product_id, 'quantity': $(this).attr('max'), 'price': price };
-        updateQuantitySlider(product_id, quantity_new, doc);
+        const quantityElement = document.getElementById('quantity-slider-text-' + product_id);
+        quantityElement.innerText = quantity_new;
+        const button = document.getElementById("quantity-slider-apply-"+ product_id);
+            button.innerText = "Apply";
+            button.style.background = "#1daede"
     });
 });
 function updateQuantitySlider(product_id, quantity_new, doc) {
@@ -350,8 +380,11 @@ function updateQuantitySlider(product_id, quantity_new, doc) {
             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
         },
         success: function(response) {
-            const quantityElement = document.getElementById('quantity-slider-text-' + response.product_id);
-            quantityElement.innerText = response.quantity;
+            {#const quantityElement = document.getElementById('quantity-slider-text-' + response.product_id);#}
+            {#quantityElement.innerText = response.quantity;#}
+            const button = document.getElementById("quantity-slider-apply-"+ product_id);
+            button.innerText = "Applied!";
+            button.style.background = "#06b206";
             const sum  = document.getElementById('sum-'+response.product_id);
             sum.innerHTML = "Total" + "<br>" + response.sum;
             saveState('quantity-'+response.product_id, response.quantity);
@@ -450,6 +483,7 @@ function deleteBut(documentId, documentContainer){
             .catch(error => console.error('Error:', error));
 }
     document.getElementById('finishOrderButton').addEventListener('click', function() {
+        window.alert("Order will be delivered to your email");
         fetch('{% url 'send_email'%}', { method: 'POST',headers: {
                     'X-CSRFToken': getCookie('csrftoken'),
                     'Content-Type': 'application/json',
