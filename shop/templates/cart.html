@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
        const doc = JSON.parse(dataDocument.replaceAll("'",'"'));
 
         let firstRadio = documentContainer.querySelector('.radio-buttons input[type="radio"]');
-
+        console.log(firstRadio);
         if (firstRadio) {
             // Set it to checked
             firstRadio.checked = true;
@@ -200,18 +200,18 @@ $('.order').click(function() {
 
                   '<div class="radio-buttons" data-product-id="' + docc.name + '" id="radio-buttons-' + docc.name + '">' +
 
-                  '<input type="radio" id="quantityInputRadio-' + docc.name + '" name="displayOption-' + docc.name + '" value="quantityInput">' +
+                  '<input type="radio" id="quantityInputRadio-' + docc.name + '" name="displayOption-' + docc.name + '" value="quantityInput" checked> ' +
                   '<label for="quantityInputRadio-' + docc.name + '">Quantity Input</label>' +
 
-                  '<input type="radio" id="quantitySliderRadio-' + docc.name + '" name="displayOption-' + docc.name + '" value="quantitySlider">' +
-                  '<label for="quantitySliderRadio-' + docc.name + '">Quantity Slider</label>' +
-
-                  '<input type="radio" id="quantityControlRadio-' + docc.name + '" name="displayOption-' + docc.name + '" value="quantityControl" checked>' +
+                  '<input type="radio" id="quantityControlRadio-' + docc.name + '" name="displayOption-' + docc.name + '" value="quantityControl" >' +
                   '<label for="quantityControlRadio-' + docc.name + '">Quantity Control</label>' +
+
+                   '<input type="radio" id="quantitySliderRadio-' + docc.name + '" name="displayOption-' + docc.name + '" value="quantitySlider">' +
+                  '<label for="quantitySliderRadio-' + docc.name + '">Quantity Slider</label>' +
 
                   '</div>' +
 
-                  '<div class="quantity-input" id="quantity-input-' + docc.name + '" style="display: none">' +
+                  '<div class="quantity-input" id="quantity-input-' + docc.name + '" >' +
                   '<input class="inp" min="1" id="quantity-input-inp-' + docc.name + '" type="number" placeholder="Enter the quantity">' +
                   '<button class="quantity-input-button" id="quantity-input-apply-' + docc.name + '">Apply</button>' +
                   '</div>' +
@@ -221,9 +221,10 @@ $('.order').click(function() {
                   '<span class="min">1</span>' +
                   '<input type="range" min="1" max="' + docc.quantity_max + '" value="' + docc.quantity + '" class="slider" id="slider-' + docc.name + '">' +
                   '<span class="max">' + docc.quantity_max + '</span>' +
+                  '<button class="quantity-slider-button" id="quantity-slider-apply-'+docc.name+'">Apply</button>'+
                   '</div>' +
 
-                  '<div class="quantity-control" id="quantity-control-' + docc.name + '">' +
+                  '<div class="quantity-control" id="quantity-control-' + docc.name + '"style="display: none">' +
                   '<button class="quantity-decrease" data-product-id="' + docc.name + '">-</button>' +
                   '<span class="quantity" id="quantity-' + docc.name + '">' + docc.quantity + '</span>' +
                   '<button class="quantity-increase" data-product-id="' + docc.name + '">+</button>' +
@@ -240,6 +241,7 @@ $('.order').click(function() {
         },
         error: function(xhr, status, error) {
         console.error("Error occurred: " + status, error);
+                console.error(xhr.responseText);
     }
     });
 });
