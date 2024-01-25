@@ -154,8 +154,7 @@ def update_quantity_slider(request):
 
         # Get current quantity and update
         email = request.user.email
-        docs = cart_ref.where('emailOwner', '==', email).where('name', '==', product_id).limit(
-            1).stream()
+        docs = cart_ref.where('emailOwner', '==', email).where('name', '==', product_id).limit(1).stream()
         for doc in docs:
             # Update the quantity in Firestore
             doc.reference.update({'quantity': int(quantity_new)})
@@ -196,7 +195,12 @@ def get_cart(request):
 
     cart = []
     for doc in docs:
-        cart.append({'name':doc.to_dict().get('name'),'quantity':doc.to_dict().get('quantity'),'number':doc.to_dict().get('number'), 'image_url':doc.to_dict().get('image_url'), 'description':doc.to_dict().get('description'),'quantity_max':doc.to_dict().get('quantity_max'),'price':doc.to_dict().get('price'), 'sum':str(round(doc.to_dict().get('price')*doc.to_dict().get('quantity'),1))})
+        description = doc.to_dict().get('description', '')
+        if description:  # Check if the description is not None or empty
+            safe_description = description.encode('utf-8').decode('utf-8')
+        else:
+            safe_description = ''
+        cart.append({'name':doc.to_dict().get('name'),'quantity':doc.to_dict().get('quantity'),'number':doc.to_dict().get('number'), 'image_url':doc.to_dict().get('image_url'), 'description':safe_description,'quantity_max':doc.to_dict().get('quantity_max'),'price':doc.to_dict().get('price'), 'sum':str(round(doc.to_dict().get('price')*doc.to_dict().get('quantity'),1))})
     return cart
 def deleteProduct(request):
     if request.method == 'POST':
@@ -224,7 +228,7 @@ def sort_documents(request):
 
     # Get documents from Firebase
     documents = get_cart(request)
-    print(documents)
+
     if order_by == 'sum':
         key_function = lambda x: x.get('price', 0) * x.get('quantity', 0)
     else:
@@ -232,7 +236,6 @@ def sort_documents(request):
 
     sorted_documents = sorted(documents, key=key_function, reverse=(direction == 'desc'))
 
-    print(sorted_documents)
     return JsonResponse({'documents': sorted_documents})
 
 def register(request):
@@ -271,8 +274,8 @@ def send_email(request):
         # Define email parameters
         subject = 'Test mail'
         message = 'Test mail from order-form!'
-        recipient_list = ['eramcheg@gmail.com']  # replace with your recipient list
-
+        recipient_list = [str(request.user.email)]  # replace with your recipient list
+        print(recipient_list)
         # Send the email
         send_mail(subject, message, 'setting.EMAIL_HOST_USER', recipient_list)
 
