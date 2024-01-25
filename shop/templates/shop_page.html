@@ -108,7 +108,15 @@ text-align: center;
     left: 0;
     font-weight: bold;
     font-size: 25px;
-    padding: 5px;
+}
+.document-in-stock{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    {#font-weight: bold;#}
+    font-size: 16px;
+    padding-bottom: 35px;
+    font-weight: 600;
 }
  #dropdown {
         max-height: 200px;
@@ -145,34 +153,67 @@ text-align: center;
         transform: translateX(-50%); /* Move back by 50% of its own width */
         margin-bottom: 5px;
     }
-    .quantity-slider, .quantity-slider .quantitySlider {
+    .quantity-slider, .quantity-slider  {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-bottom: 5px;
+        height: 60px;
+    }
+    .quantitySlider{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        bottom: 0;
+        left: 37%;
+        transform: translateX(-100%);
+        margin-bottom: 5px;
+        height: 60px;
+    }
+    .quantity-slider {
     display: flex;
     align-items: center;
-    justify-content: center;
-    position: absolute;
-    bottom: 0;
-    {#padding: 10px;#}
-    left: 50%;
-    transform: translateX(-50%);
-    margin-bottom: 5px;
-        height: 60px;
+    justify-content: space-between; /* Use space-between to spread out the min, slider, and max evenly */
+    padding: 10px;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
+    .quantity-slider .slider {
+    flex-grow: 1; /* Allow the slider to grow and fill the space */
+    margin: 0 10px; /* Add some space on the sides */
+}
+
+    .quantity-slider-button {
+        flex: none; /* Do not allow the button to grow or shrink */
+        /* Rest of your styles */
+    }
+
+    .quantitySlider {
+        flex: none;
+    }
+
     .quantity-slider .quantitySlider {
         margin-bottom: 15px;
     }
 
-.quantity-slider .min, .quantity-slider .max {
-    margin: 0 10px; /* Add some space around min and max */
-    font-size: 18px;
-}
-.quantity-slider .slider{
-    transform: translateY(+10px);
-}
+    .quantity-slider .min, .quantity-slider .max {
+        margin: 0px; /* Add some space around min and max */
+        font-size: 18px;
+    }
+
+    .quantity-slider .slider{
+        transform: translateY(+10px);
+    }
+
     .purchase{
-   background-color: #01447B;
-         width: 120px;
+        background-color: #01447B;
+        width: 120px;
         height: 50px;
-         border-radius: 5px;
+        border-radius: 5px;
         color: #efefef;
     }
     .quantity-control{
@@ -181,15 +222,14 @@ text-align: center;
     border-radius: 5px;
 
     }
-     .radio-buttons input[type="radio"] {
-    display: none;
-}
+    .radio-buttons input[type="radio"] {
+        display: none;
+    }
     .radio-buttons {
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
 
 .radio-buttons label {
@@ -202,39 +242,32 @@ text-align: center;
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.3s;
-    {#left: 150%;#}
-    {#margin-bottom: 15px;#}
-
 }
 
 /* Change the appearance when the radio button is checked */
-.radio-buttons input[type="radio"]:checked + label {
-    background-color: #033e7e;
-    color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    border-color: #0056b3;
-}
-.inp{
-    width: 200px;
-}
-
-
+    .radio-buttons input[type="radio"]:checked + label {
+        background-color: #033e7e;
+        color: white;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        border-color: #0056b3;
+    }
+    .inp{
+        width: 200px;
+    }
 
     .quantity-increase, .quantity-decrease {
-    background-color: #f8f8f8; /* Light gray background */
-    color: rgba(51, 51, 51, 0.84); /* Darker text for contrast */
-
-    border: 1px solid; /* No border for a modern look */
+        background-color: #f8f8f8; /* Light gray background */
+        color: rgba(51, 51, 51, 0.84); /* Darker text for contrast */
+        border: 1px solid; /* No border for a modern look */
         border-color: #cbcbcb ;
-    padding: 5px 10px; /* Padding for better touch area */
-    font-size: 18px; /* Larger font for readability */
-    font-weight: bold; /* Bold font for emphasis */
-    cursor: pointer; /* Cursor changes to pointer to indicate clickability */
-    border-radius: 3px; /* Slightly rounded corners */
+        padding: 5px 10px; /* Padding for better touch area */
+        font-size: 18px; /* Larger font for readability */
+        font-weight: bold; /* Bold font for emphasis */
+        cursor: pointer; /* Cursor changes to pointer to indicate clickability */
+        border-radius: 3px; /* Slightly rounded corners */
         width: 50px;
-
         height: 40px;
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
+        transition: background-color 0.3s; /* Smooth transition for hover effect */
 }
     .quantity-increase{
         margin-left:20px ;
@@ -259,7 +292,7 @@ text-align: center;
     margin-right:10px;
     cursor: pointer;
 }
-.quantity-input-button{
+.quantity-input-button, .quantity-slider-button{
     background-color: #1daede;
         color: #fff;
         padding: 10px;
@@ -269,6 +302,9 @@ text-align: center;
         width: 100px;
         border-radius: 5px;
         margin-top: -11px;
+}
+.quantity-slider-button{
+    margin-left: 10px;
 }
 .sum{
     position: absolute;
@@ -314,40 +350,47 @@ text-align: center;
             <div class="document-description">{{ document.description }}</div>
             <br>
             <div class="document-price" >€{{ document.price }}</div>
+
+            <div class="document-in-stock">In stock: {{ document.quantity }}</div>
             <div class="deleteBut"  data-product-id="{{ document.name }}" style="{% if not inside %} display: none {% endif %}" ><i class="fa-solid fa-trash"></i></div>
 
 
-            <div class="radio-buttons" data-product-id="{{ document.name }}" id="radio-buttons-{{ document.name }}" style="{% if not inside %} display: none {% endif %}">
-                <input type="radio" id="quantityControlRadio-{{ document.name }}" name="displayOption-{{ document.name }}" value="quantityControl" checked>
+            <div class="radio-buttons" data-product-id="{{ document.name }}" id="radio-buttons-{{ document.name }}" style="{% if not inside %} display: none {% endif %}" >
+                <input type="radio" id="quantityInputRadio-{{ document.name }}" name="displayOption-{{ document.name }}" value="quantityInput" checked>
+                <label for="quantityInputRadio-{{ document.name }}">Quantity Input</label>
+
+                <input type="radio" id="quantityControlRadio-{{ document.name }}" name="displayOption-{{ document.name }}" value="quantityControl" >
                 <label for="quantityControlRadio-{{ document.name }}">Quantity Control</label>
 
                 <input type="radio" id="quantitySliderRadio-{{ document.name }}" name="displayOption-{{ document.name }}" value="quantitySlider">
                 <label for="quantitySliderRadio-{{ document.name }}">Quantity Slider</label>
-
-                <input type="radio" id="quantityInputRadio-{{ document.name }}" name="displayOption-{{ document.name }}" value="quantityInput">
-                <label for="quantityInputRadio-{{ document.name }}">Quantity Input</label>
             </div>
 
 
-            <div class="quantity-input" id="quantity-input-{{ document.name }}" style="display: none">
+            <div class="quantity-input" id="quantity-input-{{ document.name }}" style="{% if not inside %} display: none {% endif %}">
                    <input class="inp" min=1 id="quantity-input-inp-{{ document.name }}" type="number" placeholder="Enter the quantity">
                 <button class="quantity-input-button" id="quantity-input-apply-{{ document.name }}">Apply</button>
             </div>
 
 
             <div class="quantity-slider" id="quantity-slider-{{ document.name }}" style="display: none">
+
                 <span class="quantitySlider" id="quantity-slider-text-{{ document.name }}">{{ quantity }}</span> <br>
                 <span class="min">{{ 1 }}</span>
                 <input type="range" min="1" max="{{ document.quantity }}" value="{{ quantity }}" class="slider" id="slider-{{ document.name }}">
                 <span class="max">{{ document.quantity }}</span>
+
+                <button class="quantity-slider-button" id="quantity-slider-apply-{{ document.name }}">Apply</button>
             </div>
 
 
-            <div class="quantity-control" id="quantity-control-{{ document.name }}" style="{% if not inside %} display: none {% endif %}">
+            <div class="quantity-control" id="quantity-control-{{ document.name }}" style="display: none">
                     <button class="quantity-decrease" data-product-id="{{ document.name }}">-</button>
                     <span class="quantity" id="quantity-{{ document.name }}">{{ quantity }}</span>
                     <button class="quantity-increase" data-product-id="{{ document.name }}">+</button>
+
             </div>
+        <br>
 
             <button class="purchase" data-product-id="{{ document.name }}" style="{% if inside %} display: none {% endif %}">Add to cart</button>
             <br>
@@ -424,13 +467,13 @@ text-align: center;
     const purchaseButton = document.querySelector('.purchase[data-product-id="' + productId + '"]');
     const deleteButton = document.querySelector('.deleteBut[data-product-id="' + productId + '"]');
     const number = document.querySelector('.number-in-cart');
-    const quantityControl = document.getElementById('quantity-control-' + productId);
+    const quantityInput = document.getElementById('quantity-input-' + productId);
     const radioButtons = document.getElementById('radio-buttons-'+productId); // Assuming each set of radio buttons has an ID like this
     const sum = document.getElementById('sum-'+productId);
 
     purchaseButton.style.display = 'none';
     number.style.display = 'flex';
-    quantityControl.style.display = 'block';
+    quantityInput.style.display = 'block';
     deleteButton.style.display = 'inline';
     radioButtons.style.display = 'flex';
     sum.style.display = 'block';
@@ -603,9 +646,11 @@ document.querySelectorAll('.radio-buttons input[type="radio"]').forEach(radio =>
     $('.slider').on('input change', function() {
         let product_id = $(this).attr('id').split('-')[1]; // Assuming ID is 'slider-{{ document.name }}'
         let quantity_new = $(this).val();
-        const price= document.getElementById('info-'+product_id).querySelector('.document-price').textContent.replace("€","");
-        let doc = { 'name': product_id, 'quantity': $(this).attr('max'), 'price': price };
-        updateQuantitySlider(product_id, quantity_new, doc);
+        const quantityElement = document.getElementById('quantity-slider-text-' + product_id);
+        quantityElement.innerText = quantity_new;
+        const button = document.getElementById("quantity-slider-apply-"+ product_id);
+            button.innerText = "Apply";
+            button.style.background = "#1daede"
     });
 });
 
@@ -620,18 +665,36 @@ function updateQuantitySlider(product_id, quantity_new, doc) {
             document: doc
         }),
         success: function(response) {
-            const quantityElement = document.getElementById('quantity-slider-text-' + response.product_id);
-            quantityElement.innerText = response.quantity;
+            {#const quantityElement = document.getElementById('quantity-slider-text-' + response.product_id);#}
+            {#quantityElement.innerText = response.quantity;#}
+            const button = document.getElementById("quantity-slider-apply-"+ product_id);
+                button.innerText = "Applied!";
+                button.style.background = "#06b206";
             const sum  = document.getElementById('sum-'+response.product_id);
             sum.innerHTML = "Total" + "<br>" + response.sum;
             saveState('sum-'+product_id, response.sum);
             saveState('quantity-'+response.product_id, response.quantity);
+
+
         },
         error: function(error) {
             console.log(error);
         }
     });
 }
+document.querySelectorAll('.quantity-slider-button').forEach(button => {
+    button.addEventListener('click', function() {
+        const documentContainer = this.closest('.document-container');
+        // Parse the 'data-document' attribute value as JSON
+        const documentValue = JSON.parse(documentContainer.getAttribute('data-document').replace(/'/g, '"'));
+        const productId = documentValue['name'];
+        const quantityElement = document.getElementById('quantity-slider-text-' + productId).textContent;
+        const quantity = parseInt(quantityElement);
+        console.log(quantity);
+
+        updateQuantitySlider(productId, quantity, documentValue);
+    });
+});
 document.querySelectorAll('.quantity-input-button').forEach(button => {
     button.addEventListener('click', function() {
         // Find the closest '.document-container' ancestor of the clicked button
@@ -663,39 +726,38 @@ document.querySelectorAll('.quantity-input-button').forEach(button => {
 });
 
     function updateQuantityInput(product_id, quantity_new, doc) {
-    fetch('{% url "update_input" %}', {
-        method: 'POST',
-        headers: {
-            'X-CSRFToken': getCookie('csrftoken'),
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ product_id: product_id, quantity_new: quantity_new, 'document': doc, price:doc.price})
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-            const button = document.getElementById("quantity-input-apply-"+ product_id);
-            button.innerText = "Applied!";
-            button.style.background = "#06b206";
-            const quantityElement = document.getElementById('quantity-slider-text-' + data.product_id);
-            quantityElement.innerText = quantity_new;
-            const sum  = document.getElementById('sum-'+data.product_id);
-            sum.innerHTML = "Total" + "<br>" + data.sum;
-            saveState('sum-'+product_id, data.sum);
-            saveState('quantity-'+data.product_id, data.quantity);
-        } else {
-        }
+        fetch('{% url "update_input" %}', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ product_id: product_id, quantity_new: quantity_new, 'document': doc, price:doc.price})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                const button = document.getElementById("quantity-input-apply-"+ product_id);
+                button.innerText = "Applied!";
+                button.style.background = "#06b206";
+                const quantityElement = document.getElementById('quantity-slider-text-' + data.product_id);
+                quantityElement.innerText = quantity_new;
+                const sum  = document.getElementById('sum-'+data.product_id);
+                sum.innerHTML = "Total" + "<br>" + data.sum;
+                saveState('sum-'+product_id, data.sum);
+                saveState('quantity-'+data.product_id, data.quantity);
+            } else {
+            }
     });
 
     }
     document.querySelectorAll('.quantity-input input[type="number"]').forEach(input => {
     input.addEventListener('input', function() {
-
         const documentContainer = this.closest('.document-container');
         const documentValue = JSON.parse(documentContainer.getAttribute('data-document').replace(/'/g, '"'));
         const productId = documentValue['name'];
         const button = document.getElementById("quantity-input-apply-"+ productId);
-            button.innerText = "Apply!";
+            button.innerText = "Apply";
             button.style.background = "#1daede"
     });
 });
