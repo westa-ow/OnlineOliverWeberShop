@@ -91,8 +91,9 @@
             <div class="document-number">{{ document.name }}</div> <br>
             <div class="document-description">{{ document.description }}</div>
             <br>
+            <div class="document-in-stock">In stock: {{ document.quantity_max }}</div>
             <div class="document-price" >€{{ document.price }}</div>
-            <div class="document-in-stock">In stock: {{ document.quantity }}</div>
+
 
             <div class="deleteBut"  data-product-id="{{ document.name }}" ><i class="fa-solid fa-trash"></i></div>
 
