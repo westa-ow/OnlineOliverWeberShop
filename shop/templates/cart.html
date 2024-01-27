@@ -30,31 +30,19 @@
 .order:hover {
     background-color: #4a789b; /* Slightly darker on hover */
 }
-@media screen and (max-width: 768px) {
-    .finish-order {
-        position: relative; /* Change to relative for smaller screens */
-        margin: 20px auto; /* Center it */
-        width: 90%; /* Make it wider to fit screen */
-        /* Other styles as needed */
-    }
-}
-.finish-order{
-    position: fixed;
-    margin: 20px auto;
-    bottom: 0;
-    right:0;
-    {#margin: 20px;#}
-    padding: 15px 40px;
-    border-radius: 10px;
-    background-color: #00572C;
-    color:white;
-    font-size:18px;
-    cursor: pointer;
-}
+{#@media screen and (max-width: 768px) {#}
+{#    .finish-order {#}
+{#        position: relative; /* Change to relative for smaller screens */#}
+{#        margin: 20px auto; /* Center it */#}
+{#        width: 90%; /* Make it wider to fit screen */#}
+{#        /* Other styles as needed */#}
+{#    }#}
+{##}
+
 </style>
 <body>
 {% include 'base.html' %}
-<table style="margin: 0 auto; width: 1000px;height:80px ;text-align: center; border: 2px solid #ddd; transform: translateX(20px)">
+<table style="margin: 0 auto; width: 1000px;height:80px ;text-align: center; border: 2px solid #ddd; ">
 
     <tr>
         <td>
@@ -138,33 +126,70 @@
         </div>
     </div>
 {% endfor %}
+
 </ul>
-<div id="final-quantity"></div>
-<div id="final-sum"></div>
-<button class="finish-order" id="finishOrderButton">Finish order</button>
+<div class="finish-section">
+    <div class="final-unique-quantity" id="final-unique-quantity">Total unique items.................................................{{ documents|length }} </div>
+    <br>
+    <div class="final-quantity" id="final-quantity">Total item count:  </div>
+    <br>
+    <div class="final-sum" id="final-sum">Total cost: €</div>
+
+    <br>
+    <button class="finish-order" id="finishOrderButton">Finish order</button>
+</div>
 </body>
 
 <script>
+    let documentss = [];
+
+    function init() {
+        documentss = {{ documents|safe }}; // Convert Django's documents to a JavaScript array
+        calculate_final(); // Initial calculation
+    }
+
 document.addEventListener('DOMContentLoaded', function() {
+    init();
    document.querySelectorAll('.document-container').forEach(documentContainer => {
-        // Select the first radio button within this document container
        const dataDocument = documentContainer.getAttribute('data-document');
        const doc = JSON.parse(dataDocument.replaceAll("'",'"'));
 
         let firstRadio = documentContainer.querySelector('.radio-buttons input[type="radio"]');
         console.log(firstRadio);
         if (firstRadio) {
-            // Set it to checked
             firstRadio.checked = true;
-
-            // If you need to perform any additional actions when the radio is checked,
-            // like dispatching a 'change' event, you can do so here
-            // firstRadio.dispatchEvent(new Event('change'));
         }
         saveState('quantity-'+doc.name, doc.quantity)
     });
 
 });
+function calculate_final(){
+     let totalQuantity = 0;
+        let totalSum = 0;
+        let totalItems = 0;
+
+
+        documentss.forEach(doc => {
+            totalItems+=1;
+            totalQuantity += doc.quantity;
+            totalSum += (doc.quantity * doc.price);
+        });
+
+        document.getElementById('final-unique-quantity').innerText = 'Total unique items..............................................' + totalItems;
+        document.getElementById('final-quantity').innerText = 'Total item count.................................................' + totalQuantity;
+        document.getElementById('final-sum').innerText = 'Total cost.................................................€' + totalSum.toFixed(1);
+
+}
+function parameters_final(productId, newQuantity){
+    documentss = documentss.map(doc => {
+        if (doc.name === productId) {
+            doc.quantity = newQuantity;
+        }
+        return doc;
+
+    });
+    calculate_final();
+}
 function saveState(name, value) {
     localStorage.setItem(name, value);
 }
@@ -383,14 +408,14 @@ function updateQuantitySlider(product_id, quantity_new, doc) {
             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
         },
         success: function(response) {
-            {#const quantityElement = document.getElementById('quantity-slider-text-' + response.product_id);#}
-            {#quantityElement.innerText = response.quantity;#}
             const button = document.getElementById("quantity-slider-apply-"+ product_id);
             button.innerText = "Applied!";
             button.style.background = "#06b206";
             const sum  = document.getElementById('sum-'+response.product_id);
             sum.innerHTML = "Total" + "<br>" + response.sum;
             saveState('quantity-'+response.product_id, response.quantity);
+            parameters_final(product_id, quantity_new);
+
         },
         error: function(error) {
             console.log(error);
@@ -419,6 +444,7 @@ function updateQuantityInput(product_id, quantity_new, doc) {
             sum.innerHTML = "Total" + "<br>" + data.sum;
             saveState('sum-'+product_id, data.sum);
             saveState('quantity-'+data.product_id, data.quantity);
+            parameters_final(product_id, quantity_new);
         } else {
         }
     });
@@ -443,6 +469,7 @@ function updateQuantity(productId, change, documentValue) {
             const sum  = document.getElementById('sum-'+productId);
             sum.innerHTML = "Total" + "<br>" + data.sum;
             saveState('quantity-'+productId, data.quantity);
+            parameters_final(productId,data.quantity);
         } else {
             if(data.message === 'You have reached maximum quantity') {
                 alert(data.message);
@@ -465,6 +492,7 @@ function deleteBut(documentId, documentContainer){
             .then(response => response.json())
                 .then(data => {
                   if (data.status === 'success') {
+                      documentss = documentss.filter(doc => doc.name !== documentId);
 
                     console.log('Document deleted successfully');
                     documentContainer.remove();
@@ -479,6 +507,7 @@ function deleteBut(documentId, documentContainer){
                             docElement.querySelector('.number-in-cart').textContent = doc.number;
                         }
                     });
+                    calculate_final();
                     } else {
                     console.error('Error in deletion');
                 }
