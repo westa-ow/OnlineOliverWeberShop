@@ -51,7 +51,8 @@ def form_page(request):
         'inside': inside,
         'quantity': quantity,
         'is_authenticated': 'False',
-        'in_cart': 'False'
+        'in_cart': 'False',
+        'cart':cart
     }
 
     return render(request, 'shop_page.html', context)
