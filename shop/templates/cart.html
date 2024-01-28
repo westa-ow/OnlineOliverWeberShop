@@ -128,6 +128,10 @@
 {% endfor %}
 
 </ul>
+<div id="scrollToBottomContainer">
+    <p>Checkout</p>
+    <button id="scrollToBottomButton">  <i  class="fa fa-arrow-down" id="arrow-icon"></i></button>
+</div>
 <div class="finish-section">
     <div class="final-unique-quantity" id="final-unique-quantity">Total unique items.................................................{{ documents|length }} </div>
     <br>
@@ -141,6 +145,27 @@
 </body>
 
 <script>
+    document.getElementById('scrollToBottomButton').addEventListener('click', function() {
+    window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth'
+    });
+});
+
+window.addEventListener('scroll', function() {
+    var scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+    var scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    scrollPosition = Math.round(scrollPosition / 20) * 20;
+
+
+    if (scrollPosition >= scrollHeight) {
+        // We are at the bottom, hide the button
+        document.getElementById('scrollToBottomContainer').style.display = 'none';
+    } else {
+        // Not at the bottom, show the button
+        document.getElementById('scrollToBottomContainer').style.display = 'block';
+    }
+});
     let documentss = [];
 
     function init() {
@@ -165,19 +190,18 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 function calculate_final(){
      let totalQuantity = 0;
-        let totalSum = 0;
-        let totalItems = 0;
+     let totalSum = 0;
+     let totalItems = 0;
 
-
-        documentss.forEach(doc => {
+     documentss.forEach(doc => {
             totalItems+=1;
             totalQuantity += doc.quantity;
             totalSum += (doc.quantity * doc.price);
-        });
+     });
 
-        document.getElementById('final-unique-quantity').innerText = 'Total unique items..............................................' + totalItems;
-        document.getElementById('final-quantity').innerText = 'Total item count.................................................' + totalQuantity;
-        document.getElementById('final-sum').innerText = 'Total cost.................................................€' + totalSum.toFixed(1);
+     document.getElementById('final-unique-quantity').innerText = 'Total unique items..............................................' + totalItems;
+     document.getElementById('final-quantity').innerText = 'Total item count.................................................' + totalQuantity;
+     document.getElementById('final-sum').innerText = 'Total cost......................................................€' + totalSum.toFixed(1);
 
 }
 function parameters_final(productId, newQuantity){
