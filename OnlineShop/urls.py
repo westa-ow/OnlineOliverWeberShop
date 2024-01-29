@@ -25,6 +25,7 @@ urlpatterns = [
     path('register/', views.register, name='register'),  # You need to create this view
     path('shop/', views.form_page, name='shop_page'),
     path('cart/', views.cart_page, name='cart'),
+    path('profile/', views.profile, name='profile'),
     path('fetch-numbers/', views.fetch_numbers, name='fetch_numbers'),
     path('add/',views.add_to_cart, name='add_to_cart'),
     path('update-quantity/', views.update_quantity, name='update_quantity'),
