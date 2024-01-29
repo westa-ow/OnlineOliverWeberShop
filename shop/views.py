@@ -273,6 +273,24 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('home')
+
+@login_required
+def profile(request):
+    order_ref = db.collection("Order")
+    orders_ref = db.collection("Orders")
+    email = request.user.email
+    orders = []
+    docs_orders = orders_ref.where('email', '==', email).stream()
+
+    for doc in docs_orders :
+        orders.append({'Status':doc.to_dict().get('Status'), 'date':doc.to_dict().get('date'), 'email': email, 'list': doc.to_dict().get('list'), 'order_id': doc.to_dict().get('order_id'), 'sum': doc.to_dict().get('price')})
+    context = {
+        'orders': orders
+    }
+
+    return render(request, 'profile.html', context=context)
+
+
 def send_email(request):
     if request.method == 'POST':
         #Создаю order
@@ -312,13 +330,13 @@ def send_email(request):
                 'email': email,
                 'list': [ref.path for ref in item_refs],  # Using document paths as references
                 'order_id': order_id,
+                'order-id': order_id,
                 'price': round(sum,1)
             }
         orders_ref.add(new_order)
 
         for delete_name in names:
             clear_cart(email, delete_name)
-
 
 
         # Define email parameters
@@ -337,3 +355,4 @@ def clear_cart(email, name):
     docs = cart_ref.where('emailOwner', '==', email).where('name', '==', name).stream()
     for doc in docs:
         doc.reference.delete()
+

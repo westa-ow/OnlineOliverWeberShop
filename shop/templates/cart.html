@@ -169,13 +169,9 @@ window.addEventListener('scroll', function() {
     let documentss = [];
 
     function init() {
-        documentss = {{ documents|safe }}; // Convert Django's documents to a JavaScript array
-        calculate_final(); // Initial calculation
-    }
-
-document.addEventListener('DOMContentLoaded', function() {
-    init();
-    var scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        documentss = {{ documents|safe }};
+        calculate_final();
+        var scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     var container = document.getElementById('scrollToBottomContainer');
 
     if (scrollHeight <= 0) {
@@ -185,6 +181,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Page is scrollable, show the button
         container.style.display = 'block';
     }
+    }
+
+document.addEventListener('DOMContentLoaded', function() {
+    init();
+
    document.querySelectorAll('.document-container').forEach(documentContainer => {
        const dataDocument = documentContainer.getAttribute('data-document');
        const doc = JSON.parse(dataDocument.replaceAll("'",'"'));
