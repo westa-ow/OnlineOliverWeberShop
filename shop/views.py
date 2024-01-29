@@ -1,4 +1,6 @@
 import ast
+from datetime import datetime
+from random import randint
 
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
@@ -223,6 +225,7 @@ def deleteProduct(request):
 
         return JsonResponse({'status': 'success', 'updated_documents': updated_documents})
     return JsonResponse({'status': 'error'}, status=400)
+
 def sort_documents(request):
     order_by = request.GET.get('order_by', 'name')
     direction = request.GET.get('direction', 'asc')
@@ -272,6 +275,52 @@ def logout_view(request):
     return redirect('home')
 def send_email(request):
     if request.method == 'POST':
+        #Создаю order
+
+        cart = get_cart(request)
+        order_ref = db.collection("Order")
+        orders_ref = db.collection("Orders")
+
+        email = request.user.email
+        order_id = randint(1000000, 100000000)
+        item_refs = []
+        names = []
+        sum = 0
+        for order_item in cart:
+            description = order_item.get('description')
+            price = order_item.get('price')
+            quantity = order_item.get('quantity')
+            name = order_item.get('name')
+            names.append(name)
+            image_url = order_item.get('image_url')
+            sum+= round(price * quantity, 1)
+            new_order_item = {
+                'description': description,
+                "emailOwner": email,
+                'image_url': image_url,
+                "name": name,
+                "order_id": order_id,
+                "price": price,
+                "quantity": quantity,
+            }
+            doc_ref = order_ref.document()
+            doc_ref.set(new_order_item)
+            item_refs.append(doc_ref)
+        new_order = {
+                'Status': 'Awaiting',
+                'date': datetime.now(),  # Current date and time
+                'email': email,
+                'list': [ref.path for ref in item_refs],  # Using document paths as references
+                'order_id': order_id,
+                'price': round(sum,1)
+            }
+        orders_ref.add(new_order)
+
+        for delete_name in names:
+            clear_cart(email, delete_name)
+
+
+
         # Define email parameters
         subject = 'Test mail'
         message = 'Test mail from order-form!'
@@ -279,6 +328,12 @@ def send_email(request):
         print(recipient_list)
         # Send the email
         send_mail(subject, message, 'setting.EMAIL_HOST_USER', recipient_list)
-
-        return JsonResponse({'status': 'success'})
+        return JsonResponse({'status': 'success', 'redirect_name': 'home'})
     return JsonResponse({'status': 'error'}, status=400)
+
+def clear_cart(email, name):
+    cart_ref = db.collection('Cart')
+
+    docs = cart_ref.where('emailOwner', '==', email).where('name', '==', name).stream()
+    for doc in docs:
+        doc.reference.delete()
