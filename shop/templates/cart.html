@@ -175,6 +175,16 @@ window.addEventListener('scroll', function() {
 
 document.addEventListener('DOMContentLoaded', function() {
     init();
+    var scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var container = document.getElementById('scrollToBottomContainer');
+
+    if (scrollHeight <= 0) {
+        // Page is not scrollable, hide the button
+        container.style.display = 'none';
+    } else {
+        // Page is scrollable, show the button
+        container.style.display = 'block';
+    }
    document.querySelectorAll('.document-container').forEach(documentContainer => {
        const dataDocument = documentContainer.getAttribute('data-document');
        const doc = JSON.parse(dataDocument.replaceAll("'",'"'));
