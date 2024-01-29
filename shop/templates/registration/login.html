@@ -1,109 +1,143 @@
 {% load static %}
 {% load widget_tweaks %}
 {% block content %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Login</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        body {
+    font-family: 'Redshift Book', serif; /* Add a generic font family as a fallback */
+    background: #7599b3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
 
-<!--===============================================	================================================-->
-	<link rel="icon" type="image/png" href="../../static/login/favicon.ico"/>
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="../../static/login/bootstrap.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="../../static/login/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="../../static/login/animate.css">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="../../static/login/hamburgers.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="../../static/login/select2.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="../../static/login/util.css">
-	<link rel="stylesheet" type="text/css" href="../../static/login/main.css">
-<!--===============================================================================================-->
+
+.login-container {
+    background-color: #e6e6e6;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    width: 400px; /* Increased width */
+}
+
+        .login-header {
+    background-color: #003665;
+    color: white;
+    padding: 30px; /* Increased padding */
+    text-align: center;
+    font-size: 24px; /* Increased font-size */
+}
+
+        .login-form {
+    padding: 30px; /* Increased padding */
+    position: relative;
+    box-sizing: border-box;
+}
+        .login-form input[type="submit"] {
+    width: calc(100% + 100px); /* Increase width to maintain the extended effect */
+    margin-left: -50px; /* Increase margin to maintain the extended effect */
+    padding: 20px; /* Increased padding */
+    border: none;
+    background-color: #003665;
+    color: white;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    font-size: 20px; /* Increased font-size */
+    overflow: visible;
+}
+
+        .login-form input[type="submit"]:hover {
+            background-color: #005f87; /* Change hover color */
+            {#opacity: 0.9;#}
+        }
+
+        .login-form a {
+    display: block;
+    text-align: center;
+    margin-top: 15px; /* Increased margin */
+    color: #003665;
+    text-decoration: none;
+    font-size: 16px; /* Increased font-size */
+}
+
+
+        .login-form a:hover {
+            text-decoration: underline;
+        }
+
+        .input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #0a5fa9;
+            margin-bottom: 15px;
+        }
+
+        .input-container .fas {
+            color: #a6abc7;
+            margin-right: 10px;
+        }
+
+        .login-form input[type="text"],
+.login-form input[type="password"] {
+    width: calc(100% - 40px); /* Adjust width for larger padding */
+    padding: 15px 15px 15px 0; /* Increased padding */
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: #00427a;
+    font-size: 18px; /* Increased font-size */
+}
+
+        .input-container input::placeholder {
+            color: #a6abc7;
+        }
+{#        .login-form input[type="submit"]::before,#}
+{#.login-form input[type="submit"]::after {#}
+{#    content: '';#}
+{#    position: absolute;#}
+{#    top: 50%; /* Position the pseudo-elements in the middle vertically */#}
+{#    width: 20px; /* Width of the extended part */#}
+{#    height: 50%; /* Reduce the height to make the shadow visible below the button */#}
+{#    background: transparent;#}
+{#    z-index: -1;#}
+{#    transform: translateY(50%); /* Move the pseudo-elements down below the button */#}
+{##}
+
+    </style>
 </head>
-<style>
-    .form-control fa-user::before{
-        content: "\f007";
-  font-weight: 900;
-
-    }
-</style>
 <body>
-	
-	<div class="limiter">
-		<div class="container-login100">
-			<div class="wrap-login100">
-				<div class="login100-pic js-tilt" data-tilt>
-					<img src="{% static "/login/img-01.png" %}" alt="IMG">
-				</div>
-                 {% if form.errors %}
+                {% if form.errors %}
                     <p> {{ form.errors.error }}</p>
                  {% endif %}
-                 <form action="{% url 'login' %}" method="post" class="login100-form">
-                     {% csrf_token %}
-					<span class="login100-form-title">
-						Member Login
-					</span>
-                    <div class="wrap-input100">
-                        <i class="fa fa-user" style="margin-top: 18px; margin-left: 30px;position: absolute"></i>
-                        {{ form.username | add_class:"input100" | attr:"placeholder: Username" }}
-
-                    </div>
-                    <div class="wrap-input100">
-                        <i class="fa fa-lock" style="margin-top: 18px; margin-left: 30px;position: absolute"></i>
-                        {{  form.password | add_class:"input100" | attr:"placeholder: Password"  }}
-
-                    </div>
-                <div class="container-login100-form-btn">
-						<button class="login100-form-btn" type="submit">
-							Login
-						</button>
-					</div>
-                    <div class="text-center p-t-12">
-						<span class="txt2">
-{#							<a href="{% url 'password_reset' %}">Forgot password?</a>#}
-						</span>
-
-					</div>
-                    <div class="text-center p-t-136">
-						<a href="{% url 'register' %}">
-							Create your Account
-							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
-						</a>
-					</div>
-                    {%  csrf_token %}
-                        </form>
-			</div>
-		</div>
-	</div>
-
-	
-
-	
-<!--===============================================================================================-->	
-	<script src="../../static/login/jquery-3.2.1.min.js"></script>
-<!--===============================================================================================-->
-	<script src="../../static/login/popper.js"></script>
-	<script src="../../static/login/bootstrap.min.js"></script>
-<!--===============================================================================================-->
-	<script src="../../static/login/select2.min.js"></script>
-<!--===============================================================================================-->
-	<script src="../../static/login/tilt.jquery.min.js"></script>
-	<script >
-		$('.js-tilt').tilt({
-			scale: 1.1
-		})
-	</script>
-<!--===============================================================================================-->
-	<script src="../../static/login/main.js"></script>
-
-
+    <div class="login-container">
+        <div class="login-header">
+            CUSTOMER LOGIN
+        </div>
+        <form action="{% url 'login' %}" method="post" class="login-form">
+             {% csrf_token %}
+            <div class="input-container">
+                <i class="fas fa-user"></i>
+{#                <input type="text" placeholder="Username" name="username" aria-label="Username">#}
+                {{ form.username | add_class:"input100" | attr:"placeholder: Username" }}
+            </div>
+            <div class="input-container">
+                <i class="fas fa-lock"></i>
+{#                <input type="password" placeholder="Password" name="password" aria-label="Password">#}
+                {{  form.password | add_class:"input100" | attr:"placeholder: Password"  }}
+            </div>
+            <input type="submit" value="LOGIN">
+            <a href="{% url 'register' %}">Forgot Password? Click Here</a>
+        </form>
+    </div>
 </body>
 </html>
 {% endblock %}
