@@ -539,14 +539,28 @@ function deleteBut(documentId, documentContainer){
             .catch(error => console.error('Error:', error));
 }
     document.getElementById('finishOrderButton').addEventListener('click', function() {
+
+        {% if documents|length != 0 %}
         window.alert("Order will be delivered to your email");
         fetch('{% url 'send_email'%}', { method: 'POST',headers: {
                     'X-CSRFToken': getCookie('csrftoken'),
                     'Content-Type': 'application/json',
                 }, })
             .then(response => response.json())
-            .then(data => console.log(data))
+            .then(data => {
+        console.log(data);
+        if (data.status === 'success') {
+            // Redirect to the home URL
+            window.location.href = '{% url 'home' %}';
+        } else {
+            // Handle error or unsuccessful status
+            console.error('Error in processing the order');
+        }
+    })
             .catch(error => console.error('Error:', error));
+            {% else %}
+            window.alert("You have to add at least 1 item to finish order");
+         {% endif %}
     });
     function getCookie(name) {
     let cookieValue = null;
