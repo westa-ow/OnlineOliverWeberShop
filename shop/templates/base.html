@@ -229,7 +229,11 @@
                 <span style="font-style: italic; font-size: 18px; color: white; font-family: poppins,Verdana,sans-serif;">{{ user.username }}</span>
  <a href="{% url 'logout'%}" class="link">Logout</a>
         {% else %}
+                <a></a>
         <a href="{% url 'login'%}" class="link">Login</a>
+                <a></a>
+                <a href="{% url 'register'%}" class="link">Register</a>
+                <a></a>
             {% endif %}
             <a></a>
         </div>
