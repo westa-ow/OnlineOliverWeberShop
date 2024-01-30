@@ -281,11 +281,31 @@ def profile(request):
     email = request.user.email
     orders = []
     docs_orders = orders_ref.where('email', '==', email).stream()
-
+    order = {}
     for doc in docs_orders :
+        order_id = doc.to_dict().get('order_id')
+        order_info = doc.to_dict()
         orders.append({'Status':doc.to_dict().get('Status'), 'date':doc.to_dict().get('date'), 'email': email, 'list': doc.to_dict().get('list'), 'order_id': doc.to_dict().get('order_id'), 'sum': doc.to_dict().get('price')})
+        order[order_id] = []
+
+        # Fetch Order documents from the list of references
+            # Assuming order_ref is a document reference
+        for order_doc_path in order_info.get('list', []):
+            # Fetching the Order document using its ID
+            path_parts = order_doc_path.split('/')
+            if len(path_parts) == 2:
+                collection_name, document_id = path_parts
+                order_doc_ref = db.collection(collection_name).document(document_id)
+                order_doc = order_doc_ref.get()
+                if order_doc.exists:
+                    order[order_id].append(order_doc.to_dict())
+
+
+
+
     context = {
-        'orders': orders
+        'orders': orders,
+        'products': order,
     }
 
     return render(request, 'profile.html', context=context)
