@@ -519,7 +519,7 @@ ul{
             .then(data => {
                 let dropdownHTML = '';
                 data.forEach((item) => {
-                    dropdownHTML += `<div onclick="fillInput('${item}')">${item}</div>`;
+                    dropdownHTML += `<div onclick="fillInput('${item}')">${item}</div> <hr style="margin: 0 10px; ">`;
                 });
                 document.getElementById('dropdown').innerHTML = dropdownHTML;
             });
