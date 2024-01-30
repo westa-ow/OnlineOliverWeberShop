@@ -203,40 +203,38 @@
 </style>
 
 <body>
+<div class="toolbar">
+    <div class="logo">
+        <img class = "imag" src="{% static "logonormal.webp" %}" height="70px"  />
+    </div>
 
 
-        <div class="toolbar">
-<div class="logo">
-<img class = "imag" src="{% static "logonormal.webp" %}" height="70px"  />
-</div>
-
-
-            {% if user.is_authenticated %}
-                 <a></a>
-                 <a></a>
-
-                 <a></a>
-            <a href="{% url 'shop_page' %}" class="link">Shop</a>
-              <a></a>
+    {% if user.is_authenticated %}
                 <a></a>
-            <a href="{% url 'profile' %}" class="link">Profile</a>
-                 <a></a>
-                 <a></a>
-             <a href="{% url 'cart' %}" class="link">Cart</a>
- <a></a>     <a></a>
-                 <a></a>
+                <a></a>
+                <a></a>
+                <a href="{% url 'shop_page' %}" class="link">Shop</a>
+                <a></a>
+                <a></a>
+                <a href="{% url 'profile' %}" class="link">Profile</a>
+                <a></a>
+                <a></a>
+                <a href="{% url 'cart' %}" class="link">Cart</a>
+                <a></a>
+                <a></a>
+                <a></a>
 
                 <span style="font-style: italic; font-size: 18px; color: white; font-family: poppins,Verdana,sans-serif;">{{ user.username }}</span>
- <a href="{% url 'logout'%}" class="link">Logout</a>
-        {% else %}
+                <a href="{% url 'logout'%}" class="link">Logout</a>
+    {% else %}
                 <a></a>
-        <a href="{% url 'login'%}" class="link">Login</a>
+                <a href="{% url 'login'%}" class="link">Login</a>
                 <a></a>
                 <a href="{% url 'register'%}" class="link">Register</a>
                 <a></a>
-            {% endif %}
-            <a></a>
-        </div>
+    {% endif %}
+    <a></a>
+</div>
 <a></a>
 <a></a>
 
