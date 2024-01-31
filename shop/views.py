@@ -16,21 +16,21 @@ from django.core.mail import send_mail
 
 from shop.forms import UserRegisterForm
 
-json_file_path = os.path.join(settings.BASE_DIR,"shop", "static", "key2.json")
+json_file_path = os.path.join(settings.BASE_DIR, "shop", "static", "key2.json")
 cred = credentials.Certificate(json_file_path)
 if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 
-
 def home_page(request):
     return render(request, 'home.html')
+
 
 @login_required
 def form_page(request):
     documents = []
-    search_term=''
+    search_term = ''
     if request.method == 'POST':
         search_term = request.POST.get('number').upper()
 
@@ -54,16 +54,19 @@ def form_page(request):
         'quantity': quantity,
         'is_authenticated': 'False',
         'in_cart': 'False',
-        'cart':cart
+        'cart': cart
     }
 
     return render(request, 'shop_page.html', context)
+
+
 @login_required
 def cart_page(request):
     context = {
         'documents': sorted(get_cart(request), key=lambda x: x['number'])
     }
     return render(request, 'cart.html', context=context)
+
 
 def fetch_numbers(request):
     search_term = request.GET.get('term', '').lower()
@@ -80,6 +83,8 @@ def fetch_numbers(request):
                    doc.to_dict().get('quantity', 0) > 0]
 
     return JsonResponse(numbers, safe=False)
+
+
 # Create your views here.
 def add_to_cart(request):
     if request.method == 'POST':
@@ -102,7 +107,7 @@ def add_to_cart(request):
         item_number = cart_size + 1
 
         new_cart_item = {
-            'description':description,
+            'description': description,
             "emailOwner": email,
             'image_url': image,
             "name": name,
@@ -113,8 +118,10 @@ def add_to_cart(request):
         }
         cart_ref.add(new_cart_item)
 
-        return JsonResponse({'status': 'success', 'quantity': quantity,  'number': item_number, 'sum':price})
+        return JsonResponse({'status': 'success', 'quantity': quantity, 'number': item_number, 'sum': price})
     return JsonResponse({'status': 'error'}, status=400)
+
+
 def update_quantity(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -135,17 +142,20 @@ def update_quantity(request):
         for doc in docs:
             current_quantity = doc.to_dict().get('quantity', 0)
             new_quantity = max(current_quantity + quantity_change, 1)  # Ensure quantity doesn't go below 0
-            if new_quantity<= quantity_max:
+            if new_quantity <= quantity_max:
 
                 doc.reference.update({'quantity': new_quantity})
 
-                return JsonResponse({'status': 'success', 'quantity': new_quantity, 'sum': "€"+str(round(new_quantity * document['price'],1))})
+                return JsonResponse({'status': 'success', 'quantity': new_quantity,
+                                     'sum': "€" + str(round(new_quantity * document['price'], 1))})
             else:
                 return JsonResponse({'status': 'error', 'message': 'You have reached maximum quantity'}, status=400)
         else:
             return JsonResponse({'status': 'error', 'message': 'Product not found'}, status=404)
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
+
+
 def update_quantity_slider(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -163,31 +173,63 @@ def update_quantity_slider(request):
             doc.reference.update({'quantity': int(quantity_new)})
             sum_value = round(float(quantity_new) * float(document['price']), 2)
             return JsonResponse(
-                {'status': 'success', 'quantity': quantity_new, 'product_id': product_id, 'sum': "€"+str(sum_value)})
+                {'status': 'success', 'quantity': quantity_new, 'product_id': product_id, 'sum': "€" + str(sum_value)})
         else:
             return JsonResponse({'status': 'error', 'message': 'Product not found'}, status=404)
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
+
+
 def update_quantity_input(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         product_id = data.get('product_id')
         quantity_new = data.get('quantity_new')
         price = float(data.get('price'))
-
+        is_inside = False
         cart_ref = db.collection('Cart')
+        email = request.user.email  # Replace with actual user email
+        cart_items = cart_ref.where('emailOwner', '==', email).get()
+        for item in cart_items:
+            if item.to_dict().get('name') == product_id and int(item.to_dict().get('quantity')) > 0:
+                is_inside = True
+        if not is_inside:
+            product = ast.literal_eval(data.get('document'))
+            name = product['name']  # Replace with actual product name
+            image = product['image-url']
+            maximum_quantity = product['quantity']
+            description = product['description']
+            cart_size = len(cart_items)
+            item_number = cart_size + 1
 
-        # Get current quantity and update
-        email = request.user.email
-        docs = cart_ref.where('emailOwner', '==', email).where('name', '==', product_id).limit(1).stream()
-        for doc in docs:
-            doc.reference.update({'quantity': int(quantity_new)})
-            return JsonResponse({'status': 'success', 'quantity': quantity_new, 'product_id': product_id, 'sum': "€"+str(round((quantity_new * price),2))})
-
+            new_cart_item = {
+                'description': description,
+                "emailOwner": email,
+                'image_url': image,
+                "name": name,
+                "price": price,
+                "quantity": int(quantity_new),
+                "number": item_number,
+                'quantity_max': maximum_quantity
+            }
+            cart_ref.add(new_cart_item)
+            return JsonResponse({'status': 'success', 'quantity': quantity_new, 'product_id': product_id,
+                                 'sum': "€" + str(round((quantity_new * price), 2)),'was_inside':'False' ,'number': item_number})
         else:
-            return JsonResponse({'status': 'error', 'message': 'Product not found'}, status=404)
+            # Get current quantity and update
+            docs = cart_ref.where('emailOwner', '==', email).where('name', '==', product_id).limit(1).stream()
+            for doc in docs:
+                doc.reference.update({'quantity': int(quantity_new)})
+
+        return JsonResponse({'status': 'success', 'quantity': quantity_new, 'product_id': product_id,
+                             'sum': "€" + str(round((quantity_new * price), 2)), 'was_inside':'True'})
+
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Product not found'}, status=404)
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
+
+
 def get_cart(request):
     # Access the Firebase database
 
@@ -203,8 +245,14 @@ def get_cart(request):
             safe_description = description.encode('utf-8').decode('utf-8')
         else:
             safe_description = ''
-        cart.append({'name':doc.to_dict().get('name'),'quantity':doc.to_dict().get('quantity'),'number':doc.to_dict().get('number'), 'image_url':doc.to_dict().get('image_url'), 'description':safe_description,'quantity_max':doc.to_dict().get('quantity_max'),'price':doc.to_dict().get('price'), 'sum':str(round(doc.to_dict().get('price')*doc.to_dict().get('quantity'),1))})
+        cart.append({'name': doc.to_dict().get('name'), 'quantity': doc.to_dict().get('quantity'),
+                     'number': doc.to_dict().get('number'), 'image_url': doc.to_dict().get('image_url'),
+                     'description': safe_description, 'quantity_max': doc.to_dict().get('quantity_max'),
+                     'price': doc.to_dict().get('price'),
+                     'sum': str(round(doc.to_dict().get('price') * doc.to_dict().get('quantity'), 1))})
     return cart
+
+
 def deleteProduct(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -220,11 +268,12 @@ def deleteProduct(request):
         updated_documents = []
         for doc in remaining_docs:
             doc.reference.update({'number': new_number})
-            updated_documents.append({'id': doc.to_dict().get('name',''), 'number': new_number})
+            updated_documents.append({'id': doc.to_dict().get('name', ''), 'number': new_number})
             new_number += 1
 
         return JsonResponse({'status': 'success', 'updated_documents': updated_documents})
     return JsonResponse({'status': 'error'}, status=400)
+
 
 def sort_documents(request):
     order_by = request.GET.get('order_by', 'name')
@@ -242,8 +291,9 @@ def sort_documents(request):
 
     return JsonResponse({'documents': sorted_documents})
 
+
 def register(request):
-    form= UserRegisterForm()
+    form = UserRegisterForm()
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
@@ -256,6 +306,7 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'registration/register.html', {'form': form, 'errors': form.errors})
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -270,9 +321,12 @@ def login_view(request):
     else:
         form = AuthenticationForm()
     return render(request, 'registration/login.html', {'form': form})
+
+
 def logout_view(request):
     logout(request)
     return redirect('home')
+
 
 @login_required
 def profile(request):
@@ -282,14 +336,16 @@ def profile(request):
     orders = []
     docs_orders = orders_ref.where('email', '==', email).stream()
     order = {}
-    for doc in docs_orders :
+    for doc in docs_orders:
         order_id = doc.to_dict().get('order_id')
         order_info = doc.to_dict()
-        orders.append({'Status':doc.to_dict().get('Status'), 'date':doc.to_dict().get('date'), 'email': email, 'list': doc.to_dict().get('list'), 'order_id': doc.to_dict().get('order_id'), 'sum': doc.to_dict().get('price')})
+        orders.append({'Status': doc.to_dict().get('Status'), 'date': doc.to_dict().get('date'), 'email': email,
+                       'list': doc.to_dict().get('list'), 'order_id': doc.to_dict().get('order_id'),
+                       'sum': doc.to_dict().get('price')})
         order[order_id] = []
 
         # Fetch Order documents from the list of references
-            # Assuming order_ref is a document reference
+        # Assuming order_ref is a document reference
         for order_doc_path in order_info.get('list', []):
             # Fetching the Order document using its ID
             path_parts = order_doc_path.split('/')
@@ -299,9 +355,6 @@ def profile(request):
                 order_doc = order_doc_ref.get()
                 if order_doc.exists:
                     order[order_id].append(order_doc.to_dict())
-
-
-
 
     context = {
         'orders': orders,
@@ -313,7 +366,7 @@ def profile(request):
 
 def send_email(request):
     if request.method == 'POST':
-        #Создаю order
+        # Создаю order
 
         cart = get_cart(request)
         order_ref = db.collection("Order")
@@ -331,7 +384,7 @@ def send_email(request):
             name = order_item.get('name')
             names.append(name)
             image_url = order_item.get('image_url')
-            sum+= round(price * quantity, 1)
+            sum += round(price * quantity, 1)
             new_order_item = {
                 'description': description,
                 "emailOwner": email,
@@ -345,19 +398,18 @@ def send_email(request):
             doc_ref.set(new_order_item)
             item_refs.append(doc_ref)
         new_order = {
-                'Status': 'Awaiting',
-                'date': datetime.now(),  # Current date and time
-                'email': email,
-                'list': [ref.path for ref in item_refs],  # Using document paths as references
-                'order_id': order_id,
-                'order-id': order_id,
-                'price': round(sum,1)
-            }
+            'Status': 'Awaiting',
+            'date': datetime.now(),  # Current date and time
+            'email': email,
+            'list': [ref.path for ref in item_refs],  # Using document paths as references
+            'order_id': order_id,
+            'order-id': order_id,
+            'price': round(sum, 1)
+        }
         orders_ref.add(new_order)
 
         for delete_name in names:
             clear_cart(email, delete_name)
-
 
         # Define email parameters
         subject = 'Test mail'
@@ -369,10 +421,10 @@ def send_email(request):
         return JsonResponse({'status': 'success', 'redirect_name': 'home'})
     return JsonResponse({'status': 'error'}, status=400)
 
+
 def clear_cart(email, name):
     cart_ref = db.collection('Cart')
 
     docs = cart_ref.where('emailOwner', '==', email).where('name', '==', name).stream()
     for doc in docs:
         doc.reference.delete()
-
