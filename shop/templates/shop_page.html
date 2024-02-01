@@ -467,8 +467,9 @@ ul{
 </body>
 </html>
     <script>
-
+let inside = "{{ inside|safe }}";
 document.addEventListener('DOMContentLoaded', function() {
+
             restoreState();
 });
  function restoreState() {
@@ -483,8 +484,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const Id =  document.querySelector('.number-in-cart').getAttribute('data-product-id');
     document.querySelector('.number-in-cart').innerText = localStorage.getItem('number-'+Id);
 
-
-    let inside = "{{ inside|safe }}";
     const sum = document.getElementById('sum-'+Id);
     if (localStorage.getItem('sum-'+Id)!==null && inside !== "False")
         sum.innerText = "Total: " + localStorage.getItem('sum-'+Id);
@@ -644,7 +643,7 @@ document.querySelectorAll('.deleteBut').forEach(button => {
 
 
                     console.log('Document deleted successfully');
-
+                    inside = "False";
                     saveState();
                     toggleQuantityForm(documentId);
                 } else {
@@ -781,7 +780,7 @@ document.querySelectorAll('.quantity-input-button').forEach(button => {
 
                 saveState('quantity-'+data.product_id, data.quantity);
                 if(data.was_inside === 'False'){
-
+                    inside = "True";
                     saveState('number-'+product_id, data.number);
                     togglePurchaseButton(product_id);
                     restoreState();
