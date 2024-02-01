@@ -491,7 +491,6 @@ document.addEventListener('DOMContentLoaded', function() {
         sum.innerText = "Total: €0";
 
     }
-    console.log(inside);
     if (localStorage.getItem('quantity-'+Id)!==null && inside !== "False" )
         changeCurrentQuantityText(Id, localStorage.getItem('quantity-'+Id));
     else {
@@ -592,7 +591,6 @@ document.getElementById('cart-icon').addEventListener('click', function() {
               .then(data => {
                   if (data.status === 'success') {
                       document.getElementById('quantity-' + productId).innerText = data.quantity;
-                      console.log(document.getElementById('quantity-' + productId).innerText);
 
                       togglePurchaseButton(productId);
                       saveState('quantity-'+productId, 1);
@@ -642,7 +640,6 @@ document.querySelectorAll('.deleteBut').forEach(button => {
                 if(response.ok) {
 
 
-                    console.log('Document deleted successfully');
                     inside = "False";
                     saveState();
                     toggleQuantityForm(documentId);
@@ -766,7 +763,6 @@ document.querySelectorAll('.quantity-input-button').forEach(button => {
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                console.log(data.was_inside);
                 changeCurrentQuantityText(product_id, quantity_new);
 
 
