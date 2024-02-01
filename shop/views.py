@@ -186,13 +186,11 @@ def update_quantity_input(request):
         product_id = data.get('product_id')
         quantity_new = data.get('quantity_new')
         price = float(data.get('price'))
-        is_inside = False
         cart_ref = db.collection('Cart')
         email = request.user.email  # Replace with actual user email
         cart_items = cart_ref.where('emailOwner', '==', email).get()
-        for item in cart_items:
-            if item.to_dict().get('name') == product_id and int(item.to_dict().get('quantity')) > 0:
-                is_inside = True
+        existing_item = cart_ref.where('emailOwner', '==', email).where('name', '==', product_id).limit(1).get()
+        is_inside = len(existing_item) > 0
         if not is_inside:
             product = ast.literal_eval(data.get('document'))
             name = product['name']  # Replace with actual product name
@@ -216,10 +214,10 @@ def update_quantity_input(request):
             return JsonResponse({'status': 'success', 'quantity': quantity_new, 'product_id': product_id,
                                  'sum': "€" + str(round((quantity_new * price), 2)),'was_inside':'False' ,'number': item_number})
         else:
-            # Get current quantity and update
-            docs = cart_ref.where('emailOwner', '==', email).where('name', '==', product_id).limit(1).stream()
-            for doc in docs:
-                doc.reference.update({'quantity': int(quantity_new)})
+            # Get current quantity and update)
+            doc_ref = existing_item[0].reference
+            doc_ref.update({'quantity': quantity_new})
+
 
         return JsonResponse({'status': 'success', 'quantity': quantity_new, 'product_id': product_id,
                              'sum': "€" + str(round((quantity_new * price), 2)), 'was_inside':'True'})
