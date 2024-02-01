@@ -182,45 +182,47 @@ def update_quantity_slider(request):
 
 def update_quantity_input(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
-        product_id = data.get('product_id')
-        quantity_new = data.get('quantity_new')
-        price = float(data.get('price'))
-        cart_ref = db.collection('Cart')
-        email = request.user.email  # Replace with actual user email
-        cart_items = cart_ref.where('emailOwner', '==', email).get()
-        existing_item = cart_ref.where('emailOwner', '==', email).where('name', '==', product_id).limit(1).get()
-        is_inside = len(existing_item) > 0
-        if not is_inside:
-            product = ast.literal_eval(data.get('document'))
-            name = product['name']  # Replace with actual product name
-            image = product['image-url']
-            maximum_quantity = product['quantity']
-            description = product['description']
-            cart_size = len(cart_items)
-            item_number = cart_size + 1
+        try:
+            data = json.loads(request.body)
+            product_id = data.get('product_id')
+            quantity_new = data.get('quantity_new')
+            price = float(data.get('price'))
+            cart_ref = db.collection('Cart')
+            email = request.user.email  # Replace with actual user email
 
-            new_cart_item = {
-                'description': description,
-                "emailOwner": email,
-                'image_url': image,
-                "name": name,
-                "price": price,
-                "quantity": int(quantity_new),
-                "number": item_number,
-                'quantity_max': maximum_quantity
-            }
-            cart_ref.add(new_cart_item)
-            return JsonResponse({'status': 'success', 'quantity': quantity_new, 'product_id': product_id,
-                                 'sum': "€" + str(round((quantity_new * price), 2)),'was_inside':'False' ,'number': item_number})
-        else:
-            # Get current quantity and update)
-            doc_ref = existing_item[0].reference
-            doc_ref.update({'quantity': quantity_new})
+            cart_items = cart_ref.where('emailOwner', '==', email)
 
+            existing_item = cart_ref.where('emailOwner', '==', email).where('name', '==', product_id).limit(1).get()
 
-        return JsonResponse({'status': 'success', 'quantity': quantity_new, 'product_id': product_id,
-                             'sum': "€" + str(round((quantity_new * price), 2)), 'was_inside':'True'})
+            if existing_item:
+                doc_ref = existing_item[0].reference
+                doc_ref.update({'quantity': quantity_new})
+                return JsonResponse({'status': 'success', 'quantity': quantity_new, 'product_id': product_id,
+                                     'sum': "€" + str(round((quantity_new * price), 2)), 'was_inside': 'True'})
+
+            else:
+                product = json.loads(data.get('document'))
+
+                number_in_cart = len(cart_items.get()) + 1
+
+                new_cart_item = {
+                    'description': product['description'],
+                    "emailOwner": email,
+                    'image_url': product['image-url'],
+                    "name": product['name'],
+                    "price": price,
+                    "quantity": quantity_new,
+                    "number": number_in_cart,
+                    'quantity_max': product['quantity']
+                }
+                cart_ref.add(new_cart_item)
+                return JsonResponse({'status': 'success', 'quantity': quantity_new, 'product_id': product_id,
+                                     'sum': "€" + str(round((quantity_new * price), 2)),'was_inside':'False' ,'number': number_in_cart})
+        except Exception as e:
+            print(f"Error updating cart: {e}")
+            return JsonResponse({'status': 'error', 'message': 'An error occurred while processing your request'},
+                                status=500)
+
 
     else:
         return JsonResponse({'status': 'error', 'message': 'Product not found'}, status=404)
