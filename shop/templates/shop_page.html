@@ -483,14 +483,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const Id =  document.querySelector('.number-in-cart').getAttribute('data-product-id');
     document.querySelector('.number-in-cart').innerText = localStorage.getItem('number-'+Id);
 
+
+    let inside = "{{ inside|safe }}";
     const sum = document.getElementById('sum-'+Id);
-    if (localStorage.getItem('sum-'+Id)!==null)
+    if (localStorage.getItem('sum-'+Id)!==null || inside !== "False")
         sum.innerText = "Total: " + localStorage.getItem('sum-'+Id);
     else {
         sum.innerText = "Total: €0";
 
     }
-    if (localStorage.getItem('quantity-'+Id)!==null)
+    console.log(inside);
+    if (localStorage.getItem('quantity-'+Id)!==null || inside !== "False" )
         changeCurrentQuantityText(Id, localStorage.getItem('quantity-'+Id));
     else {
         changeCurrentQuantityText(Id, 0);
