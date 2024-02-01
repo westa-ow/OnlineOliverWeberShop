@@ -133,9 +133,9 @@
     <button id="scrollToBottomButton">  <i  class="fa fa-arrow-down" id="arrow-icon"></i></button>
 </div>
 <div class="finish-section">
-    <div class="final-unique-quantity" id="final-unique-quantity">Total unique items.................................................{{ documents|length }} </div>
+    <div class="final-unique-quantity" id="final-unique-quantity">Total items.................................................{{ documents|length }} </div>
     <br>
-    <div class="final-quantity" id="final-quantity">Total item count:  </div>
+    <div class="final-quantity" id="final-quantity">Total pieces...................  </div>
     <br>
     <div class="final-sum" id="final-sum">Total cost: €</div>
 
@@ -210,8 +210,8 @@ function calculate_final(){
             totalSum += (doc.quantity * doc.price);
      });
 
-     document.getElementById('final-unique-quantity').innerText = 'Total unique items..............................................' + totalItems;
-     document.getElementById('final-quantity').innerText = 'Total item count.................................................' + totalQuantity;
+     document.getElementById('final-unique-quantity').innerText = 'Total items...........................................................' + totalItems;
+     document.getElementById('final-quantity').innerText = 'Total pieces..........................................................' + totalQuantity;
      document.getElementById('final-sum').innerText = 'Total cost......................................................€' + totalSum.toFixed(1);
 
 }
