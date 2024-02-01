@@ -486,14 +486,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let inside = "{{ inside|safe }}";
     const sum = document.getElementById('sum-'+Id);
-    if (localStorage.getItem('sum-'+Id)!==null || inside !== "False")
+    if (localStorage.getItem('sum-'+Id)!==null && inside !== "False")
         sum.innerText = "Total: " + localStorage.getItem('sum-'+Id);
     else {
         sum.innerText = "Total: €0";
 
     }
     console.log(inside);
-    if (localStorage.getItem('quantity-'+Id)!==null || inside !== "False" )
+    if (localStorage.getItem('quantity-'+Id)!==null && inside !== "False" )
         changeCurrentQuantityText(Id, localStorage.getItem('quantity-'+Id));
     else {
         changeCurrentQuantityText(Id, 0);
