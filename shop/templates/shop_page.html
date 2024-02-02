@@ -62,14 +62,12 @@ text-align: center;
     width: 1000px;
     height: 350px;
     border-radius: 10px;
-    {#padding: 10px;#}
 }
 
 .document-image {
     width: 319px;
     height: 296px;
     margin: auto auto;
-    {#border-right:  2px solid #ddd;#}
     right: 0;
 }
 .number-in-cart{
@@ -84,9 +82,6 @@ text-align: center;
     font-size: 30px;
     position: relative;
     padding-right: 10px;
-    {#align-items: center;#}
-    {#justify-content: center;#}
-    {#bottom:50%;#}
 }
 
 .document-info {
@@ -99,9 +94,7 @@ text-align: center;
 .document-number {
     padding-top: 10px;
     position: absolute;
-    {#top: 0;#}
     font-size: 24px;
-    {#width: 100%;#}
     margin-left: 245px;
     text-align: center;
     font-weight: bold;
@@ -116,10 +109,6 @@ text-align: center;
 }
 .document-in-stock{
     position: absolute;
-    {#bottom: 0;#}
-    {#left: 0;#}
-    {#font-weight: bold;#}
-    {#right: 0;#}
     font-size: 19px;
     padding-bottom: 35px;
     font-weight: 600;
@@ -146,16 +135,6 @@ text-align: center;
     #dropdown div:hover {
         background-color: #f0f0f0;
     }
-    .price-and-cart {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .purchase,.quantity-control{
-        position: absolute;
-        margin: 30px 0 0 225px;
-    }
     .quantity-input{
         position: absolute;
        margin: 0px 0 0 190px;
@@ -169,17 +148,7 @@ text-align: center;
 
         margin: 30px 130px;
     }
-    .quantitySlider{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
-        bottom: 0;
-        left: 37%;
-        transform: translateX(-100%);
-        margin-bottom: 5px;
-        height: 60px;
-    }
+
     .quantity-slider {
     display: flex;
     align-items: center;
@@ -192,14 +161,7 @@ text-align: center;
     margin: 0 10px; /* Add some space on the sides */
 }
 
-    .quantity-slider-button {
-        flex: none; /* Do not allow the button to grow or shrink */
-        /* Rest of your styles */
-    }
 
-    .quantitySlider {
-        flex: none;
-    }
 
     .quantity-slider .quantitySlider {
         margin-bottom: 15px;
@@ -214,35 +176,6 @@ text-align: center;
         transform: translateY(+10px);
     }
 
-    .purchase{
-        background-color: #01447B;
-        width: 160px;
-        height: 60px;
-        border-radius: 35px;
-        color: #efefef;
-        margin: 90px 0 0 400px;
-
-    }
-    .quantity-control{
-    border: 1px solid ;
-    border-color: #cbcbcb;
-    border-radius: 5px;
-
-    }
-
-    .radio-buttons {
-        position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  border-radius: 100rem;
-  background-color: #EEE;
-  box-sizing: border-box;
-  box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
-  padding: 0.6rem;
-  width: 525px;
-  font-size: 15px;
-        margin: 0 auto;
-    }
 
 .radio-buttons input[type="radio"] {
         display: none;
@@ -270,42 +203,12 @@ text-align: center;
         width: 200px;
     }
 
-    .quantity-increase, .quantity-decrease {
-        background-color: #f8f8f8; /* Light gray background */
-        color: rgba(51, 51, 51, 0.84); /* Darker text for contrast */
-        border: 1px solid; /* No border for a modern look */
-        border-color: #cbcbcb ;
-        padding: 5px 10px; /* Padding for better touch area */
-        font-size: 18px; /* Larger font for readability */
-        font-weight: bold; /* Bold font for emphasis */
-        cursor: pointer; /* Cursor changes to pointer to indicate clickability */
-        border-radius: 3px; /* Slightly rounded corners */
-        width: 50px;
-        height: 40px;
-        transition: background-color 0.3s; /* Smooth transition for hover effect */
-}
-    .quantity-increase{
-        margin-left:20px ;
-    }
-    .quantity-decrease{
-        margin-right:20px ;
-    }
-
-.quantity-increase:hover, .quantity-decrease:hover {
-    background-color: #e6e6e6; /* Slightly darker background on hover */
-}
-
-.quantity-increase:active, .quantity-decrease:active {
-    background-color: #cccccc; /* Even darker background when clicked */
-}
 .deleteBut{
     font-size: 28px;
     position: absolute;
     top:0;
-    {#right:0;#}
     margin-left: 899px;
     color: #CC4500;
-    {#margin-right:10px;#}
     cursor: pointer;
 }
 .quantity-input-button, .quantity-slider-button{
@@ -322,9 +225,7 @@ text-align: center;
      margin-top: 90px;
     position: absolute;
 }
-.quantity-slider-button{
-    margin-left: 10px;
-}
+
 .sum{
     position: absolute;
     margin-left: 700px;
@@ -350,16 +251,7 @@ ul{
     border-radius: 10px;
      cursor: pointer;
 }
-.mini-cart-item{
-    position: relative;
-    border: 2px solid #ddd;
-    margin: 0 auto 10px;
-    max-width: 1000px;
-    height: 90px;
-    padding: 15px;
-    box-sizing: border-box;
-    border-radius: 10px;
-}
+
 .current-quantity{
 
     position: absolute;
@@ -401,18 +293,13 @@ ul{
 
         <div class="document-info" id="info-{{ document.name }}">
 
-            <div class="document-number">{{ document.name }}</div> <br>
-        <br>
+            <div class="document-number">{{ document.name }}</div> <br><br>
+
                     <div class="document-price" >€{{ document.price }}</div>
-                    <div class="document-in-stock">In stock: {{ document.quantity }}</div>
-        <br><br>
-            <div class="document-description">{{ document.description }}</div>
-{#            <br>#}
-        <br>
+                    <div class="document-in-stock">In stock: {{ document.quantity }}</div> <br><br>
+                    <div class="document-description">{{ document.description }}</div>     <br>
 
-
-
-            <div class="deleteBut"  data-product-id="{{ document.name }}" style="{% if not inside %} display: none {% endif %}" ><i class="fa-solid fa-trash"></i></div>
+                    <div class="deleteBut"  data-product-id="{{ document.name }}" style="{% if not inside %} display: none {% endif %}" ><i class="fa-solid fa-trash"></i></div>
 
             <div >
                 <div class="quantity-input" id="quantity-input-{{ document.name }}">
@@ -422,14 +309,11 @@ ul{
                     <span class="min">{{ 1 }}</span>
                     <input type="range" min="1" max="{{ document.quantity }}" value="{{ quantity }}" class="slider" id="slider-{{ document.name }}">
                     <span class="max">{{ document.quantity }}</span>
-
                 </div>
                 <button class="quantity-input-button" id="quantity-input-apply-{{ document.name }}">Confirm</button>
             </div>
 
         <br>
-
-{#            <button class="purchase" data-product-id="{{ document.name }}" style="{% if inside %} display: none {% endif %}">Add to cart</button>#}
             <br>
             <span class="current-quantity" id="current-quantity-{{ document.name }}" >Current quantity: 0</span>
             <span class="sum" id="sum-{{ document.name }}" style="{% if not inside %} display: none {% endif %}">{{ document.price }}</span>
