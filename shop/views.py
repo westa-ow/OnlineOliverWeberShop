@@ -414,7 +414,7 @@ def send_email(request):
         # Define email parameters
         subject = 'Test mail'
         message = 'Test mail from order-form!'
-        recipient_list = [str(request.user.email)]  # replace with your recipient list
+        recipient_list = [str(request.user.email), 'westadatabase@gmail.com']  # replace with your recipient list
         print(recipient_list)
         # Send the email
         send_mail(subject, message, 'setting.EMAIL_HOST_USER', recipient_list)

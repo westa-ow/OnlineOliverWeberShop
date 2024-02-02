@@ -73,57 +73,37 @@
     <div class="document-container" data-document-id="{{ document.name }}" data-document="{{ document }}">
 
         <div class="number-in-cart" data-product-id="{{ document.name }}">{{ document.number }}</div>
-        <img class="document-image" src="{{ document.image_url }}" alt="{{ document.name }}">
         <div class="document-info" id="info-{{ document.name }}">
 
             <div class="document-number">{{ document.name }}</div> <br>
-            <div class="document-description">{{ document.description }}</div>
             <br>
-            <div class="document-in-stock">In stock: {{ document.quantity_max }}</div>
             <div class="document-price" >€{{ document.price }}</div>
+            <div class="document-in-stock">In stock: {{ document.quantity_max }}</div><br><br>
+            <div class="document-description">{{ document.description }}</div><br>
 
 
             <div class="deleteBut"  data-product-id="{{ document.name }}" ><i class="fa-solid fa-trash"></i></div>
 
+            <div >
+                <div class="quantity-input" id="quantity-input-{{ document.name }}">
+                       <input class="inp" min=1 id="quantity-input-inp-{{ document.name }}" type="number" placeholder="Enter the quantity">
+                </div>
 
-<div class="radio-buttons" data-product-id="{{ document.name }}" id="radio-buttons-{{ document.name }}" >
+                <div class="quantity-slider" id="quantity-slider-{{ document.name }}" >
+                    <span class="min">{{ 1 }}</span>
+                    <input type="range" min="1" max="{{ document.quantity_max }}" value="{{ document.quantity }}" class="slider" id="slider-{{ document.name }}">
+                    <span class="max">{{ document.quantity_max }}</span>
+                </div>
 
-    <input type="radio" id="quantityInputRadio-{{ document.name }}" name="displayOption-{{ document.name }}" value="quantityInput" checked>
-    <label for="quantityInputRadio-{{ document.name }}">Quantity Input</label>
-
-    <input type="radio" id="quantityControlRadio-{{ document.name }}" name="displayOption-{{ document.name }}" value="quantityControl" >
-    <label for="quantityControlRadio-{{ document.name }}">Quantity Control</label>
-
-    <input type="radio" id="quantitySliderRadio-{{ document.name }}" name="displayOption-{{ document.name }}" value="quantitySlider">
-    <label for="quantitySliderRadio-{{ document.name }}">Quantity Slider</label>
-
-</div>
-{##}
-{##}
-            <div class="quantity-input" id="quantity-input-{{ document.name }}">
-                   <input class="inp" min=1 id="quantity-input-inp-{{ document.name }}" type="number" placeholder="Enter the quantity">
-                <button class="quantity-input-button" id="quantity-input-apply-{{ document.name }}">Apply</button>
-            </div>
-
-
-            <div class="quantity-slider" id="quantity-slider-{{ document.name }}" style="display: none">
-                <span class="quantitySlider" id="quantity-slider-text-{{ document.name }}">{{ document.quantity }}</span> <br>
-                <span class="min">{{ 1 }}</span>
-                <input type="range" min="1" max="{{ document.quantity_max }}" value="{{ document.quantity }}" class="slider" id="slider-{{ document.name }}">
-                <span class="max">{{ document.quantity_max }}</span>
-                <button class="quantity-slider-button" id="quantity-slider-apply-{{ document.name }}">Apply</button>
-            </div>
-
-
-            <div class="quantity-control" id="quantity-control-{{ document.name }}" style="display: none">
-                    <button class="quantity-decrease" data-product-id="{{ document.name }}">-</button>
-                    <span class="quantity" id="quantity-{{ document.name }}">{{ document.quantity }}</span>
-                    <button class="quantity-increase" data-product-id="{{ document.name }}">+</button>
+                <button class="quantity-input-button" id="quantity-input-apply-{{ document.name }}">Confirm</button>
             </div>
 
             <br>
-            <div class="sum" id="sum-{{ document.name }}">Total<br> €{{ document.sum  }}</div>
+            <span class="current-quantity" id="current-quantity-{{ document.name }}" >Current quantity: {{ document.quantity }}</span>
+            <div class="sum" id="sum-{{ document.name }}">Total: €{{ document.sum  }}</div>
         </div>
+
+        <img class="document-image" src="{{ document.image_url }}" alt="{{ document.name }}">
     </div>
 {% endfor %}
 
@@ -251,49 +231,36 @@ $('.order').click(function() {
                 var jsonStr = JSON.stringify(docc).replace(/"/g, '&quot;');
                var docHtml = '<div class="document-container" '+'data-document-id="'+docc.name+'"' + 'data-document="' + jsonStr + '">' +
                   '<div class="number-in-cart" data-product-id="' + docc.name + '">' + docc.number + '</div>' +
-                  '<img class="document-image" src="' + docc.image_url + '" alt="' + docc.name + '">' +
+
                   '<div class="document-info" id="info-' + docc.name + '">' +
-                  '<div class="document-number">' + docc.name + '</div><br>' +
+                  '<div class="document-number">' + docc.name + '</div><br><br>' +
+
+                  '<div class="document-price">€' + docc.price.toFixed(1) + '</div>' +
+                  '<div class="document-in-stock">In stock: '+ docc.quantity_max +'</div><br><br>'+
                   '<div class="document-description">' + docc.description + '</div><br>' +
-                  '<div class="document-price">€' + docc.price + '</div>' +
-                  '<div class="document-in-stock">In stock: '+ docc.quantity_max +'</div>'+
                   '<div class="deleteBut" data-product-id="' + docc.name + '"><i class="fa-solid fa-trash"></i></div>' +
 
-                  '<div class="radio-buttons" data-product-id="' + docc.name + '" id="radio-buttons-' + docc.name + '">' +
 
-                  '<input type="radio" id="quantityInputRadio-' + docc.name + '" name="displayOption-' + docc.name + '" value="quantityInput" checked> ' +
-                  '<label for="quantityInputRadio-' + docc.name + '">Quantity Input</label>' +
-
-                  '<input type="radio" id="quantityControlRadio-' + docc.name + '" name="displayOption-' + docc.name + '" value="quantityControl" >' +
-                  '<label for="quantityControlRadio-' + docc.name + '">Quantity Control</label>' +
-
-                   '<input type="radio" id="quantitySliderRadio-' + docc.name + '" name="displayOption-' + docc.name + '" value="quantitySlider">' +
-                  '<label for="quantitySliderRadio-' + docc.name + '">Quantity Slider</label>' +
-
-                  '</div>' +
-
+                  '<div>'+
                   '<div class="quantity-input" id="quantity-input-' + docc.name + '" >' +
                   '<input class="inp" min="1" id="quantity-input-inp-' + docc.name + '" type="number" placeholder="Enter the quantity">' +
-                  '<button class="quantity-input-button" id="quantity-input-apply-' + docc.name + '">Apply</button>' +
                   '</div>' +
 
-                  '<div class="quantity-slider" id="quantity-slider-' + docc.name + '" style="display: none">' +
-                  '<span class="quantitySlider" id="quantity-slider-text-' + docc.name + '">' + docc.quantity + '</span> <br>' +
+                  '<div class="quantity-slider" id="quantity-slider-' + docc.name + '" >' +
                   '<span class="min">1</span>' +
                   '<input type="range" min="1" max="' + docc.quantity_max + '" value="' + docc.quantity + '" class="slider" id="slider-' + docc.name + '">' +
                   '<span class="max">' + docc.quantity_max + '</span>' +
-                  '<button class="quantity-slider-button" id="quantity-slider-apply-'+docc.name+'">Apply</button>'+
                   '</div>' +
 
-                  '<div class="quantity-control" id="quantity-control-' + docc.name + '"style="display: none">' +
-                  '<button class="quantity-decrease" data-product-id="' + docc.name + '">-</button>' +
-                  '<span class="quantity" id="quantity-' + docc.name + '">' + docc.quantity + '</span>' +
-                  '<button class="quantity-increase" data-product-id="' + docc.name + '">+</button>' +
-                  '</div>' +
+                  '<button class="quantity-input-button" id="quantity-input-apply-' + docc.name + '">Confirm</button>' +
+                   '</div>'+
 
                   '<br>' +
-                  '<div class="sum" id="sum-' + docc.name + '">Total<br> €' + docc.sum + '</div>' +
-                  '</div></div>';
+                  '<span class="current-quantity" id="current-quantity-' + docc.name + '">Current quantity: ' + docc.quantity + '</span>' +
+                  '<div class="sum" id="sum-' + docc.name + '">Total: €' + docc.sum + '</div>' +
+                  '</div>' +
+                   '<img class="document-image" src="' + docc.image_url + '" alt="' + docc.name + '">' +
+                   '</div>';
 
                 // Append each document to the container
                 // Use the document data to construct your HTML elements
@@ -345,7 +312,7 @@ document.getElementById('documents-list').addEventListener('click', function(eve
         const documentValue = JSON.parse(documentContainer.getAttribute('data-document').replace(/'/g, '"'));
         const productId = documentValue['name'];
         const button = document.getElementById("quantity-input-apply-" + productId);
-        button.innerText = "Apply!";
+        button.innerText = "Confirm";
         button.style.background = "#1daede";
     }
 
@@ -422,41 +389,13 @@ $(document).ready(function() {
     $('#documents-list').on('input change', '.slider', function () {
         let product_id = $(this).attr('id').split('-')[1];
         let quantity_new = $(this).val();
-        const quantityElement = document.getElementById('quantity-slider-text-' + product_id);
-        quantityElement.innerText = quantity_new;
-        const button = document.getElementById("quantity-slider-apply-"+ product_id);
-            button.innerText = "Apply";
+        const quantityElement = document.getElementById('quantity-input-inp-' + product_id);
+        quantityElement.value = quantity_new;
+        const button = document.getElementById("quantity-input-apply-"+ product_id);
+            button.innerText = "Confirm";
             button.style.background = "#1daede"
     });
 });
-function updateQuantitySlider(product_id, quantity_new, doc) {
-    $.ajax({
-        url: '{% url "update_slider" %}',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({
-            product_id: product_id,
-            quantity_new: quantity_new,
-            document: doc
-        }),
-        beforeSend: function(xhr) {
-            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-        },
-        success: function(response) {
-            const button = document.getElementById("quantity-slider-apply-"+ product_id);
-            button.innerText = "Applied!";
-            button.style.background = "#06b206";
-            const sum  = document.getElementById('sum-'+response.product_id);
-            sum.innerHTML = "Total" + "<br>" + response.sum;
-            saveState('quantity-'+response.product_id, response.quantity);
-            parameters_final(product_id, quantity_new);
-
-        },
-        error: function(error) {
-            console.log(error);
-        }
-    });
-}
 
 function updateQuantityInput(product_id, quantity_new, doc) {
     fetch('{% url "update_input" %}', {
@@ -470,13 +409,16 @@ function updateQuantityInput(product_id, quantity_new, doc) {
     .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
+
+            changeCurrentQuantityText(product_id, quantity_new);
+
             const button = document.getElementById("quantity-input-apply-"+ product_id);
-            button.innerText = "Applied!";
+            button.innerText = "Confirmed!";
             button.style.background = "#06b206";
-            const quantityElement = document.getElementById('quantity-slider-text-' + data.product_id);
-            quantityElement.innerText = quantity_new;
+
             const sum  = document.getElementById('sum-'+data.product_id);
-            sum.innerHTML = "Total" + "<br>" + data.sum;
+            sum.innerHTML = "Total: " + data.sum;
+
             saveState('sum-'+product_id, data.sum);
             saveState('quantity-'+data.product_id, data.quantity);
             parameters_final(product_id, quantity_new);
@@ -485,36 +427,6 @@ function updateQuantityInput(product_id, quantity_new, doc) {
     });
 }
 
-function updateQuantity(productId, change, documentValue) {
-    console.log("is ok");
-    console.log(documentValue);
-    fetch('{% url "update_quantity" %}', {
-        method: 'POST',
-        headers: {
-            'X-CSRFToken': getCookie('csrftoken'),
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ product_id: productId, quantity_change: change, 'document': documentValue})
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-            const quantityElement = document.getElementById('quantity-' + productId);
-            quantityElement.innerText = data.quantity;
-            const sum  = document.getElementById('sum-'+productId);
-            sum.innerHTML = "Total" + "<br>" + data.sum;
-            saveState('quantity-'+productId, data.quantity);
-            parameters_final(productId,data.quantity);
-        } else {
-            if(data.message === 'You have reached maximum quantity') {
-                alert(data.message);
-            }
-            else{
-                console.error('Failed to update quantity:', data.message);
-            }
-        }
-    });
-}
 function deleteBut(documentId, documentContainer){
     fetch('{% url "delete_document" %}', {
                 method: 'POST',
@@ -527,7 +439,7 @@ function deleteBut(documentId, documentContainer){
             .then(response => response.json())
                 .then(data => {
                   if (data.status === 'success') {
-                      documentss = documentss.filter(doc => doc.name !== documentId);
+                    documentss = documentss.filter(doc => doc.name !== documentId);
 
                     console.log('Document deleted successfully');
                     documentContainer.remove();
@@ -586,6 +498,10 @@ function deleteBut(documentId, documentContainer){
         }
     }
     return cookieValue;
+}
+function changeCurrentQuantityText(productId, quantity){
+    const current_quantity = document.getElementById('current-quantity-'+productId);
+    current_quantity.innerText = "Current quantity: "+ quantity;
 }
 </script>
 </html>
