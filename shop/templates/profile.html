@@ -13,87 +13,246 @@
     margin: 0 auto;
     width: 98%;
 
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 12px solid #003665;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.outer-table th, .outer-table .td-outer {
+    padding: 1em;
+    width: 10em;
+    border: 1px solid #003665;
 
 }
+
+.outer-table th, .outer-table .tr-outer .td-outer:first-child {
+    background: linear-gradient(145deg, #e6e6e6, #ffffff);
+    color: #003665;
+}
+
 .outer-table th:first-child {
-  border-top-left-radius: 15px;
-}
+    border-top-left-radius: 10px;
 
+}
+.outer-table .tr-outer:last-child .td-outer:first-child{
+    border-bottom-left-radius: 10px;
+}
 .outer-table th:last-child {
-  border-top-right-radius: 15px;
+    border-top-right-radius: 10px;
 }
-.outer-table tr:last-child td:first-child {
-  border-bottom-left-radius: 15px;
+.outer-table tr:last-child .td-outer:last-child{
+     border-bottom-right-radius: 10px;
 }
-
-.outer-table tr:last-child td:last-child {
-  border-bottom-right-radius: 15px;
-}
-.outer-table tr:nth-child(2n+3) {
-  background: #fff;
+.outer-table .tr-outer:nth-child(2n+3) {
+    background: #fff;
 }
 
-.outer-table th, .outer-table td {
-  padding: 1em;
-  width: 10em;
+.outer-table .td-outer:not(:first-child) {
+    color: #464646;
 }
 
-.outer-table th, .outer-table .tr-outer .td-outer:first-child, .nested-table-row .td-outer:first-child{
-  background: #103179;
-  color: #efefef;
+.outer-table .td-outer:first-child, .outer-table th:first-child {
+    width: 40px;
 }
 
- .outer-table td:not(:first-child) {
-  color: #464646;
+.outer-table {
+    font-family: 'Open Sans', Helvetica;
+    color: #efefef; /* Default text color */
+    margin: 0 auto;
+    width: 98%;
+
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 12px solid #003665;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
+.outer-table th, .outer-table .td-outer {
+    padding: 1em;
+    width: 10em;
+    border: 1px solid #003665;
+
+}
+
+.outer-table th, .outer-table .tr-outer .td-outer:first-child {
+    background: linear-gradient(145deg, #e6e6e6, #ffffff);
+    color: #003665;
+}
+
+.outer-table th:first-child {
+    border-top-left-radius: 10px;
+
+}
+.outer-table .tr-outer:last-child .td-outer:first-child{
+    border-bottom-left-radius: 10px;
+}
+.outer-table th:last-child {
+    border-top-right-radius: 10px;
+}
+.outer-table tr:last-child .td-outer:last-child{
+     border-bottom-right-radius: 10px;
+}
+.outer-table .tr-outer:nth-child(2n+3) {
+    background: #fff;
+}
+
+.outer-table .td-outer:not(:first-child) {
+    color: #464646;
+}
+
+.outer-table .td-outer:first-child, .outer-table th:first-child {
+    width: 40px;
+}
 
  {#{  HERE  }#}
+.nested-table {
+    font-family: 'Open Sans', Helvetica;
+    color: #efefef; /* Default text color */
+    margin: 0 auto;
+    width: 98%;
 
- .nested-table {
-  font-family: 'Open Sans', Helvetica;
-  color: #efefef; /* Default text color */
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid #003665;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
-.nested-table tr:nth-child(2n) {
-  background: #ecfffe; /* Even rows background */
-}
-
-.nested-table{
-    width: 100%;
-}
 .nested-table th, .nested-table td {
-  padding: 1em;
-  width: 10em;
+    padding: 1em;
+    width: 10em;
+    border: 1px solid #003665;
+
 }
-.outer-table .td-outer:first-child {
-  width: 40px; /* Or any fixed width you prefer */
+
+.nested-table th, .nested-table tr td:first-child {
+    background: linear-gradient(145deg, #e6e6e6, #ffffff);
+    color: #003665;
 }
-.outer-table th:first-child {
-  width: 40px; /* Or any fixed width you prefer */
+
+.nested-table th:first-child {
+    border-top-left-radius: 10px;
+
 }
-.nested-table th {
-  background: #364ca2;
-  color: #efefef;
+.nested-table tr:last-child td:first-child{
+    border-bottom-left-radius: 10px;
 }
-.nested-table tr:nth-child(2n+1) {
-  background: #e4ecff !important; /* Odd rows background, starting from the third */
+.nested-table th:last-child {
+    border-top-right-radius: 10px;
 }
-.nested-table tr td:first-child {
+.nested-table tr:last-child td:last-child{
+     border-bottom-right-radius: 10px;
+}
+.nested-table tr:nth-child(2n+3) {
+    background: #fff;
+}
+
+.nested-table td:not(:first-child) {
+    color: #464646;
+}
+
+.nested-table td:first-child, .nested-table th:first-child {
+    width: 40px;
+}
+.profile-section {
+    padding: 20px 20px 20px 50px;
+    background-color: #f0f0f0;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 20px;
+    border-radius: 0px 0px 50px 50px;
+}
+
+.username {
+    {#text-align: center;#}
+    margin-bottom: 20px; /* Increased spacing below the username */
+    font-size: 32px; /* Larger font size for prominence */
+    color: #333;
+    font-weight: 700;
+}
+
+.profile-details {
+    display: flex;
+    justify-content: center; /* Center the columns horizontally */
+    flex-wrap: wrap; /* Allow the columns to wrap if needed */
+}
+
+.column {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    {#align-items: center; /* Center items horizontally within the column */#}
+    flex: 1; /* Each column takes up equal width */
+    min-width: 250px; /* Minimum width for each column to prevent too much squeezing */
+}
+
+.profile-section h2, .profile-section h3 {
+    margin: 5px 0; /* Reduced spacing for a tighter layout */
+    color: #333;
+}
+
+.profile-section h2 {
+    font-size: 18px;
+}
+
+.profile-section h3 {
+    font-size: 16px; /* Slightly smaller font size for the user role if not admin */
+}
+.profile-labels{
+    font-weight: 600;
+    font-size: 20px;
+}
+{# .nested-table {#}
+{#  font-family: 'Open Sans', Helvetica;#}
+{#  color: #efefef; /* Default text color */#}
+{#}#}
+{##}
+{#.nested-table tr:nth-child(2n) {#}
+{#  background: #ecfffe; /* Even rows background */#}
+{#}#}
+{##}
+{#.nested-table{#}
+{#    width: 100%;#}
+{#}#}
+{#.nested-table th, .nested-table td {#}
+{#  padding: 1em;#}
+{#  width: 10em;#}
+{#}#}
+{##}
+{#.nested-table th {#}
+{#  background: #364ca2;#}
+{#  color: #efefef;#}
+{#}#}
+{#.nested-table tr:nth-child(2n+1) {#}
+{#  background: #e4ecff !important; /* Odd rows background, starting from the third */#}
+{#}#}
+{#.nested-table tr td:first-child {#}
   {#background: #000;#}
-  color: #2d2d2d;
-}
+{#  color: #2d2d2d;#}
+{#}#}
 </style>
 <body>
 {% include 'base.html' %}
-<h1 style="font-weight: 700"> {{ user.username }} </h1>
+<div class="profile-section">
+    <h1 class="username">{{ user.username }}</h1>
 <hr>
-{% if user.username == 'westa_admin' %}
-    <h2 > Account role: admin </h2>
-    {% else %}
-    <h3> Account role: user</h3>
-{% endif %}
-<hr>
+    <div class="profile-details">
+        <div class="column">
+            <h2> <span class="profile-labels">Account email:</span>     {{ user.email }} </h2>
+            <h2> <span class="profile-labels">Country:</span>     Italy </h2>
+        </div>
+        <div class="column">
+            <h2> <span class="profile-labels">Agent number:</span>     ExampleNumber </h2>
+            {% if user.username == 'westa_admin' %}
+                <h2> <span class="profile-labels">Account role:</span>     admin </h2>
+            {% else %}
+                <h3> <span class="profile-labels">Account role: </span> user</h3>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{#<hr>#}
 <h1 style="text-align: center"> Order history </h1>
 <table class="outer-table" id="table-{{ user.email }}" style="border:1px solid" >
       <tr>
@@ -166,6 +325,8 @@ document.querySelectorAll('.show-content').forEach(button => {
                     <th>Description</th>
                     <th>Price</th>
                     <th>Quantity</th>
+                    <th>Summary</th>
+                    <th>In stock</th>
                 </tr>`;
             {#console.log((products));#}
             products[orderId].forEach(function(product) {
@@ -175,6 +336,8 @@ document.querySelectorAll('.show-content').forEach(button => {
                         <td>${product.description}</td>
                         <td>€${product.price}</td>
                         <td>${product.quantity}</td>
+                        <td>€${(product.quantity * product.price).toFixed(1)}</td>
+                        <td>Yes</td>
                     </tr>`;
             });
             nestedTable.innerHTML = nestedTableContent;
