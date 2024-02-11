@@ -7,16 +7,81 @@
     <title>Title</title>
 </head>
 <style>
+.outer-table {
+    font-family: 'Open Sans', Helvetica;
+    color: #efefef; /* Default text color */
+    margin: 0 auto;
+    width: 98%;
 
- th{
-        border: 1px solid;
-    }
 
-    td{
-        border: 1px solid;
-    }
-    .indent-cell {
-    padding-left: 50px; /* Adjust this value as needed for the indentation */
+}
+.outer-table th:first-child {
+  border-top-left-radius: 15px;
+}
+
+.outer-table th:last-child {
+  border-top-right-radius: 15px;
+}
+.outer-table tr:last-child td:first-child {
+  border-bottom-left-radius: 15px;
+}
+
+.outer-table tr:last-child td:last-child {
+  border-bottom-right-radius: 15px;
+}
+.outer-table tr:nth-child(2n+3) {
+  background: #fff;
+}
+
+.outer-table th, .outer-table td {
+  padding: 1em;
+  width: 10em;
+}
+
+.outer-table th, .outer-table .tr-outer .td-outer:first-child, .nested-table-row .td-outer:first-child{
+  background: #103179;
+  color: #efefef;
+}
+
+ .outer-table td:not(:first-child) {
+  color: #464646;
+}
+
+
+ {#{  HERE  }#}
+
+ .nested-table {
+  font-family: 'Open Sans', Helvetica;
+  color: #efefef; /* Default text color */
+}
+
+.nested-table tr:nth-child(2n) {
+  background: #ecfffe; /* Even rows background */
+}
+
+.nested-table{
+    width: 100%;
+}
+.nested-table th, .nested-table td {
+  padding: 1em;
+  width: 10em;
+}
+.outer-table .td-outer:first-child {
+  width: 40px; /* Or any fixed width you prefer */
+}
+.outer-table th:first-child {
+  width: 40px; /* Or any fixed width you prefer */
+}
+.nested-table th {
+  background: #364ca2;
+  color: #efefef;
+}
+.nested-table tr:nth-child(2n+1) {
+  background: #e4ecff !important; /* Odd rows background, starting from the third */
+}
+.nested-table tr td:first-child {
+  {#background: #000;#}
+  color: #2d2d2d;
 }
 </style>
 <body>
@@ -29,40 +94,28 @@
     <h3> Account role: user</h3>
 {% endif %}
 <hr>
-<h1> Order history </h1>
-<table id="table-{{ user.email }}" style="border:1px solid" >
-<tr>
-
-    <th> Order ID </th>
-    <th> Products </th>
-    <th> Date </th>
-    <th> Status </th>
-    <th> Total </th>
-</tr>
+<h1 style="text-align: center"> Order history </h1>
+<table class="outer-table" id="table-{{ user.email }}" style="border:1px solid" >
+      <tr>
+          <th> Order ID </th>
+          <th> Products </th>
+          <th> Date </th>
+          <th> Status </th>
+          <th> Total </th>
+      </tr>
       {% for document in orders %}
-    <div class="cart-icon" id="cart-icon">
+          <div class="cart-icon" id="cart-icon">
+              <tr class="tr-outer" id="content-{{ document.order_id }}">
+                  <td class="td-outer">{{ document.order_id }}</td>
+                  <td class="td-outer">
+                      <span><i class="fa fa-arrow-right" id="arrow-icon-{{ document.order_id }}" aria-hidden="true"></i> <a data-order-id="{{ document.order_id }}" class="show-content" id="show-button-{{ document.order_id }}">Show</a></span>
+                  </td>
+                  <td class="td-outer">{{ document.date }}</td>
+                  <td class="td-outer">{{ document.Status }}</td>
+                  <td class="td-outer">€{{ document.sum }}</td>
+              </tr>
 
-
-
-        <tr id="content-{{ document.order_id }}">
-              <td>
-        {{ document.order_id }}
-    </td>
-            <td>
-                <span ><i class="fa fa-arrow-right" id="arrow-icon-{{ document.order_id }}" aria-hidden="true"></i> <a data-order-id="{{ document.order_id }}" class="show-content" id="show-button-{{ document.order_id }}">Show</a></span>
-            </td>
-    <td>
-        {{ document.date }}
-    </td>
-    <td>
-        {{ document.Status }}
-    </td>
-    <td>
-        €{{ document.sum }}
-    </td>
-</tr>
-
-    </div>
+          </div>
     {% endfor %}
 </table>
 </body>
@@ -79,10 +132,9 @@ document.querySelectorAll('.show-content').forEach(button => {
         var table = orderRow.closest('table');
         var rowIndex = orderRow.rowIndex;
 
-        // Check if the nested table is already shown, then toggle
         var nextRow = table.rows[rowIndex + 1];
         if (nextRow && nextRow.classList.contains('nested-table-row')) {
-            // Remove nested table
+
             table.deleteRow(rowIndex + 1);
             arrow.classList.remove('fa-arrow-down');
             arrow.classList.add('fa-arrow-right');
@@ -98,7 +150,7 @@ document.querySelectorAll('.show-content').forEach(button => {
 
             // Create first cell for indentation
             var indentCell = nestedTableRow.insertCell(0);
-            indentCell.classList.add('indent-cell');
+            indentCell.classList.add('td-outer');
 
             // Create second cell for the nested table
             var nestedTableCell = nestedTableRow.insertCell(1);
@@ -106,6 +158,7 @@ document.querySelectorAll('.show-content').forEach(button => {
 
             // Create and insert the nested table
             var nestedTable = document.createElement('table');
+            nestedTable.classList.add('nested-table'); // Add this line to differentiate the nested tables
             {#let products = JSON.parse('{{ products|safe }}');#}
             var nestedTableContent = `
                 <tr>
