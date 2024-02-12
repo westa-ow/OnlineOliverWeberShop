@@ -68,6 +68,7 @@
     border: 12px solid #003665;
     border-radius: 10px;
     overflow: hidden;
+    margin-bottom: 20px;
 }
 
 .outer-table th, .outer-table .td-outer {
@@ -319,6 +320,7 @@ document.querySelectorAll('.show-content').forEach(button => {
             var nestedTableContent = `
                 <tr>
                     <th>Name</th>
+                    <th>Image</th>
                     <th>Description</th>
                     <th>Price</th>
                     <th>Quantity</th>
@@ -329,11 +331,12 @@ document.querySelectorAll('.show-content').forEach(button => {
                 nestedTableContent += `
                     <tr>
                         <td>${product.name}</td>
+                        <td style="text-align: center"> <img src="${product.image_url}" width="100" height="100"> </td>
                         <td>${product.description}</td>
                         <td>€${product.price}</td>
                         <td>${product.quantity}</td>
                         <td>€${(product.quantity * product.price).toFixed(1)}</td>
-                        <td>Yes</td>
+                        <td style="width: 10%; text-align: center" ><span style="font-size: 20px">&#10003;</span></td>
                     </tr>`;
             });
             nestedTable.innerHTML = nestedTableContent;

@@ -317,6 +317,7 @@ def register(request):
                     "display_name": "undefined",
                     'country': "undefined",
                     "agent_number": "undefined",
+                    'price_category': '0'
                 }
                 users_ref.add(new_user)
                 user = authenticate(username=username, password=password)
