@@ -297,12 +297,32 @@ def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=password)
-            login(request, user)
-            return redirect('home')
+
+            users_ref = db.collection('users')
+            email = form.cleaned_data.get('email')
+
+            existing_user = users_ref.where('email', '==', email).limit(1).get()
+
+            if existing_user:
+                print('error')
+                form.add_error('email', 'User with this Email already exists.')
+                return render(request, 'registration/register.html', {'form': form})
+            else:
+                form.save()
+                username = form.cleaned_data.get('username')
+                password = form.cleaned_data.get('password1')
+
+                new_user = {
+                    'email': email,
+                    "display_name": "undefined",
+                    'country': "undefined",
+                    "agent_number": "undefined",
+                }
+                users_ref.add(new_user)
+                user = authenticate(username=username, password=password)
+                if user:
+                    login(request, user)
+                    return redirect('home')
     else:
         form = UserRegisterForm()
     return render(request, 'registration/register.html', {'form': form, 'errors': form.errors})

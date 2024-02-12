@@ -157,6 +157,7 @@
 .nested-table td:first-child, .nested-table th:first-child {
     width: 40px;
 }
+
 .profile-section {
     padding: 20px 20px 20px 50px;
     background-color: #f0f0f0;
@@ -279,6 +280,7 @@
 </table>
 </body>
 <script>
+
 let products = [];
 document.addEventListener("DOMContentLoaded", function() {
     products = {{ products|safe }};
@@ -303,22 +305,17 @@ document.querySelectorAll('.show-content').forEach(button => {
             arrow.classList.add('fa-arrow-down');
             document.getElementById('show-button-' + orderId).innerText = "Hide";
 
-            // Insert new row for nested table
             var nestedTableRow = table.insertRow(rowIndex + 1);
             nestedTableRow.classList.add('nested-table-row');
 
-            // Create first cell for indentation
             var indentCell = nestedTableRow.insertCell(0);
             indentCell.classList.add('td-outer');
 
-            // Create second cell for the nested table
             var nestedTableCell = nestedTableRow.insertCell(1);
-            nestedTableCell.colSpan = "4"; // Span the rest of the columns as needed
+            nestedTableCell.colSpan = "4";
 
-            // Create and insert the nested table
             var nestedTable = document.createElement('table');
-            nestedTable.classList.add('nested-table'); // Add this line to differentiate the nested tables
-            {#let products = JSON.parse('{{ products|safe }}');#}
+            nestedTable.classList.add('nested-table');
             var nestedTableContent = `
                 <tr>
                     <th>Name</th>
@@ -328,7 +325,6 @@ document.querySelectorAll('.show-content').forEach(button => {
                     <th>Summary</th>
                     <th>In stock</th>
                 </tr>`;
-            {#console.log((products));#}
             products[orderId].forEach(function(product) {
                 nestedTableContent += `
                     <tr>
@@ -343,7 +339,7 @@ document.querySelectorAll('.show-content').forEach(button => {
             nestedTable.innerHTML = nestedTableContent;
             nestedTableCell.appendChild(nestedTable);
         }
-    }); // This closing parenthesis was missing
+    });
 });
 
 </script>

@@ -9,6 +9,8 @@
     <title>Customer Registration</title>
     <link rel="stylesheet" href="{% static 'styles.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon" />
+
     <!-- Additional styles -->
 </head>
 <style>
@@ -51,7 +53,7 @@
     color: white;
     cursor: pointer;
     position: relative;
-    z-index: 1;
+    z-index: 0;
     font-size: 20px; /* Increased font-size */
     overflow: visible;
 }
@@ -105,45 +107,106 @@
         }
         .login-form input[type="submit"]::before,
 .login-form input[type="submit"]::after {
-    content: '';
-    position: absolute;
-    top: 50%; /* Position the pseudo-elements in the middle vertically */
-    width: 20px; /* Width of the extended part */
-    height: 50%; /* Reduce the height to make the shadow visible below the button */
-    background: transparent;
-    z-index: -1;
-    transform: translateY(50%); /* Move the pseudo-elements down below the button */
+            content: '';
+            position: absolute;
+            top: 50%; /* Position the pseudo-elements in the middle vertically */
+            width: 20px; /* Width of the extended part */
+            height: 50%; /* Reduce the height to make the shadow visible below the button */
+            background: transparent;
+            z-index: 0;
+            transform: translateY(50%); /* Move the pseudo-elements down below the button */
 
+        }
+        #errorText{
+            text-align: center;
+  font-size: 28px;
+        }
+        .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
 
+.modal-content {
+    background-color: #fefefe;
+    margin: 16% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 60%;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+#okButton{
+    text-align: center;
+    padding: 10px;
+    width: 100px;
+    font-size: 18px;
+    border-radius: 10px;
+}
 </style>
 <body>
-    {% if form.errors %}
-        <p> {{ form.non_field_errors }} </p>
-        {% for field in form %}
-            <p> {{ field.errors }} </p>
-        {% endfor %}
-    {% endif %}
+
+{#    {% if form.errors %}#}
+{#        <p> {{ form.non_field_errors }} </p>#}
+{#        {% for field in form %}#}
+{#            <div id="errorModal" class="modal" style="display:none;">#}
+{#                <div class="modal-content">#}
+{#                    <span class="close-button">&times;</span>#}
+{#                    <p id="errorText"></p>#}
+{#                    <button id="okButton">OK</button>#}
+{#                </div>#}
+{#            </div>#}
+{#        {% endfor %}#}
+{#    {% endif %}#}
+<div id="errorModal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <p id="errorText"></p>
+        <button id="okButton">OK</button>
+    </div>
+</div>
     <div class="login-container">
         <div class="login-header">
             CUSTOMER REGISTRATION
         </div>
-        <form action="{% url 'register' %}" method="post" class="login-form">
+        <form action="{% url 'register' %}" method="post" class="login-form" autocomplete="off">
             {% csrf_token %}
             <div class="input-container">
                 <i class="fas fa-user"></i>
-                {{ form.username | add_class:"input100" | attr:"placeholder: Username" }}
+                {{ form.username | add_class:"input100" | attr:"placeholder: Username"|attr:"autocomplete:off" }}
             </div>
             <div class="input-container">
                 <i class="fas fa-envelope"></i>
-                {{ form.email | add_class:"input100" | attr:"placeholder: Email" }}
+                {{ form.email | add_class:"input100" | attr:"placeholder: Email"|attr:"autocomplete:off" }}
             </div>
             <div class="input-container">
                 <i class="fas fa-lock"></i>
-                {{ form.password1 | add_class:"input100" | attr:"placeholder: Password" }}
+                {{ form.password1 | add_class:"input100" | attr:"placeholder: Password"|attr:"autocomplete:new-password" }}
             </div>
             <div class="input-container">
                 <i class="fas fa-lock"></i>
-                {{ form.password2 | add_class:"input100" | attr:"placeholder: Confirm Password" }}
+                {{ form.password2 | add_class:"input100" | attr:"placeholder: Confirm Password"|attr:"autocomplete:new-password" }}
             </div>
             <input type="submit" value="REGISTER">
             <a href="{% url 'login' %}">Already have an account? Login Here</a>
@@ -151,5 +214,50 @@
     </div>
     <!-- Additional scripts -->
 </body>
+{{ form.errors|json_script:"form_errors" }}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    var formErrors = {% if form.errors %}true{% else %}false{% endif %};
+    var errorModal = document.getElementById("errorModal");
+    var errorText = document.getElementById("errorText");
+    var okButton = document.getElementById("okButton");
+    var closeButton = document.querySelector(".close-button");
+
+    if (formErrors) {
+        var errorMessage = "";
+        {% for field in form %}
+            {% for error in field.errors %}
+                errorMessage += "{{ error }}\n";
+            {% endfor %}
+        {% endfor %}
+        errorText.innerText = errorMessage;
+        errorModal.style.display = "block";
+    }
+
+    okButton.onclick = function() {
+        errorModal.style.display = "none";
+    }
+
+    closeButton.onclick = function() {
+        errorModal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == errorModal) {
+            errorModal.style.display = "none";
+        }
+    }
+});
+{#   document.addEventListener("DOMContentLoaded", function() {#}
+{#        // Check if there's an email error specifically#}
+       {#console.log("{{ form|safe }}");#}
+{#       var emailError = document.querySelectorAll('.errorMessage1');#}
+{#console.log(emailError);#}
+{#        if (emailError.length !== 0) {#}
+{#            alert("A user with that email already exists.");#}
+{#        }#}
+{#    });#}
+</script>
 </html>
+
 {% endblock %}
