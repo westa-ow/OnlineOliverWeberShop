@@ -347,43 +347,91 @@ def logout_view(request):
     logout(request)
     return redirect('home')
 
+# @login_required
+# def profile(request):
+#     order_ref = db.collection("Order")
+#     orders_ref = db.collection("Orders")
+#     email = request.user.email
+#     orders = []
+#     docs_orders = orders_ref.where('email', '==', email).stream()
+#     order = {}
+#     for doc in docs_orders:
+#         order_id =  doc.to_dict().get('order_id')
+#         order_info = doc.to_dict()
+#         orders.append({'Status': doc.to_dict().get('Status'), 'date': doc.to_dict().get('date'), 'email': email,
+#                        'list': doc.to_dict().get('list'), 'order_id': doc.to_dict().get('order_id'),
+#                        'sum': doc.to_dict().get('price')})
+#         order[order_id] = []
+#
+#         # Fetch Order documents from the list of references
+#         # Assuming order_ref is a document reference
+#         for order_doc_path in order_info.get('list', []):
+#             path_parts = order_doc_path.split('/')
+#             if len(path_parts) == 2:
+#                 collection_name, document_id = path_parts
+#                 order_doc_ref = db.collection(collection_name).document(document_id)
+#                 order_doc = order_doc_ref.get()
+#                 if order_doc.exists:
+#                     order[order_id].append(order_doc.to_dict())
+#
+#     context = {
+#         'orders': orders,
+#         'products': order,
+#     }
+#
+#     return render(request, 'profile.html', context=context)
+import concurrent.futures
 
+def fetch_order_detail(order_doc_path):
+    path_parts = order_doc_path.split('/')
+    if len(path_parts) == 2:
+        collection_name, document_id = path_parts
+        order_doc_ref = db.collection(collection_name).document(document_id)
+        order_doc = order_doc_ref.get()
+        if order_doc.exists:
+            return order_doc.to_dict()
+    return None
 @login_required
 def profile(request):
-    order_ref = db.collection("Order")
     orders_ref = db.collection("Orders")
     email = request.user.email
     orders = []
     docs_orders = orders_ref.where('email', '==', email).stream()
-    order = {}
-    for doc in docs_orders:
-        order_id = doc.to_dict().get('order_id')
-        order_info = doc.to_dict()
-        orders.append({'Status': doc.to_dict().get('Status'), 'date': doc.to_dict().get('date'), 'email': email,
-                       'list': doc.to_dict().get('list'), 'order_id': doc.to_dict().get('order_id'),
-                       'sum': doc.to_dict().get('price')})
-        order[order_id] = []
+    order_details = {}
 
-        # Fetch Order documents from the list of references
-        # Assuming order_ref is a document reference
-        for order_doc_path in order_info.get('list', []):
-            # Fetching the Order document using its ID
-            path_parts = order_doc_path.split('/')
-            if len(path_parts) == 2:
-                collection_name, document_id = path_parts
-                order_doc_ref = db.collection(collection_name).document(document_id)
-                order_doc = order_doc_ref.get()
-                if order_doc.exists:
-                    order[order_id].append(order_doc.to_dict())
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future_to_order = {}
+        for doc in docs_orders:
+            order_info = doc.to_dict()
+            order_id = order_info.get('order_id')
+            orders.append({
+                'Status': order_info.get('Status'),
+                'date': order_info.get('date'),
+                'email': email,
+                'list': order_info.get('list'),
+                'order_id': order_id,
+                'sum': order_info.get('price')
+            })
+            order_details[order_id] = []
+
+            # Schedule the fetch operation for each document in the order list
+            for order_doc_path in order_info.get('list', []):
+                future = executor.submit(fetch_order_detail, order_doc_path)
+                future_to_order[future] = order_id
+
+        # Process as completed
+        for future in concurrent.futures.as_completed(future_to_order):
+            order_id = future_to_order[future]
+            order_doc_data = future.result()
+            if order_doc_data:
+                order_details[order_id].append(order_doc_data)
 
     context = {
         'orders': orders,
-        'products': order,
+        'products': order_details,
     }
 
     return render(request, 'profile.html', context=context)
-
-
 def send_email(request):
     if request.method == 'POST':
         # Создаю order
