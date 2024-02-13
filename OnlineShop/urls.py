@@ -34,6 +34,9 @@ urlpatterns = [
     path('update_quantity_input/',views.update_quantity_input, name='update_input'),
     path('sort_documents/', views.sort_documents, name='sort_documents'),
     path('send-email/', views.send_email, name='send_email'),
+    path('catalog/', views.catalog_view, name='catalog'),
+
+    path('get_current_page_values/', views.get_current_page_products, name='get_page_values')
     # path('finish_order/', )
 
 

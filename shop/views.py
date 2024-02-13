@@ -2,6 +2,7 @@ import ast
 from datetime import datetime
 from random import randint
 
+import concurrent.futures
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
@@ -217,7 +218,8 @@ def update_quantity_input(request):
                 }
                 cart_ref.add(new_cart_item)
                 return JsonResponse({'status': 'success', 'quantity': quantity_new, 'product_id': product_id,
-                                     'sum': "€" + str(round((quantity_new * price), 2)),'was_inside':'False' ,'number': number_in_cart})
+                                     'sum': "€" + str(round((quantity_new * price), 2)), 'was_inside': 'False',
+                                     'number': number_in_cart})
         except Exception as e:
             print(f"Error updating cart: {e}")
             return JsonResponse({'status': 'error', 'message': 'An error occurred while processing your request'},
@@ -241,7 +243,7 @@ def get_cart(request):
     cart = []
     for doc in docs:
         description = doc.to_dict().get('description', '')
-        if description:  # Check if the description is not None or empty
+        if description:
             safe_description = description.encode('utf-8').decode('utf-8')
         else:
             safe_description = ''
@@ -348,40 +350,8 @@ def logout_view(request):
     logout(request)
     return redirect('home')
 
-# @login_required
-# def profile(request):
-#     order_ref = db.collection("Order")
-#     orders_ref = db.collection("Orders")
-#     email = request.user.email
-#     orders = []
-#     docs_orders = orders_ref.where('email', '==', email).stream()
-#     order = {}
-#     for doc in docs_orders:
-#         order_id =  doc.to_dict().get('order_id')
-#         order_info = doc.to_dict()
-#         orders.append({'Status': doc.to_dict().get('Status'), 'date': doc.to_dict().get('date'), 'email': email,
-#                        'list': doc.to_dict().get('list'), 'order_id': doc.to_dict().get('order_id'),
-#                        'sum': doc.to_dict().get('price')})
-#         order[order_id] = []
-#
-#         # Fetch Order documents from the list of references
-#         # Assuming order_ref is a document reference
-#         for order_doc_path in order_info.get('list', []):
-#             path_parts = order_doc_path.split('/')
-#             if len(path_parts) == 2:
-#                 collection_name, document_id = path_parts
-#                 order_doc_ref = db.collection(collection_name).document(document_id)
-#                 order_doc = order_doc_ref.get()
-#                 if order_doc.exists:
-#                     order[order_id].append(order_doc.to_dict())
-#
-#     context = {
-#         'orders': orders,
-#         'products': order,
-#     }
-#
-#     return render(request, 'profile.html', context=context)
-import concurrent.futures
+
+
 
 def fetch_order_detail(order_doc_path):
     path_parts = order_doc_path.split('/')
@@ -392,6 +362,8 @@ def fetch_order_detail(order_doc_path):
         if order_doc.exists:
             return order_doc.to_dict()
     return None
+
+
 @login_required
 def profile(request):
     orders_ref = db.collection("Orders")
@@ -433,6 +405,8 @@ def profile(request):
     }
 
     return render(request, 'profile.html', context=context)
+
+
 def send_email(request):
     if request.method == 'POST':
         # Создаю order
@@ -497,3 +471,44 @@ def clear_cart(email, name):
     docs = cart_ref.where('emailOwner', '==', email).where('name', '==', name).stream()
     for doc in docs:
         doc.reference.delete()
+
+
+def catalog_view(request):
+    page_size = 20  # Number of items per page
+    # start_after = request.GET.get('start_after')
+    # query = db.collection('item').where('quantity', '>', 0)
+
+    # q2 = query.start_at(0).limit(10)
+    # print([doc.to_dict() for doc in q2.stream()])
+    #
+    # doc_number = query.count().get()[0][0].value
+    # if start_after:
+    #     start_after_doc = db.collection('item').document(start_after).get()
+    #     query = query.start_after(start_after_doc)
+
+
+    # name_query = query.limit(page_size).stream()
+
+    # numbers = [doc.to_dict() for doc in name_query]
+
+    # last_doc_id = numbers[-1]['name'] if numbers else None
+    # first_doc_id = numbers[0]['name'] if numbers else None
+    # context = {
+    #     'products': numbers,
+    #     'next_page_token': last_doc_id,
+    #     'previous_page_token': first_doc_id,
+    #     'number_of_documents': doc_number,
+    #     'docs_per_page': 20,
+    #     # 'current_page': page
+    # }
+    return render(request, 'catalog.html')
+
+
+def get_current_page_products(request):
+    start_after = request.GET.get('start_after')
+    end_before = request.GET.get('end_before')
+    number_of_products = int(request.GET.get('number_of_products', 20))  # Default to 20 if not provided
+
+
+
+    # return JsonResponse({'products': products})

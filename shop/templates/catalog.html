@@ -1,0 +1,239 @@
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet"  href="{% static 'css/catalog.css' %}">
+    <!-- Add this script tag to your HTML to include Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-analytics.js"></script>
+
+</head>
+<body>
+{% include 'base.html' %}
+<div class="filters-section">
+    <input type="range" id="slider-price" min="0" max="1000" step="10">
+    <span id="value-of-slider-price"></span>
+    <input type="text" id="contains-in-name" placeholder="Contains in name...">
+    <button id="submit-button">Submit</button>
+</div>
+<div class="products-section">
+    <select id="select-items-per-page">
+        <option>20</option>
+        <option>50</option>
+        <option>100</option>
+    </select>
+
+    <div class="products-grid">
+
+    </div>
+
+    <div class="pages" id="pages">
+        <a id="jump-to-first" href="">Jump to first</a> |
+        <a id="previous-button" href="">Previous</a> |
+
+        <span id="current-page">Current page: </span> |
+
+        <a id="next-button" href="">Next</a> |
+        <a id="jump-to-last" href="">Jump to last</a>
+
+        <div id="jump" >
+            <input id="page-number-input" type="number">
+            <button id="button-jump-to">Jump</button>
+        </div>
+    </div>
+</div>
+</body>
+<script  type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
+
+    import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
+
+    var firebaseConfig = {
+    apiKey: "AIzaSyAM0wDc_WO0wP3-_TPRPLENZDIHbezH7U4",
+    authDomain: "flutterapp-fd5c3.firebaseapp.com",
+    projectId: "flutterapp-fd5c3",
+    storageBucket: "flutterapp-fd5c3.appspot.com",
+    messagingSenderId: "486422895050",
+    appId: "1:486422895050:web:b67eaef185d40579879733",
+    measurementId: "G-JT2QVDEHLT"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+     async function countDocuments() {
+        const itemsRef = collection(db, "item");
+        const q = query(itemsRef, where("quantity", ">", 0));
+        const querySnapshot = await getDocs(q);
+         {#console.log(`Number of documents in 'items' collection: ${querySnapshot.size/20}`);#}
+        return querySnapshot.size;
+    }
+let itemsPerPage = 20;
+let number_of_documents;
+let currentPage = 1;
+let total_pages = 1;
+let allItems = [];
+let filteredItems = [];
+async function fetchAllItems() {
+        const itemsQuery = query(collection(db, "item"), where("quantity", ">", 0));
+        const querySnapshot = await getDocs(itemsQuery);
+        return querySnapshot.docs.map(doc => doc.data());
+    }
+function paginateItems(items, pageNumber, pageSize) {
+        const startIndex = (pageNumber - 1) * pageSize;
+        return items.slice(startIndex, startIndex + pageSize);
+}
+function filterItems(items, pageNumber, pageSize) {
+        const startIndex = (pageNumber - 1) * pageSize;
+        return items.slice(startIndex, startIndex + pageSize);
+}
+function displayCurrentPage(items) {
+    const productsGrid = document.querySelector('.products-grid');
+    productsGrid.innerHTML = '';
+
+    items.forEach((item) => {
+        const productContainer = document.createElement('div');
+        productContainer.className = 'product-container';
+        productContainer.id = `product-${item.name}`;
+
+        // Create the image section
+        const imgSection = document.createElement('div');
+        imgSection.className = 'img-section';
+        const img = document.createElement('img');
+        img.src = item.image_url;
+        img.width = 150;
+        img.height = 150;
+        img.style.borderRadius = '10px';
+        imgSection.appendChild(img);
+
+        // Create the info section
+        const infoSection = document.createElement('div');
+        infoSection.className = 'info-section';
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'info-name';
+        nameSpan.textContent = item.name;
+        const priceSpan = document.createElement('span');
+        priceSpan.className = 'info-price';
+        priceSpan.textContent = `€${item.price}`;
+        infoSection.appendChild(nameSpan);
+        infoSection.appendChild(document.createElement('br'));
+        infoSection.appendChild(priceSpan);
+
+        // Assemble the product container
+        productContainer.appendChild(imgSection);
+        productContainer.appendChild(infoSection);
+
+        // Append the product container to the products grid
+        productsGrid.appendChild(productContainer);
+    });
+}
+function applyFilters() {
+  const sliderValue = document.getElementById('slider-price').value;
+  const nameFilterValue = document.getElementById('contains-in-name').value.toLowerCase();
+
+   filteredItems = allItems.filter(item =>
+    item.price <= sliderValue &&
+    item.name.toLowerCase().includes(nameFilterValue)
+  );
+   currentPage = 1;
+   total_pages = Math.ceil(filteredItems.length / itemsPerPage);
+  updatePage();
+}
+function updatePage() {
+    let paginatedItems;
+    if(filteredItems.length === 0){
+        paginatedItems = paginateItems(allItems, currentPage, itemsPerPage);
+    }
+    else{
+        paginatedItems = paginateItems(filteredItems, currentPage, itemsPerPage);
+    }
+    const current = document.getElementById('current-page');
+    current.innerText="Current page: " + currentPage;
+    displayCurrentPage(paginatedItems);
+}
+
+
+document.addEventListener("DOMContentLoaded", async function () {
+    itemsPerPage = Number(document.getElementById('select-items-per-page').value);
+    console.log(itemsPerPage);
+    number_of_documents = Number( await countDocuments());
+    console.log(number_of_documents);
+    total_pages = Math.ceil(number_of_documents / itemsPerPage);
+    console.log(total_pages);
+    allItems = await fetchAllItems(); // Fetch all items on load
+    updatePage();
+document.getElementById('submit-button').addEventListener('click', applyFilters);
+
+});
+
+function get_current_products(){
+   fetch('{% url "get_page_values" %}', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ start_after: first, end_before: last})
+        }).then(response => response.json())
+        .then(data => {
+           if (data.status === 'success') {
+
+
+
+           }
+      });
+}
+document.getElementById('previous-button').addEventListener('click', function (event){
+    event.preventDefault();
+    if(currentPage>1){
+        currentPage-=1;
+        updatePage();
+    }
+});
+
+document.getElementById('next-button').addEventListener('click', function (event){
+    event.preventDefault();
+    if(currentPage<total_pages){
+        currentPage+=1;
+        updatePage();
+    }
+});
+document.getElementById('jump-to-last').addEventListener('click', function (event){
+    event.preventDefault();
+    currentPage=total_pages;
+    updatePage();
+});
+document.getElementById('jump-to-first').addEventListener('click', function (event){
+    event.preventDefault();
+    currentPage=1;
+    updatePage();
+
+});
+document.getElementById('button-jump-to').addEventListener('click', function (event) {
+    event.preventDefault();
+    let page_number = Number(document.getElementById('page-number-input').value);
+    if(page_number>0 && page_number<=total_pages){
+        currentPage = page_number;
+        updatePage();
+    }
+});
+
+document.getElementById('select-items-per-page').addEventListener('change', function (event) {
+    itemsPerPage = Number(event.target.value);
+    total_pages = Math.ceil(number_of_documents / itemsPerPage);
+    updatePage();
+});
+
+document.getElementById('slider-price').addEventListener('change', function (event){
+   const container_shows = document.getElementById('value-of-slider-price');
+   container_shows.innerText = event.target.value;
+});
+
+</script>
+</html>
+{%endblock%}
