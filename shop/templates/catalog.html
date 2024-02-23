@@ -7,45 +7,54 @@
     <title>Title</title>
     <link rel="stylesheet"  href="{% static 'css/catalog.css' %}">
     <!-- Add this script tag to your HTML to include Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-analytics.js"></script>
-
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-analytics.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 {% include 'base.html' %}
-<div class="filters-section">
-    <input type="range" id="slider-price" min="0" max="1000" step="10">
-    <span id="value-of-slider-price"></span>
-    <input type="text" id="contains-in-name" placeholder="Contains in name...">
-    <button id="submit-button">Submit</button>
-</div>
-<div class="products-section">
-    <select id="select-items-per-page">
-        <option>20</option>
-        <option>50</option>
-        <option>100</option>
-    </select>
-
-    <div class="products-grid">
-
-    </div>
-
-    <div class="pages" id="pages">
-        <a id="jump-to-first" href="">Jump to first</a> |
-        <a id="previous-button" href="">Previous</a> |
-
-        <span id="current-page">Current page: </span> |
-
-        <a id="next-button" href="">Next</a> |
-        <a id="jump-to-last" href="">Jump to last</a>
-
-        <div id="jump" >
-            <input id="page-number-input" type="number">
-            <button id="button-jump-to">Jump</button>
+<div class="everything">
+    <div class="filters-section">
+        <div class="filter-price">
+            <input type="range" class="slider" id="slider-price" min="0" max="1000" step="10">
         </div>
+        <span id="value-of-slider-price"></span>
+        <input type="text" id="contains-in-name" placeholder="Contains in name...">
+        <button id="submit-button">Submit</button>
     </div>
+    <div class="products-section">
+        <div>
+            <span>Items per page: </span>
+            <select id="select-items-per-page">
+                <option>20</option>
+                <option>50</option>
+                <option>100</option>
+            </select>
+        </div>
+        <div class="products-grid">
+
+        </div>
+
+        <dialog id="product-card" style="display: none">
+
+        </dialog>
+        <div class="pages" id="pages">
+            <a id="jump-to-first" href="">Jump to first</a> |
+            <a id="previous-button" href="">Previous</a> |
+
+            <span id="current-page">Current page: </span> |
+
+            <a id="next-button" href="">Next</a> |
+            <a id="jump-to-last" href="">Jump to last</a>
+
+            <div id="jump" >
+                <input id="page-number-input" type="number">
+                <button id="button-jump-to">Jump</button>
+            </div>
+        </div>
+</div>
 </div>
 </body>
 <script  type="module">
@@ -95,11 +104,16 @@ function filterItems(items, pageNumber, pageSize) {
 function displayCurrentPage(items) {
     const productsGrid = document.querySelector('.products-grid');
     productsGrid.innerHTML = '';
-
+    let itemId= 0;
     items.forEach((item) => {
         const productContainer = document.createElement('div');
         productContainer.className = 'product-container';
         productContainer.id = `product-${item.name}`;
+        productContainer.setAttribute('data-id', itemId);
+
+        productContainer.addEventListener('click', () => {
+            generateDialogContent(`${item.name}`);
+        });
 
         // Create the image section
         const imgSection = document.createElement('div');
@@ -124,12 +138,14 @@ function displayCurrentPage(items) {
         infoSection.appendChild(document.createElement('br'));
         infoSection.appendChild(priceSpan);
 
+
         // Assemble the product container
         productContainer.appendChild(imgSection);
         productContainer.appendChild(infoSection);
 
         // Append the product container to the products grid
         productsGrid.appendChild(productContainer);
+        itemId+=1;
     });
 }
 function applyFilters() {
@@ -167,27 +183,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     console.log(total_pages);
     allItems = await fetchAllItems(); // Fetch all items on load
     updatePage();
-document.getElementById('submit-button').addEventListener('click', applyFilters);
+    document.getElementById('submit-button').addEventListener('click', applyFilters);
 
 });
 
-function get_current_products(){
-   fetch('{% url "get_page_values" %}', {
-        method: 'POST',
-        headers: {
-            'X-CSRFToken': getCookie('csrftoken'),
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ start_after: first, end_before: last})
-        }).then(response => response.json())
-        .then(data => {
-           if (data.status === 'success') {
-
-
-
-           }
-      });
-}
 document.getElementById('previous-button').addEventListener('click', function (event){
     event.preventDefault();
     if(currentPage>1){
@@ -229,10 +228,160 @@ document.getElementById('select-items-per-page').addEventListener('change', func
     updatePage();
 });
 
-document.getElementById('slider-price').addEventListener('change', function (event){
-   const container_shows = document.getElementById('value-of-slider-price');
-   container_shows.innerText = event.target.value;
+ $(document).ready(function(){
+    $('.slider').on('input change', function() {
+        const container_shows = document.getElementById('value-of-slider-price');
+        container_shows.innerText = $(this).val();
+    });
 });
+
+document.querySelectorAll('.quantity-input-dialog').forEach(input => {
+    input.addEventListener('input', function() {
+        console.log(this.value);
+    })
+});
+document.querySelectorAll('.quantity-input-dialog').forEach(input => {
+    input.addEventListener('change', function() {
+        console.log(this.value);
+    })
+});
+
+function generateDialogContent(id){
+
+    document.body.style.overflow = 'hidden';
+     const item = allItems.find(item => item.name === id);
+
+    if (!item) {
+        console.error('Item not found');
+        return;
+    }
+
+    const dialog = document.getElementById('product-card');
+    document.addEventListener('click', (event) => {
+        const rect = dialog.getBoundingClientRect();
+        const isInDialog = (rect.top <= event.clientY && event.clientY <= rect.top + rect.height
+            && rect.left <= event.clientX && event.clientX <= rect.left + rect.width);
+
+        if (!isInDialog && dialog.open) {
+            dialog.close();
+        }
+    }, true);
+    dialog.innerHTML = '';
+
+    const card_content = document.createElement('div');
+    card_content.classList.add('card-content');
+
+    const image = document.createElement('img');
+    image.src = `${item.image_url}`;
+    image.width = `400`;
+    image.height = `400`;
+    image.classList.add('img-card');
+    card_content.appendChild(image);
+
+    const close_dialog = document.createElement('div');
+    const icon_close = document.createElement('i');
+    icon_close.classList.add('fa-solid', 'fa-close');
+    close_dialog.appendChild(icon_close);
+    close_dialog.addEventListener('click',()=>{
+       document.body.style.overflow = '';
+       dialog.style.display = 'none';
+       dialog.close();
+    });
+
+    close_dialog.classList.add('close-card');
+    card_content.appendChild(close_dialog);
+
+
+    const secondColumn = document.createElement('div');
+    secondColumn.classList.add('second-column');
+
+    const nameSpan = document.createElement('h1');
+    nameSpan.textContent = `${item.name}`;
+    secondColumn.appendChild(nameSpan);
+
+    {#const descriptionSpan = document.createElement('div');#}
+    {#descriptionSpan.textContent = `${item.description}`;#}
+    {#secondColumn.appendChild(descriptionSpan);#}
+
+    const priceSpan = document.createElement('div');
+    priceSpan.textContent = `€${item.price}`;
+    secondColumn.appendChild(priceSpan);
+
+    const quantitySpan = document.createElement('div');
+    quantitySpan.textContent = `Max: ${item.quantity}`;
+    secondColumn.appendChild(quantitySpan);
+
+    const bottom_part = document.createElement('div');
+    bottom_part.classList.add('bottom-card-part');
+
+    const counter = document.createElement('div');
+
+    // CSS to hide the default spin buttons
+
+    const button_minus = document.createElement('button');
+    button_minus.innerText = '-';
+    button_minus.classList.add('minus-button-dialog');
+    const inputQuantity = document.createElement('input');
+    inputQuantity.type = 'number';
+    inputQuantity.style.textAlign = 'center';
+    inputQuantity.value = 1;
+    inputQuantity.classList.add('quantity-input-dialog');
+    inputQuantity.min = '1';
+    inputQuantity.max = item.quantity;
+
+    inputQuantity.addEventListener('input', function() {
+        if(inputQuantity.value > item.quantity || inputQuantity.value < 1 ){
+            inputQuantity.value = 1;
+            alert('Quantity number has to be less than or equal to quantity number in stock or and be greater than 0');
+        }
+    });
+
+    button_minus.addEventListener('click', () => {
+        if(inputQuantity.value > 1)
+            inputQuantity.value -= 1;
+    });
+    const button_plus = document.createElement('button');
+    button_plus.innerText = '+';
+    button_plus.classList.add('plus-button-dialog');
+    button_plus.addEventListener('click', () => {
+        if(inputQuantity<item.quantity) {
+            let currentValue = Number(inputQuantity.value === "" ? 1 : inputQuantity.value);
+            inputQuantity.value = currentValue + 1;
+            console.log(item.name);
+        }
+    });
+    counter.appendChild(button_minus);
+    counter.appendChild(inputQuantity);
+    counter.appendChild(button_plus);
+
+
+
+    const add_to_cart = document.createElement('button');
+    add_to_cart.type = 'submit';
+    add_to_cart.classList.add('add-to-cart-dialog');
+    const icon_cart = document.createElement('i');
+    icon_cart.classList.add('fa-solid', 'fa-cart-shopping');
+    add_to_cart.appendChild(icon_cart);
+    const text_add_to_cart = document.createElement('span');
+    text_add_to_cart.innerText = ' Add to cart';
+    add_to_cart.appendChild(icon_cart);
+    add_to_cart.appendChild(text_add_to_cart);
+    bottom_part.appendChild(counter);
+    bottom_part.appendChild(add_to_cart);
+    secondColumn.appendChild(bottom_part);
+
+    card_content.appendChild(secondColumn);
+    dialog.appendChild(card_content);
+    // Open the dialog modal
+    // If using a native <dialog> element and it's supported:
+    {#if (typeof dialog.showModal === "function") {#}
+
+    dialog.style.display = 'block';
+    dialog.showModal();
+    {#    // Fallback for browsers that do not support <dialog>#}
+    {#    dialog.style.display = 'block';#}
+
+ }
 
 </script>
 </html>
