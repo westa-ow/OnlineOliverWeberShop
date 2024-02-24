@@ -17,12 +17,35 @@
 {% include 'base.html' %}
 <div class="everything">
     <div class="filters-section">
-        <div class="filter-price">
-            <input type="range" class="slider" id="slider-price" min="0" max="1000" step="10">
+        <div class="filters">
+            <div class="filter-price">
+                <label for="slider-price">Price</label>
+                <hr>
+               <div class="range_container">
+                    <div class="sliders_control">
+                       <input id="fromSlider" type="range" value="0" min="0" max="1100" step="5"/>
+                       <input id="toSlider" type="range" value="1100" min="0" max="1100" step="5"/>
+                    </div>
+                    <div class="form_control">
+                      <div class="form_control_container">
+                          <span class="fromInput-text">€0</span>
+                      </div>
+                        <div class="form_control_container">
+                            <span class="toInput-text">€1100</span>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="filter-crystal-color">
+                Crystal color
+                <hr>
+                <br>
+            </div>
+            <span id="value-of-slider-price"></span>
+            <input type="text" id="contains-in-name" placeholder="Contains in name..."><br>
+            <button id="submit-button">Submit</button>
         </div>
-        <span id="value-of-slider-price"></span>
-        <input type="text" id="contains-in-name" placeholder="Contains in name...">
-        <button id="submit-button">Submit</button>
     </div>
     <div class="products-section">
         <div>
@@ -75,6 +98,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
+
      async function countDocuments() {
         const itemsRef = collection(db, "item");
         const q = query(itemsRef, where("quantity", ">", 0));
@@ -88,6 +112,71 @@ let currentPage = 1;
 let total_pages = 1;
 let allItems = [];
 let filteredItems = [];
+
+
+function controlFromSlider(fromSlider, toSlider, fromInput) {
+  const [from, to] = getParsed(fromSlider, toSlider);
+  fillSlider(fromSlider, toSlider, '#C6C6C6', '#003665', toSlider);
+  if (from > to) {
+    fromSlider.value = to;
+    fromInput.textContent = "€" +to;
+  } else {
+    fromInput.textContent ="€" +from;
+  }
+}
+
+function controlToSlider(fromSlider, toSlider, toInput) {
+  const [from, to] = getParsed(fromSlider, toSlider);
+  fillSlider(fromSlider, toSlider, '#C6C6C6', '#003665', toSlider);
+  setToggleAccessible(toSlider);
+  if (from <= to) {
+    toSlider.value = to;
+    toInput.textContent ="€" + to;
+  } else {
+    toInput.textContent = "€"+from;
+    toSlider.value = from;
+  }
+}
+
+function getParsed(currentFrom, currentTo) {
+  const from = parseInt(currentFrom.value, 10);
+  const to = parseInt(currentTo.value, 10);
+  return [from, to];
+}
+
+function fillSlider(from, to, sliderColor, rangeColor, controlSlider) {
+    const rangeDistance = to.max-to.min;
+    const fromPosition = from.value - to.min;
+    const toPosition = to.value - to.min;
+    controlSlider.style.background = `linear-gradient(
+      to right,
+      ${sliderColor} 0%,
+      ${sliderColor} ${(fromPosition)/(rangeDistance)*100}%,
+      ${rangeColor} ${((fromPosition)/(rangeDistance))*100}%,
+      ${rangeColor} ${(toPosition)/(rangeDistance)*100}%,
+      ${sliderColor} ${(toPosition)/(rangeDistance)*100}%,
+      ${sliderColor} 100%)`;
+}
+
+function setToggleAccessible(currentTarget) {
+  const toSlider = document.querySelector('#toSlider');
+  if (Number(currentTarget.value) <= 0 ) {
+    toSlider.style.zIndex = 2;
+  } else {
+    toSlider.style.zIndex = 0;
+  }
+}
+
+const fromSlider = document.querySelector('#fromSlider');
+const toSlider = document.querySelector('#toSlider');
+const fromInputText = document.querySelector('.fromInput-text');
+const toInputText = document.querySelector('.toInput-text');
+fillSlider(fromSlider, toSlider, '#C6C6C6', '#003665', toSlider);
+setToggleAccessible(toSlider);
+
+fromSlider.oninput = () => controlFromSlider(fromSlider, toSlider, fromInputText);
+toSlider.oninput = () => controlToSlider(fromSlider, toSlider, toInputText);
+
 async function fetchAllItems() {
         const itemsQuery = query(collection(db, "item") , where("quantity", ">", 0));//
         const querySnapshot = await getDocs(itemsQuery);
@@ -119,7 +208,7 @@ function displayCurrentPage(items) {
         const imgSection = document.createElement('div');
         imgSection.className = 'img-section';
         const img = document.createElement('img');
-        img.src = item.image_url;
+        img.src = item.preview_image;
         img.width = 150;
         img.height = 150;
         img.style.borderRadius = '10px';
@@ -149,13 +238,16 @@ function displayCurrentPage(items) {
     });
 }
 function applyFilters() {
-  const sliderValue = document.getElementById('slider-price').value;
-  const nameFilterValue = document.getElementById('contains-in-name').value.toLowerCase();
+   {#const sliderValue = document.getElementById('slider-price').value;#}
+   const nameFilterValue = document.getElementById('contains-in-name').value.toLowerCase();
+   const [from, to] = getParsed(fromSlider, toSlider);
+
 
    filteredItems = allItems.filter(item =>
-    item.price <= sliderValue &&
-    item.name.toLowerCase().includes(nameFilterValue)
-  );
+        item.price <= to &&
+        item.price >=from &&
+        item.name.toLowerCase().includes(nameFilterValue)
+   );
    currentPage = 1;
    total_pages = Math.ceil(filteredItems.length / itemsPerPage);
   updatePage();
@@ -200,6 +292,7 @@ function productsTransmutation(items){
                     price: item.price,
                     category: item.category,
                     material: item.material,
+                    preview_image: item.image_url,
                     platings: {}
                 };
             }
@@ -334,16 +427,16 @@ function fulfilDropdown(dropdown, array){
     }
 
 }
-function updatePlatings(selectedPlating, stoneSelect, sizeSelect, image){
+function updatePlatings(selectedPlating, stoneSelect, sizeSelect, image, maxQuantity){
     const firstStone = selectedPlating ? Object.values(selectedPlating.stones || {})[0] : null;
 
     while (stoneSelect.firstChild) {
         stoneSelect.removeChild(stoneSelect.firstChild);
     }
     fulfilDropdown(stoneSelect, selectedPlating.stones);
-    updateStones(firstStone, sizeSelect, image );
+    updateStones(firstStone, sizeSelect, image, maxQuantity);
 }
-function updateStones(selectedStone, sizeSelect, image){
+function updateStones(selectedStone, sizeSelect, image, maxQuantity){
 
     const firstSizeKey = selectedStone ? Object.keys(selectedStone.sizes || {})[0] : null;
     const withSizes = !!firstSizeKey;
@@ -357,17 +450,22 @@ function updateStones(selectedStone, sizeSelect, image){
     }
     if(withSizes) {
         fulfilDropdown(sizeSelect, selectedStone.sizes);
-        updateSizes(firstSizeQuantity);
+        updateSizes(firstSizeQuantity, maxQuantity);
+    }
+    else{
+        maxQuantity.innerText = "In Stock: "+firstSizeQuantity;
     }
 
 }
-function updateSizes(sizeQuantity){
+function updateSizes(sizeQuantity, maxQuantity){
 
-
-
+    maxQuantity.innerText = "In stock: "+sizeQuantity;
+    quantity_max = Number(sizeQuantity);
 
 }
 
+
+let quantity_max = 1;
 function generateDialogContent(id){
 
     document.body.style.overflow = 'hidden';
@@ -387,47 +485,21 @@ function generateDialogContent(id){
 
     // Get the first size in the first stone
     const firstSizeKey = firstStone && Object.keys(firstStone.sizes)[0];
-    const firstSize = firstStone ? firstStone.sizes[firstSizeKey] : null;
-
-    // If you need specific properties from the first size, for example, 'quantity':
-    const firstSizeQuantity = firstSize ? firstSize.quantity : null;
+    const firstSizeQuantity = firstStone ? firstStone.sizes[firstSizeKey] : null;
 
     const dialog = document.getElementById('product-card');
-    document.addEventListener('click', (event) => {
-        const rect = dialog.getBoundingClientRect();
-        const isInDialog = (rect.top <= event.clientY && event.clientY <= rect.top + rect.height
-                            && rect.left <= event.clientX && event.clientX <= rect.left + rect.width);
 
-        // Check if the event target is inside a select element or another form control
-        let targetElement = event.target;
-        while (targetElement != null) {
-            if (targetElement.tagName === 'SELECT' || targetElement.tagName === 'OPTION') {
-                // If the click is inside the dialog or on a select element, do nothing
-                return;
-            }
-            targetElement = targetElement.parentNode; // Move up the DOM tree
-        }
-
-        if (!isInDialog && dialog.open) {
-            document.body.style.overflow = '';
-            dialog.style.display = 'none';
-            dialog.close();
-        }
-    }, true);
+    bindGlobalClickEvent(dialog);
     dialog.innerHTML = '';
 
     const card_content = document.createElement('div');
     card_content.classList.add('card-content');
 
-
-
-
     let imagePath = '';
-    let quantity_max = 1;
 
     if (firstStone) {
         imagePath = firstStone.image || '';
-        quantity_max = Object.keys(firstStone.sizes || {}).length === 0 ? firstStone.quantity : -4;
+        quantity_max = Object.keys(firstStone.sizes || {}).length === 0 ? firstStone.quantity : firstSizeQuantity;
     }
 
     const image = document.createElement('img');
@@ -436,9 +508,6 @@ function generateDialogContent(id){
     image.height = `400`;
     image.classList.add('img-card');
     card_content.appendChild(image);
-
-
-
 
 
     const close_dialog = document.createElement('div');
@@ -466,38 +535,64 @@ function generateDialogContent(id){
     priceSpan.textContent = `€${item.price}`;
     secondColumn.appendChild(priceSpan);
 
-
     const quantitySpan = document.createElement('div');
-    quantitySpan.textContent = `Max: ${quantity_max}`;
-    secondColumn.appendChild(quantitySpan);
+    quantitySpan.textContent = `In stock: ${quantity_max}`;
+    quantitySpan.classList.add('maximum-span');
 
-
+    const platingLabel = document.createElement('span');
+    platingLabel.innerText = "Plating Material";
+    platingLabel.classList.add('card-dropdown-label');
     const platingsSelect = document.createElement('select');
+    platingsSelect.classList.add('card-dropdown');
     fulfilDropdown(platingsSelect, item.platings);
+    secondColumn.appendChild(platingLabel);
     secondColumn.appendChild(platingsSelect);
 
+    const stoneLabel = document.createElement('span');
+    stoneLabel.innerText = "Stone color";
+    stoneLabel.classList.add('card-dropdown-label');
     const stoneSelect = document.createElement('select');
+    stoneSelect.classList.add('card-dropdown');
     fulfilDropdown(stoneSelect, firstPlating.stones);
+    secondColumn.appendChild(stoneLabel);
     secondColumn.appendChild(stoneSelect);
 
+    const sizeLabel = document.createElement('span');
+    sizeLabel.innerText = "Size";
+    sizeLabel.classList.add('card-dropdown-label');
     const sizeSelect = document.createElement('select');
+    sizeSelect.classList.add('card-dropdown');
     if(Object.keys(firstStone.sizes).length>0) {
         fulfilDropdown(sizeSelect, firstStone.sizes);
+        secondColumn.appendChild(sizeLabel);
         secondColumn.appendChild(sizeSelect);
     }
+    const inputQuantity = document.createElement('input');
 
     platingsSelect.addEventListener('change', (event) => {
         const selectedPlatingKey = event.target.value;
         const selectedPlating = item.platings[selectedPlatingKey];
-        updatePlatings(selectedPlating, stoneSelect, sizeSelect, image);
+        inputQuantity.value = '1';
+        updatePlatings(selectedPlating, stoneSelect, sizeSelect, image, quantitySpan);
     });
     stoneSelect.addEventListener('change', (event) => {
         const selectedStoneKey = event.target.value;
         const selectedPlatingKey = platingsSelect.value;
         const selectedPlating = item.platings[selectedPlatingKey];
         const selectedStone = selectedPlating && selectedPlating.stones ? selectedPlating.stones[selectedStoneKey] : null;
+        inputQuantity.value = '1';
+        updateStones(selectedStone, sizeSelect, image, quantitySpan);
 
-        updateStones(selectedStone, sizeSelect, image);
+    });
+
+    sizeSelect.addEventListener('change', (event) => {
+        const selectedSizeKey = event.target.value;
+        const selectedPlatingKey = platingsSelect.value;
+        const selectedPlating = item.platings[selectedPlatingKey];
+        const selectedStoneKey = stoneSelect.value;
+        const selectedSizeQuantity = selectedPlating.stones[selectedStoneKey].sizes[selectedSizeKey];
+        inputQuantity.value = '1';
+        updateSizes(selectedSizeQuantity, quantitySpan);
 
     });
 
@@ -513,18 +608,21 @@ function generateDialogContent(id){
     const button_minus = document.createElement('button');
     button_minus.innerText = '-';
     button_minus.classList.add('minus-button-dialog');
-    const inputQuantity = document.createElement('input');
+
     inputQuantity.type = 'number';
     inputQuantity.style.textAlign = 'center';
     inputQuantity.value = 1;
     inputQuantity.classList.add('quantity-input-dialog');
     inputQuantity.min = '1';
-    inputQuantity.max = item.quantity;
 
     inputQuantity.addEventListener('input', function() {
-        console.log(quantity_max);
         if(inputQuantity.value > quantity_max || inputQuantity.value < 1 ){
-            inputQuantity.value = 1;
+            if(inputQuantity.value > quantity_max){
+                inputQuantity.value = quantity_max;
+            }
+            else{
+                inputQuantity.value = 1;
+            }
             alert('Quantity number has to be less than or equal to quantity number in stock or and be greater than 0');
         }
     });
@@ -537,7 +635,8 @@ function generateDialogContent(id){
     button_plus.innerText = '+';
     button_plus.classList.add('plus-button-dialog');
     button_plus.addEventListener('click', () => {
-        if(inputQuantity<item.quantity) {
+
+        if(inputQuantity.value<quantity_max) {
             let currentValue = Number(inputQuantity.value === "" ? 1 : inputQuantity.value);
             inputQuantity.value = currentValue + 1;
             console.log(item.name);
@@ -560,6 +659,7 @@ function generateDialogContent(id){
     add_to_cart.appendChild(icon_cart);
     add_to_cart.appendChild(text_add_to_cart);
     bottom_part.appendChild(counter);
+    bottom_part.appendChild(quantitySpan);
     bottom_part.appendChild(add_to_cart);
     secondColumn.appendChild(bottom_part);
 
@@ -568,9 +668,30 @@ function generateDialogContent(id){
 
     dialog.style.display = 'block';
     dialog.showModal();
-
  }
+function bindGlobalClickEvent(dialog) {
+ document.addEventListener('click', (event) => {
+        const rect = dialog.getBoundingClientRect();
+        const isInDialog = (rect.top <= event.clientY && event.clientY <= rect.top + rect.height
+                            && rect.left <= event.clientX && event.clientX <= rect.left + rect.width);
 
+        // Check if the event target is inside a select element or another form control
+        let targetElement = event.target;
+        while (targetElement != null) {
+            if (targetElement.tagName === 'SELECT' || targetElement.tagName === 'OPTION') {
+                // If the click is inside the dialog or on a select element, do nothing
+                return;
+            }
+            targetElement = targetElement.parentNode; // Move up the DOM tree
+        }
+
+        if (!isInDialog && dialog.open) {
+            document.body.style.overflow = '';
+            dialog.style.display = 'none';
+            dialog.close();
+        }
+    }, true);
+}
 </script>
 </html>
 {%endblock%}
