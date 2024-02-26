@@ -417,8 +417,8 @@ function applyFilters() {
    filteredItems = allItems.filter(item =>
         item.price <= to &&
         item.price >=from &&
-        item.name.toLowerCase().includes(nameFilterValue) &&
-        (platingFilters.length === 0 || baseFilters.includes(item.material)) &&
+        item.name.toLowerCase().includes(nameFilterValue)&&
+        (baseFilters.length === 0 || baseFilters.includes(item.material)) &&
        (platingFilters.length === 0 || Object.keys(item.platings).some(plating =>
         platingFilters.includes(plating))) &&
         (stoneFilters.length === 0 || Object.values(item.platings).some(plating =>
@@ -426,10 +426,13 @@ function applyFilters() {
                 stoneFilters.includes((stone))
             )
         )) &&
-        checkSizes(item)
-
+       (sizeFilters.length ===0 ||  checkSizes(item))
    );
-
+   console.log(filteredItems);
+    if(filteredItems.length === 0){
+        filteredItems.push("No items found");
+    }
+   {#filteredItems = filteredItems.filter(item=>item.name.toLowerCase().includes(nameFilterValue)#}
    currentPage = 1;
    total_pages = Math.ceil(filteredItems.length / itemsPerPage);
    updatePage();
@@ -446,13 +449,13 @@ function checkSizes(item){
             });
         })
     );
-    console.log(value);
+    {#console.log(value);#}
     {#if(value){console.log(item);}#}
     return value;
 }
 function order(array){
     if(order_name==="Name") {
-        allItems.sort((a, b) => {
+        array.sort((a, b) => {
             if(order_type==="asc") {
                 if (a.name < b.name) {
                     return -1;
@@ -474,7 +477,7 @@ function order(array){
         });
     }
     else if (order_name==="Price"){
-        allItems.sort((a, b) => {
+        array.sort((a, b) => {
             if(order_type==="asc") {
                 if (a.price < b.price) {
                     return -1;
@@ -503,8 +506,13 @@ function updatePage() {
         paginatedItems = paginateItems(allItems, currentPage, itemsPerPage);
     }
     else{
-        order(filteredItems);
-        paginatedItems = paginateItems(filteredItems, currentPage, itemsPerPage);
+        if(filteredItems[0] === "No items found"){
+            paginatedItems = paginateItems([], currentPage, itemsPerPage);
+        }
+        else {
+            order(filteredItems);
+            paginatedItems = paginateItems(filteredItems, currentPage, itemsPerPage);
+        }
     }
     const current = document.getElementById('current-page');
     current.innerText="Current page: " + currentPage;
