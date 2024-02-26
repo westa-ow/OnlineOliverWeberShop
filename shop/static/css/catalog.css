@@ -129,6 +129,7 @@ input[type="range"] {
 
 .products-section{
     display: block;
+    margin-left: 30px;
 }
 
 .products-grid{
@@ -278,4 +279,65 @@ input[type='number']::-webkit-inner-spin-button,
     color: #575757;
 }
 .maximum-span{
+}
+
+.pages{
+ display: flex;
+    justify-content: space-between; /* This spreads out the items */
+    align-items: flex-end; /* Aligns items at the bottom */
+    width: 100%; /* Ensure it covers the full width */
+    flex-wrap: wrap; /* Allows items to wrap as needed */
+
+}
+.semi{
+    display: flex;
+    justify-content: space-between; /* This spreads out the items */
+    align-items: flex-end; /* Aligns items at the bottom */
+    width: 93%; /* Ensure it covers the full width */
+    margin-right: 300px;
+}
+.semi a{
+    padding: 10px;
+    color: #003665;
+    text-decoration: none;
+    font-size: 20px;
+}
+.semi a:hover{
+    text-decoration: none;
+    color: #7c9dbe;
+}
+.semi span{
+    padding: 10px;
+    font-size: 20px;
+    color: #003665;
+}
+#jump{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+#jump #button-jump-to{
+    margin-left: 10px;
+    padding: 10px;
+    width: 80px;
+    border-radius: 5px;
+    background-color: #d0d0d0;
+    color: #313131;
+    font-size: 16px;
+    font-family: 'Poppins', Verdana, sans-serif;
+}
+#jump #page-number-input{
+    padding: 10px;
+    width: 80px;
+    border-radius: 5px;
+    border: 1px solid #d0d0d0;
+    font-size: 16px;
+    font-family: 'Poppins', Verdana, sans-serif;
+}
+#jump #button-go{
+    margin-left: 10px;
+    padding: 10px;
+    width: 80px;
+    border-radius: 5px;
 }
