@@ -25,6 +25,13 @@
     border: 1px solid #dadada;
 
 }
+
+.view-settings{
+    display: flex;
+    width: 94%;
+    justify-content: space-between;
+}
+
 .select-per-page{
     border: 1px solid #d5d5d5;
     width: auto;
@@ -36,13 +43,32 @@
     height: auto;
 }
 .select-per-page select{
-
-background: none;
+    background: none;
     border: none;
     border: 1px solid #d2d2d2;
     border-radius: 6px;
     padding: 5px 10px 5px 10px;
     text-align: center;
+}
+.select-order{
+    border: 1px solid #d5d5d5;
+    width: auto;
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    height: auto;
+    float:right;
+}
+.select-order select{
+    background: none;
+    border: none;
+    border: 1px solid #d2d2d2;
+    border-radius: 6px;
+    padding: 5px 10px 5px 10px;
+    text-align: center;
+
 }
 
 

@@ -127,7 +127,7 @@
         </div>
     </div>
     <div class="products-section">
-        <div>
+        <div class="view-settings">
             <div class="select-per-page">
 
                 <span>Items per page: </span>
@@ -137,6 +137,19 @@
                     <option>100</option>
                 </select>
             </div>
+            <div class="select-order">
+
+                <span>Order by: </span>
+                <select id="select-order">
+                    <option>Name, asc</option>
+                    <option>Name, desc</option>
+                    <option>Price, asc</option>
+                    <option>Price, desc</option>
+                </select>
+            </div>
+        </div>
+        <div>
+
         </div>
         <div class="products-grid">
 
@@ -195,6 +208,8 @@
         return querySnapshot.size;
     }
 let itemsPerPage = 20;
+let order_name = "Name";
+let order_type = "asc";
 let number_of_documents;
 let currentPage = 1;
 let total_pages = 1;
@@ -417,7 +432,7 @@ function applyFilters() {
 
    currentPage = 1;
    total_pages = Math.ceil(filteredItems.length / itemsPerPage);
-  updatePage();
+   updatePage();
 }
 function checkSizes(item){
 
@@ -435,12 +450,60 @@ function checkSizes(item){
     {#if(value){console.log(item);}#}
     return value;
 }
+function order(array){
+    if(order_name==="Name") {
+        allItems.sort((a, b) => {
+            if(order_type==="asc") {
+                if (a.name < b.name) {
+                    return -1;
+                }
+                if (a.name > b.name) {
+                    return 1;
+                }
+                return 0;
+            }
+            else if(order_type==="desc") {
+                if (a.name > b.name) {
+                    return -1;
+                }
+                if (a.name < b.name) {
+                    return 1;
+                }
+                return 0;
+            }
+        });
+    }
+    else if (order_name==="Price"){
+        allItems.sort((a, b) => {
+            if(order_type==="asc") {
+                if (a.price < b.price) {
+                    return -1;
+                }
+                if (a.price > b.price) {
+                    return 1;
+                }
+                return 0;
+            }
+            else if(order_type==="desc") {
+                if (a.price > b.price) {
+                    return -1;
+                }
+                if (a.price < b.price) {
+                    return 1;
+                }
+                return 0;
+            }
+        });
+    }
+}
 function updatePage() {
     let paginatedItems;
     if(filteredItems.length === 0){
+        order(allItems);
         paginatedItems = paginateItems(allItems, currentPage, itemsPerPage);
     }
     else{
+        order(filteredItems);
         paginatedItems = paginateItems(filteredItems, currentPage, itemsPerPage);
     }
     const current = document.getElementById('current-page');
@@ -579,6 +642,13 @@ document.getElementById('select-items-per-page').addEventListener('change', func
     itemsPerPage = Number(event.target.value);
     total_pages = Math.ceil(allItems.length / itemsPerPage);
     currentPage = 1;
+    updatePage();
+});
+document.getElementById('select-order').addEventListener('change', function (event) {
+    let order = (event.target.value).split(', ');
+    console.log(order[0]);
+    order_name = order[0];
+    order_type=order[1];
     updatePage();
 });
 
