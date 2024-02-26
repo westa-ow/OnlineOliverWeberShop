@@ -18,6 +18,12 @@
 <div class="everything">
     <div class="filters-section">
         <div class="filters">
+            <div class="filters-label">Filters<hr></div><br>
+            <div class="filter-name">
+                <label for="contains-in-name">Name</label>
+                <hr>
+                <input type="text" id="contains-in-name" placeholder="Contains in name..."><br>
+            </div><br>
             <div class="filter-price">
                 <label for="slider-price">Price</label>
                 <hr>
@@ -40,21 +46,97 @@
             <div class="filter-crystal-color">
                 Crystal color
                 <hr>
-                <br>
+
+                <div class="crystals">
+                    <div id="crystal1">
+                        <input class="crystal-checkbox" type="checkbox" id="checkbox1" name="checkbox1" value="Pink">
+                        <label for="checkbox1">Pink</label>
+                    </div>
+                    <div id="crystal2">
+                        <input class="crystal-checkbox" type="checkbox" id="checkbox2" name="checkbox2" value="Red">
+                        <label for="checkbox2">Red</label>
+                    </div>
+                    <div id="crystal3">
+                        <input class="crystal-checkbox" type="checkbox" id="checkbox3" name="checkbox3" value="Blue">
+                        <label for="checkbox3">Blue</label>
+                    </div>
+                </div>
             </div>
-            <span id="value-of-slider-price"></span>
-            <input type="text" id="contains-in-name" placeholder="Contains in name..."><br>
-            <button id="submit-button">Submit</button>
+            <br>
+            <div class="filter-plating">
+                Plating material
+                <hr>
+
+                <div class="platings">
+                    <div id="plating1">
+                        <input class="plating-checkbox" type="checkbox" id="checkboxPL1" name="checkboxPL1" value="Rhodium">
+                        <label for="checkboxPL1">Rhodium</label>
+                    </div>
+                    <div id="plating2">
+                        <input class="plating-checkbox" type="checkbox" id="checkboxPL2" name="checkboxPL2" value="Gold">
+                        <label for="checkboxPL2">Gold</label>
+                    </div>
+                    <div id="plating3">
+                        <input class="plating-checkbox" type="checkbox" id="checkboxPL3" name="checkboxPL3" value="Rose Gold">
+                        <label for="checkboxPL3">Rose Gold</label>
+                    </div>
+                    <div id="plating4">
+                        <input class="plating-checkbox" type="checkbox" id="checkboxPL4" name="checkboxPL4" value="Without">
+                        <label for="checkboxPL4">Without</label>
+                    </div>
+                </div>
+            </div><br>
+            <div class="filter-base">
+                Base material
+                <hr>
+                <div class="bases">
+                    <div id="base1">
+                        <input class="base-checkbox" type="checkbox" id="checkboxB1" name="checkboxB1" value="Steel">
+                        <label for="checkboxB1">Steel</label>
+                    </div>
+                    <div id="base2">
+                        <input class="base-checkbox" type="checkbox" id="checkboxB2" name="checkboxB2" value="Steel Brass">
+                        <label for="checkboxB2">Steel Brass</label>
+                    </div>
+                </div>
+            </div><br>
+            <div class="filter-size">
+                Size
+                <hr>
+                <div class="sizes">
+                    <div id="size1">
+                        <input class="size-checkbox" type="checkbox" id="checkboxS1" name="checkboxS1" value="S">
+                        <label for="checkboxS1">S</label>
+                    </div>
+                    <div id="size2">
+                        <input class="size-checkbox" type="checkbox" id="checkboxS2" name="checkboxS2" value="M">
+                        <label for="checkboxS2">M</label>
+                    </div>
+                    <div id="size3">
+                        <input class="size-checkbox" type="checkbox" id="checkboxS3" name="checkboxS3" value="L">
+                        <label for="checkboxS3">L</label>
+                    </div>
+                    <div id="size4">
+                        <input class="size-checkbox" type="checkbox" id="checkboxS4" name="checkboxS4" value="XL">
+                        <label for="checkboxS4">XL</label>
+                    </div>
+                </div>
+            </div>
+
+            <button id="submit-button">Submit filters</button>
         </div>
     </div>
     <div class="products-section">
         <div>
-            <span>Items per page: </span>
-            <select id="select-items-per-page">
-                <option>20</option>
-                <option>50</option>
-                <option>100</option>
-            </select>
+            <div class="select-per-page">
+
+                <span>Items per page: </span>
+                <select id="select-items-per-page">
+                    <option>20</option>
+                    <option>50</option>
+                    <option>100</option>
+                </select>
+            </div>
         </div>
         <div class="products-grid">
 
@@ -112,8 +194,76 @@ let currentPage = 1;
 let total_pages = 1;
 let allItems = [];
 let filteredItems = [];
+let filters = [];
+let platingFilters = [];
+let baseFilters = [];
+let stoneFilters = [];
+let sizeFilters = [];
 
+document.querySelectorAll('.crystal-checkbox').forEach(checkbox=>{
+    checkbox.addEventListener('change',function(){
 
+        let textValue =this.value;
+        if(this.checked){
+            console.log('checked');
+            console.log(this.parentElement.querySelector('label').textContent);
+            stoneFilters.push(textValue);
+            console.log(stoneFilters);
+        }
+        else{
+            stoneFilters.splice(stoneFilters.indexOf(textValue), 1);
+            console.log(stoneFilters);
+        }
+    });
+});
+document.querySelectorAll('.plating-checkbox').forEach(checkbox=>{
+    checkbox.addEventListener('change',function(){
+
+        let textValue =this.value;
+        if(this.checked){
+            console.log('checked');
+            console.log(this.parentElement.querySelector('label').textContent);
+            platingFilters.push(textValue);
+            console.log(platingFilters);
+        }
+        else{
+            platingFilters.splice(platingFilters.indexOf(textValue), 1);
+            console.log(platingFilters);
+        }
+    });
+});
+document.querySelectorAll('.base-checkbox').forEach(checkbox=>{
+    checkbox.addEventListener('change',function(){
+
+        let textValue =this.value;
+        if(this.checked){
+            console.log('checked');
+            console.log(this.parentElement.querySelector('label').textContent);
+            baseFilters.push(textValue);
+            console.log(baseFilters);
+        }
+        else{
+            baseFilters.splice(baseFilters.indexOf(textValue), 1);
+            console.log(baseFilters);
+        }
+    });
+});
+document.querySelectorAll('.size-checkbox').forEach(checkbox=>{
+    checkbox.addEventListener('change',function(){
+
+        let textValue =this.value;
+        if(this.checked){
+            console.log('checked');
+            console.log(this.parentElement.querySelector('label').textContent);
+            sizeFilters.push(textValue);
+            console.log(sizeFilters);
+        }
+        else{
+            sizeFilters.splice(sizeFilters.indexOf(textValue), 1);
+            console.log(sizeFilters);
+        }
+    });
+});
 function controlFromSlider(fromSlider, toSlider, fromInput) {
   const [from, to] = getParsed(fromSlider, toSlider);
   fillSlider(fromSlider, toSlider, '#C6C6C6', '#003665', toSlider);
@@ -237,20 +387,47 @@ function displayCurrentPage(items) {
         itemId+=1;
     });
 }
+
 function applyFilters() {
    {#const sliderValue = document.getElementById('slider-price').value;#}
    const nameFilterValue = document.getElementById('contains-in-name').value.toLowerCase();
    const [from, to] = getParsed(fromSlider, toSlider);
 
-
    filteredItems = allItems.filter(item =>
         item.price <= to &&
         item.price >=from &&
-        item.name.toLowerCase().includes(nameFilterValue)
+        item.name.toLowerCase().includes(nameFilterValue) &&
+        (platingFilters.length === 0 || baseFilters.includes(item.material)) &&
+       (platingFilters.length === 0 || Object.keys(item.platings).some(plating =>
+        platingFilters.includes(plating))) &&
+        (stoneFilters.length === 0 || Object.values(item.platings).some(plating =>
+            Object.keys(plating.stones).some(stone =>
+                stoneFilters.includes((stone))
+            )
+        )) &&
+        checkSizes(item)
+
    );
+
    currentPage = 1;
    total_pages = Math.ceil(filteredItems.length / itemsPerPage);
   updatePage();
+}
+function checkSizes(item){
+
+    let value = Object.values(item.platings).some(plating =>
+        Object.values(plating.stones).some(stone => {
+            // Check if stone has sizes and if any of these sizes match the sizeFilters
+            return stone.sizes && Object.keys(stone.sizes).some(sizeKey => {
+                const isMatch = sizeFilters.includes(sizeKey);
+                console.log(`${sizeKey} in sizeFilters?`, isMatch);
+                return isMatch; // Correctly return the evaluation to influence the "some" method
+            });
+        })
+    );
+    console.log(value);
+    {#if(value){console.log(item);}#}
+    return value;
 }
 function updatePage() {
     let paginatedItems;
@@ -394,7 +571,8 @@ document.getElementById('button-jump-to').addEventListener('click', function (ev
 
 document.getElementById('select-items-per-page').addEventListener('change', function (event) {
     itemsPerPage = Number(event.target.value);
-    total_pages = Math.ceil(number_of_documents / itemsPerPage);
+    total_pages = Math.ceil(allItems.length / itemsPerPage);
+    currentPage = 1;
     updatePage();
 });
 
