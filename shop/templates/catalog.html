@@ -224,16 +224,21 @@ let baseFilters = [];
 let stoneFilters = [];
 let sizeFilters = [];
 
-document.querySelectorAll('.crystal-checkbox').forEach(checkbox=>{
-    checkbox.addEventListener('change',function(){
+document.querySelectorAll('.crystal-checkbox').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
 
-        let textValue =this.value;
-        if(this.checked){
-            console.log('checked');
-            console.log(this.parentElement.querySelector('label').textContent);
+        const crystal_checkboxes = document.querySelectorAll('.crystal-checkbox');
+        let textValue = this.value;
+
+        if (this.checked) {
+            crystal_checkboxes.forEach(checkbox => {
+                if (checkbox.value !== textValue) {
+                    checkbox.checked = false;
+                }
+            });
+            stoneFilters = [];
             stoneFilters.push(textValue);
-        }
-        else{
+        } else {
             stoneFilters.splice(stoneFilters.indexOf(textValue), 1);
         }
         applyFilters();
@@ -241,17 +246,19 @@ document.querySelectorAll('.crystal-checkbox').forEach(checkbox=>{
 });
 document.querySelectorAll('.plating-checkbox').forEach(checkbox=>{
     checkbox.addEventListener('change',function(){
-
+        const plating_checkboxes = document.querySelectorAll('.plating-checkbox');
         let textValue =this.value;
         if(this.checked){
-            {#console.log('checked');#}
-            {#console.log(this.parentElement.querySelector('label').textContent);#}
+            plating_checkboxes.forEach(checkbox => {
+                if (checkbox.value !== textValue) {
+                    checkbox.checked = false;
+                }
+            });
+            platingFilters = [];
             platingFilters.push(textValue);
-            {#console.log(platingFilters);#}
         }
         else{
             platingFilters.splice(platingFilters.indexOf(textValue), 1);
-            {#console.log(platingFilters);#}
         }
         applyFilters();
     });
@@ -259,10 +266,16 @@ document.querySelectorAll('.plating-checkbox').forEach(checkbox=>{
 document.querySelectorAll('.base-checkbox').forEach(checkbox=>{
     checkbox.addEventListener('change',function(){
 
+        const base_checkboxes = document.querySelectorAll('.base-checkbox');
         let textValue =this.value;
         if(this.checked){
+            base_checkboxes.forEach(checkbox => {
+                if (checkbox.value !== textValue) {
+                    checkbox.checked = false;
+                }
+            });
+            baseFilters = [];
             baseFilters.push(textValue);
-            console.log(baseFilters);
         }
         else{
             baseFilters.splice(baseFilters.indexOf(textValue), 1);
@@ -273,9 +286,15 @@ document.querySelectorAll('.base-checkbox').forEach(checkbox=>{
 });
 document.querySelectorAll('.size-checkbox').forEach(checkbox=>{
     checkbox.addEventListener('change',function(){
-
+        const size_checkboxes = document.querySelectorAll('.size-checkbox');
         let textValue =this.value;
         if(this.checked){
+            size_checkboxes.forEach(checkbox => {
+                if (checkbox.value !== textValue) {
+                    checkbox.checked = false;
+                }
+            });
+            sizeFilters = [];
             sizeFilters.push(textValue);
             console.log(sizeFilters);
         }
