@@ -123,7 +123,7 @@
                 </div>
             </div>
 
-            <button id="submit-button">Submit filters</button>
+{#            <button id="submit-button">Submit filters</button>#}
         </div>
     </div>
     <div class="products-section">
@@ -232,12 +232,11 @@ document.querySelectorAll('.crystal-checkbox').forEach(checkbox=>{
             console.log('checked');
             console.log(this.parentElement.querySelector('label').textContent);
             stoneFilters.push(textValue);
-            console.log(stoneFilters);
         }
         else{
             stoneFilters.splice(stoneFilters.indexOf(textValue), 1);
-            console.log(stoneFilters);
         }
+        applyFilters();
     });
 });
 document.querySelectorAll('.plating-checkbox').forEach(checkbox=>{
@@ -245,15 +244,16 @@ document.querySelectorAll('.plating-checkbox').forEach(checkbox=>{
 
         let textValue =this.value;
         if(this.checked){
-            console.log('checked');
-            console.log(this.parentElement.querySelector('label').textContent);
+            {#console.log('checked');#}
+            {#console.log(this.parentElement.querySelector('label').textContent);#}
             platingFilters.push(textValue);
-            console.log(platingFilters);
+            {#console.log(platingFilters);#}
         }
         else{
             platingFilters.splice(platingFilters.indexOf(textValue), 1);
-            console.log(platingFilters);
+            {#console.log(platingFilters);#}
         }
+        applyFilters();
     });
 });
 document.querySelectorAll('.base-checkbox').forEach(checkbox=>{
@@ -261,8 +261,6 @@ document.querySelectorAll('.base-checkbox').forEach(checkbox=>{
 
         let textValue =this.value;
         if(this.checked){
-            console.log('checked');
-            console.log(this.parentElement.querySelector('label').textContent);
             baseFilters.push(textValue);
             console.log(baseFilters);
         }
@@ -270,6 +268,7 @@ document.querySelectorAll('.base-checkbox').forEach(checkbox=>{
             baseFilters.splice(baseFilters.indexOf(textValue), 1);
             console.log(baseFilters);
         }
+        applyFilters();
     });
 });
 document.querySelectorAll('.size-checkbox').forEach(checkbox=>{
@@ -277,8 +276,6 @@ document.querySelectorAll('.size-checkbox').forEach(checkbox=>{
 
         let textValue =this.value;
         if(this.checked){
-            console.log('checked');
-            console.log(this.parentElement.querySelector('label').textContent);
             sizeFilters.push(textValue);
             console.log(sizeFilters);
         }
@@ -286,8 +283,10 @@ document.querySelectorAll('.size-checkbox').forEach(checkbox=>{
             sizeFilters.splice(sizeFilters.indexOf(textValue), 1);
             console.log(sizeFilters);
         }
+        applyFilters();
     });
 });
+document.getElementById('contains-in-name').addEventListener('input', applyFilters);
 function controlFromSlider(fromSlider, toSlider, fromInput) {
   const [from, to] = getParsed(fromSlider, toSlider);
   fillSlider(fromSlider, toSlider, '#C6C6C6', '#003665', toSlider);
@@ -350,6 +349,9 @@ setToggleAccessible(toSlider);
 
 fromSlider.oninput = () => controlFromSlider(fromSlider, toSlider, fromInputText);
 toSlider.oninput = () => controlToSlider(fromSlider, toSlider, toInputText);
+
+fromSlider.addEventListener('change', applyFilters);
+toSlider.addEventListener('change', applyFilters);
 
 async function fetchAllItems() {
         const itemsQuery = query(collection(db, "item") , where("quantity", ">", 0));//
@@ -430,7 +432,6 @@ function applyFilters() {
         )) &&
        (sizeFilters.length ===0 ||  checkSizes(item))
    );
-   {#console.log(filteredItems);#}
     if(filteredItems.length === 0){
         filteredItems.push("No items found");
     }
@@ -445,13 +446,10 @@ function checkSizes(item){
             // Check if stone has sizes and if any of these sizes match the sizeFilters
             return stone.sizes && Object.keys(stone.sizes).some(sizeKey => {
                 const isMatch = sizeFilters.includes(sizeKey);
-                console.log(`${sizeKey} in sizeFilters?`, isMatch);
                 return isMatch; // Correctly return the evaluation to influence the "some" method
             });
         })
     );
-    {#console.log(value);#}
-    {#if(value){console.log(item);}#}
     return value;
 }
 function order(array){
@@ -573,11 +571,12 @@ function productsTransmutation(items){
                     if (item.size) {
                         let stoneSizes = products[itemName].platings[item.plating].stones[item.stone].sizes;
                         if (!stoneSizes[item.size]) {
-                            stoneSizes[item.size] = item.quantity;
-                            stoneSizes['real_name'] =  item.name;
+                            stoneSizes[item.size] = {'quantity': item.quantity, 'real_name':item.name };
+                            console.log(stoneSizes[item.size]);
+                            {#stoneSizes['real_name'] =  item.name;#}
                         } else {
                             // Assuming you want to sum quantities for the same size.
-                            stoneSizes[item.size] += item.quantity;
+                            stoneSizes[item.size].quantity += item.quantity;
                         }
                     } else {
                         // If there's no size, add the quantity directly to the stone.
@@ -608,7 +607,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     console.log(total_pages);
 
     updatePage();
-    document.getElementById('submit-button').addEventListener('click', applyFilters);
 
 });
 
@@ -707,7 +705,7 @@ function updateStones(selectedStone, sizeSelect, image, maxQuantity){
 
     const firstSizeKey = selectedStone ? Object.keys(selectedStone.sizes || {})[0] : null;
     const withSizes = !!firstSizeKey;
-    const firstSizeQuantity = withSizes ? selectedStone.sizes[firstSizeKey] : selectedStone.quantity;
+    const firstSizeQuantity = withSizes ? selectedStone.sizes[firstSizeKey].quantity : selectedStone.quantity;
     if (selectedStone?.image) {
         image.src = selectedStone.image; // Update the image src
     }
@@ -734,7 +732,7 @@ function generateDialogContent(id){
 
     document.body.style.overflow = 'hidden';
     const item = allItems.find(item => item.name === id);
-
+    console.log(item);
     if (!item) {
         console.error('Item not found');
         return;
@@ -749,10 +747,12 @@ function generateDialogContent(id){
 
     // Get the first size in the first stone
     const firstSizeKey = firstStone && Object.keys(firstStone.sizes)[0];
-    const firstSizeQuantity = firstStone ? firstStone.sizes[firstSizeKey] : null;
+    const firstSizeQuantity = firstStone ? firstStone.sizes[firstSizeKey].quantity : null;
+    console.log(firstSizeQuantity);
+    console.log(firstSizeQuantity.quantity);
 
     const dialog = document.getElementById('product-card');
-
+    const image = document.createElement('img');
     bindGlobalClickEvent(dialog);
     dialog.innerHTML = '';
 
@@ -766,7 +766,7 @@ function generateDialogContent(id){
         quantity_max = Object.keys(firstStone.sizes || {}).length === 0 ? firstStone.quantity : firstSizeQuantity;
     }
 
-    dialogCommonSetup(dialog, imagePath, card_content);
+    dialogCommonSetup(dialog, imagePath, card_content, image);
 
     const secondColumn = document.createElement('div');
     secondColumn.classList.add('second-column');
@@ -834,7 +834,7 @@ function generateDialogContent(id){
         const selectedPlatingKey = platingsSelect.value;
         const selectedPlating = item.platings[selectedPlatingKey];
         const selectedStoneKey = stoneSelect.value;
-        const selectedSizeQuantity = selectedPlating.stones[selectedStoneKey].sizes[selectedSizeKey];
+        const selectedSizeQuantity = selectedPlating.stones[selectedStoneKey].sizes[selectedSizeKey].quantity;
         inputQuantity.value = '1';
         updateSizes(selectedSizeQuantity, quantitySpan);
 
@@ -952,7 +952,7 @@ function add_to_cart_func(item, plating, stone, size, quantity, add_button, dial
     add_button.textContent = "Processing...";
     add_button.style.backgroundColor = "#7894a6";
     add_button.disabled = true;
-    console.log(doc);
+    {#console.log(doc);#}
     fetch('{% url "add_from_catalog" %}', {
         method: 'POST',
         headers: {
@@ -984,8 +984,8 @@ function activate_success_card(item, quantity, cart_count, subtotalValue){
     dialog.innerHTML = '';
     const card_content = document.createElement('div');
     card_content.classList.add('success-card-content');
-
-    dialogCommonSetup(dialog, item.image_url, card_content);
+    const image = document.createElement('img');
+    dialogCommonSetup(dialog, item.image_url, card_content, image);
 
     //Column with text information and everything about added to cart product
     const secondColumn = document.createElement('div');
@@ -1003,8 +1003,8 @@ function activate_success_card(item, quantity, cart_count, subtotalValue){
     dialog.showModal();
 
 }
-function dialogCommonSetup(dialog, image_url, card_content){
-    const image = document.createElement('img');
+function dialogCommonSetup(dialog, image_url, card_content, image){
+
     image.src = image_url;
     image.width = `400`;
     image.height = `400`;
@@ -1070,8 +1070,9 @@ function manageButtonsSuccessSetup(dialog, column){
     container_for_success_buttons.appendChild(continue_shopping);
 
     continue_shopping.addEventListener('click', ()=>{
-        dialog.close();
+         document.body.style.overflow = '';
         dialog.style.display = 'none';
+        dialog.close();
     });
 
     const proceed_to_checkout = document.createElement('a');
