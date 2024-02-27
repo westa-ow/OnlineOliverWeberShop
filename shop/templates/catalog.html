@@ -734,7 +734,7 @@ function generateDialogContent(id){
 
     document.body.style.overflow = 'hidden';
     const item = allItems.find(item => item.name === id);
-    {#console.log(item);#}
+
     if (!item) {
         console.error('Item not found');
         return;
@@ -766,27 +766,7 @@ function generateDialogContent(id){
         quantity_max = Object.keys(firstStone.sizes || {}).length === 0 ? firstStone.quantity : firstSizeQuantity;
     }
 
-    const image = document.createElement('img');
-    image.src = imagePath;
-    image.width = `400`;
-    image.height = `400`;
-    image.classList.add('img-card');
-    card_content.appendChild(image);
-
-
-    const close_dialog = document.createElement('div');
-    const icon_close = document.createElement('i');
-    icon_close.classList.add('fa-solid', 'fa-close');
-    close_dialog.appendChild(icon_close);
-    close_dialog.addEventListener('click',()=>{
-       document.body.style.overflow = '';
-       dialog.style.display = 'none';
-       dialog.close();
-    });
-
-    close_dialog.classList.add('close-card');
-    card_content.appendChild(close_dialog);
-
+    dialogCommonSetup(dialog, imagePath, card_content);
 
     const secondColumn = document.createElement('div');
     secondColumn.classList.add('second-column');
@@ -1005,8 +985,27 @@ function activate_success_card(item, quantity, cart_count, subtotalValue){
     const card_content = document.createElement('div');
     card_content.classList.add('success-card-content');
 
+    dialogCommonSetup(dialog, item.image_url, card_content);
+
+    //Column with text information and everything about added to cart product
+    const secondColumn = document.createElement('div');
+    secondColumn.classList.add('second-column');
+
+    //Add information about added the product and about the cart
+    informationSuccessSetup(secondColumn, item, quantity, cart_count, subtotalValue);
+
+    //Add buttons to continue shopping or to procceed to checkout
+    manageButtonsSuccessSetup(dialog, secondColumn);
+
+    card_content.appendChild(secondColumn);
+    dialog.appendChild(card_content);
+    dialog.style.display = 'block';
+    dialog.showModal();
+
+}
+function dialogCommonSetup(dialog, image_url, card_content){
     const image = document.createElement('img');
-    image.src = item.image_url;
+    image.src = image_url;
     image.width = `400`;
     image.height = `400`;
     image.classList.add('img-card');
@@ -1025,49 +1024,63 @@ function activate_success_card(item, quantity, cart_count, subtotalValue){
     close_dialog.classList.add('close-card');
     card_content.appendChild(close_dialog);
 
-    const secondColumn = document.createElement('div');
-    secondColumn.classList.add('second-column');
+}
+function informationSuccessSetup(column, item, actual_quantity, cart_count, cartSubtotal){
     const addedText = document.createElement('h4');
+    addedText.classList.add('added-text');
     addedText.innerHTML = `<i class='fa-solid fa-check'></i> `+`Product successfully added to your shopping cart`;
-    secondColumn.appendChild(addedText);
-    card_content.appendChild(secondColumn);
-    const nameSpan = document.createElement('h4');
+    column.appendChild(addedText);
+    const nameSpan = document.createElement('h3');
     nameSpan.textContent = `${item.name}`;
-    secondColumn.appendChild(nameSpan);
+    column.appendChild(nameSpan);
 
     const priceSpan = document.createElement('div');
     priceSpan.textContent = `€${item.price}`;
-    secondColumn.appendChild(priceSpan);
+    column.appendChild(priceSpan);
 
-    const platingSpan = document.createElement('span');
-    platingSpan.innerHTML= `<span>Plating material: </span>` + `${item.plating}`;
-    secondColumn.appendChild(platingSpan);
-    const crystalSpan = document.createElement('span');
-    crystalSpan.innerHTML = `<span>Crystal color: </span> ` +`${item.stone}`;
-    secondColumn.appendChild(crystalSpan);
-    const baseSpan = document.createElement('span');
-    baseSpan.innerHTML =`<span>Base material: </span> ` + `${item.material}`;
-    secondColumn.appendChild(baseSpan);
+    const platingSpan = document.createElement('spanSucc');
+    platingSpan.innerHTML= `<strong>Plating material: </strong>` + `${item.plating}`;
+    column.appendChild(platingSpan);
+    const crystalSpan = document.createElement('spanSucc');
+    crystalSpan.innerHTML = `<strong>Crystal color: </strong> ` +`${item.stone}`;
+    column.appendChild(crystalSpan);
+    const baseSpan = document.createElement('spanSucc');
+    baseSpan.innerHTML =`<strong>Base material: </strong> ` + `${item.material}`;
+    column.appendChild(baseSpan);
 
-    const quantitySpan = document.createElement('span');
-    quantitySpan.innerHTML = `<span>Quantity: </span> ` + `${quantity}`;
-    secondColumn.appendChild(quantitySpan);
-    const abz = document.createElement('br');
-    secondColumn.appendChild(abz);
+    const quantitySpan = document.createElement('spanSucc');
+    quantitySpan.innerHTML = `<strong>Quantity: </strong> ` + `${actual_quantity}`;
+    quantitySpan.style.marginBottom = '20px';
+    column.appendChild(quantitySpan);
 
-    const items_count = document.createElement('span');
+    const items_count = document.createElement('spanSucc');
     items_count.textContent = `There are ${cart_count} items in your cart.`;
-    secondColumn.appendChild(items_count);
+    column.appendChild(items_count);
 
-     const subtotal = document.createElement('span');
-    subtotal.innerHTML =`<span>Subtotal: </span> ` + `${subtotalValue}`;
-    secondColumn.appendChild(subtotal);
+    const subtotal = document.createElement('spanSucc');
+    subtotal.innerHTML =`<strong>Subtotal: </strong>€` + `${cartSubtotal}`;
+    subtotal.style.marginBottom = '20px';
+    column.appendChild(subtotal);
+}
+function manageButtonsSuccessSetup(dialog, column){
+    const container_for_success_buttons = document.createElement('div');
+    const continue_shopping = document.createElement('button');
+    continue_shopping.classList.add('button-continue-shopping');
+    continue_shopping.textContent = 'Continue shopping';
+    container_for_success_buttons.appendChild(continue_shopping);
 
-    card_content.appendChild(secondColumn);
-    dialog.appendChild(card_content);
-    dialog.style.display = 'block';
-    dialog.showModal();
+    continue_shopping.addEventListener('click', ()=>{
+        dialog.close();
+        dialog.style.display = 'none';
+    });
 
+    const proceed_to_checkout = document.createElement('a');
+    proceed_to_checkout.textContent = 'Proceed to checkout';
+    proceed_to_checkout.classList.add('button-proceed-to-checkout');
+    proceed_to_checkout.href = `{% url 'cart' %}`;
+
+    container_for_success_buttons.appendChild(proceed_to_checkout);
+    column.appendChild(container_for_success_buttons);
 }
 function getCookie(name) {
     let cookieValue = null;
