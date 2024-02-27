@@ -766,9 +766,9 @@ function generateDialogContent(id){
 
     // Get the first size in the first stone
     const firstSizeKey = firstStone && Object.keys(firstStone.sizes)[0];
-    const firstSizeQuantity = firstStone ? firstStone.sizes[firstSizeKey].quantity : null;
-    console.log(firstSizeQuantity);
-    console.log(firstSizeQuantity.quantity);
+    const firstSizeQuantity = firstStone ? firstStone.sizes[firstSizeKey] ? firstStone.sizes[firstSizeKey].quantity: null : null;
+    {#console.log(firstSizeQuantity);#}
+    {#console.log(firstSizeQuantity.quantity);#}
 
     const dialog = document.getElementById('product-card');
     const image = document.createElement('img');
