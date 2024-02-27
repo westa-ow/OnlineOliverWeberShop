@@ -474,41 +474,74 @@ def clear_cart(email, name):
 
 
 def catalog_view(request):
-    page_size = 20  # Number of items per page
-    # start_after = request.GET.get('start_after')
-    # query = db.collection('item').where('quantity', '>', 0)
-
-    # q2 = query.start_at(0).limit(10)
-    # print([doc.to_dict() for doc in q2.stream()])
-    #
-    # doc_number = query.count().get()[0][0].value
-    # if start_after:
-    #     start_after_doc = db.collection('item').document(start_after).get()
-    #     query = query.start_after(start_after_doc)
-
-
-    # name_query = query.limit(page_size).stream()
-
-    # numbers = [doc.to_dict() for doc in name_query]
-
-    # last_doc_id = numbers[-1]['name'] if numbers else None
-    # first_doc_id = numbers[0]['name'] if numbers else None
-    # context = {
-    #     'products': numbers,
-    #     'next_page_token': last_doc_id,
-    #     'previous_page_token': first_doc_id,
-    #     'number_of_documents': doc_number,
-    #     'docs_per_page': 20,
-    #     # 'current_page': page
-    # }
     return render(request, 'catalog.html')
 
 
 def get_current_page_products(request):
-    start_after = request.GET.get('start_after')
-    end_before = request.GET.get('end_before')
-    number_of_products = int(request.GET.get('number_of_products', 20))  # Default to 20 if not provided
+
+    pass
+
+def get_actual_product(catalog_product_name):
+
+    item_ref = db.collection("item")
+
+    docs = (item_ref
+            .where('name', '==', catalog_product_name).stream())
+    for doc in docs:
+        return doc.to_dict()
 
 
 
-    # return JsonResponse({'products': products})
+def add_to_cart_from_catalog(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        product_name = data.get('document')
+        new_quantity = data.get('quantity')
+        document = get_actual_product(product_name)
+        try:
+            cart_ref = db.collection('Cart')
+            email = request.user.email  # Replace with actual user email
+
+            cart_items = cart_ref.where('emailOwner', '==', email)
+
+            existing_item = cart_ref.where('emailOwner', '==', email).where('name', '==', product_name).limit(1).get()
+            cart_size = len(get_cart(request))
+
+            subtotal = 0
+
+
+            if existing_item:
+                doc_ref = existing_item[0].reference
+                doc_ref.update({'quantity': new_quantity})
+                new_sum = round((new_quantity * document['price']), 2)
+                for c in get_cart(request):
+                    subtotal += float(c['sum'])
+                subtotal = round((subtotal), 2)
+                return JsonResponse({'status': 'success', 'quantity': new_quantity, 'product_id': product_name,
+                                     'sum': "€" + str(new_sum), 'was_inside': 'True', 'product': document, 'cart_size': cart_size,  'subtotal': subtotal})
+
+            else:
+                number_in_cart = len(cart_items.get()) + 1
+
+                new_cart_item = {
+                    'description': document['description'],
+                    "emailOwner": email,
+                    'image_url': document['image-url'],
+                    "name": document['name'],
+                    "price": document['price'],
+                    "quantity": new_quantity,
+                    "number": number_in_cart,
+                    'quantity_max': document['quantity']
+                }
+                cart_ref.add(new_cart_item)
+                new_sum = round((new_quantity * document['price']), 2)
+                for c in get_cart(request):
+                    subtotal += float(c['sum'])
+                subtotal = round((subtotal), 2)
+                return JsonResponse({'status': 'success', 'quantity': new_quantity, 'product_id': product_name,
+                                     'sum': "€" + str(round((new_quantity * document['price']), 2)), 'was_inside': 'False',
+                                     'number': number_in_cart, 'product': document, 'cart_size': cart_size+1, 'subtotal': subtotal})
+        except Exception as e:
+            print(f"Error updating cart: {e}")
+            return JsonResponse({'status': 'error', 'message': 'An error occurred while processing your request'},
+                                status=500)

@@ -36,7 +36,9 @@ urlpatterns = [
     path('send-email/', views.send_email, name='send_email'),
     path('catalog/', views.catalog_view, name='catalog'),
 
-    path('get_current_page_values/', views.get_current_page_products, name='get_page_values')
+    path('get_current_page_values/', views.get_current_page_products, name='get_page_values'),
+    path('add_to_cart_from_catalog/', views.add_to_cart_from_catalog, name='add_from_catalog'),
+
     # path('finish_order/', )
 
 
