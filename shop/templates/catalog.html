@@ -50,15 +50,15 @@
                 <div class="crystals">
                     <div id="crystal1">
                         <input class="crystal-checkbox" type="checkbox" id="checkbox1" name="checkbox1" value="Pink">
-                        <label for="checkbox1">Pink</label>
+                        <label class="checkbox-label" for="checkbox1">Pink</label>
                     </div>
                     <div id="crystal2">
                         <input class="crystal-checkbox" type="checkbox" id="checkbox2" name="checkbox2" value="Red">
-                        <label for="checkbox2">Red</label>
+                        <label class="checkbox-label" for="checkbox2">Red</label>
                     </div>
                     <div id="crystal3">
                         <input class="crystal-checkbox" type="checkbox" id="checkbox3" name="checkbox3" value="Blue">
-                        <label for="checkbox3">Blue</label>
+                        <label class="checkbox-label" for="checkbox3">Blue</label>
                     </div>
                 </div>
             </div>
@@ -70,19 +70,19 @@
                 <div class="platings">
                     <div id="plating1">
                         <input class="plating-checkbox" type="checkbox" id="checkboxPL1" name="checkboxPL1" value="Rhodium">
-                        <label for="checkboxPL1">Rhodium</label>
+                        <label class="checkbox-label" for="checkboxPL1">Rhodium</label>
                     </div>
                     <div id="plating2">
                         <input class="plating-checkbox" type="checkbox" id="checkboxPL2" name="checkboxPL2" value="Gold">
-                        <label for="checkboxPL2">Gold</label>
+                        <label class="checkbox-label" for="checkboxPL2">Gold</label>
                     </div>
                     <div id="plating3">
                         <input class="plating-checkbox" type="checkbox" id="checkboxPL3" name="checkboxPL3" value="Rose Gold">
-                        <label for="checkboxPL3">Rose Gold</label>
+                        <label class="checkbox-label" for="checkboxPL3">Rose Gold</label>
                     </div>
                     <div id="plating4">
                         <input class="plating-checkbox" type="checkbox" id="checkboxPL4" name="checkboxPL4" value="Without">
-                        <label for="checkboxPL4">Without</label>
+                        <label class="checkbox-label" for="checkboxPL4">Without</label>
                     </div>
                 </div>
             </div><br>
@@ -92,11 +92,11 @@
                 <div class="bases">
                     <div id="base1">
                         <input class="base-checkbox" type="checkbox" id="checkboxB1" name="checkboxB1" value="Steel">
-                        <label for="checkboxB1">Steel</label>
+                        <label class="checkbox-label" for="checkboxB1">Steel</label>
                     </div>
                     <div id="base2">
                         <input class="base-checkbox" type="checkbox" id="checkboxB2" name="checkboxB2" value="Steel Brass">
-                        <label for="checkboxB2">Steel Brass</label>
+                        <label class="checkbox-label" for="checkboxB2">Steel Brass</label>
                     </div>
                 </div>
             </div><br>
@@ -106,19 +106,19 @@
                 <div class="sizes">
                     <div id="size1">
                         <input class="size-checkbox" type="checkbox" id="checkboxS1" name="checkboxS1" value="S">
-                        <label for="checkboxS1">S</label>
+                        <label class="checkbox-label" for="checkboxS1">S</label>
                     </div>
                     <div id="size2">
                         <input class="size-checkbox" type="checkbox" id="checkboxS2" name="checkboxS2" value="M">
-                        <label for="checkboxS2">M</label>
+                        <label class="checkbox-label" for="checkboxS2">M</label>
                     </div>
                     <div id="size3">
                         <input class="size-checkbox" type="checkbox" id="checkboxS3" name="checkboxS3" value="L">
-                        <label for="checkboxS3">L</label>
+                        <label class="checkbox-label" for="checkboxS3">L</label>
                     </div>
                     <div id="size4">
                         <input class="size-checkbox" type="checkbox" id="checkboxS4" name="checkboxS4" value="XL">
-                        <label for="checkboxS4">XL</label>
+                        <label class="checkbox-label" for="checkboxS4">XL</label>
                     </div>
                 </div>
             </div>
@@ -156,6 +156,9 @@
         </div>
 
         <dialog id="product-card" style="display: none">
+
+        </dialog>
+        <dialog id="product-card-success" style="display: none">
 
         </dialog>
         <br>
@@ -410,7 +413,6 @@ function displayCurrentPage(items) {
 }
 
 function applyFilters() {
-   {#const sliderValue = document.getElementById('slider-price').value;#}
    const nameFilterValue = document.getElementById('contains-in-name').value.toLowerCase();
    const [from, to] = getParsed(fromSlider, toSlider);
 
@@ -428,11 +430,10 @@ function applyFilters() {
         )) &&
        (sizeFilters.length ===0 ||  checkSizes(item))
    );
-   console.log(filteredItems);
+   {#console.log(filteredItems);#}
     if(filteredItems.length === 0){
         filteredItems.push("No items found");
     }
-   {#filteredItems = filteredItems.filter(item=>item.name.toLowerCase().includes(nameFilterValue)#}
    currentPage = 1;
    total_pages = Math.ceil(filteredItems.length / itemsPerPage);
    updatePage();
@@ -533,10 +534,8 @@ function productsTransmutation(items){
             let processedName = itemName.match(/^([a-zA-Z]{0,2})(\d{5})/);
              // This includes both the initial letters and the 5 digits
              itemName = processedName[0];
-            {#console.log("Yes " + finalName + "     " + item.name);#}
         } else {
             itemName = (item.name).split(' ')[0];
-            {#console.log("No " + item.name);#}
         }
 
         if (!products[itemName] ) { //&& item.plating && item.stone
@@ -564,7 +563,9 @@ function productsTransmutation(items){
                     if (!products[itemName].platings[item.plating].stones[item.stone]) {
                         products[itemName].platings[item.plating].stones[item.stone] = {
                             sizes: {},
-                            image: item.image_url
+                            image: item.image_url,
+                            real_name: item.name
+
                         };
                     }
 
@@ -573,6 +574,7 @@ function productsTransmutation(items){
                         let stoneSizes = products[itemName].platings[item.plating].stones[item.stone].sizes;
                         if (!stoneSizes[item.size]) {
                             stoneSizes[item.size] = item.quantity;
+                            stoneSizes['real_name'] =  item.name;
                         } else {
                             // Assuming you want to sum quantities for the same size.
                             stoneSizes[item.size] += item.quantity;
@@ -581,6 +583,7 @@ function productsTransmutation(items){
                         // If there's no size, add the quantity directly to the stone.
                         if (!products[itemName].platings[item.plating].stones[item.stone].quantity) {
                             products[itemName].platings[item.plating].stones[item.stone].quantity = item.quantity;
+                            products[itemName].platings[item.plating].stones[item.stone].real_name = item.name;
                         } else {
                             products[itemName].platings[item.plating].stones[item.stone].quantity += item.quantity;
                         }
@@ -597,8 +600,6 @@ function productsTransmutation(items){
 document.addEventListener("DOMContentLoaded", async function () {
     itemsPerPage = Number(document.getElementById('select-items-per-page').value);
     console.log(itemsPerPage);
-    {#number_of_documents = Number( await countDocuments());#}
-    {#console.log(number_of_documents);#}
     let unfilteredItems = await fetchAllItems(); // Fetch all items on load
 
     allItems = productsTransmutation(unfilteredItems);
@@ -648,7 +649,12 @@ document.getElementById('button-jump-to').addEventListener('click', function (ev
 
 document.getElementById('select-items-per-page').addEventListener('change', function (event) {
     itemsPerPage = Number(event.target.value);
-    total_pages = Math.ceil(allItems.length / itemsPerPage);
+    if(filteredItems.length === 0) {
+        total_pages = Math.ceil(allItems.length / itemsPerPage);
+    }
+    else{
+         total_pages = Math.ceil(filteredItems.length / itemsPerPage);
+    }
     currentPage = 1;
     updatePage();
 });
@@ -687,7 +693,6 @@ function fulfilDropdown(dropdown, array){
             dropdown.add(option);
         });
     }
-
 }
 function updatePlatings(selectedPlating, stoneSelect, sizeSelect, image, maxQuantity){
     const firstStone = selectedPlating ? Object.values(selectedPlating.stones || {})[0] : null;
@@ -717,22 +722,19 @@ function updateStones(selectedStone, sizeSelect, image, maxQuantity){
     else{
         maxQuantity.innerText = "In Stock: "+firstSizeQuantity;
     }
-
 }
-function updateSizes(sizeQuantity, maxQuantity){
 
+function updateSizes(sizeQuantity, maxQuantity){
     maxQuantity.innerText = "In stock: "+sizeQuantity;
     quantity_max = Number(sizeQuantity);
-
 }
-
 
 let quantity_max = 1;
 function generateDialogContent(id){
 
     document.body.style.overflow = 'hidden';
     const item = allItems.find(item => item.name === id);
-    console.log(item);
+    {#console.log(item);#}
     if (!item) {
         console.error('Item not found');
         return;
@@ -901,7 +903,7 @@ function generateDialogContent(id){
         if(inputQuantity.value<quantity_max) {
             let currentValue = Number(inputQuantity.value === "" ? 1 : inputQuantity.value);
             inputQuantity.value = currentValue + 1;
-            console.log(item.name);
+            {#console.log(item.name);#}
         }
     });
     counter.appendChild(button_minus);
@@ -913,6 +915,10 @@ function generateDialogContent(id){
     const add_to_cart = document.createElement('button');
     add_to_cart.type = 'submit';
     add_to_cart.classList.add('add-to-cart-dialog');
+    add_to_cart.addEventListener('click', function() {
+        add_to_cart_func(item, platingsSelect.value, stoneSelect.value, sizeSelect.value, Number(inputQuantity.value), add_to_cart, dialog);
+
+    });
     const icon_cart = document.createElement('i');
     icon_cart.classList.add('fa-solid', 'fa-cart-shopping');
     add_to_cart.appendChild(icon_cart);
@@ -931,8 +937,9 @@ function generateDialogContent(id){
     dialog.style.display = 'block';
     dialog.showModal();
  }
+
 function bindGlobalClickEvent(dialog) {
- document.addEventListener('click', (event) => {
+    document.addEventListener('click', (event) => {
         const rect = dialog.getBoundingClientRect();
         const isInDialog = (rect.top <= event.clientY && event.clientY <= rect.top + rect.height
                             && rect.left <= event.clientX && event.clientX <= rect.left + rect.width);
@@ -953,6 +960,128 @@ function bindGlobalClickEvent(dialog) {
             dialog.close();
         }
     }, true);
+}
+function add_to_cart_func(item, plating, stone, size, quantity, add_button, dialog){
+    let doc;
+    if( size === "" ){
+         doc = item.platings[plating].stones[stone].real_name;
+    }
+    else{
+         doc = item.platings[plating].stones[stone].sizes[size].real_name;
+    }
+    add_button.textContent = "Processing...";
+    add_button.style.backgroundColor = "#7894a6";
+    add_button.disabled = true;
+    console.log(doc);
+    fetch('{% url "add_from_catalog" %}', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({'document': doc, 'quantity':quantity})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+
+            dialog.close();
+            dialog.style.display = 'none';
+            activate_success_card(data.product, data.quantity, data.cart_size, data.subtotal);
+
+
+        } else {
+            alert('An error occured: ' + data.error);
+            dialog.close();
+                        dialog.style.display = 'none';
+        }
+    });
+}
+function activate_success_card(item, quantity, cart_count, subtotalValue){
+    const dialog = document.getElementById('product-card-success');
+
+    bindGlobalClickEvent(dialog);
+    dialog.innerHTML = '';
+    const card_content = document.createElement('div');
+    card_content.classList.add('success-card-content');
+
+    const image = document.createElement('img');
+    image.src = item.image_url;
+    image.width = `400`;
+    image.height = `400`;
+    image.classList.add('img-card');
+    card_content.appendChild(image);
+
+    const close_dialog = document.createElement('div');
+    const icon_close = document.createElement('i');
+    icon_close.classList.add('fa-solid', 'fa-close');
+    close_dialog.appendChild(icon_close);
+    close_dialog.addEventListener('click',()=>{
+       document.body.style.overflow = '';
+       dialog.style.display = 'none';
+       dialog.close();
+    });
+
+    close_dialog.classList.add('close-card');
+    card_content.appendChild(close_dialog);
+
+    const secondColumn = document.createElement('div');
+    secondColumn.classList.add('second-column');
+    const addedText = document.createElement('h4');
+    addedText.innerHTML = `<i class='fa-solid fa-check'></i> `+`Product successfully added to your shopping cart`;
+    secondColumn.appendChild(addedText);
+    card_content.appendChild(secondColumn);
+    const nameSpan = document.createElement('h4');
+    nameSpan.textContent = `${item.name}`;
+    secondColumn.appendChild(nameSpan);
+
+    const priceSpan = document.createElement('div');
+    priceSpan.textContent = `€${item.price}`;
+    secondColumn.appendChild(priceSpan);
+
+    const platingSpan = document.createElement('span');
+    platingSpan.innerHTML= `<span>Plating material: </span>` + `${item.plating}`;
+    secondColumn.appendChild(platingSpan);
+    const crystalSpan = document.createElement('span');
+    crystalSpan.innerHTML = `<span>Crystal color: </span> ` +`${item.stone}`;
+    secondColumn.appendChild(crystalSpan);
+    const baseSpan = document.createElement('span');
+    baseSpan.innerHTML =`<span>Base material: </span> ` + `${item.material}`;
+    secondColumn.appendChild(baseSpan);
+
+    const quantitySpan = document.createElement('span');
+    quantitySpan.innerHTML = `<span>Quantity: </span> ` + `${quantity}`;
+    secondColumn.appendChild(quantitySpan);
+    const abz = document.createElement('br');
+    secondColumn.appendChild(abz);
+
+    const items_count = document.createElement('span');
+    items_count.textContent = `There are ${cart_count} items in your cart.`;
+    secondColumn.appendChild(items_count);
+
+     const subtotal = document.createElement('span');
+    subtotal.innerHTML =`<span>Subtotal: </span> ` + `${subtotalValue}`;
+    secondColumn.appendChild(subtotal);
+
+    card_content.appendChild(secondColumn);
+    dialog.appendChild(card_content);
+    dialog.style.display = 'block';
+    dialog.showModal();
+
+}
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
 }
 </script>
 </html>
