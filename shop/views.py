@@ -472,7 +472,7 @@ def clear_cart(email, name):
     for doc in docs:
         doc.reference.delete()
 
-
+@login_required
 def catalog_view(request):
     return render(request, 'catalog.html')
 
