@@ -66,6 +66,7 @@
     display: inline-block;
     height: auto;
     float:right;
+    color: #777;
 }
 .select-per-page select,.select-order select{
     background: none;
@@ -73,6 +74,7 @@
     border-radius: 6px;
     padding: 5px 10px 5px 10px;
     text-align: center;
+    color: #777;
 }
 
 .products-grid{

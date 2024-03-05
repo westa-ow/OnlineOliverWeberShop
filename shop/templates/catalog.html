@@ -166,14 +166,14 @@
         <div class="pages-container">
             <div class="semi">
                 <div class="pages" id="pages">
-                    <a id="jump-to-first" href="">Jump to first</a>
+{#                    <a id="jump-to-first" href="">Jump to first</a>#}
                     <a id="previous-button" href=""><i class="fa-solid fa-chevron-left"></i> Previous</a>
-
-                    <span id="current-page">Current page: </span>
-
+{##}
+                    <span id="current-page"> </span>
+{##}
                     <a id="next-button" href="">Next <i class="fa-solid fa-chevron-right"></i></a>
-
-                    <a id="jump-to-last" href="">Jump to last</a>
+{##}
+{#                    <a id="jump-to-last" href="">Jump to last</a>#}
                 </div>
             </div>
             <div id="jump" >
@@ -202,6 +202,24 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
+    document.addEventListener("DOMContentLoaded", async function () {
+        itemsPerPage = Number(document.getElementById('select-items-per-page').value);
+        console.log(itemsPerPage);
+        let unfilteredItems = await fetchAllItems(); // Fetch all items on load
+
+        allItems = productsTransmutation(unfilteredItems);
+        console.log(allItems.length);
+        total_pages = Math.ceil(allItems.length / itemsPerPage);
+        console.log(total_pages);
+
+        updatePage();
+
+        buildUpPages();
+        changePage(currentPage);
+    });
+
+
+
 
      async function countDocuments() {
         const itemsRef = collection(db, "item");
@@ -223,6 +241,93 @@ let platingFilters = [];
 let baseFilters = [];
 let stoneFilters = [];
 let sizeFilters = [];
+function buildUpPages() {
+    const pagesContainer = document.getElementById('current-page');
+    let pagesToShow = document.createDocumentFragment(); // Use a document fragment to hold elements before inserting them into the DOM
+
+    function addPageLink(page, isCurrentPage) {
+        const pageElement = document.createElement('a');
+        if (isCurrentPage) {
+            const boldText = document.createElement('b');
+            boldText.textContent = page;
+            if(currentPage === 1){
+                boldText.style.padding = '10px';
+            }
+            pagesToShow.appendChild(boldText);
+        } else {
+            pageElement.href = "";
+            pageElement.textContent = page;
+            pageElement.addEventListener('click', function(event) {
+                event.preventDefault();
+                changePage(page);
+            });
+            pagesToShow.appendChild(pageElement);
+        }
+        pagesToShow.appendChild(document.createTextNode(' ')); // Add space between links
+    }
+
+    function addEllipsis() {
+        pagesToShow.appendChild(document.createTextNode('... '));
+    }
+
+    if (total_pages <= 5) {
+        for (let i = 1; i <= total_pages; i++) {
+            addPageLink(i, i === currentPage);
+        }
+    } else {
+        addPageLink(1, currentPage === 1);
+
+        if (currentPage > 3) {
+            addEllipsis();
+        }
+
+        let startPage = Math.max(2, currentPage - 1);
+        let endPage = Math.min(currentPage + 1, total_pages - 1);
+
+        if (currentPage === 1) {
+            endPage = Math.min(3, total_pages - 1);
+        } else if (currentPage === total_pages) {
+            startPage = Math.max(total_pages - 2, 2);
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            addPageLink(i, i === currentPage);
+        }
+
+        if (currentPage < total_pages - 2) {
+            addEllipsis();
+        }
+
+        addPageLink(total_pages, currentPage === total_pages);
+    }
+
+    // Clear the current content and append the new set of page links
+    pagesContainer.innerHTML = '';
+    pagesContainer.appendChild(pagesToShow);
+}
+function changePage(page) {
+    if(page === 1){
+        document.getElementById("previous-button").style.display = 'none';
+    }
+    else{
+                document.getElementById("previous-button").style.display = 'block';
+    }
+    if(page === total_pages){
+        document.getElementById("next-button").style.display = 'none';
+    }
+    else{
+        document.getElementById("next-button").style.display = 'block';
+    }
+    currentPage = page;
+    updatePage(); // Assuming you have this function implemented to refresh the content based on the current page
+
+    buildUpPages();
+}
+
+
+
+// Function to simulate changing the page (you might have your actual logic to fetch/update content here)
+
 
 document.querySelectorAll('.crystal-checkbox').forEach(checkbox => {
     checkbox.addEventListener('change', function() {
@@ -456,7 +561,7 @@ function applyFilters() {
     }
    currentPage = 1;
    total_pages = Math.ceil(filteredItems.length / itemsPerPage);
-   updatePage();
+   changePage(1);
 }
 function checkSizes(item){
 
@@ -615,25 +720,13 @@ function productsTransmutation(items){
     return Object.values(products);
 }
 
-document.addEventListener("DOMContentLoaded", async function () {
-    itemsPerPage = Number(document.getElementById('select-items-per-page').value);
-    console.log(itemsPerPage);
-    let unfilteredItems = await fetchAllItems(); // Fetch all items on load
 
-    allItems = productsTransmutation(unfilteredItems);
-    console.log(allItems.length);
-    total_pages = Math.ceil(allItems.length / itemsPerPage);
-    console.log(total_pages);
-
-    updatePage();
-
-});
 
 document.getElementById('previous-button').addEventListener('click', function (event){
     event.preventDefault();
     if(currentPage>1){
         currentPage-=1;
-        updatePage();
+        changePage(currentPage);
     }
 });
 
@@ -641,26 +734,26 @@ document.getElementById('next-button').addEventListener('click', function (event
     event.preventDefault();
     if(currentPage<total_pages){
         currentPage+=1;
-        updatePage();
+        changePage(currentPage);
     }
 });
-document.getElementById('jump-to-last').addEventListener('click', function (event){
-    event.preventDefault();
-    currentPage=total_pages;
-    updatePage();
-});
-document.getElementById('jump-to-first').addEventListener('click', function (event){
-    event.preventDefault();
-    currentPage=1;
-    updatePage();
+{#document.getElementById('jump-to-last').addEventListener('click', function (event){#}
+{#    event.preventDefault();#}
+{#    currentPage=total_pages;#}
+{#    updatePage();#}
 
-});
+{#document.getElementById('jump-to-first').addEventListener('click', function (event){#}
+{#    event.preventDefault();#}
+{#    currentPage=1;#}
+{#    updatePage();#}
+{##}
+
 document.getElementById('button-jump-to').addEventListener('click', function (event) {
     event.preventDefault();
     let page_number = Number(document.getElementById('page-number-input').value);
     if(page_number>0 && page_number<=total_pages){
         currentPage = page_number;
-        updatePage();
+        changePage(currentPage);
     }
 });
 
@@ -673,14 +766,14 @@ document.getElementById('select-items-per-page').addEventListener('change', func
          total_pages = Math.ceil(filteredItems.length / itemsPerPage);
     }
     currentPage = 1;
-    updatePage();
+    changePage(1);
 });
 document.getElementById('select-order').addEventListener('change', function (event) {
     let order = (event.target.value).split(', ');
     console.log(order[0]);
     order_name = order[0];
     order_type=order[1];
-    updatePage();
+    changePage(1);
 });
 
  $(document).ready(function(){
