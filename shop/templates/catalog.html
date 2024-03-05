@@ -17,6 +17,12 @@
 {% include 'base.html' %}
 <div class="everything">
     <div class="filters-section">
+        <div class="categories">
+            <div class="categories-label">Categories</div><br>
+            <ul class="categories-list">
+
+            </ul>
+        </div>
         <div class="filters">
             <div class="filters-label">Filters<hr></div><br>
             <div class="filter-name">
@@ -36,10 +42,9 @@
                       <div class="form_control_container">
                           <span class="fromInput-text">€0</span>
                       </div>
-                        <div class="form_control_container">
-                            <span class="toInput-text">€1100</span>
-
-                        </div>
+                          <div class="form_control_container">
+                             <span class="toInput-text">€1100</span>
+                          </div>
                     </div>
                 </div>
             </div>
@@ -61,6 +66,8 @@
                         <label class="checkbox-label" for="checkbox3">Blue</label>
                     </div>
                 </div>
+                <div class="remove-filters-container" id="crystals">  <span class="remove-filters"><i class="fa-solid fa-close"></i> Reset these filters</span></div>
+
             </div>
             <br>
             <div class="filter-plating">
@@ -85,6 +92,7 @@
                         <label class="checkbox-label" for="checkboxPL4">Without</label>
                     </div>
                 </div>
+               <div class="remove-filters-container" id="platings">  <span class="remove-filters"><i class="fa-solid fa-close"></i> Reset these filters</span></div>
             </div><br>
             <div class="filter-base">
                 Base material
@@ -99,6 +107,8 @@
                         <label class="checkbox-label" for="checkboxB2">Steel Brass</label>
                     </div>
                 </div>
+
+                <div class="remove-filters-container" id="bases">  <span class="remove-filters"><i class="fa-solid fa-close"></i> Reset these filters</span></div>
             </div><br>
             <div class="filter-size">
                 Size
@@ -121,6 +131,8 @@
                         <label class="checkbox-label" for="checkboxS4">XL</label>
                     </div>
                 </div>
+
+                <div class="remove-filters-container" id="sizes">  <span class="remove-filters"><i class="fa-solid fa-close"></i> Reset these filters</span></div>
             </div>
 
 {#            <button id="submit-button">Submit filters</button>#}
@@ -208,6 +220,8 @@
         let unfilteredItems = await fetchAllItems(); // Fetch all items on load
 
         allItems = productsTransmutation(unfilteredItems);
+
+        console.log(categories);
         console.log(allItems.length);
         total_pages = Math.ceil(allItems.length / itemsPerPage);
         console.log(total_pages);
@@ -216,6 +230,12 @@
 
         buildUpPages();
         changePage(currentPage);
+        setupCheckboxEventListeners('.crystal-checkbox', stoneFilters);
+        setupCheckboxEventListeners('.plating-checkbox', platingFilters);
+        setupCheckboxEventListeners('.base-checkbox', baseFilters);
+        setupCheckboxEventListeners('.size-checkbox', sizeFilters);
+
+    constructCategories();
     });
 
 
@@ -241,6 +261,8 @@ let platingFilters = [];
 let baseFilters = [];
 let stoneFilters = [];
 let sizeFilters = [];
+let category = "All";
+let categories = [""];
 function buildUpPages() {
     const pagesContainer = document.getElementById('current-page');
     let pagesToShow = document.createDocumentFragment(); // Use a document fragment to hold elements before inserting them into the DOM
@@ -325,89 +347,117 @@ function changePage(page) {
 }
 
 
+function constructCategories(){
+     categories = (allItems.reduce((accumulator, document) => {
+          if (!accumulator.includes(document.category)) {
+            accumulator.push(document.category);
+          }
+          return accumulator;
+        }, []));
+     let ne = ["All"];
+
+     ne = ne.concat(categories);
+     const categoriesList = document.querySelector('.categories-list');
+     categoriesList.innerHTML = ''; // Clear existing list items if any
+
+     ne.forEach(categoryVar => {
+        const li = document.createElement('li');
+        const span = document.createElement('span');
+
+        span.textContent = categoryVar;
+        if(categoryVar === "All"){
+            span.style.fontWeight = "600";
+        }
+        li.appendChild(span);
+        span.addEventListener('click', function() {
+            // Assuming 'category' is the global variable you mentioned
+            document.querySelectorAll('.categories-list li span').forEach(li => {
+                li.style.fontWeight = ""; // Use "normal" if you want to explicitly set it back to default
+            });
+
+            category = this.textContent; // Update the global variable
+            this.style.fontWeight = "600";
+            applyFilters(); // Call the applyFilters function
+        });
+        categoriesList.appendChild(li);
+    });
+
+}
 
 // Function to simulate changing the page (you might have your actual logic to fetch/update content here)
 
 
-document.querySelectorAll('.crystal-checkbox').forEach(checkbox => {
-    checkbox.addEventListener('change', function() {
+function setupCheckboxEventListeners(checkboxClassName, filtersArray) {
+    document.querySelectorAll(checkboxClassName).forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll(checkboxClassName);
+            const remove_button = this.parentElement.parentElement.parentElement.querySelector('.remove-filters-container');
+            const label = this.parentElement.querySelector('label');
+            let textValue = this.value;
 
-        const crystal_checkboxes = document.querySelectorAll('.crystal-checkbox');
-        let textValue = this.value;
+            if (this.checked) {
+                toggleOffUnnecessaryCheckboxes(checkboxes, textValue);
+                filtersArray.length = 0; // Clear the filters array
+                remove_button.style.display = "block";
+                label.style.fontWeight = "600";
+                filtersArray.push(textValue);
+            } else {
+                filtersArray.splice(filtersArray.indexOf(textValue), 1);
+                if (filtersArray.length === 0) {
+                    remove_button.style.display = "none"; // Hide remove button if filters array is empty
+                }
+                label.style.fontWeight = "";
+            }
+            applyFilters();
+        });
+    });
+}
 
-        if (this.checked) {
+function toggleOffUnnecessaryCheckboxes(checkboxes, currentValue ){
+     checkboxes.forEach(checkbox => {
+            if (checkbox.value !== currentValue) {
+                checkbox.checked = false;
+                checkbox.parentElement.querySelector('label').style.fontWeight = "";
+            }
+     });
+}
+document.querySelectorAll('.remove-filters-container').forEach(container=> {
+    container.addEventListener('click', function (){
+       if(container.id === "platings"){
+            platingFilters.length = 0;
+            const platingCheckboxes = document.querySelectorAll('.plating-checkbox');
+            platingCheckboxes.forEach(checkbox => {
+                checkbox.checked = false;
+                checkbox.parentElement.querySelector('label').style.fontWeight = "";
+            });
+       }
+       else if(container.id === "sizes"){
+            sizeFilters.length = 0;
+            const sizesCheckboxes = document.querySelectorAll('.size-checkbox');
+            sizesCheckboxes.forEach(checkbox => {
+                checkbox.checked = false;
+                checkbox.parentElement.querySelector('label').style.fontWeight = "";
+            });
+       }
+       else if(container.id === "bases"){
+            baseFilters.length = 0;
+            const baseCheckboxes = document.querySelectorAll('.base-checkbox');
+            baseCheckboxes.forEach(checkbox => {
+                checkbox.checked = false;
+                checkbox.parentElement.querySelector('label').style.fontWeight = "";
+            });
+       }
+       else if(container.id === "crystals"){
+            stoneFilters.length = 0;
+            const crystal_checkboxes = document.querySelectorAll('.crystal-checkbox');
             crystal_checkboxes.forEach(checkbox => {
-                if (checkbox.value !== textValue) {
-                    checkbox.checked = false;
-                }
+                checkbox.checked = false;
+                checkbox.parentElement.querySelector('label').style.fontWeight = "";
             });
-            stoneFilters = [];
-            stoneFilters.push(textValue);
-        } else {
-            stoneFilters.splice(stoneFilters.indexOf(textValue), 1);
-        }
-        applyFilters();
-    });
-});
-document.querySelectorAll('.plating-checkbox').forEach(checkbox=>{
-    checkbox.addEventListener('change',function(){
-        const plating_checkboxes = document.querySelectorAll('.plating-checkbox');
-        let textValue =this.value;
-        if(this.checked){
-            plating_checkboxes.forEach(checkbox => {
-                if (checkbox.value !== textValue) {
-                    checkbox.checked = false;
-                }
-            });
-            platingFilters = [];
-            platingFilters.push(textValue);
-        }
-        else{
-            platingFilters.splice(platingFilters.indexOf(textValue), 1);
-        }
-        applyFilters();
-    });
-});
-document.querySelectorAll('.base-checkbox').forEach(checkbox=>{
-    checkbox.addEventListener('change',function(){
+       }
+       this.style.display = "none";
+       applyFilters();
 
-        const base_checkboxes = document.querySelectorAll('.base-checkbox');
-        let textValue =this.value;
-        if(this.checked){
-            base_checkboxes.forEach(checkbox => {
-                if (checkbox.value !== textValue) {
-                    checkbox.checked = false;
-                }
-            });
-            baseFilters = [];
-            baseFilters.push(textValue);
-        }
-        else{
-            baseFilters.splice(baseFilters.indexOf(textValue), 1);
-            console.log(baseFilters);
-        }
-        applyFilters();
-    });
-});
-document.querySelectorAll('.size-checkbox').forEach(checkbox=>{
-    checkbox.addEventListener('change',function(){
-        const size_checkboxes = document.querySelectorAll('.size-checkbox');
-        let textValue =this.value;
-        if(this.checked){
-            size_checkboxes.forEach(checkbox => {
-                if (checkbox.value !== textValue) {
-                    checkbox.checked = false;
-                }
-            });
-            sizeFilters = [];
-            sizeFilters.push(textValue);
-            console.log(sizeFilters);
-        }
-        else{
-            sizeFilters.splice(sizeFilters.indexOf(textValue), 1);
-            console.log(sizeFilters);
-        }
-        applyFilters();
     });
 });
 document.getElementById('contains-in-name').addEventListener('input', applyFilters);
@@ -543,6 +593,7 @@ function applyFilters() {
    const [from, to] = getParsed(fromSlider, toSlider);
 
    filteredItems = allItems.filter(item =>
+        (category === "All" || item.category === category) &&
         item.price <= to &&
         item.price >=from &&
         item.name.toLowerCase().includes(nameFilterValue)&&
@@ -559,6 +610,7 @@ function applyFilters() {
     if(filteredItems.length === 0){
         filteredItems.push("No items found");
     }
+    console.log(filteredItems);
    currentPage = 1;
    total_pages = Math.ceil(filteredItems.length / itemsPerPage);
    changePage(1);
