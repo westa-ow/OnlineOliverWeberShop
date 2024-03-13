@@ -167,10 +167,10 @@
 
         </div>
 
-        <dialog id="product-card" style="display: none">
+        <dialog id="product-card">
 
         </dialog>
-        <dialog id="product-card-success" style="display: none">
+        <dialog id="product-card-success" >
 
         </dialog>
         <br>
@@ -1132,11 +1132,22 @@ function generateDialogContent(id){
 
     card_content.appendChild(secondColumn);
     dialog.appendChild(card_content);
+    dialog.style.transform = 'translate(0%, 0%) scale(0)';
+
+    dialog.showModal();
+    setTimeout(() => {
+    dialog.style.transform = 'translate(0%, 0%) scale(1)';
+  }, 0); // 0 milliseconds delay is often enough to ensure the reapplication triggers the animation
 
     dialog.style.display = 'block';
-    dialog.showModal();
  }
-
+ function closeDialogWithAnimation(dialog) {
+    dialog.style.transform = 'translate(0%, 0%) scale(0)';
+    setTimeout(() => {
+        dialog.style.display = 'none';
+    dialog.close();
+  }, 250); // 500 milliseconds is the duration of the animation
+ }
 function bindGlobalClickEvent(dialog) {
     document.addEventListener('click', (event) => {
         const rect = dialog.getBoundingClientRect();
@@ -1155,8 +1166,8 @@ function bindGlobalClickEvent(dialog) {
 
         if (!isInDialog && dialog.open) {
             document.body.style.overflow = '';
-            dialog.style.display = 'none';
-            dialog.close();
+
+            closeDialogWithAnimation(dialog);
         }
     }, true);
 }
@@ -1184,15 +1195,14 @@ function add_to_cart_func(item, plating, stone, size, quantity, add_button, dial
     .then(data => {
         if (data.status === 'success') {
 
-            dialog.close();
-            dialog.style.display = 'none';
-            activate_success_card(data.product, data.quantity, data.cart_size, data.subtotal);
-
+            closeDialogWithAnimation(dialog);
+            setTimeout(() => {
+                activate_success_card(data.product, data.quantity, data.cart_size, data.subtotal);
+            }, 0);
 
         } else {
             alert('An error occured: ' + data.error);
-            dialog.close();
-                        dialog.style.display = 'none';
+            closeDialogWithAnimation(dialog);
         }
     });
 }
@@ -1218,8 +1228,12 @@ function activate_success_card(item, quantity, cart_count, subtotalValue){
 
     card_content.appendChild(secondColumn);
     dialog.appendChild(card_content);
+
+    setTimeout(() => {
+        dialog.showModal();
+        dialog.style.transform = 'translate(0%, 0%) scale(1)';
+    }, 249); // 0 milliseconds delay is often enough to ensure the reapplication triggers the animation
     dialog.style.display = 'block';
-    dialog.showModal();
 
 }
 function dialogCommonSetup(dialog, image_url, card_content, image){
@@ -1236,8 +1250,7 @@ function dialogCommonSetup(dialog, image_url, card_content, image){
     close_dialog.appendChild(icon_close);
     close_dialog.addEventListener('click',()=>{
        document.body.style.overflow = '';
-       dialog.style.display = 'none';
-       dialog.close();
+       closeDialogWithAnimation(dialog);
     });
 
     close_dialog.classList.add('close-card');
@@ -1290,8 +1303,7 @@ function manageButtonsSuccessSetup(dialog, column){
 
     continue_shopping.addEventListener('click', ()=>{
          document.body.style.overflow = '';
-        dialog.style.display = 'none';
-        dialog.close();
+        closeDialogWithAnimation(dialog);
     });
 
     const proceed_to_checkout = document.createElement('a');

@@ -169,6 +169,29 @@ body::-webkit-scrollbar {
     line-height: 1.5rem;
     padding: 20px 40px;
 }
+dialog{
+    transform: translate(0%, 0%) scale(0);
+
+    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+}
+
+dialog[open] {
+  /* Final state when dialog is open */
+  opacity: 1;
+  transform: translate(-0%, -0%) scale(1);
+}
+::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+  /* Initial state for backdrop fade-in */
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+}
+
+dialog[open]::backdrop {
+  /* Final state for backdrop */
+  opacity: 1;
+}
+
 
 .card-content, .success-card-content {
     display: grid;
