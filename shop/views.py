@@ -109,6 +109,9 @@ def add_to_cart(request):
 
         new_cart_item = {
             'description': description,
+            'stone': product['stone'],
+            'material': product['material'],
+            'plating': product['plating'],
             "emailOwner": email,
             'image_url': image,
             "name": name,
@@ -208,6 +211,9 @@ def update_quantity_input(request):
 
                 new_cart_item = {
                     'description': product['description'],
+                    'stone': product['stone'],
+                    'material': product['material'],
+                    'plating': product['plating'],
                     "emailOwner": email,
                     'image_url': product['image-url'],
                     "name": product['name'],
@@ -525,6 +531,9 @@ def add_to_cart_from_catalog(request):
 
                 new_cart_item = {
                     'description': document['description'],
+                    'stone': document['stone'],
+                    'material': document['material'],
+                    'plating': document['plating'],
                     "emailOwner": email,
                     'image_url': document['image-url'],
                     "name": document['name'],
@@ -545,3 +554,6 @@ def add_to_cart_from_catalog(request):
             print(f"Error updating cart: {e}")
             return JsonResponse({'status': 'error', 'message': 'An error occurred while processing your request'},
                                 status=500)
+
+def getCartToBase(request):
+    return JsonResponse({'cart': get_cart(request)})
