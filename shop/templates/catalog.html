@@ -92,7 +92,7 @@
                         <label class="checkbox-label" for="checkboxPL4">Without</label>
                     </div>
                 </div>
-               <div class="remove-filters-container" id="platings">  <span class="remove-filters"><i class="fa-solid fa-close"></i> Reset this group<span></div>
+               <div class="remove-filters-container" id="platings">  <span class="remove-filters"><i class="fa-solid fa-close"></i> Reset this group</span></div>
             </div><br>
             <div class="filter-base">
                 Base material
@@ -659,16 +659,6 @@ function applyFilters() {
             )
     )
 
-
-
-       {#(platingFilters.length === 0 || Object.keys(item.platings).some(plating =>#}
-       {#platingFilters.includes(plating))) &&#}
-       {#(stoneFilters.length === 0 || Object.values(item.platings).some(plating =>#}
-       {#    Object.keys(plating.stones).some(stone =>#}
-       {#        stoneFilters.includes((stone))#}
-       {#    )#}
-       {#)) &&#}
-       {#(sizeFilters.length ===0 ||  checkSizes(item))#}
    );
     if(filteredItems.length === 0){
         filteredItems.push("No items found");
@@ -864,16 +854,6 @@ document.getElementById('next-button').addEventListener('click', function (event
         changePage(currentPage);
     }
 });
-{#document.getElementById('jump-to-last').addEventListener('click', function (event){#}
-{#    event.preventDefault();#}
-{#    currentPage=total_pages;#}
-{#    updatePage();#}
-
-{#document.getElementById('jump-to-first').addEventListener('click', function (event){#}
-{#    event.preventDefault();#}
-{#    currentPage=1;#}
-{#    updatePage();#}
-{##}
 
 document.getElementById('button-jump-to').addEventListener('click', function (event) {
     event.preventDefault();
