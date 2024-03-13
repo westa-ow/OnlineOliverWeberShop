@@ -17,7 +17,7 @@
 {% include 'base.html' %}
 <div class="everything">
     <div class="filters-section">
-        <div class="categories">
+        <div class="categories" style="display: none;">
             <div class="categories-label">Categories</div><br>
             <ul class="categories-list">
 
@@ -35,15 +35,15 @@
                 <hr>
                <div class="range_container">
                     <div class="sliders_control">
-                       <input id="fromSlider" type="range" value="0" min="0" max="1100" step="5"/>
-                       <input id="toSlider" type="range" value="1100" min="0" max="1100" step="5"/>
+                       <input id="fromSlider" type="range" value="0" min="0" max="800" step="5"/>
+                       <input id="toSlider" type="range" value="800" min="0" max="800" step="5"/>
                     </div>
                     <div class="form_control">
                       <div class="form_control_container">
                           <span class="fromInput-text">€0</span>
                       </div>
                           <div class="form_control_container">
-                             <span class="toInput-text">€1100</span>
+                             <span class="toInput-text">€800</span>
                           </div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                         <label class="checkbox-label" for="checkbox3">Blue</label>
                     </div>
                 </div>
-                <div class="remove-filters-container" id="crystals">  <span class="remove-filters"><i class="fa-solid fa-close"></i> Reset these filters</span></div>
+                <div class="remove-filters-container" id="crystals">  <span class="remove-filters"><i class="fa-solid fa-close"></i> Reset this group</span></div>
 
             </div>
             <br>
@@ -92,7 +92,7 @@
                         <label class="checkbox-label" for="checkboxPL4">Without</label>
                     </div>
                 </div>
-               <div class="remove-filters-container" id="platings">  <span class="remove-filters"><i class="fa-solid fa-close"></i> Reset these filters</span></div>
+               <div class="remove-filters-container" id="platings">  <span class="remove-filters"><i class="fa-solid fa-close"></i> Reset this group<span></div>
             </div><br>
             <div class="filter-base">
                 Base material
@@ -108,7 +108,7 @@
                     </div>
                 </div>
 
-                <div class="remove-filters-container" id="bases">  <span class="remove-filters"><i class="fa-solid fa-close"></i> Reset these filters</span></div>
+                <div class="remove-filters-container" id="bases">  <span class="remove-filters"><i class="fa-solid fa-close"></i> Reset this group</span></div>
             </div><br>
             <div class="filter-size">
                 Size
@@ -132,7 +132,7 @@
                     </div>
                 </div>
 
-                <div class="remove-filters-container" id="sizes">  <span class="remove-filters"><i class="fa-solid fa-close"></i> Reset these filters</span></div>
+                <div class="remove-filters-container" id="sizes">  <span class="remove-filters"><i class="fa-solid fa-close"></i> Reset this group</span></div>
             </div>
 
 {#            <button id="submit-button">Submit filters</button>#}
@@ -195,6 +195,9 @@
       </div>
 </div>
 </div>
+<div id="loading-overlay">
+    <div class="spinner"></div>
+</div>
 </body>
 <script  type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
@@ -215,6 +218,7 @@
     const db = getFirestore(app);
 
     document.addEventListener("DOMContentLoaded", async function () {
+        document.getElementById('loading-overlay').style.display = 'flex';
         itemsPerPage = Number(document.getElementById('select-items-per-page').value);
         console.log(itemsPerPage);
         let unfilteredItems = await fetchAllItems(); // Fetch all items on load
@@ -235,7 +239,8 @@
         setupCheckboxEventListeners('.base-checkbox', baseFilters);
         setupCheckboxEventListeners('.size-checkbox', sizeFilters);
 
-    constructCategories();
+        constructCategories();
+        document.getElementById('loading-overlay').style.display = 'none';
     });
 
 
@@ -348,6 +353,8 @@ function changePage(page) {
 
 
 function constructCategories(){
+     const categories_div = document.querySelector('.categories');
+     
      categories = (allItems.reduce((accumulator, document) => {
           if (!accumulator.includes(document.category)) {
             accumulator.push(document.category);
@@ -381,6 +388,7 @@ function constructCategories(){
         });
         categoriesList.appendChild(li);
     });
+      categories_div.style.display = 'block';
 
 }
 
@@ -593,19 +601,74 @@ function applyFilters() {
    const [from, to] = getParsed(fromSlider, toSlider);
 
    filteredItems = allItems.filter(item =>
-        (category === "All" || item.category === category) &&
-        item.price <= to &&
-        item.price >=from &&
-        item.name.toLowerCase().includes(nameFilterValue)&&
-        (baseFilters.length === 0 || baseFilters.includes(item.material)) &&
-       (platingFilters.length === 0 || Object.keys(item.platings).some(plating =>
-        platingFilters.includes(plating))) &&
-        (stoneFilters.length === 0 || Object.values(item.platings).some(plating =>
-            Object.keys(plating.stones).some(stone =>
-                stoneFilters.includes((stone))
+       (category === "All" || item.category === category) &&
+       item.price <= to &&
+       item.price >=from &&
+       item.name.toLowerCase().includes(nameFilterValue)&&
+      (baseFilters.length === 0 || baseFilters.includes(item.material)) && // Check base material
+    (
+        // Handle plating selection
+        platingFilters.length === 0 ?
+            (
+                stoneFilters.length === 0 ?
+                    (
+                        // If no stone filter is selected, check size within any plating if size filter is applied
+                        sizeFilters.length === 0 || Object.values(item.platings).some(plating =>
+                            Object.values(plating.stones).some(stone =>
+                                Object.keys(stone.sizes).some(sizeKey => sizeFilters.includes(sizeKey))
+                            )
+                        )
+                    ) :
+                    (
+                        // If a stone filter is selected, look for the stone within any plating
+                        Object.values(item.platings).some(plating =>
+                            Object.keys(plating.stones).some(stoneKey =>
+                                stoneFilters.includes(stoneKey) &&
+                                (
+                                    sizeFilters.length === 0 ||
+                                    Object.keys(plating.stones[stoneKey].sizes).some(sizeKey => sizeFilters.includes(sizeKey))
+                                )
+                            )
+                        )
+                    )
+            ) :
+            (
+                // When a plating filter is selected, restrict searches within that plating
+                platingFilters.some(platingFilter =>
+                    item.platings.hasOwnProperty(platingFilter) && // Check if item has the plating
+                    (
+                        stoneFilters.length === 0 ?
+                            (
+                                // Check sizes within the selected plating if no stone filter is selected
+                                sizeFilters.length === 0 || Object.values(item.platings[platingFilter].stones).some(stone =>
+                                    Object.keys(stone.sizes).some(sizeKey => sizeFilters.includes(sizeKey))
+                                )
+                            ) :
+                            (
+                                // Check for the specific stone and sizes within the selected plating
+                                Object.keys(item.platings[platingFilter].stones).some(stoneKey =>
+                                    stoneFilters.includes(stoneKey) &&
+                                    (
+                                        sizeFilters.length === 0 ||
+                                        Object.keys(item.platings[platingFilter].stones[stoneKey].sizes).some(sizeKey => sizeFilters.includes(sizeKey))
+                                    )
+                                )
+                            )
+                    )
+                )
             )
-        )) &&
-       (sizeFilters.length ===0 ||  checkSizes(item))
+    )
+
+
+
+       {#(platingFilters.length === 0 || Object.keys(item.platings).some(plating =>#}
+       {#platingFilters.includes(plating))) &&#}
+       {#(stoneFilters.length === 0 || Object.values(item.platings).some(plating =>#}
+       {#    Object.keys(plating.stones).some(stone =>#}
+       {#        stoneFilters.includes((stone))#}
+       {#    )#}
+       {#)) &&#}
+       {#(sizeFilters.length ===0 ||  checkSizes(item))#}
    );
     if(filteredItems.length === 0){
         filteredItems.push("No items found");
@@ -676,6 +739,7 @@ function order(array){
 }
 function updatePage() {
     let paginatedItems;
+    let found = true;
     if(filteredItems.length === 0){
         order(allItems);
         paginatedItems = paginateItems(allItems, currentPage, itemsPerPage);
@@ -683,6 +747,8 @@ function updatePage() {
     else{
         if(filteredItems[0] === "No items found"){
             paginatedItems = paginateItems([], currentPage, itemsPerPage);
+
+            found = false;
         }
         else {
             order(filteredItems);
@@ -692,6 +758,15 @@ function updatePage() {
     const current = document.getElementById('current-page');
     current.innerText="Current page: " + currentPage;
     displayCurrentPage(paginatedItems);
+    if(found===false){
+        const grid = document.querySelector('.products-grid');
+        const span = document.createElement('h2');
+        span.textContent = "No items found";
+        span.style.gridColumn = "1/-1";
+        span.style.textAlign = 'center';
+        span.style.color = "#4d4d4d"
+        grid.appendChild(span);
+    }
 }
 
 function productsTransmutation(items){
