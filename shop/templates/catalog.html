@@ -234,12 +234,14 @@
 
         buildUpPages();
         changePage(currentPage);
+
+        constructCategories();
+        constructFilters();
         setupCheckboxEventListeners('.crystal-checkbox', stoneFilters);
         setupCheckboxEventListeners('.plating-checkbox', platingFilters);
         setupCheckboxEventListeners('.base-checkbox', baseFilters);
         setupCheckboxEventListeners('.size-checkbox', sizeFilters);
 
-        constructCategories();
         document.getElementById('loading-overlay').style.display = 'none';
     });
 
@@ -268,6 +270,10 @@ let stoneFilters = [];
 let sizeFilters = [];
 let category = "All";
 let categories = [""];
+let all_crystals = [];
+let all_platings = [];
+let all_bases = [];
+
 function buildUpPages() {
     const pagesContainer = document.getElementById('current-page');
     let pagesToShow = document.createDocumentFragment(); // Use a document fragment to hold elements before inserting them into the DOM
@@ -391,6 +397,79 @@ function constructCategories(){
       categories_div.style.display = 'block';
 
 }
+function constructFilters(){
+    constructCrystals();
+    constructPlatings();
+    constructBases();
+}
+
+function createFilterElements(containerClass, itemsArray, prefix) {
+    const container = document.querySelector(`.${containerClass}`);
+    container.innerHTML = ''; // Clear existing content
+
+    itemsArray.forEach((item, index) => {
+        const itemId = `${prefix}${index + 1}`;
+        const checkboxId = `checkbox${prefix.toUpperCase()}${index + 1}`;
+
+        // Create div for each item
+        const itemDiv = document.createElement('div');
+        itemDiv.id = itemId;
+
+        // Create checkbox input for each item
+        const checkbox = document.createElement('input');
+        checkbox.className = `${prefix}-checkbox`;
+        checkbox.type = 'checkbox';
+        checkbox.id = checkboxId;
+        checkbox.name = checkboxId;
+        checkbox.value = item;
+
+        // Create label for each checkbox
+        const label = document.createElement('label');
+        label.className = 'checkbox-label';
+        label.htmlFor = checkboxId;
+        label.textContent = item;
+
+        // Append checkbox and label to itemDiv
+        itemDiv.appendChild(checkbox);
+        itemDiv.appendChild(label);
+
+        // Append itemDiv to container
+        container.appendChild(itemDiv);
+    });
+}
+
+function constructCrystals() {
+    let uniqueStones = new Set();
+    allItems.forEach(document => {
+        Object.values(document.platings).forEach(plating => {
+            Object.keys(plating.stones).forEach(stoneCategory => {
+                uniqueStones.add(stoneCategory);
+            });
+        });
+    });
+    createFilterElements('crystals', Array.from(uniqueStones), 'crystal');
+}
+
+function constructPlatings() {
+    let uniquePlatings = new Set();
+    allItems.forEach(document => {
+        Object.keys(document.platings).forEach(plating => {
+            uniquePlatings.add(plating);
+        });
+    });
+    createFilterElements('platings', Array.from(uniquePlatings), 'plating');
+}
+
+function constructBases() {
+    let all_bases = allItems.reduce((accumulator, document) => {
+        if (!accumulator.includes(document.material)) {
+            accumulator.push(document.material);
+        }
+        return accumulator;
+    }, []);
+    createFilterElements('bases', all_bases, 'base');
+}
+
 
 // Function to simulate changing the page (you might have your actual logic to fetch/update content here)
 
