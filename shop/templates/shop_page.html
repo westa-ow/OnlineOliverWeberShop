@@ -89,16 +89,7 @@
 {% endif %}
 
 
-<div class="item-container" id="cart-icon-container">
-    <div class="cart-icon" id="cart-icon">
-        <i class="fa fa-arrow-right" id="arrow-icon" aria-hidden="true"></i>
-        <span id="show-cart">Show my cart</span>
-    </div>
-    <br>
-    </div>
-    <div id="mini-cart" class="cartPreview" style="display: none;">
 
-    </div>
 
 <script src="../static/js/shop_page.js"></script>
 </body>
@@ -132,56 +123,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
  }
-document.getElementById('cart-icon').addEventListener('click', function() {
-          const miniCartElement = document.getElementById('mini-cart');
-          const arrowIcon = document.getElementById('arrow-icon');
-          const isDisplayed = miniCartElement.style.display !== 'none';
-
-          // Toggle display property of the mini-cart
-          miniCartElement.style.display = isDisplayed ? 'none' : 'block';
-
-          // Toggle the arrow icon class
-          if (isDisplayed) {
-              document.getElementById('show-cart').innerText = "Show my cart";
-            arrowIcon.classList.remove('fa-arrow-down');
-            arrowIcon.classList.add('fa-arrow-right');
-          } else {
-              document.getElementById('show-cart').innerText = "Hide my cart";
-            arrowIcon.classList.remove('fa-arrow-right');
-            arrowIcon.classList.add('fa-arrow-down');
-          }
-
-          // If we're showing the cart, update its content
-          if (!isDisplayed) {
-            updateMiniCart();
-          }
-    });
-    function updateMiniCart() {
-
-      const miniCartElement = document.getElementById('mini-cart');
-      miniCartElement.innerHTML = ''; // Clear current mini-cart content
-
-      let total = 0;
-
-      cartData.forEach(item => {
-        const itemElement = document.createElement('div');
-        itemElement.classList.add('mini-cart-item');
-
-        itemElement.innerHTML = `
-            <div style="display: flex;flex-direction: column; align-items: center;">
-              <p style=""> ${item.name}</p>
-              <div style="display: flex; justify-content: space-between; width: 100%;">
-                <span>Price: €${item.price.toFixed(2)}</span>
-                <span>Quantity: ${item.quantity}</span>
-                <span>Sum: €${(item.sum)}</span>
-              </div>
-            </div>
-        `;
-
-
-        miniCartElement.appendChild(itemElement);
-      });
-    }
 
 
     document.getElementById('searchForm').addEventListener('submit', function() {
