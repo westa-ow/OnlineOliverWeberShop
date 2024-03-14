@@ -257,6 +257,9 @@ def get_cart(request):
                      'number': doc.to_dict().get('number'), 'image_url': doc.to_dict().get('image_url'),
                      'description': safe_description, 'quantity_max': doc.to_dict().get('quantity_max'),
                      'price': doc.to_dict().get('price'),
+                     'stone': doc.to_dict().get('stone'),
+                     'plating': doc.to_dict().get('plating'),
+                     'material': doc.to_dict().get('material'),
                      'sum': str(round(doc.to_dict().get('price') * doc.to_dict().get('quantity'), 1))})
     return cart
 

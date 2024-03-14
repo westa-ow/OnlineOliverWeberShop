@@ -8,201 +8,13 @@
     <script src="https://kit.fontawesome.com/ba99d1b9b2.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="../static/css/base.css">
 </head>
 <style>
 
-
-@import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap');
-@import url('https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css');
-    .toolbar {
-        {#overflow: hidden;#}
-        {#position: fixed;#}
-
-    background-color: #01447B;
-    padding: 6px;
-    display: flex;
-    width: 100%;
-    align-items: center;
-    text-align: center;
-    justify-content: space-between;
-
-
-}
-
-.logo img {
-
-    margin-left: 10px;
-    margin-right: 10px;
-}
-
-.links {
-    margin: 0 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.link {
-    color: white;
-    font-size: 20px; color: white; font-family: poppins,Verdana,sans-serif;
-    {#font-family: poppins,Verdana,sans-serif;#}
-    {#font-size: 15px;#}
-    text-decoration: none !important;
-    padding: 5px;
-    margin: 0 0px;
-    margin-right: 5px;
-    /*    text-decoration: none !important;*/
-    /*    color: #ffffff !important;*/
-        position: relative;
-}
-
-.link::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 5px;
-    width: 0%;
-    height: 1.5px;
-    background-color: #ffffff;
-    transition: width 0.3s ease;
-}
-.link:hover::after {
-    width: 100%;
-}
-.link:hover {
-    color: #ffffff !important;
-}
-.users{
-    text-align: right;
-}
-.lang-menu {
-    width: 100px;
-    text-align: right;
-    font-weight: bold;
-    margin-top: 0px;
-    position: relative;
-}
-.selected-lang{
-    font-weight: normal;
-}
-.lang-menu .selected-lang:before {
-  content: '';
-  display: inline-block;
-  width: 32px;
-  height: 32px;
-  margin-right: 10px;
-  background-repeat: no-repeat;
-  background-size: contain;
-}
-
-.lang-menu .selected-lang {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  line-height: 2;
-  cursor: pointer;
-  color: white;
-  font-family: poppins, Verdana, sans-serif;
-  background-color: #01447B;
-}
-
-
-.lang-menu ul {
-    margin: 0;
-    padding: 0;
-    display: none;
-    background-color: #fff;
-    border: 1px solid #f8f8f8;
-    position: absolute;
-    top: 30px;
-    right: 0px;
-    width: 125px;
-    border-radius: 5px;
-    box-shadow: 0px 1px 10px rgba(0,0,0,0.2);
-}
-
-
-.lang-menu ul li {
-    list-style: none;
-    text-align: left;
-    display: flex;
-    justify-content: space-between;
-}
-
-.lang-menu ul li a {
-    text-decoration: none;
-    width: 125px;
-    padding: 5px 10px;
-    display: block;
-}
-
-.lang-menu ul li:hover {
-    background-color: #f2f2f2;
-}
-
-.lang-menu ul li a:before {
-    content: '';
-    display: inline-block;
-    width: 25px;
-    text-align: center;
-    height: 25px;
-    vertical-align: middle;
-    margin-right: 10px;
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-.selected-lang::before{
-    background-image: url(https://www.worldometers.info/img/flags/gm-flag.gif);
-}
-.gm:before {
-    background-image: url(https://www.worldometers.info/img/flags/gm-flag.gif);
-}
-
-.uk:before {
-    background-image: url(https://www.worldometers.info/img/flags/uk-flag.gif);
-}
-.fr:before {
-    background-image: url(https://www.worldometers.info/img/flags/fr-flag.gif);
-}
-
-.sp:before {
-    background-image: url(https://www.worldometers.info/img/flags/sp-flag.gif);
-}
-.it:before {
-    background-image: url(https://www.worldometers.info/img/flags/it-flag.gif);
-}
-
-.lang-menu:hover ul {
-    display: block;
-}
-
- .circular-select {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: none;
-    background-color: #ccc;
-    background-image: url('https://www.worldometers.info/img/flags/gm-flag.gif');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    cursor: pointer;
-     appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-
-  }
- .circular-select{
-     color: transparent;
- }
- .circular-select option{
-     color: black;
- }
-
 </style>
 
-<body>
+<body class="this-page">
 <div class="toolbar">
     <div class="logo">
         <img class = "imag" src="{% static "logonormal.webp" %}" height="70px"  />
@@ -229,7 +41,10 @@
                 <a></a>
 
                 <span style="font-style: italic; font-size: 18px; color: white; font-family: poppins,Verdana,sans-serif;">{{ user.username }}</span>
-                <a href="{% url 'logout'%}" class="link">Logout</a>
+        <span>
+                <a class="link" id="cartBtn"><i class="fa-solid fa-shopping-basket" style="color: white; "></i></a>
+                <a href="{% url 'logout'%}" class="link" onclick="return confirmLogout(event)"><i class="fa-solid fa-sign-out"></i></a>
+        </span>
     {% else %}
                 <a></a>
                 <a href="{% url 'login'%}" class="link">Login</a>
@@ -242,9 +57,139 @@
 <a></a>
 <a></a>
 
+<div id="cartPanel" class="cart-panel">
 
+    <!-- Cart content will be loaded here dynamically -->
+    <div class="cart-header">
+        <span class="shopping-cart-span">Shopping Cart</span>
+        <span id="closeCartBtn"><i class="fa-solid fa-close"></i></span>
+    </div>
+      <div class="cart-items">
+        <!-- Cart items will be dynamically inserted here -->
+    </div>
+    <div class="cart-footer">
+        <div class="subtotal">
+            <span>Subtotal:</span>
+            <span id="subtotalValue">€0.00</span>
+        </div><br>
+        <button onclick="location.href='{% url 'cart' %}'"  class="checkout-btn">Go to Checkout</button>
+    </div>
 
-
-
+</div>
+<div id="overlay" class="overlay"></div>
 </body>
+<script>
+  function confirmLogout(event) {
+    // Show a confirmation dialog
+    var confirmation = confirm("Are you sure you want to log out?");
+
+    // If the user clicks "Cancel", prevent the default link action
+    if (!confirmation) {
+      event.preventDefault();
+      return false;
+    }
+
+    // If the user confirms, allow the default link action (logout)
+    return true;
+  }
+  document.getElementById('cartBtn').onclick = function() {
+    var cartPanel = document.getElementById('cartPanel');
+    var overlay = document.getElementById('overlay');
+    if (cartPanel.classList.contains('open')) {
+        cartPanel.classList.remove('open');
+        overlay.style.display = 'none'; // Hide the overlay when the cart is closed
+
+    } else {
+        // Load cart data
+
+        fetch('{% url "get_cart" %}')
+            .then(response => response.json())
+            .then(data => {
+                const cartItemsContainer = document.getElementById('cartPanel').querySelector('.cart-items');
+                cartItemsContainer.innerHTML = ''; // Clear existing items
+                let sum = 0;
+                data.cart.forEach(item => {
+                    sum+=parseFloat(item.sum);
+                    const itemElement = document.createElement('div');
+                    itemElement.classList.add('mini-cart-product');
+
+                    const img_column = document.createElement('div');
+                    const img = document.createElement('img');
+                    img.src = item.image_url;
+                    img.width= `64`;
+                    img_column.appendChild(img);
+
+
+                    const attributes = document.createElement('div');
+                    attributes.classList.add('attrs-container');
+
+                    const attrs_column_first = document.createElement('p');
+                    attrs_column_first.classList.add('cart-first-attrs-column');
+
+                    const name = document.createElement('span');
+                    name.textContent = `${item.name}`;
+                    name.classList.add('cart-product-name');
+
+                    const crystal_color = document.createElement('span');
+                    crystal_color.textContent = `Crystal color: ${item.stone}`;
+                    const plating = document.createElement('span');
+                    plating.textContent = `Plating: ${item.plating}`;
+                    const base = document.createElement('span');
+                    base.textContent = `Base Material: ${item.material}`;
+
+                    attrs_column_first.appendChild(name);
+                    attrs_column_first.appendChild(crystal_color);
+                    attrs_column_first.appendChild(plating);
+                    attrs_column_first.appendChild(base);
+
+
+                    const attrs_column_second = document.createElement('span');
+                    attrs_column_second.classList.add('cart-second-attrs-column');
+
+                    const price = document.createElement('span');
+                    price.textContent = `€${item.price}`;
+                    price.classList.add('mini-cart-product-price');
+
+                    const quantity = document.createElement('span');
+                    quantity.textContent = `Quantity: ${item.quantity}`;
+                    quantity.classList.add('mini-cart-product-quantity');
+
+
+
+                    attrs_column_second.appendChild(price);
+                    attrs_column_second.appendChild(quantity);
+
+                    attributes.appendChild(attrs_column_first);
+                    attributes.appendChild(attrs_column_second);
+
+                    itemElement.appendChild(img_column);
+                    itemElement.appendChild(attributes);
+
+                    // Add more details as needed
+                    cartItemsContainer.appendChild(itemElement);
+                });
+
+                // Update subtotal
+
+                document.getElementById('subtotalValue').textContent = `€${sum.toFixed(1)}`;
+
+                // Open the cart panel and overlay
+                document.getElementById('cartPanel').classList.add('open');
+                document.getElementById('overlay').style.display = 'block';
+                console.log(data);
+            })
+            .catch(error => console.error('Error loading cart:', error));
+    }
+};
+document.getElementById('overlay').addEventListener('click', function() {
+    document.getElementById('cartPanel').classList.remove('open');
+    this.style.display = 'none'; // Hide the overlay
+});
+document.getElementById('closeCartBtn').onclick = function() {
+    var cartPanel = document.getElementById('cartPanel');
+    var overlay = document.getElementById('overlay');
+    cartPanel.classList.remove('open');
+    overlay.style.display = 'none';
+};
+</script>
 </html>
