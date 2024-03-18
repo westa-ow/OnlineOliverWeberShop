@@ -1,4 +1,3 @@
-
 ul {
     margin-left: 0;
     padding-left: 0;
@@ -22,7 +21,6 @@ ul {
         border-radius: 5px;
         margin-top: -11px;
 
-        /*margin-left: 100px;*/
     }
     .search:hover{
         background-color: #139313;
@@ -39,7 +37,7 @@ ul {
     }
 
 .results{
-text-align: center;
+    text-align: center;
 }
 .NoRes{
     text-align: center;
@@ -49,10 +47,9 @@ text-align: center;
 }
 .document-container {
     padding: 0 0 10px 10px;
-    margin: 0 auto;
     display: flex;
     border: 2px solid #ddd;
-    margin-bottom: 10px;
+    margin: 0 auto 10px;
     width: 1000px;
     height: 350px;
     border-radius: 10px;
@@ -79,7 +76,6 @@ text-align: center;
 }
 
 .document-info {
-
     position: relative;
     flex-grow: 1;
     padding-top: 10px;
@@ -109,56 +105,56 @@ text-align: center;
     margin-left: 480px;
 }
  #dropdown {
-        max-height: 200px;
-        overflow-y: auto;
-        width: 250px; /* Match the width of your input field */
-        background-color: white;
-        border: 1px solid #ddd;
-        position: absolute;
-        left: 50%; /* Set left to 50% of the parent element */
-        transform: translateX(-50%); /* Move back by 50% of its own width */
-        top: 80px; /* Adjust based on the height of your input field and label */
-        z-index: 1000;
-    }
+    max-height: 200px;
+    overflow-y: auto;
+    width: 250px; /* Match the width of your input field */
+    background-color: white;
+    border: 1px solid #ddd;
+    position: absolute;
+    left: 50%; /* Set left to 50% of the parent element */
+    transform: translateX(-50%); /* Move back by 50% of its own width */
+    top: 80px; /* Adjust based on the height of your input field and label */
+    z-index: 1000;
+}
 
-    #dropdown div {
-        cursor: pointer;
-        padding: 5px;
-    }
+#dropdown div {
+    cursor: pointer;
+    padding: 5px;
+}
 
-    #dropdown div:hover {
-        background-color: #f0f0f0;
-    }
+#dropdown div:hover {
+    background-color: #f0f0f0;
+}
 
-    .price-and-cart {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    .quantity-input{
-        position: absolute;
-       margin: 0px 0 0 190px;
-    }
-    .quantity-slider, .quantity-slider  {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
+.price-and-cart {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.quantity-input{
+    position: absolute;
+    margin: 0px 0 0 190px;
+}
+.quantity-slider, .quantity-slider  {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
 
-        margin: 30px 130px;
-    }
-    .quantitySlider{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
-        bottom: 0;
-        left: 37%;
-        transform: translateX(-100%);
-        margin-bottom: 5px;
-        height: 60px;
-    }
-    .current-quantity{
+    margin: 30px 130px;
+}
+.quantitySlider{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
+    left: 37%;
+    transform: translateX(-100%);
+    margin-bottom: 5px;
+    height: 60px;
+}
+.current-quantity{
 
     position: absolute;
     bottom: 0;
@@ -166,29 +162,28 @@ text-align: center;
     font-size: 18px;
 
 }
-    .quantity-slider {
+.quantity-slider {
     display: flex;
     align-items: center;
     justify-content: space-between; /* Use space-between to spread out the min, slider, and max evenly */
     padding: 10px;
     box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
-    .quantity-slider .slider {
+.quantity-slider .slider {
     flex-grow: 1; /* Allow the slider to grow and fill the space */
     margin: 0 10px; /* Add some space on the sides */
 }
 
-    .quantity-slider-button {
-        flex: none; /* Do not allow the button to grow or shrink */
-        /* Rest of your styles */
-    }
+.quantity-slider-button {
+    flex: none; /* Do not allow the button to grow or shrink */
+}
 
-    .quantitySlider {
-        flex: none;
-    }
-    .quantity-slider .quantitySlider {
-        margin-bottom: 15px;
-    }
+.quantitySlider {
+    flex: none;
+}
+.quantity-slider .quantitySlider {
+    margin-bottom: 15px;
+}
 .quantity-slider-button{
     margin-left: 10px;
 }
@@ -206,17 +201,16 @@ text-align: center;
          border-radius: 5px;
         color: #efefef;
     }
-    .quantity-control{
+.quantity-control{
     border: 1px solid ;
     border-color: #cbcbcb;
     border-radius: 5px;
 
-    }
-     .radio-buttons input[type="radio"] {
+}
+.radio-buttons input[type="radio"] {
     display: none;
 }
-    .radio-buttons {
-
+.radio-buttons {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -226,13 +220,13 @@ text-align: center;
 .radio-buttons label {
     margin: 0;
     display: flex;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  padding: 12px 32.5px;
-  color: rgba(51, 65, 85, 1);
-  transition: all .15s ease-in-out;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    padding: 12px 32.5px;
+    color: rgba(51, 65, 85, 1);
+    transition: all .15s ease-in-out;
 }
 
 /* Change the appearance when the radio button is checked */
@@ -248,28 +242,26 @@ text-align: center;
 
 
 
-    .quantity-increase, .quantity-decrease {
+.quantity-increase, .quantity-decrease {
     background-color: #f8f8f8; /* Light gray background */
     color: rgba(51, 51, 51, 0.84); /* Darker text for contrast */
-
     border: 1px solid; /* No border for a modern look */
-        border-color: #cbcbcb ;
+    border-color: #cbcbcb ;
     padding: 5px 10px; /* Padding for better touch area */
     font-size: 18px; /* Larger font for readability */
     font-weight: bold; /* Bold font for emphasis */
     cursor: pointer; /* Cursor changes to pointer to indicate clickability */
     border-radius: 3px; /* Slightly rounded corners */
-        width: 50px;
-
-        height: 40px;
+    width: 50px;
+    height: 40px;
     transition: background-color 0.3s; /* Smooth transition for hover effect */
 }
-    .quantity-increase{
-        margin-left:20px ;
-    }
-    .quantity-decrease{
-        margin-right:20px ;
-    }
+.quantity-increase{
+    margin-left:20px ;
+}
+.quantity-decrease{
+    margin-right:20px ;
+}
 
 .quantity-increase:hover, .quantity-decrease:hover {
     background-color: #e6e6e6; /* Slightly darker background on hover */
@@ -288,16 +280,15 @@ text-align: center;
 }
 .quantity-input-button, .quantity-slider-button{
     background-color: #1daede;
-        color: #fff;
-        padding: 10px;
-        border: none;
-        font-size: 18px;
-        cursor: pointer;
-        width: 110px;
-        border-radius: 5px;
-
-        margin-left: 225px;
-     margin-top: 90px;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    width: 110px;
+    border-radius: 5px;
+    margin-left: 225px;
+    margin-top: 90px;
     position: absolute;
 }
 .sum{
@@ -312,7 +303,6 @@ text-align: center;
 table{
     border: 21px solid #000000;
 }
-
 
 
 .finish-section{
@@ -369,11 +359,5 @@ table{
     cursor: pointer;
 }
 #arrow-icon {
-    /* Align the icon vertically */
-    /*vertical-align: middle;*/
     transform: translateY(-25%);
-    /* Remove any additional top/bottom padding or margin if necessary */
-    /*padding: 0;*/
-    /*margin: 0;*/
-    /* Other icon styles... */
 }
