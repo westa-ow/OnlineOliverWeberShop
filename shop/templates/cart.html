@@ -7,7 +7,7 @@
     <title>My cart</title>
     <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/checkout_cart.css' %}">
 </head>
 <style>
 .headers{
@@ -41,31 +41,31 @@
 </style>
 <body>
 {% include 'base.html' %}
-<table style="margin: 0 auto; width: 1000px;height:80px ;text-align: center; border: 2px solid #ddd; ">
-
-    <tr>
-        <td>
-            <span class="headers">Order</span>
-            <button class="order" data-order-type="asc" name="number"><i class="fa-solid fa-arrow-up"></i></button>
-            <button class="order" data-order-type="desc" name="number"><i class="fa-solid fa-arrow-down"></i></button>
-        </td>
-        <td>
-           <span class="headers">Quantity</span>
-            <button class="order" data-order-type="asc" name="quantity"><i class="fa-solid fa-arrow-up"></i></button>
-            <button class="order" data-order-type="desc" name="quantity"><i class="fa-solid fa-arrow-down"></i></button>
-        </td>
-        <td>
-            <span class="headers">Name</span>
-            <button class="order" data-order-type="asc" name="name"><i class="fa-solid fa-arrow-up"></i></button>
-            <button class="order" data-order-type="desc" name="name"><i class="fa-solid fa-arrow-down"></i></button>
-        </td>
-        <td>
-            <span class="headers">Total</span>
-            <button class="order" data-order-type="asc" name="sum"><i class="fa-solid fa-arrow-up"></i></button>
-            <button class="order" data-order-type="desc" name="sum"><i class="fa-solid fa-arrow-down"></i></button>
-        </td>
-    </tr>
-</table>
+{#<table style="margin: 0 auto; width: 1000px;height:80px ;text-align: center; border: 2px solid #ddd; ">#}
+{##}
+{#    <tr>#}
+{#        <td>#}
+{#            <span class="headers">Order</span>#}
+{#            <button class="order" data-order-type="asc" name="number"><i class="fa-solid fa-arrow-up"></i></button>#}
+{#            <button class="order" data-order-type="desc" name="number"><i class="fa-solid fa-arrow-down"></i></button>#}
+{#        </td>#}
+{#        <td>#}
+{#           <span class="headers">Quantity</span>#}
+{#            <button class="order" data-order-type="asc" name="quantity"><i class="fa-solid fa-arrow-up"></i></button>#}
+{#            <button class="order" data-order-type="desc" name="quantity"><i class="fa-solid fa-arrow-down"></i></button>#}
+{#        </td>#}
+{#        <td>#}
+{#            <span class="headers">Name</span>#}
+{#            <button class="order" data-order-type="asc" name="name"><i class="fa-solid fa-arrow-up"></i></button>#}
+{#            <button class="order" data-order-type="desc" name="name"><i class="fa-solid fa-arrow-down"></i></button>#}
+{#        </td>#}
+{#        <td>#}
+{#            <span class="headers">Total</span>#}
+{#            <button class="order" data-order-type="asc" name="sum"><i class="fa-solid fa-arrow-up"></i></button>#}
+{#            <button class="order" data-order-type="desc" name="sum"><i class="fa-solid fa-arrow-down"></i></button>#}
+{#        </td>#}
+{#    </tr>#}
+{#</table>#}
 <ul id="documents-list">
       {% for document in documents %}
 
