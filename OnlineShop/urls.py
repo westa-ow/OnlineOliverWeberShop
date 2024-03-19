@@ -39,6 +39,7 @@ urlpatterns = [
     path('get_current_page_values/', views.get_current_page_products, name='get_page_values'),
     path('add_to_cart_from_catalog/', views.add_to_cart_from_catalog, name='add_from_catalog'),
     path('get_cart/', views.getCartToBase, name='get_cart'),
+    path('admin_tools/', views.admin_tools, name='admin_tools'),
     # path('finish_order/', )
 
 
