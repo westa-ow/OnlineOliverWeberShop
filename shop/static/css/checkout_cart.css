@@ -1,6 +1,31 @@
+.all{
+    margin-top: 80px;
+}
+.shopping-cart-label{
+    width: 66%;
+    font-size: 24px;
+    font-weight: 600;
+    margin: auto auto 60px;
+}
+
+.back-button{
+    width: 66%;
+        margin: auto auto 60px;
+}
+.page-content{
+    display: flex;
+}
+.doc-content{
+    margin-left: 0;
+  padding-left: 0;
+  margin-right: -2rem;
+  width: 60%;
+}
 ul {
     margin-left: 0;
     padding-left: 0;
+    margin-right: -2rem;
+    /*width: 60%;*/
 }
 
 .products{
@@ -47,49 +72,107 @@ ul {
 }
 .document-container {
     padding: 0 0 10px 10px;
+  display: flex;
+  margin: 0 auto 50px;
+  width: 700px;
+  /*height: 350px;*/
+  border-radius: 10px;
+}
+.column-connector{
     display: flex;
-    border: 2px solid #ddd;
-    margin: 0 auto 10px;
-    width: 1000px;
-    height: 350px;
-    border-radius: 10px;
+  width: 50%;
+  justify-content: space-between;
+}
+.column-1{
+display: flex;
+  flex-direction: column;
+  /* Ensure the container stretches to full available height */
+  height: 100%;
 }
 
+.column-3{
+    text-align: end;
+}
+/*input[type=range] {*/
+/*  !*-webkit-appearance: none; !* Removes default styling in WebKit browsers *!*!*/
+/*  width: 100%; !* Required to control the width of the slider *!*/
+/*}*/
+/*!*.slider::-webkit-slider-thumb {*!*/
+/*!*  !*-webkit-appearance: none !important;*!*!*/
+/*!*  appearance: none;*!*/
+/*!*  background: #003665; !* Change thumb color *!*!*/
+/*!*  cursor: pointer; !* Cursor on hover *!*!*/
+/*!*}*!*/
+/*!*input[type=range]::-webkit-slider-runnable-track {*!*/
+/*!*  background: #003666;*!*/
+/*!*  height: 8px;*!*/
+/*!*  border-radius: 4px;*!*/
+/*!*}*!*/
+
+/*input[type=range]::-webkit-slider-thumb {*/
+/*  -webkit-appearance: none; !* Removes default styling *!*/
+/*  margin-top: -6px; !* Adjusts the position of the thumb relative to the track *!*/
+/*  height: 20px;*/
+/*  width: 20px;*/
+/*  background: #003666;*/
+/*  border-radius: 50%;*/
+/*  cursor: pointer;*/
+/*    z-index: 999;*/
+/*}*/
+/*.slider::-moz-range-thumb {*/
+/*  background: #003665; !* Change thumb color *!*/
+/*  cursor: pointer; !* Cursor on hover *!*/
+/*}*/
+
+/*.slider::-ms-thumb {*/
+/*  background: #003665; !* Change thumb color *!*/
+/*  cursor: pointer; !* Cursor on hover *!*/
+/*}*/
+/*.slider::-webkit-slider-runnable-track {*/
+/*  background: #003665; !* Change track color *!*/
+/*}*/
+
+/*.slider::-moz-range-track {*/
+/*  background: #003665; !* Change track color *!*/
+/*}*/
+
+/*.slider::-ms-track {*/
+/*  background: #003665; !* Change track color *!*/
+/*}*/
+/*.slider{*/
+/*}*/
+
+.document-container-body{
+    display: flex;
+  justify-content: space-between;
+  width: 100%;
+  flex-direction: row;
+}
 .document-image {
-    width: 319px;
-    height: 280px;
-    margin: auto auto;
-    right: 0;
+    max-width: 88px;
+    margin: 0px 20px 0 0;
 }
-.number-in-cart{
-    width: 32px;
-    height: 346px;
-    margin-right: 10px;
-    border-right:  2px solid #ddd;
-    text-align: center;
-    display: flex;        /* Use flexbox */
-    justify-content: center; /* Center horizontally */
-    align-items: center;  /* Center vertically */
-    font-size: 30px;
-    position: relative;
-    padding-right: 10px;
-}
+
 
 .document-info {
-    position: relative;
-    flex-grow: 1;
-    padding-top: 10px;
+    display: flex;
+    width: 100%;
+    height: 99%;
+    justify-content: space-between;
+    margin: -10px auto auto auto;
 }
 
 .document-number {
-    padding-top: 10px;
-    position: absolute;
-    font-size: 24px;
-    margin-left: 245px;
-    text-align: center;
-    font-weight: bold;
+    font-size: 18px;
+    /*margin-left: 245px;*/
+    /*text-align: center;*/
+    font-weight: 600;
 }
-
+.document-description{
+    font-size: 13px;
+    color: #a9a9a9;
+    font-weight: 600;
+}
 
 .document-price {
     position: absolute;
@@ -132,16 +215,13 @@ ul {
     justify-content: space-between;
 }
 .quantity-input{
-    position: absolute;
-    margin: 0px 0 0 190px;
+    text-align: center;
 }
 .quantity-slider, .quantity-slider  {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
 
-    margin: 30px 130px;
 }
 .quantitySlider{
     display: flex;
@@ -155,23 +235,20 @@ ul {
     height: 60px;
 }
 .current-quantity{
-
-    position: absolute;
-    bottom: 0;
-    left:0;
-    font-size: 18px;
+margin-top: auto;
+    font-size: 15px;
+    color: #7a7a7a;
+    font-weight: 600;
 
 }
+
 .quantity-slider {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Use space-between to spread out the min, slider, and max evenly */
-    padding: 10px;
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    margin-top: -15px;
 }
 .quantity-slider .slider {
-    flex-grow: 1; /* Allow the slider to grow and fill the space */
-    margin: 0 10px; /* Add some space on the sides */
+    margin: -15px 10px 0;
 }
 
 .quantity-slider-button {
@@ -188,11 +265,22 @@ ul {
     margin-left: 10px;
 }
 .quantity-slider .min, .quantity-slider .max {
-    margin: 0px; /* Add some space around min and max */
-    font-size: 18px;
+    /* Add some space around min and max */
+    font-size: 16px;
+    margin: 0px 0px 0px;
+    color: #4d4d4d;
 }
 .quantity-slider .slider{
     transform: translateY(+10px);
+    width: 150px;
+}
+.slider-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.slider{
+    margin-top: -15px;
 }
     .purchase{
    background-color: #01447B;
@@ -237,25 +325,14 @@ ul {
     border-color: #0056b3;
 }
 .inp{
-    width: 200px;
+    width: 100px;
+    height: 30px;
+    margin-top: 20px;
 }
 
 
 
-.quantity-increase, .quantity-decrease {
-    background-color: #f8f8f8; /* Light gray background */
-    color: rgba(51, 51, 51, 0.84); /* Darker text for contrast */
-    border: 1px solid; /* No border for a modern look */
-    border-color: #cbcbcb ;
-    padding: 5px 10px; /* Padding for better touch area */
-    font-size: 18px; /* Larger font for readability */
-    font-weight: bold; /* Bold font for emphasis */
-    cursor: pointer; /* Cursor changes to pointer to indicate clickability */
-    border-radius: 3px; /* Slightly rounded corners */
-    width: 50px;
-    height: 40px;
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
-}
+
 .quantity-increase{
     margin-left:20px ;
 }
@@ -271,72 +348,39 @@ ul {
     background-color: #cccccc; /* Even darker background when clicked */
 }
 .deleteBut{
-    font-size: 28px;
-    position: absolute;
-    top:0;
-    margin-left: 899px;
-    color: #CC4500;
+    font-size: 20px;
     cursor: pointer;
+    width: 35px;
+    padding: 5px;
 }
 .quantity-input-button, .quantity-slider-button{
-    background-color: #1daede;
+    background-color: #003665;
     color: #fff;
-    padding: 10px;
+    padding: 5px;
     border: none;
-    font-size: 18px;
+    font-size: 16px;
     cursor: pointer;
-    width: 110px;
-    border-radius: 5px;
-    margin-left: 225px;
-    margin-top: 90px;
-    position: absolute;
+    width: 99px;
+    border-radius: 4px;
+    margin-top: 10px;
 }
 .sum{
-    position: absolute;
-    margin-left: 725px;
-    width: 25%;
-    font-weight: bold;
-    font-size: 25px;
-    bottom: 0;
-
+    font-weight: 600;
+    font-size: 19px;
+    margin-top: 40px;
 }
 table{
     border: 21px solid #000000;
 }
 
 
-.finish-section{
-    position: relative;
-    border: 2px solid #ddd;
-    margin: 0 auto 10px;
-    max-width: 500px;
-    height: 260px;
-    padding: 15px;
-    box-sizing: border-box;
-    border-radius: 10px;
-}
 
-.finish-order{
-    position: absolute;
 
-    /*right: 0;*/
-    /*bottom:0;*/
-    left: 50%;
-    transform: translateX(-55%);
-    padding: 15px 40px;
-    border-radius: 10px;
-    background-color: #00572C;
-    color:white;
-    font-size:18px;
-    cursor: pointer;
-    margin: 10px;
-}
+/*.final-unique-quantity, .final-quantity, .final-sum{*/
 
-.final-unique-quantity, .final-quantity, .final-sum{
-
-    font-size: 20px;
-    font-weight: 700;
-}
+/*    font-size: 20px;*/
+/*    font-weight: 700;*/
+/*}*/
 #scrollToBottomContainer {
 
     position: fixed;
@@ -360,4 +404,112 @@ table{
 }
 #arrow-icon {
     transform: translateY(-25%);
+}
+a{
+    text-decoration: none !important;
+
+}
+.back-to-shopping:hover{
+    color: white!important;
+}
+.back-to-shopping{
+    padding: 20px;
+    background-color: #003665;
+    width: 200px;
+    color:white;
+    border-radius: 7px;
+    cursor: pointer;
+    margin: auto;
+    text-decoration: none;
+}
+
+.final-container{
+     margin: 0 auto 10px;
+}
+
+.finish-section{
+    /*position: relative;*/
+    background-color: #f2f2f2;
+
+    width: 350px;
+    /*height: 260px;*/
+    padding: 2.5rem;
+    /*box-sizing: border-box;*/
+    border-radius: 5px;
+
+}
+
+h4{
+    font-size: 20px!important;
+    font-weight: 600!important;
+    color: #777!important;
+    /*font-family: 'Poppins', Verdana, sans-serif!important;*/
+}
+.info-cart-block{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.block-total{
+    display: flex;
+    flex-direction: column;
+}
+.final-unique-quantity, .final-sum{
+    padding-left: 0;
+    white-space: inherit;
+    font-size: 16px;
+    text-align: left;
+    font-weight: 600;
+    margin-right: 14px;
+    color: #777;
+    line-height: 1.5em
+}
+.voucher{
+    display: flex;
+    margin-top: 30px;
+    margin-bottom: 20px;
+
+}
+
+.label-voucher{
+    font-weight: 600;
+    font-size: 18px;
+    margin: -4px 0 0 5px;
+    cursor: pointer;
+}
+.label-voucher::after{
+    display: block;
+    content: '';
+    width: 100%;
+    height: 1px;
+    background: black;
+
+    bottom: 0;
+    left: 0;
+}
+
+.card-block-totals{
+    display: flex;
+}
+.cart-total,.cart-taxes{
+    display: flex;
+    flex-direction: column;
+    color: #777;
+    font-size: 17px;
+    font-weight: 600;
+}
+.cart-total{
+    margin-right: 20px;
+}
+.cart-detailed-actions{
+    text-align: center;
+}
+.finish-order{
+    padding: 15px 40px;
+    border-radius: 6px;
+    background-color: #003665;
+    color:white;
+    font-size:18px;
+    cursor: pointer;
+    margin-top: 30px;
 }
