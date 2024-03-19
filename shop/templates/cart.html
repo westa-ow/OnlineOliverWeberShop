@@ -10,156 +10,140 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/checkout_cart.css' %}">
 </head>
 <style>
-.headers{
-    font-size: 20px;
-    font-weight: 600;
+ input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  width: 15rem;
 }
-.order {
-    background-color: #E6EBF0; /* Lighter blue for default state */
-    color: #003665; /* White text/icon for contrast */
-    border: none;
-    cursor: pointer;
-    padding: 5px 20px;
-    {#margin: 0 2px;#}
-
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+ input[type="range"]::-webkit-slider-runnable-track {
+  background: #053a5f;
+  height: 0.5rem;
+  border-radius: 5px;
+     margin: 10px 0px;
 }
-
-.order:hover {
-    background-color: #4a789b; /* Slightly darker on hover */
+ input[type="range"]::-moz-range-track {
+  background: #053a5f;
+  height: 0.5rem;
+  border-radius: 5px;
 }
-{#@media screen and (max-width: 768px) {#}
-{#    .finish-order {#}
-{#        position: relative; /* Change to relative for smaller screens */#}
-{#        margin: 20px auto; /* Center it */#}
-{#        width: 90%; /* Make it wider to fit screen */#}
-{#        /* Other styles as needed */#}
-{#    }#}
-{##}
-
+ input[type="range"]::-webkit-slider-thumb {
+   -webkit-appearance: none; /* Override default look */
+   appearance: none;
+   margin-top: -6px; /* Centers thumb on the track */
+   background-color: #cccccc;
+   border: 2px solid white;
+   height: 1.3rem;
+   width: 1.3rem;
+   border-radius:10px ;
+}
 </style>
 <body>
 {% include 'base.html' %}
-{#<table style="margin: 0 auto; width: 1000px;height:80px ;text-align: center; border: 2px solid #ddd; ">#}
-{##}
-{#    <tr>#}
-{#        <td>#}
-{#            <span class="headers">Order</span>#}
-{#            <button class="order" data-order-type="asc" name="number"><i class="fa-solid fa-arrow-up"></i></button>#}
-{#            <button class="order" data-order-type="desc" name="number"><i class="fa-solid fa-arrow-down"></i></button>#}
-{#        </td>#}
-{#        <td>#}
-{#           <span class="headers">Quantity</span>#}
-{#            <button class="order" data-order-type="asc" name="quantity"><i class="fa-solid fa-arrow-up"></i></button>#}
-{#            <button class="order" data-order-type="desc" name="quantity"><i class="fa-solid fa-arrow-down"></i></button>#}
-{#        </td>#}
-{#        <td>#}
-{#            <span class="headers">Name</span>#}
-{#            <button class="order" data-order-type="asc" name="name"><i class="fa-solid fa-arrow-up"></i></button>#}
-{#            <button class="order" data-order-type="desc" name="name"><i class="fa-solid fa-arrow-down"></i></button>#}
-{#        </td>#}
-{#        <td>#}
-{#            <span class="headers">Total</span>#}
-{#            <button class="order" data-order-type="asc" name="sum"><i class="fa-solid fa-arrow-up"></i></button>#}
-{#            <button class="order" data-order-type="desc" name="sum"><i class="fa-solid fa-arrow-down"></i></button>#}
-{#        </td>#}
-{#    </tr>#}
-{#</table>#}
-<ul id="documents-list">
-      {% for document in documents %}
+<div class="all">
 
-    <div class="document-container" data-document-id="{{ document.name }}" data-document="{{ document }}">
+<div class="page-content">
+  <div class="doc-content">
 
-        <div class="number-in-cart" data-product-id="{{ document.name }}">{{ document.number }}</div>
-        <div class="document-info" id="info-{{ document.name }}">
+    <div class="shopping-cart-label">Shopping cart</div>
+    <ul id="documents-list">
 
-            <div class="document-number">{{ document.name }}</div> <br>
-            <br>
-            <div class="document-price" >€{{ document.price }}</div>
-            <div class="document-in-stock">In stock: {{ document.quantity_max }}</div><br><br>
-            <div class="document-description">{{ document.description }}</div><br>
+          {% for document in documents %}
 
+        <div class="document-container" data-document-id="{{ document.name }}" data-document="{{ document }}">
+            <div class="document-container-body">
+                <div><img class="document-image" src="{{ document.image_url }}" alt="{{ document.name }}"></div>
+                <div class="document-info" id="info-{{ document.name }}">
 
-            <div class="deleteBut"  data-product-id="{{ document.name }}" ><i class="fa-solid fa-trash"></i></div>
+                    <div class="column-1">
+                        <div class="document-number">{{ document.name }}</div>
+                        <div class="document-description">{{ document.description }}</div>
+                        <div class="current-quantity" id="current-quantity-{{ document.name }}">In cart: {{ document.quantity }}</div>
+                    </div>
+                    <div class="column-connector">
+                    <div class="column-2">
+                        <div>
+                            <div class="quantity-slider" id="quantity-slider-{{ document.name }}" >
+                                <span class="min">{{ 1 }}</span>
+                                <div class="slider-body">
+                                    <input class="inp" min=1 id="quantity-input-inp-{{ document.name }}" value="{{ document.quantity }}" type="number" placeholder="Enter the quantity">
+                                    <input type="range" min="1" max="{{ document.quantity_max }}" value="{{ document.quantity }}" class="slider" id="slider-{{ document.name }}">
+                                    <button class="quantity-input-button" id="quantity-input-apply-{{ document.name }}">Confirm</button>
+                                </div>
+                                <span class="max">{{ document.quantity_max }}</span>
+                            </div>
+                        </div>
 
-            <div >
-                <div class="quantity-input" id="quantity-input-{{ document.name }}">
-                       <input class="inp" min=1 id="quantity-input-inp-{{ document.name }}" type="number" placeholder="Enter the quantity">
+                    </div>
+                    <div class="column-3">
+                        <div class="deleteBut"  data-product-id="{{ document.name }}" ><i class="fa-solid fa-remove"></i></div>
+
+                        <div class="sum" id="sum-{{ document.name }}">€{{ document.sum  }}</div>
+                    </div>
+                        </div>
                 </div>
-
-                <div class="quantity-slider" id="quantity-slider-{{ document.name }}" >
-                    <span class="min">{{ 1 }}</span>
-                    <input type="range" min="1" max="{{ document.quantity_max }}" value="{{ document.quantity }}" class="slider" id="slider-{{ document.name }}">
-                    <span class="max">{{ document.quantity_max }}</span>
-                </div>
-
-                <button class="quantity-input-button" id="quantity-input-apply-{{ document.name }}">Confirm</button>
             </div>
+        </div>
+    {% endfor %}
 
-            <br>
-            <span class="current-quantity" id="current-quantity-{{ document.name }}" >Current quantity: {{ document.quantity }}</span>
-            <div class="sum" id="sum-{{ document.name }}">Total: €{{ document.sum  }}</div>
+    </ul>
+  <div class="back-button" >
+    <a class="back-to-shopping" href="{% url "catalog" %}">
+        <i class="fa-solid fa-chevron-left"> </i>
+        <span>Continue shopping</span>
+    </a>
+  </div>
+</div>
+<div class="final-container">
+    <div class="finish-section">
+        <div class="card-detailed-totals">
+            <h4>Subtotal</h4>
+            <div class="info-cart-block">
+                <div class="block-total">
+                    <div class="final-unique-quantity">5 items</div>
+                    <div class="final-sum" id="final-sum">€500.00</div>
+                </div>
+            </div>
+            <div class="promo-block">
+                <div class="voucher">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag"> <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path> <line x1="7" y1="7" x2="7" y2="7"></line> </svg>
+                    <span class="label-voucher">Have a promo code?</span>
+
+                </div>
+            </div>
+            <div class="card-block-totals">
+                <div class="cart-total">
+                    <span class="label-total">Total (VAT incl.)</span>
+                    <span class="value-total">€500.00</span>
+                </div>
+                <div class="cart-taxes">
+                    <span class="label-taxes">Included taxes:</span>
+                    <span class="value-taxes">€84.00</span>
+                </div>
+            </div>
+        </div>
+        <div class="cart-detailed-actions">
+            <button class="finish-order" id="finishOrderButton">Proceed to checkout</button>
         </div>
 
-        <img class="document-image" src="{{ document.image_url }}" alt="{{ document.name }}">
     </div>
-{% endfor %}
-
-</ul>
-<div id="scrollToBottomContainer">
-    <p>Checkout</p>
-    <button id="scrollToBottomButton">  <i  class="fa fa-arrow-down" id="arrow-icon"></i></button>
+    </div >
 </div>
-<div class="finish-section">
-    <div class="final-unique-quantity" id="final-unique-quantity">Total items.................................................{{ documents|length }} </div>
-    <br>
-    <div class="final-quantity" id="final-quantity">Total pieces...................  </div>
-    <br>
-    <div class="final-sum" id="final-sum">Total cost: €</div>
 
-    <br>
-    <button class="finish-order" id="finishOrderButton">Finish order</button>
 </div>
 </body>
 
 <script>
-    document.getElementById('scrollToBottomButton').addEventListener('click', function() {
-    window.scrollTo({
-        top: document.body.scrollHeight,
-        behavior: 'smooth'
-    });
-});
 
-window.addEventListener('scroll', function() {
-    var scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-    var scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    scrollPosition = Math.round(scrollPosition / 20) * 20;
-
-
-    if (scrollPosition >= scrollHeight) {
-        // We are at the bottom, hide the button
-        document.getElementById('scrollToBottomContainer').style.display = 'none';
-    } else {
-        // Not at the bottom, show the button
-        document.getElementById('scrollToBottomContainer').style.display = 'block';
-    }
-});
     let documentss = [];
 
     function init() {
         documentss = {{ documents|safe }};
         calculate_final();
-        var scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    var container = document.getElementById('scrollToBottomContainer');
 
-    if (scrollHeight <= 0) {
-        // Page is not scrollable, hide the button
-        container.style.display = 'none';
-    } else {
-        // Page is scrollable, show the button
-        container.style.display = 'block';
-    }
+
     }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -189,10 +173,13 @@ function calculate_final(){
             totalSum += (doc.quantity * doc.price);
      });
 
-     document.getElementById('final-unique-quantity').innerText = 'Total items...........................................................' + totalItems;
-     document.getElementById('final-quantity').innerText = 'Total pieces..........................................................' + totalQuantity;
-     document.getElementById('final-sum').innerText = 'Total cost......................................................€' + totalSum.toFixed(1);
-
+     const quantity_items = totalItems%10===1 ? "item" : "items";
+     const totalSumFinal =  totalSum.toFixed(2);
+     document.querySelector('.final-unique-quantity').innerText =  totalItems +" " + quantity_items;
+     {#document.getElementById('final-quantity').innerText = 'Total pieces..........................................................' + totalQuantity;#}
+     document.getElementById('final-sum').innerText = '€' + totalSumFinal;
+     document.querySelector('.value-total').innerText = '€' + totalSumFinal;
+     document.querySelector('.value-taxes').innerText = '€' + (totalSumFinal * 0.15).toFixed(2);
 }
 function parameters_final(productId, newQuantity){
     documentss = documentss.map(doc => {
@@ -207,91 +194,38 @@ function parameters_final(productId, newQuantity){
 function saveState(name, value) {
     localStorage.setItem(name, value);
 }
-$('.order').click(function() {
-    var orderDirection = $(this).attr('data-order-type'); // 'asc' or 'desc'
-    var orderName = $(this).attr('name'); // 'asc' or 'desc'
-    console.log(orderDirection);
-    console.log(orderName);
-    $.ajax({
-        url: '{% url "sort_documents" %}',
-        data: {
-            'order_by': orderName,
-            'direction': orderDirection
-        },
-        dataType: 'json',
-        success: function(data) {
-            console.log(data);
-            // Clear existing documents
-            $('#documents-list').empty();
-
-            // Add the sorted documents
-            data.documents.forEach(function(docc) {console.log(typeof(docc));
-                console.log(JSON.stringify(docc));
-                var jsonStr = JSON.stringify(docc).replace(/"/g, '&quot;');
-               var docHtml = '<div class="document-container" '+'data-document-id="'+docc.name+'"' + 'data-document="' + jsonStr + '">' +
-                  '<div class="number-in-cart" data-product-id="' + docc.name + '">' + docc.number + '</div>' +
-
-                  '<div class="document-info" id="info-' + docc.name + '">' +
-                  '<div class="document-number">' + docc.name + '</div><br><br>' +
-
-                  '<div class="document-price">€' + docc.price.toFixed(1) + '</div>' +
-                  '<div class="document-in-stock">In stock: '+ docc.quantity_max +'</div><br><br>'+
-                  '<div class="document-description">' + docc.description + '</div><br>' +
-                  '<div class="deleteBut" data-product-id="' + docc.name + '"><i class="fa-solid fa-trash"></i></div>' +
 
 
-                  '<div>'+
-                  '<div class="quantity-input" id="quantity-input-' + docc.name + '" >' +
-                  '<input class="inp" min="1" id="quantity-input-inp-' + docc.name + '" type="number" placeholder="Enter the quantity">' +
-                  '</div>' +
+document.querySelectorAll('.slider-body input[type="number"]').forEach(slider => slider.addEventListener('input', function(event) {
+     const input = event.target;
+     const documentContainer = input.closest('.document-container');
+     const documentValue = JSON.parse(documentContainer.getAttribute('data-document').replace(/'/g, '"'));
+     const productId = documentValue['name'];
 
-                  '<div class="quantity-slider" id="quantity-slider-' + docc.name + '" >' +
-                  '<span class="min">1</span>' +
-                  '<input type="range" min="1" max="' + docc.quantity_max + '" value="' + docc.quantity + '" class="slider" id="slider-' + docc.name + '">' +
-                  '<span class="max">' + docc.quantity_max + '</span>' +
-                  '</div>' +
+     const slider = document.getElementById('slider-' + productId);
+     const button = document.getElementById("quantity-input-apply-" + productId);
+     button.innerText = "Confirm";
+     button.style.background = "#003665";
 
-                  '<button class="quantity-input-button" id="quantity-input-apply-' + docc.name + '">Confirm</button>' +
-                   '</div>'+
-
-                  '<br>' +
-                  '<span class="current-quantity" id="current-quantity-' + docc.name + '">Current quantity: ' + docc.quantity + '</span>' +
-                  '<div class="sum" id="sum-' + docc.name + '">Total: €' + docc.sum + '</div>' +
-                  '</div>' +
-                   '<img class="document-image" src="' + docc.image_url + '" alt="' + docc.name + '">' +
-                   '</div>';
-
-                // Append each document to the container
-                // Use the document data to construct your HTML elements
-                $('#documents-list').append(docHtml)
-            });
-        },
-        error: function(xhr, status, error) {
-        console.error("Error occurred: " + status, error);
-                console.error(xhr.responseText);
-    }
-    });
-});
+     const inp = document.getElementById('quantity-input-inp-' + productId);
+     const quantity = parseInt(inp.value);
 
 
+     slider.value= quantity;
+     if (isNaN(quantity) || quantity <= 0) {
+        alert("Type of written quantity has to be numeric and greater than 0");
+        inp.value = 1;
+        slider.value = 1;
+     } else if (quantity > documentValue.quantity_max) {
+        alert("Quantity has to be less than maximum on storage");
+        inp.value = documentValue.quantity_max;
+        slider.value = documentValue.quantity_max;
+
+     }
+
+}));
 document.getElementById('documents-list').addEventListener('click', function(event) {
-    // Check if the clicked element or its closest parent has the class 'quantity-decrease'
-    var decreaseButton = event.target.closest('.quantity-decrease');
-    if (decreaseButton) {
-        const documentContainer = decreaseButton.closest('.document-container');
-        const documentValue = documentContainer.getAttribute('data-document');
-        const productId = decreaseButton.getAttribute('data-product-id');
-        updateQuantity(productId, -1, documentValue); // Decrease quantity by 1
-    }
 
-    // Check if the clicked element or its closest parent has the class 'quantity-increase'
-    var increaseButton = event.target.closest('.quantity-increase');
-    if (increaseButton) {
-        const documentContainer = increaseButton.closest('.document-container');
-        const documentValue = documentContainer.getAttribute('data-document');
-        const productId = increaseButton.getAttribute('data-product-id');
-        updateQuantity(productId, 1, documentValue); // Increase quantity by 1
-    }
 
     var deleteButton = event.target.closest('.deleteBut');
     if (deleteButton) {
@@ -305,15 +239,7 @@ document.getElementById('documents-list').addEventListener('click', function(eve
         }
     }
 
-    if (event.target.matches('.quantity-input input[type="number"]')) {
-        const input = event.target;
-        const documentContainer = input.closest('.document-container');
-        const documentValue = JSON.parse(documentContainer.getAttribute('data-document').replace(/'/g, '"'));
-        const productId = documentValue['name'];
-        const button = document.getElementById("quantity-input-apply-" + productId);
-        button.innerText = "Confirm";
-        button.style.background = "#1daede";
-    }
+
 
     var quantityInputButton = event.target.closest('.quantity-input-button');
     if (quantityInputButton) {
@@ -391,8 +317,8 @@ $(document).ready(function() {
         const quantityElement = document.getElementById('quantity-input-inp-' + product_id);
         quantityElement.value = quantity_new;
         const button = document.getElementById("quantity-input-apply-"+ product_id);
-            button.innerText = "Confirm";
-            button.style.background = "#1daede"
+        button.innerText = "Confirm";
+        button.style.background = "#003665"
     });
 });
 
@@ -413,10 +339,10 @@ function updateQuantityInput(product_id, quantity_new, doc) {
 
             const button = document.getElementById("quantity-input-apply-"+ product_id);
             button.innerText = "Confirmed!";
-            button.style.background = "#06b206";
+            button.style.background = "#077a07";
 
             const sum  = document.getElementById('sum-'+data.product_id);
-            sum.innerHTML = "Total: " + data.sum;
+            sum.innerHTML = "" + data.sum;
 
             saveState('sum-'+product_id, data.sum);
             saveState('quantity-'+data.product_id, data.quantity);
@@ -449,9 +375,7 @@ function deleteBut(documentId, documentContainer){
                         let docElement = document.querySelector(`[data-document-id="${doc.id}"]`);
                         console.log(docElement);
 
-                        if(docElement) {
-                            docElement.querySelector('.number-in-cart').textContent = doc.number;
-                        }
+
                     });
                     calculate_final();
                     } else {
@@ -500,7 +424,7 @@ function deleteBut(documentId, documentContainer){
 }
 function changeCurrentQuantityText(productId, quantity){
     const current_quantity = document.getElementById('current-quantity-'+productId);
-    current_quantity.innerText = "Current quantity: "+ quantity;
+    current_quantity.innerText = "In cart: "+ quantity;
 }
 </script>
 </html>
