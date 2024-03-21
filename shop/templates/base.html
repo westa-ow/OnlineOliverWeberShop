@@ -8,7 +8,7 @@
     <script src="https://kit.fontawesome.com/ba99d1b9b2.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="../static/css/base.css">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" }>
 </head>
 <style>
 
@@ -28,7 +28,7 @@
                 <a href="{% url 'shop_page' %}" class="link">Shop</a>
                 <a></a>
                 <a></a>
-                <a href="{% url 'profile' %}" class="link">Profile</a>
+                <a href="{% url 'profile' feature_name='dashboard'%}" class="link">Profile</a>
                 <a></a>
                 <a></a>
                 <a href="{% url 'catalog' %}" class="link">Catalog</a>
@@ -37,7 +37,7 @@
 
                 <a></a>
                 <a></a>
-                <a href="{% url 'admin_tools' %}" class="link">Admin tools</a>
+                <a href="{% url 'admin_tools' feature_name='home' %}" class="link">Admin tools</a>
 
             {% endif %}
                 <a></a>
