@@ -5,17 +5,18 @@ from random import randint
 import concurrent.futures
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model, update_session_auth_hash
 import os
 import json
 import firebase_admin
+from django.views.decorators.csrf import csrf_exempt
 from firebase_admin import credentials, firestore
 from django.conf import settings
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.mail import send_mail
 
-from shop.forms import UserRegisterForm
+from shop.forms import UserRegisterForm, User
 
 json_file_path = os.path.join(settings.BASE_DIR, "shop", "static", "key2.json")
 cred = credentials.Certificate(json_file_path)
@@ -324,11 +325,19 @@ def register(request):
                 password = form.cleaned_data.get('password1')
 
                 new_user = {
-                    'email': email,
                     "display_name": "undefined",
+                    'social_title': "",
+                    'first_name': "",
+                    'last_name': "",
+                    'email': email,
+                    'birthday': "",
                     'country': "undefined",
                     "agent_number": "undefined",
-                    'price_category': '0'
+                    'price_category': 'Default',
+                    'receive_offers': False,
+                    'receive_newsletter': False,
+                    'addresses': [],
+                    'favourites': [],
                 }
                 users_ref.add(new_user)
                 user = authenticate(username=username, password=password)
@@ -372,9 +381,66 @@ def fetch_order_detail(order_doc_path):
             return order_doc.to_dict()
     return None
 
+@csrf_exempt
+@login_required
+def update_user_account(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            old_data = data.get('old')
+            new_data = data.get('new')
+
+            old_email = old_data['email']
+
+            users_ref = db.collection('users')
+            print(new_data)
+            # Check for existing user by email
+            existing_users = users_ref.where('email', '==', old_email).limit(1).get()
+
+            social_title = old_data['social_title'] if 'id_gender' not in new_data else "Mr" if new_data['id_gender'] == "1" else "Mrs"
+            receive_newsletter = old_data['receive_newsletter'] if 'newsletter' not in new_data else True if new_data['newsletter'] == "1" else False
+            receive_offers = old_data['receive_offers'] if 'optin' not in new_data else True if new_data['optin'] == "1" else False
+            birthday = new_data['birthday']
+
+            password = new_data['password']
+            User = get_user_model()
+            try:
+                # Retrieve the user instance
+                user_instance = User.objects.get(email=old_email)
+            except User.DoesNotExist:
+                return JsonResponse({'status': 'error', 'message': 'User not found.'}, status=404)
+
+            # Check if the provided password matches the user's password
+            if not user_instance.check_password(password):
+                return JsonResponse({'status': 'error', 'message': 'Incorrect password.'}, status=400)
+
+            new_password = new_data.get('new_password', '')
+            if new_password:  # This checks if the new_password string is not empty
+                user_instance.set_password(new_password)
+                user_instance.save()  # Don't forget to save the user object after setting the new password
+                update_session_auth_hash(request, user_instance)
+            for user in existing_users:
+                user_ref = users_ref.document(user.id)
+                user_ref.update({
+                    'social_title': social_title,
+                    'first_name': new_data['firstname'],
+                    'last_name': new_data['lastname'],
+                    'emai': new_data['email'],
+                    'birthday': new_data['birthday'],
+                    'receive_newsletter': receive_newsletter,
+                    'receive_offers': receive_offers,
+                })
+                return JsonResponse({'status': 'success', 'message': 'User updated successfully.'})
+
+            return JsonResponse({'status': 'success', 'message': 'User account updated successfully.'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method.'}, status=400)
+
 
 @login_required
-def profile(request):
+def profile(request, feature_name):
     orders_ref = db.collection("Orders")
     email = request.user.email
     orders = []
@@ -386,10 +452,17 @@ def profile(request):
         for doc in docs_orders:
             order_info = doc.to_dict()
             order_id = order_info.get('order_id')
+
+            # Assuming `order_info.get('date')` returns a datetime object
+            firebase_date = order_info.get('date')
+
+            # Format the datetime object to the desired format (YYYY-MM-DD)
+            formatted_date = firebase_date.strftime("%Y-%m-%d") if firebase_date else None
+
             orders.append({
                 'Status': order_info.get('Status'),
-                'date': order_info.get('date'),
-                'email': email,
+                'date': formatted_date,  # Use the formatted date
+                'email': email,  # Assuming `email` is defined elsewhere in your code
                 'list': order_info.get('list'),
                 'order_id': order_id,
                 'sum': order_info.get('price')
@@ -411,7 +484,22 @@ def profile(request):
     context = {
         'orders': orders,
         'products': order_details,
+        'feature_name': feature_name,
     }
+    if feature_name == "account":
+        users_ref = db.collection('users')
+        information = []
+        # Check for existing user by email
+        existing_users = users_ref.where('email', '==', email).limit(1).get()
+        if existing_users:
+            for user in existing_users:
+                user_ref = users_ref.document(user.id)
+                information = json.dumps(user_ref.get().to_dict())
+                information2 = json.loads(information)
+                context['user_info'] = information2
+                context['user_info_dict'] = information
+
+
 
     return render(request, 'profile.html', context=context)
 
@@ -566,5 +654,6 @@ def is_admin(user):
 
 @login_required
 @user_passes_test(is_admin)
-def admin_tools(request):
-    return render(request, 'admin_tools.html')
+def admin_tools(request, feature_name):
+    return render(request, 'admin_tools/admin_tools.html')
+
