@@ -1,0 +1,162 @@
+{% load static %}
+{% load i18n %}
+
+<link rel="stylesheet" href="{% static 'css/profile/profile_orders.css' %}">
+<section class="section-orders">
+<header class="page-header"><h1> Order history</h1> </header>
+<h6>Here are the orders you've placed since your account was created.</h6>
+    <table class="outer-table table table-striped table-bordered table-labeled hidden-sm-down" id="table-{{ user.email }}" style="border:1px solid" >
+         <thead>
+          <tr>
+              <th> Order ID </th>
+              <th> Date </th>
+              <th> Total price </th>
+              <th> Payment </th>
+              <th> Status </th>
+              <th>  </th>
+          </tr>
+          </thead>
+    <tbody>
+          {% for document in orders %}
+                  <tr class="tr-outer" id="content-{{ document.order_id }}">
+                      <th class="td-outer">{{ document.order_id }}</th>
+                      <td class="td-outer">{{ document.date }}</td>
+                      <td class="td-outer">€{{ document.sum }}</td>
+                      <td class="td-outer">Bank transfer</td>
+                      <td class="td-outer">{{ document.Status }}</td>
+                       <td class="td-outer">
+                          <span> <a data-order-id="{{ document.order_id }}" class="show-content" id="show-button-{{ document.order_id }}">Show Details</a></span>
+                      </td>
+
+                  </tr>
+
+
+
+        {% endfor %}
+    </tbody>
+    </table>
+</section>
+<script>
+
+let products = [];
+document.addEventListener("DOMContentLoaded", function() {
+    products = {{ products|safe }};
+});
+document.querySelectorAll('.show-content').forEach(button => {
+    button.addEventListener('click', () => {
+        let orderId = button.getAttribute('data-order-id');
+        var orderRow = document.getElementById('content-' + orderId);
+        var table = orderRow.closest('table');
+        var rowIndex = orderRow.rowIndex;
+        var nextRow = table.rows[rowIndex + 1];
+
+         if (nextRow && nextRow.classList.contains('nested-table-row')) {
+
+            let nestedTableContainer = nextRow.querySelector('.nested-table-container');
+            // Access nestedTable directly from nestedTableContainer if it's already in the DOM
+            let nestedTable = nestedTableContainer.querySelector('.nested-table'); // This ensures nestedTable is defined
+            if (nestedTableContainer.classList.contains('expanded')) {
+                nestedTableContainer.classList.remove('expanded');
+                document.getElementById('show-button-' + orderId).innerText = "Show details";
+
+                // Start the collapsing animation by setting max-height to 0
+                nestedTableContainer.style.maxHeight = '0'; // Trigger the collapsing animation
+
+                nestedTableContainer.addEventListener('transitionend', function onCollapse() {
+                    // Remove event listener to avoid memory leaks
+                    nestedTableContainer.removeEventListener('transitionend', onCollapse);
+
+                    var deleteAfterCollapse = function() {
+                        const rowToDelete = table.rows[rowIndex + 1]; // Assuming this is the row you want to delete
+                        rowToDelete.style.transition = 'margin-top 0.05s ease';
+                        rowToDelete.style.marginTop = `-${rowToDelete.offsetHeight}px`; // Animate the row out of view
+
+                        // Wait for the margin-top transition to complete before deleting the row
+                        setTimeout(() => {
+                            requestAnimationFrame(() => {
+                                table.deleteRow(rowIndex + 1);
+                            });
+                        }, 0); // This duration should match the CSS transition duration
+                    };
+
+                    // Execute the deletion with visual transition
+                    deleteAfterCollapse();
+                });
+            } else {
+                nestedTableContainer.classList.add('expanded');
+                // Since nestedTable exists, recalculate contentHeight based on its current state
+                let contentHeight = nestedTableContainer.scrollHeight + 'px';
+                requestAnimationFrame(() => {
+                    nestedTableContainer.style.maxHeight = contentHeight;
+                });
+                document.getElementById('show-button-' + orderId).innerText = "Hide details";
+            }
+
+        } else {
+            // This is the section where you're adding the nested table for the first time
+            document.getElementById('show-button-' + orderId).innerText = "Hide details";
+
+            var nestedTableRow = table.insertRow(rowIndex + 1);
+            nestedTableRow.classList.add('nested-table-row');
+
+            var indentCell = nestedTableRow.insertCell(0);
+            indentCell.classList.add('td-outer');
+
+            var nestedTableCell = nestedTableRow.insertCell(1);
+            nestedTableCell.colSpan = "5";
+
+            var nestedTableContainer = document.createElement('div');
+            nestedTableContainer.classList.add('nested-table-container'); // Initially not expanded
+
+            var nestedTable = document.createElement('table');
+            nestedTable.classList.add('nested-table');
+            var nestedTableContent = `
+                <tr>
+                    <th>Name</th>
+                    <th>Image</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Summary</th>
+                    <th>In stock</th>
+                </tr>`;
+            products[orderId].forEach(function(product) {
+                nestedTableContent += `
+                    <tr>
+                        <td>${product.name}</td>
+                        <td style="text-align: center"> <img src="${product.image_url}" width="50" height="50"> </td>
+                        <td>${product.description}</td>
+                        <td>€${product.price}</td>
+                        <td>${product.quantity}</td>
+                        <td>€${(product.quantity * product.price).toFixed(1)}</td>
+                        <td style="width: 10%; text-align: center" ><span style="font-size: 20px">&#10003;</span></td>
+                    </tr>`;
+            });
+           nestedTable.innerHTML = nestedTableContent;
+            nestedTableContainer.appendChild(nestedTable);
+            nestedTableCell.appendChild(nestedTableContainer);
+
+            // At this point, nestedTable is fully prepared, so we should measure the scrollHeight of nestedTableContainer
+            // Make sure to append nestedTableContainer to the document before measuring
+            var contentHeight = "0px";
+            // Make sure the nestedTableContainer is part of the document
+            if (nestedTableContainer.scrollHeight) {
+                contentHeight = nestedTableContainer.scrollHeight + "px";
+            }
+
+            // Apply the dynamic max-height and trigger the animation
+            requestAnimationFrame(() => {
+                nestedTableContainer.style.maxHeight = "0"; // Reset to start the transition
+                // Allow the browser to register the reset
+                requestAnimationFrame(() => {
+                    nestedTableContainer.style.maxHeight = contentHeight; // Expand
+                    nestedTableContainer.classList.add('expanded'); // Mark as expanded
+                });
+            });
+
+            document.getElementById('show-button-' + orderId).innerText = "Hide details";
+        }
+    });
+});
+
+</script>
