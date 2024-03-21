@@ -25,7 +25,7 @@ urlpatterns = [
     path('register/', views.register, name='register'),  # You need to create this view
     path('shop/', views.form_page, name='shop_page'),
     path('cart/', views.cart_page, name='cart'),
-    path('profile/', views.profile, name='profile'),
+    path('profile/<str:feature_name>/', views.profile, name='profile'),
     path('fetch-numbers/', views.fetch_numbers, name='fetch_numbers'),
     path('add/',views.add_to_cart, name='add_to_cart'),
     path('update-quantity/', views.update_quantity, name='update_quantity'),
@@ -39,9 +39,8 @@ urlpatterns = [
     path('get_current_page_values/', views.get_current_page_products, name='get_page_values'),
     path('add_to_cart_from_catalog/', views.add_to_cart_from_catalog, name='add_from_catalog'),
     path('get_cart/', views.getCartToBase, name='get_cart'),
-    path('admin_tools/', views.admin_tools, name='admin_tools'),
+    path('admin_tools/<str:feature_name>/', views.admin_tools, name='admin_tools'),
     # path('finish_order/', )
-
-
+    path('update_user_account/', views.update_user_account, name='update_user_account'),
 
 ]
