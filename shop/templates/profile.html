@@ -1,5 +1,5 @@
 {% block content %}
-     {% load static %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,6 +23,10 @@
         {% include 'profile/profile_information.html' %}
     {% elif feature_name == 'addresses' %}
         {% include 'profile/profile_addresses.html' %}
+    {% elif feature_name == 'new_address' %}
+        {% include 'profile/profile_create_address.html' %}
+    {% elif feature_name == 'update_address' %}
+        {% include 'profile/profile_update_address.html' %}
     {% elif feature_name == 'favourites' %}
         {% include 'profile/profile_favourites.html' %}
 

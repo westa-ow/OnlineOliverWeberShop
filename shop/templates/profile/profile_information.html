@@ -146,6 +146,28 @@
     </aside>
 </section>
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+    // Select the button by its data-action attribute
+    const togglePasswordButtons = document.querySelectorAll('button[data-action="show-password"]');
+
+    // Listen for a click event on the button
+        togglePasswordButtons.forEach(togglePasswordButton =>
+    togglePasswordButton.addEventListener('click', function() {
+        // Select the password input
+        const passwordInput = this.parentElement.parentElement.querySelector('input');
+
+        // Check the current type of the password input and toggle
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text"; // Show the password
+            // Change the SVG to 'eye'
+            togglePasswordButton.innerHTML = '<i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></i>';
+        } else {
+            passwordInput.type = "password"; // Hide the password
+            // Change the SVG back to 'eye-off'
+            togglePasswordButton.innerHTML = '<i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg></i>';
+        }
+    }));
+});
    window.onload = function() {
         document.getElementsByName("password")[0].value = "";
     };
@@ -193,7 +215,7 @@ document.getElementById('customer-form').addEventListener('submit', function(e) 
     }
     const dateFormatRegex = /^\d{4}-\d{2}-\d{2}$/;
 
-// Example: Check if the birthday is in correct format
+    // Example: Check if the birthday is in correct format
     if(this.birthday){
         if (!isValidBirthday(this.birthday.value)) {
             isValid = false;
@@ -206,27 +228,41 @@ document.getElementById('customer-form').addEventListener('submit', function(e) 
         alert(messages.join("\n")); // Or display the messages in a more user-friendly way
         return;
     }
+
     const formData = new FormData(document.getElementById('customer-form'));
     const jsonObject = {
         old: {{ user_info_dict|safe }},
         new: Object.fromEntries(formData.entries())
     };
     const csrftoken = getCookie('csrftoken');
+
     fetch('{% url 'update_user_account' %}', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-              'X-CSRFToken': csrftoken, // Ensure you have csrftoken available
+            'X-CSRFToken': csrftoken, // Ensure you have csrftoken available
         },
         body: JSON.stringify(jsonObject),
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            // If response is not ok, parse the JSON to get the error message
+            // and throw it to be caught by the catch block
+            return response.json().then(json => {
+                throw new Error(json.message || "Something went wrong");
+            });
+        }
+        return response.json();
+    })
     .then(data => {
         console.log(data);
-        alert("The information has been successfully updated!")
-        window.location.href = "{% url 'profile' feature_name='dashboard' %}"
-        // Handle response data
-    }).catch(error => console.error('Error:', error));
+        alert("The information has been successfully updated!");
+        window.location.href = "{% url 'profile' feature_name='dashboard' %}";
+        // Handle success response data
+    }).catch(error => {
+        console.error('Error:', error);
+        alert(error.message); // Display the error message from the catch or throw
+    });
 });
     function getCookie(name) {
     let cookieValue = null;
