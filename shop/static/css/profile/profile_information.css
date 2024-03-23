@@ -15714,7 +15714,7 @@ body#checkout #delivery textarea {
   box-shadow:0 10px 40px 0 rgba(0,0,0,.09)
 }
 .page-addresses .address .address-body {
-  padding:3rem 3.5rem
+  padding:3rem 3.5rem;
 }
 .page-addresses .address .address-body h4 {
   font-weight:600
@@ -36504,7 +36504,7 @@ a:visited,
 .active_filters .filter-block,
 #main .input-group.bootstrap-touchspin .input-group-btn>.btn,
 .quickview .input-group.bootstrap-touchspin .input-group-btn>.btn {
-  /*color:#000*/
+  color:#000
 }
 body#checkout section.checkout-step .step-edit .edit svg * {
   stroke:#000000!important
@@ -36596,7 +36596,7 @@ h6.page-header,
 .tabs .nav-tabs .nav-link.active,
 .tabs .tab-pane .product-features .h6,
 .tabs .tab-pane label {
-  border-color:#000
+  border-color:#000;
 }
 .tabs .nav-tabs .nav-link:after,
 .reviews-list-title h3:after {
