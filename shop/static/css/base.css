@@ -35,14 +35,13 @@
 
 
 .link, .icon-link {
-
+    cursor: pointer;
     color: white !important;
     font-size: 20px;
     text-decoration: none !important;
     padding: 5px;
-    margin: 0 0px;
-    margin-right: 5px;
-     font-family: 'Poppins', Verdana, sans-serif;
+    margin: 0 5px 0 0px;
+    font-family: 'Poppins', Verdana, sans-serif;
     position: relative;
 }
 .icon-link{
@@ -212,21 +211,21 @@
      margin-top: 5px;
      cursor: pointer;
  }
-.cart-panel {
+.cart-panel, .accPanel{
     height: 100%;
     position: fixed;
     z-index: 1111;
     top: 0;
     right: -420px; /* Ensure this matches the panel width to start off-screen */
     width: 420px; /* Fixed width */
-    transition: right 0.5s ; /* Animate the right property */
+    transition: right 0.4s; /* Animate the right property */
     background-color: white;
     overflow: hidden; /* Prevents overflow content from being visible */
     padding-top: 60px;
     /* Add box shadow or other styles as needed */
 }
 
-.cart-panel.open {
+.cart-panel.open , .accPanel.open{
     /*right: 0;!* Or any other width *!*/
    right: 0;
 }
@@ -240,7 +239,7 @@
     background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
     z-index: 1100; /* Ensure it's below the cart panel but above other content */
 }
-.cart-panel {
+.cart-panel, .accPanel {
     /* Other styles remain the same */
     display: flex;
     flex-direction: column;
@@ -435,4 +434,89 @@ img{
   justify-content: center; /* Center horizontally */
   align-items: center; /* Center vertically */
   height: 100%; /* Set to 100% of the viewport height, or the height you want */
+}
+
+
+.close_cross{
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+.close_cross:hover{
+    opacity: 0.5;
+}
+.accPanel{
+    padding: 50px 24px 0 24px;
+}
+.accPanel *{
+    font-family: 'Poppins',Verdana,sans-serif;
+}
+.account-header{
+    padding-bottom: 50px ;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.acc_ul.acc_links{
+    display: flex;
+    flex-direction: column;
+    /*justify-content: space-between;*/
+    /*width: 100%;*/
+    /*margin-bottom: 20px;*/
+}
+.acc_ul.acc_links a {
+    color: #000000;
+    font-size: 18px;
+    margin-bottom: 18px;
+    display: flex !important;
+    align-items: center !important; /* This ensures vertical alignment */
+    text-decoration: none !important;
+}
+.acc_ul.acc_links i{
+    opacity: .3;
+    margin-right: 10px;
+}
+.acc_ul.acc_links a {
+    color: #000000;
+    font-size: 18px;
+    margin-bottom: 18px;
+    align-items: center;
+    display: flex;
+    text-decoration: none!important;
+    transition: color 0.3s ease, transform 0.3s ease; /* Add transition for color and transform */
+}
+
+/* Base styles for icons */
+.acc_ul.acc_links i {
+    opacity: .3;
+    margin: 0 10px 0 0;
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Add transition for opacity and transform */
+}
+
+/* Hover styles for link */
+.acc_ul.acc_links a:hover {
+    /*color: #003665; !* Change text color on hover *!*/
+}
+
+/* Hover styles for icons within a link */
+.acc_ul.acc_links a:hover i {
+    opacity: 1; /* Change icon opacity on hover */
+    transform: translateX(3px); /* Move icon to the right by 3px */
+}
+.acc_links .logout{
+
+    margin-top: 30px;
+}
+.acc_links .name a span{
+    font-size: 24px!important;
+    margin-bottom: 10px;
+}
+
+
+.acc_ul.acc_links svg {
+    /* If needed, ensure there is no extra space inside the SVG that could affect alignment */
+    display: block;
+}
+.acc_ul.acc_links a {
+    /* Other styles... */
+    line-height: 22px; /* Set this to the height of your SVG icon */
 }

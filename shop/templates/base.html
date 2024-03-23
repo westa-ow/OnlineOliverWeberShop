@@ -8,7 +8,7 @@
     <script src="https://kit.fontawesome.com/ba99d1b9b2.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'css/base.css' %}" }>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
 <style>
 
@@ -44,15 +44,16 @@
                 <a></a>
                 <a></a>
 
-                <span style="font-style: italic; font-size: 18px; color: white; font-family: poppins,Verdana,sans-serif;">{{ user.username }}</span>
         <span class="icons-container">
+        <span class="icon-link" style="font-style: italic; font-size: 14px; margin-top: 8px; color: white;font-family: poppins,Verdana,sans-serif;"><a id="account-icon" style="display: flex" ><i class="rts" data-size="28" data-color="#000000" style="width: 28px; height: 28px; margin-right: 4px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 28px; height: 28px; "><path d="M23.67,25V22.65A4.67,4.67,0,0,0,19,18H9.67A4.67,4.67,0,0,0,5,22.65V25" style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8px"></path><circle cx="14.33" cy="8.65" r="4.67" style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8px"></circle></svg></i><span style="margin-top: 6px">{{ user.username }}</span></a>
+</span>
                 <a class="icon-link" id="cartBtn">
                     <svg width="28px" height="28px" style="margin-top: 5px" xmlns="http://www.w3.org/2000/svg">
                       <path d="M21.46,26H6.54C4,26,4,23.86,4,22.46V2H24V22.46C24,23.86,24,26,21.46,26Z" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="2"/>
                       <path d="M10,8v.78c0,2.68,1.8,4.88,4,4.88s4-2.19,4-4.88V8" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="2"/>
                     </svg>
                 </a>
-                <a href="{% url 'logout'%}" id="logout-icon" class="icon-link" onclick="return confirmLogout(event)"><i class="fa-solid fa-sign-out"></i></a>
+
         </span>
     {% else %}
                 <a></a>
@@ -86,10 +87,91 @@
     </div>
 
 </div>
+<div id="side_acc_wrap" class="accPanel">
+    <div class="account-header">
+        <h4 class="side_title">
+            Account
+        </h4>
+        <span class="close_cross" >
+            <i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </i>
+        </span>
+    </div>
+    <div class="acc_ul acc_links">
+        <span class="name show">
+            <a href="{% url 'profile' feature_name="dashboard" %}" title="View my customer account" rel="nofollow">
+                <span>{{ user.username }}</span>
+            </a>
+        </span>
+        <a href="{% url 'profile' feature_name="dashboard" %}" class="show">
+            <i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-monitor"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+            </i>
+            Dashboard
+        </a>
+        <a href="{% url 'profile' feature_name="favourites" %}" class="show">
+            <i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg>
+            </i>
+            Favorites
+        </a>
+        <a id="history-link" href="{% url 'profile' feature_name="orders" %}" class="show">
+            <i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 28 28"><path d="M15,2.28l8.8,4.43a2.22,2.22,0,0,1,1.22,2V19.24a2.22,2.22,0,0,1-1.22,2L15,25.66a2.19,2.19,0,0,1-2,0l-8.8-4.43a2.22,2.22,0,0,1-1.21-2V8.69a2.22,2.22,0,0,1,1.22-2L13,2.28A2.19,2.19,0,0,1,15,2.28Z" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path><polyline points="3.45 7.51 14.08 12.86 24.7 7.51" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></polyline><line x1="14" y1="26" x2="14" y2="13" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></line><line x1="8.59" y1="4.57" x2="19.57" y2="10.09" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></line></svg>
+            </i>
+            Orders
+        </a>
+        <a id="identity-link" href="{% url 'profile' feature_name="account" %}" class="show">
+            <i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 28 28"><path d="M16.26,15.7A4,4,0,0,0,14,15H7a4,4,0,0,0-4,4v2l1,2h7" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path><circle cx="10.5" cy="7" r="4" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></circle><polygon points="22.96 14.85 26.15 18.04 18.18 26 15 26 15 22.82 22.96 14.85" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></polygon></svg>
+            </i> Information </a>
+        <a id="addresses-link" href="{% url 'profile' feature_name="addresses" %}" class="show">
+            <i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            </i>
+            Addresses
+        </a>
+
+        <a class="logout show" href="{% url 'logout'%}" rel="nofollow">
+            <i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-power"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
+            </i>
+            Sign out
+        </a>
+    </div>
+</div>
 <div id="overlay" class="overlay"></div>
 </body>
 <script>
-  function confirmLogout(event) {
+document.getElementById('account-icon').addEventListener('click',function() {
+    console.log("ssss");
+    var accPanel = document.getElementById('side_acc_wrap');
+    var overlay = document.getElementById('overlay');
+
+    if (accPanel.classList.contains('open')) {
+        accPanel.classList.remove('open');
+        overlay.style.display = 'none'; // Hide the overlay when the account panel is closed
+    } else {
+        // Unlike the cart, we don't need to load data here since we're not populating with dynamic content
+
+        // Open the account panel and overlay
+        accPanel.classList.add('open');
+        overlay.style.display = 'block';
+    }
+});
+
+// Additionally, you'll need to manage closing the panel.
+// If you have a close button similar to the cartPanel's close button, you can add an event listener to it:
+document.querySelector('.close_cross').addEventListener('click', function() {
+    var accPanel = document.getElementById('side_acc_wrap');
+    var overlay = document.getElementById('overlay');
+
+    accPanel.classList.remove('open');
+    overlay.style.display = 'none'; // Hide the overlay when the account panel is closed
+});
+
+function confirmLogout(event) {
     // Show a confirmation dialog
     var confirmation = confirm("Are you sure you want to log out?");
 
@@ -101,8 +183,8 @@
 
     // If the user confirms, allow the default link action (logout)
     return true;
-  }
-  document.getElementById('cartBtn').onclick = function() {
+}
+document.getElementById('cartBtn').onclick = function() {
     var cartPanel = document.getElementById('cartPanel');
     var overlay = document.getElementById('overlay');
     if (cartPanel.classList.contains('open')) {
@@ -277,7 +359,8 @@
         }
 
     };
-  function showCartIsEmpty(cartItemsContainer){
+
+function showCartIsEmpty(cartItemsContainer){
       cartItemsContainer.classList.add('cart-items-container');
     let emptyCartContainer = document.querySelector('.empty-cart-container');
     if (!emptyCartContainer) {
@@ -369,6 +452,7 @@
 
 document.getElementById('overlay').addEventListener('click', function() {
     document.getElementById('cartPanel').classList.remove('open');
+    document.getElementById('side_acc_wrap').classList.remove('open');
     this.style.display = 'none'; // Hide the overlay
 });
 document.getElementById('closeCartBtn').onclick = closeCart;
