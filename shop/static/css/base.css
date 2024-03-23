@@ -34,7 +34,7 @@
 }
 
 
-.link, .icon-link {
+.toolbar .link, .icon-link {
     cursor: pointer;
     color: white !important;
     font-size: 20px;
@@ -228,6 +228,7 @@
 .cart-panel.open , .accPanel.open{
     /*right: 0;!* Or any other width *!*/
    right: 0;
+    display: block;
 }
 .overlay {
     display: none; /* Hidden by default */
