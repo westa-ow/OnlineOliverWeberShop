@@ -36,7 +36,7 @@
 
 .link, .icon-link {
 
-    color: white;
+    color: white !important;
     font-size: 20px;
     text-decoration: none !important;
     padding: 5px;
