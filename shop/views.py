@@ -1,4 +1,5 @@
 import ast
+import random
 from datetime import datetime
 from random import randint
 
@@ -24,7 +25,253 @@ if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)
 db = firestore.client()
 
-
+country_dict = {
+    "231": "Afghanistan",
+    "244": "Åland Islands",
+    "230": "Albania",
+    "38": "Algeria",
+    "39": "American Samoa",
+    "40": "Andorra",
+    "41": "Angola",
+    "42": "Anguilla",
+    "232": "Antarctica",
+    "43": "Antigua and Barbuda",
+    "44": "Argentina",
+    "45": "Armenia",
+    "46": "Aruba",
+    "24": "Australia",
+    "2": "Austria",
+    "47": "Azerbaijan",
+    "48": "Bahamas",
+    "49": "Bahrain",
+    "50": "Bangladesh",
+    "51": "Barbados",
+    "52": "Belarus",
+    "3": "Belgium",
+    "53": "Belize",
+    "54": "Benin",
+    "55": "Bermuda",
+    "56": "Bhutan",
+    "34": "Bolivia",
+    "233": "Bosnia and Herzegovina",
+    "57": "Botswana",
+    "234": "Bouvet Island",
+    "58": "Brazil",
+    "235": "British Indian Ocean Territory",
+    "59": "Brunei",
+    "236": "Bulgaria",
+    "60": "Burkina Faso",
+    "61": "Burma (Myanmar)",
+    "62": "Burundi",
+    "63": "Cambodia",
+    "64": "Cameroon",
+    "4": "Canada",
+    "65": "Cape Verde",
+    "237": "Cayman Islands",
+    "66": "Central African Republic",
+    "67": "Chad",
+    "68": "Chile",
+    "5": "China",
+    "238": "Christmas Island",
+    "239": "Cocos (Keeling) Islands",
+    "69": "Colombia",
+    "70": "Comoros",
+    "71": "Congo, Dem. Republic",
+    "72": "Congo, Republic",
+    "240": "Cook Islands",
+    "73": "Costa Rica",
+    "74": "Croatia",
+    "75": "Cuba",
+    "76": "Cyprus",
+    "16": "Czech Republic",
+    "20": "Denmark",
+    "77": "Djibouti",
+    "78": "Dominica",
+    "79": "Dominican Republic",
+    "80": "East Timor",
+    "81": "Ecuador",
+    "82": "Egypt",
+    "83": "El Salvador",
+    "84": "Equatorial Guinea",
+    "85": "Eritrea",
+    "86": "Estonia",
+    "87": "Ethiopia",
+    "88": "Falkland Islands",
+    "89": "Faroe Islands",
+    "90": "Fiji",
+    "7": "Finland",
+    "8": "France",
+    "241": "French Guiana",
+    "242": "French Polynesia",
+    "243": "French Southern Territories",
+    "91": "Gabon",
+    "92": "Gambia",
+    "93": "Georgia",
+    "1": "Germany",
+    "94": "Ghana",
+    "97": "Gibraltar",
+    "9": "Greece",
+    "96": "Greenland",
+    "95": "Grenada",
+    "98": "Guadeloupe",
+    "99": "Guam",
+    "100": "Guatemala",
+    "101": "Guernsey",
+    "102": "Guinea",
+    "103": "Guinea-Bissau",
+    "104": "Guyana",
+    "105": "Haiti",
+    "106": "Heard Island and McDonald Islands",
+    "108": "Honduras",
+    "22": "HongKong",
+    "143": "Hungary",
+    "109": "Iceland",
+    "110": "India",
+    "111": "Indonesia",
+    "112": "Iran",
+    "113": "Iraq",
+    "26": "Ireland",
+    "29": "Israel",
+    "10": "Italy",
+    "32": "Ivory Coast",
+    "115": "Jamaica",
+    "11": "Japan",
+    "116": "Jersey",
+    "117": "Jordan",
+    "118": "Kazakhstan",
+    "119": "Kenya",
+    "120": "Kiribati",
+    "121": "Dem. Republic of Korea",
+    "122": "Kuwait",
+    "123": "Kyrgyzstan",
+    "124": "Laos",
+    "125": "Latvia",
+    "126": "Lebanon",
+    "127": "Lesotho",
+    "128": "Liberia",
+    "129": "Libya",
+    "130": "Liechtenstein",
+    "131": "Lithuania",
+    "12": "Luxemburg",
+    "132": "Macau",
+    "133": "Macedonia",
+    "134": "Madagascar",
+    "135": "Malawi",
+    "136": "Malaysia",
+    "137": "Maldives",
+    "138": "Mali",
+    "139": "Malta",
+    "114": "Man Island",
+    "140": "Marshall Islands",
+    "141": "Martinique",
+    "142": "Mauritania",
+    "35": "Mauritius",
+    "144": "Mayotte",
+    "145": "Mexico",
+    "146": "Micronesia",
+    "147": "Moldova",
+    "148": "Monaco",
+    "149": "Mongolia",
+    "150": "Montenegro",
+    "151": "Montserrat",
+    "152": "Morocco",
+    "153": "Mozambique",
+    "154": "Namibia",
+    "155": "Nauru",
+    "156": "Nepal",
+    "13": "Netherlands",
+    "157": "Netherlands Antilles",
+    "158": "New Caledonia",
+    "27": "New Zealand",
+    "159": "Nicaragua",
+    "160": "Niger",
+    "31": "Nigeria",
+    "161": "Niue",
+    "162": "Norfolk Island",
+    "245": "Northern Ireland",
+    "163": "Northern Mariana Islands",
+    "23": "Norway",
+    "164": "Oman",
+    "165": "Pakistan",
+    "166": "Palau",
+    "167": "Palestinian Territories",
+    "168": "Panama",
+    "169": "Papua New Guinea",
+    "170": "Paraguay",
+    "171": "Peru",
+    "172": "Philippines",
+    "173": "Pitcairn",
+    "14": "Poland",
+    "15": "Portugal",
+    "174": "Puerto Rico",
+    "175": "Qatar",
+    "176": "Reunion Island",
+    "36": "Romania",
+    "177": "Russian Federation",
+    "178": "Rwanda",
+    "179": "Saint Barthelemy",
+    "180": "Saint Kitts and Nevis",
+    "181": "Saint Lucia",
+    "182": "Saint Martin",
+    "183": "Saint Pierre and Miquelon",
+    "184": "Saint Vincent and the Grenadines",
+    "185": "Samoa",
+    "186": "San Marino",
+    "187": "São Tomé and Príncipe",
+    "188": "Saudi Arabia",
+    "189": "Senegal",
+    "190": "Serbia",
+    "191": "Seychelles",
+    "192": "Sierra Leone",
+    "25": "Singapore",
+    "37": "Slovakia",
+    "193": "Slovenia",
+    "194": "Solomon Islands",
+    "195": "Somalia",
+    "30": "South Africa",
+    "196": "South Georgia and the South Sandwich Islands",
+    "28": "South Korea",
+    "6": "Spain",
+    "197": "Sri Lanka",
+    "198": "Sudan",
+    "199": "Suriname",
+    "200": "Svalbard and Jan Mayen",
+    "201": "Swaziland",
+    "18": "Sweden",
+    "19": "Switzerland",
+    "202": "Syria",
+    "203": "Taiwan",
+    "204": "Tajikistan",
+    "205": "Tanzania",
+    "206": "Thailand",
+    "33": "Togo",
+    "207": "Tokelau",
+    "208": "Tonga",
+    "209": "Trinidad and Tobago",
+    "210": "Tunisia",
+    "211": "Turkey",
+    "212": "Turkmenistan",
+    "213": "Turks and Caicos Islands",
+    "214": "Tuvalu",
+    "215": "Uganda",
+    "216": "Ukraine",
+    "217": "United Arab Emirates",
+    "17": "United Kingdom",
+    "21": "United States",
+    "218": "Uruguay",
+    "219": "Uzbekistan",
+    "220": "Vanuatu",
+    "107": "Vatican City State",
+    "221": "Venezuela",
+    "222": "Vietnam",
+    "223": "Virgin Islands (British)",
+    "224": "Virgin Islands (U.S.)",
+    "225": "Wallis and Futuna",
+    "226": "Western Sahara",
+    "227": "Yemen",
+    "228": "Zambia",
+    "229": "Zimbabwe"
+}
 def home_page(request):
     return render(request, 'home.html')
 
@@ -397,6 +644,8 @@ def update_user_account(request):
             # Check for existing user by email
             existing_users = users_ref.where('email', '==', old_email).limit(1).get()
 
+            existing_user_with_new_email = users_ref.where('email', '==', new_data['email']).limit(1).get()
+
             social_title = old_data['social_title'] if 'id_gender' not in new_data else "Mr" if new_data['id_gender'] == "1" else "Mrs"
             receive_newsletter = old_data['receive_newsletter'] if 'newsletter' not in new_data else True if new_data['newsletter'] == "1" else False
             receive_offers = old_data['receive_offers'] if 'optin' not in new_data else True if new_data['optin'] == "1" else False
@@ -414,6 +663,9 @@ def update_user_account(request):
             if not user_instance.check_password(password):
                 return JsonResponse({'status': 'error', 'message': 'Incorrect password.'}, status=400)
 
+            if existing_user_with_new_email:
+                return JsonResponse({'status': 'error', 'message': 'User with this email exists.'}, status=400)
+
             new_password = new_data.get('new_password', '')
             if new_password:  # This checks if the new_password string is not empty
                 user_instance.set_password(new_password)
@@ -425,7 +677,7 @@ def update_user_account(request):
                     'social_title': social_title,
                     'first_name': new_data['firstname'],
                     'last_name': new_data['lastname'],
-                    'emai': new_data['email'],
+                    'email': new_data['email'],
                     'birthday': new_data['birthday'],
                     'receive_newsletter': receive_newsletter,
                     'receive_offers': receive_offers,
@@ -438,7 +690,136 @@ def update_user_account(request):
     else:
         return JsonResponse({'status': 'error', 'message': 'Invalid request method.'}, status=400)
 
+@login_required
+def delete_address(request, address_id):
+    addresses_ref = db.collection('Addresses')
+    # Query the address by its unique ID
+    address_to_delete = addresses_ref.where('address_id', '==', address_id).limit(1).get()
 
+    # Proceed if the request method is POST
+    if request.method == 'POST':
+        try:
+            if address_to_delete:
+                # Firestore delete operation
+                for address in address_to_delete:
+                    address_ref = addresses_ref.document(address.id)
+                    address_ref.delete()  # Delete the document
+                # Return a success message
+                return JsonResponse({'status': 'success', 'message': 'Address deleted successfully.'})
+            else:
+                # If the address does not exist
+                return JsonResponse({'status': 'error', 'message': 'Address not found.'}, status=404)
+        except Exception as e:
+            # Return an error message if an exception occurs
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+
+        # If the request method is not POST, inform the user that the method is not allowed
+    context = {
+        'feature_name': 'new_address',
+    }
+    return render(request, 'profile/profile_addresses.html', context=context)
+
+
+def generate_unique_address_id():
+    while True:
+        # Generate a random 8-digit number
+        address_id = random.randint(10000000, 99999999)
+
+        # Check if this ID is already in use
+        addresses_db = firestore.client().collection('Addresses')
+        existing_address = addresses_db.where('address_id', '==', address_id).get()
+
+        # If the ID is not in use, it's unique, and we can return it
+        if not existing_address:
+            return address_id
+
+@csrf_exempt
+@login_required
+def create_address(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            new_data = data.get('address_data')
+            if not new_data:  # Check if new_data is None or empty
+                return JsonResponse({'status': 'error', 'message': 'Invalid data.'}, status=400)
+            unique_address_id = generate_unique_address_id()
+            addresses_db = db.collection('Addresses')
+
+            address_document = {
+                        'address_name': new_data['alias'],
+                        'first_name': new_data['firstname'],
+                        'last_name': new_data['lastname'],
+                        'company': new_data['company'],
+                        'real_address': new_data['address1'],
+                        'address_complement': new_data['address2'],
+                        'postal_code': new_data['postcode'],
+                        'city': new_data['city'],
+                        'country': country_dict[new_data['id_country']],
+                        'phone': new_data['phone'],
+                        'email':request.user.email,
+                        'address_id':f"{unique_address_id}"
+                    }
+            addresses_db.add(address_document)
+            return JsonResponse({'status': 'success', 'message': 'Address updated successfully.'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+    email = request.user.email
+    users_ref = db.collection('users')
+    information = []
+    # Check for existing user by email
+    existing_users = users_ref.where('email', '==', email).limit(1).get()
+
+    if existing_users:
+        for user in existing_users:
+            ref = users_ref.document(user.id)
+    context = {
+        'feature_name': 'new_address',
+        'user_ref': ref.get().to_dict()
+    }
+    return render(request, 'profile.html', context=context)
+
+@login_required
+def update_address(request, address_id):
+    addresses_ref = db.collection('Addresses')
+    existing_address = addresses_ref.where('address_id', '==', address_id).limit(1).get()
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            old_data = data.get('old')
+            new_data = data.get('new')
+            if existing_address:
+                for address in existing_address:
+                    address_ref = addresses_ref.document(address.id)
+                    address_ref.update({
+                        'address_name': new_data['alias'],
+                        'first_name': new_data['firstname'],
+                        'last_name': new_data['lastname'],
+                        'company': new_data['company'],
+                        'real_address': new_data['address1'],
+                        'address_complement': new_data['address2'],
+                        'postal_code': new_data['postcode'],
+                        'city': new_data['city'],
+                        'country': country_dict[new_data['id_country']],
+                        'phone': new_data['phone'],
+                    })
+                return JsonResponse({'status': 'success', 'message': 'Address updated successfully.'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+
+
+    if existing_address:
+        address_dict = {}
+        for address in existing_address:
+            address_ref = addresses_ref.document(address.id)
+            address_dict = address_ref.get().to_dict()
+        context = {
+            'feature_name': 'update_address',
+            'address':address_dict,
+            'address_dict': json.dumps(address_dict),
+        }
+        # print(address_dict)
+        return render(request, 'profile.html', context=context)
+    return JsonResponse({'status': 'error'}, status=400)
 @login_required
 def profile(request, feature_name):
     orders_ref = db.collection("Orders")
@@ -498,6 +879,19 @@ def profile(request, feature_name):
                 information2 = json.loads(information)
                 context['user_info'] = information2
                 context['user_info_dict'] = information
+
+    if feature_name == "addresses":
+        addresses_ref = db.collection('Addresses')
+        addresses = []
+        existing_addresses = addresses_ref.where('email', '==', email).get()
+        if existing_addresses:
+            for address in existing_addresses:
+                address_red = addresses_ref.document(address.id)
+                information = json.dumps(address_red.get().to_dict())
+                information2 = json.loads(information)
+                addresses.append(information2)
+                context['my_addresses'] = addresses
+                context['addresses_dict'] = information
 
 
 
