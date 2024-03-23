@@ -643,8 +643,10 @@ def update_user_account(request):
             print(new_data)
             # Check for existing user by email
             existing_users = users_ref.where('email', '==', old_email).limit(1).get()
-
-            existing_user_with_new_email = users_ref.where('email', '==', new_data['email']).limit(1).get()
+            if new_data['email'] != old_email:
+                existing_user_with_new_email = users_ref.where('email', '==', new_data['email']).limit(1).get()
+                if existing_user_with_new_email:
+                    return JsonResponse({'status': 'error', 'message': 'User with this email exists.'}, status=400)
 
             social_title = old_data['social_title'] if 'id_gender' not in new_data else "Mr" if new_data['id_gender'] == "1" else "Mrs"
             receive_newsletter = old_data['receive_newsletter'] if 'newsletter' not in new_data else True if new_data['newsletter'] == "1" else False
@@ -663,8 +665,6 @@ def update_user_account(request):
             if not user_instance.check_password(password):
                 return JsonResponse({'status': 'error', 'message': 'Incorrect password.'}, status=400)
 
-            if existing_user_with_new_email:
-                return JsonResponse({'status': 'error', 'message': 'User with this email exists.'}, status=400)
 
             new_password = new_data.get('new_password', '')
             if new_password:  # This checks if the new_password string is not empty
