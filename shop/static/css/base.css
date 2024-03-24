@@ -227,8 +227,8 @@
 
 .cart-panel.open , .accPanel.open{
     /*right: 0;!* Or any other width *!*/
-   right: 0;
-    display: block;
+    right: 0;
+    display: "";
 }
 .overlay {
     display: none; /* Hidden by default */
