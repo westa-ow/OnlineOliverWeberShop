@@ -15,6 +15,7 @@
 </head>
 <body>
 {% include 'base.html' %}
+
 <div class="everything">
     <div class="filters-section">
         <div class="categories" style="display: none;">
@@ -219,16 +220,19 @@
 
     document.addEventListener("DOMContentLoaded", async function () {
         document.getElementById('loading-overlay').style.display = 'flex';
+
         itemsPerPage = Number(document.getElementById('select-items-per-page').value);
         console.log(itemsPerPage);
         let unfilteredItems = await fetchAllItems(); // Fetch all items on load
-
+        console.log("{{ user.email }}");
+        favouriteItems = await fetchFavouriteItems("{{ user.email }}");
+        console.log(favouriteItems);
         allItems = productsTransmutation(unfilteredItems);
 
-        console.log(categories);
-        console.log(allItems.length);
+        {#console.log(categories);#}
+        {#console.log(allItems.length);#}
         total_pages = Math.ceil(allItems.length / itemsPerPage);
-        console.log(total_pages);
+        {#console.log(total_pages);#}
 
         updatePage();
 
@@ -246,15 +250,6 @@
     });
 
 
-
-
-     async function countDocuments() {
-        const itemsRef = collection(db, "item");
-        const q = query(itemsRef, where("quantity", ">", 0));
-        const querySnapshot = await getDocs(q);
-         {#console.log(`Number of documents in 'items' collection: ${querySnapshot.size/20}`);#}
-        return querySnapshot.size;
-    }
 let itemsPerPage = 20;
 let order_name = "Name";
 let order_type = "asc";
@@ -262,6 +257,7 @@ let number_of_documents;
 let currentPage = 1;
 let total_pages = 1;
 let allItems = [];
+let favouriteItems = [];
 let filteredItems = [];
 let filters = [];
 let platingFilters = [];
@@ -615,18 +611,25 @@ fromSlider.addEventListener('change', applyFilters);
 toSlider.addEventListener('change', applyFilters);
 
 async function fetchAllItems() {
-        const itemsQuery = query(collection(db, "item") , where("quantity", ">", 0));//
-        const querySnapshot = await getDocs(itemsQuery);
-        return querySnapshot.docs.map(doc => doc.data());
-    }
+    const itemsQuery = query(collection(db, "item") , where("quantity", ">", 0));//
+    const querySnapshot = await getDocs(itemsQuery);
+    return querySnapshot.docs.map(doc => doc.data());
+}
+async function fetchFavouriteItems(userEmail) {
+    const favouritesQuery = query(collection(db, "Favourites"), where("email", "==", userEmail));
+    const querySnapshot = await getDocs(favouritesQuery);
+    return querySnapshot.docs.map(doc => doc.data());
+}
 function paginateItems(items, pageNumber, pageSize) {
-        const startIndex = (pageNumber - 1) * pageSize;
-        return items.slice(startIndex, startIndex + pageSize);
+    const startIndex = (pageNumber - 1) * pageSize;
+    return items.slice(startIndex, startIndex + pageSize);
 }
+
 function filterItems(items, pageNumber, pageSize) {
-        const startIndex = (pageNumber - 1) * pageSize;
-        return items.slice(startIndex, startIndex + pageSize);
+    const startIndex = (pageNumber - 1) * pageSize;
+    return items.slice(startIndex, startIndex + pageSize);
 }
+
 function displayCurrentPage(items) {
     const productsGrid = document.querySelector('.products-grid');
     productsGrid.innerHTML = '';
@@ -644,13 +647,113 @@ function displayCurrentPage(items) {
         // Create the image section
         const imgSection = document.createElement('div');
         imgSection.className = 'img-section';
+        const imgWrapper = document.createElement('div');
+        imgWrapper.className = 'img-wrapper';
         const img = document.createElement('img');
         img.src = item.preview_image;
         img.width = 115;
         img.height = 115;
         img.style.borderRadius = '10px';
-        imgSection.appendChild(img);
 
+
+
+        const iconContainer = document.createElement('div');
+        iconContainer.className = 'icon-container';
+
+        const heartIconContainer = document.createElement('div');
+        heartIconContainer.className = 'heart-icon-container';
+        const favouriteItem = favouriteItems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
+
+// Check if the item was found in the favourites
+
+        const itemIsFavourite = Boolean(favouriteItem); // Converts the result to a boolean
+
+        heartIconContainer.innerHTML = itemIsFavourite ?
+        `<i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:#000000;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i>` :
+        `<i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i>`; // Example with FontAwesome
+
+        // Adding your new icon
+        const newIconContainer = document.createElement('div');
+        newIconContainer.className = 'new-icon-container';
+        newIconContainer.innerHTML = `<i class="rts" data-size="24" data-color="#000000" style="width: 26px; height: 26px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M21.46,26H6.54C4,26,4,23.86,4,22.46V2H24V22.46C24,23.86,24,26,21.46,26Z" style="fill:none;stroke:#000000;stroke-miterlimit:10;stroke-width:2px"></path><path d="M10,8v.78c0,2.68,1.8,4.88,4,4.88s4-2.19,4-4.88V8" style="fill:none;stroke:#000000;stroke-miterlimit:10;stroke-width:2px"></path></svg></i>`;
+
+
+        heartIconContainer.addEventListener('mouseenter', (event) => {
+            const favouriteItem = favouriteItems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
+            const isFavBefore = Boolean(favouriteItem); // Converts the result to a boolean
+            let message_fav = isFavBefore ? "Remove from favorites" : "Add to favorites";
+
+            showTooltip(event, message_fav)
+        });
+        heartIconContainer.addEventListener('click', async (event) => {
+            const favouriteItem = favouriteItems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
+            const isFavBefore = Boolean(favouriteItem); // Converts the result to a boolean
+
+            // Stop the event from propagating to other elements
+            event.stopPropagation();
+            try {
+                // Replace `yourItemId` with the actual item ID or any identifier you use
+                const response = await fetch('{% url "change_favorite_state" %}', {
+                    method: 'POST', // or 'DELETE' if removing from favorites
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken'),
+
+                        // Include other headers as needed, like authorization tokens
+                    },
+                    body: JSON.stringify({item: JSON.stringify(item), "alreadyFavourite": isFavBefore ? "true":"false"}),
+                });
+
+                if (!response.ok) throw new Error('Network response was not ok.');
+
+                // Assuming the backend responds with the updated favorite status
+                const data = await response.json();
+                const isFavourite = data.isFavourite === "true";
+                const itemToAddOrRemove = JSON.parse(data.item); // Assuming this is an object {name_id: "someId", ...}
+                console.log("To add or remove" );
+                console.log( itemToAddOrRemove);
+                console.log("Is fav" );
+                console.log( isFavourite);
+                const existingTooltip = document.querySelector('.custom-tooltip');
+                if (existingTooltip) {
+                    existingTooltip.remove();
+                }
+                if (isFavourite) {
+
+                    // Add to favoriteItems if not already present
+                    const exists = favouriteItems.some(item => item.name === itemToAddOrRemove.name);
+                    console.log("consists equals " + exists.toString());
+                    if (!exists) {
+                        favouriteItems.push(itemToAddOrRemove);
+                        console.log("Added to favorites", itemToAddOrRemove);
+                    }
+                } else {
+                    // Remove from favoriteItems
+
+                    favouriteItems = favouriteItems.filter(item => item.name !== itemToAddOrRemove.name);
+                    console.log("Removed from favorites", itemToAddOrRemove);
+                }
+
+                // Update the heart icon based on `isFavourite`
+                heartIconContainer.innerHTML = isFavourite ?
+                    `<i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:#000000;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i>` :
+                    `<i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i>`;
+            } catch (error) {
+                console.error('Error updating favorites:', error);
+            }
+        });
+        // Add event listeners for the new icon
+        newIconContainer.addEventListener('mouseenter', (event) => showTooltip(event, 'Add to cart'));
+        // Append both icon containers to the iconContainer
+
+        iconContainer.appendChild(newIconContainer);
+        iconContainer.appendChild(heartIconContainer);
+        // Finally, append the iconContainer to the imgWrapper or imgSection
+
+        imgWrapper.appendChild(img);
+        imgWrapper.appendChild(iconContainer);
+        // Append the imgWrapper to the imgSection
+        imgSection.appendChild(imgWrapper);
         // Create the info section
         const infoSection = document.createElement('div');
         infoSection.className = 'info-section';
@@ -665,6 +768,9 @@ function displayCurrentPage(items) {
         infoSection.appendChild(priceSpan);
 
 
+
+
+
         // Assemble the product container
         productContainer.appendChild(imgSection);
         productContainer.appendChild(infoSection);
@@ -674,7 +780,30 @@ function displayCurrentPage(items) {
         itemId+=1;
     });
 }
+function showTooltip(event, message) {
+     const existingTooltip = document.querySelector('.custom-tooltip');
+    if (existingTooltip) {
+        existingTooltip.remove();
+    }
+    const tooltip = document.createElement('div');
+    tooltip.className = 'custom-tooltip';
+    tooltip.textContent = message;
+    tooltip.style.position = 'absolute';
+    tooltip.style.left = `${event.pageX + 10}px`; // Adjust positioning as needed
+    tooltip.style.top = `${event.pageY + 10}px`; // Adjust positioning as needed
+    document.body.appendChild(tooltip);
 
+    // Move tooltip with cursor
+    event.target.addEventListener('mousemove', (e) => {
+        tooltip.style.left = `${e.pageX + 10}px`;
+        tooltip.style.top = `${e.pageY + 10}px`;
+    });
+
+    // Remove tooltip on mouseleave
+    event.target.addEventListener('mouseleave', () => {
+        tooltip.remove();
+    });
+}
 function applyFilters() {
    const nameFilterValue = document.getElementById('contains-in-name').value.toLowerCase();
    const [from, to] = getParsed(fromSlider, toSlider);
@@ -742,7 +871,7 @@ function applyFilters() {
     if(filteredItems.length === 0){
         filteredItems.push("No items found");
     }
-    console.log(filteredItems);
+    {#console.log(filteredItems);#}
    currentPage = 1;
    total_pages = Math.ceil(filteredItems.length / itemsPerPage);
    changePage(1);
@@ -892,7 +1021,7 @@ function productsTransmutation(items){
                         let stoneSizes = products[itemName].platings[item.plating].stones[item.stone].sizes;
                         if (!stoneSizes[item.size]) {
                             stoneSizes[item.size] = {'quantity': item.quantity, 'real_name':item.name };
-                            console.log(stoneSizes[item.size]);
+                            {#console.log(stoneSizes[item.size]);#}
                             {#stoneSizes['real_name'] =  item.name;#}
                         } else {
                             // Assuming you want to sum quantities for the same size.
@@ -1046,8 +1175,7 @@ function generateDialogContent(id){
     // Get the first size in the first stone
     const firstSizeKey = firstStone && Object.keys(firstStone.sizes)[0];
     const firstSizeQuantity = firstStone ? firstStone.sizes[firstSizeKey] ? firstStone.sizes[firstSizeKey].quantity: null : null;
-    {#console.log(firstSizeQuantity);#}
-    {#console.log(firstSizeQuantity.quantity);#}
+
 
     const dialog = document.getElementById('product-card');
     const image = document.createElement('img');

@@ -25,9 +25,6 @@ body::-webkit-scrollbar {
     margin-right: auto;
     padding-left: 15px;
     padding-right: 15px;
-
-
-
 }
 .filters-section{
     margin-top: 80px;
@@ -175,6 +172,75 @@ body::-webkit-scrollbar {
 }
 .product-container:hover{
     opacity: 80%;
+
+}
+.img-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 115px; /* Match the image width */
+    height: 115px; /* Match the image height */
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.heart-icon-container {
+
+}
+
+/*.heart-icon-container i {*/
+/*    font-size: 24px; !* Icon size *!*/
+/*}*/
+
+/*.product-container:hover .heart-icon-container {*/
+/*    opacity: 1;*/
+/*    transform: translate(-50%, -50%) ; !* Center and scale up on hover *!*/
+/*}*/
+.icon-container {
+    position: absolute;
+    top: 60%; /* Adjust based on your design */
+    left: 50%;
+    /* Initial state set to be below center, but visible for debugging */
+    transform: translate(-50%, 60px); /* Adjust starting position */
+    opacity: 0; /* Start fully transparent */
+    transition: opacity 0.5s ease, transform 0.4s ease; /* Apply transitions */
+    display: flex;
+    justify-content: space-around;
+    width: 75px; /* Adjust based on content */
+}
+
+.icon-container div{
+    width: 32px; /* Rectangle size */
+    height: 32px; /* Rectangle size */
+    background-color: white; /* Rectangle color */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center the icon within the rectangle */
+    z-index: 2;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.2); /* Shadow added here */
+}
+/* Style your heart-icon-container and new-icon-container if needed */
+.icon-container i, .icon-container div {
+    transition: transform 0.3s ease; /* Smooth transition for the transform */
+}
+.custom-tooltip {
+    background-color: white;
+    color: black;
+    padding: 8px 16px;
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: 600;
+    z-index: 1000; /* Ensure it appears above other content */
+    pointer-events: none; /* Allows mouse events to pass through the tooltip */
+
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.2); /* Shadow added here */
+}
+/* Hover effect */
+.icon-container div:hover {
+    transform: translateY(-5px); /* Move up by 10 pixels */
+}
+.product-container:hover .icon-container {
+    opacity: 1;
+    transform: translate(-50%, -50%); /* Move to center and scale to original size */
 }
 #product-card-success, #product-card{
     border: none;

@@ -272,6 +272,8 @@ country_dict = {
     "228": "Zambia",
     "229": "Zimbabwe"
 }
+
+
 def home_page(request):
     return render(request, 'home.html')
 
@@ -616,8 +618,6 @@ def logout_view(request):
     return redirect('home')
 
 
-
-
 def fetch_order_detail(order_doc_path):
     path_parts = order_doc_path.split('/')
     if len(path_parts) == 2:
@@ -627,6 +627,7 @@ def fetch_order_detail(order_doc_path):
         if order_doc.exists:
             return order_doc.to_dict()
     return None
+
 
 @csrf_exempt
 @login_required
@@ -648,9 +649,12 @@ def update_user_account(request):
                 if existing_user_with_new_email:
                     return JsonResponse({'status': 'error', 'message': 'User with this email exists.'}, status=400)
 
-            social_title = old_data['social_title'] if 'id_gender' not in new_data else "Mr" if new_data['id_gender'] == "1" else "Mrs"
-            receive_newsletter = old_data['receive_newsletter'] if 'newsletter' not in new_data else True if new_data['newsletter'] == "1" else False
-            receive_offers = old_data['receive_offers'] if 'optin' not in new_data else True if new_data['optin'] == "1" else False
+            social_title = old_data['social_title'] if 'id_gender' not in new_data else "Mr" if new_data[
+                                                                                                    'id_gender'] == "1" else "Mrs"
+            receive_newsletter = old_data['receive_newsletter'] if 'newsletter' not in new_data else True if new_data[
+                                                                                                                 'newsletter'] == "1" else False
+            receive_offers = old_data['receive_offers'] if 'optin' not in new_data else True if new_data[
+                                                                                                    'optin'] == "1" else False
             birthday = new_data['birthday']
 
             password = new_data['password']
@@ -664,7 +668,6 @@ def update_user_account(request):
             # Check if the provided password matches the user's password
             if not user_instance.check_password(password):
                 return JsonResponse({'status': 'error', 'message': 'Incorrect password.'}, status=400)
-
 
             new_password = new_data.get('new_password', '')
             if new_password:  # This checks if the new_password string is not empty
@@ -689,6 +692,7 @@ def update_user_account(request):
             return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
     else:
         return JsonResponse({'status': 'error', 'message': 'Invalid request method.'}, status=400)
+
 
 @login_required
 def delete_address(request, address_id):
@@ -733,6 +737,7 @@ def generate_unique_address_id():
         if not existing_address:
             return address_id
 
+
 @csrf_exempt
 @login_required
 def create_address(request):
@@ -746,19 +751,19 @@ def create_address(request):
             addresses_db = db.collection('Addresses')
 
             address_document = {
-                        'address_name': new_data['alias'],
-                        'first_name': new_data['firstname'],
-                        'last_name': new_data['lastname'],
-                        'company': new_data['company'],
-                        'real_address': new_data['address1'],
-                        'address_complement': new_data['address2'],
-                        'postal_code': new_data['postcode'],
-                        'city': new_data['city'],
-                        'country': country_dict[new_data['id_country']],
-                        'phone': new_data['phone'],
-                        'email':request.user.email,
-                        'address_id':f"{unique_address_id}"
-                    }
+                'address_name': new_data['alias'],
+                'first_name': new_data['firstname'],
+                'last_name': new_data['lastname'],
+                'company': new_data['company'],
+                'real_address': new_data['address1'],
+                'address_complement': new_data['address2'],
+                'postal_code': new_data['postcode'],
+                'city': new_data['city'],
+                'country': country_dict[new_data['id_country']],
+                'phone': new_data['phone'],
+                'email': request.user.email,
+                'address_id': f"{unique_address_id}"
+            }
             addresses_db.add(address_document)
             return JsonResponse({'status': 'success', 'message': 'Address updated successfully.'})
         except Exception as e:
@@ -777,6 +782,7 @@ def create_address(request):
         'user_ref': ref.get().to_dict()
     }
     return render(request, 'profile.html', context=context)
+
 
 @login_required
 def update_address(request, address_id):
@@ -806,7 +812,6 @@ def update_address(request, address_id):
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
-
     if existing_address:
         address_dict = {}
         for address in existing_address:
@@ -814,12 +819,21 @@ def update_address(request, address_id):
             address_dict = address_ref.get().to_dict()
         context = {
             'feature_name': 'update_address',
-            'address':address_dict,
+            'address': address_dict,
             'address_dict': json.dumps(address_dict),
         }
         # print(address_dict)
         return render(request, 'profile.html', context=context)
     return JsonResponse({'status': 'error'}, status=400)
+
+def serialize_firestore_document(doc):
+    # Convert a Firestore document to a dictionary, handling DatetimeWithNanoseconds
+    doc_dict = doc.to_dict()
+    for key, value in doc_dict.items():
+        if isinstance(value, datetime):
+            # Convert datetime to string (ISO format)
+            doc_dict[key] = value.isoformat()
+    return doc_dict
 @login_required
 def profile(request, feature_name):
     orders_ref = db.collection("Orders")
@@ -851,7 +865,8 @@ def profile(request, feature_name):
             order_details[order_id] = []
 
             # Schedule the fetch operation for each document in the order list
-            for order_doc_path in order_info.get('list', []):
+            for order_doc_ref in order_info.get('list', []):
+                order_doc_path = order_doc_ref.path  # Extracting the document path
                 future = executor.submit(fetch_order_detail, order_doc_path)
                 future_to_order[future] = order_id
 
@@ -875,7 +890,8 @@ def profile(request, feature_name):
         if existing_users:
             for user in existing_users:
                 user_ref = users_ref.document(user.id)
-                information = json.dumps(user_ref.get().to_dict())
+                user_data = serialize_firestore_document(user_ref.get())
+                information = json.dumps(user_data)  # Now it should work without errors
                 information2 = json.loads(information)
                 context['user_info'] = information2
                 context['user_info_dict'] = information
@@ -892,8 +908,6 @@ def profile(request, feature_name):
                 addresses.append(information2)
                 context['my_addresses'] = addresses
                 context['addresses_dict'] = information
-
-
 
     return render(request, 'profile.html', context=context)
 
@@ -963,24 +977,23 @@ def clear_cart(email, name):
     for doc in docs:
         doc.reference.delete()
 
+
 @login_required
 def catalog_view(request):
     return render(request, 'catalog.html')
 
 
 def get_current_page_products(request):
-
     pass
 
-def get_actual_product(catalog_product_name):
 
+def get_actual_product(catalog_product_name):
     item_ref = db.collection("item")
 
     docs = (item_ref
             .where('name', '==', catalog_product_name).stream())
     for doc in docs:
         return doc.to_dict()
-
 
 
 def add_to_cart_from_catalog(request):
@@ -1000,7 +1013,6 @@ def add_to_cart_from_catalog(request):
 
             subtotal = 0
 
-
             if existing_item:
                 doc_ref = existing_item[0].reference
                 doc_ref.update({'quantity': new_quantity})
@@ -1009,7 +1021,8 @@ def add_to_cart_from_catalog(request):
                     subtotal += float(c['sum'])
                 subtotal = round((subtotal), 2)
                 return JsonResponse({'status': 'success', 'quantity': new_quantity, 'product_id': product_name,
-                                     'sum': "€" + str(new_sum), 'was_inside': 'True', 'product': document, 'cart_size': cart_size,  'subtotal': subtotal})
+                                     'sum': "€" + str(new_sum), 'was_inside': 'True', 'product': document,
+                                     'cart_size': cart_size, 'subtotal': subtotal})
 
             else:
                 number_in_cart = len(cart_items.get()) + 1
@@ -1033,21 +1046,58 @@ def add_to_cart_from_catalog(request):
                     subtotal += float(c['sum'])
                 subtotal = round((subtotal), 2)
                 return JsonResponse({'status': 'success', 'quantity': new_quantity, 'product_id': product_name,
-                                     'sum': "€" + str(round((new_quantity * document['price']), 2)), 'was_inside': 'False',
-                                     'number': number_in_cart, 'product': document, 'cart_size': cart_size+1, 'subtotal': subtotal})
+                                     'sum': "€" + str(round((new_quantity * document['price']), 2)),
+                                     'was_inside': 'False',
+                                     'number': number_in_cart, 'product': document, 'cart_size': cart_size + 1,
+                                     'subtotal': subtotal})
         except Exception as e:
             print(f"Error updating cart: {e}")
             return JsonResponse({'status': 'error', 'message': 'An error occurred while processing your request'},
                                 status=500)
 
+
 def getCartToBase(request):
     return JsonResponse({'cart': get_cart(request)})
 
+
 def is_admin(user):
     return user.is_authenticated and user.is_staff
+
 
 @login_required
 @user_passes_test(is_admin)
 def admin_tools(request, feature_name):
     return render(request, 'admin_tools/admin_tools.html')
 
+
+def change_favorite_state(request):
+    if request.method == 'POST':
+
+        data = json.loads(request.body)
+        item = json.loads(data.get('item'))
+        isFav = data.get('alreadyFavourite') == "true"
+        # Initialize Firestore DB
+        db = firestore.client()
+
+        # Reference to the 'Favourites' collection
+        cart_ref = db.collection('Favourites')
+
+        # User's email from the request
+        email = request.user.email
+
+        if isFav:
+            # Query for documents where email and name_id match to delete
+            fav_docs = cart_ref.where('email', '==', email).where('name', '==', item['name']).stream()
+
+            # Iterate through the query results and delete each document
+            for doc in fav_docs:
+                doc.reference.delete()
+            return JsonResponse({"isFavourite": "false", "item": json.dumps(item)})
+        else:
+            # Add a new favorite item to the database
+            new_fav = item.copy()  # Assuming 'item' is a dictionary containing the necessary fields
+            new_fav['email'] = email  # Add the user's email to the item
+            cart_ref.add(new_fav)
+
+            return JsonResponse({"isFavourite": "true", "item": json.dumps(item)})
+    return JsonResponse({"status": "error", 'message': 'Nonexistent method'})
