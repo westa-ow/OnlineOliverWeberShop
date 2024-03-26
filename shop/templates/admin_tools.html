@@ -1,0 +1,25 @@
+{% block content %}
+    {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin tools</title>
+    <link rel="stylesheet" href="{% static "css/admin_tools/admin_tools_main.css" %}">
+</head>
+<body>
+{% include 'base.html' %}
+<div class="container-page" style="margin-top: 50px">
+    {% include 'admin_tools/admin_tools_side_menu.html' %}
+    {% if feature_name == 'dashboard' %}
+        {% include 'admin_tools/admin_tools_dashboard.html' %}
+    {% elif feature_name == 'orders_control' %}
+        {% include 'admin_tools/admin_tools_orders_control.html' %}
+    {% elif feature_name == 'users_control' %}
+        {% include 'admin_tools/admin_tools_users_control.html' %}
+    {% endif %}
+</div>
+</div>
+</body>
+</html>
+{%endblock%}

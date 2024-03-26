@@ -1124,7 +1124,10 @@ def is_admin(user):
 @login_required
 @user_passes_test(is_admin)
 def admin_tools(request, feature_name):
-    return render(request, 'admin_tools/admin_tools.html')
+    context = {
+        "feature_name": feature_name,
+    }
+    return render(request, 'admin_tools.html', context )
 
 
 def change_favorite_state(request):
