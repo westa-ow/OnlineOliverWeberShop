@@ -629,6 +629,34 @@ def fetch_order_detail(order_doc_path):
     return None
 
 
+def update_email_in_db(old_email, new_email):
+    # Define a mapping of collections to their respective email fields
+    collection_email_fields = {
+        'Cart': 'emailOwner',
+        'Favourites': 'email',
+        'Order': 'emailOwner',
+        'Orders': 'email',
+        'Addresses': 'email',
+    }
+
+    # Loop through the mapping
+    for collection_name, email_field in collection_email_fields.items():
+        try:
+            # Reference the collection
+            collection_ref = db.collection(collection_name)
+            # Query for documents with the old email
+            docs_to_update = collection_ref.where(email_field, '==', old_email).get()
+            # Update each document with the new email
+            for doc in docs_to_update:
+                doc.reference.update({email_field: new_email})
+        except Exception as e:
+            # Log the error e, for example using logging library or print statement
+            print(f"Error updating {collection_name}: {str(e)}")
+            # Optionally, handle the error based on your application's requirements
+
+    return "Updated"
+
+
 @csrf_exempt
 @login_required
 def update_user_account(request):
@@ -639,15 +667,42 @@ def update_user_account(request):
             new_data = data.get('new')
 
             old_email = old_data['email']
+            new_email = new_data['email']
 
             users_ref = db.collection('users')
-            print(new_data)
+
             # Check for existing user by email
             existing_users = users_ref.where('email', '==', old_email).limit(1).get()
+
             if new_data['email'] != old_email:
-                existing_user_with_new_email = users_ref.where('email', '==', new_data['email']).limit(1).get()
-                if existing_user_with_new_email:
+                existing_user_with_new_email = users_ref.where('email', '==', new_email).limit(1).get()
+                if len(existing_user_with_new_email) > 0:
                     return JsonResponse({'status': 'error', 'message': 'User with this email exists.'}, status=400)
+                User = get_user_model()
+                try:
+                    user_instance = User.objects.get(email=old_email)
+                    user_instance.email = new_email  # Update the email
+
+                except User.DoesNotExist:
+                    return JsonResponse({'status': 'error', 'message': 'User not found.'}, status=404)
+
+                try:
+                    update_email_in_db(old_email, new_email)
+                    # Optionally use update_email_in_db_result for further logic
+                except Exception as e:
+                    # Log the exception e
+                    return JsonResponse(
+                        {'status': 'error', 'message': 'An error occurred while updating documents in Firestore.'},
+                        status=500)
+
+
+            else:
+                User = get_user_model()
+                try:
+                    # Retrieve the user instance
+                    user_instance = User.objects.get(email=old_email)
+                except User.DoesNotExist:
+                    return JsonResponse({'status': 'error', 'message': 'User not found.'}, status=404)
 
             social_title = old_data['social_title'] if 'id_gender' not in new_data else "Mr" if new_data[
                                                                                                     'id_gender'] == "1" else "Mrs"
@@ -655,15 +710,7 @@ def update_user_account(request):
                                                                                                                  'newsletter'] == "1" else False
             receive_offers = old_data['receive_offers'] if 'optin' not in new_data else True if new_data[
                                                                                                     'optin'] == "1" else False
-            birthday = new_data['birthday']
-
             password = new_data['password']
-            User = get_user_model()
-            try:
-                # Retrieve the user instance
-                user_instance = User.objects.get(email=old_email)
-            except User.DoesNotExist:
-                return JsonResponse({'status': 'error', 'message': 'User not found.'}, status=404)
 
             # Check if the provided password matches the user's password
             if not user_instance.check_password(password):
@@ -674,6 +721,9 @@ def update_user_account(request):
                 user_instance.set_password(new_password)
                 user_instance.save()  # Don't forget to save the user object after setting the new password
                 update_session_auth_hash(request, user_instance)
+
+            user_instance.save()
+
             for user in existing_users:
                 user_ref = users_ref.document(user.id)
                 user_ref.update({
@@ -826,6 +876,7 @@ def update_address(request, address_id):
         return render(request, 'profile.html', context=context)
     return JsonResponse({'status': 'error'}, status=400)
 
+
 def serialize_firestore_document(doc):
     # Convert a Firestore document to a dictionary, handling DatetimeWithNanoseconds
     doc_dict = doc.to_dict()
@@ -834,6 +885,8 @@ def serialize_firestore_document(doc):
             # Convert datetime to string (ISO format)
             doc_dict[key] = value.isoformat()
     return doc_dict
+
+
 @login_required
 def profile(request, feature_name):
     orders_ref = db.collection("Orders")
