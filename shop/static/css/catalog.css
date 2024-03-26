@@ -183,18 +183,6 @@ body::-webkit-scrollbar {
     overflow: hidden;
 }
 
-.heart-icon-container {
-
-}
-
-/*.heart-icon-container i {*/
-/*    font-size: 24px; !* Icon size *!*/
-/*}*/
-
-/*.product-container:hover .heart-icon-container {*/
-/*    opacity: 1;*/
-/*    transform: translate(-50%, -50%) ; !* Center and scale up on hover *!*/
-/*}*/
 .icon-container {
     position: absolute;
     top: 60%; /* Adjust based on your design */
@@ -476,12 +464,11 @@ input[type='number'] {
 
 
 .pages{
- display: flex;
+    display: flex;
     justify-content: space-between; /* This spreads out the items */
     align-items: flex-end; /* Aligns items at the bottom */
     width: 100%; /* Ensure it covers the full width */
     flex-wrap: wrap; /* Allows items to wrap as needed */
-
 }
 .semi{
     display: flex;

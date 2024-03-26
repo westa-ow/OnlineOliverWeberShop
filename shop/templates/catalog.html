@@ -633,6 +633,7 @@ function filterItems(items, pageNumber, pageSize) {
 function displayCurrentPage(items) {
     const productsGrid = document.querySelector('.products-grid');
     productsGrid.innerHTML = '';
+
     let itemId= 0;
     items.forEach((item) => {
         const productContainer = document.createElement('div');
