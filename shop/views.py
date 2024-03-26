@@ -919,7 +919,11 @@ def profile(request, feature_name):
 
             # Schedule the fetch operation for each document in the order list
             for order_doc_ref in order_info.get('list', []):
-                order_doc_path = order_doc_ref.path  # Extracting the document path
+
+                if type(order_doc_ref) is str:
+                    order_doc_path = order_doc_ref  # Extracting the document path
+                else:
+                    order_doc_path = order_doc_ref.path
                 future = executor.submit(fetch_order_detail, order_doc_path)
                 future_to_order[future] = order_id
 
