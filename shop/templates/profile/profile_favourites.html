@@ -2,7 +2,7 @@
 {% load i18n %}
 
 <link rel="stylesheet" href="{% static 'css/profile/profile_favourites.css' %}">
-<link rel="stylesheet"  href="{% static 'css/SeparateWidgets/overlay.css' %}">
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <section id="content" class="page-content col-md-12 col-lg-9 myacc_content">
@@ -25,9 +25,7 @@
 <dialog id="product-card-success" >
 
 </dialog>
-<div id="loading-overlay">
-    <div class="spinner"></div>
-</div>
+{% include 'widgets/overlay.html' %}
 <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
     import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
@@ -48,14 +46,14 @@
     let favouriteItems = [];
 
     document.addEventListener("DOMContentLoaded", async function () {
-        document.getElementById('loading-overlay').style.display = 'flex';
+        showOverlay();
 
         favouriteItems = await fetchFavouriteItems("{{user.email}}");
         console.log(favouriteItems);
 
         buildPageFavourites(favouriteItems);
 
-        document.getElementById('loading-overlay').style.display = 'none';
+        hideOverlay();
     });
 
     async function fetchFavouriteItems(userEmail) {

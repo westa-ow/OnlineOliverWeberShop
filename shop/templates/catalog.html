@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <title>Catalog</title>
     <link rel="stylesheet"  href="{% static 'css/catalog.css' %}">
-    <link rel="stylesheet"  href="{% static 'css/SeparateWidgets/overlay.css' %}">
     <!-- Add this script tag to your HTML to include Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
@@ -197,9 +196,7 @@
       </div>
 </div>
 </div>
-<div id="loading-overlay">
-    <div class="spinner"></div>
-</div>
+{% include "widgets/overlay.html" %}
 </body>
 <script  type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
@@ -220,7 +217,7 @@
     const db = getFirestore(app);
 
     document.addEventListener("DOMContentLoaded", async function () {
-        document.getElementById('loading-overlay').style.display = 'flex';
+        showOverlay();
 
         itemsPerPage = Number(document.getElementById('select-items-per-page').value);
         console.log(itemsPerPage);
@@ -247,7 +244,7 @@
         setupCheckboxEventListeners('.base-checkbox', baseFilters);
         setupCheckboxEventListeners('.size-checkbox', sizeFilters);
 
-        document.getElementById('loading-overlay').style.display = 'none';
+        hideOverlay();
     });
 
 
@@ -357,7 +354,7 @@ function changePage(page) {
 
 function constructCategories(){
      const categories_div = document.querySelector('.categories');
-     
+
      categories = (allItems.reduce((accumulator, document) => {
           if (!accumulator.includes(document.category)) {
             accumulator.push(document.category);
