@@ -1142,7 +1142,75 @@ def admin_tools(request, feature_name):
         "feature_name": feature_name,
     }
     return render(request, 'admin_tools.html', context)
+@login_required
+@user_passes_test(lambda user: user.is_superuser)  # Adjust the test as needed
+def enable_users(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            user_ids = data.get('userIds')
+            if user_ids is None:
+                raise ValueError("User IDs not provided")
 
+            # Call the helper function to enable users
+            update_user_enabled_status(user_ids, True)
+
+            return JsonResponse({'status': 'success'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
+
+@login_required
+@user_passes_test(lambda user: user.is_superuser)
+def disable_users(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            user_ids = data.get('userIds')
+            if user_ids is None:
+                raise ValueError("User IDs not provided")
+
+            # Call the helper function to disable users
+            update_user_enabled_status(user_ids, False)
+
+            return JsonResponse({'status': 'success'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
+def update_user_enabled_status(user_ids, enable):
+    """
+    Updates the 'Enabled' status of users in Firestore based on provided user IDs.
+    """
+    db = firestore.client()
+    batch_limit = 500
+    batch_count = 0
+    batch = db.batch()
+
+    for user_id in user_ids:
+        users_ref = db.collection('users').where('userId', '==', int(user_id))
+        docs = users_ref.get()
+
+        for doc in docs:
+            doc_ref = db.collection('users').document(doc.id)
+            batch.update(doc_ref, {"Enabled": enable})
+            batch_count += 1
+
+            if batch_count >= batch_limit:
+                batch.commit()
+                batch = db.batch()
+                batch_count = 0
+
+    if batch_count > 0:
+        batch.commit()
+
+    return True
+@login_required
+@user_passes_test(is_admin)
+def delete_users(request):
+    print("Deleted")
+    return JsonResponse({'status': 'success'})
 def change_favorite_state(request):
     if request.method == 'POST':
 

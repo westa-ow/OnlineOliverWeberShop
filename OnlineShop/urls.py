@@ -44,6 +44,9 @@ urlpatterns = [
     path('get_cart/', views.getCartToBase, name='get_cart'),
 
     path('admin_tools/<str:feature_name>/', views.admin_tools, name='admin_tools'),
+    path('at/enable_users/', views.enable_users, name='at_enable_users'),
+    path('at/disable_users/', views.disable_users, name='at_disable_users'),
+    path('at/delete_users/', views.delete_users, name='at_delete_users'),
 
     path('changeFavoriteState/', views.change_favorite_state, name='change_favorite_state')
     # path('finish_order/', )
