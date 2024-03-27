@@ -959,7 +959,6 @@ def profile(request, feature_name):
     }
     if feature_name == "account":
         users_ref = db.collection('users')
-        information = []
         # Check for existing user by email
         existing_users = users_ref.where('email', '==', email).limit(1).get()
         if existing_users:
@@ -1058,10 +1057,6 @@ def catalog_view(request):
     return render(request, 'catalog.html')
 
 
-def get_current_page_products(request):
-    pass
-
-
 def get_actual_product(catalog_product_name):
     item_ref = db.collection("item")
 
@@ -1143,10 +1138,10 @@ def is_admin(user):
 @user_passes_test(is_admin)
 def admin_tools(request, feature_name):
     context = {
+
         "feature_name": feature_name,
     }
     return render(request, 'admin_tools.html', context)
-
 
 def change_favorite_state(request):
     if request.method == 'POST':
