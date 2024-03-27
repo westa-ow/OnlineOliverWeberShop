@@ -552,6 +552,20 @@ def sort_documents(request):
 
     return JsonResponse({'documents': sorted_documents})
 
+def get_new_user_id():
+    @firestore.transactional
+    def increment_user_id(transaction, user_counter_ref):
+        snapshot = user_counter_ref.get(transaction=transaction)
+        last_user_id = snapshot.get('lastUserId') if snapshot.exists else 3000
+        new_user_id = last_user_id + 1
+        transaction.update(user_counter_ref, {'lastUserId': new_user_id})
+        return new_user_id
+
+    metadata_collection = db.collection('metadata')
+    user_counter_ref = metadata_collection.document('userCounter')
+    transaction = db.transaction()
+    new_user_id = increment_user_id(transaction, user_counter_ref)
+    return new_user_id
 
 def register(request):
     form = UserRegisterForm()
@@ -564,14 +578,14 @@ def register(request):
 
             existing_user = users_ref.where('email', '==', email).limit(1).get()
 
-            if existing_user:
-                print('error')
+            if list(existing_user):  # Convert to list to check if it's non-empty
+                print('Error: User with this Email already exists.')
                 form.add_error('email', 'User with this Email already exists.')
                 return render(request, 'registration/register.html', {'form': form})
             else:
-                form.save()
-                username = form.cleaned_data.get('username')
-                password = form.cleaned_data.get('password1')
+
+                user_id = get_new_user_id()
+                current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
                 new_user = {
                     "display_name": "undefined",
@@ -585,10 +599,14 @@ def register(request):
                     'price_category': 'Default',
                     'receive_offers': False,
                     'receive_newsletter': False,
-                    'addresses': [],
-                    'favourites': [],
+                    'registrationDate': current_time,
+                    'userId': user_id,
                 }
                 users_ref.add(new_user)
+
+                username = form.cleaned_data.get('username')
+                password = form.cleaned_data.get('password1')
+                form.save()
                 user = authenticate(username=username, password=password)
                 if user:
                     login(request, user)
@@ -1127,7 +1145,7 @@ def admin_tools(request, feature_name):
     context = {
         "feature_name": feature_name,
     }
-    return render(request, 'admin_tools.html', context )
+    return render(request, 'admin_tools.html', context)
 
 
 def change_favorite_state(request):
