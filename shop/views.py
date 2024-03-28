@@ -1224,8 +1224,46 @@ def update_user_enabled_status(user_ids, enable):
 @login_required
 @user_passes_test(is_admin)
 def delete_users(request):
-    print("Deleted")
-    return JsonResponse({'status': 'success'})
+    if request.method == 'POST':
+        try:
+            # Load the user IDs from the request body
+            data = json.loads(request.body)
+            user_ids = data.get('userIds')
+
+            if not user_ids:
+                return JsonResponse({'status': 'error', 'message': 'No user IDs provided'}, status=400)
+
+            db = firestore.client()
+
+            # Firestore has a limit of 500 operations per batch
+            batch = db.batch()
+            operations_count = 0
+
+            for user_id in user_ids:
+                # Query for documents with matching userId field
+                query = db.collection('users').where('userId', '==', int(user_id))
+                docs = query.get()
+
+                for doc in docs:
+                    doc_ref = db.collection('users').document(doc.id)
+                    batch.delete(doc_ref)
+                    operations_count += 1
+
+                    # Commit the batch if it reaches the Firestore limit
+                    if operations_count >= 500:
+                        batch.commit()
+                        batch = db.batch()  # Start a new batch
+                        operations_count = 0
+
+            # Commit any remaining operations in the batch
+            if operations_count > 0:
+                batch.commit()
+
+            return JsonResponse({'status': 'success'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
 def change_favorite_state(request):
     if request.method == 'POST':
 

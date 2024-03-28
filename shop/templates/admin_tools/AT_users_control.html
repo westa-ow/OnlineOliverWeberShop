@@ -147,7 +147,7 @@
             row.appendChild(salesCell);
 
             let enabledCell = document.createElement('td');
-            enabledCell.textContent = 'Enabled'; // Assuming sales data is not available
+            enabledCell.textContent = user.Enabled ? "Enabled" : "Disabled"; // Assuming sales data is not available
             row.appendChild(enabledCell);
 
             // For boolean values, you might want to show a more user-friendly value
@@ -322,28 +322,27 @@ document.getElementById('bulk-actions').addEventListener('change', async functio
 
     switch(action) {
         case 'Enable selected':
-            await performBulkAction('{% url 'at_enable_users' %}', selectedUserIds);
+            await performBulkAction('{% url 'at_enable_users' %}', selectedUserIds, 'enable');
             break;
         case 'Disable selected':
-            await performBulkAction('{% url 'at_disable_users' %}', selectedUserIds);
+            await performBulkAction('{% url 'at_disable_users' %}', selectedUserIds, 'disable');
             break;
         case 'Delete accounts':
             const confirmDelete = confirm('Do you really want to delete the selected users?');
             if (confirmDelete) {
-                await performBulkAction('{% url 'at_delete_users' %}', selectedUserIds);
+                await performBulkAction('{% url 'at_delete_users' %}', selectedUserIds, 'delete');
             }
             break;
     }
 
     resetBulkActionsDropdown();
 });
-async function performBulkAction(bulk_url, userIds) {
+async function performBulkAction(bulk_url, userIds, actionType) {
     // Your fetch logic here...
     console.log(userIds);
     const csrftoken = getCookie('csrftoken'); // Get the CSRF token
     const jsonObject = { userIds: userIds }; // Assuming you're sending a list of user IDs
 
-    {#let fetch_url = "{% url 'bulk_url' %}"#}
 
     try {
         const response = await fetch(bulk_url, { // Use the correct URL for your request
@@ -361,7 +360,20 @@ async function performBulkAction(bulk_url, userIds) {
 
         // Assuming JSON response for simplicity
         const data = await response.json();
-        console.log(data.message); // Log or handle the server response
+        {#console.log(data.message); // Log or handle the server response#}
+
+        if (actionType === 'delete') {
+            allUsers = allUsers.filter(user => !userIds.includes(user.userId.toString()));
+        } else {
+            const enabledStatus = actionType === 'enable';
+            allUsers.forEach(user => {
+                if (userIds.includes(user.userId.toString())) {
+                    user.Enabled = enabledStatus;
+                }
+            });
+        }
+
+        buildUsersControlTable(allUsers);
 
         // After performing the action, check checkboxes and update dropdown state
         updateBulkActionsDropdown();
