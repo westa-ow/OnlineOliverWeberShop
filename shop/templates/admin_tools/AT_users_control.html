@@ -167,7 +167,9 @@
             let actionsCell = document.createElement('td');
             // Assuming you have a function to generate these URLs or you set them directly
             let editLink = document.createElement('a');
-            editLink.setAttribute('href', `/edit_user/?userId=${user.userId}`); // Adjust URL as needed
+
+            let editUrl = `/admin_tools/users_control/edit_user/${user.userId}/`; // Construct the URL using the user ID
+            editLink.setAttribute('href', editUrl);
             const editbutton = document.createElement('i');
             editbutton.classList.add('material-icons');
             editbutton.textContent = 'edit';

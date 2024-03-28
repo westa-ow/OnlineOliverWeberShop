@@ -47,6 +47,8 @@ urlpatterns = [
     path('at/enable_users/', views.enable_users, name='at_enable_users'),
     path('at/disable_users/', views.disable_users, name='at_disable_users'),
     path('at/delete_users/', views.delete_users, name='at_delete_users'),
+    path('admin_tools/users_control/edit_user/<str:user_id>/', views.edit_user, name='at_edit_user'),
+    path('admin_tools/users_control/view_user/<str:user_id>/', views.view_user, name='at_view_user'),
 
     path('changeFavoriteState/', views.change_favorite_state, name='change_favorite_state')
     # path('finish_order/', )

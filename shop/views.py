@@ -909,6 +909,37 @@ def update_address(request, address_id):
         return render(request, 'profile.html', context=context)
     return JsonResponse({'status': 'error'}, status=400)
 
+def change_favorite_state(request):
+    if request.method == 'POST':
+
+        data = json.loads(request.body)
+        item = json.loads(data.get('item'))
+        isFav = data.get('alreadyFavourite') == "true"
+        # Initialize Firestore DB
+        db = firestore.client()
+
+        # Reference to the 'Favourites' collection
+        cart_ref = db.collection('Favourites')
+
+        # User's email from the request
+        email = request.user.email
+
+        if isFav:
+            # Query for documents where email and name_id match to delete
+            fav_docs = cart_ref.where('email', '==', email).where('name', '==', item['name']).stream()
+
+            # Iterate through the query results and delete each document
+            for doc in fav_docs:
+                doc.reference.delete()
+            return JsonResponse({"isFavourite": "false", "item": json.dumps(item)})
+        else:
+            # Add a new favorite item to the database
+            new_fav = item.copy()  # Assuming 'item' is a dictionary containing the necessary fields
+            new_fav['email'] = email  # Add the user's email to the item
+            cart_ref.add(new_fav)
+
+            return JsonResponse({"isFavourite": "true", "item": json.dumps(item)})
+    return JsonResponse({"status": "error", 'message': 'Nonexistent method'})
 
 def serialize_firestore_document(doc):
     # Convert a Firestore document to a dictionary, handling DatetimeWithNanoseconds
@@ -933,6 +964,8 @@ def profile(request, feature_name):
         for doc in docs_orders:
             order_info = doc.to_dict()
             order_id = order_info.get('order_id')
+            if not order_id:
+                order_id = order_info.get('order-id')
 
             # Assuming `order_info.get('date')` returns a datetime object
             firebase_date = order_info.get('date')
@@ -1264,34 +1297,43 @@ def delete_users(request):
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
     else:
         return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
-def change_favorite_state(request):
-    if request.method == 'POST':
 
-        data = json.loads(request.body)
-        item = json.loads(data.get('item'))
-        isFav = data.get('alreadyFavourite') == "true"
-        # Initialize Firestore DB
-        db = firestore.client()
+@login_required
+@user_passes_test(is_admin)
+def edit_user(request, user_id):
+    print("Edit user " + user_id)
 
-        # Reference to the 'Favourites' collection
-        cart_ref = db.collection('Favourites')
+    users_ref = db.collection('users').where('userId', '==', int(user_id))
+    existing_user = users_ref.limit(1).stream()
+    context = {
 
-        # User's email from the request
-        email = request.user.email
+    }
+    for user in existing_user:
+        user_data = user.to_dict()
+        information = json.dumps(user_data)  # Now it should work without errors
+        information2 = json.loads(information)
+        context['user_info'] = information2
+        context['user_info_dict'] = information
+    print(context)
+    return render(request, 'admin_tools/AT_UC_edit_user.html', context)
 
-        if isFav:
-            # Query for documents where email and name_id match to delete
-            fav_docs = cart_ref.where('email', '==', email).where('name', '==', item['name']).stream()
 
-            # Iterate through the query results and delete each document
-            for doc in fav_docs:
-                doc.reference.delete()
-            return JsonResponse({"isFavourite": "false", "item": json.dumps(item)})
-        else:
-            # Add a new favorite item to the database
-            new_fav = item.copy()  # Assuming 'item' is a dictionary containing the necessary fields
-            new_fav['email'] = email  # Add the user's email to the item
-            cart_ref.add(new_fav)
+@login_required
+@user_passes_test(is_admin)
+def view_user(request, user_id):
+    print("View user " + user_id)
 
-            return JsonResponse({"isFavourite": "true", "item": json.dumps(item)})
-    return JsonResponse({"status": "error", 'message': 'Nonexistent method'})
+    users_ref = db.collection('users').where('userId', '==', int(user_id))
+    existing_user = users_ref.limit(1).stream()
+    context = {
+
+    }
+    for user in existing_user:
+        user_data = user.to_dict()
+        information = json.dumps(user_data)  # Now it should work without errors
+        information2 = json.loads(information)
+        context['user_info'] = information2
+        context['user_info_dict'] = information
+
+    return render(request, 'admin_tools/AT_UC_edit_user.html', context)
+
