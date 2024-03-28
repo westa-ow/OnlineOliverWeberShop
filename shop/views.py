@@ -13,6 +13,7 @@ import firebase_admin
 from django.views.decorators.csrf import csrf_exempt
 from firebase_admin import credentials, firestore
 from django.conf import settings
+from django.contrib import messages
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.mail import send_mail
@@ -588,6 +589,7 @@ def register(request):
                 current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
                 new_user = {
+                    'Enabled': 'True',
                     "display_name": "undefined",
                     'social_title': "",
                     'first_name': "",
@@ -601,6 +603,7 @@ def register(request):
                     'receive_newsletter': False,
                     'registrationDate': current_time,
                     'userId': user_id,
+
                 }
                 users_ref.add(new_user)
 
@@ -624,8 +627,20 @@ def login_view(request):
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
             if user is not None:
-                login(request, user)
-                return redirect('home')
+                email = form.cleaned_data.get('email') or user.email
+
+                # Query Firebase Firestore to check the user's Enabled status
+                users_ref = db.collection('users')
+                firebase_user_doc = users_ref.where('email', '==', email).limit(1).get()
+                if firebase_user_doc and firebase_user_doc[0].to_dict().get('Enabled', True) == False:
+                    # Redirect to home with an error message
+                    messages.error(request, "Your account was disabled")
+                    form.add_error(None, "Your account was disabled")
+                    return render(request, 'registration/login.html', {'form': form})
+                else:
+                    # Proceed to log the user in
+                    login(request, user)
+                    return redirect('home')
     else:
         form = AuthenticationForm()
     return render(request, 'registration/login.html', {'form': form})
@@ -1143,7 +1158,7 @@ def admin_tools(request, feature_name):
     }
     return render(request, 'admin_tools.html', context)
 @login_required
-@user_passes_test(lambda user: user.is_superuser)  # Adjust the test as needed
+@user_passes_test(is_admin)  # Adjust the test as needed
 def enable_users(request):
     if request.method == 'POST':
         try:
@@ -1162,7 +1177,7 @@ def enable_users(request):
         return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
 
 @login_required
-@user_passes_test(lambda user: user.is_superuser)
+@user_passes_test(is_admin)
 def disable_users(request):
     if request.method == 'POST':
         try:
