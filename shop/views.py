@@ -596,9 +596,10 @@ def register(request):
                     'last_name': "",
                     'email': email,
                     'birthday': "",
-                    'country': "undefined",
-                    "agent_number": "undefined",
+                    'country': "",
+                    "agent_number": "",
                     'price_category': 'Default',
+                    'currency':"Euro",
                     'receive_offers': False,
                     'receive_newsletter': False,
                     'registrationDate': current_time,
@@ -1306,7 +1307,7 @@ def edit_user(request, user_id):
     users_ref = db.collection('users').where('userId', '==', int(user_id))
     existing_user = users_ref.limit(1).stream()
     context = {
-
+        'feature_name': "edit_user",
     }
     for user in existing_user:
         user_data = user.to_dict()
@@ -1315,7 +1316,7 @@ def edit_user(request, user_id):
         context['user_info'] = information2
         context['user_info_dict'] = information
     print(context)
-    return render(request, 'admin_tools/AT_UC_edit_user.html', context)
+    return render(request, 'admin_tools.html', context)
 
 
 @login_required
