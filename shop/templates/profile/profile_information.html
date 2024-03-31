@@ -216,7 +216,7 @@ document.getElementById('customer-form').addEventListener('submit', function(e) 
     const dateFormatRegex = /^\d{4}-\d{2}-\d{2}$/;
 
     // Example: Check if the birthday is in correct format
-    if(this.birthday){
+    if(this.birthday.value !== ""){
         if (!isValidBirthday(this.birthday.value)) {
             isValid = false;
             messages.push('Invalid birthday. Ensure the date is valid, in YYYY-MM-DD format, and not in the future.');
