@@ -53,6 +53,12 @@
         </div>
     </div>
 </div>
+<div id="contextMenu" class="context-menu" style="display: none;">
+    <ul>
+        <li id="viewUser">View User</li>
+        <li id="deleteUser">Delete User</li>
+    </ul>
+</div>
 {% include "widgets/overlay.html" %}
 <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
@@ -179,12 +185,53 @@
             let optionsButton = document.createElement('i');
             optionsButton.classList.add('material-symbols-outlined');
             let optionsLink = document.createElement('a');
-            optionsLink.setAttribute('href', `/delete_user/?userId=${user.userId}`); // Adjust URL as needed
-            {#optionsLink.textContent = 'Delete';#}
             optionsButton.textContent = 'more_vert';
+            optionsButton.style.cursor = 'pointer';
             optionsLink.appendChild(optionsButton);
             actionsCell.appendChild(optionsLink);
+            optionsButton.addEventListener('click', function(event) {
+                event.stopPropagation(); // Prevent the click from closing the menu immediately
 
+                // Position the menu
+                const contextMenu = document.getElementById('contextMenu');
+                contextMenu.style.display = 'block';
+                contextMenu.style.left = `${event.pageX - 100}px`;
+                contextMenu.style.top = `${event.pageY}px`;
+
+                // Function to hide the context menu
+                function hideContextMenu() {
+                    contextMenu.style.display = 'none';
+                }
+
+                // Close the menu when clicking outside of it
+                document.addEventListener('click', hideContextMenu, { once: true });
+
+                // Set up the menu actions
+                document.getElementById('viewUser').onclick = function() {
+                    // Replace with the actual function or navigation action
+                    window.location.href = `/admin_tools/users_control/view_user/${user.userId}/`;
+                };
+                document.getElementById('deleteUser').onclick = async function() {
+                    const csrftoken = getCookie('csrftoken'); // Get the CSRF token
+                    let userIds = [user.userId]
+                    const jsonObject = { userIds: userIds };
+                    const response = await fetch('{% url 'at_delete_users' %}', { // Use the correct URL for your request
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrftoken, // Include CSRF token in request headers
+                        },
+                        body: JSON.stringify(jsonObject),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+
+                    allUsers = allUsers.filter(user => !userIds.includes(user.userId));
+                    buildUsersControlTable(allUsers);
+                }
+            });
             row.appendChild(actionsCell);
 
             // Append the row to the table body
@@ -199,6 +246,7 @@
         currentPage += direction;
         buildUsersControlTable(allUsers); // Assuming allUsers is your global user array
     }
+
 function updatePaginationControls() {
 
     const paginationContainer = document.querySelector('.pagination');

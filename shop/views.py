@@ -1279,6 +1279,7 @@ def delete_users(request):
             if not user_ids:
                 return JsonResponse({'status': 'error', 'message': 'No user IDs provided'}, status=400)
 
+            emails_to_delete = []
             db = firestore.client()
 
             # Firestore has a limit of 500 operations per batch
@@ -1290,7 +1291,11 @@ def delete_users(request):
                 query = db.collection('users').where('userId', '==', int(user_id))
                 docs = query.get()
 
+
                 for doc in docs:
+                    user_data = doc.to_dict()  # Convert document to dictionary
+                    if 'email' in user_data:
+                        emails_to_delete.append(user_data['email'])
                     doc_ref = db.collection('users').document(doc.id)
                     batch.delete(doc_ref)
                     operations_count += 1
@@ -1300,6 +1305,9 @@ def delete_users(request):
                         batch.commit()
                         batch = db.batch()  # Start a new batch
                         operations_count = 0
+
+            if emails_to_delete:
+                User.objects.filter(email__in=emails_to_delete).delete()
 
             # Commit any remaining operations in the batch
             if operations_count > 0:
@@ -1329,9 +1337,6 @@ def edit_user(request, user_id):
 
             print(new_user_data)
             users_ref = db.collection('users')
-
-            # Check for existing user by email
-            existing_users = users_ref.where('email', '==', old_email).limit(1).get()
 
             if new_email != old_email:
                 existing_user_with_new_email = users_ref.where('email', '==', new_email).limit(1).get()
@@ -1421,17 +1426,18 @@ def edit_user(request, user_id):
 def view_user(request, user_id):
     print("View user " + user_id)
 
-    users_ref = db.collection('users').where('userId', '==', int(user_id))
-    existing_user = users_ref.limit(1).stream()
+    users_ref = db.collection('users')
+    existing_user = users_ref.where('userId', '==', int(user_id)).limit(1).stream()
     context = {
 
     }
     for user in existing_user:
-        user_data = user.to_dict()
-        information = json.dumps(user_data)  # Now it should work without errors
+        user_ref = users_ref.document(user.id)
+        user_data = serialize_firestore_document(user_ref.get())
+        information = json.dumps(user_data)
         information2 = json.loads(information)
         context['user_info'] = information2
         context['user_info_dict'] = information
 
-    return render(request, 'admin_tools/AT_UC_edit_user.html', context)
+    return render(request, 'admin_tools.html', context)
 
