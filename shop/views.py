@@ -301,6 +301,13 @@ def home_page(request):
     return render(request, 'home.html')
 
 
+def get_user_category(email):
+    user = users_ref.where('email', '==', email).limit(1).get()
+    for user_info in user:
+        user_dict = user_info.to_dict()
+        return user_dict['price_category'], user_dict['currency']
+
+
 def get_cart(email):
     # Get all the documents
     docs = cart_ref.where('emailOwner', '==', email).stream()
@@ -344,7 +351,7 @@ def update_quantity_input(request):
                 doc_ref = existing_item[0].reference
                 doc_ref.update({'quantity': quantity_new})
                 return JsonResponse({'status': 'success', 'quantity': quantity_new, 'product_id': product_id,
-                                     'sum': "€" + str(round((quantity_new * price), 2)), 'was_inside': 'True'})
+                                     'sum': str(round((quantity_new * price), 2)), 'was_inside': 'True'})
 
             else:
                 product = json.loads(data.get('document'))
@@ -366,7 +373,7 @@ def update_quantity_input(request):
                 }
                 cart_ref.add(new_cart_item)
                 return JsonResponse({'status': 'success', 'quantity': quantity_new, 'product_id': product_id,
-                                     'sum': "€" + str(round((quantity_new * price), 2)), 'was_inside': 'False',
+                                     'sum': str(round((quantity_new * price), 2)), 'was_inside': 'False',
                                      'number': number_in_cart})
         except Exception as e:
             print(f"Error updating cart: {e}")
@@ -502,7 +509,16 @@ def delete_users(request):
     else:
         return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
 
-
+def get_acc_data(email):
+    existing_user = users_ref.where('email', '==', email).limit(1).stream()
+    if existing_user:
+        for user in existing_user:
+            user_ref = users_ref.document(user.id)
+            user_data = serialize_firestore_document(user_ref.get())
+            user_info_dict = json.dumps(user_data)
+            user_info_parsed = json.loads(user_info_dict)
+            return user_info_dict, user_info_parsed
+    return False, False
 @login_required
 @user_passes_test(is_admin)
 def edit_user(request, user_id):
@@ -611,15 +627,46 @@ def view_user(request, user_id):
 
     existing_user = users_ref.where('userId', '==', int(user_id)).limit(1).stream()
     context = {
-
+        'feature_name': "view_user",
+        'cart':[],
+        'orders':[],
+        'addresses': [],
     }
     for user in existing_user:
         user_ref = users_ref.document(user.id)
         user_data = serialize_firestore_document(user_ref.get())
-        information = json.dumps(user_data)
-        information2 = json.loads(information)
-        context['user_info'] = information2
-        context['user_info_dict'] = information
 
+        # Assuming user_data contains 'email', adjust if necessary
+        user_email = user_data.get('email', '')
+
+        # Fetch orders related to the user
+        orders_query = orders_ref.where('email', '==', user_email).stream()
+        from shop.views_scripts.profile_views import get_orders_for_user
+        context['orders'] = get_orders_for_user(user_email)
+
+        # Fetch addresses related to the user
+        addresses_query = addresses_ref.where('email', '==', user_email).stream()
+        context['addresses'] = [address.to_dict() for address in addresses_query]
+
+        # Fetch cart items related to the user
+        # Assuming cart collection documents contain user email, adjust if your schema is different
+        cart_query = cart_ref.where('emailOwner', '==', user_email).stream()
+        cart_items = []
+        for item in cart_query:
+            item_dict = item.to_dict()
+            # Assuming 'price' and 'quantity' are fields in your item documents
+            # Calculate the total price for each item (price * quantity)
+            total_price = item_dict.get('price', 0) * item_dict.get('quantity', 0)
+            # Add the total price to the item dictionary
+            item_dict['total_price'] = total_price
+            cart_items.append(item_dict)
+        context['cart'] = cart_items
+
+        # User information - to_dict() can be used directly
+        context['user_info'] = user_data
+
+        # Convert user_data to JSON string if you need to pass it as a string in the context
+        context['user_info_dict'] = json.dumps(user_data)
+        print(context['cart'])
     return render(request, 'admin_tools.html', context)
 

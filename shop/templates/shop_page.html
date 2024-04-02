@@ -49,7 +49,7 @@
                 <div class="document-info" id="info-{{ document.name }}">
 
                     <div class="document-number"> {{ document.name }} </div> <br><br>
-                    <div class="document-price" >€{{ document.price }}</div>
+                    <div class="document-price" >{{ currency }}{{ document.price }}</div>
                     <div class="document-in-stock">In stock: {{ document.quantity }}</div> <br><br>
                     <div class="document-description">{{ document.description }}</div>     <br>
 
@@ -94,7 +94,7 @@
 <script src="../static/js/shop_page.js"></script>
 </body>
 <script>
-
+const currency_symbol = "{{ currency|safe }}";
 document.addEventListener('DOMContentLoaded', function() {
             restoreState();
 });
@@ -111,9 +111,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const sum = document.getElementById('sum-'+Id);
         if (localStorage.getItem('sum-'+Id)!==null && inside !== "False")
-            sum.innerText = "Total: " + localStorage.getItem('sum-'+Id);
+            sum.innerText = "Total: " + currency_symbol + localStorage.getItem('sum-'+Id);
         else {
-            sum.innerText = "Total: €0";
+            sum.innerText = "Total:"+currency_symbol+"0";
 
         }
         if (localStorage.getItem('quantity-'+Id)!==null && inside !== "False" )
@@ -263,31 +263,31 @@ document.querySelectorAll('.radio-buttons input[type="radio"]').forEach(radio =>
     });
 });
 
-document.querySelectorAll('.quantity-input-button').forEach(button => {
-    button.addEventListener('click', function() {
-        const documentContainer = this.closest('.document-container');
+    document.querySelectorAll('.quantity-input-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const documentContainer = this.closest('.document-container');
 
-        const documentValue = JSON.parse(documentContainer.getAttribute('data-document').replace(/'/g, '"'));
+            const documentValue = JSON.parse(documentContainer.getAttribute('data-document').replace(/'/g, '"'));
 
-        const productId = documentValue['name'];
+            const productId = documentValue['name'];
 
-        const inp = document.getElementById('quantity-input-inp-' + productId);
+            const inp = document.getElementById('quantity-input-inp-' + productId);
 
-        const quantity = parseInt(inp.value);
+            const quantity = parseInt(inp.value);
 
 
-        if (isNaN(quantity) || quantity <= 0) {
-            alert("Type of written quantity has to be numeric and greater than 0");
-        }
-        else if (quantity > documentValue.quantity) {
+            if (isNaN(quantity) || quantity <= 0) {
+                alert("Type of written quantity has to be numeric and greater than 0");
+            }
+            else if (quantity > documentValue.quantity) {
 
-            alert("Quantity has to be less than maximum on storage");
-        }
-        else {
-            updateQuantityInput(productId, quantity, documentValue);
-        }
+                alert("Quantity has to be less than maximum on storage");
+            }
+            else {
+                updateQuantityInput(productId, quantity, documentValue);
+            }
+        });
     });
-});
 
     function updateQuantityInput(product_id, quantity_new, doc) {
         fetch('{% url "update_input" %}', {
@@ -308,8 +308,8 @@ document.querySelectorAll('.quantity-input-button').forEach(button => {
                 button.style.background = "#06b206";
 
                 const sum  = document.getElementById('sum-'+data.product_id);
-                sum.innerText = "Total: " + data.sum;
-                 saveState('sum-'+product_id, data.sum);
+                sum.innerText = "Total: " + currency_symbol + data.sum;
+                saveState('sum-'+product_id, data.sum);
 
                 saveState('quantity-'+data.product_id, data.quantity);
                 if(data.was_inside === 'False'){
