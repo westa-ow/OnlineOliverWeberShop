@@ -331,6 +331,7 @@ def get_cart(email):
 
 
 def getCart(request):
+
     return JsonResponse({'cart': get_cart(request.user.email)})
 
 
@@ -452,8 +453,12 @@ def is_admin(user):
 @login_required
 @user_passes_test(is_admin)
 def admin_tools(request, feature_name):
+    email = request.user.email
+    category, currency = get_user_category(email)
+    currency = '€' if currency == 'Euro' else '$'
     context = {
         "feature_name": feature_name,
+        'currency':currency
     }
     return render(request, 'admin_tools.html', context)
 
@@ -639,10 +644,19 @@ def view_user(request, user_id):
         # Assuming user_data contains 'email', adjust if necessary
         user_email = user_data.get('email', '')
 
+        category, currency = get_user_category(user_email)
+        context['user_currency'] = "€" if currency == "Euro" else "$"
+
         # Fetch orders related to the user
-        orders_query = orders_ref.where('email', '==', user_email).stream()
         from shop.views_scripts.profile_views import get_orders_for_user
-        context['orders'] = get_orders_for_user(user_email)
+        orders = get_orders_for_user(user_email)
+        currencies_dict = {}
+        for order in orders:
+            currencies_dict[order['order_id'] if 'order_id' in order.keys() else order['order-id']] = "€" if (order[
+                                                                                                                  'currency'] if 'currency' in order else "Euro") == "Euro" else "$"
+
+        context['orders'] = orders
+        context['currencies'] = currencies_dict
 
         # Fetch addresses related to the user
         addresses_query = addresses_ref.where('email', '==', user_email).stream()

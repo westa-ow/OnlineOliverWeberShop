@@ -79,7 +79,7 @@
                     <div class="column-3">
                         <div class="deleteBut"  data-product-id="{{ document.name }}" ><i class="fa-solid fa-remove"></i></div>
 
-                        <div class="sum" id="sum-{{ document.name }}">€{{ document.sum  }}</div>
+                        <div class="sum" id="sum-{{ document.name }}">{{ currency }}{{ document.sum  }}</div>
                     </div>
                         </div>
                 </div>
@@ -102,7 +102,7 @@
             <div class="info-cart-block">
                 <div class="block-total">
                     <div class="final-unique-quantity">5 items</div>
-                    <div class="final-sum" id="final-sum">€500.00</div>
+                    <div class="final-sum" id="final-sum">{{ currency }}500.00</div>
                 </div>
             </div>
             <div class="promo-block">
@@ -116,11 +116,11 @@
             <div class="card-block-totals">
                 <div class="cart-total">
                     <span class="label-total">Total (VAT incl.)</span>
-                    <span class="value-total">€500.00</span>
+                    <span class="value-total">{{ currency }}500.00</span>
                 </div>
                 <div class="cart-taxes">
                     <span class="label-taxes">Included taxes:</span>
-                    <span class="value-taxes">€84.00</span>
+                    <span class="value-taxes">{{ currency }}84.00</span>
                 </div>
             </div>
         </div>
@@ -138,12 +138,9 @@
 <script>
 
     let documentss = [];
-
     function init() {
         documentss = {{ documents|safe }};
         calculate_final();
-
-
     }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -153,12 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
        const dataDocument = documentContainer.getAttribute('data-document');
        const doc = JSON.parse(dataDocument.replaceAll("'",'"'));
 
-        let firstRadio = documentContainer.querySelector('.radio-buttons input[type="radio"]');
-        console.log(firstRadio);
-        if (firstRadio) {
-            firstRadio.checked = true;
-        }
-        saveState('quantity-'+doc.name, doc.quantity)
+       saveState('quantity-'+doc.name, doc.quantity)
     });
 
 });
@@ -177,9 +169,9 @@ function calculate_final(){
      const totalSumFinal =  totalSum.toFixed(2);
      document.querySelector('.final-unique-quantity').innerText =  totalItems +" " + quantity_items;
      {#document.getElementById('final-quantity').innerText = 'Total pieces..........................................................' + totalQuantity;#}
-     document.getElementById('final-sum').innerText = '€' + totalSumFinal;
-     document.querySelector('.value-total').innerText = '€' + totalSumFinal;
-     document.querySelector('.value-taxes').innerText = '€' + (totalSumFinal * 0.15).toFixed(2);
+     document.getElementById('final-sum').innerText = currency + totalSumFinal;
+     document.querySelector('.value-total').innerText = currency + totalSumFinal;
+     document.querySelector('.value-taxes').innerText = currency + (totalSumFinal * 0.15).toFixed(2);
 }
 function parameters_final(productId, newQuantity){
     documentss = documentss.map(doc => {
@@ -227,7 +219,7 @@ document.querySelectorAll('.slider-body input[type="number"]').forEach(slider =>
 document.getElementById('documents-list').addEventListener('click', function(event) {
 
 
-    var deleteButton = event.target.closest('.deleteBut');
+    let deleteButton = event.target.closest('.deleteBut');
     if (deleteButton) {
         const documentId = deleteButton.getAttribute('data-product-id');
         const documentContainer = deleteButton.closest('.document-container');
@@ -241,7 +233,7 @@ document.getElementById('documents-list').addEventListener('click', function(eve
 
 
 
-    var quantityInputButton = event.target.closest('.quantity-input-button');
+    const quantityInputButton = event.target.closest('.quantity-input-button');
     if (quantityInputButton) {
         const documentContainer = quantityInputButton.closest('.document-container');
         const documentValue = JSON.parse(documentContainer.getAttribute('data-document').replace(/'/g, '"'));
@@ -258,55 +250,6 @@ document.getElementById('documents-list').addEventListener('click', function(eve
         }
         else {
             updateQuantityInput(productId, quantity, documentValue);
-        }
-    }
-    var quantitySliderButton = event.target.closest('.quantity-slider-button');
-    if (quantitySliderButton) {
-        const documentContainer = quantitySliderButton.closest('.document-container');
-        const documentValue = JSON.parse(documentContainer.getAttribute('data-document').replace(/'/g, '"'));
-        const productId = documentValue['name'];
-        const quantityElement = document.getElementById('quantity-slider-text-' + productId).textContent;
-        const quantity = parseInt(quantityElement);
-        console.log(quantity);
-
-        updateQuantitySlider(productId, quantity, documentValue);
-
-    }
-});
-document.getElementById('documents-list').addEventListener('change', function(event) {
-    if (event.target.closest('.radio-buttons') && event.target.type === 'radio') {
-        const documentContainer = event.target.closest('.document-container');
-        const documentString = documentContainer.getAttribute('data-document');
-        const doc = documentString.replace(/'/g, '"');
-        const dataObject = JSON.parse(doc);
-
-        const docName = dataObject.name;
-
-        const quantityControl = document.getElementById('quantity-control-' + docName);
-        const quantitySlider = document.getElementById('quantity-slider-' + docName);
-        const quantityInput = document.getElementById('quantity-input-' + docName);
-
-        if (event.target.value === 'quantityControl') {
-            const quantityElementControl = document.getElementById('quantity-' + docName);
-            quantityElementControl.innerText = localStorage.getItem('quantity-'+docName);
-            quantityControl.style.display = 'block';
-            quantitySlider.style.display = 'none';
-            quantityInput.style.display = 'none';
-        } else if (event.target.value === 'quantitySlider') {
-            const quantityElement = document.getElementById('quantity-slider-text-' + docName);
-            const quantityElementControl = document.getElementById('quantity-' + docName);
-            const slider = document.getElementById('slider-' + docName);
-            quantityElement.innerText = localStorage.getItem('quantity-'+docName);
-            slider.value = localStorage.getItem('quantity-'+docName);
-            quantitySlider.style.display = 'flex';
-            quantityControl.style.display = 'none';
-            quantityInput.style.display = 'none';
-        } else if (event.target.value === 'quantityInput') {
-            quantitySlider.style.display = 'none';
-            quantityControl.style.display = 'none';
-            quantityInput.style.display = 'block';
-            const inp = document.getElementById('quantity-input-inp-' + docName);
-            inp.value = '';
         }
     }
 });

@@ -2,7 +2,8 @@ import concurrent
 
 from django.contrib.auth.decorators import login_required
 
-from shop.views import db, orders_ref, serialize_firestore_document, users_ref, addresses_ref, update_email_in_db
+from shop.views import db, orders_ref, serialize_firestore_document, users_ref, addresses_ref, update_email_in_db, \
+    get_user_category
 import ast
 import random
 from datetime import datetime
@@ -32,8 +33,14 @@ def profile(request, feature_name):
     email = request.user.email
     orders = get_orders_for_user(email)
     order_details = get_order_details(orders)
-
+    email = request.user.email
+    category, currency = get_user_category(email)
+    if currency == "Euro":
+        currency = "€"
+    elif currency == "Dollar":
+        currency = "$"
     context = build_context(feature_name, email, orders, order_details)
+    context['currency'] = currency
     return render(request, 'profile.html', context=context)
 
 def get_orders_for_user(email):
@@ -90,7 +97,12 @@ def fetch_order_detail(order_doc_path):
     return None
 
 def build_context(feature_name, email, orders, order_details):
+    currencies_dict ={}
+    for order in orders:
+        currencies_dict[order['order_id'] if 'order_id' in order.keys() else order['order-id']] = "€" if (order['currency'] if 'currency' in order else "Euro")=="Euro" else "$"
+
     context = {
+        'currencies': currencies_dict,
         'orders': orders,
         'products': order_details,
         'feature_name': feature_name,

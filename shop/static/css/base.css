@@ -259,6 +259,7 @@
 }
 .shopping-cart-span{
     font-size: 22px;
+    color:#1c1c1c !important;
 }
 #closeCartBtn{
     cursor: pointer;
@@ -322,6 +323,7 @@ img{
     flex-direction: column;
     margin-right: 10px;
     text-align: center;
+    color: #1c1c1c !important;
 }
 
 .mini-cart-product-price{
@@ -334,6 +336,7 @@ img{
 }
 
 .subtotal{
+  color:#1c1c1c !important;
   display: inline-flex;
   flex-direction: row;
   justify-content: space-between;

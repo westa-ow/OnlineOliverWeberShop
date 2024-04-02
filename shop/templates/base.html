@@ -81,7 +81,7 @@
         <hr>
         <div class="subtotal">
             <span>Subtotal:</span>
-            <span id="subtotalValue">€0.00</span>
+            <span id="subtotalValue">{{ currency }}0.00</span>
         </div><br>
         <button onclick="location.href='{% url 'cart' %}'"  class="checkout-btn">Proceed to Checkout</button>
     </div>
@@ -144,6 +144,7 @@
 <div id="overlay" class="overlay"></div>
 </body>
 <script>
+    const currency="{{ currency|safe }}";
 document.getElementById('account-icon').addEventListener('click',function() {
     console.log("ssss");
     var accPanel = document.getElementById('side_acc_wrap');
@@ -255,7 +256,7 @@ document.getElementById('cartBtn').onclick = function() {
                     attrs_column_second.classList.add('cart-second-attrs-column');
 
                     const price = document.createElement('span');
-                    price.textContent = `€${item.price}`;
+                    price.textContent = currency+`${item.price}`;
                     price.classList.add('mini-cart-product-price');
 
                     const quantity = document.createElement('span');
@@ -328,7 +329,7 @@ document.getElementById('cartBtn').onclick = function() {
                                 cart.forEach(cartItem => {
                                     newSum += parseFloat(cartItem.sum);
                                 });
-                                document.getElementById('subtotalValue').textContent = `€${newSum.toFixed(1)}`;
+                                document.getElementById('subtotalValue').textContent = currency+`${newSum.toFixed(1)}`;
                                 console.log(cart.length);
                                 if(cart.length === 0){
                                     showCartIsEmpty(cartItemsContainer);
@@ -343,7 +344,7 @@ document.getElementById('cartBtn').onclick = function() {
 
                 // Update subtotal
 
-                document.getElementById('subtotalValue').textContent = `€${sum.toFixed(1)}`;
+                document.getElementById('subtotalValue').textContent = currency+`${sum.toFixed(1)}`;
                 const emptyCartContainer = document.querySelector('.empty-cart-container');
                 if (emptyCartContainer) {
                     emptyCartContainer.style.display = 'none';

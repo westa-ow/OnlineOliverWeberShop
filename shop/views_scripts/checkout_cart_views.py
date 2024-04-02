@@ -2,7 +2,8 @@ import concurrent
 
 from django.contrib.auth.decorators import login_required
 
-from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, get_cart, cart_ref, single_order_ref
+from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, get_cart, cart_ref, single_order_ref, \
+    get_user_category
 import ast
 import random
 from datetime import datetime
@@ -30,8 +31,15 @@ from shop.forms import UserRegisterForm, User
 
 @login_required
 def cart_page(request):
+    email = request.user.email
+    category, currency = get_user_category(email)
+    if currency == "Euro":
+        currency = "€"
+    elif currency == "Dollar":
+        currency = "$"
     context = {
-        'documents': sorted(get_cart(request.user.email), key=lambda x: x['number'])
+        'documents': sorted(get_cart(request.user.email), key=lambda x: x['number']),
+        'currency': currency
     }
     return render(request, 'cart.html', context=context)
 
@@ -56,6 +64,11 @@ def sort_documents(request):
 def send_email(request):
     if request.method == 'POST':
         # Создаю order
+
+        email = request.user.email
+        category, currency = get_user_category(email)
+
+        currency = '€' if currency == 'Euro' else '$'
 
         cart = get_cart(request.user.email)
 
@@ -91,7 +104,8 @@ def send_email(request):
             'list': [ref.path for ref in item_refs],  # Using document paths as references
             'order_id': order_id,
             'order-id': order_id,
-            'price': round(sum, 1)
+            'price': round(sum, 1),
+            'currency': 'Euro',
         }
         orders_ref.add(new_order)
 

@@ -99,13 +99,6 @@ document.addEventListener('DOMContentLoaded', function() {
             restoreState();
 });
      function restoreState() {
-         document.querySelectorAll('.radio-buttons').forEach(group => {
-            let radios = group.querySelectorAll('input[type="radio"]');
-
-            if (radios.length > 0) {
-                radios[0].checked = true;
-            }
-        });
         const Id =  document.querySelector('.number-in-cart').getAttribute('data-product-id');
         document.querySelector('.number-in-cart').innerText = localStorage.getItem('number-'+Id);
 
@@ -129,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // localStorage.clear();
     });
     function updateDropdown() {
-        var inputVal = document.getElementById('number').value;
+        let inputVal = document.getElementById('number').value;
         if (inputVal.length === 0) {
             document.getElementById('dropdown').innerHTML = '';
             return;
@@ -210,42 +203,6 @@ document.querySelectorAll('.deleteBut').forEach(button => {
     button.style.background = "#1daede"
 }
 
-document.querySelectorAll('.radio-buttons input[type="radio"]').forEach(radio => {
-    radio.addEventListener('change', function() {
-        const documentContainer = this.closest('.document-container');
-        const documentString = documentContainer.getAttribute('data-document');
-        const doc = documentString.replace(/'/g, '"');
-
-        const dataObject = JSON.parse(doc);
-
-        const docName = dataObject.name;
-
-        const quantityControl = document.getElementById('quantity-control-' + docName);
-        const quantitySlider = document.getElementById('quantity-slider-' + docName);
-        const quantityInput = document.getElementById('quantity-input-' + docName);
-        if (this.value === 'quantityControl') {
-            const quantityElementControl = document.getElementById('quantity-' + docName);
-            quantityElementControl.innerText = localStorage.getItem('quantity-'+docName);
-            quantityControl.style.display = 'block';
-            quantitySlider.style.display = 'none';
-            quantityInput.style.display = 'none';
-        } else if (this.value === 'quantitySlider') {
-            const quantityElement = document.getElementById('quantity-slider-text-' + docName);
-            const slider = document.getElementById('slider-'+docName);
-            quantityElement.innerText = localStorage.getItem('quantity-'+docName);
-            slider.value = localStorage.getItem('quantity-'+docName);
-            quantitySlider.style.display = 'flex';
-            quantityControl.style.display = 'none';
-            quantityInput.style.display = 'none';
-        }else if (this.value === 'quantityInput') {
-            quantitySlider.style.display = 'none';
-            quantityControl.style.display = 'none';
-            quantityInput.style.display = 'block';
-            const inp = document.getElementById('quantity-input-inp-' + docName);
-            inp.value = '';
-        }
-    });
-});
  function saveState(name, value) {
     localStorage.setItem(name, value);
 }
@@ -332,8 +289,8 @@ document.querySelectorAll('.radio-buttons input[type="radio"]').forEach(radio =>
             const slider = document.getElementById('slider-'+productId);
             slider.value =  input.value;
             const button = document.getElementById("quantity-input-apply-"+ productId);
-                button.innerText = "Confirm";
-                button.style.background = "#1daede"
+            button.innerText = "Confirm";
+            button.style.background = "#1daede"
         });
     });
 

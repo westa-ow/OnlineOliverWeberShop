@@ -41,10 +41,10 @@
                     </div>
                     <div class="form_control">
                       <div class="form_control_container">
-                          <span class="fromInput-text">€0</span>
+                          <span class="fromInput-text">{{ currency }}0</span>
                       </div>
                           <div class="form_control_container">
-                             <span class="toInput-text">€800</span>
+                             <span class="toInput-text">{{ currency }}800</span>
                           </div>
                     </div>
                 </div>
@@ -247,7 +247,7 @@
         hideOverlay();
     });
 
-
+const price_category = "{{ category|safe }}";
 let itemsPerPage = 20;
 let order_name = "Name";
 let order_type = "asc";
@@ -547,9 +547,9 @@ function controlFromSlider(fromSlider, toSlider, fromInput) {
   fillSlider(fromSlider, toSlider, '#C6C6C6', '#003665', toSlider);
   if (from > to) {
     fromSlider.value = to;
-    fromInput.textContent = "€" +to;
+    fromInput.textContent = currency +to;
   } else {
-    fromInput.textContent ="€" +from;
+    fromInput.textContent = currency +from;
   }
 }
 
@@ -559,9 +559,9 @@ function controlToSlider(fromSlider, toSlider, toInput) {
   setToggleAccessible(toSlider);
   if (from <= to) {
     toSlider.value = to;
-    toInput.textContent ="€" + to;
+    toInput.textContent = currency + to;
   } else {
-    toInput.textContent = "€"+from;
+    toInput.textContent = currency + from;
     toSlider.value = from;
   }
 }
@@ -761,7 +761,7 @@ function displayCurrentPage(items) {
         nameSpan.textContent = item.name;
         const priceSpan = document.createElement('span');
         priceSpan.className = 'info-price';
-        priceSpan.textContent = `€${item.price}`;
+        priceSpan.textContent = currency + `${item.price}`;
         infoSection.appendChild(nameSpan);
         infoSection.appendChild(document.createElement('br'));
         infoSection.appendChild(priceSpan);
@@ -988,7 +988,7 @@ function productsTransmutation(items){
                 products[itemName] = {
                     name: itemName,
                     description: item.description,
-                    price: item.price,
+                    price: price_category === "VK3" ? item.priceVK3 : price_category === "GH" ? item.priceGH : price_category === "GH_USD" ? item.priceUSD_GH : price_category === "Default USD" ? item.priceUSD : item.price,
                     category: item.category,
                     material: item.material,
                     preview_image: item.image_url,
@@ -1201,7 +1201,7 @@ function generateDialogContent(id){
     secondColumn.appendChild(nameSpan);
 
     const priceSpan = document.createElement('div');
-    priceSpan.textContent = `€${item.price}`;
+    priceSpan.textContent = currency+`${item.price}`;
     secondColumn.appendChild(priceSpan);
 
     const quantitySpan = document.createElement('div');
@@ -1388,7 +1388,7 @@ function add_to_cart_func(item, plating, stone, size, quantity, add_button, dial
     add_button.textContent = "Processing...";
     add_button.style.backgroundColor = "#7894a6";
     add_button.disabled = true;
-    {#console.log(doc);#}
+
     fetch('{% url "add_from_catalog" %}', {
         method: 'POST',
         headers: {
@@ -1473,7 +1473,7 @@ function informationSuccessSetup(column, item, actual_quantity, cart_count, cart
     column.appendChild(nameSpan);
 
     const priceSpan = document.createElement('div');
-    priceSpan.textContent = `€${item.price}`;
+    priceSpan.textContent = currency + `${item.price}`;
     column.appendChild(priceSpan);
 
     const platingSpan = document.createElement('spanSucc');
@@ -1496,7 +1496,7 @@ function informationSuccessSetup(column, item, actual_quantity, cart_count, cart
     column.appendChild(items_count);
 
     const subtotal = document.createElement('spanSucc');
-    subtotal.innerHTML =`<strong>Subtotal: </strong>€` + `${cartSubtotal}`;
+    subtotal.innerHTML =`<strong>Subtotal: </strong>`+currency + `${cartSubtotal}`;
     subtotal.style.marginBottom = '20px';
     column.appendChild(subtotal);
 }

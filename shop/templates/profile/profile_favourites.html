@@ -44,7 +44,6 @@
     const db = getFirestore(app);
 
     let favouriteItems = [];
-
     document.addEventListener("DOMContentLoaded", async function () {
         showOverlay();
 
@@ -196,7 +195,7 @@
                 nameSpan.textContent = item.name;
                 const priceSpan = document.createElement('span');
                 priceSpan.className = 'info-price';
-                priceSpan.textContent = `€${item.price}`;
+                priceSpan.textContent = currency + `${item.price}`;
                 infoSection.appendChild(nameSpan);
                 infoSection.appendChild(document.createElement('br'));
                 infoSection.appendChild(priceSpan);
@@ -380,7 +379,7 @@ function generateDialogContent(id){
     secondColumn.appendChild(nameSpan);
 
     const priceSpan = document.createElement('div');
-    priceSpan.textContent = `€${item.price}`;
+    priceSpan.textContent = currency + `${item.price}`;
     secondColumn.appendChild(priceSpan);
 
     const quantitySpan = document.createElement('div');
@@ -652,7 +651,7 @@ function informationSuccessSetup(column, item, actual_quantity, cart_count, cart
     column.appendChild(nameSpan);
 
     const priceSpan = document.createElement('div');
-    priceSpan.textContent = `€${item.price}`;
+    priceSpan.textContent = currency+`${item.price}`;
     column.appendChild(priceSpan);
 
     const platingSpan = document.createElement('spanSucc');
@@ -675,7 +674,7 @@ function informationSuccessSetup(column, item, actual_quantity, cart_count, cart
     column.appendChild(items_count);
 
     const subtotal = document.createElement('spanSucc');
-    subtotal.innerHTML =`<strong>Subtotal: </strong>€` + `${cartSubtotal}`;
+    subtotal.innerHTML =`<strong>Subtotal: </strong>`+currency + `${cartSubtotal}`;
     subtotal.style.marginBottom = '20px';
     column.appendChild(subtotal);
 }

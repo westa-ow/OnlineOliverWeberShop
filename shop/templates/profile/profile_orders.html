@@ -21,7 +21,7 @@
                   <tr class="tr-outer" id="content-{{ document.order_id }}">
                       <th class="td-outer">{{ document.order_id }}</th>
                       <td class="td-outer">{{ document.date }}</td>
-                      <td class="td-outer">€{{ document.sum }}</td>
+                      <td class="td-outer">{{ document.currency|default:"€" }}{{ document.sum }}</td>
                       <td class="td-outer">Bank transfer</td>
                       <td class="td-outer">{{ document.Status }}</td>
                        <td class="td-outer">
@@ -39,22 +39,24 @@
 <script>
 
 let products = [];
+let currencies =  {{ currencies|safe }};
 document.addEventListener("DOMContentLoaded", function() {
     products = {{ products|safe }};
 });
 document.querySelectorAll('.show-content').forEach(button => {
     button.addEventListener('click', () => {
-        let orderId = button.getAttribute('data-order-id');
-        var orderRow = document.getElementById('content-' + orderId);
-        var table = orderRow.closest('table');
-        var rowIndex = orderRow.rowIndex;
-        var nextRow = table.rows[rowIndex + 1];
+         let orderId = button.getAttribute('data-order-id');
+         let orderRow = document.getElementById('content-' + orderId);
+         let table = orderRow.closest('table');
+         let rowIndex = orderRow.rowIndex;
+         let nextRow = table.rows[rowIndex + 1];
+         {#console.log(JSON.parse(orders));#}
+         const order_currency = currencies[orderId];
 
          if (nextRow && nextRow.classList.contains('nested-table-row')) {
 
             let nestedTableContainer = nextRow.querySelector('.nested-table-container');
             // Access nestedTable directly from nestedTableContainer if it's already in the DOM
-            let nestedTable = nestedTableContainer.querySelector('.nested-table'); // This ensures nestedTable is defined
             if (nestedTableContainer.classList.contains('expanded')) {
                 nestedTableContainer.classList.remove('expanded');
                 document.getElementById('show-button-' + orderId).innerText = "Show details";
@@ -66,7 +68,7 @@ document.querySelectorAll('.show-content').forEach(button => {
                     // Remove event listener to avoid memory leaks
                     nestedTableContainer.removeEventListener('transitionend', onCollapse);
 
-                    var deleteAfterCollapse = function() {
+                    let deleteAfterCollapse = function() {
                         const rowToDelete = table.rows[rowIndex + 1]; // Assuming this is the row you want to delete
                         rowToDelete.style.transition = 'margin-top 0.05s ease';
                         rowToDelete.style.marginTop = `-${rowToDelete.offsetHeight}px`; // Animate the row out of view
@@ -96,21 +98,21 @@ document.querySelectorAll('.show-content').forEach(button => {
             // This is the section where you're adding the nested table for the first time
             document.getElementById('show-button-' + orderId).innerText = "Hide details";
 
-            var nestedTableRow = table.insertRow(rowIndex + 1);
+            let nestedTableRow = table.insertRow(rowIndex + 1);
             nestedTableRow.classList.add('nested-table-row');
 
-            var indentCell = nestedTableRow.insertCell(0);
+            let indentCell = nestedTableRow.insertCell(0);
             indentCell.classList.add('td-outer');
 
-            var nestedTableCell = nestedTableRow.insertCell(1);
-            nestedTableCell.colSpan = "5";
+            let nestedTableCell = nestedTableRow.insertCell(1);
+            nestedTableCell.colSpan = 5;
 
-            var nestedTableContainer = document.createElement('div');
+            let nestedTableContainer = document.createElement('div');
             nestedTableContainer.classList.add('nested-table-container'); // Initially not expanded
 
-            var nestedTable = document.createElement('table');
+            let nestedTable = document.createElement('table');
             nestedTable.classList.add('nested-table');
-            var nestedTableContent = `
+            let nestedTableContent = `
                 <tr>
                     <th>Name</th>
                     <th>Image</th>
@@ -124,21 +126,21 @@ document.querySelectorAll('.show-content').forEach(button => {
                 nestedTableContent += `
                     <tr>
                         <td>${product.name}</td>
-                        <td style="text-align: center"> <img src="${product.image_url}" width="50" height="50"> </td>
+                        <td style="text-align: center"> <img alt="Product image" src="${product.image_url}" width="50" height="50"> </td>
                         <td>${product.description}</td>
-                        <td>€${product.price}</td>
+                        <td>${order_currency}${product.price}</td>
                         <td>${product.quantity}</td>
-                        <td>€${(product.quantity * product.price).toFixed(1)}</td>
+                        <td>${order_currency}${(product.quantity * product.price).toFixed(1)}</td>
                         <td style="width: 10%; text-align: center" ><span style="font-size: 20px">&#10003;</span></td>
                     </tr>`;
             });
-           nestedTable.innerHTML = nestedTableContent;
+            nestedTable.innerHTML = nestedTableContent;
             nestedTableContainer.appendChild(nestedTable);
             nestedTableCell.appendChild(nestedTableContainer);
 
             // At this point, nestedTable is fully prepared, so we should measure the scrollHeight of nestedTableContainer
             // Make sure to append nestedTableContainer to the document before measuring
-            var contentHeight = "0px";
+            let contentHeight = "0px";
             // Make sure the nestedTableContainer is part of the document
             if (nestedTableContainer.scrollHeight) {
                 contentHeight = nestedTableContainer.scrollHeight + "px";

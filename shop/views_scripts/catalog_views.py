@@ -2,7 +2,8 @@ import concurrent
 
 from django.contrib.auth.decorators import login_required
 
-from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, cart_ref, get_cart, favourites_ref
+from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, cart_ref, get_cart, favourites_ref, \
+    get_user_category
 import ast
 import random
 from datetime import datetime
@@ -30,7 +31,14 @@ from shop.forms import UserRegisterForm, User
 
 @login_required
 def catalog_view(request):
-    return render(request, 'catalog.html')
+
+    email = request.user.email
+    category, currency = get_user_category(email)
+    context = {
+        "currency": "€" if currency == "Euro" else "$",
+        "category":  category
+    }
+    return render(request, 'catalog.html', context=context)
 
 
 @login_required
@@ -39,27 +47,39 @@ def add_to_cart_from_catalog(request):
     product_name = data.get('document')
     new_quantity = data.get('quantity')
 
+    email = request.user.email
+    category, currency = get_user_category(email)
+
+    currency = '€' if currency == 'Euro' else '$'
+
     if not product_name or new_quantity is None:
         return JsonResponse({'status': 'error', 'message': 'Missing product name or quantity'}, status=400)
 
     document = get_full_product(product_name)
+    if category == "VK3":
+        document['price'] = document['priceVK3']
+    if category == "GH":
+        document['price'] = document['priceGH']
+    if category == "Default USD":
+        document['price'] = document['priceUSD']
+    if category == "GH_USD":
+        document['price'] = document['priceUSD_GH']
     if not document:
         return JsonResponse({'status': 'error', 'message': 'Product not found'}, status=404)
 
-    email = request.user.email
     subtotal, cart_size = update_cart(email, product_name, new_quantity, document)
+
     if subtotal is None:  # Assuming update_cart returns None on error
         return JsonResponse({'status': 'error', 'message': 'An error occurred while processing your request'},
                             status=500)
-
     return JsonResponse({
         'status': 'success',
         'quantity': new_quantity,
         'product_id': product_name,
-        'sum': f"€{round(new_quantity * document['price'], 2)}",
+        'sum': f"{round(new_quantity * document['price'], 2)}",
         'product': document,
         'cart_size': cart_size,
-        'subtotal': f"€{subtotal}"
+        'subtotal': f"{subtotal}"
     })
 
 
