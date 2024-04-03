@@ -93,6 +93,7 @@ def edit_user(request, user_id):
                         'agent_number': new_user_data['client-name'],
                         'currency': customer_currency,
                         'receive_offers': receive_offers,
+                        'sale': 0 if "sale" not in new_user_data else int(new_user_data['sale']),
                         'price_category': customer_group,
                     })
             return JsonResponse({'status': 'success', 'message': 'Address updated successfully.'})

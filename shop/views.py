@@ -307,6 +307,11 @@ def get_user_category(email):
     for user_info in user:
         user_dict = user_info.to_dict()
         return user_dict['price_category'], user_dict['currency'] if 'currency' in user_dict else "Euro"
+def get_user_info(email):
+    user = users_ref.where('email', '==', email).limit(1).get()
+    for user_info in user:
+        user_dict = user_info.to_dict()
+        return user_dict
 
 
 def get_cart(email):

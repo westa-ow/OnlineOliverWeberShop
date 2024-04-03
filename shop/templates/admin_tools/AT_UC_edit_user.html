@@ -223,6 +223,16 @@
                 <span class="req">*</span>
             </div>
         </div>
+        <div class="form-group row ">
+            <div class="col-md-12">
+                <label>Personal sale, %</label>
+                <input class="form-control" id="sale-input" name="sale" type="text" value="{{ user_info.sale }}" placeholder="Sale without % symbol, 0 < sale < 100">
+                <span class="form-control-comment"> (E.g.: 40) </span>
+            </div>
+            <div class="col-md-12 form-control-comment">
+
+            </div>
+        </div>
         <footer class="form-footer clearfix">
             <input type="hidden" name="submitCreate" value="1">
             <button class="btn btn-primary wide form-control-submit float-xs-right" data-link-action="save-customer" type="submit"> Save </button>
@@ -304,9 +314,40 @@
                 break;
             }
         }
+        controlSelectedGroup(group);
+     }
+     document.getElementById('select-group').addEventListener('change',function (){
+        console.log(this.value);
+        let select_index = this.value;
+        if(select_index ==="1"){
+            controlSelectedGroup("Default");
+        }
+        if(select_index ==="2"){
+            controlSelectedGroup("VK3");
+        }
+        if(select_index ==="3"){
+            controlSelectedGroup("GH");
+        }
+        if(select_index ==="4"){
+            controlSelectedGroup("Default_USD");
+        }
+        if(select_index ==="5"){
+            controlSelectedGroup("GH_USD");
+        }
+     });
+     function controlSelectedGroup(group){
+            const saleInput = document.getElementById('sale-input').parentElement.parentElement;
+            if(group==="Default" || group==="Default_USD"){
+
+                saleInput.style.display = "block";
+
+            }
+            else{
+                saleInput.style.display = "none";
+            }
      }
 
-    document.getElementsByName('receive-partners-offers')[0].addEventListener('change', function(event) {
+     document.getElementsByName('receive-partners-offers')[0].addEventListener('change', function(event) {
         if (event.target.checked) {
             document.getElementsByName('receive-partners-offers')[0].value = 1;
             document.getElementById('label-offers').textContent = "Yes";
@@ -363,6 +404,10 @@
         if (!this.email.value) {
             isValid = false;
             messages.push('Email is required.');
+        }
+        if (isNaN(parseInt(this.sale.value)) ||parseInt(this.sale.value) >= 100 || parseInt(this.sale.value) <= 0 ) {
+            isValid = false;
+            messages.push('Sale has to be in correct format.');
         }
 
 

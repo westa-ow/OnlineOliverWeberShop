@@ -3,7 +3,7 @@ import concurrent
 from django.contrib.auth.decorators import login_required
 
 from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, get_cart, cart_ref, users_ref, \
-    get_user_category
+    get_user_category, get_user_info
 import ast
 import random
 from datetime import datetime
@@ -49,6 +49,8 @@ def form_page(request):
             break
 
     category, currency = get_user_category(email)
+    info = get_user_info(email)
+    sale = round((0 if "sale" not in info else info['sale'])/100, 2)
     products = [doc.to_dict() for doc in documents]
     for obj in products:
         if category == "VK3":
@@ -60,6 +62,12 @@ def form_page(request):
         if category == "USD_GH":
             del obj['price']
             obj['price'] = obj['priceUSD_GH']
+        if category == "Default_USD":
+            del obj['price']
+            obj['price'] = obj['priceUSD']
+        else:
+            del obj['price']
+            obj['price'] = obj['priceVK4'] * (1-sale)
 
     if currency == "Euro":
         currency = "€"

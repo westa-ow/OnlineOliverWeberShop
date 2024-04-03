@@ -246,7 +246,7 @@
 
         hideOverlay();
     });
-
+let sale = {{ sale|safe }};
 const price_category = "{{ category|safe }}";
 let itemsPerPage = 20;
 let order_name = "Name";
@@ -988,7 +988,7 @@ function productsTransmutation(items){
                 products[itemName] = {
                     name: itemName,
                     description: item.description,
-                    price: price_category === "VK3" ? item.priceVK3 : price_category === "GH" ? item.priceGH : price_category === "GH_USD" ? item.priceUSD_GH : price_category === "Default_USD" ? item.priceUSD : item.price,
+                    price: price_category === "VK3" ? item.priceVK3 : price_category === "GH" ? item.priceGH : price_category === "GH_USD" ? item.priceUSD_GH : price_category === "Default_USD" ? item.priceUSD : (item.priceVK4*(1-sale)),
                     category: item.category,
                     material: item.material,
                     preview_image: item.image_url,
