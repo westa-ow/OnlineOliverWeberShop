@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 
-from shop.views import addresses_ref, country_dict, users_ref
+from shop.views import addresses_ref, country_dict, users_ref, get_user_category
 
 
 @login_required
@@ -76,15 +76,22 @@ def create_address(request):
     if existing_users:
         for user in existing_users:
             ref = users_ref.document(user.id)
+    email = request.user.email
+    category, currency = get_user_category(email)
+    currency = '€' if currency == 'Euro' else '$'
     context = {
         'feature_name': 'new_address',
-        'user_ref': ref.get().to_dict()
+        'user_ref': ref.get().to_dict(),
+        'currency':currency
     }
     return render(request, 'profile.html', context=context)
 
 
 @login_required
 def update_address(request, address_id):
+    email = request.user.email
+    category, currency = get_user_category(email)
+    currency = '€' if currency == 'Euro' else '$'
     existing_address = addresses_ref.where('address_id', '==', address_id).limit(1).get()
     if request.method == 'POST':
         try:
@@ -117,6 +124,7 @@ def update_address(request, address_id):
         context = {
             'feature_name': 'update_address',
             'address': address_dict,
+            'currency':currency,
             'address_dict': json.dumps(address_dict),
         }
         # print(address_dict)

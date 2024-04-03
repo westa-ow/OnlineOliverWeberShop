@@ -19,12 +19,14 @@ from django.urls import path
 from shop import views
 from shop.views_scripts import profile_views
 from shop.views_scripts.adresses_views import update_address, delete_address, create_address
-from shop.views_scripts.at_uc_bulk_actions import disable_users, enable_users
+from shop.views_scripts.users_control.at_uc_bulk_actions import disable_users, enable_users
 from shop.views_scripts.auth_views import register, logout_view, login_view
 from shop.views_scripts.catalog_views import add_to_cart_from_catalog, catalog_view, change_favorite_state
 from shop.views_scripts.checkout_cart_views import sort_documents, send_email, cart_page
 from shop.views_scripts.profile_views import update_user_account
 from shop.views_scripts.shop_views import fetch_numbers, form_page
+from shop.views_scripts.users_control.edit_user import edit_user
+from shop.views_scripts.users_control.view_user import view_user
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -61,8 +63,8 @@ urlpatterns = [
     path('at/disable_users/', disable_users, name='at_disable_users'),
     path('at/delete_users/', views.delete_users, name='at_delete_users'),
 
-    path('admin_tools/users_control/edit_user/<str:user_id>/', views.edit_user, name='at_edit_user'),
-    path('admin_tools/users_control/view_user/<str:user_id>/', views.view_user, name='at_view_user'),
+    path('admin_tools/users_control/edit_user/<str:user_id>/', edit_user, name='at_edit_user'),
+    path('admin_tools/users_control/view_user/<str:user_id>/', view_user, name='at_view_user'),
 
     # path('finish_order/', )
 
