@@ -3,6 +3,7 @@
 <link rel="stylesheet"  href="{% static 'css/profile/profile_information.css' %}">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'css/SeparateWidgets/switch.css' %}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="{% static 'css/SeparateWidgets/groupsTable.css' %}">
 <section id="content" class="page-content col-md-12 col-lg-9 myacc_content">
     <header class="page-header">
@@ -210,11 +211,12 @@
             <div class="col-md-12">
                 <label>Customer group</label>
                  <select class="form-control form-control-select js-country" name="id_group" id="select-group" required="">
-                     <option value="" disabled="" selected="">-- please choose --</option>
+                    <option value="" disabled="" selected="">-- please choose --</option>
                     <option value="1">Default</option>
-                    <option value="2">Visitor</option>
-                    <option value="3">Guest</option>
-                    <option value="4">Customer</option>
+                    <option value="2">VK3</option>
+                    <option value="3">GH</option>
+                    <option value="4" style="display:none;">Default_USD</option>
+                    <option value="5" style="display:none;">GH_USD</option>
                 </select>
             </div>
             <div class="col-md-12 form-control-comment">
@@ -234,6 +236,30 @@
     </aside>
 </section>
 <script>
+    $(document).ready(function() {
+    // Detect when the value of the currency select box changes.
+    $('#select-currency').change(function() {
+        var currency = $(this).val(); // Get the selected currency value
+        var groupSelect = $('#select-group'); // Get the customer group select box
+        groupSelect.val(""); // Reset to "please choose"
+        $('option', groupSelect).hide(); // Hide all options initially
+
+        // Show options based on selected currency
+        if(currency == "1"){ // If Euro is selected
+            groupSelect.find('option[value=""]').show(); // Show the placeholder option
+            groupSelect.find('option[value="1"]').show(); // Default
+            groupSelect.find('option[value="2"]').show(); // Euro_GH
+            groupSelect.find('option[value="3"]').show(); // Euro_VK3
+        } else if(currency == "2"){ // If Dollar is selected
+            groupSelect.find('option[value=""]').show(); // Show the placeholder option
+            groupSelect.find('option[value="4"]').show(); // Default_dollar
+            groupSelect.find('option[value="5"]').show(); // Dollar_GH
+        }
+    });
+
+    // Initially trigger the change event to apply the correct state
+    $('#select-currency').change();
+});
      document.addEventListener("DOMContentLoaded", function() {
     // Select the button by its data-action attribute
          setCurrentSelects();
@@ -384,7 +410,7 @@
             // Handle success response data
         }).catch(error => {
             console.error('Error:', error);
-            alert(error.message); // Display the error message from the catch or throw
+            alert(""+error.message); // Display the error message from the catch or throw
         });
     });
     function getCookie(name) {

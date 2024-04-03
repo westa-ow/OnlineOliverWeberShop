@@ -43,9 +43,10 @@ currency_dict = {
 
 groups_dict = {
     "1":"Default",
-    "2":"Visitor",
-    "3":"Guest",
-    "4":"Customer",
+    "2":"VK3",
+    "3":"GH",
+    "4":"Default_USD",
+    "5": "GH_USD",
 }
 
 country_dict = {
@@ -587,7 +588,7 @@ def edit_user(request, user_id):
             receive_offers = old_user_data['receive_offers'] if 'optin' not in new_user_data else True if new_user_data[
                                                                                                  'receive-partners-offers'] == "1" else False
             user_enabled = old_user_data['Enabled'] if 'enable-user' not in new_user_data else True if new_user_data[
-                                                                                                              'Enabled'] == "1" else False
+                                                                                                              'enable-user'] == "1" else False
 
             customer_currency = currency_dict[new_user_data['id_currency']]
             customer_group = groups_dict[new_user_data['id_group']]
