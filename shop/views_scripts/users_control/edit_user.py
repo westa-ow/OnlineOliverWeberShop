@@ -80,6 +80,8 @@ def edit_user(request, user_id):
 
             customer_currency = currency_dict[new_user_data['id_currency']]
             customer_group = groups_dict[new_user_data['id_group']]
+            if customer_group!= "Default" and customer_group!= "Default_USD":
+                del new_user_data['sale']
             if existing_user:
                 for user in existing_user:
                     user_ref = users_ref.document(user.id)
