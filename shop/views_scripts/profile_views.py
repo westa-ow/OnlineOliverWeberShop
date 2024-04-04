@@ -109,7 +109,7 @@ def build_context(feature_name, email, orders, order_details):
     }
 
     if feature_name == "account":
-        context['user_info'], context['user_info_dict'] = get_user_info(email)
+        context['user_info'], context['user_info_dict'] = get_user_info_dicts(email)
 
     if feature_name == "addresses":
         addresses, addresses_dict = get_user_addresses(email)
@@ -118,7 +118,7 @@ def build_context(feature_name, email, orders, order_details):
 
     return context
 
-def get_user_info(email):
+def get_user_info_dicts(email):
     existing_users = users_ref.where('email', '==', email).limit(1).get()
     if existing_users:
         for user in existing_users:

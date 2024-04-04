@@ -51,6 +51,7 @@ def change_statuses(request):
 
             # Update the documents that need to be changed
             for orderId in orderIds:
+                orderId = str(orderId)
                 if orderId in orderDict:
                     orderRef = orderDict[orderId].reference
                     orderRef.update({'Status': newStatus})

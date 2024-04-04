@@ -1,0 +1,226 @@
+{% load static %}
+{% load i18n %}
+<link rel="stylesheet"  href="{% static 'css/profile/profile_information.css' %}">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/SeparateWidgets/switch.css' %}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/SeparateWidgets/groupsTable.css' %}">
+<style>
+    td,th{
+        padding: 10px;
+        font-size: 15px;
+    }
+    tr{
+        border-bottom: 2px solid #e2e2e2;
+    }
+    /* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) - you can add this if you want a close button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Modal Footer */
+.modal-footer {
+  text-align: right;
+}
+</style>
+<section id="content" class="page-content col-md-12 col-lg-9 myacc_content">
+    <div id="customerCard" class="customer card">
+        <div class="card-header">
+            <h3 class="card-header-title" style="display: flex;justify-content: space-between ">
+                Customer
+                <a class="d-print-none" href="{% url "at_view_user" user_id=user_info.userId %}">
+                    View full details
+                </a>
+            </h3>
+
+        </div>
+        <div class="card-body">
+            <div id="customerInfo" class="info-block">
+                <div class="row">
+                    <div class="col-xxl-7">
+                        <h2 class="mb-0">
+                            <i class="material-icons">account_box</i>
+                            {{ user_info.first_name }} {{ user_info.last_name }}
+                            <strong class="text-muted ml-2">#{{ user_info.userId }}</strong>
+                        </h2>
+                    </div>
+                    <div id="viewFullDetails" class="col-xxl-5 text-xxl-right">
+
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div id="customerEmail" class="col-xxl-6" style="margin-right: 30px">
+                    <p class="mb-1">
+                        <strong>Email:</strong>
+                    </p>
+                    <p>
+                        <a href="mailto:{{ user_info.email }}">
+                            {{ user_info.email}}
+                        </a>
+                    </p>
+                    <p class="mb-1">
+                        <strong>Account registered:</strong>
+                    </p>
+                    <p>{{ user_info.registrationDate}}</p>
+                </div>
+                <div id="customerEmail" class="col-xxl-6">
+                    <p class="mb-1">
+                        <strong>Order date:</strong>
+                    </p>
+                    <p>
+                            {{ Order.date }}
+
+                    </p>
+                    <p class="mb-1">
+                        <strong class="current-order" >Current order №{{ order.order_id }}</strong>
+                        <strong class="edit-status" style="margin-left: 5px; cursor: pointer"><a><i class="material-icons" style="color: #0a0a0a">edit</i></a></strong>
+                    </p>
+                    <p>{{ Order.Status}}</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="order-table" style="">
+            <div class="card-header table-header">
+                <h3>Products ({{ user_orders|length }})</h3>
+            </div>
+            <div class="table-body">
+                <table style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Product number</th>
+                            <th>Description</th>
+                            <th>Base price</th>
+                            <th>Quantity</th>
+                            <th>Available</th>
+                            <th>Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in user_orders %}
+                            <tr>
+                                <td> <img src="{{ order.image_url }}" width="50" height="50"></td>
+                                <td> {{ order.name }}</td>
+                                <td> {{ order.description }}</td>
+                                <td> {{ currency }}{{ order.price }}</td>
+                                <td> {{ order.quantity }}</td>
+                                <td> {{ order.quantity_max }}</td>
+                                <td> {{ currency }}{{ order.total }}</td>
+                                <td> Edit</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+</section>
+<div id="myModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <label for="statusSelect">Select status to be applied:</label>
+    <select id="statusSelect">
+      <option value="">---please select---</option>
+      <option value="Awaiting">Awaiting</option>
+      <option value="Processing">Processing</option>
+      <option value="Shipping">Shipping</option>
+    </select>
+    <div class="modal-footer">
+      <button id="cancelButton">Cancel</button>
+      <button id="confirmButton">Confirm</button>
+    </div>
+  </div>
+</div>
+<script>
+    let change_order = {{ Order|safe }};
+    console.log(change_order);
+    document.addEventListener("DOMContentLoaded", async function () {
+        const current_order_label =
+            document.querySelector(".current-order");
+        current_order_label.textContent = "Order №"+(change_order['order-id']||change_order['order_id']) + " status"
+    });
+    document.querySelector('.edit-status').addEventListener('click', function (){
+         // Show the modal
+        document.getElementById('myModal').style.display = 'block';
+
+
+       // Handle the cancel button: close the modal
+        document.getElementById('cancelButton').addEventListener('click', function() {
+            document.getElementById('myModal').style.display = 'none';
+        });
+
+        document.getElementById('confirmButton').onclick = async () => {
+            const status = document.getElementById('statusSelect').value;
+            // Ensure a status is selected
+            if (status === '' ) {
+                alert('Please select a status.');
+                return;
+            }
+            const csrftoken = getCookie('csrftoken'); // Get the CSRF token
+
+            try {
+                const response = await fetch('{% url 'change_few_statuses' %}', { // Use the correct path to your Django view
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken, // Include CSRF token in request headers
+                        // Add any required headers here, like CSRF tokens
+                    },
+                    body: JSON.stringify({ orderIds: [change_order.orderId || change_order['order-id']], status: status}),
+                });
+
+                if (response.ok) {
+                    alert('Information was successfully updated');
+                    window.location.reload();
+                } else {
+                    throw new Error('Failed to update order statuses');
+                }
+            } catch (error) {
+                alert(error.message);
+            } finally {
+                // Hide the modal and reset the dropdown regardless of success or failure
+                document.getElementById('myModal').style.display = 'none';
+
+            }
+        };
+    });
+</script>

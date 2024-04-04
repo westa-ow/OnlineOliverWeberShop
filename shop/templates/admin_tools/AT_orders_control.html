@@ -222,7 +222,7 @@
             // Assuming you have a function to generate these URLs or you set them directly
             let editLink = document.createElement('a');
 
-            let editUrl = `/admin_tools/users_control/edit_user/${order.orderId||order['order-id']}/`; // Construct the URL using the user ID
+            let editUrl = `/admin_tools/orders_control/view_order/${order.orderId||order['order-id']}/`; // Construct the URL using the user ID
             editLink.setAttribute('href', editUrl);
             const editbutton = document.createElement('i');
             editbutton.classList.add('material-icons');
@@ -423,20 +423,6 @@ document.getElementById('bulk-actions').addEventListener('change', async functio
             break;
         // Add other cases as needed
     }
-        {#case 'Enable selected':#}
-        {#    await performBulkAction('{% url 'at_enable_users' %}', selectedUserIds, 'enable');#}
-        {#    break;#}
-        {#case 'Disable selected':#}
-        {#    await performBulkAction('{% url 'at_disable_users' %}', selectedUserIds, 'disable');#}
-        {#    break;#}
-        {#case 'Delete accounts':#}
-        {#    const confirmDelete = confirm('Do you really want to delete the selected users?');#}
-        {#    if (confirmDelete) {#}
-        {#        await performBulkAction('{% url 'at_delete_users' %}', selectedUserIds, 'delete');#}
-        {#    }#}
-        {#    break;#}
-
-
     resetBulkActionsDropdown();
 });
 
@@ -445,9 +431,7 @@ async function changeStatus(selectedOrderIds) {
     // Show the modal
     document.getElementById('myModal').style.display = 'block';
 
-    // Add your existing logic for handling the confirm button click
-
-    // Handle the cancel button: close the modal
+   // Handle the cancel button: close the modal
     document.getElementById('cancelButton').addEventListener('click', function() {
         document.getElementById('myModal').style.display = 'none';
     });
@@ -496,50 +480,7 @@ async function changeStatus(selectedOrderIds) {
         }
     };
 }
-async function performBulkAction(bulk_url, userIds, actionType) {
-    // Your fetch logic here...
-    console.log(userIds);
-    const csrftoken = getCookie('csrftoken'); // Get the CSRF token
-    const jsonObject = { userIds: userIds }; // Assuming you're sending a list of user IDs
 
-
-    try {
-        const response = await fetch(bulk_url, { // Use the correct URL for your request
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrftoken, // Include CSRF token in request headers
-            },
-            body: JSON.stringify(jsonObject),
-        });
-
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-
-        // Assuming JSON response for simplicity
-        const data = await response.json();
-        {#console.log(data.message); // Log or handle the server response#}
-
-        if (actionType === 'delete') {
-            allOrders = allOrders.filter(user => !userIds.includes(user.userId.toString()));
-        } else {
-            const enabledStatus = actionType === 'enable';
-            allOrders.forEach(user => {
-                if (userIds.includes(user.userId.toString())) {
-                    user.Enabled = enabledStatus;
-                }
-            });
-        }
-
-        buildOrdersControlTable(allOrders);
-
-        // After performing the action, check checkboxes and update dropdown state
-        updateBulkActionsDropdown();
-    } catch (error) {
-        console.error('Failed to perform bulk action:', error);
-    }
-}
 function resetBulkActionsDropdown() {
     const bulkActionsDropdown = document.getElementById('bulk-actions');
     bulkActionsDropdown.value = ""; // Reset to the placeholder value

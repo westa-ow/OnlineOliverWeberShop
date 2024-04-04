@@ -121,7 +121,7 @@
                                   <td class="td-outer">Bank transfer</td>
                                   <td class="td-outer">{{ document.Status }}</td>
                                   <td class="td-outer">
-                                      <span> <a data-order-id="{{ document.order_id }}" class="show-content" id="show-button-{{ document.order_id }}">Show Details</a></span>
+                                      <span> <a href="/admin_tools/orders_control/view_order/{{ document.order_id }}/" data-order-id="{{ document.order_id }}" class="show-content" id="show-button-{{ document.order_id }}">Show Details</a></span>
                                   </td>
                               </tr>
                         {% endfor %}
