@@ -20,6 +20,7 @@ from shop import views
 from shop.views_scripts import profile_views
 from shop.views_scripts.adresses_views import update_address, delete_address, create_address
 from shop.views_scripts.orders_control.bulk_change_statuses import change_statuses
+from shop.views_scripts.orders_control.view_order import view_order
 from shop.views_scripts.users_control.at_uc_bulk_actions import disable_users, enable_users
 from shop.views_scripts.auth_views import register, logout_view, login_view
 from shop.views_scripts.catalog_views import add_to_cart_from_catalog, catalog_view, change_favorite_state
@@ -66,7 +67,8 @@ urlpatterns = [
 
     path('admin_tools/users_control/edit_user/<str:user_id>/', edit_user, name='at_edit_user'),
     path('admin_tools/users_control/view_user/<str:user_id>/', view_user, name='at_view_user'),
-    path('change_statuses/', change_statuses, name='change_few_statuses')
+    path('change_statuses/', change_statuses, name='change_few_statuses'),
+    path('admin_tools/orders_control/view_order/<str:order_id>/', view_order, name='at_view_order'),
 
     # path('finish_order/', )
 
