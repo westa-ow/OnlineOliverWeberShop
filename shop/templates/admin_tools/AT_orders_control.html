@@ -232,11 +232,11 @@
 
             let optionsButton = document.createElement('i');
             optionsButton.classList.add('material-symbols-outlined');
-            let optionsLink = document.createElement('a');
-            optionsButton.textContent = 'more_vert';
-            optionsButton.style.cursor = 'pointer';
-            optionsLink.appendChild(optionsButton);
-            actionsCell.appendChild(optionsLink);
+            {#let optionsLink = document.createElement('a');#}
+            {#optionsButton.textContent = 'more_vert';#}
+            {#optionsButton.style.cursor = 'pointer';#}
+            {#optionsLink.appendChild(optionsButton);#}
+            {#actionsCell.appendChild(optionsLink);#}
             optionsButton.addEventListener('click', function(event) {
                 event.stopPropagation(); // Prevent the click from closing the menu immediately
 
