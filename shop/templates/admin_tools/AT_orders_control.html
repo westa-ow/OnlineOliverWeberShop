@@ -3,14 +3,56 @@
 <link rel="stylesheet" href="{% static 'css/admin_tools/at_users_control.css' %}">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<style>
+    /* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) - you can add this if you want a close button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Modal Footer */
+.modal-footer {
+  text-align: right;
+}
+</style>
 <div class="users-page-container">
 
     <div class="table-header">
         <select id="bulk-actions" disabled value="Bulk actions">
             <option value="" disabled selected>Bulk actions</option>
-            <option value="Enable selected">Enable selected</option>
-            <option value="Disable selected">Disable selected</option>
-            <option value="Delete accounts"> Delete selected</option>
+            <option value="Change_status">Change order status</option>
         </select>
     </div>
 
@@ -54,6 +96,22 @@
         <li id="viewUser">View User</li>
         <li id="deleteUser">Delete User</li>
     </ul>
+</div>
+<div id="myModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <label for="statusSelect">Select status to be applied:</label>
+    <select id="statusSelect">
+      <option value="">---please select---</option>
+      <option value="Awaiting">Awaiting</option>
+      <option value="Processing">Processing</option>
+      <option value="Shipping">Shipping</option>
+    </select>
+    <div class="modal-footer">
+      <button id="cancelButton">Cancel</button>
+      <button id="confirmButton">Confirm</button>
+    </div>
+  </div>
 </div>
 {% include "widgets/overlay.html" %}
 <script type="module">
@@ -106,7 +164,7 @@
         const end = start + ordersPerPage;
         const OrdersToShow = ordersArray.slice(start, end);
 
-        OrdersToShow.forEach(user => {
+        OrdersToShow.forEach(order => {
             // Create the row
             let row = document.createElement('tr');
 
@@ -115,62 +173,56 @@
             let checkBox = document.createElement('input');
             checkBox.setAttribute('type', 'checkbox');
             checkBox.setAttribute('name', 'selectedUser');
-            checkBox.setAttribute('value', user.userId);
+            checkBox.setAttribute('value', order.order_id || order['order-id']);
             checkBoxCell.appendChild(checkBox);
             row.appendChild(checkBoxCell);
 
             // User ID cell
-            let userIdCell = document.createElement('td');
-            userIdCell.textContent = user.userId;
-            row.appendChild(userIdCell);
+            let orderIdCell = document.createElement('td');
+            orderIdCell.textContent = order.order_id || order['order-id'];
+            row.appendChild(orderIdCell);
 
             // Other cells follow a similar pattern
-            let socialTitleCell = document.createElement('td');
-            socialTitleCell.textContent = user.social_title;
-            row.appendChild(socialTitleCell);
+            let ownerCell = document.createElement('td');
+            ownerCell.textContent = order.email;
+            row.appendChild(ownerCell);
 
-            let firstNameCell = document.createElement('td');
-            firstNameCell.textContent = user.first_name;
-            row.appendChild(firstNameCell);
+            let totalCell = document.createElement('td');
+            totalCell.textContent = order.currency || "€" + (order.price).toFixed(2);
+            row.appendChild(totalCell);
 
-            let lastNameCell = document.createElement('td');
-            lastNameCell.textContent = user.last_name;
-            row.appendChild(lastNameCell);
+            let paymentMethodCell = document.createElement('td');
+            paymentMethodCell.textContent = "Bank transfer";
+            row.appendChild(paymentMethodCell);
 
-            let emailCell = document.createElement('td');
-            emailCell.textContent = user.email;
-            row.appendChild(emailCell);
+            let statusCell = document.createElement('td');
+            statusCell.textContent = order.Status;
+            row.appendChild(statusCell);
 
+            let dateCell = document.createElement('td');
+            if(order.date) {
+                let dateMilliseconds = order.date.seconds * 1000 + order.date.nanoseconds / 1000000;
 
-            // Repeat for each user property...
-            // For cells with static content like '---' for sales
-            let salesCell = document.createElement('td');
-            salesCell.textContent = '---'; // Assuming sales data is not available
-            row.appendChild(salesCell);
+                // Create a Date object
+                let date = new Date(dateMilliseconds);
 
-            let enabledCell = document.createElement('td');
-            enabledCell.textContent = user.Enabled ? "Enabled" : "Disabled"; // Assuming sales data is not available
-            row.appendChild(enabledCell);
+                // Use toISOString and slice to format the date as YYYY-MM-DD
+                let dateString = date.toISOString().slice(0, 10);
 
-            // For boolean values, you might want to show a more user-friendly value
-            let newsletterCell = document.createElement('td');
-            newsletterCell.textContent = user.receive_newsletter ? 'Yes' : 'No';
-            row.appendChild(newsletterCell);
-
-            let partnersCell = document.createElement('td');
-            partnersCell.textContent = user.receive_offers ? 'Yes' : 'No';
-            row.appendChild(partnersCell);
-
-            let registrationDateCell = document.createElement('td');
-            registrationDateCell.textContent = user.registrationDate;
-            row.appendChild(registrationDateCell);
+                // Set the formatted date string as the cell's text content
+                dateCell.textContent = dateString;
+            }
+            else{
+            dateCell.textContent = "";
+        }
+            row.appendChild(dateCell);
 
             // Actions cell
             let actionsCell = document.createElement('td');
             // Assuming you have a function to generate these URLs or you set them directly
             let editLink = document.createElement('a');
 
-            let editUrl = `/admin_tools/users_control/edit_user/${user.userId}/`; // Construct the URL using the user ID
+            let editUrl = `/admin_tools/users_control/edit_user/${order.orderId||order['order-id']}/`; // Construct the URL using the user ID
             editLink.setAttribute('href', editUrl);
             const editbutton = document.createElement('i');
             editbutton.classList.add('material-icons');
@@ -203,30 +255,30 @@
                 document.addEventListener('click', hideContextMenu, { once: true });
 
                 // Set up the menu actions
-                document.getElementById('viewUser').onclick = function() {
-                    // Replace with the actual function or navigation action
-                    window.location.href = `/admin_tools/users_control/view_user/${user.userId}/`;
-                };
-                document.getElementById('deleteUser').onclick = async function() {
-                    const csrftoken = getCookie('csrftoken'); // Get the CSRF token
-                    let userIds = [user.userId]
-                    const jsonObject = { userIds: userIds };
-                    const response = await fetch('{% url 'at_delete_users' %}', { // Use the correct URL for your request
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRFToken': csrftoken, // Include CSRF token in request headers
-                        },
-                        body: JSON.stringify(jsonObject),
-                    });
-
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-
-                    allUsers = allUsers.filter(user => !userIds.includes(user.userId));
-                    buildUsersControlTable(allUsers);
-                }
+                {#document.getElementById('viewOrder').onclick = function() {#}
+                {#    // Replace with the actual function or navigation action#}
+                {#    window.location.href = `/admin_tools/users_control/view_user/${user.userId}/`;#}
+                {##}
+                {#document.getElementById('deleteUser').onclick = async function() {#}
+                {#    const csrftoken = getCookie('csrftoken'); // Get the CSRF token#}
+                {#    let userIds = [user.userId]#}
+                {#    const jsonObject = { userIds: userIds };#}
+                {#    const response = await fetch('{% url 'at_delete_users' %}', { // Use the correct URL for your request#}
+                {#        method: 'POST',#}
+                {#        headers: {#}
+                {#            'Content-Type': 'application/json',#}
+                {#            'X-CSRFToken': csrftoken, // Include CSRF token in request headers#}
+                {#        },#}
+                {#        body: JSON.stringify(jsonObject),#}
+                {#    });#}
+                {##}
+                {#    if (!response.ok) {#}
+                {#        throw new Error('Network response was not ok');#}
+                {#    }#}
+                {##}
+                {#    allUsers = allUsers.filter(user => !userIds.includes(user.userId));#}
+                {#    buildUsersControlTable(allUsers);#}
+                {##}
             });
             row.appendChild(actionsCell);
 
@@ -240,7 +292,7 @@
     }
     function changePage(direction) {
         currentPage += direction;
-        buildUsersControlTable(allUsers); // Assuming allUsers is your global user array
+        buildOrdersControlTable(allOrders); // Assuming allUsers is your global user array
     }
 
 function updatePaginationControls() {
@@ -313,7 +365,7 @@ function updatePaginationControls() {
     }
     lastPageContainer.appendChild(lastPage);
     paginationContainer.appendChild(lastPageContainer);
-    updatePaginationInfo(allUsers);
+    updatePaginationInfo(allOrders);
 }
 
 function updateBulkActionsDropdown() {
@@ -328,61 +380,122 @@ function updateBulkActionsDropdown() {
 
 document.getElementById('items-per-page').addEventListener('change', function (event) {
 
-    usersPerPage = parseInt(event.target.value);
+    ordersPerPage = parseInt(event.target.value);
     currentPage = 1;
-    buildUsersControlTable(allUsers);
+    buildOrdersControlTable(allOrders);
 });
-function updatePaginationInfo(usersArray){
+function updatePaginationInfo(ordersArray){
      const paginationInfo = document.querySelector('.pgntn-info');
 
-     paginationInfo.textContent = `Viewing ${(currentPage-1) * usersPerPage + 1}-${(usersPerPage*currentPage) > usersArray.length ? usersArray.length : (usersPerPage*currentPage)} out of ${usersArray.length} (page ${currentPage} / ${totalPages})`;
+     paginationInfo.textContent = `Viewing ${(currentPage-1) * ordersPerPage + 1}-${(ordersPerPage*currentPage) > ordersArray.length ? ordersArray.length : (ordersPerPage*currentPage)} out of ${ordersArray.length} (page ${currentPage} / ${totalPages})`;
 }
 function goToFirst() {
     currentPage = 1;
-    buildUsersControlTable(allUsers);
+    buildOrdersControlTable(allOrders);
 }
 
 function goToLast() {
     currentPage = totalPages;
-    buildUsersControlTable(allUsers);
+    buildOrdersControlTable(allOrders);
 }
 function goToPage() {
     const inputPage = parseInt(document.getElementById('currentPageInput').value);
     if(inputPage >= 1 && inputPage <= totalPages) {
         currentPage = inputPage;
-        buildUsersControlTable(allUsers);
+        buildOrdersControlTable(allOrders);
     }
 }
 
 document.getElementById('bulk-actions').addEventListener('change', async function() {
     const action = this.value;
-    {#this.value = "bulk";#}
-    const selectedUserIds = Array.from(document.querySelectorAll('#usersTable input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
+    // {#this.value = "bulk";#} // Assuming this is commented out for a reason
+    const selectedOrderIds = Array.from(document.querySelectorAll('#usersTable input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
     console.log(action);
-    console.log(selectedUserIds);
-    // Ensure there are selected users
-    if (selectedUserIds.length === 0) {
+    console.log(selectedOrderIds);
+    if (selectedOrderIds.length === 0) {
         resetBulkActionsDropdown();
         return;
     }
 
     switch(action) {
-        case 'Enable selected':
-            await performBulkAction('{% url 'at_enable_users' %}', selectedUserIds, 'enable');
+        case 'Change_status':
+            await changeStatus(selectedOrderIds);
             break;
-        case 'Disable selected':
-            await performBulkAction('{% url 'at_disable_users' %}', selectedUserIds, 'disable');
-            break;
-        case 'Delete accounts':
-            const confirmDelete = confirm('Do you really want to delete the selected users?');
-            if (confirmDelete) {
-                await performBulkAction('{% url 'at_delete_users' %}', selectedUserIds, 'delete');
-            }
-            break;
+        // Add other cases as needed
     }
+        {#case 'Enable selected':#}
+        {#    await performBulkAction('{% url 'at_enable_users' %}', selectedUserIds, 'enable');#}
+        {#    break;#}
+        {#case 'Disable selected':#}
+        {#    await performBulkAction('{% url 'at_disable_users' %}', selectedUserIds, 'disable');#}
+        {#    break;#}
+        {#case 'Delete accounts':#}
+        {#    const confirmDelete = confirm('Do you really want to delete the selected users?');#}
+        {#    if (confirmDelete) {#}
+        {#        await performBulkAction('{% url 'at_delete_users' %}', selectedUserIds, 'delete');#}
+        {#    }#}
+        {#    break;#}
+
 
     resetBulkActionsDropdown();
 });
+
+async function changeStatus(selectedOrderIds) {
+
+    // Show the modal
+    document.getElementById('myModal').style.display = 'block';
+
+    // Add your existing logic for handling the confirm button click
+
+    // Handle the cancel button: close the modal
+    document.getElementById('cancelButton').addEventListener('click', function() {
+        document.getElementById('myModal').style.display = 'none';
+    });
+
+    document.getElementById('confirmButton').onclick = async () => {
+        const status = document.getElementById('statusSelect').value;
+        // Ensure a status is selected
+        if (status === '' ) {
+            alert('Please select a status.');
+            return;
+        }
+        const csrftoken = getCookie('csrftoken'); // Get the CSRF token
+
+        try {
+            const response = await fetch('{% url 'change_few_statuses' %}', { // Use the correct path to your Django view
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken, // Include CSRF token in request headers
+                    // Add any required headers here, like CSRF tokens
+                },
+                body: JSON.stringify({ orderIds: selectedOrderIds, status: status }),
+            });
+
+            if (response.ok) {
+                alert('Information was successfully updated');
+                allOrders.forEach(order => {
+                    let orderData = order;
+                    let orderIdKey = orderData['order-id'] ? 'order-id' : 'order_id';
+                    let orderId = orderData[orderIdKey].toString();
+                    if (selectedOrderIds.includes(orderId)) {
+                        order.Status = status;
+                    }
+                });
+                buildOrdersControlTable(allOrders); // Assuming allOrders is available
+                updateBulkActionsDropdown();
+            } else {
+                throw new Error('Failed to update order statuses');
+            }
+        } catch (error) {
+            alert(error.message);
+        } finally {
+            // Hide the modal and reset the dropdown regardless of success or failure
+            document.getElementById('myModal').style.display = 'none';
+            resetBulkActionsDropdown();
+        }
+    };
+}
 async function performBulkAction(bulk_url, userIds, actionType) {
     // Your fetch logic here...
     console.log(userIds);
@@ -409,17 +522,17 @@ async function performBulkAction(bulk_url, userIds, actionType) {
         {#console.log(data.message); // Log or handle the server response#}
 
         if (actionType === 'delete') {
-            allUsers = allUsers.filter(user => !userIds.includes(user.userId.toString()));
+            allOrders = allOrders.filter(user => !userIds.includes(user.userId.toString()));
         } else {
             const enabledStatus = actionType === 'enable';
-            allUsers.forEach(user => {
+            allOrders.forEach(user => {
                 if (userIds.includes(user.userId.toString())) {
                     user.Enabled = enabledStatus;
                 }
             });
         }
 
-        buildUsersControlTable(allUsers);
+        buildOrdersControlTable(allOrders);
 
         // After performing the action, check checkboxes and update dropdown state
         updateBulkActionsDropdown();
