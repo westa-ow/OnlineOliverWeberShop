@@ -69,7 +69,7 @@ def add_to_cart_from_catalog(request):
     elif category == "GH_USD":
         document['price'] = document['priceUSD_GH']
     else:
-        document['price'] = document['priceVK4'] * (1-sale)
+        document['price'] = round(document['priceVK4'] * (1-sale),2)
     if not document:
         return JsonResponse({'status': 'error', 'message': 'Product not found'}, status=404)
 
