@@ -38,9 +38,7 @@ def view_order(request, order_id):
         key = str(orderData.get('order-id') or orderData.get('order_id'))
         orderDict[key] = orderData
         orderRefDict[key] = order
-    orderMain = {}
-    if order_id in orderDict:
-        orderMain = orderDict[order_id]
+
     # Find the specific order by ID
     specificOrderData = orderDict[order_id]
     specificOrderRef = orderRefDict[order_id]
@@ -90,11 +88,12 @@ def view_order(request, order_id):
 
     category, currency = get_user_category(user_email)
     info = get_user_info(user_email)
-    del orderMain['list']
 
-    print(orderMain)
-    serialized_data =  (serialize_firestore_document(specificOrderRef))
+    serialized_data = (serialize_firestore_document(specificOrderRef))
     del serialized_data['list']
+
+    for item in orderItems:
+        item['image_url'] = item['image_url'] if 'image_url' in item else item['image-url']
     context = {
         'feature_name': "view_order",
         'currency': "€" if currency == "Euro" else "$",

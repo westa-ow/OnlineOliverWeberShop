@@ -57,13 +57,18 @@
 }
 </style>
 <section id="content" class="page-content col-md-12 col-lg-9 myacc_content">
+
     <div id="customerCard" class="customer card">
+    {% if user_info %}
         <div class="card-header">
             <h3 class="card-header-title" style="display: flex;justify-content: space-between ">
                 Customer
+
+
                 <a class="d-print-none" href="{% url "at_view_user" user_id=user_info.userId %}">
                     View full details
                 </a>
+
             </h3>
 
         </div>
@@ -114,6 +119,16 @@
 
             </div>
         </div>
+    {% else %}
+        <div class="card-header">
+            <h3 class="card-header-title" style="display: flex;justify-content: space-between ">
+                Customer doesn't exist in database
+
+            </h3>
+        </div>
+
+
+    {% endif %}
         <div class="order-table" style="">
             <div class="card-header table-header">
                 <h3>Products ({{ user_orders|length }})</h3>
