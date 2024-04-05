@@ -67,7 +67,7 @@ def form_page(request):
             obj['price'] = obj['priceUSD']
         else:
             del obj['price']
-            obj['price'] = obj['priceVK4'] * (1-sale)
+            obj['price'] = round(obj['priceVK4'] * (1-sale), 2)
 
     if currency == "Euro":
         currency = "€"
