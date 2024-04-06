@@ -11,11 +11,24 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
 <style>
+.toolbar {
+    position: fixed; /* Make it stick to the top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    {#background-color: #fff; /* Assuming a white background */#}
+    z-index: 10; /* Ensure it's above other content */
+    transition: height 0.2s ease-in-out; /* Smooth transition for height change */
+    margin-bottom: 100px;
+}
 
+/* Initial and expanded height */
+.toolbar.large { height: 110px; }
+.toolbar.small { height: 90px; }
 </style>
 
 <body class="this-page">
-<div class="toolbar">
+<div class="toolbar large">
     <div class="logo">
         <img class = "imag" src="{% static "logonormal.webp" %}" height="70px"  />
     </div>
@@ -144,6 +157,21 @@
 <div id="overlay" class="overlay"></div>
 </body>
 <script>
+    window.addEventListener('scroll', function() {
+    // Get the toolbar element
+    var toolbar = document.querySelector('.toolbar');
+
+    // Check if the page is scrolled more than 50 pixels
+    if(window.pageYOffset > 50) {
+        // User has scrolled down, shrink the toolbar
+        toolbar.classList.remove('large');
+        toolbar.classList.add('small');
+    } else {
+        // User is near the top of the page, expand the toolbar
+        toolbar.classList.remove('small');
+        toolbar.classList.add('large');
+    }
+});
     const currency="{{ currency|safe }}";
 document.getElementById('account-icon').addEventListener('click',function() {
     console.log("ssss");

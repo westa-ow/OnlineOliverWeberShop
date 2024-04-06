@@ -252,7 +252,7 @@
     </div>
 </div>
 {% include 'base.html' %}
-<section id="wrapper" class="stick_parent_lb" style="opacity: 1; width: 60%; margin: auto; margin-top: 40px">
+<section id="wrapper" class="stick_parent_lb" style="opacity: 1; width: 60%; margin: auto; margin-top: 120px">
 
     <aside id="notifications">
         <div class="container"></div>
@@ -315,7 +315,6 @@
                                     </div>
                                     <div class="col-md-12">
                                         <label>Email</label>
-{#                                        <input class="form-control" name="email" type="email" value="" required="">#}
                                         {{ form.email | add_class:"form-control" | attr:"placeholder: "|attr:"autocomplete:off" }}
                                     </div>
 
@@ -411,34 +410,6 @@
         </div>
     </div>
 </section>
-    {#    <div class="login-container">#}
-{#        <div class="login-header">#}
-{#            CUSTOMER REGISTRATION#}
-{#        </div>#}
-{#        <form action="{% url 'register' %}" method="post" class="login-form" autocomplete="off">#}
-{#            {% csrf_token %}#}
-{#            <div class="input-container">#}
-{#                <i class="fas fa-user"></i>#}
-{#                {{ form.username | add_class:"input100" | attr:"placeholder: Username"|attr:"autocomplete:off" }}#}
-{#            </div>#}
-{#            <div class="input-container">#}
-{#                <i class="fas fa-envelope"></i>#}
-{#                {{ form.email | add_class:"input100" | attr:"placeholder: Email"|attr:"autocomplete:off" }}#}
-{#            </div>#}
-{#            <div class="input-container">#}
-{#                <i class="fas fa-lock"></i>#}
-{#                {{ form.password1 | add_class:"input100" | attr:"placeholder: Password"|attr:"autocomplete:new-password" }}#}
-{#            </div>#}
-{#            <div class="input-container">#}
-{#                <i class="fas fa-lock"></i>#}
-{#                {{ form.password2 | add_class:"input100" | attr:"placeholder: Confirm Password"|attr:"autocomplete:new-password" }}#}
-{#            </div>#}
-{#            <input type="submit" value="REGISTER">#}
-{#            <a href="{% url 'login' %}">Already have an account? Login Here</a>#}
-{#        </form>#}
-{#    </div>#}
-
-    <!-- Additional scripts -->
 </body>
 {{ form.errors|json_script:"form_errors" }}
 <script>

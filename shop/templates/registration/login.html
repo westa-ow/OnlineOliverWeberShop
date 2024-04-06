@@ -182,106 +182,85 @@
             <button id="okButton">OK</button>
         </div>
     </div>
-{#    <div class="login-container">#}
-{#        <div class="login-header">#}
-{#            CUSTOMER LOGIN#}
-{#        </div>#}
-{#        <form action="{% url 'login' %}" method="post" class="login-form">#}
-{#             {% csrf_token %}#}
-{#            <div class="input-container">#}
-{#                <i class="fas fa-user"></i>#}
-{#                <input type="text" placeholder="Username" name="username" aria-label="Username">#}
-{#                {{ form.username | add_class:"input100" | attr:"placeholder: Username" }}#}
-{#            </div>#}
-{#            <div class="input-container">#}
-{#                <i class="fas fa-lock"></i>#}
-{#                <input type="password" placeholder="Password" name="password" aria-label="Password">#}
-{#                {{  form.password | add_class:"input100" | attr:"placeholder: Password"  }}#}
-{#            </div>#}
-{#            <input type="submit" value="LOGIN">#}
-{#            <a href="{% url 'register' %}">Don't have an account? Register here</a>#}
-{#        </form>#}
-{#    </div>#}
     {% include 'base.html' %}
-<section id="wrapper" class="stick_parent_lb" style="opacity: 1;  width: 60%; margin: auto; margin-top: 40px">
-    <div id="top_column">
+    <section id="wrapper" class="stick_parent_lb" style="opacity: 1;  width: 60%; margin: auto; margin-top: 120px">
+        <div id="top_column">
+            <div class="container">
+
+            </div>
+        </div>
+        <aside id="notifications">
+            <div class="container"></div>
+        </aside>
         <div class="container">
-
-        </div>
-    </div>
-    <aside id="notifications">
-        <div class="container"></div>
-    </aside>
-    <div class="container">
-        <div id="content-wrapper">
-            <section id="main">
-                <div class="container">
-                    <header class="page-header" style="text-align: center">
-                        <h1> Log in to your account</h1>
-                    </header>
-                    <section id="content" class="page-content card card-block">
-                        <section class="login-form">
-                            <form id="login-form" action="{% url 'login' %}" method="post">
-                                {% csrf_token %}
-                                <div>
-                                    <input type="hidden" name="back" value="my-account">
-                                    <div class="form-group row ">
-                                        <div class="col-md-12 form-control-comment">
-                                            <span class="req">*</span>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label>Email</label>
-                                            {{ form.username | add_class:"form-control" | attr:"placeholder: " }}
-                                        </div>
-
-                                    </div>
-                                    <div class="form-group row ">
-                                        <div class="col-md-12 form-control-comment">
-                                            <span class="req">*</span>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label>Password</label>
-                                            <div class="input-group js-parent-focus">
-{#                                                <input class="form-control js-child-focus js-visible-password" name="password" type="password" value="" pattern=".{5,}" required="">#}
-                                                {{  form.password | add_class:"form-control js-child-focus js-visible-password" | attr:"placeholder: "  }}
-                                                <span class="input-group-btn" style="position: initial!important;">
-                                                    <button class="btn material-icons" type="button" data-action="show-password" data-text-show="" data-text-hide="">
-                                                        <i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
-                                                        </i>
-                                                    </button>
-                                                </span>
+            <div id="content-wrapper">
+                <section id="main">
+                    <div class="container">
+                        <header class="page-header" style="text-align: center">
+                            <h1> Log in to your account</h1>
+                        </header>
+                        <section id="content" class="page-content card card-block">
+                            <section class="login-form">
+                                <form id="login-form" action="{% url 'login' %}" method="post">
+                                    {% csrf_token %}
+                                    <div>
+                                        <input type="hidden" name="back" value="my-account">
+                                        <div class="form-group row ">
+                                            <div class="col-md-12 form-control-comment">
+                                                <span class="req">*</span>
                                             </div>
+                                            <div class="col-md-12">
+                                                <label>Email</label>
+                                                {{ form.username | add_class:"form-control" | attr:"placeholder: " }}
+                                            </div>
+
                                         </div>
+                                        <div class="form-group row ">
+                                            <div class="col-md-12 form-control-comment">
+                                                <span class="req">*</span>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label>Password</label>
+                                                <div class="input-group js-parent-focus">
+                                                    {{  form.password | add_class:"form-control js-child-focus js-visible-password" | attr:"placeholder: "  }}
+                                                    <span class="input-group-btn" style="position: initial!important;">
+                                                        <button class="btn material-icons" type="button" data-action="show-password" data-text-show="" data-text-hide="">
+                                                            <i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                                                            </i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
 
+                                        </div>
+    {#                                    <div class="forgot-password">#}
+    {#                                        <a href="https://oliverweber.com/gb/password-recovery" rel="nofollow">#}
+    {#                                            Forgot your password?#}
+    {#                                        </a>#}
+    {#                                    </div>#}
                                     </div>
-{#                                    <div class="forgot-password">#}
-{#                                        <a href="https://oliverweber.com/gb/password-recovery" rel="nofollow">#}
-{#                                            Forgot your password?#}
-{#                                        </a>#}
-{#                                    </div>#}
-                                </div>
-                                <footer class="form-footer text-sm-center clearfix">
-                                    <button style="width: 100%" class="btn btn-primary" data-link-action="sign-in" type="submit">
-                                        Sign in
-                                    </button>
-                                </footer>
-                            </form>
+                                    <footer class="form-footer text-sm-center clearfix">
+                                        <button style="width: 100%" class="btn btn-primary" data-link-action="sign-in" type="submit">
+                                            Sign in
+                                        </button>
+                                    </footer>
+                                </form>
+                            </section>
+
+
+                            <div class="logininstead">
+                                <a href="{% url "register" %}" data-link-action="display-register-form">
+                                    No account? Create one here
+                                </a>
+                            </div>
                         </section>
-
-
-                        <div class="logininstead">
-                            <a href="{% url "register" %}" data-link-action="display-register-form">
-                                No account? Create one here
-                            </a>
-                        </div>
-                    </section>
-                    <footer class="page-footer hidden">
-                    </footer>
-                </div>
-            </section>
+                        <footer class="page-footer hidden">
+                        </footer>
+                    </div>
+                </section>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 </body>
 {{ form.errors|json_script:"form_errors" }}
 <script>
