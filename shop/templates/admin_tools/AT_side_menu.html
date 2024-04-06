@@ -7,7 +7,7 @@
 <div class="container-menu">
     <div class="myaccount">
         <div class="this-table">
-           <span class="myacc_name">{% if user.first_name %} {{ user.first_name }} {% elif user.email %} {{ user.email }} {% else %}  {% endif %} {{ user.last_name|default:"" }}</span>
+           <span class="myacc_name" style="word-wrap: break-word;word-break: break-all;white-space: normal;">{% if user.first_name %} {{ user.first_name }} {% elif user.email %} {{ user.email }} {% else %}  {% endif %} {{ user.last_name|default:"" }}</span>
                 <div class="links">
 
                     <a href="{% url 'admin_tools' feature_name='dashboard'%}">
