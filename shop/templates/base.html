@@ -33,7 +33,7 @@
                 <a></a>
                 <a href="{% url 'catalog' %}" class="link">Catalog</a>
 
-        {% if user.username == "westa_admin" %}
+        {% if user.email == "westadatabase@gmail.com" %}
 
                 <a></a>
                 <a></a>
@@ -45,7 +45,7 @@
                 <a></a>
 
         <span class="icons-container">
-        <span class="icon-link" style="font-style: italic; font-size: 14px; margin-top: 8px; color: white;font-family: poppins,Verdana,sans-serif;"><a id="account-icon" style="display: flex" ><i class="rts" data-size="28" data-color="#000000" style="width: 28px; height: 28px; margin-right: 4px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 28px; height: 28px; "><path d="M23.67,25V22.65A4.67,4.67,0,0,0,19,18H9.67A4.67,4.67,0,0,0,5,22.65V25" style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8px"></path><circle cx="14.33" cy="8.65" r="4.67" style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8px"></circle></svg></i><span style="margin-top: 6px">{{ user.username }}</span></a>
+        <span class="icon-link" style="font-style: italic; font-size: 14px; margin-top: 8px; color: white;font-family: poppins,Verdana,sans-serif;"><a id="account-icon" style="display: flex" ><i class="rts" data-size="28" data-color="#000000" style="width: 28px; height: 28px; margin-right: 4px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 28px; height: 28px; "><path d="M23.67,25V22.65A4.67,4.67,0,0,0,19,18H9.67A4.67,4.67,0,0,0,5,22.65V25" style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8px"></path><circle cx="14.33" cy="8.65" r="4.67" style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8px"></circle></svg></i><span style="margin-top: 6px">{% if user.first_name %} {{ user.first_name }} {% elif user.email %} {{ user.email }} {% else %}  {% endif %} {{ user.last_name|default:"" }}</span></a>
 </span>
                 <a class="icon-link" id="cartBtn">
                     <svg width="28px" height="28px" style="margin-top: 5px" xmlns="http://www.w3.org/2000/svg">
@@ -101,7 +101,7 @@
     <div class="acc_ul acc_links">
         <span class="name show">
             <a href="{% url 'profile' feature_name="dashboard" %}" title="View my customer account" rel="nofollow">
-                <span>{{ user.username }}</span>
+                <span>{% if user.first_name %} {{ user.first_name }} {% elif user.email %} {{ user.email }} {% else %}  {% endif %}{{ user.last_name|default:"" }}</span>
             </a>
         </span>
         <a href="{% url 'profile' feature_name="dashboard" %}" class="show">

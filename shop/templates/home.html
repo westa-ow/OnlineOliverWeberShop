@@ -17,7 +17,7 @@
 <body style="text-align: center">
 
 <div class="centered-container">
-      <h1 style="font-weight: 650">Welcome to the home page, {{ user.username }}!</h1>
+      <h1 style="font-weight: 650">Welcome to the home page, {% if user.first_name %} {{ user.first_name }} {% elif user.email %} {{ user.email }} {% else %}  {% endif %} {{ user.last_name|default:"" }}!</h1>
 </div>
 
 </body>

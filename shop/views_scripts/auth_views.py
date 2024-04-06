@@ -61,21 +61,27 @@ def register(request):
 
                 user_id = get_new_user_id()
                 current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                first_name = form.cleaned_data.get('first_name')
+                last_name = form.cleaned_data.get('last_name')
+                birthdate = form.cleaned_data.get('birthdate')
+                social_title = "Mr" if form.cleaned_data.get('social_title') == "1" else "Mrs"
+                offers = form.cleaned_data.get('offers')
+                newsletter = form.cleaned_data.get('receive_newsletter')
 
                 new_user = {
                     'Enabled': 'True',
                     "display_name": "undefined",
-                    'social_title': "",
-                    'first_name': "",
-                    'last_name': "",
+                    'social_title': social_title,
+                    'first_name': first_name,
+                    'last_name': last_name,
                     'email': email,
-                    'birthday': "",
+                    'birthday': birthdate,
                     'country': "",
                     "agent_number": "",
                     'price_category': 'Default',
                     'currency':"Euro",
-                    'receive_offers': False,
-                    'receive_newsletter': False,
+                    'receive_offers': offers,
+                    'receive_newsletter': newsletter,
                     'registrationDate': current_time,
                     'userId': user_id,
                     'sale': "0"
@@ -83,7 +89,16 @@ def register(request):
                 }
                 users_ref.add(new_user)
 
-                username = form.cleaned_data.get('username')
+                username = email
+                unique_suffix = 1
+                original_username = username
+                while User.objects.filter(username=username).exists():
+                    username = f"{original_username}{unique_suffix}"
+                    unique_suffix += 1
+                user = form.save(commit=False)
+                user.username = username  # Set the unique username
+                user.save()  # Now save the user to the database
+
                 password = form.cleaned_data.get('password1')
                 form.save()
                 user = authenticate(username=username, password=password)
@@ -92,6 +107,8 @@ def register(request):
                     return redirect('home')
     else:
         form = UserRegisterForm()
+
+    print(form.errors)
     return render(request, 'registration/register.html', {'form': form, 'errors': form.errors})
 
 

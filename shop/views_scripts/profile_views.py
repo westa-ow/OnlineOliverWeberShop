@@ -154,6 +154,15 @@ def update_user_account(request):
 
             # Check for existing user by email
             existing_users = users_ref.where('email', '==', old_email).limit(1).get()
+            if new_data['firstname'] != old_data['first_name'] or new_data['lastname'] != old_data['last_name']:
+                User = get_user_model()
+                try:
+                    user_instance = User.objects.get(email=old_email)
+                    user_instance.first_name = new_data['firstname']
+                    user_instance.last_name = new_data['lastname']
+                    user_instance.save()
+                except User.DoesNotExist:
+                    return JsonResponse({'status': 'error', 'message': 'User not found.'}, status=404)
 
             if new_data['email'] != old_email:
                 existing_user_with_new_email = users_ref.where('email', '==', new_email).limit(1).get()
@@ -163,7 +172,8 @@ def update_user_account(request):
                 try:
                     user_instance = User.objects.get(email=old_email)
                     user_instance.email = new_email  # Update the email
-
+                    user_instance.username = new_email  # Update the email
+                    user_instance.save()
                 except User.DoesNotExist:
                     return JsonResponse({'status': 'error', 'message': 'User not found.'}, status=404)
 

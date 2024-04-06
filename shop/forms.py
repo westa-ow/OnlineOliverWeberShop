@@ -9,6 +9,21 @@ class UserRegisterForm(UserCreationForm):
         max_length = 254,
         widget = forms.EmailInput(attrs={'autocomplete' : 'email'})
     )
+    first_name = forms.CharField(label="First Name", max_length=30, required=True)
+    last_name = forms.CharField(label="Last Name", max_length=30, required=True)
+    birthdate = forms.CharField(label="Birthdate", max_length=30, required=False)
+    receive_newsletter = forms.BooleanField(label="Sign up for our newsletter", required=False)
+    offers = forms.BooleanField(label="Receive offers from our partners", required=False)
+    SOCIAL_TITLE_CHOICES = [
+        (1, "Mr."),
+        (2, "Mrs."),
+    ]
+    social_title = forms.ChoiceField(
+        choices=SOCIAL_TITLE_CHOICES,
+        widget=forms.RadioSelect,
+        label="Social title",
+        required=False
+    )
     class Meta(UserCreationForm.Meta):
         model =User
-        fields = ("username", "email")
+        fields = ("social_title", "first_name", "last_name",  "email","birthdate", "offers", "receive_newsletter")
