@@ -26,25 +26,43 @@
   border: 1px solid #888;
   width: 30%; /* Could be more or less, depending on screen size */
 }
-
-/* The Close Button (x) - you can add this if you want a close button */
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+.modal-footer{
+    display: flex;
+  justify-content: space-between;
+    text-align: right;
+}
+#statusSelect{
+    padding: 10px;
+    border: 2px solid #e2e2e2;
+    border-radius: 4px;
+    background: #f3f3f3;
+    cursor: pointer;
+}
+.modal-footer button {
+  border-radius: 3px;
+  padding: 7px;
+  width: 100px;
+  border: 2px solid #e2e2e2;
+  background: #f2f2f2;
+    cursor: pointer;
 }
 
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
+#remove-filters {
+    background: inherit;
+    border-radius: 5px;
+    border: 2px solid #d2d2d2;
+    cursor: pointer;
+    padding: 10px;
 }
-
-/* Modal Footer */
-.modal-footer {
-  text-align: right;
+.table-header{
+    display: flex;
+  justify-content: space-between;
+}
+.arrow-sorting{
+    cursor: pointer;
+    padding: 5px;
+    border: 1px solid #e2e2e2;
+    border-radius: 5px
 }
 </style>
 <div class="users-page-container">
@@ -54,19 +72,20 @@
             <option value="" disabled selected>Bulk actions</option>
             <option value="Change_status">Change order status</option>
         </select>
+        <button id="remove-filters" style="display: none;">Remove all filters</button>
     </div>
 
     <table id="usersTable">
         <thead>
             <tr>
-                <th></th>
-                <th>Order ID</th>
-                <th>Customer</th>
-                <th>Total</th>
-                <th>Payment</th>
-                <th>Status</th>
-                <th>Date</th>
-                <th>Actions</th>
+                <th></th> <!-- First header, no change -->
+                <th><span>Order ID</span> <span class="arrow-sorting"><i class="sort-arrow fa-solid fa-x"></i></span></th>
+                <th><span>Customer</span> <span class="arrow-sorting"><i class="sort-arrow fa-solid fa-x"></i></span></th>
+                <th><span>Total</span> <span class="arrow-sorting"><i class="sort-arrow fa-solid fa-x"></i></span></th>
+                <th><span>Payment</span> <span class="arrow-sorting"><i class="sort-arrow fa-solid fa-x"></i></span></th>
+                <th><span>Status</span> <span class="arrow-sorting"><i class="sort-arrow fa-solid fa-x"></i></span></th>
+                <th><span>Date</span> <span class="arrow-sorting"><i class="sort-arrow fa-solid fa-x"></i></span></th>
+                <th>Actions</th> <!-- Last header, no change -->
             </tr>
         </thead>
         <tbody>
@@ -134,21 +153,139 @@
     let currentPage = 1;
     let ordersPerPage = 10;
     let totalPages = 0;
+    let sortPriority = [];
 
     document.addEventListener("DOMContentLoaded", async function () {
         showOverlay();
-
         allOrders = await fetchAllOrders();
         console.log(allOrders);
 
         buildOrdersControlTable(allOrders);
-
+        addEventListenersToOrders();
         hideOverlay();
     });
+
+    function updateSortPriority(columnIndex) {
+        const existingPriority = sortPriority.findIndex(sp => sp.columnIndex === columnIndex);
+        if (existingPriority === -1) {
+            // Add new sort priority if not already present
+            sortPriority.push({ columnIndex: columnIndex, direction: 'asc' });
+        } else {
+            // If clicked again, update direction or remove if it's the third click
+            if (sortPriority[existingPriority].direction === 'asc') {
+                sortPriority[existingPriority].direction = 'desc';
+            } else {
+                sortPriority.splice(existingPriority, 1); // Remove this sort priority
+            }
+        }
+    }
+
+    function sortOrders() {
+        allOrders.sort((a, b) => {
+            for (let i = 0; i < sortPriority.length; i++) {
+                const { columnIndex, direction } = sortPriority[i];
+                let valA, valB;
+                // Switch statement to assign valA and valB based on columnIndex
+                // Similar to the switch case you already have in your sortTable function
+                // For example:
+                switch (columnIndex) {
+                    case 0: // Order ID
+                        valA = a.order_id || a['order-id']; valB = b.order_id || b['order-id'];
+                        break;
+                    case 1: // Customer
+                        valA = a.email; valB = b.email;
+                        break;
+                    case 2: // Total
+                        valA = a.price; valB = b.price;
+                        break;
+                    case 4: // Status
+                        valA = a.Status; valB = b.Status;
+                        break;
+                    case 5: // Date
+                        valA = a.date ? new Date(a.date.seconds * 1000 + a.date.nanoseconds / 1000000) : new Date(0);
+                        valB = b.date ? new Date(b.date.seconds * 1000 + b.date.nanoseconds / 1000000) : new Date(0);
+
+                        break;
+                    // Include other cases as needed...
+                }
+
+                let comparison = 0;
+                if (valA < valB) {
+                    comparison = -1;
+                } else if (valA > valB) {
+                    comparison = 1;
+                }
+
+                if (comparison !== 0) {
+                    return direction === 'asc' ? comparison : -comparison;
+                }
+                // If comparison is 0, continue to next sort priority
+            }
+            return 0; // If all priorities compare equal
+        });
+
+        // Rebuild table with sorted orders
+        buildOrdersControlTable(allOrders);
+        document.getElementById('remove-filters').style.display = 'inline';
+    }
+    function adjustSortIcon(columnIndex) {
+    const arrows = document.querySelectorAll('.sort-arrow');
+    const currentArrow = arrows[columnIndex];
+    const existingPriority = sortPriority.find(sp => sp.columnIndex === columnIndex);
+    const direction = existingPriority ? existingPriority.direction : null;
+
+    // Set current arrow based on direction
+    if (direction === 'asc') {
+        currentArrow.classList.remove('fa-arrow-up','fa-x' );
+        currentArrow.classList.add( "fa-arrow-down"); //= '↓'; // Down arrow indicates ascending sort
+
+    } else if (direction === 'desc') {
+        currentArrow.classList.remove('fa-arrow-down','fa-x' );
+        currentArrow.classList.add("fa-arrow-up");// = '↑'; // Up arrow indicates descending sort
+    } else {
+        currentArrow.classList.remove('fa-arrow-down', 'fa-arrow-up','fa-x' );
+        currentArrow.classList.add("fa-x");
+    }
+}
+
+    function addEventListenersToOrders() {
+        const headers = document.querySelectorAll('.arrow-sorting');
+        headers.forEach((header, index) => {
+            header.addEventListener('click', () => {
+                updateSortPriority(index);
+                adjustSortIcon(index); // Use the updated function here
+                sortOrders();
+            });
+        });
+    }
+
     async function fetchAllOrders() {
         const ordersQuery = query(collection(db, "Orders"));
         const querySnapshot = await getDocs(ordersQuery);
         return querySnapshot.docs.map(doc => doc.data());
+    }
+
+    document.getElementById('remove-filters').addEventListener('click', function() {
+        showOverlay();
+        fetchAllOrders().then(orders => {
+            allOrders = orders;
+            sortPriority = []; // Clear any sort priorities
+
+        // Reset visual indicators for all sortable columns to show no sorting is applied
+            resetSortIcons();
+            buildOrdersControlTable(allOrders); // Rebuild table without sorting
+            hideOverlay();
+        });
+
+        this.style.display = 'none';
+    });
+    function resetSortIcons() {
+        const arrows = document.querySelectorAll('.sort-arrow');
+        arrows.forEach((arrow) => {
+            // Assuming you're using text content like 'x', '↑', '↓' for sorting indicators
+            arrow.classList.add('fa-x'); // Reset to 'x' to indicate no sorting
+
+        });
     }
 
     function buildOrdersControlTable(ordersArray) {
@@ -230,56 +367,6 @@
             editLink.appendChild(editbutton);
             actionsCell.appendChild(editLink);
 
-            let optionsButton = document.createElement('i');
-            optionsButton.classList.add('material-symbols-outlined');
-            {#let optionsLink = document.createElement('a');#}
-            {#optionsButton.textContent = 'more_vert';#}
-            {#optionsButton.style.cursor = 'pointer';#}
-            {#optionsLink.appendChild(optionsButton);#}
-            {#actionsCell.appendChild(optionsLink);#}
-            optionsButton.addEventListener('click', function(event) {
-                event.stopPropagation(); // Prevent the click from closing the menu immediately
-
-                // Position the menu
-                const contextMenu = document.getElementById('contextMenu');
-                contextMenu.style.display = 'block';
-                contextMenu.style.left = `${event.pageX - 100}px`;
-                contextMenu.style.top = `${event.pageY}px`;
-
-                // Function to hide the context menu
-                function hideContextMenu() {
-                    contextMenu.style.display = 'none';
-                }
-
-                // Close the menu when clicking outside of it
-                document.addEventListener('click', hideContextMenu, { once: true });
-
-                // Set up the menu actions
-                {#document.getElementById('viewOrder').onclick = function() {#}
-                {#    // Replace with the actual function or navigation action#}
-                {#    window.location.href = `/admin_tools/users_control/view_user/${user.userId}/`;#}
-                {##}
-                {#document.getElementById('deleteUser').onclick = async function() {#}
-                {#    const csrftoken = getCookie('csrftoken'); // Get the CSRF token#}
-                {#    let userIds = [user.userId]#}
-                {#    const jsonObject = { userIds: userIds };#}
-                {#    const response = await fetch('{% url 'at_delete_users' %}', { // Use the correct URL for your request#}
-                {#        method: 'POST',#}
-                {#        headers: {#}
-                {#            'Content-Type': 'application/json',#}
-                {#            'X-CSRFToken': csrftoken, // Include CSRF token in request headers#}
-                {#        },#}
-                {#        body: JSON.stringify(jsonObject),#}
-                {#    });#}
-                {##}
-                {#    if (!response.ok) {#}
-                {#        throw new Error('Network response was not ok');#}
-                {#    }#}
-                {##}
-                {#    allUsers = allUsers.filter(user => !userIds.includes(user.userId));#}
-                {#    buildUsersControlTable(allUsers);#}
-                {##}
-            });
             row.appendChild(actionsCell);
 
             // Append the row to the table body
