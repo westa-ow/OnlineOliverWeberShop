@@ -31,15 +31,15 @@ from shop.forms import UserRegisterForm, User
 
 @login_required
 def catalog_view(request):
-    category_catalog = request.GET.get('category')
-    plating_catalog = request.GET.get('plating')
-    base_catalog = request.GET.get('base')
-    available_categories = ['Earrings', "All", 'Bracelets', "Accessories", "Rings"]
-    available_platings = ['Rhodium','Gold','Rose Gold']
-    available_base = ['Silver', 'Default']
-    base_catalog = base_catalog if base_catalog in available_base else ""
-    plating_catalog = plating_catalog if plating_catalog in available_platings else ""
-    category_catalog = category_catalog if category_catalog in available_categories else ""
+    category_catalog = request.GET.get('category') or ""
+    plating_catalog = request.GET.get('plating') or ""
+    base_catalog = request.GET.get('base') or ""
+    # available_categories = ['Earrings', "All", 'Bracelets', "Accessories", "Rings"]
+    # available_platings = ['Rhodium','Gold','Rose Gold']
+    # available_base = ['Silver', 'Default']
+    # base_catalog = base_catalog if base_catalog in available_base else ""
+    # plating_catalog = plating_catalog if plating_catalog in available_platings else ""
+    # category_catalog = category_catalog if category_catalog in available_categories else ""
     email = request.user.email
     category, currency = get_user_category(email)
     info = get_user_info(email)

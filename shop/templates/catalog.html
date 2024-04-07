@@ -240,14 +240,8 @@
         setupCheckboxEventListeners('.plating-checkbox', platingFilters);
         setupCheckboxEventListeners('.base-checkbox', baseFilters);
         setupCheckboxEventListeners('.size-checkbox', sizeFilters);
-        if(category !== "All"){
-
-            applyFilters();
-        }
-        if(platingFilters.length !== 0 || baseFilters.length!==0){
-
-            applyFilters();
-        }
+        applyFilters();
+        updateURL();
 
         hideOverlay();
     });
@@ -393,6 +387,7 @@ function constructCategories(){
             history.pushState({path: newUrl}, '', newUrl);
 
             applyFilters(); // Call the applyFilters function
+            updateURL();
         });
         categoriesList.appendChild(li);
     });
@@ -498,7 +493,9 @@ function setupCheckboxEventListeners(checkboxClassName, filtersArray) {
                 }
                 label.style.fontWeight = "";
             }
+
             applyFilters();
+            updateURL();
         });
     });
     document.querySelectorAll(checkboxClassName).forEach(checkbox => {
@@ -515,7 +512,32 @@ function setupCheckboxEventListeners(checkboxClassName, filtersArray) {
         }
     });
 }
+function updateURL() {
+    const baseUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+    const queryParams = new URLSearchParams();
 
+    // Add 'category' to the URL if it exists
+    if (category) {
+        queryParams.set('category', category);
+    }
+
+    // Assuming stoneFilters, platingFilters, baseFilters, and sizeFilters are global
+    if (baseFilters.length > 0) {
+        queryParams.set('base', baseFilters.join(',')); // If expecting multiple, join them
+    }
+    if (platingFilters.length > 0) {
+        queryParams.set('plating', platingFilters.join(','));
+    }
+    if (stoneFilters.length > 0) {
+        queryParams.set('crystal', stoneFilters.join(','));
+    }
+    if (sizeFilters.length > 0) {
+        queryParams.set('size', sizeFilters.join(','));
+    }
+
+    // Use history.pushState to update the URL
+    history.pushState({}, '', `${baseUrl}?${queryParams.toString()}`);
+}
 function toggleOffUnnecessaryCheckboxes(checkboxes, currentValue ){
      checkboxes.forEach(checkbox => {
             if (checkbox.value !== currentValue) {
