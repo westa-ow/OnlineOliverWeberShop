@@ -1,25 +1,169 @@
 {% block content %}
+    {% load static %}
+{% load widget_tweaks %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Home page</title>
+    <link rel="stylesheet" href="{% static 'css/profile/profile_information.css' %}">
     {% include 'base.html' %}
+
     <style>
         .centered-container {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 80vh; /* This makes sure the container takes the full viewport height */
+            {#height: 80vh; /* This makes sure the container takes the full viewport height */#}
         }
+        .carousel {
+    overflow: hidden;
+    position: relative;
+    width: 1240px; /* Match the width of your images */
+    height: 500px; /* Match the height of your images */
+}
+
+.carousel-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    text-align: center;
+}
+
+.carousel-item.active {
+    opacity: 1;
+}
+
+.carousel-item img {
+    width: 100%; /* Adjust based on your needs */
+    vertical-align: middle;
+}
     </style>
 </head>
 <body style="text-align: center">
 
 <div class="centered-container" style="margin-top: 120px">
-      <h1 style="font-weight: 650">Welcome to the home page, {% if user.first_name %} {{ user.first_name }} {% elif user.email %} {{ user.email }} {% else %}  {% endif %} {{ user.last_name|default:"" }}!</h1>
+{#      <h1 style="font-weight: 650">Welcome to the home page, {% if user.first_name %} {{ user.first_name }} {% elif user.email %} {{ user.email }} {% else %}  {% endif %} {{ user.last_name|default:"" }}!</h1>#}
+        <div class="cl">
+            <div id="carousel" class="carousel">
+                <div class="carousel-item active"><img src="{% static "images/home/carousel/Banners SPRING 2024.jpg" %}" alt="Image 1" width="1240" height="500"></div>
+                <div class="carousel-item"><img src="{% static "images/home/carousel/Banners SPRING 20242.jpg" %}" alt="Image 1" width="1240" height="500"></div>
+                <div class="carousel-item"><img src="{% static "images/home/carousel/Banners SPRING 20243.jpg" %}" alt="Image 1" width="1240" height="500"></div>
+                <div class="carousel-item"><img src="{% static "images/home/carousel/slider_06.jpg" %}" alt="Image 1" width="1240" height="500"></div>
+                <div class="carousel-item"><img src="{% static "images/home/carousel/slider_07.webp" %}" alt="Image 1" width="1240" height="500"></div>
+            </div>
+        </div>
+    <div id="roycontent_home" class="roycontent">
+        <div class="row">
+            <div class="container">
+                <ul class="clearfix">
+                    <li class="htmlcontent-item-1 col-md-12 bview bview-first ">
+                        <div class="li-cont">
+                            <div class="html_inside ">
+                                <div class="home-title">
+                                    <div class="home-title">
+                                        <h1>ELEGANT JEWELRY AND ACCESSORIES</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="htmlcontent-item-2 col-md-3 bview bview-first ">
+                        <div class="li-cont">
+                            <a href="{% url "catalog" %}?category=Earrings" class="item-link" title="Earrings">
+                                <img src="{% static "images/home/banners/earrings_banner.jpg" %}" class="item-img href" title="Earrings" alt="Earrings" width="100%" height="100%">
+                            </a>
+                        </div>
+                    </li>
+                    <li class="htmlcontent-item-3 col-md-3 bview bview-first ">
+                        <div class="li-cont">
+                            <a href="{% url "catalog" %}?category=Pearls" class="item-link" title="Pearls">
+                                <img src="{% static "images/home/banners/pearls_banner.jpg" %}" class="item-img href" title="Pearls" alt="Pearls" width="100%" height="100%">
+                            </a>
+                        </div>
+                    </li>
+                    <li class="htmlcontent-item-4 col-md-3 bview bview-first ">
+                        <div class="li-cont">
+                            <a href="{% url "catalog" %}?category=Bracelets" class="item-link" title="Bracelets">
+                                <img src="{% static "images/home/banners/bracelets_banner.jpg" %}" class="item-img href" title="Bracelets" alt="Bracelets" width="100%" height="100%">
+                            </a>
+                        </div>
+                    </li>
+                    <li class="htmlcontent-item-5 col-md-3 bview bview-first ">
+                        <div class="li-cont">
+                            <a href="{% url "catalog" %}?category=Rings" class="item-link" title="Rings">
+                                <img src="{% static "images/home/banners/rings_banner.jpg" %}" class="item-img href" title="Rings" alt="Rings" width="100%" height="100%">
+                            </a>
+                        </div>
+                    </li>
+                    <li class="htmlcontent-item-6 col-md-3 bview bview-first ">
+                        <div class="li-cont">
+                            <a href="{% url "catalog" %}?base=Silver" class="item-link" title="Silver">
+                                <img src="{% static "images/home/banners/silver_banner.jpg" %}" class="item-img href" title="Silver" alt="Silver" width="100%" height="100%">
+                            </a>
+                        </div>
+                    </li>
+                    <li class="htmlcontent-item-7 col-md-3 bview bview-first ">
+                        <div class="li-cont">
+                            <a href="{% url "catalog" %}?category=Necklaces" class="item-link" title="Necklaces">
+                                <img src="{% static "images/home/banners/necklaces_banner.jpg" %}" class="item-img href" title="Necklaces" alt="Necklaces" width="100%" height="100%">
+                            </a>
+                        </div>
+                    </li>
+                    <li class="htmlcontent-item-8 col-md-3 bview bview-first ">
+                        <div class="li-cont">
+                            <a href="{% url "catalog" %}?category=All" class="item-link" title="Sets">
+                                <img src="{% static "images/home/banners/sets_banner.jpg" %}" class="item-img href" title="Sets" alt="Sets" width="100%" height="100%">
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    let currentIndex = 0;
+    const items = document.querySelectorAll('.carousel-item');
+    const itemAmount = items.length;
+
+    // Initialize the first item's opacity directly for clarity
+    items[0].style.opacity = 1;
+
+    function cycleItems() {
+        const currentItem = items[currentIndex];
+        const nextIndex = (currentIndex + 1) % itemAmount;
+        const nextItem = items[nextIndex];
+
+        // Fade out the current item by directly setting opacity to 0
+        currentItem.style.opacity = 0;
+
+        // Ensure the next item is positioned but invisible, ready to fade in
+        nextItem.style.opacity = 0;
+        nextItem.classList.add('active');
+
+        // Use requestAnimationFrame to ensure the next frame starts the fade-in
+        requestAnimationFrame(() => {
+            // This slight delay ensures the browser has time to apply the above styles
+            setTimeout(() => {
+                nextItem.style.opacity = 1;
+            }, 20);
+        });
+
+        // Update the currentIndex to the next item
+        currentIndex = nextIndex;
+    }
+
+    setInterval(cycleItems, 9000); // Adjusted timing for visual clarity
+});
+</script>
 </html>
 {%endblock%}

@@ -204,13 +204,13 @@
     import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
 
     var firebaseConfig = {
-    apiKey: "AIzaSyAM0wDc_WO0wP3-_TPRPLENZDIHbezH7U4",
-    authDomain: "flutterapp-fd5c3.firebaseapp.com",
-    projectId: "flutterapp-fd5c3",
-    storageBucket: "flutterapp-fd5c3.appspot.com",
-    messagingSenderId: "486422895050",
-    appId: "1:486422895050:web:b67eaef185d40579879733",
-    measurementId: "G-JT2QVDEHLT"
+        apiKey: "AIzaSyAM0wDc_WO0wP3-_TPRPLENZDIHbezH7U4",
+        authDomain: "flutterapp-fd5c3.firebaseapp.com",
+        projectId: "flutterapp-fd5c3",
+        storageBucket: "flutterapp-fd5c3.appspot.com",
+        messagingSenderId: "486422895050",
+        appId: "1:486422895050:web:b67eaef185d40579879733",
+        measurementId: "G-JT2QVDEHLT"
     };
 
     const app = initializeApp(firebaseConfig);
@@ -220,17 +220,14 @@
         showOverlay();
 
         itemsPerPage = Number(document.getElementById('select-items-per-page').value);
-        console.log(itemsPerPage);
+
         let unfilteredItems = await fetchAllItems(); // Fetch all items on load
-        console.log("{{ user.email }}");
+
         favouriteItems = await fetchFavouriteItems("{{ user.email }}");
-        console.log(favouriteItems);
+
         allItems = productsTransmutation(unfilteredItems);
 
-        {#console.log(categories);#}
-        {#console.log(allItems.length);#}
         total_pages = Math.ceil(allItems.length / itemsPerPage);
-        {#console.log(total_pages);#}
 
         updatePage();
 
@@ -243,6 +240,14 @@
         setupCheckboxEventListeners('.plating-checkbox', platingFilters);
         setupCheckboxEventListeners('.base-checkbox', baseFilters);
         setupCheckboxEventListeners('.size-checkbox', sizeFilters);
+        if(category !== "All"){
+
+            applyFilters();
+        }
+        if(platingFilters.length !== 0 || baseFilters.length!==0){
+
+            applyFilters();
+        }
 
         hideOverlay();
     });
@@ -258,11 +263,11 @@ let allItems = [];
 let favouriteItems = [];
 let filteredItems = [];
 let filters = [];
-let platingFilters = [];
-let baseFilters = [];
+let platingFilters =  "{{ plating_catalog }}" ? ["{{ plating_catalog|safe }}"] : [];
+let baseFilters = "{{ base_catalog }}" ? ["{{ base_catalog|safe }}"] : [];
 let stoneFilters = [];
 let sizeFilters = [];
-let category = "All";
+let category = "{{ category_catalog|safe}}" || "All";
 let categories = [""];
 let all_crystals = [];
 let all_platings = [];
@@ -372,7 +377,7 @@ function constructCategories(){
         const span = document.createElement('span');
 
         span.textContent = categoryVar;
-        if(categoryVar === "All"){
+        if(categoryVar === category){
             span.style.fontWeight = "600";
         }
         li.appendChild(span);
@@ -384,11 +389,15 @@ function constructCategories(){
 
             category = this.textContent; // Update the global variable
             this.style.fontWeight = "600";
+            const newUrl = `?category=${encodeURIComponent(category)}`;
+            history.pushState({path: newUrl}, '', newUrl);
+
             applyFilters(); // Call the applyFilters function
         });
         categoriesList.appendChild(li);
     });
       categories_div.style.display = 'block';
+
 
 }
 function constructFilters(){
@@ -491,6 +500,19 @@ function setupCheckboxEventListeners(checkboxClassName, filtersArray) {
             }
             applyFilters();
         });
+    });
+    document.querySelectorAll(checkboxClassName).forEach(checkbox => {
+        if (filtersArray.includes(checkbox.value)) {
+            // Programmatically check the checkbox without triggering the event
+            checkbox.checked = true;
+
+            // Now manually trigger the change event
+            let event = new Event('change', {
+                'bubbles': true,
+                'cancelable': true
+            });
+            checkbox.dispatchEvent(event);
+        }
     });
 }
 
