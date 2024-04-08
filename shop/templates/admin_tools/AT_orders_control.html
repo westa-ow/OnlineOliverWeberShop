@@ -64,6 +64,26 @@
     border: 1px solid #e2e2e2;
     border-radius: 5px
 }
+.header-total-cell input{
+    width: 100px;
+}
+th button{
+    width: 50px;
+  height: 30px;
+  border-radius: 4px;
+  background: #037a03;
+  border: 2px solid #f2f2f2;
+  color: white;
+  padding: 10px inherit;
+  cursor: pointer;
+}
+.header-total-cell select{
+    width: 41px;
+  background: #f2f2f2;
+  border-radius: 4px;
+  border: 2px solid #e2e2e2;
+  height: 23px;
+}
 </style>
 <div class="users-page-container">
 
@@ -78,7 +98,7 @@
     <table id="usersTable">
         <thead>
             <tr>
-                <th></th> <!-- First header, no change -->
+                <th> Selecters </th> <!-- First header, no change -->
                 <th><span>Order ID</span> <span class="arrow-sorting"><i class="sort-arrow fa-solid fa-x"></i></span></th>
                 <th><span>Customer</span> <span class="arrow-sorting"><i class="sort-arrow fa-solid fa-x"></i></span></th>
                 <th><span>Total</span> <span class="arrow-sorting"><i class="sort-arrow fa-solid fa-x"></i></span></th>
@@ -154,7 +174,7 @@
     let ordersPerPage = 10;
     let totalPages = 0;
     let sortPriority = [];
-
+    let filteredOrders = [];
     document.addEventListener("DOMContentLoaded", async function () {
         showOverlay();
         allOrders = await fetchAllOrders();
@@ -162,6 +182,8 @@
 
         buildOrdersControlTable(allOrders);
         addEventListenersToOrders();
+        addFilterInputs(); // Add this after your table is built
+        addEventListenersToFilterInputs();
         hideOverlay();
     });
 
@@ -180,8 +202,8 @@
         }
     }
 
-    function sortOrders() {
-        allOrders.sort((a, b) => {
+    function sortOrders(array) {
+        array.sort((a, b) => {
             for (let i = 0; i < sortPriority.length; i++) {
                 const { columnIndex, direction } = sortPriority[i];
                 let valA, valB;
@@ -225,28 +247,28 @@
         });
 
         // Rebuild table with sorted orders
-        buildOrdersControlTable(allOrders);
+        buildOrdersControlTable(filteredOrders.length === 0 ? allOrders : filteredOrders );
         document.getElementById('remove-filters').style.display = 'inline';
     }
     function adjustSortIcon(columnIndex) {
-    const arrows = document.querySelectorAll('.sort-arrow');
-    const currentArrow = arrows[columnIndex];
-    const existingPriority = sortPriority.find(sp => sp.columnIndex === columnIndex);
-    const direction = existingPriority ? existingPriority.direction : null;
+        const arrows = document.querySelectorAll('.sort-arrow');
+        const currentArrow = arrows[columnIndex];
+        const existingPriority = sortPriority.find(sp => sp.columnIndex === columnIndex);
+        const direction = existingPriority ? existingPriority.direction : null;
 
-    // Set current arrow based on direction
-    if (direction === 'asc') {
-        currentArrow.classList.remove('fa-arrow-up','fa-x' );
-        currentArrow.classList.add( "fa-arrow-down"); //= '↓'; // Down arrow indicates ascending sort
+        // Set current arrow based on direction
+        if (direction === 'asc') {
+            currentArrow.classList.remove('fa-arrow-up','fa-x' );
+            currentArrow.classList.add( "fa-arrow-down"); //= '↓'; // Down arrow indicates ascending sort
 
-    } else if (direction === 'desc') {
-        currentArrow.classList.remove('fa-arrow-down','fa-x' );
-        currentArrow.classList.add("fa-arrow-up");// = '↑'; // Up arrow indicates descending sort
-    } else {
-        currentArrow.classList.remove('fa-arrow-down', 'fa-arrow-up','fa-x' );
-        currentArrow.classList.add("fa-x");
+        } else if (direction === 'desc') {
+            currentArrow.classList.remove('fa-arrow-down','fa-x' );
+            currentArrow.classList.add("fa-arrow-up");// = '↑'; // Up arrow indicates descending sort
+        } else {
+            currentArrow.classList.remove('fa-arrow-down', 'fa-arrow-up','fa-x' );
+            currentArrow.classList.add("fa-x");
+        }
     }
-}
 
     function addEventListenersToOrders() {
         const headers = document.querySelectorAll('.arrow-sorting');
@@ -254,7 +276,7 @@
             header.addEventListener('click', () => {
                 updateSortPriority(index);
                 adjustSortIcon(index); // Use the updated function here
-                sortOrders();
+                sortOrders(filteredOrders.length === 0 ? allOrders : filteredOrders );
             });
         });
     }
@@ -277,6 +299,9 @@
             hideOverlay();
         });
 
+        const inputs = document.querySelectorAll('.filter-input');
+        inputs.forEach(input => input.value = '');
+
         this.style.display = 'none';
     });
     function resetSortIcons() {
@@ -287,7 +312,153 @@
 
         });
     }
+    function filterOrders() {
+        const inputs = document.querySelectorAll('.filter-input');
+        // Ensure `allOrders` contains your orders data
+        filteredOrders = allOrders.filter(order => {
+            return Array.from(inputs).every((input, index) => {
+                if (!input.value.trim()) return true; // Skip empty inputs
 
+                const columnName = input.getAttribute('data-column');
+                let orderValue = order[input.getAttribute('data-column')]; // Adjust based on your data keys
+
+                // Special handling for the "Total" column with comparison operators
+                if (columnName === "price") {
+                    const operatorSelect = input.previousSibling; // Assuming the select is right before the input
+                    const operator = operatorSelect.value;
+                    const value = parseFloat(input.value);
+                    orderValue = parseFloat(orderValue);
+
+                    switch (operator) {
+                        case '>': return orderValue > value;
+                        case '<': return orderValue < value;
+                        case '>=': return orderValue >= value;
+                        case '<=': return orderValue <= value;
+                        case '==': return orderValue === value;
+                        default: return true;
+                    }
+                } else if (columnName === "date" && input.getAttribute('data-range')) {
+                    const orderDate = new Date(orderValue ? (order.date.seconds * 1000 + order.date.nanoseconds / 1000000) : 0);
+                    if (input.getAttribute('data-range') === 'from') {
+                        const fromDate = new Date(input.value);
+                        return fromDate <= orderDate;
+                    } else if (input.getAttribute('data-range') === 'to') {
+                        const toDate = new Date(input.value);
+                        toDate.setHours(23, 59, 59, 999); // Set to the end of the day for 'to' date
+                        return toDate >= orderDate;
+                    }
+                }
+                else { // Textual data
+                    return orderValue.toString().toLowerCase().includes(input.value.toLowerCase());
+                }
+            });
+        });
+
+        buildOrdersControlTable(filteredOrders); // Rebuild the table with the filtered data
+        document.getElementById('remove-filters').style.display = 'inline';
+    }
+    function addEventListenersToFilterInputs() {
+        const filterInputs = document.querySelectorAll('.filter-input');
+        const operatorSelects = document.querySelectorAll('select');
+
+        operatorSelects.forEach(select => {
+            select.addEventListener('change', filterOrders);
+        });
+    }
+    function addFilterInputs() {
+        const table = document.getElementById('usersTable');
+        const headerRow = table.querySelector('thead tr');
+        const filterRow = document.createElement('tr');
+
+        Array.from(headerRow.cells).forEach((cell, index) => {
+            const filterCell = document.createElement('th');
+
+            if (index > 0 && index < headerRow.cells.length - 1) { // Skip first and last columns
+                if (cell.textContent.trim() === "Total") {
+                    filterCell.classList.add('header-total-cell');
+                    const select = document.createElement('select');
+                    ["==", ">", "<", ">=", "<="].forEach(op => {
+                        const option = document.createElement('option');
+                        option.value = op;
+                        option.textContent = op;
+                        select.appendChild(option);
+                    });
+                    filterCell.appendChild(select);
+                }
+
+                let data_column = "";
+                if (cell.textContent.trim() === "Total")
+                {
+                    data_column="price";
+                }
+                else if(cell.textContent.trim() === "Customer"){
+                    data_column="email";
+                }
+                else if(cell.textContent.trim() === "Order ID"){
+                    data_column="order_id";
+                }
+                else if(cell.textContent.trim() === "Payment"){
+                    data_column="payment";
+                }
+                else if(cell.textContent.trim() === "Status"){
+                    data_column="Status";
+                }
+                else if(cell.textContent.trim() === "Date"){
+                    data_column="date";
+                }
+                if (cell.textContent.trim() === "Date") {
+                    // Create "From" date input
+                    const div_input_from = document.createElement('div');
+                    const label_input_from = document.createElement('span');
+                    label_input_from.textContent = "From";
+                    const inputFrom = document.createElement('input');
+                    inputFrom.type = 'date';
+                    inputFrom.className = 'filter-input';
+                    inputFrom.setAttribute('data-column', data_column);
+                    inputFrom.setAttribute('data-range', 'from');
+                    inputFrom.placeholder = "From";
+                    div_input_from.appendChild(label_input_from);
+                    div_input_from.appendChild(inputFrom);
+                    filterCell.appendChild(div_input_from);
+
+                    // Create "To" date input
+                    const div_input_to = document.createElement('div');
+                    const label_input_to = document.createElement('span');
+                    label_input_to.textContent = "To";
+                    const inputTo = document.createElement('input');
+                    inputTo.type = 'date';
+                    inputTo.className = 'filter-input';
+                    inputTo.setAttribute('data-column', data_column);
+                    inputTo.setAttribute('data-range', 'to');
+                    inputTo.placeholder = "To";
+                    div_input_to.appendChild(label_input_to);
+                    div_input_to.appendChild(inputTo);
+                    filterCell.appendChild(div_input_to);
+                }
+
+                else {
+                    // Regular text input for other columns
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.className = 'filter-input';
+                    input.setAttribute('data-column', data_column);
+                    input.placeholder = `Search ${cell.textContent}`;
+                    filterCell.appendChild(input);
+                }
+
+            }
+            else if(index===(headerRow.cells.length - 1)){
+                const buttonSearch = document.createElement('button');
+                buttonSearch.textContent = "Search";
+                buttonSearch.addEventListener('click', filterOrders);
+                filterCell.appendChild(buttonSearch);
+            }
+
+            filterRow.appendChild(filterCell);
+        });
+
+        table.querySelector('thead').appendChild(filterRow);
+    }
     function buildOrdersControlTable(ordersArray) {
 
         const tableBody = document.getElementById('usersTable').getElementsByTagName('tbody')[0];
@@ -350,8 +521,8 @@
                 dateCell.textContent = dateString;
             }
             else{
-            dateCell.textContent = "";
-        }
+                dateCell.textContent = "";
+            }
             row.appendChild(dateCell);
 
             // Actions cell
@@ -379,7 +550,7 @@
     }
     function changePage(direction) {
         currentPage += direction;
-        buildOrdersControlTable(allOrders); // Assuming allUsers is your global user array
+        buildOrdersControlTable(filteredOrders.length === 0 ? allOrders : filteredOrders ); // Assuming allUsers is your global user array
     }
 
 function updatePaginationControls() {
@@ -452,7 +623,7 @@ function updatePaginationControls() {
     }
     lastPageContainer.appendChild(lastPage);
     paginationContainer.appendChild(lastPageContainer);
-    updatePaginationInfo(allOrders);
+    updatePaginationInfo(filteredOrders.length === 0 ? allOrders : filteredOrders );
 }
 
 function updateBulkActionsDropdown() {
@@ -469,7 +640,7 @@ document.getElementById('items-per-page').addEventListener('change', function (e
 
     ordersPerPage = parseInt(event.target.value);
     currentPage = 1;
-    buildOrdersControlTable(allOrders);
+    buildOrdersControlTable(filteredOrders.length === 0 ? allOrders : filteredOrders );
 });
 function updatePaginationInfo(ordersArray){
      const paginationInfo = document.querySelector('.pgntn-info');
@@ -478,18 +649,18 @@ function updatePaginationInfo(ordersArray){
 }
 function goToFirst() {
     currentPage = 1;
-    buildOrdersControlTable(allOrders);
+    buildOrdersControlTable(filteredOrders.length === 0 ? allOrders : filteredOrders );
 }
 
 function goToLast() {
     currentPage = totalPages;
-    buildOrdersControlTable(allOrders);
+    buildOrdersControlTable(filteredOrders.length === 0 ? allOrders : filteredOrders );
 }
 function goToPage() {
     const inputPage = parseInt(document.getElementById('currentPageInput').value);
     if(inputPage >= 1 && inputPage <= totalPages) {
         currentPage = inputPage;
-        buildOrdersControlTable(allOrders);
+        buildOrdersControlTable(filteredOrders.length === 0 ? allOrders : filteredOrders );
     }
 }
 
@@ -553,7 +724,7 @@ async function changeStatus(selectedOrderIds) {
                         order.Status = status;
                     }
                 });
-                buildOrdersControlTable(allOrders); // Assuming allOrders is available
+                buildOrdersControlTable(filteredOrders.length === 0 ? allOrders : filteredOrders ); // Assuming allOrders is available
                 updateBulkActionsDropdown();
             } else {
                 throw new Error('Failed to update order statuses');
