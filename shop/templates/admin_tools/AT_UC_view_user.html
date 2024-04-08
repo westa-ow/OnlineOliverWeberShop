@@ -3,6 +3,18 @@
 
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet"  href="{% static 'css/profile/profile_information.css' %}">
+<style>
+    .delete-cart-content, .show-details-order{
+        cursor: pointer;
+        color: black!important;
+        transition: 0.2s opacity;
+    }
+    .delete-cart-content:hover, .show-details-order:hover{
+        opacity: 0.5;
+    }
+
+
+</style>
 <section id="content" class="page-content col-md-12 col-lg-9 myacc_content">
 
     <div class="card customer-personal-informations-card">
@@ -121,7 +133,7 @@
                                   <td class="td-outer">Bank transfer</td>
                                   <td class="td-outer">{{ document.Status }}</td>
                                   <td class="td-outer">
-                                      <span> <a href="/admin_tools/orders_control/view_order/{{ document.order_id }}/" data-order-id="{{ document.order_id }}" class="show-content" id="show-button-{{ document.order_id }}">Show Details</a></span>
+                                      <span> <a href="/admin_tools/orders_control/view_order/{{ document.order_id }}/" data-order-id="{{ document.order_id }}" class="show-details-order" id="show-button-{{ document.order_id }}">Show Details</a></span>
                                   </td>
                               </tr>
                         {% endfor %}
@@ -160,7 +172,7 @@
                                   <td class="td-outer">{{ document.quantity }}</td>
                                   <td class="td-outer">{{ user_currency }}{{ document.total_price }}</td>
                                   <td class="td-outer">
-                                      <span> <a data-order-id="{{ document.order_id }}" class="show-content" id="show-button-{{ document.order_id }}">Delete</a></span>
+                                      <span> <a data-cart-product-id="{{ document.name }}" data-owner-email="{{ document.emailOwner }}"  class="delete-cart-content" id="delete-button-{{ document.name }}">Delete</a></span>
                                   </td>
                               </tr>
                         {% endfor %}
@@ -204,7 +216,7 @@
                                   <td class="td-outer">{{ document.country }}</td>
                                   <td class="td-outer">{{ document.phone }}</td>
                                   <td class="td-outer">
-                                      <span> <a data-order-id="{{ document.order_id }}" class="show-content" id="show-button-{{ document.order_id }}">Delete</a></span>
+{#                                      <span> <a data-order-id="{{ document.order_id }}"  class="show-content" id="show-button-{{ document.order_id }}">Delete</a></span>#}
                                   </td>
                               </tr>
                         {% endfor %}
@@ -223,4 +235,41 @@
 </section>
 <script>
     console.log("{{ orders|safe }}");
+
+    document.querySelectorAll('.delete-cart-content').forEach((element) => {
+    element.addEventListener('click', function (){
+        console.log("click");
+        deleteFromUserCart(element.getAttribute('data-cart-product-id'),element.getAttribute('data-owner-email'));
+    });
+});
+    function deleteFromUserCart(documentId, email) {
+                fetch('{% url "delete_document" %}', { // Replace with the actual URL as needed
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken'),
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ document_id: documentId, email: email })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert('Document deleted successfully');
+                        window.location.reload()
+                        // Optionally, update UI here
+                    } else {
+                        alert('Error in deletion');
+                        // Optionally, provide user feedback here
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Optionally, provide user feedback here
+                });
+            }
 </script>

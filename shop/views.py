@@ -399,7 +399,10 @@ def deleteProduct(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         name = data.get('document_id')
-        email = request.user.email
+        if data.get('email'):
+            email = data.get('email')
+        else:
+            email = request.user.email
         docs = cart_ref.where('emailOwner', '==', email).where('name', '==', name).stream()
         for doc in docs:
             doc.reference.delete()
