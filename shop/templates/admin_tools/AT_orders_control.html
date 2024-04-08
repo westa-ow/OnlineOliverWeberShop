@@ -1,89 +1,10 @@
 {% load static %}
 {% load i18n %}
-<link rel="stylesheet" href="{% static 'css/admin_tools/at_users_control.css' %}">
+<link rel="stylesheet" href="{% static 'css/admin_tools/at_control_tables.css' %}">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <style>
-    /* The Modal (background) */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
 
-/* Modal Content/Box */
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 30%; /* Could be more or less, depending on screen size */
-}
-.modal-footer{
-    display: flex;
-  justify-content: space-between;
-    text-align: right;
-}
-#statusSelect{
-    padding: 10px;
-    border: 2px solid #e2e2e2;
-    border-radius: 4px;
-    background: #f3f3f3;
-    cursor: pointer;
-}
-.modal-footer button {
-  border-radius: 3px;
-  padding: 7px;
-  width: 100px;
-  border: 2px solid #e2e2e2;
-  background: #f2f2f2;
-    cursor: pointer;
-}
-
-#remove-filters {
-    background: inherit;
-    border-radius: 5px;
-    border: 2px solid #d2d2d2;
-    cursor: pointer;
-    padding: 10px;
-}
-.table-header{
-    display: flex;
-  justify-content: space-between;
-}
-.arrow-sorting{
-    cursor: pointer;
-    padding: 5px;
-    border: 1px solid #e2e2e2;
-    border-radius: 5px
-}
-.header-total-cell input{
-    width: 100px;
-}
-th button{
-    width: 50px;
-  height: 30px;
-  border-radius: 4px;
-  background: #037a03;
-  border: 2px solid #f2f2f2;
-  color: white;
-  padding: 10px inherit;
-  cursor: pointer;
-}
-.header-total-cell select{
-    width: 41px;
-  background: #f2f2f2;
-  border-radius: 4px;
-  border: 2px solid #e2e2e2;
-  height: 23px;
-}
 </style>
 <div class="users-page-container">
 
@@ -175,6 +96,7 @@ th button{
     let totalPages = 0;
     let sortPriority = [];
     let filteredOrders = [];
+
     document.addEventListener("DOMContentLoaded", async function () {
         showOverlay();
         allOrders = await fetchAllOrders();
@@ -186,6 +108,26 @@ th button{
         addEventListenersToFilterInputs();
         hideOverlay();
     });
+
+
+    async function fetchAllOrders() {
+        const ordersQuery = query(collection(db, "Orders"));
+        const querySnapshot = await getDocs(ordersQuery);
+        return querySnapshot.docs.map(doc => doc.data());
+    }
+
+
+    function addEventListenersToOrders() {
+        const headers = document.querySelectorAll('.arrow-sorting');
+        headers.forEach((header, index) => {
+            header.addEventListener('click', () => {
+                updateSortPriority(index);
+                adjustSortIcon(index); // Use the updated function here
+                sortOrders(getActualArray());
+            });
+        });
+    }
+
 
     function updateSortPriority(columnIndex) {
         const existingPriority = sortPriority.findIndex(sp => sp.columnIndex === columnIndex);
@@ -201,6 +143,28 @@ th button{
             }
         }
     }
+
+
+    function adjustSortIcon(columnIndex) {
+        const arrows = document.querySelectorAll('.sort-arrow');
+        const currentArrow = arrows[columnIndex];
+        const existingPriority = sortPriority.find(sp => sp.columnIndex === columnIndex);
+        const direction = existingPriority ? existingPriority.direction : null;
+
+        // Set current arrow based on direction
+        if (direction === 'asc') {
+            currentArrow.classList.remove('fa-arrow-up','fa-x' );
+            currentArrow.classList.add( "fa-arrow-down"); //= '↓'; // Down arrow indicates ascending sort
+
+        } else if (direction === 'desc') {
+            currentArrow.classList.remove('fa-arrow-down','fa-x' );
+            currentArrow.classList.add("fa-arrow-up");// = '↑'; // Up arrow indicates descending sort
+        } else {
+            currentArrow.classList.remove('fa-arrow-down', 'fa-arrow-up','fa-x' );
+            currentArrow.classList.add("fa-x");
+        }
+    }
+
 
     function sortOrders(array) {
         array.sort((a, b) => {
@@ -247,45 +211,10 @@ th button{
         });
 
         // Rebuild table with sorted orders
-        buildOrdersControlTable(filteredOrders.length === 0 ? allOrders : filteredOrders );
+        buildOrdersControlTable(getActualArray());
         document.getElementById('remove-filters').style.display = 'inline';
     }
-    function adjustSortIcon(columnIndex) {
-        const arrows = document.querySelectorAll('.sort-arrow');
-        const currentArrow = arrows[columnIndex];
-        const existingPriority = sortPriority.find(sp => sp.columnIndex === columnIndex);
-        const direction = existingPriority ? existingPriority.direction : null;
 
-        // Set current arrow based on direction
-        if (direction === 'asc') {
-            currentArrow.classList.remove('fa-arrow-up','fa-x' );
-            currentArrow.classList.add( "fa-arrow-down"); //= '↓'; // Down arrow indicates ascending sort
-
-        } else if (direction === 'desc') {
-            currentArrow.classList.remove('fa-arrow-down','fa-x' );
-            currentArrow.classList.add("fa-arrow-up");// = '↑'; // Up arrow indicates descending sort
-        } else {
-            currentArrow.classList.remove('fa-arrow-down', 'fa-arrow-up','fa-x' );
-            currentArrow.classList.add("fa-x");
-        }
-    }
-
-    function addEventListenersToOrders() {
-        const headers = document.querySelectorAll('.arrow-sorting');
-        headers.forEach((header, index) => {
-            header.addEventListener('click', () => {
-                updateSortPriority(index);
-                adjustSortIcon(index); // Use the updated function here
-                sortOrders(filteredOrders.length === 0 ? allOrders : filteredOrders );
-            });
-        });
-    }
-
-    async function fetchAllOrders() {
-        const ordersQuery = query(collection(db, "Orders"));
-        const querySnapshot = await getDocs(ordersQuery);
-        return querySnapshot.docs.map(doc => doc.data());
-    }
 
     document.getElementById('remove-filters').addEventListener('click', function() {
         showOverlay();
@@ -550,7 +479,7 @@ th button{
     }
     function changePage(direction) {
         currentPage += direction;
-        buildOrdersControlTable(filteredOrders.length === 0 ? allOrders : filteredOrders ); // Assuming allUsers is your global user array
+        buildOrdersControlTable(getActualArray()); // Assuming allUsers is your global user array
     }
 
 function updatePaginationControls() {
@@ -623,7 +552,7 @@ function updatePaginationControls() {
     }
     lastPageContainer.appendChild(lastPage);
     paginationContainer.appendChild(lastPageContainer);
-    updatePaginationInfo(filteredOrders.length === 0 ? allOrders : filteredOrders );
+    updatePaginationInfo(getActualArray());
 }
 
 function updateBulkActionsDropdown() {
@@ -640,7 +569,7 @@ document.getElementById('items-per-page').addEventListener('change', function (e
 
     ordersPerPage = parseInt(event.target.value);
     currentPage = 1;
-    buildOrdersControlTable(filteredOrders.length === 0 ? allOrders : filteredOrders );
+    buildOrdersControlTable(getActualArray());
 });
 function updatePaginationInfo(ordersArray){
      const paginationInfo = document.querySelector('.pgntn-info');
@@ -649,18 +578,18 @@ function updatePaginationInfo(ordersArray){
 }
 function goToFirst() {
     currentPage = 1;
-    buildOrdersControlTable(filteredOrders.length === 0 ? allOrders : filteredOrders );
+    buildOrdersControlTable(getActualArray());
 }
 
 function goToLast() {
     currentPage = totalPages;
-    buildOrdersControlTable(filteredOrders.length === 0 ? allOrders : filteredOrders );
+    buildOrdersControlTable(getActualArray());
 }
 function goToPage() {
     const inputPage = parseInt(document.getElementById('currentPageInput').value);
     if(inputPage >= 1 && inputPage <= totalPages) {
         currentPage = inputPage;
-        buildOrdersControlTable(filteredOrders.length === 0 ? allOrders : filteredOrders );
+        buildOrdersControlTable(getActualArray());
     }
 }
 
@@ -724,7 +653,7 @@ async function changeStatus(selectedOrderIds) {
                         order.Status = status;
                     }
                 });
-                buildOrdersControlTable(filteredOrders.length === 0 ? allOrders : filteredOrders ); // Assuming allOrders is available
+                buildOrdersControlTable(getActualArray()); // Assuming allOrders is available
                 updateBulkActionsDropdown();
             } else {
                 throw new Error('Failed to update order statuses');
@@ -745,6 +674,13 @@ function resetBulkActionsDropdown() {
     bulkActionsDropdown.disabled = true; // Disable dropdown
     updateBulkActionsDropdown(); // Call the function to check if it should be re-enabled based on checkboxes
 }
+
+
+function getActualArray(){
+    return filteredOrders.length === 0 ? allOrders: filteredOrders;
+}
+
+
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
