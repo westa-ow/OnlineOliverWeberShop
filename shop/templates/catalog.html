@@ -555,6 +555,7 @@ document.querySelectorAll('.remove-filters-container').forEach(container=> {
                 checkbox.checked = false;
                 checkbox.parentElement.querySelector('label').style.fontWeight = "";
             });
+            removeQueryParam('plating');
        }
        else if(container.id === "sizes"){
             sizeFilters.length = 0;
@@ -563,6 +564,7 @@ document.querySelectorAll('.remove-filters-container').forEach(container=> {
                 checkbox.checked = false;
                 checkbox.parentElement.querySelector('label').style.fontWeight = "";
             });
+            removeQueryParam('size');
        }
        else if(container.id === "bases"){
             baseFilters.length = 0;
@@ -571,6 +573,7 @@ document.querySelectorAll('.remove-filters-container').forEach(container=> {
                 checkbox.checked = false;
                 checkbox.parentElement.querySelector('label').style.fontWeight = "";
             });
+            removeQueryParam('base');
        }
        else if(container.id === "crystals"){
             stoneFilters.length = 0;
@@ -579,12 +582,27 @@ document.querySelectorAll('.remove-filters-container').forEach(container=> {
                 checkbox.checked = false;
                 checkbox.parentElement.querySelector('label').style.fontWeight = "";
             });
+             removeQueryParam('crystal');
        }
        this.style.display = "none";
        applyFilters();
 
     });
 });
+
+
+function removeQueryParam(param) {
+    const baseUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+    const queryParams = new URLSearchParams(window.location.search);
+
+    // Remove the specific query parameter
+    queryParams.delete(param);
+
+    // Update the URL without reloading the page
+    history.pushState({}, '', `${baseUrl}?${queryParams.toString()}`);
+}
+
+
 document.getElementById('contains-in-name').addEventListener('input', applyFilters);
 function controlFromSlider(fromSlider, toSlider, fromInput) {
   const [from, to] = getParsed(fromSlider, toSlider);
