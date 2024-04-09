@@ -2,8 +2,9 @@ import concurrent
 
 from django.contrib.auth.decorators import login_required
 
+from shop.decorators import login_required_or_session
 from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, get_cart, cart_ref, users_ref, \
-    get_user_category, get_user_info
+    get_user_category, get_user_info, get_user_session_type
 import ast
 import random
 from datetime import datetime
@@ -29,11 +30,11 @@ from django.core.mail import send_mail
 from shop.forms import UserRegisterForm, User
 
 
-@login_required
+@login_required_or_session
 def form_page(request):
     documents = []
     search_term = ''
-    email = request.user.email
+    email = get_user_session_type(request)
     if request.method == 'POST':
         search_term = request.POST.get('number').upper()
 
@@ -48,9 +49,9 @@ def form_page(request):
             quantity = prod['quantity']
             break
 
-    category, currency = get_user_category(email)
-    info = get_user_info(email)
-    sale = round((0 if "sale" not in info else info['sale'])/100, 2)
+    category, currency = get_user_category(email) or ("Default", "Euro")
+    info = get_user_info(email) or {}
+    sale = round((0 if "sale" not in info else info['sale'])/100, 2) or 0
     products = [doc.to_dict() for doc in documents]
     for obj in products:
         if category == "VK3":

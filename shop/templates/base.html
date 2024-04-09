@@ -36,14 +36,14 @@
     </div>
 
 
-    {% if user.is_authenticated %}
+
                 <a></a>
                 <a></a>
                 <a></a>
                 <a href="{% url 'shop_page' %}" class="link">Shop</a>
                 <a></a>
                 <a></a>
-                <a href="{% url 'profile' feature_name='dashboard'%}" class="link">Profile</a>
+                <a href="{% if user.is_authenticated %}{% url 'profile' feature_name='dashboard'%}{% else %}{% url 'login'%}{% endif %}" class="link">Profile</a>
                 <a></a>
                 <a></a>
                 <a href="{% url 'catalog' %}" class="link">Catalog</a>
@@ -58,10 +58,29 @@
                 <a></a>
                 <a></a>
                 <a></a>
-
+        {% if user.is_authenticated %}
+    {% else %}
+                <a></a>
+                <a href="{% url 'login'%}" class="link">Login</a>
+                <a></a>
+                <a href="{% url 'register'%}" class="link">Register</a>
+                <a></a>
+    {% endif %}
         <span class="icons-container">
-        <span class="icon-link" style="font-style: italic; font-size: 14px; margin-top: 8px; color: white;font-family: poppins,Verdana,sans-serif;"><a id="account-icon" style="display: flex" ><i class="rts" data-size="28" data-color="#000000" style="width: 28px; height: 28px; margin-right: 4px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 28px; height: 28px; "><path d="M23.67,25V22.65A4.67,4.67,0,0,0,19,18H9.67A4.67,4.67,0,0,0,5,22.65V25" style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8px"></path><circle cx="14.33" cy="8.65" r="4.67" style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8px"></circle></svg></i><span style="margin-top: 6px">{% if user.first_name %} {{ user.first_name }} {% elif user.email %} {{ user.email }} {% else %}  {% endif %} {{ user.last_name|default:"" }}</span></a>
-</span>
+        <span class="icon-link" style="font-style: italic; font-size: 14px; margin-top: 8px; color: white;font-family: poppins,Verdana,sans-serif;"><a id="account-icon" style="display: flex" ><i class="rts" data-size="28" data-color="#000000" style="width: 28px; height: 28px; margin-right: 4px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 28px; height: 28px; "><path d="M23.67,25V22.65A4.67,4.67,0,0,0,19,18H9.67A4.67,4.67,0,0,0,5,22.65V25" style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8px"></path><circle cx="14.33" cy="8.65" r="4.67" style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8px"></circle></svg></i><span style="margin-top: 6px">
+            {% if user.is_authenticated %}
+                {% if user.first_name %}
+                    {{ user.first_name }}
+                {% elif user.email %}
+                    {{ user.email }}
+                {% else %}
+
+                {% endif %}
+                {{ user.last_name|default:"" }}
+                {% endif %}
+
+        </span></a>
+        </span>
                 <a class="icon-link" id="cartBtn">
                     <svg width="28px" height="28px" style="margin-top: 5px" xmlns="http://www.w3.org/2000/svg">
                       <path d="M21.46,26H6.54C4,26,4,23.86,4,22.46V2H24V22.46C24,23.86,24,26,21.46,26Z" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="2"/>
@@ -70,13 +89,7 @@
                 </a>
 
         </span>
-    {% else %}
-                <a></a>
-                <a href="{% url 'login'%}" class="link">Login</a>
-                <a></a>
-                <a href="{% url 'register'%}" class="link">Register</a>
-                <a></a>
-    {% endif %}
+
     <a></a>
 </div>
 <a></a>
@@ -159,6 +172,9 @@
 <div id="overlay" class="overlay"></div>
 </body>
 <script>
+    let key = "{{ session.session_key }}";
+    console.log(key);
+
     window.addEventListener('scroll', function() {
     // Get the toolbar element
     var toolbar = document.querySelector('.toolbar');

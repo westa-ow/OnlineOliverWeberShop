@@ -285,7 +285,7 @@ function updateQuantityInput(product_id, quantity_new, doc) {
             button.style.background = "#077a07";
 
             const sum  = document.getElementById('sum-'+data.product_id);
-            sum.innerHTML = "" + data.sum;
+            sum.innerHTML = currency+ "" + data.sum;
 
             saveState('sum-'+product_id, data.sum);
             saveState('quantity-'+data.product_id, data.quantity);
@@ -328,15 +328,21 @@ function deleteBut(documentId, documentContainer){
             .catch(error => console.error('Error:', error));
 }
     document.getElementById('finishOrderButton').addEventListener('click', function() {
-
+        {% if user.is_authenticated  %}
+            {% else %}
+            window.location.href = '{% url 'register' %}';
+        {% endif %}
         {% if documents|length != 0 %}
         window.alert("Order will be delivered to your email");
-        fetch('{% url 'send_email'%}', { method: 'POST',headers: {
-                    'X-CSRFToken': getCookie('csrftoken'),
-                    'Content-Type': 'application/json',
-                }, })
-            .then(response => response.json())
-            .then(data => {
+        fetch('{% url 'send_email'%}', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
         console.log(data);
         if (data.status === 'success') {
             // Redirect to the home URL

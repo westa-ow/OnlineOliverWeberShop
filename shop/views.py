@@ -298,7 +298,22 @@ country_dict = {
 }
 
 
+def get_user_session_type(request):
+    if request.user.is_authenticated:
+        return request.user.email
+    else:
+        return request.session.session_key
+
+
 def home_page(request):
+    is_anonymous = not request.user.is_authenticated
+
+    # Проверяем, есть ли у анонимного пользователя сессионный ключ
+    has_session = bool(request.session.session_key)
+    print(is_anonymous)
+    print(has_session)
+    if has_session:
+        print(request.session.session_key)
     return render(request, 'home.html')
 
 
@@ -340,8 +355,7 @@ def get_cart(email):
 
 
 def getCart(request):
-
-    return JsonResponse({'cart': get_cart(request.user.email)})
+    return JsonResponse({'cart': get_cart(get_user_session_type(request))})
 
 
 def update_quantity_input(request):
@@ -351,7 +365,7 @@ def update_quantity_input(request):
             product_id = data.get('product_id')
             quantity_new = data.get('quantity_new')
             price = float(data.get('price'))
-            email = request.user.email  # Replace with actual user email
+            email = get_user_session_type(request)  # Replace with actual user email
 
             cart_items = cart_ref.where('emailOwner', '==', email)
 
@@ -402,7 +416,7 @@ def deleteProduct(request):
         if data.get('email'):
             email = data.get('email')
         else:
-            email = request.user.email
+            email = get_user_session_type(request)
         docs = cart_ref.where('emailOwner', '==', email).where('name', '==', name).stream()
         for doc in docs:
             doc.reference.delete()

@@ -2,8 +2,9 @@ import concurrent
 
 from django.contrib.auth.decorators import login_required
 
+from shop.decorators import login_required_or_session
 from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, cart_ref, get_cart, favourites_ref, \
-    get_user_category, get_user_info
+    get_user_category, get_user_info, get_user_session_type
 import ast
 import random
 from datetime import datetime
@@ -29,7 +30,7 @@ from django.core.mail import send_mail
 from shop.forms import UserRegisterForm, User
 
 
-@login_required
+@login_required_or_session
 def catalog_view(request):
     category_catalog = request.GET.get('category') or ""
     plating_catalog = request.GET.get('plating') or ""
@@ -40,10 +41,10 @@ def catalog_view(request):
     # base_catalog = base_catalog if base_catalog in available_base else ""
     # plating_catalog = plating_catalog if plating_catalog in available_platings else ""
     # category_catalog = category_catalog if category_catalog in available_categories else ""
-    email = request.user.email
-    category, currency = get_user_category(email)
-    info = get_user_info(email)
-    sale = round((0 if "sale" not in info else info['sale'])/100, 2)
+    email = get_user_session_type(request)
+    category, currency = get_user_category(email) or ("Default", "Euro")
+    info = get_user_info(email) or {}
+    sale = round((0 if "sale" not in info else info['sale'])/100, 2) or 0
     context = {
         "currency": "€" if currency == "Euro" else "$",
         "category": category,
@@ -55,18 +56,18 @@ def catalog_view(request):
     return render(request, 'catalog.html', context=context)
 
 
-@login_required
+@login_required_or_session
 def add_to_cart_from_catalog(request):
     data = json.loads(request.body)
     product_name = data.get('document')
     new_quantity = data.get('quantity')
 
-    email = request.user.email
-    category, currency = get_user_category(email)
+    email = get_user_session_type(request)
+    category, currency = (data.get('price_category'), data.get('currency'))
 
     currency = '€' if currency == 'Euro' else '$'
-    info = get_user_info(email)
-    sale = round((0 if "sale" not in info else info['sale']) / 100, 2)
+
+    sale = float(data.get('sale'))
     if not product_name or new_quantity is None:
         return JsonResponse({'status': 'error', 'message': 'Missing product name or quantity'}, status=400)
 

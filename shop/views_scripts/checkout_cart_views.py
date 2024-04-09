@@ -2,8 +2,9 @@ import concurrent
 
 from django.contrib.auth.decorators import login_required
 
+from shop.decorators import login_required_or_session
 from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, get_cart, cart_ref, single_order_ref, \
-    get_user_category
+    get_user_category, get_user_session_type
 import ast
 import random
 from datetime import datetime
@@ -29,16 +30,16 @@ from django.core.mail import send_mail
 from shop.forms import UserRegisterForm, User
 
 
-@login_required
+@login_required_or_session
 def cart_page(request):
-    email = request.user.email
-    category, currency = get_user_category(email)
+    email = get_user_session_type(request)
+    category, currency = get_user_category(email) or ("Default", "Euro")
     if currency == "Euro":
         currency = "€"
     elif currency == "Dollar":
         currency = "$"
     context = {
-        'documents': sorted(get_cart(request.user.email), key=lambda x: x['number']),
+        'documents': sorted(get_cart(email), key=lambda x: x['number']),
         'currency': currency
     }
     return render(request, 'cart.html', context=context)
@@ -60,7 +61,7 @@ def sort_documents(request):
 
     return JsonResponse({'documents': sorted_documents})
 
-
+@login_required
 def send_email(request):
     if request.method == 'POST':
         # Создаю order
@@ -121,7 +122,7 @@ def send_email(request):
         send_mail(subject, message, 'setting.EMAIL_HOST_USER', recipient_list)
         return JsonResponse({'status': 'success', 'redirect_name': 'home'})
     return JsonResponse({'status': 'error'}, status=400)
-
+@login_required
 def clear_cart(email, name):
     docs = cart_ref.where('emailOwner', '==', email).where('name', '==', name).stream()
     for doc in docs:
