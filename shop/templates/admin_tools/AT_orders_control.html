@@ -229,7 +229,7 @@
 
         const inputs = document.querySelectorAll('.filter-input');
         inputs.forEach(input => input.value = '');
-
+        filteredOrders = [];
         this.style.display = 'none';
     });
     function resetSortIcons() {
@@ -249,6 +249,9 @@
 
                 const columnName = input.getAttribute('data-column');
                 let orderValue = order[input.getAttribute('data-column')]; // Adjust based on your data keys
+                if(columnName==="order_id" && !orderValue){
+                    orderValue = order['order-id'];
+                }
 
                 // Special handling for the "Total" column with comparison operators
                 if (columnName === "price") {
@@ -277,7 +280,7 @@
                     }
                 }
                 else { // Textual data
-                    return orderValue.toString().toLowerCase().includes(input.value.toLowerCase());
+                    return orderValue.toString().toLowerCase().includes(input.value.toString().toLowerCase());
                 }
             });
         });

@@ -73,15 +73,15 @@ def add_to_cart_from_catalog(request):
 
     document = get_full_product(product_name)
     if category == "VK3":
-        document['price'] = document['priceVK3']
+        document['price'] = document.get('priceVK3', 0)
     elif category == "GH":
-        document['price'] = document['priceGH']
+        document['price'] = document.get('priceGH', 0)
     elif category == "Default USD":
-        document['price'] = document['priceUSD']
+        document['price'] = document.get('priceUSD', 0)
     elif category == "GH_USD":
-        document['price'] = document['priceUSD_GH']
+        document['price'] = document.get('priceUSD_GH', 0)
     else:
-        document['price'] = round(document['priceVK4'] * (1-sale),2)
+        document['price'] = round(document.get('priceVK4', 0) * (1-sale), 2) or 0
     if not document:
         return JsonResponse({'status': 'error', 'message': 'Product not found'}, status=404)
 
