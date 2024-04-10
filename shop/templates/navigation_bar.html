@@ -39,14 +39,26 @@
 
                 <a></a>
                 <a></a>
-                <a></a>
-                <a href="{% url 'shop_page' %}" class="link">Shop</a>
-                <a></a>
-                <a></a>
-                <a href="{% if user.is_authenticated %}{% url 'profile' feature_name='dashboard'%}{% else %}{% url 'login'%}{% endif %}" class="link">Profile</a>
-                <a></a>
-                <a></a>
-                <a href="{% url 'catalog' %}" class="link">Catalog</a>
+<a></a>
+<a></a>
+<a></a>
+<a></a>
+<a></a>
+                <a href="{% url "catalog" %}?category=Necklaces" class="link" title="Necklaces" style="font-size: 12px;font-weight: 600;    ">NECKLACES</a>
+
+
+                <a href="{% url "catalog" %}?category=Earrings" class="link" title="Earrings" style="font-size: 12px;font-weight: 600;">EARRINGS</a>
+{#                <a href="{% if user.is_authenticated %}{% url 'profile' feature_name='dashboard'%}{% else %}{% url 'login'%}{% endif %}" class="link">Profile</a>#}
+
+
+{#                <a href="{% url 'catalog' %}" class="link">Catalog</a>#}
+                <a href="{% url "catalog" %}?category=Rings" class="link" title="Rings" style="font-size: 12px;font-weight: 600;">RINGS</a>
+
+                <a href="{% url "catalog" %}?category=Bracelets" class="link" title="Bracelets" style="font-size: 12px;font-weight: 600;">BRACELETS</a>
+
+                <a href="{% url "catalog" %}?category=Anklets" class="link" title="Anklets" style="font-size: 12px;font-weight: 600;">ANKLETS</a>
+
+                <a href="{% url "catalog" %}?category=Accessories" class="link" title="Accessories" style="font-size: 12px;font-weight: 600;">ACCESSORIES</a>
 
         {% if user.email == "westadatabase@gmail.com" %}
 
@@ -67,26 +79,34 @@
                 <a></a>
     {% endif %}
         <span class="icons-container">
-        <span class="icon-link" style="font-style: italic; font-size: 14px; margin-top: 8px; color: white;font-family: poppins,Verdana,sans-serif;"><a id="account-icon" style="display: flex" ><i class="rts" data-size="28" data-color="#000000" style="width: 28px; height: 28px; margin-right: 4px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 28px; height: 28px; "><path d="M23.67,25V22.65A4.67,4.67,0,0,0,19,18H9.67A4.67,4.67,0,0,0,5,22.65V25" style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8px"></path><circle cx="14.33" cy="8.65" r="4.67" style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8px"></circle></svg></i><span style="margin-top: 6px">
-            {% if user.is_authenticated %}
-                {% if user.first_name %}
-                    {{ user.first_name }}
-                {% elif user.email %}
-                    {{ user.email }}
-                {% else %}
+            <span class="icon-link" style="font-style: italic; font-size: 14px; margin-top: 8px; color: white;font-family: poppins,Verdana,sans-serif;">
+                <a id="account-icon" style="display: flex" ><i class="rts" data-size="28" data-color="#000000" style="width: 28px; height: 28px; margin-right: 4px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 28px; height: 28px; "><path d="M23.67,25V22.65A4.67,4.67,0,0,0,19,18H9.67A4.67,4.67,0,0,0,5,22.65V25" style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8px"></path><circle cx="14.33" cy="8.65" r="4.67" style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8px"></circle></svg></i>
+                    <span style="margin-top: 6px">
+                        {% if user.is_authenticated %}
+                            {% if user.first_name %}
+                                {{ user.first_name }}
+                            {% elif user.email %}
+                                {{ user.email }}
+                            {% else %}
 
-                {% endif %}
-                {{ user.last_name|default:"" }}
-                {% endif %}
-
-        </span></a>
-        </span>
-                <a class="icon-link" id="cartBtn">
-                    <svg width="28px" height="28px" style="margin-top: 5px" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M21.46,26H6.54C4,26,4,23.86,4,22.46V2H24V22.46C24,23.86,24,26,21.46,26Z" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="2"/>
-                      <path d="M10,8v.78c0,2.68,1.8,4.88,4,4.88s4-2.19,4-4.88V8" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="2"/>
-                    </svg>
+                            {% endif %}
+                                {{ user.last_name|default:"" }}
+                        {% endif %}
+                    </span>
                 </a>
+            </span>
+            <a class="icon-link" id="searchBtn" href="{% url "shop_page"%}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 28px; height: 28px; margin-top: 9px">
+                    <circle cx="13.41" cy="12.91" r="9.41" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:2px"></circle>
+                    <line x1="25.18" y1="23.5" x2="21.65" y2="19.97" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:2px"></line>
+                </svg>
+            </a>
+            <a class="icon-link" id="cartBtn">
+                <svg width="28px" height="28px" style="margin-top: 5px" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M21.46,26H6.54C4,26,4,23.86,4,22.46V2H24V22.46C24,23.86,24,26,21.46,26Z" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="2"/>
+                  <path d="M10,8v.78c0,2.68,1.8,4.88,4,4.88s4-2.19,4-4.88V8" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="2"/>
+                </svg>
+            </a>
 
         </span>
 
