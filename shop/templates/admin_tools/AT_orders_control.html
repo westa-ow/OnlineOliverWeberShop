@@ -54,6 +54,8 @@
 <div id="contextMenu" class="context-menu" style="display: none;">
     <ul>
         <li id="downloadCsv">Download csv</li>
+        <li id="downloadPdfWImg">Download pdf with images</li>
+        <li id="downloadPdfWithoutImg">Download pdf without images</li>
     </ul>
 </div>
 <div id="myModal" class="modal">
@@ -497,6 +499,14 @@
                 document.getElementById('downloadCsv').onclick = function() {
                     // Replace with the actual function or navigation action
                     window.location.href = `/admin_tools/orders_control/download_csv/${order.orderId||order['order-id']}/`;
+                };
+                document.getElementById('downloadPdfWImg').onclick = function() {
+                    // Replace with the actual function or navigation action
+                    window.location.href = `/admin_tools/orders_control/download_pdf_with_img/${order.orderId||order['order-id']}/`;
+                };
+                document.getElementById('downloadPdfWithoutImg').onclick = function() {
+                    // Replace with the actual function or navigation action
+                    window.location.href = `/admin_tools/orders_control/download_pdf_no_img/${order.orderId||order['order-id']}/`;
                 };
             });
 
