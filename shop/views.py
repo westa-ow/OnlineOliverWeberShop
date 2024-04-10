@@ -28,7 +28,7 @@ if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)
 db = firestore.client()
 orders_ref = db.collection("Orders")
-users_ref = db.collection('users')
+users_ref = db.collection('webUsers')
 itemsRef = db.collection('item')
 cart_ref = db.collection("Cart")
 addresses_ref = db.collection('Addresses')

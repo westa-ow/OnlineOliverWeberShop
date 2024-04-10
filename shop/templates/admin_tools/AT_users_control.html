@@ -103,7 +103,7 @@
 
 
     async function fetchAllUsers() {
-        const usersQuery = query(collection(db, "users"));
+        const usersQuery = query(collection(db, "webUsers"));
         const querySnapshot = await getDocs(usersQuery);
         return querySnapshot.docs.map(doc => doc.data());
     }

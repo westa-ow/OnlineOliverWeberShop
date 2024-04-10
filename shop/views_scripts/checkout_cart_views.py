@@ -215,7 +215,7 @@ def some_view(orders, order, name, currency):
     ])
     table.setStyle(table_style)
     content.append(Spacer(1, 1 * cm))
-    itemsRef
+
     content.append(table)
 
     # Order details
