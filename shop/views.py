@@ -559,14 +559,22 @@ def fetch_document_name(item):
     else:
         item_ref = item  # Assuming it's a document reference already
     doc = item_ref.get()
-    return doc.to_dict()['name'] if doc.exists else None
+    return doc.to_dict() if doc.exists else None
 def parallel_fetch_names(item_list):
     with concurrent.futures.ThreadPoolExecutor() as executor:
-        names = list(executor.map(fetch_document_name, item_list))
-    return [name for name in names if name is not None]
+        order_items_dict = list(executor.map(fetch_document_name, item_list))
+
+    items = {}
+    for item in order_items_dict:
+        items[item.get("name")] = item
+    return items
+
+
 def process_items(item_list):
     """ Process items from item list with efficient fetching and error handling. """
-    names = parallel_fetch_names(item_list)
+    all_orders = parallel_fetch_names(item_list)
+
+    names = [item for item in all_orders.keys()]
 
     # assuming item_list consists of item names
     name_to_item_data = fetch_items_by_names(names)
@@ -575,9 +583,9 @@ def process_items(item_list):
         item_data = name_to_item_data.get(name)
         if item_data and 'quantity' in item_data and 'price' in item_data:
             order_items.append({
-                **item_data,
+                **all_orders.get(name),
                 'quantity_max': item_data.get('quantity'),  # Example additional data
-                'total': round(item_data['quantity'] * item_data.get('price', 0), 2)
+                'total': round(all_orders.get(name)['quantity'] * all_orders.get(name).get('price', 0), 2)
             })
     return order_items
 
@@ -595,3 +603,23 @@ def fetch_items_by_names(names):
             if doc.exists:
                 name_to_item_data[doc.get('name')] = doc.to_dict()
     return name_to_item_data
+
+
+def get_order_items(order_id):
+    chosenOrderRef = orders_ref.where("`order-id`", '==', int(order_id)).limit(1).stream()
+    specificOrderData = {}
+
+    for chosenReference in chosenOrderRef:
+        specificOrderData = chosenReference.to_dict()
+
+    # Assuming you have a way to reference your 'Item' collection
+    itemList = specificOrderData.get('list', [])
+
+    order_items = []
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future = executor.submit(process_items, itemList)
+        try:
+            order_items = future.result(timeout=30)  # Adding a generous timeout to see if it helps
+        except Exception as e:
+            print(f"Unhandled exception: {e}")
+    return order_items

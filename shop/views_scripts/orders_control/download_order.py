@@ -26,7 +26,7 @@ from django.core.mail import send_mail
 
 from shop.forms import UserRegisterForm, User
 from shop.views import addresses_ref, cart_ref, get_user_category, serialize_firestore_document, users_ref, is_admin, \
-    orders_ref, itemsRef, db, process_items
+    orders_ref, itemsRef, db, process_items, get_order_items
 from shop.views import get_user_info
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
@@ -38,22 +38,7 @@ from PIL import Image as PILImage
 @login_required
 @user_passes_test(is_admin)
 def download_csv_order(request, order_id):
-    chosenOrderRef = orders_ref.where("`order-id`", '==', int(order_id)).limit(1).stream()
-    specificOrderData = {}
-
-    for chosenReference in chosenOrderRef:
-        specificOrderData = chosenReference.to_dict()
-
-    # Assuming you have a way to reference your 'Item' collection
-    itemList = specificOrderData.get('list', [])
-
-    order_items = []
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        future = executor.submit(process_items, itemList)
-        try:
-            order_items = future.result(timeout=30)  # Adding a generous timeout to see if it helps
-        except Exception as e:
-            print(f"Unhandled exception: {e}")
+    order_items = get_order_items(order_id)
     # Prepare response
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = f'attachment; filename="order_{order_id}.csv"'.format(order_id)
@@ -74,22 +59,8 @@ def download_csv_order(request, order_id):
 @login_required
 @user_passes_test(is_admin)
 def download_pdf_no_img(request, order_id):
-    chosenOrderRef = orders_ref.where("`order-id`", '==', int(order_id)).limit(1).stream()
-    specificOrderData = {}
 
-    for chosenReference in chosenOrderRef:
-        specificOrderData = chosenReference.to_dict()
-
-    # Assuming you have a way to reference your 'Item' collection
-    itemList = specificOrderData.get('list', [])
-
-    order_items = []
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        future = executor.submit(process_items, itemList)
-        try:
-            order_items = future.result(timeout=30)  # Adding a generous timeout to see if it helps
-        except Exception as e:
-            print(f"Unhandled exception: {e}")
+    order_items = get_order_items(order_id)
 
     userEmail = order_items[0].get('emailOwner', "")
     info = {}
@@ -165,23 +136,8 @@ def get_optimized_image(url, output_size=(50, 50)):
 @login_required
 @user_passes_test(is_admin)
 def download_pdf_w_img(request, order_id):
-    chosenOrderRef = orders_ref.where("`order-id`", '==', int(order_id)).limit(1).stream()
-    specificOrderData = {}
 
-    for chosenReference in chosenOrderRef:
-        specificOrderData = chosenReference.to_dict()
-
-    # Assuming you have a way to reference your 'Item' collection
-    itemList = specificOrderData.get('list', [])
-
-    order_items = []
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        future = executor.submit(process_items, itemList)
-        try:
-            order_items = future.result()  # Adding a generous timeout to see if it helps
-        except Exception as e:
-            print(f"Unhandled exception: {e}")
-
+    order_items = get_order_items(order_id)
 
     userEmail = order_items[0].get('emailOwner', "")
     info = {}
@@ -238,7 +194,6 @@ def download_pdf_w_img(request, order_id):
     content.append(table)
 
     # Order items table
-
     doc.build(content)
 
     # Preparing response
