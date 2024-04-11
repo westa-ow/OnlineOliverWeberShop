@@ -22,67 +22,30 @@ from django.core.mail import send_mail
 
 from shop.forms import UserRegisterForm, User
 from shop.views import addresses_ref, cart_ref, get_user_category, serialize_firestore_document, users_ref, is_admin, \
-    orders_ref, itemsRef, db
+    orders_ref, itemsRef, db, process_items
 from shop.views import get_user_info
 
 
 @login_required
 @user_passes_test(is_admin)
 def view_order(request, order_id):
-    allOrders = orders_ref.get()  # Assuming orders_ref is correctly initialized to point to your orders collection
+    chosenOrderRef = orders_ref.where("`order-id`", '==', int(order_id)).limit(1).stream()
+    specificOrderData = {}
+    specificOrderRef = ""
+    for chosenReference in chosenOrderRef:
+        specificOrderData = chosenReference.to_dict()
+        specificOrderRef = chosenReference
 
-    orderDict = {}
-    orderRefDict = {}
-    for order in allOrders:
-        orderData = order.to_dict()
-        key = str(orderData.get('order-id') or orderData.get('order_id'))
-        orderDict[key] = orderData
-        orderRefDict[key] = order
-
-    # Find the specific order by ID
-    specificOrderData = orderDict[order_id]
-    specificOrderRef = orderRefDict[order_id]
     # Assuming you have a way to reference your 'Item' collection
-
     itemList = specificOrderData.get('list', [])
 
-    # Assuming 'list' is the list of item names in the order
-    orderItems = []
-
-    for item in itemList:
-        doc_data = None
-
-        # If item is a string, assume it's a path to a Firestore document
-        if isinstance(item, str):
-            item_ref = db.document(item)
-            doc = item_ref.get()
-            if doc.exists:
-                doc_data = doc.to_dict()
-            else:
-                print(f"Document at path {item} not found.")
-        # If item is not a string, attempt to get the document data directly
-        else:
-            doc_data = item.get().to_dict() if item.get() else None
-
-        if doc_data:
-            # Query for matching item by 'name'
-            name = doc_data.get('name')
-            real_item_query = itemsRef.where('name', '==', name).limit(1).get()
-            item_from_storage = {}
-
-            for it in real_item_query:
-                item_from_storage = it.to_dict()
-
-            itemData = item_from_storage
-            # Add 'quantity_max' to the item's data and calculate 'total'
-            if 'quantity' in doc_data and 'price' in doc_data:
-                orderItems.append({
-                    **doc_data,
-                    'quantity_max': itemData.get('quantity'),  # Quantity from storage
-                    'total': round(doc_data['quantity'] * doc_data.get('price', 0), 2)
-                })
-        else:
-            print(f"Data for item could not be processed: {item}")
+    order_items = []
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future = executor.submit(process_items, itemList)
+        try:
+            order_items = future.result(timeout=30)  # Adding a generous timeout to see if it helps
+        except Exception as e:
+            print(f"Unhandled exception: {e}")
 
     user_email = specificOrderData['email']
 
@@ -92,16 +55,15 @@ def view_order(request, order_id):
     serialized_data = (serialize_firestore_document(specificOrderRef))
     del serialized_data['list']
 
-    for item in orderItems:
+    for item in order_items:
         item['image_url'] = item['image_url'] if 'image_url' in item else item['image-url']
     context = {
         'feature_name': "view_order",
         'currency': "€" if currency == "Euro" else "$",
         'cart': [],
-        'orders': [orderDict[order_id]],  # This might need adjustment based on your actual requirements
         'addresses': [],
         'user_info': info,
-        'user_orders': orderItems,  # Add order items to context
+        'user_orders': order_items,  # Add order items to context
         'Order': serialized_data,
     }
     return render(request, 'admin_tools.html', context)

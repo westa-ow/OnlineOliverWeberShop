@@ -5,6 +5,8 @@ from io import BytesIO
 from random import randint
 
 import concurrent.futures
+
+import requests
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
@@ -24,7 +26,7 @@ from django.core.mail import send_mail
 
 from shop.forms import UserRegisterForm, User
 from shop.views import addresses_ref, cart_ref, get_user_category, serialize_firestore_document, users_ref, is_admin, \
-    orders_ref, itemsRef, db
+    orders_ref, itemsRef, db, process_items
 from shop.views import get_user_info
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
@@ -32,50 +34,26 @@ from reportlab.lib.units import inch, cm
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, Image
 
-
+from PIL import Image as PILImage
 @login_required
 @user_passes_test(is_admin)
 def download_csv_order(request, order_id):
-    allOrders = orders_ref.get()
+    chosenOrderRef = orders_ref.where("`order-id`", '==', int(order_id)).limit(1).stream()
+    specificOrderData = {}
 
-    orderDict = {}
-    orderRefDict = {}
-    for order in allOrders:
-        orderData = order.to_dict()
-        key = str(orderData.get('order-id') or orderData.get('order_id'))
-        orderDict[key] = orderData
-        orderRefDict[key] = order
+    for chosenReference in chosenOrderRef:
+        specificOrderData = chosenReference.to_dict()
 
-    # Find the specific order by ID
-    specificOrderData = orderDict[order_id]
+    # Assuming you have a way to reference your 'Item' collection
     itemList = specificOrderData.get('list', [])
 
-    # Assuming 'list' is the list of item names in the order
-    orderItems = []
-    for item in itemList:
-        doc_data = None
-
-        # If item is a string, assume it's a path to a Firestore document
-        if isinstance(item, str):
-            item_ref = db.document(item)
-            doc = item_ref.get()
-            if doc.exists:
-                doc_data = doc.to_dict()
-            else:
-                print(f"Document at path {item} not found.")
-        # If item is not a string, attempt to get the document data directly
-        else:
-            doc_data = item.get().to_dict() if item.get() else None
-
-        if doc_data:
-            # Add 'quantity_max' to the item's data and calculate 'total'
-            if 'quantity' in doc_data and 'price' in doc_data:
-                orderItems.append({
-                    **doc_data,
-                    'total': round(doc_data['quantity'] * doc_data.get('price', 0), 2)
-                })
-        else:
-            print(f"Data for item could not be processed: {item}")
+    order_items = []
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future = executor.submit(process_items, itemList)
+        try:
+            order_items = future.result(timeout=30)  # Adding a generous timeout to see if it helps
+        except Exception as e:
+            print(f"Unhandled exception: {e}")
     # Prepare response
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = f'attachment; filename="order_{order_id}.csv"'.format(order_id)
@@ -84,7 +62,7 @@ def download_csv_order(request, order_id):
     writer.writerow(['product_number', 'quantity', 'price', 'total'])  # Writing the headers
 
     # Assuming 'list' contains the items in the order with 'name', 'quantity', 'price'
-    for item in orderItems:
+    for item in order_items:
         product_number = item.get('name')
         quantity = item.get('quantity')
         price = item.get('price')
@@ -96,48 +74,24 @@ def download_csv_order(request, order_id):
 @login_required
 @user_passes_test(is_admin)
 def download_pdf_no_img(request, order_id):
-    allOrders = orders_ref.get()
+    chosenOrderRef = orders_ref.where("`order-id`", '==', int(order_id)).limit(1).stream()
+    specificOrderData = {}
 
-    orderDict = {}
-    orderRefDict = {}
-    for order in allOrders:
-        orderData = order.to_dict()
-        key = str(orderData.get('order-id') or orderData.get('order_id'))
-        orderDict[key] = orderData
-        orderRefDict[key] = order
+    for chosenReference in chosenOrderRef:
+        specificOrderData = chosenReference.to_dict()
 
-    # Find the specific order by ID
-    specificOrderData = orderDict[order_id]
+    # Assuming you have a way to reference your 'Item' collection
     itemList = specificOrderData.get('list', [])
 
-    # Assuming 'list' is the list of item names in the order
-    orderItems = []
-    for item in itemList:
-        doc_data = None
+    order_items = []
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future = executor.submit(process_items, itemList)
+        try:
+            order_items = future.result(timeout=30)  # Adding a generous timeout to see if it helps
+        except Exception as e:
+            print(f"Unhandled exception: {e}")
 
-        # If item is a string, assume it's a path to a Firestore document
-        if isinstance(item, str):
-            item_ref = db.document(item)
-            doc = item_ref.get()
-            if doc.exists:
-                doc_data = doc.to_dict()
-            else:
-                print(f"Document at path {item} not found.")
-        # If item is not a string, attempt to get the document data directly
-        else:
-            doc_data = item.get().to_dict() if item.get() else None
-
-        if doc_data:
-            # Add 'quantity_max' to the item's data and calculate 'total'
-            if 'quantity' in doc_data and 'price' in doc_data:
-                orderItems.append({
-                    **doc_data,
-                    'total': round(doc_data['quantity'] * doc_data.get('price', 0), 2)
-                })
-        else:
-            print(f"Data for item could not be processed: {item}")
-
-    userEmail = orderItems[0].get('emailOwner', "")
+    userEmail = order_items[0].get('emailOwner', "")
     info = {}
     if userEmail:
         info = get_user_info(userEmail) or {}
@@ -160,7 +114,7 @@ def download_pdf_no_img(request, order_id):
     currency = "€" if info.get("currency", "Euro") == "Euro" else "Dollar"
 
     table_data = [["Product", "Quantity", "Price per item", "Total"]]
-    for item_order in orderItems:
+    for item_order in order_items:
 
         row = [item_order['name'], item_order['quantity'], currency + str(item_order['price']),
                currency + str(round(item_order['price'] * item_order['quantity'], 2))]
@@ -197,55 +151,43 @@ def download_pdf_no_img(request, order_id):
 
     return response
 
+
+def get_optimized_image(url, output_size=(50, 50)):
+    response = requests.get(url)
+    image = PILImage.open(BytesIO(response.content))
+    # image = image.resize(output_size, PILImage.Resampling.LANCZOS)
+    byte_io = BytesIO()
+    image.save(byte_io, 'JPEG')
+    byte_io.seek(0)
+    return byte_io
+
+
 @login_required
 @user_passes_test(is_admin)
 def download_pdf_w_img(request, order_id):
-    allOrders = orders_ref.get()
+    chosenOrderRef = orders_ref.where("`order-id`", '==', int(order_id)).limit(1).stream()
+    specificOrderData = {}
 
-    orderDict = {}
-    orderRefDict = {}
-    for order in allOrders:
-        orderData = order.to_dict()
-        key = str(orderData.get('order-id') or orderData.get('order_id'))
-        orderDict[key] = orderData
-        orderRefDict[key] = order
+    for chosenReference in chosenOrderRef:
+        specificOrderData = chosenReference.to_dict()
 
-    # Find the specific order by ID
-    specificOrderData = orderDict[order_id]
+    # Assuming you have a way to reference your 'Item' collection
     itemList = specificOrderData.get('list', [])
 
-    # Assuming 'list' is the list of item names in the order
-    orderItems = []
-    for item in itemList:
-        doc_data = None
+    order_items = []
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future = executor.submit(process_items, itemList)
+        try:
+            order_items = future.result()  # Adding a generous timeout to see if it helps
+        except Exception as e:
+            print(f"Unhandled exception: {e}")
 
-        # If item is a string, assume it's a path to a Firestore document
-        if isinstance(item, str):
-            item_ref = db.document(item)
-            doc = item_ref.get()
-            if doc.exists:
-                doc_data = doc.to_dict()
-            else:
-                print(f"Document at path {item} not found.")
-        # If item is not a string, attempt to get the document data directly
-        else:
-            doc_data = item.get().to_dict() if item.get() else None
 
-        if doc_data:
-            # Add 'quantity_max' to the item's data and calculate 'total'
-            if 'quantity' in doc_data and 'price' in doc_data:
-                orderItems.append({
-                    **doc_data,
-                    'total': round(doc_data['quantity'] * doc_data.get('price', 0), 2)
-                })
-        else:
-            print(f"Data for item could not be processed: {item}")
-
-    userEmail = orderItems[0].get('emailOwner', "")
+    userEmail = order_items[0].get('emailOwner', "")
     info = {}
     if userEmail:
         info = get_user_info(userEmail) or {}
-    client_name = info.get('first_name', "") +" "+ info.get('last_name', "")
+    client_name = info.get('first_name', "") + " " + info.get('last_name', "")
     buffer = BytesIO()
 
     # Basic setup
@@ -264,12 +206,16 @@ def download_pdf_w_img(request, order_id):
     currency = "€" if info.get("currency", "Euro") == "Euro" else "Dollar"
 
     table_data = [["Product", "Image", "Quantity", "Price per item", "Total"]]
-    for item_order in orderItems:
-        image_path = item_order['image-url']  # Adjust this line to get the actual image path or object
-        image = Image(image_path)
-        image.drawHeight = 50  # Example height in points
-        image.drawWidth = 50
-        row = [item_order['name'], image, item_order['quantity'], currency + str(item_order['price']),
+    for item_order in order_items:
+        image_path = item_order['image-url']
+        optimized_image_io = get_optimized_image(image_path)
+        # Convert the BytesIO object to a ReportLab Image object
+        reportlab_image = Image(optimized_image_io)
+        reportlab_image.drawHeight = 50  # Set the desired display height
+        reportlab_image.drawWidth = 50  # Set the desired display width
+
+        row = [item_order['name'], reportlab_image, item_order['quantity'],
+               currency + str(item_order['price']),
                currency + str(round(item_order['price'] * item_order['quantity'], 2))]
         table_data.append(row)
 

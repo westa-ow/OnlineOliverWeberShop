@@ -406,6 +406,7 @@
         const OrdersToShow = ordersArray.slice(start, end);
 
         OrdersToShow.forEach(order => {
+            const currency = order.currency ? order.currency=="Euro"? "€" :"$" : "€"
             // Create the row
             let row = document.createElement('tr');
 
@@ -429,7 +430,7 @@
             row.appendChild(ownerCell);
 
             let totalCell = document.createElement('td');
-            totalCell.textContent = order.currency || "€" + (order.price).toFixed(2);
+            totalCell.textContent = currency + (order.price).toFixed(2);
             row.appendChild(totalCell);
 
             let paymentMethodCell = document.createElement('td');

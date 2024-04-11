@@ -484,7 +484,7 @@ def admin_tools(request, feature_name):
     currency = '€' if currency == 'Euro' else '$'
     context = {
         "feature_name": feature_name,
-        'currency':currency
+        # 'currency':currency
     }
     return render(request, 'admin_tools.html', context)
 
@@ -552,3 +552,46 @@ def get_acc_data(email):
             return user_info_dict, user_info_parsed
     return False, False
 
+
+def fetch_document_name(item):
+    if isinstance(item, str):
+        item_ref = db.document(item)
+    else:
+        item_ref = item  # Assuming it's a document reference already
+    doc = item_ref.get()
+    return doc.to_dict()['name'] if doc.exists else None
+def parallel_fetch_names(item_list):
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        names = list(executor.map(fetch_document_name, item_list))
+    return [name for name in names if name is not None]
+def process_items(item_list):
+    """ Process items from item list with efficient fetching and error handling. """
+    names = parallel_fetch_names(item_list)
+
+    # assuming item_list consists of item names
+    name_to_item_data = fetch_items_by_names(names)
+    order_items = []
+    for name in names:
+        item_data = name_to_item_data.get(name)
+        if item_data and 'quantity' in item_data and 'price' in item_data:
+            order_items.append({
+                **item_data,
+                'quantity_max': item_data.get('quantity'),  # Example additional data
+                'total': round(item_data['quantity'] * item_data.get('price', 0), 2)
+            })
+    return order_items
+
+
+def fetch_items_by_names(names):
+    """ Fetch items by names using batched 'IN' queries to reduce the number of read operations. """
+    items_ref = db.collection('item')
+    name_to_item_data = {}
+
+    # Firestore supports up to 10 items in an 'IN' query
+    for i in range(0, len(names), 10):
+        batch_names = names[i:i + 10]
+        query_result = items_ref.where('name', 'in', batch_names).get()
+        for doc in query_result:
+            if doc.exists:
+                name_to_item_data[doc.get('name')] = doc.to_dict()
+    return name_to_item_data

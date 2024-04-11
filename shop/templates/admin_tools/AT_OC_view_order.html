@@ -190,9 +190,11 @@
     console.log(change_order);
     document.addEventListener("DOMContentLoaded", async function () {
         const current_order_label =
-            document.querySelector(".current-order");
+        document.querySelector(".current-order");
         current_order_label.textContent = "Order №"+(change_order['order-id']||change_order['order_id']) + " status"
     });
+
+
     document.querySelector('.edit-status').addEventListener('click', function (){
          // Show the modal
         document.getElementById('myModal').style.display = 'block';
