@@ -5,10 +5,10 @@ from io import BytesIO
 from random import randint
 
 import concurrent.futures
-
 import requests
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.password_validation import validate_password
+from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout, get_user_model, update_session_auth_hash
@@ -23,6 +23,7 @@ from django.contrib import messages
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.mail import send_mail
+from celery import shared_task
 
 from shop.forms import UserRegisterForm, User
 from shop.views import addresses_ref, cart_ref, get_user_category, serialize_firestore_document, users_ref, is_admin, \
@@ -36,7 +37,6 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, 
 
 from PIL import Image as PILImage
 @login_required
-@user_passes_test(is_admin)
 def download_csv_order(request, order_id):
     order_items = get_order_items(order_id)
     # Prepare response
@@ -57,11 +57,8 @@ def download_csv_order(request, order_id):
     return response
 
 @login_required
-@user_passes_test(is_admin)
 def download_pdf_no_img(request, order_id):
-
     order_items = get_order_items(order_id)
-
     userEmail = order_items[0].get('emailOwner', "")
     info = {}
     if userEmail:
@@ -134,11 +131,12 @@ def get_optimized_image(url, output_size=(50, 50)):
 
 
 @login_required
-@user_passes_test(is_admin)
+# @user_passes_test(is_admin)
 def download_pdf_w_img(request, order_id):
 
     order_items = get_order_items(order_id)
-
+    cache_key = f"pdf_progress_{request.user.username}_{order_id}"
+    cache.set(cache_key, 0, timeout=3600)
     userEmail = order_items[0].get('emailOwner', "")
     info = {}
     if userEmail:
@@ -162,6 +160,9 @@ def download_pdf_w_img(request, order_id):
     currency = "€" if info.get("currency", "Euro") == "Euro" else "Dollar"
 
     table_data = [["Product", "Image", "Quantity", "Price per item", "Total"]]
+
+    current_item = 0
+    total_items = len(order_items)
     for item_order in order_items:
         image_path = item_order['image-url']
         optimized_image_io = get_optimized_image(image_path)
@@ -174,6 +175,8 @@ def download_pdf_w_img(request, order_id):
                currency + str(item_order['price']),
                currency + str(round(item_order['price'] * item_order['quantity'], 2))]
         table_data.append(row)
+        current_item += 1
+        progress_percent = int((current_item + 1) / total_items * 100)
 
     table = Table(table_data, colWidths=[1.7 * inch, 1.0 * inch, 1.0 * inch, 1.7 * inch, 1.3 * inch])
 
@@ -194,13 +197,16 @@ def download_pdf_w_img(request, order_id):
     content.append(table)
 
     # Order items table
+
     doc.build(content)
 
     # Preparing response
     pdf = buffer.getvalue()
     buffer.close()
+
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="pdf_order_{order_id}_with_images.pdf"'
     response.write(pdf)
 
     return response
+

@@ -74,6 +74,11 @@
     </div>
   </div>
 </div>
+
+
+
+
+
 {% include "widgets/overlay.html" %}
 <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
@@ -502,9 +507,32 @@
                     window.location.href = `/admin_tools/orders_control/download_csv/${order.orderId||order['order-id']}/`;
                 };
                 document.getElementById('downloadPdfWImg').onclick = function() {
-                    // Replace with the actual function or navigation action
-                    window.location.href = `/admin_tools/orders_control/download_pdf_with_img/${order.orderId||order['order-id']}/`;
-                };
+                      // get the order ID somehow, maybe from an element or variable
+
+                      var orderId = order.orderId||order['order-id']; // Нужно получить настоящий ID заказа
+
+                      // Стартовое сообщение
+                      {#var progressBarMessage = document.getElementById('progress-bar-message');#}
+                      {#progressBarMessage.innerHTML = 'Awaiting...';#}
+                      {##}
+                      {#// Имитация процесса обработки#}
+                      {#setTimeout(function() {#}
+                      {#  progressBarMessage.innerHTML = 'Processing...';#}
+                      {#  document.getElementById('progress-bar').style.width = '30%';#}
+                      {#, 1000);#}
+
+                      {#// Запуск загрузки файла примерно посередине процесса#}
+                      {#setTimeout(function() {#}
+                        window.location.href = `/admin_tools/orders_control/download_pdf_with_img/${orderId}/`;
+                      //}, 2500);  // Запустить загрузку файла посередине процесса
+
+                      // Имитация завершения процесса
+                      {#setTimeout(function() {#}
+                      {#  progressBarMessage.innerHTML = 'Finishing...';#}
+                      {#  document.getElementById('progress-bar').style.width = '100%';#}
+                      {#, 5000); // Увеличиваем время для завершения на 5 секунд, чтобы совпадало с реальной задержкой#}
+                    };
+
                 document.getElementById('downloadPdfWithoutImg').onclick = function() {
                     // Replace with the actual function or navigation action
                     window.location.href = `/admin_tools/orders_control/download_pdf_no_img/${order.orderId||order['order-id']}/`;
@@ -525,6 +553,7 @@
         currentPage += direction;
         buildOrdersControlTable(getActualArray()); // Assuming allUsers is your global user array
     }
+
 
 function updatePaginationControls() {
 

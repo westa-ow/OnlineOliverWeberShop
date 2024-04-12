@@ -2,6 +2,64 @@
 {% load i18n %}
 
 <link rel="stylesheet" href="{% static 'css/profile/profile_orders.css' %}">
+<link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Symbols+Outlined" rel="stylesheet">
+<style>
+{#    .menus-link::after {#}
+{#    content: "";#}
+{#    position: absolute!important;#}
+{#    left: 0!important;#}
+{#    bottom: 5px!important;#}
+{#    width: 0% !important;#}
+{#    height: 1.5px !important;#}
+{#    background-color: #ffffff!important;#}
+{#        opacity: 0!important;#}
+{#    transition: width 0.3s ease!important;#}
+{##}
+{#    .menus-link:hover {#}
+{#        color: inherit!important; /* Или любой другой цвет, который уже используется */#}
+{#        background-color: inherit!important; /* Или любой другой цвет фона, который уже используется */#}
+{#    }#}
+{#    .menus-link:hover::after {#}
+{#    width: 0% !important;#}
+{##}
+.td-outer:last-child div {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+
+}
+    .menus-link{
+        color: black!important;
+    }
+    .menus-link::before{
+        height: 0px;
+        transition: none;
+    }
+    .context-menu {
+    position: absolute;
+    z-index: 1000;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.context-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.context-menu ul li {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.context-menu ul li:hover {
+    background-color: #f1f1f1;
+}
+
+</style>
 <section class="section-orders">
 <header class="page-header"><h1> Order history</h1> </header>
 <h6>Here are the orders you've placed since your account was created.</h6>
@@ -17,6 +75,7 @@
           </tr>
           </thead>
     <tbody>
+
           {% for document in orders %}
                   <tr class="tr-outer" id="content-{{ document.order_id }}">
                       <th class="td-outer">{{ document.order_id }}</th>
@@ -24,8 +83,11 @@
                       <td class="td-outer">{{ document.currency|default:"€" }}{{ document.sum }}</td>
                       <td class="td-outer">Bank transfer</td>
                       <td class="td-outer">{{ document.Status }}</td>
-                       <td class="td-outer">
-                          <span> <a data-order-id="{{ document.order_id }}" class="show-content" id="show-button-{{ document.order_id }}">Show Details</a></span>
+                      <td class="td-outer">
+                          <div>
+                              <span> <a data-order-id="{{ document.order_id }}" class="show-content" id="show-button-{{ document.order_id }}">Show Details</a></span>
+                              <a style="transition: none" class="menus-link"><i data-order-id="{{ document.order_id }}" class="material-symbols-outlined i-menu-points" style="cursor: pointer">more_vert</i></a>
+                          </div>
                       </td>
 
                   </tr>
@@ -35,6 +97,13 @@
         {% endfor %}
     </tbody>
     </table>
+<div id="contextMenu" class="context-menu" style="display: none;">
+    <ul>
+        <li id="downloadCsv">Download csv</li>
+        <li id="downloadPdfWImg">Download pdf with images</li>
+        <li id="downloadPdfWithoutImg">Download pdf without images</li>
+    </ul>
+</div>
 </section>
 <script>
 
@@ -43,6 +112,38 @@ let currencies =  {{ currencies|safe }};
 document.addEventListener("DOMContentLoaded", function() {
     products = {{ products|safe }};
 });
+
+document.querySelectorAll('.i-menu-points').forEach(button => {
+    button.addEventListener('click', (event) => {
+            event.stopPropagation();
+            const contextMenu = document.getElementById('contextMenu');
+            contextMenu.style.display = 'block';
+            contextMenu.style.left = `${event.pageX - 100}px`;
+            contextMenu.style.top = `${event.pageY}px`;
+            let orderId = button.getAttribute('data-order-id');
+            // Function to hide the context menu
+            function hideContextMenu() {
+                contextMenu.style.display = 'none';
+            }
+
+            // Close the menu when clicking outside of it
+            document.addEventListener('click', hideContextMenu, { once: true });
+
+            // Set up the menu actions
+            document.getElementById('downloadCsv').onclick = function() {
+                // Replace with the actual function or navigation action
+                window.location.href = `/admin_tools/orders_control/download_csv/${orderId}/`;
+            };
+            document.getElementById('downloadPdfWImg').onclick = function() {
+                window.location.href = `/admin_tools/orders_control/download_pdf_with_img/${orderId}/`;
+            }
+            document.getElementById('downloadPdfWithoutImg').onclick = function() {
+                    // Replace with the actual function or navigation action
+                window.location.href = `/admin_tools/orders_control/download_pdf_no_img/${orderId}/`;
+            };
+    });
+});
+
 document.querySelectorAll('.show-content').forEach(button => {
     button.addEventListener('click', () => {
          let orderId = button.getAttribute('data-order-id');
