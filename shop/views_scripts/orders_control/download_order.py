@@ -164,7 +164,7 @@ def download_pdf_w_img(request, order_id):
     current_item = 0
     total_items = len(order_items)
     for item_order in order_items:
-        image_path = item_order['image-url']
+        image_path = item_order['image-url'] if 'image-url' in item_order else item_order['image_url']
         optimized_image_io = get_optimized_image(image_path)
         # Convert the BytesIO object to a ReportLab Image object
         reportlab_image = Image(optimized_image_io)

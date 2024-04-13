@@ -4,24 +4,49 @@
 <link rel="stylesheet" href="{% static 'css/profile/profile_orders.css' %}">
 <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Symbols+Outlined" rel="stylesheet">
 <style>
-{#    .menus-link::after {#}
-{#    content: "";#}
-{#    position: absolute!important;#}
-{#    left: 0!important;#}
-{#    bottom: 5px!important;#}
-{#    width: 0% !important;#}
-{#    height: 1.5px !important;#}
-{#    background-color: #ffffff!important;#}
-{#        opacity: 0!important;#}
-{#    transition: width 0.3s ease!important;#}
-{##}
-{#    .menus-link:hover {#}
-{#        color: inherit!important; /* Или любой другой цвет, который уже используется */#}
-{#        background-color: inherit!important; /* Или любой другой цвет фона, который уже используется */#}
-{#    }#}
-{#    .menus-link:hover::after {#}
-{#    width: 0% !important;#}
-{##}
+#wait-please-dialog {
+    border: 1px solid #f2f2f2; /* Light grey border */
+    padding: 20px; /* Padding inside the dialog */
+    width: auto; /* Auto width based on content size */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Optional: adds shadow for better visibility */
+    display: none; /* Keeps the dialog hidden until .showModal() is called */
+    margin: auto; /* Center the dialog horizontally */
+    position: fixed; /* Positioned relative to the viewport */
+    top: 50%; /* Push down from the top to 50% of the viewport height */
+    left: 50%; /* Push right from the left to 50% of the viewport width */
+    transform: translate(-50%, -50%); /* Offset the dialog to truly center it */
+    max-width: 90%; /* Maximum width, ensuring it doesn't touch the viewport edges */
+    box-sizing: border-box; /* Ensures padding and border are included in the width/height */
+}
+
+/* Styles for the h3 element inside the dialog */
+#wait-please-dialog h3 {
+    color: #333; /* Dark grey text color */
+    font-size: 1.5em; /* Slightly larger text */
+    text-align: center; /* Center-align the text */
+    margin-top: 0;
+    margin-bottom: 20px; /* Space below the text */
+}
+
+/* Styles for the button inside the dialog */
+#wait-please-dialog button {
+    background-color: #e2e2e2; /* Light grey background */
+    border: 1px solid #f2f2f2; /* Light grey border */
+    padding: 10px 20px; /* Padding inside the button */
+    cursor: pointer; /* Cursor indicates the element is clickable */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    display: block; /* Block display to take full width available */
+    margin: 0 auto; /* Center the button horizontally */
+}
+
+/* Optional: Use Flexbox for vertical centering inside the dialog */
+#wait-please-dialog .modal-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
 .td-outer:last-child div {
     display: flex;
     align-items: center;
@@ -105,6 +130,11 @@
     </ul>
 </div>
 </section>
+<dialog id="wait-please-dialog">
+    <h3>File is downloading</h3>
+    <h3>Don't close the page, please!</h3>
+    <button id="closeDialog">Ok</button>
+</dialog>
 <script>
 
 let products = [];
@@ -134,9 +164,21 @@ document.querySelectorAll('.i-menu-points').forEach(button => {
                 // Replace with the actual function or navigation action
                 window.location.href = `/admin_tools/orders_control/download_csv/${orderId}/`;
             };
-            document.getElementById('downloadPdfWImg').onclick = function() {
-                window.location.href = `/admin_tools/orders_control/download_pdf_with_img/${orderId}/`;
-            }
+            document.getElementById('downloadPdfWImg').addEventListener('click', function() {
+                      // get the order ID somehow, maybe from an element or variable
+                  // Стартовое сообщение
+                  var dialog = document.getElementById('wait-please-dialog');
+                  dialog.style.display="block";
+                  // Show the dialog
+                  dialog.showModal();
+                  window.location.href = `/admin_tools/orders_control/download_pdf_with_img/${orderId}/`;
+                  // Set a timeout to close the dialog after 3 seconds
+                  setTimeout(function() {
+                      dialog.close();// Redirect to the download URL after closing the dialog
+                      dialog.style.display="none";
+                  }, 3000);
+
+            });
             document.getElementById('downloadPdfWithoutImg').onclick = function() {
                     // Replace with the actual function or navigation action
                 window.location.href = `/admin_tools/orders_control/download_pdf_no_img/${orderId}/`;
