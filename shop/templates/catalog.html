@@ -240,9 +240,10 @@
         setupCheckboxEventListeners('.plating-checkbox', platingFilters);
         setupCheckboxEventListeners('.base-checkbox', baseFilters);
         setupCheckboxEventListeners('.size-checkbox', sizeFilters);
+
         applyFilters();
         updateURL();
-
+        setupSelectEventListener('.crystal-select', stoneFilters);
         hideOverlay();
     });
 let sale = {{ sale|safe }};
@@ -436,6 +437,32 @@ function createFilterElements(containerClass, itemsArray, prefix) {
     });
 }
 
+function createCrystalElements(containerClass, itemsArray, prefix) {
+    const container = document.querySelector(`.${containerClass}`);
+    container.innerHTML = ''; // Clear existing content
+
+    // Create select element
+    const select = document.createElement('select');
+    select.className = `${prefix}-select`;
+    select.id = `${prefix}-select`;
+
+    // Add a default option
+    const defaultOption = document.createElement('option');
+    defaultOption.textContent = 'All';
+    defaultOption.value = '';
+    select.appendChild(defaultOption);
+
+    // Create option for each item
+    itemsArray.forEach((item, index) => {
+        const option = document.createElement('option');
+        option.value = item;
+        option.textContent = item;
+        select.appendChild(option);
+    });
+
+    // Append select to container
+    container.appendChild(select);
+}
 function constructCrystals() {
     let uniqueStones = new Set();
     allItems.forEach(document => {
@@ -445,7 +472,7 @@ function constructCrystals() {
             });
         });
     });
-    createFilterElements('crystals', Array.from(uniqueStones), 'crystal');
+    createCrystalElements('crystals', Array.from(uniqueStones), 'crystal');
 }
 
 function constructPlatings() {
@@ -471,7 +498,25 @@ function constructBases() {
 
 // Function to simulate changing the page (you might have your actual logic to fetch/update content here)
 
+function setupSelectEventListener(selectClassName, filtersArray) {
+    const select = document.querySelector(selectClassName);
+    select.addEventListener('change', function() {
+        const remove_button = this.parentElement.parentElement.parentElement.querySelector('.remove-filters-container');
+        let selectedValue = this.value;
 
+        if (selectedValue) {
+            filtersArray.length = 0; // Clear the filters array
+            remove_button.style.display = "block";
+            filtersArray.push(selectedValue);
+        } else {
+            filtersArray.length = 0; // Clear the filters array if no option is selected
+            remove_button.style.display = "none"; // Hide remove button
+        }
+
+        applyFilters();
+        updateURL();
+    });
+}
 function setupCheckboxEventListeners(checkboxClassName, filtersArray) {
     document.querySelectorAll(checkboxClassName).forEach(checkbox => {
         checkbox.addEventListener('change', function() {
@@ -582,7 +627,11 @@ document.querySelectorAll('.remove-filters-container').forEach(container=> {
                 checkbox.checked = false;
                 checkbox.parentElement.querySelector('label').style.fontWeight = "";
             });
-             removeQueryParam('crystal');
+            const crystal_type_select = document.querySelector('.crystal-select');
+            if (crystal_type_select) {
+        crystal_type_select.selectedIndex = 0; // Reset to the first option
+    }
+            removeQueryParam('crystal');
        }
        this.style.display = "none";
        applyFilters();
@@ -869,74 +918,88 @@ function applyFilters() {
    const nameFilterValue = document.getElementById('contains-in-name').value.toLowerCase();
    const [from, to] = getParsed(fromSlider, toSlider);
 
-   filteredItems = allItems.filter(item =>
-       (category === "All" || item.category === category) &&
-       item.price <= to &&
-       item.price >=from &&
-       item.name.toLowerCase().includes(nameFilterValue)&&
-      (baseFilters.length === 0 || baseFilters.includes(item.material)) && // Check base material
-    (
-        // Handle plating selection
-        platingFilters.length === 0 ?
-            (
-                stoneFilters.length === 0 ?
-                    (
-                        // If no stone filter is selected, check size within any plating if size filter is applied
-                        sizeFilters.length === 0 || Object.values(item.platings).some(plating =>
-                            Object.values(plating.stones).some(stone =>
-                                Object.keys(stone.sizes).some(sizeKey => sizeFilters.includes(sizeKey))
-                            )
-                        )
-                    ) :
-                    (
-                        // If a stone filter is selected, look for the stone within any plating
-                        Object.values(item.platings).some(plating =>
-                            Object.keys(plating.stones).some(stoneKey =>
-                                stoneFilters.includes(stoneKey) &&
-                                (
-                                    sizeFilters.length === 0 ||
-                                    Object.keys(plating.stones[stoneKey].sizes).some(sizeKey => sizeFilters.includes(sizeKey))
-                                )
-                            )
-                        )
-                    )
-            ) :
-            (
-                // When a plating filter is selected, restrict searches within that plating
-                platingFilters.some(platingFilter =>
-                    item.platings.hasOwnProperty(platingFilter) && // Check if item has the plating
-                    (
-                        stoneFilters.length === 0 ?
-                            (
-                                // Check sizes within the selected plating if no stone filter is selected
-                                sizeFilters.length === 0 || Object.values(item.platings[platingFilter].stones).some(stone =>
-                                    Object.keys(stone.sizes).some(sizeKey => sizeFilters.includes(sizeKey))
-                                )
-                            ) :
-                            (
-                                // Check for the specific stone and sizes within the selected plating
-                                Object.keys(item.platings[platingFilter].stones).some(stoneKey =>
-                                    stoneFilters.includes(stoneKey) &&
-                                    (
-                                        sizeFilters.length === 0 ||
-                                        Object.keys(item.platings[platingFilter].stones[stoneKey].sizes).some(sizeKey => sizeFilters.includes(sizeKey))
-                                    )
-                                )
-                            )
-                    )
-                )
-            )
-    )
+   filteredItems = allItems.filter(item => {
+        let isMatch = (category === "All" || item.category === category) &&
+                      item.price <= to &&
+                      item.price >= from &&
+                      item.name.toLowerCase().includes(nameFilterValue) &&
+                      (baseFilters.length === 0 || baseFilters.includes(item.material));
 
-   );
-    if(filteredItems.length === 0){
-        filteredItems.push("No items found");
-    }
-    {#console.log(filteredItems);#}
+        if (isMatch) {
+            let filteredPlatings = {};
+            let hasPlatingFilterMatch = false;
+
+            // Filtering by plating
+            if (platingFilters.length > 0) {
+                platingFilters.forEach(platingFilter => {
+                    if (item.platings.hasOwnProperty(platingFilter)) {
+                        hasPlatingFilterMatch = true;
+                        filteredPlatings[platingFilter] = item.platings[platingFilter];
+                    }
+                });
+            } else {
+                filteredPlatings = item.platings;
+                hasPlatingFilterMatch = true; // If no specific plating filters, accept all.
+            }
+
+            let finalPlatings = {};
+            Object.keys(filteredPlatings).forEach(plating => {
+                let stones = filteredPlatings[plating].stones;
+                let filteredStones = {};
+                let hasStoneMatch = false;
+
+                // Filtering by stone
+                Object.keys(stones).forEach(stoneKey => {
+                    let stoneMatch = stoneFilters.length === 0 || stoneFilters.includes(stoneKey);
+                    if (stoneMatch) {
+                        let sizes = stones[stoneKey].sizes;
+                        let filteredSizes = {};
+                        let hasSizeMatch = false;
+
+                        // Filtering by size
+                        if (sizeFilters.length > 0) {
+                            sizeFilters.forEach(sizeFilter => {
+                                if (sizes.hasOwnProperty(sizeFilter)) {
+                                    hasSizeMatch = true;
+                                    filteredSizes[sizeFilter] = sizes[sizeFilter];
+                                }
+                            });
+                        } else {
+                            hasSizeMatch = true;  // If no specific size filters, accept all sizes.
+                            filteredSizes = sizes;
+                        }
+
+                        if (hasSizeMatch) {
+                            filteredStones[stoneKey] = { ...stones[stoneKey], sizes: filteredSizes };
+                            hasStoneMatch = true;
+                        }
+                    }
+                });
+
+                if (hasStoneMatch) {
+                    finalPlatings[plating] = { stones: filteredStones };
+                }
+            });
+
+            if (hasPlatingFilterMatch && Object.keys(finalPlatings).length > 0) {
+                item.platings = finalPlatings;
+            } else {
+                isMatch = false;
+            }
+        }
+
+        return isMatch;
+   });
+
+   if (filteredItems.length === 0) {
+       filteredItems.push("No items found");
+   }
+
    currentPage = 1;
    total_pages = Math.ceil(filteredItems.length / itemsPerPage);
    changePage(1);
 }
+
 function checkSizes(item){
 
     let value = Object.values(item.platings).some(plating =>
@@ -1033,7 +1096,9 @@ function productsTransmutation(items){
     let products = {};
     const regex = /^[a-zA-Z]{0,2}\d{5}[a-zA-Z]{0,5}$/;
     items.forEach(item => {
-
+        if(item.Visible === false){
+            return;
+        }
         let itemName = item.name;
 
         itemName = itemName.split(' ')[0];//.replace(/[a-zA-Z]/g, '').replace(/RG/g, '').replace(/G/g, '').replace(/R/g, '').replace(/XL/g, '').replace(/L/g, '').replace(/M/g, '').replace(/S/g, '').replace(/XS/g, '');
@@ -1046,11 +1111,12 @@ function productsTransmutation(items){
             itemName = (item.name).split(' ')[0];
         }
 
+        console.log(sale);
         if (!products[itemName] ) { //&& item.plating && item.stone
                 products[itemName] = {
                     name: itemName,
                     description: item.description,
-                    price:((price_category === "VK3" ? item.priceVK3 : price_category === "GH" ? item.priceGH : price_category === "GH_USD" ? item.priceUSD_GH : price_category === "Default_USD" ? item.priceUSD : (item.priceVK4*(1-sale)))? (price_category === "VK3" ? item.priceVK3 : price_category === "GH" ? item.priceGH : price_category === "GH_USD" ? item.priceUSD_GH : price_category === "Default_USD" ? item.priceUSD : (item.priceVK4*(1-sale))) : 0).toFixed(2),
+                    price:((price_category === "VK3" ? item.priceVK3 : price_category === "GH" ? item.priceGH : price_category === "GH_USD" ? item.priceUSD_GH : price_category === "Default_USD" ? (item.priceUSD*(1-sale)) : (item.priceVK4*(1-sale)))? (price_category === "VK3" ? item.priceVK3 : price_category === "GH" ? item.priceGH : price_category === "GH_USD" ? item.priceUSD_GH : price_category === "Default_USD" ? (item.priceUSD*(1-sale)) : (item.priceVK4*(1-sale))) : 0).toFixed(2),
                     category: item.category,
                     material: item.material,
                     preview_image: item.image_url,
