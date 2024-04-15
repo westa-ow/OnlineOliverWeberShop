@@ -226,7 +226,7 @@
         <div class="form-group row ">
             <div class="col-md-12">
                 <label>Personal sale, %</label>
-                <input class="form-control" id="sale-input" name="sale" type="text" value="{{ user_info.sale }}" placeholder="Sale without % symbol, 0 < sale < 100">
+                <input class="form-control" id="sale-input" name="sale" type="text" value="{{ user_info.sale }}" placeholder="Sale without % symbol, 0 <= sale < 100">
                 <span class="form-control-comment"> (E.g.: 40) </span>
             </div>
             <div class="col-md-12 form-control-comment">
@@ -405,7 +405,7 @@
             isValid = false;
             messages.push('Email is required.');
         }
-        if (isNaN(parseInt(this.sale.value)) ||parseInt(this.sale.value) >= 100 || parseInt(this.sale.value) <= 0 ) {
+        if (isNaN(parseInt(this.sale.value)) ||parseInt(this.sale.value) > 100 || parseInt(this.sale.value) < 0 ) {
             isValid = false;
             messages.push('Sale has to be in correct format.');
         }
