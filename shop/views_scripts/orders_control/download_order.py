@@ -27,7 +27,7 @@ from celery import shared_task
 
 from shop.forms import UserRegisterForm, User
 from shop.views import addresses_ref, cart_ref, get_user_category, serialize_firestore_document, users_ref, is_admin, \
-    orders_ref, itemsRef, db, process_items, get_order_items
+    orders_ref, itemsRef, db, process_items, get_order_items, single_order_ref
 from shop.views import get_user_info
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
@@ -135,8 +135,6 @@ def get_optimized_image(url, output_size=(50, 50)):
 def download_pdf_w_img(request, order_id):
 
     order_items = get_order_items(order_id)
-    cache_key = f"pdf_progress_{request.user.username}_{order_id}"
-    cache.set(cache_key, 0, timeout=3600)
     userEmail = order_items[0].get('emailOwner', "")
     info = {}
     if userEmail:
@@ -161,11 +159,10 @@ def download_pdf_w_img(request, order_id):
 
     table_data = [["Product", "Image", "Quantity", "Price per item", "Total"]]
 
-    current_item = 0
-    total_items = len(order_items)
     for item_order in order_items:
         image_path = item_order['image-url'] if 'image-url' in item_order else item_order['image_url']
         optimized_image_io = get_optimized_image(image_path)
+
         # Convert the BytesIO object to a ReportLab Image object
         reportlab_image = Image(optimized_image_io)
         reportlab_image.drawHeight = 50  # Set the desired display height
@@ -175,8 +172,6 @@ def download_pdf_w_img(request, order_id):
                currency + str(item_order['price']),
                currency + str(round(item_order['price'] * item_order['quantity'], 2))]
         table_data.append(row)
-        current_item += 1
-        progress_percent = int((current_item + 1) / total_items * 100)
 
     table = Table(table_data, colWidths=[1.7 * inch, 1.0 * inch, 1.0 * inch, 1.7 * inch, 1.3 * inch])
 
@@ -210,3 +205,34 @@ def download_pdf_w_img(request, order_id):
 
     return response
 
+def delete_documents_in_batches(query_snapshot):
+    batch = db.batch()
+    count = 0
+
+    for doc in query_snapshot:
+        batch.delete(doc.reference)
+        count += 1
+        # Commit the batch every 500 deletes
+        if count % 500 == 0:
+            batch.commit()
+            batch = db.batch()
+
+    # Commit any remaining deletes in the batch
+    if count % 500 != 0:
+        batch.commit()
+
+@login_required
+@user_passes_test(is_admin)
+def at_delete_order(request, order_id):
+    order_id = int(order_id)
+    orders_query = orders_ref.where('order_id', '==', order_id).get()
+    if not orders_query:
+        orders_query = orders_ref.where("`order-id`", '==', order_id).get()
+    delete_documents_in_batches(orders_query)
+
+    # Query and batch delete from "Order"
+    order_items_query = single_order_ref.where('order_id', '==', order_id).get()
+    if not order_items_query:
+        order_items_query = single_order_ref.where("`order-id`", '==', order_id).get()
+    delete_documents_in_batches(order_items_query)
+    return HttpResponse(status=204)
