@@ -64,8 +64,22 @@ body::-webkit-scrollbar {
     font-weight: normal; /* Or another appropriate default weight */
 
 }
+.container-subcategories{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 /*.crystals,*/ .platings, .sizes, .bases{
     margin-left: 20px;
+}
+ul.sub-category-list {
+    overflow: hidden;
+    height: 0;
+    transition: height 0.2s ease-in-out;
+}
+
+ul.sub-category-list.open {
+    max-height: 500px; /* You might need to adjust this depending on the size of your content */
 }
 .crystal-select{
     background-color: #fff;

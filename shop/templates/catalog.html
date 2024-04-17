@@ -262,7 +262,9 @@ let platingFilters =  "{{ plating_catalog }}" ? ["{{ plating_catalog|safe }}"] :
 let baseFilters = "{{ base_catalog }}" ? ["{{ base_catalog|safe }}"] : [];
 let stoneFilters = [];
 let sizeFilters = [];
+let subcat = {"Necklaces": ["Necklace","Chain", "Pendant"], "Earrings": ["Post Earrings"]}
 let category = "{{ category_catalog|safe}}" || "All";
+{#console.log(category);#}
 let categories = [""];
 let all_crystals = [];
 let all_platings = [];
@@ -352,49 +354,150 @@ function changePage(page) {
 }
 
 
+let synonyms = {
+    "All": "All",
+    "Necklaces": "Necklaces",
+    "Earrings": "Earrings",
+    "Pendant": "Pendants",
+    "Chain": "Chains",
+    "Collier": "Colliers",
+    "Pearlchain": "Pearlchains",
+    "Necklace": "Necklaces",
+    "Post Earrings": "Post Earrings",
+    "Hoop": "Hoops",
+    "Creole": "Creoles",
+    "Clip": "Clips",
+    "Piercing": "Piercings",
+    "Bracelet": "Bracelets",
+    "Bangle": "Bangles",
+    "Anklet": "Anklets",
+    "Ring": "Rings",
+    "Match": "Matches",
+    "Pen": "Pens",
+    "Key": "Keys",
+    "Brooch": "Brooches",
+    "Nailfile": "Nailfiles",
+    "Extension": "Extensions",
+    "UV": "UV"
+}
+
 function constructCategories(){
-     const categories_div = document.querySelector('.categories');
+    const categories_div = document.querySelector('.categories');
+    const categoriesList = document.querySelector('.categories-list');
+    categoriesList.innerHTML = ''; // Clear existing list items
 
-     categories = (allItems.reduce((accumulator, document) => {
-          if (!accumulator.includes(document.category)) {
-            accumulator.push(document.category);
-          }
-          return accumulator;
-        }, []));
-     let ne = ["All"];
+    // Assuming 'subcat' is defined globally
+    const generalCategories = Object.keys(subcat);
+    const subCategories = new Set([].concat(...Object.values(subcat)));
 
-     ne = ne.concat(categories);
-     const categoriesList = document.querySelector('.categories-list');
-     categoriesList.innerHTML = ''; // Clear existing list items if any
-
-     ne.forEach(categoryVar => {
-        const li = document.createElement('li');
-        const span = document.createElement('span');
-
-        span.textContent = categoryVar;
-        if(categoryVar === category){
-            span.style.fontWeight = "600";
+    let categories = allItems.reduce((acc, item) => {
+        if (!acc.includes(item.category) && !subcat.hasOwnProperty(item.category)) {
+            acc.push(item.category);
         }
-        li.appendChild(span);
-        span.addEventListener('click', function() {
-            // Assuming 'category' is the global variable you mentioned
-            document.querySelectorAll('.categories-list li span').forEach(li => {
-                li.style.fontWeight = ""; // Use "normal" if you want to explicitly set it back to default
-            });
+        return acc;
+    }, []);
 
-            category = this.textContent; // Update the global variable
-            this.style.fontWeight = "600";
-            const newUrl = `?category=${encodeURIComponent(category)}`;
-            history.pushState({path: newUrl}, '', newUrl);
+    const categoryList = ["All", ...generalCategories, ...categories];
+    console.log(categoryList);
+    categoryList.forEach(categoryVar => {
 
-            applyFilters(); // Call the applyFilters function
-            updateURL();
-        });
+        if (subCategories.has(categoryVar)) return; // Skip adding sub-categories here
+
+        const li = document.createElement('li');
+
+        const categorySpan = createCategorySpan(categoryVar);
+        const categoryDivForLi = document.createElement('div');
+        categoryDivForLi.classList.add('container-subcategories');
+        categoryDivForLi.appendChild(categorySpan);
+        li.appendChild(categoryDivForLi);
         categoriesList.appendChild(li);
+
+        if (subcat.hasOwnProperty(categoryVar)) {
+            const chevron = createChevron();
+            categoryDivForLi.appendChild(chevron);
+            const ul = createSubCategoryList(subcat[categoryVar]);
+            li.appendChild(ul);
+
+            setupChevronToggle(chevron, ul);
+        }
+
+        setupCategoryClickListener(categorySpan);
     });
-      categories_div.style.display = 'block';
 
+    categories_div.style.display = 'block';
+}
 
+function createCategorySpan(currenyCategory) {
+    const span = document.createElement('span');
+    span.textContent = synonyms[currenyCategory];
+    span.setAttribute("data-category-name", currenyCategory);
+    span.className = 'category-name';
+    console.log(currenyCategory);
+
+    if (currenyCategory === category) span.style.fontWeight = "600";
+    return span;
+}
+
+function createChevron() {
+    const chevron = document.createElement('i');
+    chevron.className = 'fa-solid fa-chevron-down';
+    chevron.style.cursor = "pointer";
+    return chevron;
+}
+
+function createSubCategoryList(subCategories) {
+
+    const ul = document.createElement('ul');
+    ul.className = 'sub-category-list'; // Assign class for styling
+    subCategories.forEach(sub => {
+        const subLi = document.createElement('li');
+        const subSpan = document.createElement('span');
+        subSpan.setAttribute("data-category-name", sub);
+        subSpan.textContent = synonyms[sub];
+        subLi.appendChild(subSpan);
+        ul.appendChild(subLi);
+        setupSpanClickListener(subSpan);
+    });
+    return ul;
+}
+
+function setupChevronToggle(chevron, ul) {
+    chevron.addEventListener('click', () => {
+        const isOpen = ul.style.height !== '0px' && ul.style.height !== '';
+        if (isOpen) {
+            ul.style.height = '0'; // Close the ul by setting height to 0
+            chevron.className = 'fa-solid fa-chevron-down';
+        } else {
+            ul.style.height = `${ul.scrollHeight}px`; // Open the ul by setting height to its natural height
+            chevron.className = 'fa-solid fa-chevron-up';
+        }
+    });
+}
+
+function setupCategoryClickListener(span) {
+    span.addEventListener('click', () => {
+        document.querySelectorAll('.categories-list li span').forEach(li => li.style.fontWeight = "");
+        category = span.getAttribute("data-category-name"); // Assuming 'category' is a global variable
+        span.style.fontWeight = "600";
+        const newUrl = `?category=${encodeURIComponent(category)}`;
+        history.pushState({path: newUrl}, '', newUrl);
+
+        applyFilters(); // Call the applyFilters function
+        updateURL();
+    });
+}
+
+function setupSpanClickListener(span) {
+    span.addEventListener('click', () => {
+        document.querySelectorAll('.categories-list li span').forEach(li => li.style.fontWeight = "");
+        category = span.getAttribute("data-category-name"); // Update the global category
+        span.style.fontWeight = "600";
+        const newUrl = `?category=${encodeURIComponent(category)}`;
+        history.pushState({path: newUrl}, '', newUrl);
+
+        applyFilters(); // Call the applyFilters function
+        updateURL();
+    });
 }
 function constructFilters(){
     constructCrystals();
@@ -919,11 +1022,13 @@ function applyFilters() {
    const [from, to] = getParsed(fromSlider, toSlider);
 
    filteredItems = allItems.filter(item => {
-        let isMatch = (category === "All" || item.category === category) &&
+
+        let isMatch = (category === "All" || ((subcat[category]!==undefined) ? (subcat[category].concat(category).includes(item.category)) : item.category===category ) ) &&
                       item.price <= to &&
                       item.price >= from &&
                       item.name.toLowerCase().includes(nameFilterValue) &&
                       (baseFilters.length === 0 || baseFilters.includes(item.material));
+
 
         if (isMatch) {
             let filteredPlatings = {};
@@ -1148,8 +1253,7 @@ function productsTransmutation(items){
                         let stoneSizes = products[itemName].platings[item.plating].stones[item.stone].sizes;
                         if (!stoneSizes[item.size]) {
                             stoneSizes[item.size] = {'quantity': item.quantity, 'real_name':item.name };
-                            {#console.log(stoneSizes[item.size]);#}
-                            {#stoneSizes['real_name'] =  item.name;#}
+
                         } else {
                             // Assuming you want to sum quantities for the same size.
                             stoneSizes[item.size].quantity += item.quantity;
