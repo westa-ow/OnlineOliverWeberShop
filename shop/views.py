@@ -306,15 +306,14 @@ def get_user_session_type(request):
 
 
 def home_page(request):
-    is_anonymous = not request.user.is_authenticated
+    context = {
 
-    # Проверяем, есть ли у анонимного пользователя сессионный ключ
-    has_session = bool(request.session.session_key)
-    print(is_anonymous)
-    print(has_session)
-    if has_session:
-        print(request.session.session_key)
-    return render(request, 'home.html')
+    }
+    email = get_user_session_type(request)
+    category, currency = get_user_category(email) or ("Default", "Euro")
+    currency = '€' if currency == 'Euro' else '$'
+    context['currency'] = currency
+    return render(request, 'home.html', context)
 
 
 def get_user_category(email):
