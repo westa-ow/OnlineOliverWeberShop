@@ -262,7 +262,7 @@ let platingFilters =  "{{ plating_catalog }}" ? ["{{ plating_catalog|safe }}"] :
 let baseFilters = "{{ base_catalog }}" ? ["{{ base_catalog|safe }}"] : [];
 let stoneFilters = [];
 let sizeFilters = [];
-let subcat = {"Necklaces": ["Necklace","Chain", "Pendant"], "Earrings": ["Post Earrings"]}
+let subcat = {"Necklaces": ["Necklace","Chain","Pearlchain", "Pendant", "Collier"], "Earrings": ["Post Earrings", "Clip", "Hoop"], "Bracelets":["Bracelet","Bangle", "Anklet"], "Accessories":["Piercing", "Nailfile", "Pen","Key","Brooch"]}
 let category = "{{ category_catalog|safe}}" || "All";
 {#console.log(category);#}
 let categories = [""];
@@ -358,6 +358,8 @@ let synonyms = {
     "All": "All",
     "Necklaces": "Necklaces",
     "Earrings": "Earrings",
+    "Bracelets": "Bracelets",
+    "Accessories": "Accessories",
     "Pendant": "Pendants",
     "Chain": "Chains",
     "Collier": "Colliers",

@@ -10,108 +10,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <link rel="stylesheet" href="{% static "css/profile/profile_information.css" %}">
-    <style>
-{#        body {#}
-{#    font-family: 'Redshift Book', serif; /* Add a generic font family as a fallback */#}
-{#    background: #7599b3;#}
-{#    display: flex;#}
-{#    align-items: center;#}
-{#    justify-content: center;#}
-{#    height: 100vh;#}
-{#    margin: 0;#}
-{##}
-{##}
-{##}
-{#.login-container {#}
-{#    background-color: #e6e6e6;#}
-{#    box-shadow: 0 4px 8px rgba(0,0,0,0.1);#}
-{#    width: 400px; /* Increased width */#}
-{##}
-{##}
-{#        .login-header {#}
-{#    background-color: #003665;#}
-{#    color: white;#}
-{#    padding: 30px; /* Increased padding */#}
-{#    text-align: center;#}
-{#    font-size: 24px; /* Increased font-size */#}
-{##}
-{##}
-{#        .login-form {#}
-{#    padding: 30px; /* Increased padding */#}
-{#    position: relative;#}
-{#    box-sizing: border-box;#}
-{##}
-{#        .login-form input[type="submit"] {#}
-{#    width: calc(100% + 100px); /* Increase width to maintain the extended effect */#}
-{#    margin-left: -50px; /* Increase margin to maintain the extended effect */#}
-{#    padding: 20px; /* Increased padding */#}
-{#    border: none;#}
-{#    background-color: #003665;#}
-{#    color: white;#}
-{#    cursor: pointer;#}
-{#    position: relative;#}
-    {#z-index: 1;#}
-{#    font-size: 20px; /* Increased font-size */#}
-{#    overflow: visible;#}
-{##}
-{##}
-{#        .login-form input[type="submit"]:hover {#}
-{#            background-color: #005f87; /* Change hover color */#}
-            {#opacity: 0.9;#}
-{#        }#}
-{##}
-{#        .login-form a {#}
-{#    display: block;#}
-{#    text-align: center;#}
-{#    margin-top: 15px; /* Increased margin */#}
-{#    color: #003665;#}
-{#    text-decoration: none;#}
-{#    font-size: 16px; /* Increased font-size */#}
-{##}
-{##}
-{##}
-{#        .login-form a:hover {#}
-{#            text-decoration: underline;#}
-{#        }#}
-{##}
-{#        .input-container {#}
-{#            position: relative;#}
-{#            display: flex;#}
-{#            align-items: center;#}
-{#            border-bottom: 1px solid #0a5fa9;#}
-{#            margin-bottom: 15px;#}
-{#        }#}
-{##}
-{#        .input-container .fas {#}
-{#            color: #a6abc7;#}
-{#            margin-right: 10px;#}
-{#        }#}
-{##}
-{#        .login-form input[type="text"],#}
-{#.login-form input[type="password"] {#}
-{#    width: calc(100% - 40px); /* Adjust width for larger padding */#}
-{#    padding: 15px 15px 15px 0; /* Increased padding */#}
-{#    border: none;#}
-{#    outline: none;#}
-{#    background-color: transparent;#}
-{#    color: #00427a;#}
-{#    font-size: 18px; /* Increased font-size */#}
-{##}
-{##}
-{#        .input-container input::placeholder {#}
-{#            color: #a6abc7;#}
-{#        }#}
-{#        .login-form input[type="submit"]::before,#}
-{#.login-form input[type="submit"]::after {#}
-{#    content: '';#}
-{#    position: absolute;#}
-{#    top: 50%; /* Position the pseudo-elements in the middle vertically */#}
-{#    width: 20px; /* Width of the extended part */#}
-{#    height: 50%; /* Reduce the height to make the shadow visible below the button */#}
-{#    background: transparent;#}
-{#    z-index: -1;#}
-{#    transform: translateY(50%); /* Move the pseudo-elements down below the button */#}
-{##}
+<style>
   #errorText{
             text-align: center;
   font-size: 28px;
@@ -266,60 +165,58 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
          const togglePasswordButtons = document.querySelectorAll('button[data-action="show-password"]');
+         togglePasswordButtons.forEach(togglePasswordButton =>
+         togglePasswordButton.addEventListener('click', function() {
+             // Select the password input
+             const passwordInput = this.parentElement.parentElement.querySelector('input');
 
-    // Listen for a click event on the button
-        togglePasswordButtons.forEach(togglePasswordButton =>
-    togglePasswordButton.addEventListener('click', function() {
-        // Select the password input
-        const passwordInput = this.parentElement.parentElement.querySelector('input');
+             // Check the current type of the password input and toggle
+             if (passwordInput.type === "password") {
+                passwordInput.type = "text"; // Show the password
+                // Change the SVG to 'eye'
+                togglePasswordButton.innerHTML = '<i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></i>';
+             } else {
+                passwordInput.type = "password"; // Hide the password
+                // Change the SVG back to 'eye-off'
+                togglePasswordButton.innerHTML = '<i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg></i>';
+             }
+         }));
+        var formErrors = {% if form.errors %}true{% else %}false{% endif %};
+        var errorModal = document.getElementById("errorModal");
+        var errorText = document.getElementById("errorText");
+        var okButton = document.getElementById("okButton");
+        var closeButton = document.querySelector(".close-button");
 
-        // Check the current type of the password input and toggle
-        if (passwordInput.type === "password") {
-            passwordInput.type = "text"; // Show the password
-            // Change the SVG to 'eye'
-            togglePasswordButton.innerHTML = '<i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></i>';
-        } else {
-            passwordInput.type = "password"; // Hide the password
-            // Change the SVG back to 'eye-off'
-            togglePasswordButton.innerHTML = '<i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg></i>';
+        if (formErrors) {
+            var errorMessage = "";
+            {% for field in form %}
+                {% for error in field.errors %}
+                    errorMessage += "{{ error }}\n";
+                {% endfor %}
+            {% endfor %}
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    errorMessage += "{{ error }}\n";
+                {% endfor %}
+            {% endif  %}
+            errorText.innerText = errorMessage;
+            errorModal.style.display = "block";
         }
-    }));
-    var formErrors = {% if form.errors %}true{% else %}false{% endif %};
-    var errorModal = document.getElementById("errorModal");
-    var errorText = document.getElementById("errorText");
-    var okButton = document.getElementById("okButton");
-    var closeButton = document.querySelector(".close-button");
 
-    if (formErrors) {
-        var errorMessage = "";
-        {% for field in form %}
-            {% for error in field.errors %}
-                errorMessage += "{{ error }}\n";
-            {% endfor %}
-        {% endfor %}
-        {% if form.non_field_errors %}
-            {% for error in form.non_field_errors %}
-                errorMessage += "{{ error }}\n";
-            {% endfor %}
-        {% endif  %}
-        errorText.innerText = errorMessage;
-        errorModal.style.display = "block";
-    }
-
-    okButton.onclick = function() {
-        errorModal.style.display = "none";
-    }
-
-    closeButton.onclick = function() {
-        errorModal.style.display = "none";
-    }
-
-    window.onclick = function(event) {
-        if (event.target == errorModal) {
+        okButton.onclick = function() {
             errorModal.style.display = "none";
         }
-    }
-});
+
+        closeButton.onclick = function() {
+            errorModal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == errorModal) {
+                errorModal.style.display = "none";
+            }
+        }
+    });
 </script>
 </html>
 {% endblock %}

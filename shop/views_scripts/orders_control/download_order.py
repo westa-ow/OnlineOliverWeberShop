@@ -124,6 +124,8 @@ def get_optimized_image(url, output_size=(50, 50)):
     response = requests.get(url)
     image = PILImage.open(BytesIO(response.content))
     # image = image.resize(output_size, PILImage.Resampling.LANCZOS)
+    if image.mode == 'RGBA':
+        image = image.convert('RGB')
     byte_io = BytesIO()
     image.save(byte_io, 'JPEG')
     byte_io.seek(0)
