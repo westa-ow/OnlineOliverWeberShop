@@ -1074,6 +1074,7 @@ function applyFilters() {
                             });
                         } else {
                             hasSizeMatch = true;  // If no specific size filters, accept all sizes.
+                            console.log(sizes);
                             filteredSizes = sizes;
                         }
 
@@ -1103,13 +1104,11 @@ function applyFilters() {
        filteredItems.push("No items found");
    }
    else{
-       console.log(filteredItems);
        filteredItems.forEach(item => {
-    let first_plating = Object.values(item.platings)[0];
-    let first_stone = Object.values(first_plating.stones)[0];
-    item.preview_image = first_stone['image'];
-    console.log(item);
-});
+        let first_plating = Object.values(item.platings)[0];
+        let first_stone = Object.values(first_plating.stones)[0];
+        item.preview_image = first_stone['image'];
+    });
 
    }
 

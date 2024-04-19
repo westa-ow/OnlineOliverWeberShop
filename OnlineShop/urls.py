@@ -26,7 +26,8 @@ from shop.views_scripts.orders_control.view_order import view_order
 from shop.views_scripts.users_control.at_uc_bulk_actions import disable_users, enable_users
 from shop.views_scripts.auth_views import register, logout_view, login_view
 from shop.views_scripts.catalog_views import add_to_cart_from_catalog, catalog_view, change_favorite_state
-from shop.views_scripts.checkout_cart_views import sort_documents, send_email, cart_page
+from shop.views_scripts.checkout_cart_views import sort_documents, send_email, cart_page, anonym_cart_info, \
+    register_anonym_cart_info, login_anonym_cart_info, checkout_addresses
 from shop.views_scripts.profile_views import update_user_account
 from shop.views_scripts.shop_views import fetch_numbers, form_page
 from shop.views_scripts.users_control.edit_user import edit_user
@@ -41,6 +42,10 @@ urlpatterns = [
     path('shop/', form_page, name='shop_page'),
     path('catalog/', catalog_view, name='catalog'),
     path('cart/', cart_page, name='cart'),
+    path('order/anonymous/info', anonym_cart_info, name='cart_anonymous'),
+    path('checkout/addresses', checkout_addresses, name='checkout_addresses'),
+    path('anonymous/cart/login', login_anonym_cart_info, name='cart_anonymous_login'),
+    path('anonymous/cart/register', register_anonym_cart_info, name='cart_anonymous_register'),
 
     # Addresses urls
     path('profile/addresses/update_address/<str:address_id>/', update_address, name='update_address'),

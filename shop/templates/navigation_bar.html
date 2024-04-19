@@ -192,6 +192,7 @@
 <div id="overlay" class="overlay"></div>
 </body>
 <script>
+    let isCheckout = false;
     let key = "{{ session.session_key }}";
     console.log(key);
 
@@ -374,6 +375,10 @@ document.getElementById('cartBtn').onclick = function() {
 
                     // Event listener for delete icon click
                     deleteIcon.addEventListener('click', function(event) {
+                        if(isCheckout){
+                            alert("You cant delete items during checkout. Go back to shop pages to change your cart.");
+                            return;
+                        }
                         event.stopPropagation();
 
                         const itemToDelete = this.closest('.mini-cart-product');

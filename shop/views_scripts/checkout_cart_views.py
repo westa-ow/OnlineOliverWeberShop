@@ -3,9 +3,9 @@ import concurrent
 from django.contrib.auth.decorators import login_required
 from reportlab.lib import colors
 
-from shop.decorators import login_required_or_session
+from shop.decorators import login_required_or_session, logout_required
 from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, get_cart, cart_ref, single_order_ref, \
-    get_user_category, get_user_session_type, metadata_ref
+    get_user_category, get_user_session_type, metadata_ref, users_ref, update_email_in_db
 import ast
 import random
 from datetime import datetime
@@ -58,6 +58,10 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import inch, cm
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+
+from shop.views_scripts.auth_views import get_new_user_id
+from shop.views_scripts.profile_views import get_user_addresses
+
 
 @login_required_or_session
 def cart_page(request):
@@ -167,7 +171,11 @@ def clear_cart(email, name):
     docs = cart_ref.where('emailOwner', '==', email).where('name', '==', name).stream()
     for doc in docs:
         doc.reference.delete()
-
+def clear_all_cart(email):
+    # Assuming `cart_ref` is defined and accessible within this scope
+    docs = cart_ref.where('emailOwner', '==', email).stream()
+    for doc in docs:
+        doc.reference.delete()
 
 def some_view(orders, order, name, currency):
     # Assuming 'orders' contains the list of items in the cart
@@ -177,17 +185,13 @@ def some_view(orders, order, name, currency):
     # Basic setup
     styles = getSampleStyleSheet()
 
-    title_style = ParagraphStyle('Title', parent=styles['Title'], fontSize=24, alignment=1, spaceAfter=0.2 * inch)
     center_bold_style = ParagraphStyle('CenterBold', parent=styles['Normal'], fontSize=12, alignment=1,
-                                       fontName='Times-Bold')
-    center_bold_style2 = ParagraphStyle('CenterBold', parent=styles['Heading2'], fontSize=18, alignment=1,
                                        fontName='Times-Bold')
     bold_style = ParagraphStyle('Bold', parent=styles['Normal'], fontSize=12, fontName='Times-Bold')
     doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=30, leftMargin=30, topMargin=30, bottomMargin=18)
     content = []
     title_style = styles['Heading1']
     content.append(Paragraph("OLIVER WEBER COLLECTION", title_style))
-    # content.append(Paragraph(f"Order {order['order_id']}", center_bold_style2))
     content.append(Spacer(1, 0.3 * inch))
     content.append(Paragraph(f"Client name: {name}", bold_style))
 
@@ -234,20 +238,6 @@ def some_view(orders, order, name, currency):
     content.append(Paragraph(f"DOCUMENT N.: {get_check_id()}", center_bold_style))
     content.append(Spacer(1, 10))
     content.append(Paragraph("Thank you for your purchase!", center_bold_style))
-    # title_style = styles['Heading1']
-    # body_style = styles['BodyText']
-
-
-    # # Adding content
-    # content.append(Paragraph("Order Receipt", title_style))
-    # content.append(Spacer(1, 12))
-    # content.append(Paragraph(f"Client Email: {email}", body_style))
-    # content.append(Paragraph(f"Date: {date}", body_style))
-    # content.append(Spacer(1, 12))
-
-    # Order items table
-
-
 
     doc.build(content)
 
@@ -273,3 +263,139 @@ def get_check_id():
     transaction = db.transaction()
     new_check_id = increment_check_id(transaction, check_counter_ref)
     return new_check_id
+
+@logout_required
+def anonym_cart_info(request):
+
+    email = get_user_session_type(request)
+    category, currency = get_user_category(email) or ("Default", "Euro")
+    if currency == "Euro":
+        currency = "€"
+    elif currency == "Dollar":
+        currency = "$"
+    form_register = UserRegisterForm()
+    form_login = AuthenticationForm()
+    context = {
+        'documents': sorted(get_cart(email), key=lambda x: x['number']),
+        'currency': currency,
+        'form_register':form_register,
+        'form_login':form_login
+    }
+    print(context['documents'])
+
+    return render(request, 'orderAnonymously.html', context=context)
+
+
+
+def login_anonym_cart_info(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, request.POST)
+        email1 = get_user_session_type(request)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                email2 = form.cleaned_data.get('email') or user.email
+
+                # Query Firebase Firestore to check the user's Enabled status
+                firebase_user_doc = users_ref.where('email', '==', email2).limit(1).get()
+                if firebase_user_doc and firebase_user_doc[0].to_dict().get('Enabled', True) == False:
+                    # Redirect to home with an error message
+                    messages.error(request, "Your account was disabled")
+                    form.add_error(None, "Your account was disabled")
+                    return render(request, 'orderAnonymously.html', {'form': form})
+                else:
+                    # Proceed to log the user in
+                    clear_all_cart(email2)
+                    login(request, user)
+                    update_email_in_db(email1, email2)
+                    return redirect('checkout_addresses')
+
+
+def register_anonym_cart_info(request):
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        email1 = get_user_session_type(request)
+        if form.is_valid():
+
+            email2 = form.cleaned_data.get('email')
+
+            existing_user = users_ref.where('email', '==', email2).limit(1).get()
+
+            if list(existing_user):  # Convert to list to check if it's non-empty
+                print('Error: User with this Email already exists.')
+                form.add_error('email', 'User with this Email already exists.')
+                return render(request, 'registration/register.html', {'form': form})
+            else:
+
+                user_id = get_new_user_id()
+                current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                first_name = form.cleaned_data.get('first_name')
+                last_name = form.cleaned_data.get('last_name')
+                birthdate = form.cleaned_data.get('birthdate')
+                social_title = "Mr" if form.cleaned_data.get('social_title') == "1" else "Mrs"
+                offers = form.cleaned_data.get('offers')
+                newsletter = form.cleaned_data.get('receive_newsletter')
+
+                new_user = {
+                    'Enabled': 'True',
+                    "display_name": "undefined",
+                    'social_title': social_title,
+                    'first_name': first_name,
+                    'last_name': last_name,
+                    'email': email2,
+                    'birthday': birthdate,
+                    'country': "",
+                    "agent_number": "",
+                    'price_category': 'Default',
+                    'currency':"Euro",
+                    'receive_offers': offers,
+                    'receive_newsletter': newsletter,
+                    'registrationDate': current_time,
+                    'userId': user_id,
+                    'sale': 0
+
+                }
+                users_ref.add(new_user)
+
+                username = email2
+                unique_suffix = 1
+                original_username = username
+                while User.objects.filter(username=username).exists():
+                    username = f"{original_username}{unique_suffix}"
+                    unique_suffix += 1
+                user = form.save(commit=False)
+                user.username = username  # Set the unique username
+                user.save()  # Now save the user to the database
+
+                password = form.cleaned_data.get('password1')
+                form.save()
+                user = authenticate(username=username, password=password)
+                if user:
+                    clear_all_cart(email2)
+                    login(request, user)
+                    update_email_in_db(email1, email2)
+                    return redirect('checkout_addresses')
+
+
+def checkout_addresses(request):
+    email = get_user_session_type(request)
+    addresses, addresses_dict = get_user_addresses(email)
+
+    category, currency = get_user_category(email) or ("Default", "Euro")
+    if currency == "Euro":
+        currency = "€"
+    elif currency == "Dollar":
+        currency = "$"
+    form_register = UserRegisterForm()
+    form_login = AuthenticationForm()
+    context = {
+               'documents': sorted(get_cart(email), key=lambda x: x['number']),
+               'currency': currency,
+               'form_register': form_register,
+               'form_login': form_login,
+               'my_addresses': addresses,
+               'addresses_dict': addresses_dict
+            }
+    return render(request, 'orderAnonymAddresses.html', context=context)

@@ -1,5 +1,6 @@
+{% load widget_tweaks %}
+{% load static %}
 {% block content %}
-    {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,10 +8,11 @@
     <title>My cart</title>
     <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <link rel="stylesheet" type="text/css" href="{% static 'css/checkout_cart.css' %}">
 </head>
 <style>
- input[type="range"] {
+input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
   background: transparent;
@@ -144,6 +146,7 @@
     }
 
 document.addEventListener('DOMContentLoaded', function() {
+    isCheckout = true;
     init();
 
    document.querySelectorAll('.document-container').forEach(documentContainer => {
@@ -297,67 +300,68 @@ function updateQuantityInput(product_id, quantity_new, doc) {
 
 function deleteBut(documentId, documentContainer){
     fetch('{% url "delete_document" %}', {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': getCookie('csrftoken'),
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ document_id: documentId })
-            })
-            .then(response => response.json())
-                .then(data => {
-                  if (data.status === 'success') {
-                    documentss = documentss.filter(doc => doc.name !== documentId);
-
-                    console.log('Document deleted successfully');
-                    documentContainer.remove();
-
-                    {#console.log(data.updated_document);#}
-                    data.updated_documents.forEach(doc => {
-                        console.log(`${doc.id}`);
-                        let docElement = document.querySelector(`[data-document-id="${doc.id}"]`);
-                        console.log(docElement);
-
-
-                    });
-                    calculate_final();
-                    } else {
-                    console.error('Error in deletion');
-                }
-            })
-            .catch(error => console.error('Error:', error));
-}
-    document.getElementById('finishOrderButton').addEventListener('click', function() {
-        {% if user.is_authenticated  %}
-            {% else %}
-            window.location.href = '{% url 'register' %}';
-        {% endif %}
-        {% if documents|length != 0 %}
-        window.alert("Order will be delivered to your email");
-        fetch('{% url 'send_email'%}', {
             method: 'POST',
             headers: {
                 'X-CSRFToken': getCookie('csrftoken'),
                 'Content-Type': 'application/json',
             },
+            body: JSON.stringify({ document_id: documentId })
         })
         .then(response => response.json())
         .then(data => {
-        console.log(data);
-        if (data.status === 'success') {
-            // Redirect to the home URL
-            window.location.href = '{% url 'home' %}';
-        } else {
-            // Handle error or unsuccessful status
-            console.error('Error in processing the order');
-        }
-    })
-            .catch(error => console.error('Error:', error));
-            {% else %}
-            window.alert("You have to add at least 1 item to finish order");
-         {% endif %}
-    });
-    function getCookie(name) {
+            if (data.status === 'success') {
+                documentss = documentss.filter(doc => doc.name !== documentId);
+                console.log('Document deleted successfully');
+                documentContainer.remove();
+
+                {#console.log(data.updated_document);#}
+                data.updated_documents.forEach(doc => {
+                    console.log(`${doc.id}`);
+                    let docElement = document.querySelector(`[data-document-id="${doc.id}"]`);
+                    console.log(docElement);
+                });
+                calculate_final();
+              } else {
+                  console.error('Error in deletion');
+              }
+        })
+        .catch(error => console.error('Error:', error));
+}
+document.getElementById('finishOrderButton').addEventListener('click', function() {
+        {% if user.is_authenticated  %}
+            {#if (documentss.length !== 0){#}
+            {#    window.alert("Order will be delivered to your email");#}
+            {#    fetch('{% url 'send_email'%}', {#}
+            {#        method: 'POST',#}
+            {#        headers: {#}
+            {#            'X-CSRFToken': getCookie('csrftoken'),#}
+            {#            'Content-Type': 'application/json',#}
+            {#        },#}
+            {#    })#}
+            {#    .then(response => response.json())#}
+            {#    .then(data => {#}
+            {#        console.log(data);#}
+            {#        if (data.status === 'success') {#}
+            {#            // Redirect to the home URL#}
+            {#            window.location.href = '{% url 'home' %}';#}
+            {#        } else {#}
+            {#            // Handle error or unsuccessful status#}
+            {#            console.error('Error in processing the order');#}
+            {#        }#}
+            {#    })#}
+            {#    .catch(error => console.error('Error:', error));#}
+            {##}
+            {#else#}
+            {#{#}
+            {#    window.alert("You have to add at least 1 item to finish order");#}
+            {##}
+            window.location.href = '{% url 'checkout_addresses' %}';
+        {% else %}
+            window.location.href = '{% url 'cart_anonymous' %}';
+        {% endif %}
+
+});
+function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
         const cookies = document.cookie.split(';');
