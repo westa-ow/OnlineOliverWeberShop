@@ -79,7 +79,7 @@ def download_pdf_no_img(request, order_id):
     content.append(Paragraph(f"Client name: {client_name}", bold_style))
     content.append(Paragraph(f"Client email: {userEmail}", bold_style))
 
-    currency = "€" if info.get("currency", "Euro") == "Euro" else "Dollar"
+    currency = "€" if info.get("currency", "Euro") == "Euro" else "$"
 
     table_data = [["Product", "Quantity", "Price per item", "Total"]]
     for item_order in order_items:
@@ -157,7 +157,7 @@ def download_pdf_w_img(request, order_id):
     content.append(Paragraph(f"Client name: {client_name}", bold_style))
     content.append(Paragraph(f"Client email: {userEmail}", bold_style))
 
-    currency = "€" if info.get("currency", "Euro") == "Euro" else "Dollar"
+    currency = "€" if info.get("currency", "Euro") == "Euro" else "$"
 
     table_data = [["Product", "Image", "Quantity", "Price per item", "Total"]]
 
