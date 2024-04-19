@@ -1024,81 +1024,105 @@ function applyFilters() {
    const [from, to] = getParsed(fromSlider, toSlider);
 
    filteredItems = allItems.filter(item => {
+    let isMatch = (category === "All" || (subcat[category] !== undefined ? subcat[category].concat(category).includes(item.category) : item.category === category)) &&
+                  item.price <= to &&
+                  item.price >= from &&
+                  item.name.toLowerCase().includes(nameFilterValue) &&
+                  (baseFilters.length === 0 || baseFilters.includes(item.material));
 
-        let isMatch = (category === "All" || ((subcat[category]!==undefined) ? (subcat[category].concat(category).includes(item.category)) : item.category===category ) ) &&
-                      item.price <= to &&
-                      item.price >= from &&
-                      item.name.toLowerCase().includes(nameFilterValue) &&
-                      (baseFilters.length === 0 || baseFilters.includes(item.material));
+    if (!isMatch) {
+        return false;
+    }
 
+    let orderedPlatings = {};
+    let hasPlatingMatch = false;
 
-        if (isMatch) {
-            let filteredPlatings = {};
-            let hasPlatingFilterMatch = false;
-
-            // Filtering by plating
-            if (platingFilters.length > 0) {
-                platingFilters.forEach(platingFilter => {
-                    if (item.platings.hasOwnProperty(platingFilter)) {
-                        hasPlatingFilterMatch = true;
-                        filteredPlatings[platingFilter] = item.platings[platingFilter];
-
-                    }
-                });
-            } else {
-                filteredPlatings = item.platings;
-                hasPlatingFilterMatch = true; // If no specific plating filters, accept all.
+    // Check for plating matches
+    if (platingFilters.length > 0) {
+        platingFilters.forEach(platingFilter => {
+            if (item.platings.hasOwnProperty(platingFilter)) {
+                orderedPlatings[platingFilter] = item.platings[platingFilter];
+                hasPlatingMatch = true;
             }
+        });
+        Object.keys(item.platings).forEach(plating => {
+            if (!orderedPlatings.hasOwnProperty(plating)) {
+                orderedPlatings[plating] = item.platings[plating];
+            }
+        });
+    } else {
+        orderedPlatings = item.platings;
+        hasPlatingMatch = true;
+    }
 
-            let finalPlatings = {};
-            Object.keys(filteredPlatings).forEach(plating => {
-                let stones = filteredPlatings[plating].stones;
-                let filteredStones = {};
-                let hasStoneMatch = false;
+    // Process stones and sizes
+    let finalPlatings = {};
+    Object.keys(orderedPlatings).forEach(plating => {
+        let stones = orderedPlatings[plating].stones;
+        let orderedStones = {};
+        let hasStoneMatch = false;
 
-                // Filtering by stone
-                Object.keys(stones).forEach(stoneKey => {
-                    let stoneMatch = stoneFilters.length === 0 || stoneFilters.includes(stoneKey);
-                    if (stoneMatch) {
-                        let sizes = stones[stoneKey].sizes;
-                        let filteredSizes = {};
-                        let hasSizeMatch = false;
-
-                        // Filtering by size
-                        if (sizeFilters.length > 0) {
-                            sizeFilters.forEach(sizeFilter => {
-                                if (sizes.hasOwnProperty(sizeFilter)) {
-                                    hasSizeMatch = true;
-                                    filteredSizes[sizeFilter] = sizes[sizeFilter];
-                                }
-                            });
-                        } else {
-                            hasSizeMatch = true;  // If no specific size filters, accept all sizes.
-                            console.log(sizes);
-                            filteredSizes = sizes;
-                        }
-
-                        if (hasSizeMatch) {
-                            filteredStones[stoneKey] = { ...stones[stoneKey], sizes: filteredSizes };
-                            hasStoneMatch = true;
-                        }
-                    }
-                });
-
-                if (hasStoneMatch) {
-                    finalPlatings[plating] = { stones: filteredStones };
+        if (stoneFilters.length > 0) {
+            stoneFilters.forEach(stoneFilter => {
+                if (stones.hasOwnProperty(stoneFilter)) {
+                    orderedStones[stoneFilter] = stones[stoneFilter];
+                    hasStoneMatch = true;
                 }
             });
-
-            if (hasPlatingFilterMatch && Object.keys(finalPlatings).length > 0) {
-                item.platings = finalPlatings;
-            } else {
-                isMatch = false;
-            }
+            Object.keys(stones).forEach(stoneKey => {
+                if (!orderedStones.hasOwnProperty(stoneKey)) {
+                    orderedStones[stoneKey] = stones[stoneKey];
+                }
+            });
+        } else {
+            orderedStones = stones;
+            hasStoneMatch = true;
         }
 
-        return isMatch;
-   });
+        // Reorder and filter sizes within stones
+        let finalStones = {};
+        Object.keys(orderedStones).forEach(stoneKey => {
+            let sizes = orderedStones[stoneKey].sizes;
+            let orderedSizes = {};
+            let hasSizeMatch = false;
+
+            if (sizeFilters.length > 0) {
+                sizeFilters.forEach(sizeFilter => {
+                    if (sizes.hasOwnProperty(sizeFilter)) {
+                        orderedSizes[sizeFilter] = sizes[sizeFilter];
+                        hasSizeMatch = true;
+                    }
+                });
+                Object.keys(sizes).forEach(sizeKey => {
+                    if (!orderedSizes.hasOwnProperty(sizeKey)) {
+                        orderedSizes[sizeKey] = sizes[sizeKey];
+                    }
+                });
+            } else {
+                orderedSizes = sizes;
+                hasSizeMatch = true;
+            }
+
+            if (hasSizeMatch) {
+                finalStones[stoneKey] = { ...orderedStones[stoneKey], sizes: orderedSizes };
+            }
+        });
+
+        if (hasStoneMatch && Object.keys(finalStones).length > 0) {
+            finalPlatings[plating] = { stones: finalStones };
+        }
+    });
+
+    if (hasPlatingMatch && Object.keys(finalPlatings).length > 0) {
+        item.platings = finalPlatings;
+    } else {
+        return false;
+    }
+
+    return true;
+});
+
+
 
    if (filteredItems.length === 0) {
        filteredItems.push("No items found");
