@@ -1,0 +1,125 @@
+{% load static %}
+{% load i18n %}
+<link rel="stylesheet" href="{% static "css/SeparateWidgets/footer.css" %}">
+<style>
+.container-columns{
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 20px;
+}
+.list-column{
+   padding: 0 10px;
+    width: 190px;
+}
+#footer{
+    padding-top: 80px;
+    margin-top: auto;
+}
+.h3{
+    font-family: 'Poppins', Oswald, Verdana, sans-serif;
+    font-size: 16px;
+    line-height: 1.1;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+    margin-bottom: 32px;
+    text-align: left;
+}
+ul {
+    list-style-type: none;
+}
+li > a.footer-menu-item {
+
+    font-family: 'Poppins', Oswald, Verdana, sans-serif;
+    font-weight: 500;
+    color: #555;
+    font-size: 15px;
+}
+li > a.footer-menu-item:hover {
+    text-decoration: none;
+}
+li > a.footer-menu-item::after {
+    content: "";
+    display: inline-block;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    width: 0;
+    -webkit-transition: all 0.4s cubic-bezier(.36,.76,0,.88);
+    transition: all 0.4s cubic-bezier(.36,.76,0,.88);
+}
+.footer-cont{
+    border-top: 2px solid #eee;
+    padding-top: 6.25rem;
+    padding-bottom: 6.25rem;
+    overflow: hidden;
+}
+.footer-cont .block-social li a {
+  background-color: #000;
+}
+.container-of-footer{
+    max-width: 1300px;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+</style>
+<footer id="footer" data-footer-lay="7">
+    <div class="footer-cont">
+        <div class="container-of-footer">
+            <div class="row 7">
+                <div class="col-md-5">
+                    <div class="container-columns">
+                        <div class="column-customer-service list-column">
+                            <h3 class="h3">
+                                Customer Service
+                            </h3>
+                            <ul id="footer_sub_menu" class="text-left p-0 m-0">
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "contact_us" service_page="contact_us" %}"> Contact us </a> </li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Frequently Asked Questions </a> </li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Customer service and repair </a> </li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Shipping information </a> </li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Returns and exchanges </a> </li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Payment Information </a></li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> B2B Customers </a></li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Newsletter subscription </a></li>
+                            </ul>
+                        </div>
+                        <div class="column-our-company list-column">
+                            <h3 class="h3">
+                                Our company
+                            </h3>
+                            <ul id="footer_sub_menu" class="text-left p-0 m-0">
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Gifts Cards </a>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Oliver Weber's World </a></li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Oliver Weber for Press </a></li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Terms and Conditions </a></li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Impressum </a></li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Website Privacy Policy </a></li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Stores </a> </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 wrapper">
+                    <div class="block-social col-lg-12 col-md-12 col-sm-12">
+                        <div class="row">
+                            <h3 class="h3 hidden-sm-down">Follow us</h3>
+                            <ul>
+                                <li class="facebook"> <a href=""> Facebook </a> </li>
+                                <li class="youtube"> <a href=""> YouTube </a> </li>
+                                <li class="pinterest"><a href=""> Pinterest </a> </li>
+                                <li class="instagram"> <a href=""> Instagram </a> </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 wrapper">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

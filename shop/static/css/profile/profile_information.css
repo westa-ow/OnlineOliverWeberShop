@@ -21476,8 +21476,7 @@ body#index #top_column {
     padding-right:0
   }
   .elementor-widget-text-editor p a:not(.btn):before,
-  #main .page-content a:not(.btn):not(.noeffect):not(.color):before,
-  #footer div:not(.block-social) a:before {
+  #main .page-content a:not(.btn):not(.noeffect):not(.color):before, {
     content:"";
     display:inline-block;
     opacity:0;
@@ -23981,10 +23980,6 @@ body#authentication .bread_wrapper {
 }
 #gdpr_consent input[type="checkbox"]+span {
   margin-top:0
-}
-#footer .psgdpr_consent_message {
-  font-size:13px;
-  margin-top:8px
 }
 .contact-form #gdpr_consent {
   margin-top:-20px;
@@ -36680,22 +36675,11 @@ h6.page-header,
 #product-modal-name {
   color:#1c1c1c
 }
-#main .page-content a:not(.btn):not(.noeffect):not(.color):before,
-#footer:not(.block-social) a:before {
+#main .page-content a:not(.btn):not(.noeffect):not(.color):before
+ {
   background:#003665
 }
-#main .page-content a:not(.btn):not(.noeffect):not(.color):before,
-#footer div:not(.block-social) a:before {
-  left:0;
-  height:2px;
-  bottom:-4px;
-  width:0
-}
-#main .page-content a:not(.btn):not(.noeffect):not(.color):hover:before,
-#footer div:not(.block-social) a:hover:before {
-  width:100%;
-  opacity:1
-}
+
 #header.sticky {
   box-shadow:0 6px 40px 0 rgba(0,0,0,.1)
 }
@@ -38576,31 +38560,7 @@ body#checkout section.checkout-step .address-item.selected {
 .block-contact a:hover {
   color:#000
 }
-#footer .block_newsletter form input[type=text] {
-  background:#fff
-}
-#footer .block_newsletter form input[type=text] {
-  border:2px solid #fff
-}
-#footer .block_newsletter form input[type=text] {
-  color:#525252
-}
-#footer .block_newsletter form input[type=text]::-webkit-input-placeholder {
-  color:#a0a0a0!important;
-  opacity:1
-}
-#footer .block_newsletter form input[type=text]::-moz-placeholder {
-  color:#a0a0a0!important;
-  opacity:1
-}
-#footer .block_newsletter form input[type=text]:-ms-input-placeholder {
-  color:#a0a0a0!important;
-  opacity:1
-}
-#footer .block_newsletter form input[type=text]:-moz-placeholder {
-  color:#a0a0a0!important;
-  opacity:1
-}
+
 .block_newsletter form button.go {
   background-color:#ff4653!important
 }
@@ -62828,14 +62788,8 @@ footer#footer h3 {
 .footer-container p {
   color:black!important
 }
-#footer .block_newsletter form input[type=text] {
-  color:#525252!important;
-  border:thin solid;
-  padding-right:50px
-}
-.block_newsletter form button.go {
-  background-color:black!important
-}
+
+
 .block-social li {
   -webkit-mask-size:40px!important;
   width:40px!important;

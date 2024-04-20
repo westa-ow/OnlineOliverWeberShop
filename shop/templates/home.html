@@ -1,5 +1,5 @@
 {% block content %}
-    {% load static %}
+{% load static %}
 {% load widget_tweaks %}
 <!DOCTYPE html>
 <html lang="en">
@@ -127,7 +127,7 @@
         </div>
     </div>
 </div>
-
+{% include "widgets/footer.html" %}
 </body>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
