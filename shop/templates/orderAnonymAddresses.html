@@ -2,7 +2,7 @@
 {% load widget_tweaks %}
 {% block content %}
 <meta charset="UTF-8">
-<title>Checkout user addresses</title>
+<title>Checkout Addresses</title>
 <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -12,15 +12,21 @@
 <link rel="stylesheet" href="{% static 'css/SeparateWidgets/addressesWidget.css' %}">
 <style>
 body {
-    font-family: Arial, sans-serif;
+    font-family: Poppins, Verdana, sans-serif;
 }
 
+.all{
+    margin-top: 150px
+}
+.container-steps{
+    display: flex;
+    flex-direction: column;
+    margin-left: 0;
+    padding-left: 0;
+    margin-right: -2rem;
+}
 .page-header h1 {
     color: #333;
-}
-
-#addressForm {
-    margin-top: 20px;
 }
 
 button {
@@ -29,62 +35,38 @@ button {
 }
 
 .add-address, #cancelBtn {
-    background-color: #4CAF50;
-    color: white!important;
     border: none;
-    padding: 10px 20px;
-    text-align: center;
+    font-family: Poppins, Verdana, sans-serif;
+    font-weight: 500;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
 }
-    .informational-content {
-        width: 66%;
-        margin: auto;
-        position: relative;
-    }
+.informational-content {
+    width: 66%;
+    margin: auto;
+    position: relative;
+}
 
-    .shopping-cart-label {
-        width: initial;
-    }
+.shopping-cart-label {
+    width: initial;
+}
 
-    .labels {
-        display: flex;
-        justify-content: start;
-        gap: 20px; /* 20px gap between the labels */
-        position: relative;
-        padding-bottom: 5px;
-    }
 
-    .labels label {
-        cursor: pointer;
-        position: relative;
-    }
+.labels label {
+    cursor: pointer;
+    position: relative;
+}
 
-    .underline {
-        {#background: black;#}
-        position: absolute;
-        bottom: 0!important;
-        left: 0;
-        height: 2px;
-        transition: all 0.3s ease-in-out; /* Smooth transition */
-        width: 0; /* Initial width to 0 for animation */
-    }
-    .underline::before {
-        {#background: black;#}
-        position: absolute!important;
-        bottom: 8!important;
-
-    }
-    .page-addresses {
-        display: grid;
-        grid-auto-columns: auto;
-        grid-template-columns: 46% 46%;
-        width: 100%;
-        justify-content: center;
-        grid-gap: 0 8%;
-    }
-    .address {
+.page-addresses {
+    display: grid;
+    grid-auto-columns: auto;
+    grid-template-columns: 46% 46%;
+    width: 100%;
+    justify-content: center;
+    grid-gap: 0 8%;
+}
+.address {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -114,18 +96,39 @@ button {
     height: 2.5rem!important;
 }
 .address-billing-address{
-    font-size: 17px;
+    font-size: 20px;
     font-weight: 600;
+
 }
+.address-billing-address::after{
+    content: '';
+    position: absolute;
+    width: 0%; /* Start width at 0 to be invisible initially */
+    height: 2px; /* Adjust the thickness of the underline */
+    bottom: -5px; /* Adjust distance from the link */
+    left: 0;
+    background-color: #000; /* Underline color */
+    transition: width 0.3s ease; /* Smooth transition for the width */
+}
+.address-billing-address:hover::after{
+        width: 100%; /* Full width on hover */
+}
+
 .address-billing-address,.add-address {
     cursor: pointer;
+}
+
+.page-addresses *{
+    font-family: Poppins, Verdana, sans-serif;
+    font-weight: 500;
+    color: black;
 }
 </style>
     <body>
 {% include 'navigation_bar.html' %}
-<div class="all" style="margin-top: 150px">
+<div class="all" >
     <div class="page-content">
-        <div class="container-steps" style="display: flex;flex-direction: column;  margin-left: 0;  padding-left: 0;  margin-right: -2rem;">
+        <div class="container-steps" >
             <div class="doc-content" style="width: 100%">
                 <div class="informational-content">
                     <div class="shopping-cart-label">1. Personal Information<hr style="padding: 0;"></div>
@@ -142,7 +145,7 @@ button {
                                 <div class="address-content">
                                     <div class="address-body">
                                         <input type="radio" name="shipping_address" value="{{ address.address_id }}" class="address-radio">
-                                        <div class="address-body" style="">
+                                        <div class="address-body">
                                             <h4>{{ address.address_name }}</h4>
                                             <address>
                                                 {{ address.first_name }} {{ address.last_name }}
@@ -182,7 +185,7 @@ button {
                                 <span>Add new address</span>
                             </a>
                         </div>
-                        <div style="margin-top: 10px">
+                        <div style="margin: 10px 0 ">
                              <a id="toggleAddress" class="address-billing-address">Billing address differs from shipping address</a>
                         </div>
                     </div>
@@ -241,7 +244,7 @@ button {
                                         <span>Add new address</span>
                                     </a>
                                 </div>
-                                <div style="margin-top: 10px">
+                                <div style="margin: 10px 0">
                                      <a id="toggleBillingAddress" class="address-billing-address">Billing address is the same as shipping address</a>
                                 </div>
                             </div>

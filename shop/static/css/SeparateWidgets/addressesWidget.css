@@ -12,6 +12,7 @@ a[data-link-action="update-address"], a[data-link-action="delete-address"] {
 
 a[data-link-action="update-address"]::after, a[data-link-action="delete-address"]::after {
     content: '';
+    cursor: pointer;
     position: absolute;
     width: 0%; /* Start width at 0 to be invisible initially */
     height: 2px; /* Adjust the thickness of the underline */
