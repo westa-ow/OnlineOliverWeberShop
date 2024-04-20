@@ -264,7 +264,7 @@ let platingFilters =  "{{ plating_catalog }}" ? ["{{ plating_catalog|safe }}"] :
 let baseFilters = "{{ base_catalog }}" ? ["{{ base_catalog|safe }}"] : [];
 let stoneFilters = [];
 let sizeFilters = [];
-let subcat = {"Necklaces": ["Necklace","Chain","Pearlchain", "Pendant", "Collier"], "Earrings": ["Post Earrings", "Clip", "Hoop"], "Bracelets":["Bracelet","Bangle", "Anklet"], "Accessories":["Piercing", "Nailfile", "Pen","Key","Brooch"]}
+let subcat = {"Necklaces": ["Necklace","Chain","Pearlchain", "Pendant", "Collier"], "All Earrings": ["Earrings","Post Earrings", "Clip", "Hoop"], "Bracelets":["Bracelet","Bangle", "Anklet"], "Accessories":["Piercing", "Nailfile", "Pen","Key","Brooch"]}
 let category = "{{ category_catalog|safe}}" || "All";
 {#console.log(category);#}
 let categories = [""];
@@ -359,6 +359,7 @@ function changePage(page) {
 let synonyms = {
     "All": "All",
     "Necklaces": "Necklaces",
+    "All Earrings": "Earrings",
     "Earrings": "Earrings",
     "Bracelets": "Bracelets",
     "Accessories": "Accessories",
@@ -1254,6 +1255,7 @@ function productsTransmutation(items){
         if (!products[itemName] ) { //&& item.plating && item.stone
                 products[itemName] = {
                     name: item.category + " "+ item.product_name,
+                    product_number: itemName,
                     description: item.description,
                     price:calculatePrice(item),
                     category: item.category,
@@ -1495,6 +1497,10 @@ function generateDialogContent(id){
     const nameSpan = document.createElement('h1');
     nameSpan.textContent = `${item.name}`;
     secondColumn.appendChild(nameSpan);
+
+    const numberSpan = document.createElement('h4');
+    numberSpan.textContent = `${item.product_number}`;
+    secondColumn.appendChild(numberSpan);
 
     const priceSpan = document.createElement('div');
     priceSpan.textContent = currency+`${item.price}`;
