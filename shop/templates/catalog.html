@@ -1024,115 +1024,125 @@ function applyFilters() {
    const [from, to] = getParsed(fromSlider, toSlider);
 
    filteredItems = allItems.filter(item => {
-    let isMatch = (category === "All" || (subcat[category] !== undefined ? subcat[category].concat(category).includes(item.category) : item.category === category)) &&
-                  item.price <= to &&
-                  item.price >= from &&
-                  item.name.toLowerCase().includes(nameFilterValue) &&
-                  (baseFilters.length === 0 || baseFilters.includes(item.material));
+        let isMatch = (category === "All" || (subcat[category] !== undefined ? subcat[category].concat(category).includes(item.category) : item.category === category)) &&
+                      item.price <= to &&
+                      item.price >= from &&
+                      item.name.toLowerCase().includes(nameFilterValue) &&
+                      (baseFilters.length === 0 || baseFilters.includes(item.material));
 
-    if (!isMatch) {
-        return false;
-    }
+        if (!isMatch) {
+            return false;
+        }
 
-    let orderedPlatings = {};
-    let hasPlatingMatch = false;
+        let orderedPlatings = {};
+        let hasPlatingMatch = false;
 
-    // Check for plating matches
-    if (platingFilters.length > 0) {
-        platingFilters.forEach(platingFilter => {
-            if (item.platings.hasOwnProperty(platingFilter)) {
-                orderedPlatings[platingFilter] = item.platings[platingFilter];
-                hasPlatingMatch = true;
-            }
-        });
-        Object.keys(item.platings).forEach(plating => {
-            if (!orderedPlatings.hasOwnProperty(plating)) {
-                orderedPlatings[plating] = item.platings[plating];
-            }
-        });
-    } else {
-        orderedPlatings = item.platings;
-        hasPlatingMatch = true;
-    }
-
-    // Process stones and sizes
-    let finalPlatings = {};
-    Object.keys(orderedPlatings).forEach(plating => {
-        let stones = orderedPlatings[plating].stones;
-        let orderedStones = {};
-        let hasStoneMatch = false;
-
-        if (stoneFilters.length > 0) {
-            stoneFilters.forEach(stoneFilter => {
-                if (stones.hasOwnProperty(stoneFilter)) {
-                    orderedStones[stoneFilter] = stones[stoneFilter];
-                    hasStoneMatch = true;
+        // Check for plating matches
+        if (platingFilters.length > 0) {
+            platingFilters.forEach(platingFilter => {
+                if (item.platings.hasOwnProperty(platingFilter)) {
+                    orderedPlatings[platingFilter] = item.platings[platingFilter];
+                    hasPlatingMatch = true;
                 }
             });
-            Object.keys(stones).forEach(stoneKey => {
-                if (!orderedStones.hasOwnProperty(stoneKey)) {
-                    orderedStones[stoneKey] = stones[stoneKey];
+            Object.keys(item.platings).forEach(plating => {
+                if (!orderedPlatings.hasOwnProperty(plating)) {
+                    orderedPlatings[plating] = item.platings[plating];
                 }
             });
         } else {
-            orderedStones = stones;
-            hasStoneMatch = true;
+            orderedPlatings = item.platings;
+            hasPlatingMatch = true;
         }
 
-        // Reorder and filter sizes within stones
-        let finalStones = {};
-        Object.keys(orderedStones).forEach(stoneKey => {
-            let sizes = orderedStones[stoneKey].sizes;
-            let orderedSizes = {};
-            let hasSizeMatch = false;
+        // Process stones and sizes
+        let finalPlatings = {};
+        Object.keys(orderedPlatings).forEach(plating => {
+            let stones = orderedPlatings[plating].stones;
+            let orderedStones = {};
+            let hasStoneMatch = false;
 
-            if (sizeFilters.length > 0) {
-                sizeFilters.forEach(sizeFilter => {
-                    if (sizes.hasOwnProperty(sizeFilter)) {
-                        orderedSizes[sizeFilter] = sizes[sizeFilter];
-                        hasSizeMatch = true;
+            if (stoneFilters.length > 0) {
+                stoneFilters.forEach(stoneFilter => {
+                    if (stones.hasOwnProperty(stoneFilter)) {
+                        orderedStones[stoneFilter] = stones[stoneFilter];
+                        hasStoneMatch = true;
                     }
                 });
-                Object.keys(sizes).forEach(sizeKey => {
-                    if (!orderedSizes.hasOwnProperty(sizeKey)) {
-                        orderedSizes[sizeKey] = sizes[sizeKey];
+                Object.keys(stones).forEach(stoneKey => {
+                    if (!orderedStones.hasOwnProperty(stoneKey)) {
+                        orderedStones[stoneKey] = stones[stoneKey];
                     }
                 });
             } else {
-                orderedSizes = sizes;
-                hasSizeMatch = true;
+                orderedStones = stones;
+                hasStoneMatch = true;
             }
 
-            if (hasSizeMatch) {
-                finalStones[stoneKey] = { ...orderedStones[stoneKey], sizes: orderedSizes };
+            // Reorder and filter sizes within stones
+            let finalStones = {};
+            Object.keys(orderedStones).forEach(stoneKey => {
+                let sizes = orderedStones[stoneKey].sizes;
+                let orderedSizes = {};
+                let hasSizeMatch = false;
+
+                if (sizeFilters.length > 0) {
+                    sizeFilters.forEach(sizeFilter => {
+                        if (sizes.hasOwnProperty(sizeFilter)) {
+                            orderedSizes[sizeFilter] = sizes[sizeFilter];
+                            hasSizeMatch = true;
+                        }
+                    });
+                    Object.keys(sizes).forEach(sizeKey => {
+                        if (!orderedSizes.hasOwnProperty(sizeKey)) {
+                            orderedSizes[sizeKey] = sizes[sizeKey];
+                        }
+                    });
+                } else {
+                    orderedSizes = sizes;
+                    hasSizeMatch = true;
+                }
+
+                if (hasSizeMatch) {
+                    finalStones[stoneKey] = { ...orderedStones[stoneKey], sizes: orderedSizes };
+                }
+            });
+
+            if (hasStoneMatch && Object.keys(finalStones).length > 0) {
+                finalPlatings[plating] = { stones: finalStones };
             }
         });
 
-        if (hasStoneMatch && Object.keys(finalStones).length > 0) {
-            finalPlatings[plating] = { stones: finalStones };
+        if (hasPlatingMatch && Object.keys(finalPlatings).length > 0) {
+            item.platings = finalPlatings;
+        } else {
+            return false;
         }
-    });
 
-    if (hasPlatingMatch && Object.keys(finalPlatings).length > 0) {
-        item.platings = finalPlatings;
-    } else {
-        return false;
+        return true;
+   });
+
+   if(sizeFilters.length === 0){
+       for (let productName in filteredItems) {
+        for (let platingName in filteredItems[productName].platings) {
+            for (let stoneName in filteredItems[productName].platings[platingName].stones) {
+                let stoneEntry = filteredItems[productName].platings[platingName].stones[stoneName];
+                if (stoneEntry.sizes) {
+                    stoneEntry.sizes = orderSizes(stoneEntry.sizes);
+                }
+            }
+        }
     }
-
-    return true;
-});
-
-
-
+   }
    if (filteredItems.length === 0) {
        filteredItems.push("No items found");
    }
    else{
        filteredItems.forEach(item => {
-        let first_plating = Object.values(item.platings)[0];
-        let first_stone = Object.values(first_plating.stones)[0];
-        item.preview_image = first_stone['image'];
-    });
+            let first_plating = Object.values(item.platings)[0];
+            let first_stone = Object.values(first_plating.stones)[0];
+            item.preview_image = first_stone['image'];
+       });
 
    }
 
@@ -1141,19 +1151,6 @@ function applyFilters() {
    changePage(1);
 }
 
-function checkSizes(item){
-
-    let value = Object.values(item.platings).some(plating =>
-        Object.values(plating.stones).some(stone => {
-            // Check if stone has sizes and if any of these sizes match the sizeFilters
-            return stone.sizes && Object.keys(stone.sizes).some(sizeKey => {
-                const isMatch = sizeFilters.includes(sizeKey);
-                return isMatch; // Correctly return the evaluation to influence the "some" method
-            });
-        })
-    );
-    return value;
-}
 function order(array){
     if(order_name==="Name") {
         array.sort((a, b) => {
@@ -1242,8 +1239,7 @@ function productsTransmutation(items){
         }
         let itemName = item.name;
 
-        itemName = itemName.split(' ')[0];//.replace(/[a-zA-Z]/g, '').replace(/RG/g, '').replace(/G/g, '').replace(/R/g, '').replace(/XL/g, '').replace(/L/g, '').replace(/M/g, '').replace(/S/g, '').replace(/XS/g, '');
-
+        itemName = itemName.split(' ')[0];
          if (regex.test(itemName)) {
             let processedName = itemName.match(/^([a-zA-Z]{0,2})(\d{5})/);
              // This includes both the initial letters and the 5 digits
@@ -1257,7 +1253,7 @@ function productsTransmutation(items){
                 products[itemName] = {
                     name: itemName,
                     description: item.description,
-                    price:((price_category === "VK3" ? item.priceVK3 : price_category === "GH" ? item.priceGH : price_category === "GH_USD" ? item.priceUSD_GH : price_category === "Default_USD" ? (item.priceUSD*(1-sale)) : (item.priceVK4*(1-sale)))? (price_category === "VK3" ? item.priceVK3 : price_category === "GH" ? item.priceGH : price_category === "GH_USD" ? item.priceUSD_GH : price_category === "Default_USD" ? (item.priceUSD*(1-sale)) : (item.priceVK4*(1-sale))) : 0).toFixed(2),
+                    price:calculatePrice(item),
                     category: item.category,
                     material: item.material,
                     preview_image: item.image_url,
@@ -1305,14 +1301,44 @@ function productsTransmutation(items){
                     }
                 }
             }
-
-
-
     });
+    for (let productName in products) {
+        for (let platingName in products[productName].platings) {
+            for (let stoneName in products[productName].platings[platingName].stones) {
+                let stoneEntry = products[productName].platings[platingName].stones[stoneName];
+                if (stoneEntry.sizes) {
+                    stoneEntry.sizes = orderSizes(stoneEntry.sizes);
+                }
+            }
+        }
+    }
     return Object.values(products);
 }
 
+function orderSizes(sizes) {
+    const sizeOrder = ['S', 'M', 'L', 'XL'];
+    const orderedSizes = {};
+    sizeOrder.forEach(size => {
+        if (sizes.hasOwnProperty(size)) {
+            orderedSizes[size] = sizes[size];
+        }
+    });
+    // Include other sizes not in the specified order
+    Object.keys(sizes).forEach(size => {
+        if (!orderedSizes.hasOwnProperty(size)) {
+            orderedSizes[size] = sizes[size];
+        }
+    });
+    return orderedSizes;
+}
 
+function calculatePrice(item) {
+    return ((price_category === "VK3" ? item.priceVK3 :
+             price_category === "GH" ? item.priceGH :
+             price_category === "GH_USD" ? item.priceUSD_GH :
+             price_category === "Default_USD" ? (item.priceUSD * (1 - sale)) :
+             (item.priceVK4 * (1 - sale)))).toFixed(2);
+}
 
 document.getElementById('previous-button').addEventListener('click', function (event){
     event.preventDefault();
