@@ -81,12 +81,13 @@ li > a.footer-menu-item::after {
                             <ul id="footer_sub_menu" class="text-left p-0 m-0">
                                 <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "services" service_page="contact_us" %}"> Contact us </a> </li>
                                 <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "services" service_page="faq" %}"> Frequently Asked Questions </a> </li>
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Customer service and repair </a> </li>
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Shipping information </a> </li>
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Returns and exchanges </a> </li>
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Payment Information </a></li>
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> B2B Customers </a></li>
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Newsletter subscription </a></li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "services" service_page="csar" %}"> Customer service and repair </a> </li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "services" service_page="shipping_info" %}"> Shipping information </a> </li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "services" service_page="returns_exchanges" %}"> Returns and exchanges </a> </li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "services" service_page="payment_info" %}"> Payment Information </a></li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "services" service_page="b2b" %}"> B2B Customers </a></li>
+{#                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "services" service_page="news_subscription" %}"> Newsletter subscription </a></li>#}
+{#                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Gifts Cards </a>#}
                             </ul>
                         </div>
                         <div class="column-our-company list-column">
@@ -94,7 +95,7 @@ li > a.footer-menu-item::after {
                                 Our company
                             </h3>
                             <ul id="footer_sub_menu" class="text-left p-0 m-0">
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Gifts Cards </a>
+
                                 <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Oliver Weber's World </a></li>
                                 <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Oliver Weber for Press </a></li>
                                 <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Terms and Conditions </a></li>
