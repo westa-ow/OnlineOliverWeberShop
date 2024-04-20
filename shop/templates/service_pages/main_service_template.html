@@ -1,0 +1,18 @@
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<body>
+{% include 'navigation_bar.html' %}
+
+{% if service_page == "contact_us" %}
+    {% include 'service_pages/contact_us.html' %}
+{% elif service_page == "faq" %}
+
+
+{% endif %}
+
+{% include "widgets/footer.html" %}
+</body>
+</html>
+
+{%endblock%}

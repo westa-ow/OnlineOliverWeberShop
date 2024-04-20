@@ -23,6 +23,7 @@ from shop.views_scripts.orders_control.bulk_change_statuses import change_status
 from shop.views_scripts.orders_control.download_order import download_csv_order, download_pdf_w_img, \
     download_pdf_no_img, at_delete_order
 from shop.views_scripts.orders_control.view_order import view_order
+from shop.views_scripts.service_views import service_pages_view
 from shop.views_scripts.users_control.at_uc_bulk_actions import disable_users, enable_users
 from shop.views_scripts.auth_views import register, logout_view, login_view
 from shop.views_scripts.catalog_views import add_to_cart_from_catalog, catalog_view, change_favorite_state
@@ -82,4 +83,6 @@ urlpatterns = [
     path('admin_tools/orders_control/delete_order/<str:order_id>/', at_delete_order, name='at_delete_order'),
     # path('finish_order/', )
 
+    #Service urls
+    path('service_pages/<str:service_page>/', service_pages_view, name='contact_us'),
 ]
