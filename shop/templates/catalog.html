@@ -1495,11 +1495,11 @@ function generateDialogContent(id){
     secondColumn.classList.add('second-column');
 
     const nameSpan = document.createElement('h1');
-    nameSpan.textContent = `${item.name}`;
+    nameSpan.textContent = `${item.product_name}`;
     secondColumn.appendChild(nameSpan);
 
     const numberSpan = document.createElement('h4');
-    numberSpan.textContent = `${item.product_name}`;
+    numberSpan.textContent = `${item.name}`;
     secondColumn.appendChild(numberSpan);
 
     const priceSpan = document.createElement('div');
