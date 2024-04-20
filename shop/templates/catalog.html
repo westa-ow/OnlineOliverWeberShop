@@ -1254,8 +1254,8 @@ function productsTransmutation(items){
         console.log(sale);
         if (!products[itemName] ) { //&& item.plating && item.stone
                 products[itemName] = {
-                    name: item.category + " "+ item.product_name,
-                    product_number: itemName,
+                    name: itemName,
+                    product_name: item.category + " "+ item.product_name,
                     description: item.description,
                     price:calculatePrice(item),
                     category: item.category,
@@ -1499,7 +1499,7 @@ function generateDialogContent(id){
     secondColumn.appendChild(nameSpan);
 
     const numberSpan = document.createElement('h4');
-    numberSpan.textContent = `${item.product_number}`;
+    numberSpan.textContent = `${item.product_name}`;
     secondColumn.appendChild(numberSpan);
 
     const priceSpan = document.createElement('div');
