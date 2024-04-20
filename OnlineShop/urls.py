@@ -84,5 +84,5 @@ urlpatterns = [
     # path('finish_order/', )
 
     #Service urls
-    path('service_pages/<str:service_page>/', service_pages_view, name='contact_us'),
+    path('service_pages/<str:service_page>/', service_pages_view, name='services'),
 ]

@@ -37,6 +37,8 @@ li > a.footer-menu-item {
 }
 li > a.footer-menu-item:hover {
     text-decoration: none;
+    color: #000000;
+
 }
 li > a.footer-menu-item::after {
     content: "";
@@ -77,8 +79,8 @@ li > a.footer-menu-item::after {
                                 Customer Service
                             </h3>
                             <ul id="footer_sub_menu" class="text-left p-0 m-0">
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "contact_us" service_page="contact_us" %}"> Contact us </a> </li>
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Frequently Asked Questions </a> </li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "services" service_page="contact_us" %}"> Contact us </a> </li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "services" service_page="faq" %}"> Frequently Asked Questions </a> </li>
                                 <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Customer service and repair </a> </li>
                                 <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Shipping information </a> </li>
                                 <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Returns and exchanges </a> </li>

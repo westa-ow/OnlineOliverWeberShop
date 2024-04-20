@@ -1,11 +1,23 @@
 {% block content %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
+<link rel="stylesheet" href="{% static 'css/profile/profile_information.css' %}">
 <body>
 {% include 'navigation_bar.html' %}
 
 {% if service_page == "contact_us" %}
     {% include 'service_pages/contact_us.html' %}
+{% elif service_page == "faq" %}
+    {% include 'service_pages/faq.html' %}
+{% elif service_page == "csar" %}
+
+{% elif service_page == "shipping_info" %}
+
+{% elif service_page == "" %}
+
+{% elif service_page == "faq" %}
+
 {% elif service_page == "faq" %}
 
 
