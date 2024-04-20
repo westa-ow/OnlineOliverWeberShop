@@ -303,7 +303,7 @@ document.getElementById('cartBtn').onclick = function() {
                     attrs_column_first.classList.add('cart-first-attrs-column');
 
                     const name = document.createElement('span');
-                    name.textContent = `${item.name}`;
+                    name.textContent = `${item.category + " "+item.product_name}`;
                     name.classList.add('cart-product-name');
 
                     const crystal_color = document.createElement('span');

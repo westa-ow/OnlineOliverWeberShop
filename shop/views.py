@@ -342,7 +342,8 @@ def get_cart(email):
             safe_description = description.encode('utf-8').decode('utf-8')
         else:
             safe_description = ''
-        cart.append({'name': doc.to_dict().get('name'), 'quantity': doc.to_dict().get('quantity'),
+        cart.append({'name': doc.to_dict().get('name'), 'product_name': doc.to_dict().get('product_name'),
+                     'quantity': doc.to_dict().get('quantity'), 'category': doc.to_dict().get('category'),
                      'number': doc.to_dict().get('number'), 'image_url': doc.to_dict().get('image_url'),
                      'description': safe_description, 'quantity_max': doc.to_dict().get('quantity_max'),
                      'price': doc.to_dict().get('price'),

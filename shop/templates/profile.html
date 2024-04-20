@@ -8,8 +8,6 @@
     <link rel="stylesheet" href="{% static 'css/profile/profile_main.css' %}">
 </head>
 <style>
-
-
 </style>
 <body>
 {% include 'navigation_bar.html' %}
@@ -29,7 +27,6 @@
         {% include 'profile/profile_update_address.html' %}
     {% elif feature_name == 'favourites' %}
         {% include 'profile/profile_favourites.html' %}
-
     {% endif %}
 </div>
 {% include "widgets/footer.html" %}

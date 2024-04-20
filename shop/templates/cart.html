@@ -51,7 +51,7 @@ input[type="range"] {
     <div class="shopping-cart-label">Shopping cart</div>
     <ul id="documents-list">
 
-          {% for document in documents %}
+      {% for document in documents %}
 
         <div class="document-container" data-document-id="{{ document.name }}" data-document="{{ document }}">
             <div class="document-container-body">
@@ -59,7 +59,7 @@ input[type="range"] {
                 <div class="document-info" id="info-{{ document.name }}">
 
                     <div class="column-1">
-                        <div class="document-number">{{ document.name }}</div>
+                        <div class="document-number">{{ document.category }} {{ document.product_name }}</div>
                         <div class="document-description">{{ document.description }}</div>
                         <div class="current-quantity" id="current-quantity-{{ document.name }}">In cart: {{ document.quantity }}</div>
                     </div>

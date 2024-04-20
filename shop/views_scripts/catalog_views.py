@@ -129,6 +129,8 @@ def update_cart(email, product_name, new_quantity, document):
             "price": document['price'],
             "quantity": new_quantity,
             "number": len(cart_items) + 1,
+            "product_name": document['product_name'],
+            "category": document['category'],
             'quantity_max': document['quantity']
         })
         subtotal += round(new_quantity * document['price'], 2)

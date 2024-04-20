@@ -1253,7 +1253,7 @@ function productsTransmutation(items){
         console.log(sale);
         if (!products[itemName] ) { //&& item.plating && item.stone
                 products[itemName] = {
-                    name: itemName,
+                    name: item.category + " "+ item.product_name,
                     description: item.description,
                     price:calculatePrice(item),
                     category: item.category,
