@@ -96,12 +96,12 @@ li > a.footer-menu-item::after {
                             </h3>
                             <ul id="footer_sub_menu" class="text-left p-0 m-0">
 
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Oliver Weber's World </a></li>
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Oliver Weber for Press </a></li>
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Terms and Conditions </a></li>
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Impressum </a></li>
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Website Privacy Policy </a></li>
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Stores </a> </li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "company_info" company_info_page="ow_world" %}"> Oliver Weber's World </a></li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "company_info" company_info_page="ow_press" %}"> Oliver Weber for Press </a></li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "company_info" company_info_page="terms_conditions" %}"> Terms and Conditions </a></li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "company_info" company_info_page="impressum" %}"> Impressum </a></li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "company_info" company_info_page="privacy_policy" %}"> Website Privacy Policy </a></li>
+{#                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Stores </a> </li>#}
                             </ul>
                         </div>
                     </div>

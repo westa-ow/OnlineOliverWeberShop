@@ -11,15 +11,16 @@
 {% elif service_page == "faq" %}
     {% include 'service_pages/faq.html' %}
 {% elif service_page == "csar" %}
-
+    {% include 'service_pages/customer_service_and_repair.html' %}
 {% elif service_page == "shipping_info" %}
-
-{% elif service_page == "" %}
-
-{% elif service_page == "faq" %}
-
-{% elif service_page == "faq" %}
-
+    {% include 'service_pages/shipping_information.html' %}
+{% elif service_page == "returns_exchanges" %}
+    {% include 'service_pages/returns_and_exchanges.html' %}
+{% elif service_page == "payment_info" %}
+    {% include 'service_pages/payment_information.html' %}
+{% elif service_page == "b2b" %}
+    {% include 'service_pages/b2b_customers.html' %}
+{% elif service_page == "news_subscription" %}
 
 {% endif %}
 
