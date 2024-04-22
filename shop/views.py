@@ -312,7 +312,11 @@ def home_page(request):
     email = get_user_session_type(request)
     category, currency = get_user_category(email) or ("Default", "Euro")
     currency = '€' if currency == 'Euro' else '$'
+    info = get_user_info(email) or {}
+    sale = round((0 if "sale" not in info else info['sale']) / 100, 2) or 0
     context['currency'] = currency
+    context['category'] = category
+    context['sale'] = sale
     return render(request, 'home.html', context)
 
 
