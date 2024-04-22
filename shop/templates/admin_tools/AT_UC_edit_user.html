@@ -124,7 +124,7 @@
                            <input name="receive-partners-offers" type="checkbox" value="1"  {% if user_info.receive_offers == True %}checked{% endif %}>
                             <span class="slider round"></span>
                         </label>
-                        <label id="label-offers" style="text-align: center">{% if user_info.reveive_offers %} Yes{% else %} No{% endif %}</label>
+                        <label id="label-offers" style="text-align: center">{% if user_info.receive_offers %} Yes{% else %} No{% endif %}</label>
                     </div>
                     <label>Partner offers<br>
                             <em>This customer will receive your ads via email</em>
@@ -135,110 +135,70 @@
 
                 </div>
             </div>
+            <div class="form-group row ">
+                <div class="col-md-12">
+                    <label></label>
+                    <span class="custom-checkbox" style="display: flex;flex-direction: row">
+                    <div class="fl" style="display: flex; flex-direction: column; margin-right: 20px">
+                        <label class="switch">
+                           <input name="show-quantities" type="checkbox" value="1"  {% if user_info.show_quantities == True %}checked{% endif %}>
+                            <span class="slider round"></span>
+                        </label>
+                        <label id="label-show-quantities" style="text-align: center">{% if user_info.show_quantities %} Yes{% else %} No{% endif %}</label>
+                    </div>
+                    <label>Show user full quantities<br>
+                            <em>This user will see detailed quantity values in product cards (e.g. In stock: 5)</em>
+                        </label>
+                    </span>
+                </div>
+                <div class="col-md-12 form-control-comment">
 
-{#            <div class="form-group row ">#}
-{#                <div class="col-md-12">#}
-{#                    <label>Group Access</label>#}
-{#                    <table class="table-groups">#}
-{#                        <thead>#}
-{#                            <tr>#}
-{#                                <th class="checkbox">#}
-{#                                    <div class="container-checkbox">#}
-{#                                        <label>#}
-{#                                            <input type="checkbox" class="js-choice-table-select-all">#}
-{#                                            <i class="md-checkbox-control"></i>#}
-{#                                            Select all#}
-{#                                        </label>#}
-{#                                    </div>#}
-{#                                </th>#}
-{#                            </tr>#}
-{#                        </thead>#}
-{#                        <tbody>#}
-{#                            <tr>#}
-{#                                <td>#}
-{#                                    <div class="group-value">#}
-{#                                        <label>#}
-{#                                            <input type="checkbox"  name="Visitor-group" value="1">#}
-{#                                            <i class="md-checkbox-control"></i>#}
-{#                                            Visitor#}
-{#                                        </label>#}
-{#                                    </div>#}
-{#                                </td>#}
-{#                            </tr>#}
-{#                            <tr>#}
-{#                                <td>#}
-{#                                    <div class="group-value">#}
-{#                                        <label>#}
-{#                                            <input type="checkbox" name="Guest-group" value="2">#}
-{#                                            <i class="md-checkbox-control"></i>#}
-{#                                            Guest#}
-{#                                        </label>#}
-{#                                    </div>#}
-{#                                </td>#}
-{#                            </tr>#}
-{#                            <tr>#}
-{#                                <td>#}
-{#                                    <div class="group-value">#}
-{#                                        <label>#}
-{#                                            <input type="checkbox" name="Customer-group" value="3" checked="checked">#}
-{#                                            <i class="md-checkbox-control"></i>#}
-{#                                            Customer#}
-{#                                        </label>#}
-{#                                    </div>#}
-{#                                </td>#}
-{#                            </tr>#}
-{#                        </tbody>#}
-{#                    </table>#}
-{#                </div>#}
-{#                <div class="col-md-12 form-control-comment">#}
-{#                    <span class="req">*</span>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-        <div class="form-group row ">
-            <div class="col-md-12">
-                <label>Currency</label>
-                 <select class="form-control form-control-select js-country" name="id_currency" id="select-currency">
-                    <option value="1">Euro</option>
-                    <option value="2">Dollar</option>
-                </select>
+                </div>
             </div>
-            <div class="col-md-12 form-control-comment">
-                <span class="req"></span>
+            <div class="form-group row ">
+                <div class="col-md-12">
+                    <label>Currency</label>
+                     <select class="form-control form-control-select js-country" name="id_currency" id="select-currency">
+                        <option value="1">Euro</option>
+                        <option value="2">Dollar</option>
+                    </select>
+                </div>
+                <div class="col-md-12 form-control-comment">
+                    <span class="req"></span>
+                </div>
             </div>
-        </div>
-        <div class="form-group row ">
-            <div class="col-md-12">
-                <label>Customer group</label>
-                 <select class="form-control form-control-select js-country" name="id_group" id="select-group" required="">
-                    <option value="" disabled="" selected="">-- please choose --</option>
-                    <option value="1">Default</option>
-                    <option value="2">VK3</option>
-                    <option value="3">GH</option>
-                    <option value="4" style="display:none;">Default_USD</option>
-                    <option value="5" style="display:none;">GH_USD</option>
-                </select>
+            <div class="form-group row ">
+                <div class="col-md-12">
+                    <label>Customer group</label>
+                     <select class="form-control form-control-select js-country" name="id_group" id="select-group" required="">
+                        <option value="" disabled="" selected="">-- please choose --</option>
+                        <option value="1">Default</option>
+                        <option value="2">VK3</option>
+                        <option value="3">GH</option>
+                        <option value="4" style="display:none;">Default_USD</option>
+                        <option value="5" style="display:none;">GH_USD</option>
+                    </select>
+                </div>
+                <div class="col-md-12 form-control-comment">
+                    <span class="req">*</span>
+                </div>
             </div>
-            <div class="col-md-12 form-control-comment">
-                <span class="req">*</span>
-            </div>
-        </div>
-        <div class="form-group row ">
-            <div class="col-md-12">
-                <label>Personal sale, %</label>
-                <input class="form-control" id="sale-input" name="sale" type="text" value="{{ user_info.sale }}" placeholder="Sale without % symbol, 0 <= sale < 100">
-                <span class="form-control-comment"> (E.g.: 40) </span>
-            </div>
-            <div class="col-md-12 form-control-comment">
+            <div class="form-group row ">
+                <div class="col-md-12">
+                    <label>Personal sale, %</label>
+                    <input class="form-control" id="sale-input" name="sale" type="text" value="{{ user_info.sale }}" placeholder="Sale without % symbol, 0 <= sale < 100">
+                    <span class="form-control-comment"> (E.g.: 40) </span>
+                </div>
+                <div class="col-md-12 form-control-comment">
 
+                </div>
             </div>
-        </div>
-        <footer class="form-footer clearfix">
-            <input type="hidden" name="submitCreate" value="1">
-            <button class="btn btn-primary wide form-control-submit float-xs-right" data-link-action="save-customer" type="submit"> Save </button>
-        </footer>
-        </div>
-    </form>
+            <footer class="form-footer clearfix">
+                <input type="hidden" name="submitCreate" value="1">
+                <button class="btn btn-primary wide form-control-submit float-xs-right" data-link-action="save-customer" type="submit"> Save </button>
+            </footer>
+            </div>
+        </form>
     <aside id="notifications">
         <div class="container">
 
@@ -365,6 +325,16 @@
         else{
             document.getElementsByName('enable-user')[0].value = 2;
             document.getElementById('label-enabled').textContent = "No";
+        }
+    });
+    document.getElementsByName('show-quantities')[0].addEventListener('change', function(event) {
+        if (event.target.checked) {
+            document.getElementsByName('show-quantities')[0].value = 1;
+            document.getElementById('label-show-quantities').textContent = "Yes";
+        }
+        else{
+            document.getElementsByName('show-quantities')[0].value = 2;
+            document.getElementById('label-show-quantities').textContent = "No";
         }
     });
     function isValidBirthday(birthday) {

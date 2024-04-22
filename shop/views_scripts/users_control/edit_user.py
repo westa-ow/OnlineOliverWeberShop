@@ -73,10 +73,12 @@ def edit_user(request, user_id):
 
             social_title = old_user_data['social_title'] if 'id_gender' not in new_user_data else "Mr" if new_user_data[
                                                                                                     'id_gender'] == "1" else "Mrs"
-            receive_offers = old_user_data['receive_offers'] if 'optin' not in new_user_data else True if new_user_data[
+            receive_offers = old_user_data['receive_offers'] if 'receive-partners-offers' not in new_user_data else True if new_user_data[
                                                                                                  'receive-partners-offers'] == "1" else False
             user_enabled = old_user_data['Enabled'] if 'enable-user' not in new_user_data else True if new_user_data[
                                                                                                               'enable-user'] == "1" else False
+            show_quantities = old_user_data['show-quantities'] if 'show-quantities' not in new_user_data else True if new_user_data[
+                                                                                                              'show-quantities'] == "1" else False
 
             customer_currency = currency_dict[new_user_data['id_currency']]
             customer_group = groups_dict[new_user_data['id_group']]
@@ -97,6 +99,7 @@ def edit_user(request, user_id):
                         'receive_offers': receive_offers,
                         'sale': 0 if "sale" not in new_user_data else int(new_user_data['sale']),
                         'price_category': customer_group,
+                        'show_quantities': show_quantities
                     })
             return JsonResponse({'status': 'success', 'message': 'Address updated successfully.'})
         except Exception as e:
