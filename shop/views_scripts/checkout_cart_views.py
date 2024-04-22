@@ -168,7 +168,7 @@ def send_email(request):
         server_mail_subject = f"{user_email} just ordered"
         email_body = 'Here is your order receipt.'
         server_email_body = 'Here is client order receipt and csv.'
-        recipient_list = [user_email, 'westadatabase@gmail.com']
+        recipient_list = [user_email]
 
         recipient_list_server = ['westadatabase@gmail.com']
 
