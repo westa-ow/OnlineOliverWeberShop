@@ -1030,7 +1030,7 @@ function applyFilters() {
         let isMatch = (category === "All" || (subcat[category] !== undefined ? subcat[category].concat(category).includes(item.category) : item.category === category)) &&
                       item.price <= to &&
                       item.price >= from &&
-                      item.name.toLowerCase().includes(nameFilterValue) &&
+                      item.product_name.toLowerCase().includes(nameFilterValue) &&
                       (baseFilters.length === 0 || baseFilters.includes(item.material));
 
         if (!isMatch) {
@@ -1697,7 +1697,7 @@ function add_to_cart_func(item, plating, stone, size, quantity, add_button, dial
             'X-CSRFToken': getCookie('csrftoken'),
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({'document': doc, 'quantity':quantity, 'currency':currency,'price_category':price_category, 'sale':sale})
+        body: JSON.stringify({'document': doc, 'quantity':quantity})
     })
     .then(response => response.json())
     .then(data => {

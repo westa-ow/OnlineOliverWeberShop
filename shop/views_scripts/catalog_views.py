@@ -63,11 +63,11 @@ def add_to_cart_from_catalog(request):
     new_quantity = data.get('quantity')
 
     email = get_user_session_type(request)
-    category, currency = (data.get('price_category'), data.get('currency'))
-
+    category, currency = get_user_category(email) or ("Default", "Euro")
     currency = '€' if currency == 'Euro' else '$'
-
-    sale = float(data.get('sale'))
+    email = get_user_session_type(request)
+    info = get_user_info(email) or {}
+    sale = round((0 if "sale" not in info else info['sale'])/100, 2) or 0
     if not product_name or new_quantity is None:
         return JsonResponse({'status': 'error', 'message': 'Missing product name or quantity'}, status=400)
 
