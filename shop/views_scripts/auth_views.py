@@ -84,7 +84,8 @@ def register(request):
                     'receive_newsletter': newsletter,
                     'registrationDate': current_time,
                     'userId': user_id,
-                    'sale': 0
+                    'sale': 0,
+                    'show_quantities': False
 
                 }
                 users_ref.add(new_user)
