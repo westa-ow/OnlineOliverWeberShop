@@ -115,12 +115,12 @@ input[type="range"] {
 
                 </div>
             </div>
-            <div class="card-block-totals">
+            <div class="card-block-totals" >
                 <div class="cart-total">
-                    <span class="label-total">Total (VAT incl.)</span>
+                    <span class="label-total">Total (VAT Excl.)</span>
                     <span class="value-total">{{ currency }}500.00</span>
                 </div>
-                <div class="cart-taxes">
+                <div class="cart-taxes" style="display: none">
                     <span class="label-taxes">Included taxes:</span>
                     <span class="value-taxes">{{ currency }}84.00</span>
                 </div>
@@ -329,32 +329,6 @@ function deleteBut(documentId, documentContainer){
 }
 document.getElementById('finishOrderButton').addEventListener('click', function() {
         {% if user.is_authenticated  %}
-            {#if (documentss.length !== 0){#}
-            {#    window.alert("Order will be delivered to your email");#}
-            {#    fetch('{% url 'send_email'%}', {#}
-            {#        method: 'POST',#}
-            {#        headers: {#}
-            {#            'X-CSRFToken': getCookie('csrftoken'),#}
-            {#            'Content-Type': 'application/json',#}
-            {#        },#}
-            {#    })#}
-            {#    .then(response => response.json())#}
-            {#    .then(data => {#}
-            {#        console.log(data);#}
-            {#        if (data.status === 'success') {#}
-            {#            // Redirect to the home URL#}
-            {#            window.location.href = '{% url 'home' %}';#}
-            {#        } else {#}
-            {#            // Handle error or unsuccessful status#}
-            {#            console.error('Error in processing the order');#}
-            {#        }#}
-            {#    })#}
-            {#    .catch(error => console.error('Error:', error));#}
-            {##}
-            {#else#}
-            {#{#}
-            {#    window.alert("You have to add at least 1 item to finish order");#}
-            {##}
             window.location.href = '{% url 'checkout_addresses' %}';
         {% else %}
             window.location.href = '{% url 'cart_anonymous' %}';
