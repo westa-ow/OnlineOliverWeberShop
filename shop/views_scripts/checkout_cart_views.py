@@ -1,4 +1,5 @@
 import concurrent
+import csv
 
 from django.contrib.auth.decorators import login_required
 from reportlab.lib import colors
@@ -36,7 +37,7 @@ import logging
 import tempfile
 from datetime import datetime, timedelta
 from subprocess import run
-from io import BytesIO
+from io import BytesIO, StringIO
 import urllib.request
 import ftplib
 from django.views.generic import TemplateView
@@ -116,6 +117,11 @@ def send_email(request):
         all_orders_info = []
         names = []
         sum = 0
+
+        csv_output = StringIO()
+        csv_writer = csv.writer(csv_output)
+        csv_writer.writerow(['name', 'quantity'])
+
         for order_item in cart:
             description = order_item.get('description')
             price = order_item.get('price')
@@ -140,6 +146,11 @@ def send_email(request):
             doc_ref.set(new_order_item)
             item_refs.append(doc_ref)
 
+            csv_writer.writerow([name, quantity])
+
+        csv_output.seek(0)
+        csv_content = csv_output.getvalue()
+        csv_output.close()
 
         new_order = {
             'Status': 'Awaiting',
@@ -154,12 +165,21 @@ def send_email(request):
         pdf_response = receipt_generator(all_orders_info, new_order, "Test Name", currency, vat)
 
         subject = 'Your Order Receipt'
+        server_mail_subject = f"{user_email} just ordered"
         email_body = 'Here is your order receipt.'
+        server_email_body = 'Here is client order receipt and csv.'
         recipient_list = [user_email, 'westadatabase@gmail.com']
 
+        recipient_list_server = ['westadatabase@gmail.com']
+
         email = EmailMessage(subject, email_body, settings.EMAIL_HOST_USER, recipient_list)
+
+        emailServer = EmailMessage(server_mail_subject, server_email_body, settings.EMAIL_HOST_USER, recipient_list_server)
         email.attach(f'order_receipt_{order_id}.pdf', pdf_response, 'application/pdf')
+        emailServer.attach(f'order_{order_id}.csv', csv_content, 'text/csv')
+        emailServer.attach(f'order_receipt_{order_id}.pdf', pdf_response, 'application/pdf')
         email.send()
+        emailServer.send()
         orders_ref.add(new_order)
         for delete_name in names:
             clear_cart(user_email, delete_name)
