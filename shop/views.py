@@ -314,9 +314,11 @@ def home_page(request):
     currency = '€' if currency == 'Euro' else '$'
     info = get_user_info(email) or {}
     sale = round((0 if "sale" not in info else info['sale']) / 100, 2) or 0
+    show_quantities = info['show_quantities'] if 'show_quantities' in info else False
     context['currency'] = currency
     context['category'] = category
     context['sale'] = sale
+    context['show_quantities'] = show_quantities
     return render(request, 'home.html', context)
 
 

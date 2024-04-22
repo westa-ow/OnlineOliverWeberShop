@@ -246,6 +246,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
+    const show_quantities = "{{ show_quantities|safe }}" !== "False";
     let favouriteitems = [ ];
     let allItems = [];
     let elements = [
@@ -707,7 +708,14 @@ function updateStones(selectedStone, sizeSelect, image, maxQuantity){
 }
 
 function updateSizes(sizeQuantity, maxQuantity){
-    maxQuantity.innerText = "In stock: "+sizeQuantity;
+    if(show_quantities) {
+        maxQuantity.innerText = "In stock: "+sizeQuantity;
+    }
+    else{
+        if (sizeQuantity<=5){
+            maxQuantity.innerText = `Less than 5 pieces left!`
+        }
+    }
     quantity_max = Number(sizeQuantity);
 }
 
@@ -767,7 +775,14 @@ function generateDialogContent(id){
     secondColumn.appendChild(priceSpan);
 
     const quantitySpan = document.createElement('div');
-    quantitySpan.textContent = `In stock: ${quantity_max}`;
+    if(show_quantities) {
+        quantitySpan.textContent = `In stock: ${quantity_max}`;
+    }
+    else{
+        if (quantity_max<=5){
+            quantitySpan.textContent = `Less than 5 pieces left!`;
+        }
+    }
     quantitySpan.classList.add('maximum-span');
 
     const platingLabel = document.createElement('span');

@@ -35,23 +35,20 @@ def catalog_view(request):
     category_catalog = request.GET.get('category') or ""
     plating_catalog = request.GET.get('plating') or ""
     base_catalog = request.GET.get('base') or ""
-    # available_categories = ['Earrings', "All", 'Bracelets', "Accessories", "Rings"]
-    # available_platings = ['Rhodium','Gold','Rose Gold']
-    # available_base = ['Silver', 'Default']
-    # base_catalog = base_catalog if base_catalog in available_base else ""
-    # plating_catalog = plating_catalog if plating_catalog in available_platings else ""
-    # category_catalog = category_catalog if category_catalog in available_categories else ""
     email = get_user_session_type(request)
     category, currency = get_user_category(email) or ("Default", "Euro")
     info = get_user_info(email) or {}
     sale = round((0 if "sale" not in info else info['sale'])/100, 2) or 0
+
+    show_quantities = info['show_quantities'] if 'show_quantities' in info else False
     context = {
         "currency": "€" if currency == "Euro" else "$",
         "category": category,
         "category_catalog": category_catalog,
         "plating_catalog": plating_catalog,
         "base_catalog": base_catalog,
-        'sale': sale
+        'sale': sale,
+        'show_quantities': show_quantities
     }
     return render(request, 'catalog.html', context=context)
 
