@@ -27,7 +27,7 @@
         <div class="filters">
             <div class="filters-label">Filters<hr></div><br>
             <div class="filter-name">
-                <label for="contains-in-name">Name</label>
+                <label for="contains-in-name">Name, Product Article</label>
                 <hr>
                 <input type="text" id="contains-in-name" placeholder="Contains in name..."><br>
             </div><br>
@@ -762,6 +762,7 @@ function removeQueryParam(param) {
 
 
 document.getElementById('contains-in-name').addEventListener('input', applyFilters);
+
 function controlFromSlider(fromSlider, toSlider, fromInput) {
   const [from, to] = getParsed(fromSlider, toSlider);
   fillSlider(fromSlider, toSlider, '#C6C6C6', '#003665', toSlider);
@@ -1031,7 +1032,7 @@ function applyFilters() {
         let isMatch = (category === "All" || (subcat[category] !== undefined ? subcat[category].concat(category).includes(item.category) : item.category === category)) &&
                       item.price <= to &&
                       item.price >= from &&
-                      item.product_name.toLowerCase().includes(nameFilterValue) &&
+            (item.product_name.toLowerCase().includes(nameFilterValue) || item.name.toLowerCase().includes(nameFilterValue))&&
                       (baseFilters.length === 0 || baseFilters.includes(item.material));
 
         if (!isMatch) {
