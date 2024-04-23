@@ -703,7 +703,14 @@ function updateStones(selectedStone, sizeSelect, image, maxQuantity){
         updateSizes(firstSizeQuantity, maxQuantity);
     }
     else{
-        maxQuantity.innerText = "In Stock: "+firstSizeQuantity;
+         if(show_quantities) {
+            maxQuantity.innerText = "In Stock: "+firstSizeQuantity;
+        }
+        else{
+            if (firstSizeQuantity<=5){
+                maxQuantity.innerText = `Less than 5 pieces left!`
+            }
+        }
     }
 }
 
