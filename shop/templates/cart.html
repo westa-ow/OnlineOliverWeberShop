@@ -8,7 +8,7 @@
     <title>My cart</title>
     <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+<script src="{% static "js/checkout/totalCalculation.js" %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'css/checkout_cart.css' %}">
 </head>
 <style>
@@ -142,7 +142,7 @@ input[type="range"] {
     let documentss = [];
     function init() {
         documentss = {{ documents|safe }};
-        calculate_final();
+        calculate_final(0, currency);
     }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -157,25 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 });
-function calculate_final(){
-     let totalQuantity = 0;
-     let totalSum = 0;
-     let totalItems = 0;
 
-     documentss.forEach(doc => {
-            totalItems+=1;
-            totalQuantity += doc.quantity;
-            totalSum += (doc.quantity * doc.price);
-     });
-
-     const quantity_items = totalItems%10===1 ? "item" : "items";
-     const totalSumFinal =  totalSum.toFixed(2);
-     document.querySelector('.final-unique-quantity').innerText =  totalItems +" " + quantity_items;
-     {#document.getElementById('final-quantity').innerText = 'Total pieces..........................................................' + totalQuantity;#}
-     document.getElementById('final-sum').innerText = currency + totalSumFinal;
-     document.querySelector('.value-total').innerText = currency + totalSumFinal;
-     document.querySelector('.value-taxes').innerText = currency + (totalSumFinal * 0.15).toFixed(2);
-}
 function parameters_final(productId, newQuantity){
     documentss = documentss.map(doc => {
         if (doc.name === productId) {
@@ -184,7 +166,7 @@ function parameters_final(productId, newQuantity){
         return doc;
 
     });
-    calculate_final();
+    calculate_final(0, currency);
 }
 function saveState(name, value) {
     localStorage.setItem(name, value);
@@ -320,7 +302,7 @@ function deleteBut(documentId, documentContainer){
                     let docElement = document.querySelector(`[data-document-id="${doc.id}"]`);
                     console.log(docElement);
                 });
-                calculate_final();
+                calculate_final(0, currency);
               } else {
                   console.error('Error in deletion');
               }

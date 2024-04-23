@@ -33,11 +33,7 @@
     var firebaseConfig = {
         apiKey: "AIzaSyAM0wDc_WO0wP3-_TPRPLENZDIHbezH7U4",
         authDomain: "flutterapp-fd5c3.firebaseapp.com",
-        projectId: "flutterapp-fd5c3",
-        storageBucket: "flutterapp-fd5c3.appspot.com",
-        messagingSenderId: "486422895050",
-        appId: "1:486422895050:web:b67eaef185d40579879733",
-        measurementId: "G-JT2QVDEHLT"
+        projectId: "flutterapp-fd5c3"
     };
 
     const app = initializeApp(firebaseConfig);
@@ -47,12 +43,9 @@
     let favouriteItems = [];
     document.addEventListener("DOMContentLoaded", async function () {
         showOverlay();
-
         favouriteItems = await fetchFavouriteItems("{{user.email}}");
-        console.log(favouriteItems);
-
+        {#console.log(favouriteItems);#}
         buildPageFavourites(favouriteItems);
-
         hideOverlay();
     });
 
@@ -63,11 +56,10 @@
     }
 
     function buildPageFavourites(items){
-
         if (favouriteItems.length > 0){
             const productsGrid = document.querySelector('.products-grid');
             productsGrid.innerHTML = '';
-             let itemId= 0;
+            let itemId= 0;
             items.forEach((item) => {
                 const productContainer = document.createElement('div');
                 productContainer.className = 'product-container';
@@ -90,8 +82,6 @@
                 img.width = 250;
                 img.height = 250;
                 img.style.borderRadius = '10px';
-
-
 
                 const iconContainer = document.createElement('div');
                 iconContainer.className = 'icon-container';
@@ -259,35 +249,6 @@
         else{
             console.log("Null");
         }
-
-
     }
-    function showTooltip(event, message) {
-        const existingTooltip = document.querySelector('.custom-tooltip');
-        if (existingTooltip) {
-            existingTooltip.remove();
-        }
-        const tooltip = document.createElement('div');
-        tooltip.className = 'custom-tooltip';
-        tooltip.textContent = message;
-        tooltip.style.position = 'absolute';
-        tooltip.style.left = `${event.pageX + 10}px`; // Adjust positioning as needed
-        tooltip.style.top = `${event.pageY + 10}px`; // Adjust positioning as needed
-        document.body.appendChild(tooltip);
-
-        // Move tooltip with cursor
-        event.target.addEventListener('mousemove', (e) => {
-            tooltip.style.left = `${e.pageX + 10}px`;
-            tooltip.style.top = `${e.pageY + 10}px`;
-        });
-
-        // Remove tooltip on mouseleave
-        event.target.addEventListener('mouseleave', () => {
-            tooltip.remove();
-        });
-    }
-
-
-
 
 </script>

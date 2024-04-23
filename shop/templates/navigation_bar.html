@@ -194,35 +194,33 @@
 <script>
     let isCheckout = false;
     let key = "{{ session.session_key }}";
-    console.log(key);
+    const currency="{{ currency|safe }}";
+
 
     window.addEventListener('scroll', function() {
-    // Get the toolbar element
-    var toolbar = document.querySelector('.toolbar');
+        let toolbar = document.querySelector('.toolbar');
+        // Check if the page is scrolled more than 50 pixels
+        if(window.pageYOffset > 50) {
+            // User has scrolled down, shrink the toolbar
+            toolbar.classList.remove('large');
+            toolbar.classList.add('small');
+        } else {
+            // User is near the top of the page, expand the toolbar
+            toolbar.classList.remove('small');
+            toolbar.classList.add('large');
+        }
+    });
 
-    // Check if the page is scrolled more than 50 pixels
-    if(window.pageYOffset > 50) {
-        // User has scrolled down, shrink the toolbar
-        toolbar.classList.remove('large');
-        toolbar.classList.add('small');
-    } else {
-        // User is near the top of the page, expand the toolbar
-        toolbar.classList.remove('small');
-        toolbar.classList.add('large');
-    }
-});
-    const currency="{{ currency|safe }}";
 document.getElementById('account-icon').addEventListener('click',function() {
     console.log("ssss");
-    var accPanel = document.getElementById('side_acc_wrap');
-    var overlay = document.getElementById('overlay');
+    let accPanel = document.getElementById('side_acc_wrap');
+    let overlay = document.getElementById('overlay');
 
     if (accPanel.classList.contains('open')) {
         accPanel.classList.remove('open');
         overlay.style.display = 'none'; // Hide the overlay when the account panel is closed
     } else {
         // Unlike the cart, we don't need to load data here since we're not populating with dynamic content
-
         // Open the account panel and overlay
         accPanel.classList.add('open');
         overlay.style.display = 'block';
@@ -232,8 +230,8 @@ document.getElementById('account-icon').addEventListener('click',function() {
 // Additionally, you'll need to manage closing the panel.
 // If you have a close button similar to the cartPanel's close button, you can add an event listener to it:
 document.querySelector('.close_cross').addEventListener('click', function() {
-    var accPanel = document.getElementById('side_acc_wrap');
-    var overlay = document.getElementById('overlay');
+    let accPanel = document.getElementById('side_acc_wrap');
+    let overlay = document.getElementById('overlay');
 
     accPanel.classList.remove('open');
     overlay.style.display = 'none'; // Hide the overlay when the account panel is closed
@@ -241,27 +239,27 @@ document.querySelector('.close_cross').addEventListener('click', function() {
 
 function confirmLogout(event) {
     // Show a confirmation dialog
-    var confirmation = confirm("Are you sure you want to log out?");
+    let confirmation = confirm("Are you sure you want to log out?");
 
     // If the user clicks "Cancel", prevent the default link action
     if (!confirmation) {
       event.preventDefault();
       return false;
     }
-
     // If the user confirms, allow the default link action (logout)
     return true;
 }
+
 document.getElementById('cartBtn').onclick = function() {
-    var cartPanel = document.getElementById('cartPanel');
-    var overlay = document.getElementById('overlay');
+    let cartPanel = document.getElementById('cartPanel');
+    let overlay = document.getElementById('overlay');
     if (cartPanel.classList.contains('open')) {
         cartPanel.classList.remove('open');
         overlay.style.display = 'none'; // Hide the overlay when the cart is closed
 
-    } else {
+    }
+    else {
         // Load cart data
-
         fetch('{% url "get_cart" %}')
             .then(response => response.json())
             .then(data => {
@@ -433,7 +431,7 @@ document.getElementById('cartBtn').onclick = function() {
     };
 
 function showCartIsEmpty(cartItemsContainer){
-      cartItemsContainer.classList.add('cart-items-container');
+    cartItemsContainer.classList.add('cart-items-container');
     let emptyCartContainer = document.querySelector('.empty-cart-container');
     if (!emptyCartContainer) {
         emptyCartContainer = document.createElement('div');
@@ -492,7 +490,7 @@ function showCartIsEmpty(cartItemsContainer){
     checkoutBtn.onclick = closeCart;
 }
 
-  function deleteFromCart(documentId) {
+function deleteFromCart(documentId) {
     fetch('{% url "delete_document" %}', { // Replace with the actual URL as needed
         method: 'POST',
         headers: {
@@ -527,13 +525,16 @@ document.getElementById('overlay').addEventListener('click', function() {
     document.getElementById('side_acc_wrap').classList.remove('open');
     this.style.display = 'none'; // Hide the overlay
 });
+
 document.getElementById('closeCartBtn').onclick = closeCart;
+
 function closeCart(){
     var cartPanel = document.getElementById('cartPanel');
     var overlay = document.getElementById('overlay');
     cartPanel.classList.remove('open');
     overlay.style.display = 'none';
 }
+
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {

@@ -244,11 +244,7 @@ html {
     var firebaseConfig = {
         apiKey: "AIzaSyAM0wDc_WO0wP3-_TPRPLENZDIHbezH7U4",
         authDomain: "flutterapp-fd5c3.firebaseapp.com",
-        projectId: "flutterapp-fd5c3",
-        storageBucket: "flutterapp-fd5c3.appspot.com",
-        messagingSenderId: "486422895050",
-        appId: "1:486422895050:web:b67eaef185d40579879733",
-        measurementId: "G-JT2QVDEHLT"
+        projectId: "flutterapp-fd5c3"
     };
 
     const app = initializeApp(firebaseConfig);
@@ -457,6 +453,9 @@ html {
         }
     }
 }];
+
+    let sale = {{ sale|safe }};
+    const price_category = "{{ category|safe }}";
     let elements = [
         "22572R", "32034 001", "11025R", "11910R", "61125 BLU", "11030R", "11616 BLU", "11025G", "61191",
         "11815", "11321", "32003", "12309G", "61185", "11058", "11571R", "63520", "32088", "12066", "23140G",
@@ -665,31 +664,31 @@ function productsTransmutation(items){
     }
     return Object.values(products);
 }
-let sale = {{ sale|safe }};
-const price_category = "{{ category|safe }}";
-function calculatePrice(item) {
-    return ((price_category === "VK3" ? item.priceVK3 :
-             price_category === "GH" ? item.priceGH :
-             price_category === "GH_USD" ? item.priceUSD_GH :
-             price_category === "Default_USD" ? (item.priceUSD * (1 - sale)) :
-             (item.priceVK4 * (1 - sale)))).toFixed(2);
-}
-function orderSizes(sizes) {
-    const sizeOrder = ['S', 'M', 'L', 'XL'];
-    const orderedSizes = {};
-    sizeOrder.forEach(size => {
-        if (sizes.hasOwnProperty(size)) {
-            orderedSizes[size] = sizes[size];
-        }
-    });
-    // Include other sizes not in the specified order
-    Object.keys(sizes).forEach(size => {
-        if (!orderedSizes.hasOwnProperty(size)) {
-            orderedSizes[size] = sizes[size];
-        }
-    });
-    return orderedSizes;
-}
+    function calculatePrice(item) {
+        return ((price_category === "VK3" ? item.priceVK3 :
+                 price_category === "GH" ? item.priceGH :
+                 price_category === "GH_USD" ? item.priceUSD_GH :
+                 price_category === "Default_USD" ? (item.priceUSD * (1 - sale)) :
+                 (item.priceVK4 * (1 - sale)))).toFixed(2);
+    }
+
+    function orderSizes(sizes) {
+        const sizeOrder = ['S', 'M', 'L', 'XL'];
+        const orderedSizes = {};
+        sizeOrder.forEach(size => {
+            if (sizes.hasOwnProperty(size)) {
+                orderedSizes[size] = sizes[size];
+            }
+        });
+        // Include other sizes not in the specified order
+        Object.keys(sizes).forEach(size => {
+            if (!orderedSizes.hasOwnProperty(size)) {
+                orderedSizes[size] = sizes[size];
+            }
+        });
+        return orderedSizes;
+    }
+
     function buildPageFavourites(items){
 
         if (allItems.length > 0){
@@ -698,183 +697,149 @@ function orderSizes(sizes) {
             let itemId= 0;
 
             items.forEach((item) => {
-        const productContainer = document.createElement('div');
-        productContainer.className = 'product-container';
-        productContainer.id = `product-${item.name}`;
-        productContainer.setAttribute('data-id', itemId);
+                const productContainer = document.createElement('div');
+                productContainer.className = 'product-container';
+                productContainer.id = `product-${item.name}`;
+                productContainer.setAttribute('data-id', itemId);
 
-        productContainer.addEventListener('click', () => {
-            generateDialogContent(`${item.name}`, allItems, currency, show_quantities);
-        });
-
-        // Create the image section
-        const imgSection = document.createElement('div');
-        imgSection.className = 'img-section';
-        const imgWrapper = document.createElement('div');
-        imgWrapper.className = 'img-wrapper';
-        const img = document.createElement('img');
-        img.src = item.preview_image;
-        img.width = 150;
-        img.height = 150;
-        img.style.borderRadius = '10px';
-
-
-
-        const iconContainer = document.createElement('div');
-        iconContainer.className = 'icon-container';
-
-        const heartIconContainer = document.createElement('div');
-        heartIconContainer.className = 'heart-icon-container';
-        const favouriteItem = favouriteitems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
-
-// Check if the item was found in the favourites
-
-        const itemIsFavourite = Boolean(favouriteItem); // Converts the result to a boolean
-
-        heartIconContainer.innerHTML = itemIsFavourite ?
-        `<i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:#000000;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i>` :
-        `<i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i>`; // Example with FontAwesome
-
-        // Adding your new icon
-        const newIconContainer = document.createElement('div');
-        newIconContainer.className = 'new-icon-container';
-        newIconContainer.innerHTML = `<i class="rts" data-size="24" data-color="#000000" style="width: 26px; height: 26px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M21.46,26H6.54C4,26,4,23.86,4,22.46V2H24V22.46C24,23.86,24,26,21.46,26Z" style="fill:none;stroke:#000000;stroke-miterlimit:10;stroke-width:2px"></path><path d="M10,8v.78c0,2.68,1.8,4.88,4,4.88s4-2.19,4-4.88V8" style="fill:none;stroke:#000000;stroke-miterlimit:10;stroke-width:2px"></path></svg></i>`;
-
-
-        heartIconContainer.addEventListener('mouseenter', (event) => {
-            const favouriteItem = favouriteitems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
-            const isFavBefore = Boolean(favouriteItem); // Converts the result to a boolean
-            let message_fav = isFavBefore ? "Remove from favorites" : "Add to favorites";
-
-            showTooltip(event, message_fav)
-        });
-        heartIconContainer.addEventListener('click', async (event) => {
-            const favouriteItem = favouriteitems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
-            const isFavBefore = Boolean(favouriteItem); // Converts the result to a boolean
-
-            // Stop the event from propagating to other elements
-            event.stopPropagation();
-            try {
-                // Replace `yourItemId` with the actual item ID or any identifier you use
-                const response = await fetch('{% url "change_favorite_state" %}', {
-                    method: 'POST', // or 'DELETE' if removing from favorites
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': getCookie('csrftoken'),
-
-                        // Include other headers as needed, like authorization tokens
-                    },
-                    body: JSON.stringify({item: JSON.stringify(item), "alreadyFavourite": isFavBefore ? "true":"false"}),
+                productContainer.addEventListener('click', () => {
+                    generateDialogContent(`${item.name}`, allItems, currency, show_quantities);
                 });
 
-                if (!response.ok) throw new Error('Network response was not ok.');
+                // Create the image section
+                const imgSection = document.createElement('div');
+                imgSection.className = 'img-section';
+                const imgWrapper = document.createElement('div');
+                imgWrapper.className = 'img-wrapper';
+                const img = document.createElement('img');
+                img.src = item.preview_image;
+                img.width = 150;
+                img.height = 150;
+                img.style.borderRadius = '10px';
 
-                // Assuming the backend responds with the updated favorite status
-                const data = await response.json();
-                const isFavourite = data.isFavourite === "true";
-                const itemToAddOrRemove = JSON.parse(data.item); // Assuming this is an object {name_id: "someId", ...}
-                console.log("To add or remove" );
-                console.log( itemToAddOrRemove);
-                console.log("Is fav" );
-                console.log( isFavourite);
-                const existingTooltip = document.querySelector('.custom-tooltip');
-                if (existingTooltip) {
-                    existingTooltip.remove();
-                }
-                if (isFavourite) {
+                const iconContainer = document.createElement('div');
+                iconContainer.className = 'icon-container';
 
-                    // Add to favoriteItems if not already present
-                    const exists = favouriteitems.some(item => item.name === itemToAddOrRemove.name);
-                    console.log("consists equals " + exists.toString());
-                    if (!exists) {
-                        favouriteitems.push(itemToAddOrRemove);
-                        console.log("Added to favorites", itemToAddOrRemove);
+                const heartIconContainer = document.createElement('div');
+                heartIconContainer.className = 'heart-icon-container';
+                const favouriteItem = favouriteitems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
+
+        // Check if the item was found in the favourites
+
+                const itemIsFavourite = Boolean(favouriteItem); // Converts the result to a boolean
+
+                heartIconContainer.innerHTML = itemIsFavourite ?
+                `<i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:#000000;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i>` :
+                `<i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i>`; // Example with FontAwesome
+
+                // Adding your new icon
+                const newIconContainer = document.createElement('div');
+                newIconContainer.className = 'new-icon-container';
+                newIconContainer.innerHTML = `<i class="rts" data-size="24" data-color="#000000" style="width: 26px; height: 26px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M21.46,26H6.54C4,26,4,23.86,4,22.46V2H24V22.46C24,23.86,24,26,21.46,26Z" style="fill:none;stroke:#000000;stroke-miterlimit:10;stroke-width:2px"></path><path d="M10,8v.78c0,2.68,1.8,4.88,4,4.88s4-2.19,4-4.88V8" style="fill:none;stroke:#000000;stroke-miterlimit:10;stroke-width:2px"></path></svg></i>`;
+
+
+                heartIconContainer.addEventListener('mouseenter', (event) => {
+                    const favouriteItem = favouriteitems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
+                    const isFavBefore = Boolean(favouriteItem); // Converts the result to a boolean
+                    let message_fav = isFavBefore ? "Remove from favorites" : "Add to favorites";
+
+                    showTooltip(event, message_fav)
+                });
+                heartIconContainer.addEventListener('click', async (event) => {
+                    const favouriteItem = favouriteitems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
+                    const isFavBefore = Boolean(favouriteItem); // Converts the result to a boolean
+
+                    // Stop the event from propagating to other elements
+                    event.stopPropagation();
+                    try {
+                        // Replace `yourItemId` with the actual item ID or any identifier you use
+                        const response = await fetch('{% url "change_favorite_state" %}', {
+                            method: 'POST', // or 'DELETE' if removing from favorites
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': getCookie('csrftoken'),
+
+                                // Include other headers as needed, like authorization tokens
+                            },
+                            body: JSON.stringify({item: JSON.stringify(item), "alreadyFavourite": isFavBefore ? "true":"false"}),
+                        });
+
+                        if (!response.ok) throw new Error('Network response was not ok.');
+
+                        // Assuming the backend responds with the updated favorite status
+                        const data = await response.json();
+                        const isFavourite = data.isFavourite === "true";
+                        const itemToAddOrRemove = JSON.parse(data.item); // Assuming this is an object {name_id: "someId", ...}
+                        console.log("To add or remove" );
+                        console.log( itemToAddOrRemove);
+                        console.log("Is fav" );
+                        console.log( isFavourite);
+                        const existingTooltip = document.querySelector('.custom-tooltip');
+                        if (existingTooltip) {
+                            existingTooltip.remove();
+                        }
+                        if (isFavourite) {
+
+                            // Add to favoriteItems if not already present
+                            const exists = favouriteitems.some(item => item.name === itemToAddOrRemove.name);
+                            console.log("consists equals " + exists.toString());
+                            if (!exists) {
+                                favouriteitems.push(itemToAddOrRemove);
+                                console.log("Added to favorites", itemToAddOrRemove);
+                            }
+                        } else {
+                            // Remove from favoriteItems
+
+                            favouriteitems = favouriteitems.filter(item => item.name !== itemToAddOrRemove.name);
+                            console.log("Removed from favorites", itemToAddOrRemove);
+                        }
+
+                        // Update the heart icon based on `isFavourite`
+                        heartIconContainer.innerHTML = isFavourite ?
+                            `<i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:#000000;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i>` :
+                            `<i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i>`;
+                    } catch (error) {
+                        console.error('Error updating favorites:', error);
                     }
-                } else {
-                    // Remove from favoriteItems
+                });
+                // Add event listeners for the new icon
+                newIconContainer.addEventListener('mouseenter', (event) => showTooltip(event, 'Add to cart'));
+                // Append both icon containers to the iconContainer
 
-                    favouriteitems = favouriteitems.filter(item => item.name !== itemToAddOrRemove.name);
-                    console.log("Removed from favorites", itemToAddOrRemove);
-                }
+                iconContainer.appendChild(newIconContainer);
+                iconContainer.appendChild(heartIconContainer);
+                // Finally, append the iconContainer to the imgWrapper or imgSection
 
-                // Update the heart icon based on `isFavourite`
-                heartIconContainer.innerHTML = isFavourite ?
-                    `<i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:#000000;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i>` :
-                    `<i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i>`;
-            } catch (error) {
-                console.error('Error updating favorites:', error);
-            }
-        });
-        // Add event listeners for the new icon
-        newIconContainer.addEventListener('mouseenter', (event) => showTooltip(event, 'Add to cart'));
-        // Append both icon containers to the iconContainer
+                imgWrapper.appendChild(img);
+                imgWrapper.appendChild(iconContainer);
+                // Append the imgWrapper to the imgSection
+                imgSection.appendChild(imgWrapper);
+                // Create the info section
+                const infoSection = document.createElement('div');
+                infoSection.className = 'info-section';
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'info-name';
+                nameSpan.textContent = item.product_name;
+                const priceSpan = document.createElement('span');
+                priceSpan.className = 'info-price';
+                priceSpan.textContent = currency + `${item.price}`;
+                infoSection.appendChild(nameSpan);
+                infoSection.appendChild(document.createElement('br'));
+                infoSection.appendChild(priceSpan);
 
-        iconContainer.appendChild(newIconContainer);
-        iconContainer.appendChild(heartIconContainer);
-        // Finally, append the iconContainer to the imgWrapper or imgSection
+                // Assemble the product container
+                productContainer.appendChild(imgSection);
+                productContainer.appendChild(infoSection);
 
-        imgWrapper.appendChild(img);
-        imgWrapper.appendChild(iconContainer);
-        // Append the imgWrapper to the imgSection
-        imgSection.appendChild(imgWrapper);
-        // Create the info section
-        const infoSection = document.createElement('div');
-        infoSection.className = 'info-section';
-        const nameSpan = document.createElement('span');
-        nameSpan.className = 'info-name';
-        nameSpan.textContent = item.product_name;
-        const priceSpan = document.createElement('span');
-        priceSpan.className = 'info-price';
-        priceSpan.textContent = currency + `${item.price}`;
-        infoSection.appendChild(nameSpan);
-        infoSection.appendChild(document.createElement('br'));
-        infoSection.appendChild(priceSpan);
-
-
-
-
-
-        // Assemble the product container
-        productContainer.appendChild(imgSection);
-        productContainer.appendChild(infoSection);
-
-        // Append the product container to the products grid
-        productsGrid.appendChild(productContainer);
-        itemId+=1;
-    });
+                // Append the product container to the products grid
+                productsGrid.appendChild(productContainer);
+                itemId+=1;
+            });
         }
         else{
             console.log("Null");
         }
-
-
     }
-    function showTooltip(event, message) {
-        const existingTooltip = document.querySelector('.custom-tooltip');
-        if (existingTooltip) {
-            existingTooltip.remove();
-        }
-        const tooltip = document.createElement('div');
-        tooltip.className = 'custom-tooltip';
-        tooltip.textContent = message;
-        tooltip.style.position = 'absolute';
-        tooltip.style.left = `${event.pageX + 10}px`; // Adjust positioning as needed
-        tooltip.style.top = `${event.pageY + 10}px`; // Adjust positioning as needed
-        document.body.appendChild(tooltip);
-
-        // Move tooltip with cursor
-        event.target.addEventListener('mousemove', (e) => {
-            tooltip.style.left = `${e.pageX + 10}px`;
-            tooltip.style.top = `${e.pageY + 10}px`;
-        });
-
-        // Remove tooltip on mouseleave
-        event.target.addEventListener('mouseleave', () => {
-            tooltip.remove();
-        });
-    }
-
-
 
 </script>
 </html>

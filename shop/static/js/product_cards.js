@@ -118,6 +118,31 @@ function dialogCommonSetup(dialog, image_url, card_content, image){
 
 }
 
+function showTooltip(event, message) {
+    const existingTooltip = document.querySelector('.custom-tooltip');
+    if (existingTooltip) {
+        existingTooltip.remove();
+    }
+    const tooltip = document.createElement('div');
+    tooltip.className = 'custom-tooltip';
+    tooltip.textContent = message;
+    tooltip.style.position = 'absolute';
+    tooltip.style.left = `${event.pageX + 10}px`; // Adjust positioning as needed
+    tooltip.style.top = `${event.pageY + 10}px`; // Adjust positioning as needed
+    document.body.appendChild(tooltip);
+
+    // Move tooltip with cursor
+    event.target.addEventListener('mousemove', (e) => {
+        tooltip.style.left = `${e.pageX + 10}px`;
+        tooltip.style.top = `${e.pageY + 10}px`;
+    });
+
+    // Remove tooltip on mouseleave
+    event.target.addEventListener('mouseleave', () => {
+        tooltip.remove();
+    });
+}
+
 
 function generateDialogContent(id, items_array, currency, show_quantities){
     let quantity_max = 1;

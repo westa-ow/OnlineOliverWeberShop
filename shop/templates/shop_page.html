@@ -94,11 +94,11 @@
 {% include "widgets/footer.html" %}
 </body>
 <script>
-const currency_symbol = "{{ currency|safe }}";
-document.addEventListener('DOMContentLoaded', function() {
-            restoreState();
-});
-     function restoreState() {
+    const currency_symbol = "{{ currency|safe }}";
+    document.addEventListener('DOMContentLoaded', function() {
+        restoreState();
+    });
+    function restoreState() {
         const Id =  document.querySelector('.number-in-cart').getAttribute('data-product-id');
         document.querySelector('.number-in-cart').innerText = localStorage.getItem('number-'+Id);
 
@@ -117,10 +117,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     }
 
-
-    document.getElementById('searchForm').addEventListener('submit', function() {
-        // localStorage.clear();
-    });
     function updateDropdown() {
         let inputVal = document.getElementById('number').value;
         if (inputVal.length === 0) {
@@ -128,14 +124,14 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         fetch('/fetch-numbers/?term=' + inputVal)
-            .then(response => response.json())
-            .then(data => {
-                let dropdownHTML = '';
-                data.forEach((item) => {
-                    dropdownHTML += `<div onclick="fillInput('${item}')">${item}</div> <hr style="margin: 0 10px; ">`;
-                });
-                document.getElementById('dropdown').innerHTML = dropdownHTML;
+        .then(response => response.json())
+        .then(data => {
+            let dropdownHTML = '';
+            data.forEach((item) => {
+                dropdownHTML += `<div onclick="fillInput('${item}')">${item}</div> <hr style="margin: 0 10px; ">`;
             });
+            document.getElementById('dropdown').innerHTML = dropdownHTML;
+        });
     }
 
     function fillInput(value) {
@@ -158,67 +154,67 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-document.querySelectorAll('.deleteBut').forEach(button => {
-    button.addEventListener('click', function() {
-        const documentId = this.getAttribute('data-product-id');
+    document.querySelectorAll('.deleteBut').forEach(button => {
+        button.addEventListener('click', function() {
+            const documentId = this.getAttribute('data-product-id');
 
-        const confirmed = confirm("Do you really want to delete this product from your cart?");
+            const confirmed = confirm("Do you really want to delete this product from your cart?");
 
-        if (confirmed) {
-            fetch('{% url "delete_document" %}', {  // Replace with your actual URL
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': getCookie('csrftoken'),
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ document_id: documentId })
-            })
-            .then(response => {
-                if(response.ok) {
-                    inside = "False";
-                    saveState();
-                    toggleQuantityForm(documentId);
-                } else {
-                    console.error('Error in deletion');
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        }
+            if (confirmed) {
+                fetch('{% url "delete_document" %}', {  // Replace with your actual URL
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken'),
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ document_id: documentId })
+                })
+                .then(response => {
+                    if(response.ok) {
+                        inside = "False";
+                        saveState();
+                        toggleQuantityForm(documentId);
+                    } else {
+                        console.error('Error in deletion');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        });
     });
-});
- function toggleQuantityForm(productId) {
-    const delBut = document.querySelector('.deleteBut[data-product-id="' + productId + '"]');
-    const number = document.querySelector('.number-in-cart');
-    const total = document.getElementById('sum-'+productId);
-    delBut.style.display = 'none';
-    number.style.display = 'none';
-    total.style.display = 'none';
-    let input = document.getElementById('quantity-input-inp-'+productId);
-    input.value = "";
-    let slider = document.getElementById('slider-'+productId);
-    slider.value = 1;
-    changeCurrentQuantityText(productId,0);
-    const button = document.getElementById("quantity-input-apply-"+ productId);
-    button.innerText = "Confirm";
-    button.style.background = "#1daede"
-}
+    function toggleQuantityForm(productId) {
+        const delBut = document.querySelector('.deleteBut[data-product-id="' + productId + '"]');
+        const number = document.querySelector('.number-in-cart');
+        const total = document.getElementById('sum-'+productId);
+        delBut.style.display = 'none';
+        number.style.display = 'none';
+        total.style.display = 'none';
+        let input = document.getElementById('quantity-input-inp-'+productId);
+        input.value = "";
+        let slider = document.getElementById('slider-'+productId);
+        slider.value = 1;
+        changeCurrentQuantityText(productId,0);
+        const button = document.getElementById("quantity-input-apply-"+ productId);
+        button.innerText = "Confirm";
+        button.style.background = "#1daede"
+    }
 
- function saveState(name, value) {
-    localStorage.setItem(name, value);
-}
+    function saveState(name, value) {
+        localStorage.setItem(name, value);
+    }
 
- $(document).ready(function(){
-    $('.slider').on('input change', function() {
-        let product_id = $(this).attr('id').split('-')[1];
-        let quantity_new = $(this).val();
-        const quantityElement = document.getElementById('quantity-input-inp-' + product_id);
-        quantityElement.value = quantity_new;
+    $(document).ready(function(){
+        $('.slider').on('input change', function() {
+            let product_id = $(this).attr('id').split('-')[1];
+            let quantity_new = $(this).val();
+            const quantityElement = document.getElementById('quantity-input-inp-' + product_id);
+            quantityElement.value = quantity_new;
 
-        const button = document.getElementById("quantity-input-apply-"+ product_id);
-            button.innerText = "Confirm";
-            button.style.background = "#1daede"
+            const button = document.getElementById("quantity-input-apply-"+ product_id);
+                button.innerText = "Confirm";
+                button.style.background = "#1daede"
+        });
     });
-});
 
     document.querySelectorAll('.quantity-input-button').forEach(button => {
         button.addEventListener('click', function() {
@@ -278,8 +274,7 @@ document.querySelectorAll('.deleteBut').forEach(button => {
 
             } else {
             }
-    });
-
+        });
     }
     document.querySelectorAll('.quantity-input input[type="number"]').forEach(input => {
         input.addEventListener('input', function() {
@@ -294,21 +289,22 @@ document.querySelectorAll('.deleteBut').forEach(button => {
         });
     });
 
+
 let csrftoken = getCookie('csrftoken');
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
             }
         }
-        return cookieValue;
     }
+    return cookieValue;
+}
 
 function changeCurrentQuantityText(productId, quantity){
     const current_quantity = document.getElementById('current-quantity-'+productId);

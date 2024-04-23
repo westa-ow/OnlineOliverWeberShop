@@ -89,38 +89,34 @@
 <header class="page-header"><h1> Order history</h1> </header>
 <h6>Here are the orders you've placed since your account was created.</h6>
     <table class="outer-table table table-striped table-bordered table-labeled hidden-sm-down" id="table-{{ user.email }}" style="border:1px solid" >
-         <thead>
-          <tr>
-              <th> Order ID </th>
-              <th> Date </th>
-              <th> Total price </th>
-              <th> Payment </th>
-              <th> Status </th>
-              <th>  </th>
-          </tr>
-          </thead>
-    <tbody>
+        <thead>
+            <tr>
+                <th> Order ID </th>
+                <th> Date </th>
+                <th> Total price </th>
+                <th> Payment </th>
+                <th> Status </th>
+                <th>  </th>
+            </tr>
+        </thead>
 
-          {% for document in orders %}
-                  <tr class="tr-outer" id="content-{{ document.order_id }}">
-                      <th class="td-outer">{{ document.order_id }}</th>
-                      <td class="td-outer">{{ document.date }}</td>
-                      <td class="td-outer">{{ document.currency|default:"€" }}{{ document.sum }}</td>
-                      <td class="td-outer">Bank transfer</td>
-                      <td class="td-outer">{{ document.Status }}</td>
-                      <td class="td-outer">
-                          <div>
-                              <span> <a data-order-id="{{ document.order_id }}" class="show-content" id="show-button-{{ document.order_id }}">Show Details</a></span>
-                              <a style="transition: none" class="menus-link"><i data-order-id="{{ document.order_id }}" class="material-symbols-outlined i-menu-points" style="cursor: pointer">more_vert</i></a>
-                          </div>
-                      </td>
-
-                  </tr>
-
-
-
-        {% endfor %}
-    </tbody>
+        <tbody>
+            {% for document in orders %}
+                <tr class="tr-outer" id="content-{{ document.order_id }}">
+                    <th class="td-outer">{{ document.order_id }}</th>
+                    <td class="td-outer">{{ document.date }}</td>
+                    <td class="td-outer">{{ document.currency|default:"€" }}{{ document.sum }}</td>
+                    <td class="td-outer">Bank transfer</td>
+                    <td class="td-outer">{{ document.Status }}</td>
+                    <td class="td-outer">
+                        <div>
+                            <span> <a data-order-id="{{ document.order_id }}" class="show-content" id="show-button-{{ document.order_id }}">Show Details</a></span>
+                            <a style="transition: none" class="menus-link"><i data-order-id="{{ document.order_id }}" class="material-symbols-outlined i-menu-points" style="cursor: pointer">more_vert</i></a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
     </table>
 <div id="contextMenu" class="context-menu" style="display: none;">
     <ul>
@@ -145,44 +141,44 @@ document.addEventListener("DOMContentLoaded", function() {
 
 document.querySelectorAll('.i-menu-points').forEach(button => {
     button.addEventListener('click', (event) => {
-            event.stopPropagation();
-            const contextMenu = document.getElementById('contextMenu');
-            contextMenu.style.display = 'block';
-            contextMenu.style.left = `${event.pageX - 100}px`;
-            contextMenu.style.top = `${event.pageY}px`;
-            let orderId = button.getAttribute('data-order-id');
-            // Function to hide the context menu
-            function hideContextMenu() {
-                contextMenu.style.display = 'none';
-            }
+        event.stopPropagation();
+        const contextMenu = document.getElementById('contextMenu');
+        contextMenu.style.display = 'block';
+        contextMenu.style.left = `${event.pageX - 100}px`;
+        contextMenu.style.top = `${event.pageY}px`;
+        let orderId = button.getAttribute('data-order-id');
+        // Function to hide the context menu
+        function hideContextMenu() {
+            contextMenu.style.display = 'none';
+        }
 
-            // Close the menu when clicking outside of it
-            document.addEventListener('click', hideContextMenu, { once: true });
+        // Close the menu when clicking outside of it
+        document.addEventListener('click', hideContextMenu, { once: true });
 
-            // Set up the menu actions
-            document.getElementById('downloadCsv').onclick = function() {
+        // Set up the menu actions
+        document.getElementById('downloadCsv').onclick = function() {
+            // Replace with the actual function or navigation action
+            window.location.href = `/admin_tools/orders_control/download_csv/${orderId}/`;
+        };
+        document.getElementById('downloadPdfWImg').addEventListener('click', function() {
+                  // get the order ID somehow, maybe from an element or variable
+              // Стартовое сообщение
+              var dialog = document.getElementById('wait-please-dialog');
+              dialog.style.display="block";
+              // Show the dialog
+              dialog.showModal();
+              window.location.href = `/admin_tools/orders_control/download_pdf_with_img/${orderId}/`;
+              // Set a timeout to close the dialog after 3 seconds
+              setTimeout(function() {
+                  dialog.close();// Redirect to the download URL after closing the dialog
+                  dialog.style.display="none";
+              }, 3000);
+
+        });
+        document.getElementById('downloadPdfWithoutImg').onclick = function() {
                 // Replace with the actual function or navigation action
-                window.location.href = `/admin_tools/orders_control/download_csv/${orderId}/`;
-            };
-            document.getElementById('downloadPdfWImg').addEventListener('click', function() {
-                      // get the order ID somehow, maybe from an element or variable
-                  // Стартовое сообщение
-                  var dialog = document.getElementById('wait-please-dialog');
-                  dialog.style.display="block";
-                  // Show the dialog
-                  dialog.showModal();
-                  window.location.href = `/admin_tools/orders_control/download_pdf_with_img/${orderId}/`;
-                  // Set a timeout to close the dialog after 3 seconds
-                  setTimeout(function() {
-                      dialog.close();// Redirect to the download URL after closing the dialog
-                      dialog.style.display="none";
-                  }, 3000);
-
-            });
-            document.getElementById('downloadPdfWithoutImg').onclick = function() {
-                    // Replace with the actual function or navigation action
-                window.location.href = `/admin_tools/orders_control/download_pdf_no_img/${orderId}/`;
-            };
+            window.location.href = `/admin_tools/orders_control/download_pdf_no_img/${orderId}/`;
+        };
     });
 });
 

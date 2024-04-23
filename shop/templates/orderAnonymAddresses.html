@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" href="{% static "css/profile/profile_information.css" %}">
 <link rel="stylesheet" href="{% static 'css/SeparateWidgets/addressesWidget.css' %}">
+<script src="{% static "js/checkout/totalCalculation.js" %}"></script>
 <style>
 body {
     font-family: Poppins, Verdana, sans-serif;
@@ -416,9 +417,8 @@ document.getElementById('addBillingAddressBtn').addEventListener('click', functi
 
 
 document.getElementById('toggleBillingAddress').addEventListener('click', function() {
-    {#document.getElementById("cart-taxes").style.display = "";#}
     const currentShippingRadio = document.getElementById(selectedShippingAddressId);
-    calculate_final(countrys_vat[currentShippingRadio.getAttribute('data-country')]);
+    calculate_final(countrys_vat[currentShippingRadio.getAttribute('data-country')], currency);
     let billingSection = document.getElementById('billingAddresses');
     this.style.display = "none";
     displayBillingAddresses(selectedShippingAddressId);
@@ -447,7 +447,7 @@ document.querySelectorAll('input[name="shipping_address"]').forEach(radio => {
         if(selectedBillingAddressId ==="false"){
             document.getElementById('cart-total').querySelector('.label-total').textContent = "Total (VAT incl.)"
             document.getElementById("cart-taxes").style.display = "block";
-            calculate_final(countrys_vat[this.getAttribute('data-country')]);
+            calculate_final(countrys_vat[this.getAttribute('data-country')], currency);
         }
 
     });
@@ -456,7 +456,7 @@ document.querySelectorAll('input[name="billing_address"]').forEach(radio => {
     radio.addEventListener('change', function() {
         selectedBillingAddressId = this.value;
         document.getElementById("cart-taxes").style.display = "block";
-        calculate_final(countrys_vat[this.getAttribute('data-country')]);
+        calculate_final(countrys_vat[this.getAttribute('data-country')], currency);
 
     });
 });
@@ -512,7 +512,7 @@ document.getElementById('cancelBtn').addEventListener('click', function() {
 let documentss = [];
 function init() {
     documentss = {{ documents|safe }};
-    calculate_final(0);
+    calculate_final(0, currency);
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -520,26 +520,7 @@ document.addEventListener("DOMContentLoaded", function() {
      init();
 });
 
-function calculate_final(vat){
-     let totalQuantity = 0;
-     let totalSum = 0;
-     let totalItems = 0;
 
-     documentss.forEach(doc => {
-            totalItems+=1;
-            totalQuantity += doc.quantity;
-            totalSum += (doc.quantity * doc.price);
-     });
-
-     const quantity_items = totalItems%10===1 ? "item" : "items";
-     const totalSumFinal =  totalSum;
-     const included_vat = (totalSumFinal * vat/100);
-     const sum_with_vat = (included_vat + totalSumFinal);
-     document.querySelector('.final-unique-quantity').innerText =  totalItems +" " + quantity_items;
-     document.getElementById('final-sum').innerText = currency + totalSumFinal.toFixed(2);
-     document.querySelector('.value-total').innerText = currency + sum_with_vat.toFixed(2);
-     document.querySelector('.value-taxes').innerText = currency + included_vat.toFixed(2);
-}
 // Initial placement of the underline
 document.getElementById('form-address-form').addEventListener('submit', function(e) {
     e.preventDefault();

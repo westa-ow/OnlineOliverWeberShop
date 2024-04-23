@@ -13,6 +13,9 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-analytics.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{% static "js/product_cards.js" %}"></script>
+    <script src="{% static "js/catalog/setupFilters.js" %}"></script>
+    <script src="{% static "js/catalog/setupSliderFilter.js" %}"></script>
+
 </head>
 <body>
 {% include 'navigation_bar.html' %}
@@ -209,11 +212,7 @@
     var firebaseConfig = {
         apiKey: "AIzaSyAM0wDc_WO0wP3-_TPRPLENZDIHbezH7U4",
         authDomain: "flutterapp-fd5c3.firebaseapp.com",
-        projectId: "flutterapp-fd5c3",
-        storageBucket: "flutterapp-fd5c3.appspot.com",
-        messagingSenderId: "486422895050",
-        appId: "1:486422895050:web:b67eaef185d40579879733",
-        measurementId: "G-JT2QVDEHLT"
+        projectId: "flutterapp-fd5c3"
     };
 
     const app = initializeApp(firebaseConfig);
@@ -238,17 +237,19 @@
         changePage(currentPage);
 
         constructCategories();
-        constructFilters();
-        setupCheckboxEventListeners('.crystal-checkbox', stoneFilters);
-        setupCheckboxEventListeners('.plating-checkbox', platingFilters);
-        setupCheckboxEventListeners('.base-checkbox', baseFilters);
-        setupCheckboxEventListeners('.size-checkbox', sizeFilters);
+
+        constructFilters(allItems);
+
+        setupFiltersEventListeners('.plating-checkbox', platingFilters);
+        setupFiltersEventListeners('.base-checkbox', baseFilters);
+        setupFiltersEventListeners('.size-checkbox', sizeFilters);
 
         applyFilters();
         updateURL();
         setupSelectEventListener('.crystal-select', stoneFilters);
         hideOverlay();
     });
+
 let sale = {{ sale|safe }};
 const price_category = "{{ category|safe }}";
 const show_quantities = "{{ show_quantities|safe }}" !== "False";
@@ -343,7 +344,7 @@ function changePage(page) {
         document.getElementById("previous-button").style.display = 'none';
     }
     else{
-                document.getElementById("previous-button").style.display = 'block';
+        document.getElementById("previous-button").style.display = 'block';
     }
     if(page === total_pages){
         document.getElementById("next-button").style.display = 'none';
@@ -434,14 +435,14 @@ function constructCategories(){
     categories_div.style.display = 'block';
 }
 
-function createCategorySpan(currenyCategory) {
+function createCategorySpan(currentCategory) {
     const span = document.createElement('span');
-    span.textContent = synonyms[currenyCategory];
-    span.setAttribute("data-category-name", currenyCategory);
+    span.textContent = synonyms[currentCategory];
+    span.setAttribute("data-category-name", currentCategory);
     span.className = 'category-name';
-    console.log(currenyCategory);
+    console.log(currentCategory);
 
-    if (currenyCategory === category) span.style.fontWeight = "600";
+    if (currentCategory === category) span.style.fontWeight = "600";
     return span;
 }
 
@@ -463,7 +464,7 @@ function createSubCategoryList(subCategories) {
         subSpan.textContent = synonyms[sub];
         subLi.appendChild(subSpan);
         ul.appendChild(subLi);
-        setupSpanClickListener(subSpan);
+        setupCategoryClickListener(subSpan);
     });
     return ul;
 }
@@ -494,120 +495,8 @@ function setupCategoryClickListener(span) {
     });
 }
 
-function setupSpanClickListener(span) {
-    span.addEventListener('click', () => {
-        document.querySelectorAll('.categories-list li span').forEach(li => li.style.fontWeight = "");
-        category = span.getAttribute("data-category-name"); // Update the global category
-        span.style.fontWeight = "600";
-        const newUrl = `?category=${encodeURIComponent(category)}`;
-        history.pushState({path: newUrl}, '', newUrl);
-
-        applyFilters(); // Call the applyFilters function
-        updateURL();
-    });
-}
-function constructFilters(){
-    constructCrystals();
-    constructPlatings();
-    constructBases();
-}
-
-function createFilterElements(containerClass, itemsArray, prefix) {
-    const container = document.querySelector(`.${containerClass}`);
-    container.innerHTML = ''; // Clear existing content
-
-    itemsArray.forEach((item, index) => {
-        const itemId = `${prefix}${index + 1}`;
-        const checkboxId = `checkbox${prefix.toUpperCase()}${index + 1}`;
-
-        // Create div for each item
-        const itemDiv = document.createElement('div');
-        itemDiv.id = itemId;
-
-        // Create checkbox input for each item
-        const checkbox = document.createElement('input');
-        checkbox.className = `${prefix}-checkbox`;
-        checkbox.type = 'checkbox';
-        checkbox.id = checkboxId;
-        checkbox.name = checkboxId;
-        checkbox.value = item;
-
-        // Create label for each checkbox
-        const label = document.createElement('label');
-        label.className = 'checkbox-label';
-        label.htmlFor = checkboxId;
-        label.textContent = item;
-
-        // Append checkbox and label to itemDiv
-        itemDiv.appendChild(checkbox);
-        itemDiv.appendChild(label);
-
-        // Append itemDiv to container
-        container.appendChild(itemDiv);
-    });
-}
-
-function createCrystalElements(containerClass, itemsArray, prefix) {
-    const container = document.querySelector(`.${containerClass}`);
-    container.innerHTML = ''; // Clear existing content
-
-    // Create select element
-    const select = document.createElement('select');
-    select.className = `${prefix}-select`;
-    select.id = `${prefix}-select`;
-
-    // Add a default option
-    const defaultOption = document.createElement('option');
-    defaultOption.textContent = 'All';
-    defaultOption.value = '';
-    select.appendChild(defaultOption);
-
-    // Create option for each item
-    itemsArray.forEach((item, index) => {
-        const option = document.createElement('option');
-        option.value = item;
-        option.textContent = item;
-        select.appendChild(option);
-    });
-
-    // Append select to container
-    container.appendChild(select);
-}
-function constructCrystals() {
-    let uniqueStones = new Set();
-    allItems.forEach(document => {
-        Object.values(document.platings).forEach(plating => {
-            Object.keys(plating.stones).forEach(stoneCategory => {
-                uniqueStones.add(stoneCategory);
-            });
-        });
-    });
-    createCrystalElements('crystals', Array.from(uniqueStones), 'crystal');
-}
-
-function constructPlatings() {
-    let uniquePlatings = new Set();
-    allItems.forEach(document => {
-        Object.keys(document.platings).forEach(plating => {
-            uniquePlatings.add(plating);
-        });
-    });
-    createFilterElements('platings', Array.from(uniquePlatings), 'plating');
-}
-
-function constructBases() {
-    let all_bases = allItems.reduce((accumulator, document) => {
-        if (!accumulator.includes(document.material)) {
-            accumulator.push(document.material);
-        }
-        return accumulator;
-    }, []);
-    createFilterElements('bases', all_bases, 'base');
-}
-
 
 // Function to simulate changing the page (you might have your actual logic to fetch/update content here)
-
 function setupSelectEventListener(selectClassName, filtersArray) {
     const select = document.querySelector(selectClassName);
     select.addEventListener('change', function() {
@@ -627,7 +516,8 @@ function setupSelectEventListener(selectClassName, filtersArray) {
         updateURL();
     });
 }
-function setupCheckboxEventListeners(checkboxClassName, filtersArray) {
+
+function setupFiltersEventListeners(checkboxClassName, filtersArray) {
     document.querySelectorAll(checkboxClassName).forEach(checkbox => {
         checkbox.addEventListener('change', function() {
             const checkboxes = document.querySelectorAll(checkboxClassName);
@@ -694,12 +584,12 @@ function updateURL() {
     history.pushState({}, '', `${baseUrl}?${queryParams.toString()}`);
 }
 function toggleOffUnnecessaryCheckboxes(checkboxes, currentValue ){
-     checkboxes.forEach(checkbox => {
-            if (checkbox.value !== currentValue) {
-                checkbox.checked = false;
-                checkbox.parentElement.querySelector('label').style.fontWeight = "";
-            }
-     });
+    checkboxes.forEach(checkbox => {
+        if (checkbox.value !== currentValue) {
+            checkbox.checked = false;
+            checkbox.parentElement.querySelector('label').style.fontWeight = "";
+        }
+    });
 }
 document.querySelectorAll('.remove-filters-container').forEach(container=> {
     container.addEventListener('click', function (){
@@ -762,60 +652,8 @@ function removeQueryParam(param) {
 }
 
 
+
 document.getElementById('contains-in-name').addEventListener('input', applyFilters);
-
-function controlFromSlider(fromSlider, toSlider, fromInput) {
-  const [from, to] = getParsed(fromSlider, toSlider);
-  fillSlider(fromSlider, toSlider, '#C6C6C6', '#003665', toSlider);
-  if (from > to) {
-    fromSlider.value = to;
-    fromInput.textContent = currency +to;
-  } else {
-    fromInput.textContent = currency +from;
-  }
-}
-
-function controlToSlider(fromSlider, toSlider, toInput) {
-  const [from, to] = getParsed(fromSlider, toSlider);
-  fillSlider(fromSlider, toSlider, '#C6C6C6', '#003665', toSlider);
-  setToggleAccessible(toSlider);
-  if (from <= to) {
-    toSlider.value = to;
-    toInput.textContent = currency + to;
-  } else {
-    toInput.textContent = currency + from;
-    toSlider.value = from;
-  }
-}
-
-function getParsed(currentFrom, currentTo) {
-  const from = parseInt(currentFrom.value, 10);
-  const to = parseInt(currentTo.value, 10);
-  return [from, to];
-}
-
-function fillSlider(from, to, sliderColor, rangeColor, controlSlider) {
-    const rangeDistance = to.max-to.min;
-    const fromPosition = from.value - to.min;
-    const toPosition = to.value - to.min;
-    controlSlider.style.background = `linear-gradient(
-      to right,
-      ${sliderColor} 0%,
-      ${sliderColor} ${(fromPosition)/(rangeDistance)*100}%,
-      ${rangeColor} ${((fromPosition)/(rangeDistance))*100}%,
-      ${rangeColor} ${(toPosition)/(rangeDistance)*100}%,
-      ${sliderColor} ${(toPosition)/(rangeDistance)*100}%,
-      ${sliderColor} 100%)`;
-}
-
-function setToggleAccessible(currentTarget) {
-  const toSlider = document.querySelector('#toSlider');
-  if (Number(currentTarget.value) <= 0 ) {
-    toSlider.style.zIndex = 2;
-  } else {
-    toSlider.style.zIndex = 0;
-  }
-}
 
 const fromSlider = document.querySelector('#fromSlider');
 const toSlider = document.querySelector('#toSlider');
@@ -824,8 +662,8 @@ const toInputText = document.querySelector('.toInput-text');
 fillSlider(fromSlider, toSlider, '#C6C6C6', '#003665', toSlider);
 setToggleAccessible(toSlider);
 
-fromSlider.oninput = () => controlFromSlider(fromSlider, toSlider, fromInputText);
-toSlider.oninput = () => controlToSlider(fromSlider, toSlider, toInputText);
+fromSlider.oninput = () => controlFromSlider(fromSlider, toSlider, fromInputText, currency);
+toSlider.oninput = () => controlToSlider(fromSlider, toSlider, toInputText, currency);
 
 fromSlider.addEventListener('change', applyFilters);
 toSlider.addEventListener('change', applyFilters);
@@ -1001,30 +839,9 @@ function displayCurrentPage(items) {
         itemId+=1;
     });
 }
-function showTooltip(event, message) {
-     const existingTooltip = document.querySelector('.custom-tooltip');
-    if (existingTooltip) {
-        existingTooltip.remove();
-    }
-    const tooltip = document.createElement('div');
-    tooltip.className = 'custom-tooltip';
-    tooltip.textContent = message;
-    tooltip.style.position = 'absolute';
-    tooltip.style.left = `${event.pageX + 10}px`; // Adjust positioning as needed
-    tooltip.style.top = `${event.pageY + 10}px`; // Adjust positioning as needed
-    document.body.appendChild(tooltip);
 
-    // Move tooltip with cursor
-    event.target.addEventListener('mousemove', (e) => {
-        tooltip.style.left = `${e.pageX + 10}px`;
-        tooltip.style.top = `${e.pageY + 10}px`;
-    });
 
-    // Remove tooltip on mouseleave
-    event.target.addEventListener('mouseleave', () => {
-        tooltip.remove();
-    });
-}
+
 function applyFilters() {
    const nameFilterValue = document.getElementById('contains-in-name').value.toLowerCase();
    const [from, to] = getParsed(fromSlider, toSlider);

@@ -8,6 +8,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" type="text/css" href="{% static 'css/checkout_cart.css' %}">
 <link rel="stylesheet" href="{% static "css/profile/profile_information.css" %}">
+<script src="{% static "js/checkout/totalCalculation.js" %}"></script>
 
     <style>
     .informational-content {
@@ -389,7 +390,7 @@ let isCheckout = true;
 let documentss = [];
 function init() {
     documentss = {{ documents|safe }};
-    calculate_final();
+    calculate_final(0, currency);
 }
 document.addEventListener("DOMContentLoaded", function() {
     isCheckout = true;
@@ -469,25 +470,7 @@ labels.forEach(label => {
         moveUnderline(label);
     });
 });
-function calculate_final(){
-     let totalQuantity = 0;
-     let totalSum = 0;
-     let totalItems = 0;
 
-     documentss.forEach(doc => {
-            totalItems+=1;
-            totalQuantity += doc.quantity;
-            totalSum += (doc.quantity * doc.price);
-     });
-
-     const quantity_items = totalItems%10===1 ? "item" : "items";
-     const totalSumFinal =  totalSum.toFixed(2);
-     document.querySelector('.final-unique-quantity').innerText =  totalItems +" " + quantity_items;
-     {#document.getElementById('final-quantity').innerText = 'Total pieces..........................................................' + totalQuantity;#}
-     document.getElementById('final-sum').innerText = currency + totalSumFinal;
-     document.querySelector('.value-total').innerText = currency + totalSumFinal;
-     document.querySelector('.value-taxes').innerText = currency + (totalSumFinal * 0.15).toFixed(2);
-}
 // Initial placement of the underline
 moveUnderline(document.querySelector('label[for="section1"]'));
 </script>
