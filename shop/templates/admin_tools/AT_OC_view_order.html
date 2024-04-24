@@ -5,63 +5,16 @@
 <link rel="stylesheet" href="{% static 'css/SeparateWidgets/switch.css' %}">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="{% static 'css/SeparateWidgets/groupsTable.css' %}">
+<link rel="stylesheet" href="{% static 'css/admin_tools/viewOrder.css' %}">
 <style>
-    td,th{
-        padding: 10px;
-        font-size: 15px;
-    }
-    tr{
-        border-bottom: 2px solid #e2e2e2;
-    }
-    /* The Modal (background) */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
 
-/* Modal Content/Box */
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 30%; /* Could be more or less, depending on screen size */
-}
-
-/* The Close Button (x) - you can add this if you want a close button */
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-/* Modal Footer */
-.modal-footer {
-  text-align: right;
-}
 </style>
 <section id="content" class="page-content col-md-12 col-lg-9 myacc_content">
 
     <div id="customerCard" class="customer card">
     {% if user_info %}
         <div class="card-header">
-            <h3 class="card-header-title" style="display: flex;justify-content: space-between ">
+            <h3 class="card-header-title">
                 Customer
                 <a class="d-print-none" href="{% url "at_view_user" user_id=user_info.userId %}">
                     View full details
@@ -84,7 +37,7 @@
                 </div>
             </div>
             <div class="row mt-3">
-                <div id="customerEmail" class="col-xxl-6" style="margin-right: 30px">
+                <div id="customerEmail" class="col-xxl-6" >
                     <p class="mb-1">
                         <strong>Email:</strong>
                     </p>
@@ -108,7 +61,7 @@
                     </p>
                     <p class="mb-1">
                         <strong class="current-order" >Current order №{{ order.order_id }}</strong>
-                        <strong class="edit-status" style="margin-left: 5px; cursor: pointer"><a><i class="material-icons" style="color: #0a0a0a">edit</i></a></strong>
+                        <strong class="edit-status" ><a><i class="material-icons">edit</i></a></strong>
                     </p>
                     <p>{{ Order.Status}}</p>
                 </div>
@@ -117,18 +70,17 @@
         </div>
     {% else %}
         <div class="card-header">
-            <h3 class="card-header-title" style="display: flex;justify-content: space-between ">
+            <h3 class="card-header-title">
                 Customer doesn't exist in database
-
             </h3>
         </div>
     {% endif %}
-        <div class="order-table" style="">
+        <div class="order-table">
             <div class="card-header table-header">
                 <h3>Products ({{ user_orders|length }})</h3>
             </div>
             <div class="table-body">
-                <table style="width: 100%">
+                <table>
                     <thead>
                         <tr>
                             <th>Image</th>
@@ -181,7 +133,7 @@
 </div>
 <script>
     let change_order = {{ Order|safe }};
-    console.log(change_order);
+
     document.addEventListener("DOMContentLoaded", async function () {
         const current_order_label =
         document.querySelector(".current-order");
