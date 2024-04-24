@@ -1,5 +1,6 @@
 {% block content %}
 {% load static %}
+{% load i18n %}
 {% load widget_tweaks %}
 <!DOCTYPE html>
 <html lang="en">
@@ -9,123 +10,11 @@
     <title>Home page</title>
     <link rel="stylesheet" href="{% static 'css/profile/profile_information.css' %}">
     <link rel="stylesheet" href="{% static 'css/profile/profile_favourites.css' %}">
+    <link rel="stylesheet" href="{% static 'css/homepage.css' %}">
     <script src="{% static "js/product_cards.js" %}"></script>
     {% include 'navigation_bar.html' %}
-
-    <style>
-
-
-.centered-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    {#height: 80vh; /* This makes sure the container takes the full viewport height */#}
-}
-.carousel {
-    overflow: hidden;
-    position: relative;
-    width: 1240px; /* Match the width of your images */
-    height: 500px; /* Match the height of your images */
-}
-
-.carousel-item {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-    text-align: center;
-}
-
-.carousel-item.active {
-    opacity: 1;
-}
-
-.carousel-item img {
-    width: 100%; /* Adjust based on your needs */
-    vertical-align: middle;
-}
-.img-section{
-    width: 200px!important;
-    height: 200px !important;
-    margin-bottom: 20px;
-}
-.img-wrapper {
-    position: relative;
-    display: inline-block;
-    width: 200px !important; /* Match the image width */
-    height: 200px !important; /* Match the image height */
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-
-html::-webkit-scrollbar{
-    display: none;
-}
-html {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-}
-
-
-
-.containerr {
-  width: 100%;
-  height: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.carousel-view {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-}
-/* Hide scrollbar for Chrome, Safari and Opera */
-.item-list::-webkit-scrollbar {
-  display: none;
-}
-
-/* Hide scrollbar for IE, Edge and Firefox */
-.item-list {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
-.item-list {
-  width: 1250px;
-  {#width: 70vw;#}
-  padding: 10px 10px;
-  display: flex;
-  gap: 48px;
-  scroll-behavior: smooth;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-}
-
-.item-list::-webkit-scrollbar {
-  display: none;
-}
-
-.prev-btn, .next-btn {
-  background: none;
-  cursor: pointer;
-  border: none;
-}
-
-.item {
-  scroll-snap-align: center;
-  min-width: 200px;
-  border-radius: 8px;
-}
-
-</style>
 </head>
-<body style="">
+<body>
 
 <div class="centered-container" style="margin-top: 120px">
 {#      <h1 style="font-weight: 650">Welcome to the home page, {% if user.first_name %} {{ user.first_name }} {% elif user.email %} {{ user.email }} {% else %}  {% endif %} {{ user.last_name|default:"" }}!</h1>#}
