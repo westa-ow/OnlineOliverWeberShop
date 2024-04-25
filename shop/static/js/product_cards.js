@@ -1,3 +1,17 @@
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 function updatePlatings(selectedPlating, stoneSelect, sizeSelect, image, maxQuantity, show_quantities){
     const firstStone = selectedPlating ? Object.values(selectedPlating.stones || {})[0] : null;
 
@@ -144,7 +158,7 @@ function showTooltip(event, message) {
 }
 
 
-function generateDialogContent(id, items_array, currency, show_quantities){
+function generateDialogContent(id, items_array, currency, show_quantities, add_to_cart_url){
     let quantity_max = 1;
     document.body.style.overflow = 'hidden';
     const item = items_array.find(item => item.name === id);
@@ -320,7 +334,7 @@ function generateDialogContent(id, items_array, currency, show_quantities){
     add_to_cart.type = 'submit';
     add_to_cart.classList.add('add-to-cart-dialog');
     add_to_cart.addEventListener('click', function() {
-        add_to_cart_func(item, platingsSelect.value, stoneSelect.value, sizeSelect.value, Number(inputQuantity.value), add_to_cart, dialog, currency);
+        add_to_cart_func(item, platingsSelect.value, stoneSelect.value, sizeSelect.value, Number(inputQuantity.value), add_to_cart, dialog, currency, add_to_cart_url);
     });
     const icon_cart = document.createElement('i');
     icon_cart.classList.add('fa-solid', 'fa-cart-shopping');
@@ -346,7 +360,7 @@ function generateDialogContent(id, items_array, currency, show_quantities){
     dialog.style.display = 'block';
 }
 
-function add_to_cart_func(item, plating, stone, size, quantity, add_button, dialog, currency){
+function add_to_cart_func(item, plating, stone, size, quantity, add_button, dialog, currency, add_to_cart_url){
     let doc;
     if( size === "" ){
          doc = item.platings[plating].stones[stone].real_name;
@@ -358,13 +372,13 @@ function add_to_cart_func(item, plating, stone, size, quantity, add_button, dial
     add_button.style.backgroundColor = "#7894a6";
     add_button.disabled = true;
 
-    fetch('/add_to_cart_from_catalog/', {
+    fetch(add_to_cart_url, {
         method: 'POST',
         headers: {
             'X-CSRFToken': getCookie('csrftoken'),
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({'document': doc, 'quantity':quantity})
+        body: JSON.stringify({'document': doc, 'quantity': quantity})
     })
     .then(response => response.json())
     .then(data => {
@@ -397,7 +411,7 @@ function activate_success_card(item, quantity, cart_count, subtotalValue, curren
     secondColumn.classList.add('second-column');
 
     //Add information about added the product and about the cart
-    informationSuccessSetup(secondColumn, item, quantity, cart_count, subtotalValue);
+    informationSuccessSetup(secondColumn, item, quantity, cart_count, subtotalValue, currency);
 
     //Add buttons to continue shopping or to procceed to checkout
     manageButtonsSuccessSetup(dialog, secondColumn);
@@ -446,7 +460,7 @@ function informationSuccessSetup(column, item, actual_quantity, cart_count, cart
     column.appendChild(items_count);
 
     const subtotal = document.createElement('spanSucc');
-    subtotal.innerHTML =`<strong>Subtotal: </strong>`+currency + `${cartSubtotal}`;
+    subtotal.innerHTML =`<strong>Subtotal: </strong>`+ currency + `${cartSubtotal}`;
     subtotal.style.marginBottom = '20px';
     column.appendChild(subtotal);
 }
@@ -470,18 +484,4 @@ function manageButtonsSuccessSetup(dialog, column){
 
     container_for_success_buttons.appendChild(proceed_to_checkout);
     column.appendChild(container_for_success_buttons);
-}
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
 }

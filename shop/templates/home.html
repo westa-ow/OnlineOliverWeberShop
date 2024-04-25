@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{% static 'css/homepage.css' %}">
     <script src="{% static "js/product_cards.js" %}"></script>
     <script src="{% static "js/productsTransmutation.js" %}"></script>
-    {% include 'navigation_bar.html' %}
+    {% include 'widgets/navigation_bar.html' %}
 </head>
 <body>
 <style>
@@ -131,7 +131,7 @@
         </div>
     </div>
     <div class="containerr">
-        <h3>BEST SELLERS</h3>
+        <h3>{% trans "BEST SELLERS" %}</h3>
     </div>
     <div class="containerr">
     <div class="carousel-view">
@@ -530,7 +530,7 @@
                 productContainer.setAttribute('data-id', itemId);
 
                 productContainer.addEventListener('click', () => {
-                    generateDialogContent(`${item.name}`, allItems, currency, show_quantities);
+                    generateDialogContent(`${item.name}`, allItems, currency, show_quantities, "{% url "add_from_catalog" %}");
                 });
 
                 // Create the image section

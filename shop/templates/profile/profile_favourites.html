@@ -68,7 +68,7 @@
                 productContainer.setAttribute('data-id', itemId);
 
                 productContainer.addEventListener('click', () => {
-                    generateDialogContent(`${item.name}`, favouriteItems, currency, show_quantities);
+                    generateDialogContent(`${item.name}`, favouriteItems, currency, show_quantities, "{% url "add_from_catalog" %}");
                 });
 
                 const container_card = document.createElement("div");

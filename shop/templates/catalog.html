@@ -7,10 +7,6 @@
     <title>Catalog</title>
     <link rel="stylesheet"  href="{% static 'css/catalog.css' %}">
     <!-- Add this script tag to your HTML to include Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-analytics.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{% static "js/product_cards.js" %}"></script>
     <script src="{% static "js/catalog/setupFilters.js" %}"></script>
@@ -19,7 +15,7 @@
 
 </head>
 <body>
-{% include 'navigation_bar.html' %}
+{% include 'widgets/navigation_bar.html' %}
 
 <div class="everything" style="margin-top: 120px">
     <div class="filters-section">
@@ -205,7 +201,7 @@
 {% include "widgets/footer.html" %}
 </body>
 
-<script  type="module">
+<script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
 
     import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
@@ -701,7 +697,7 @@ function displayCurrentPage(items) {
         productContainer.setAttribute('data-id', itemId);
 
         productContainer.addEventListener('click', () => {
-            generateDialogContent(`${item.name}`, allItems, currency, show_quantities);
+            generateDialogContent(`${item.name}`, allItems, currency, show_quantities, "{% url "add_from_catalog" %}");
         });
 
         // Create the image section

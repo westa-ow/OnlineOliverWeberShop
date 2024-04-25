@@ -55,47 +55,51 @@ def catalog_view(request):
 
 @login_required_or_session
 def add_to_cart_from_catalog(request):
-    data = json.loads(request.body)
-    product_name = data.get('document')
-    new_quantity = data.get('quantity')
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        product_name = data.get('document')
+        new_quantity = data.get('quantity')
 
-    email = get_user_session_type(request)
-    category, currency = get_user_category(email) or ("Default", "Euro")
-    currency = '€' if currency == 'Euro' else '$'
-    email = get_user_session_type(request)
-    info = get_user_info(email) or {}
-    sale = round((0 if "sale" not in info else info['sale'])/100, 2) or 0
-    if not product_name or new_quantity is None:
-        return JsonResponse({'status': 'error', 'message': 'Missing product name or quantity'}, status=400)
+        email = get_user_session_type(request)
+        category, currency = get_user_category(email) or ("Default", "Euro")
+        currency = '€' if currency == 'Euro' else '$'
+        email = get_user_session_type(request)
+        info = get_user_info(email) or {}
+        sale = round((0 if "sale" not in info else info['sale'])/100, 2) or 0
+        if not product_name or new_quantity is None:
+            return JsonResponse({'status': 'error', 'message': 'Missing product name or quantity'}, status=400)
 
-    document = get_full_product(product_name)
-    if category == "VK3":
-        document['price'] = document.get('priceVK3', 0)
-    elif category == "GH":
-        document['price'] = document.get('priceGH', 0)
-    elif category == "Default USD":
-        document['price'] = round(document.get('priceUSD', 0) * (1-sale), 2) or 0
-    elif category == "GH_USD":
-        document['price'] = document.get('priceUSD_GH', 0)
+        document = get_full_product(product_name)
+        if category == "VK3":
+            document['price'] = document.get('priceVK3', 0)
+        elif category == "GH":
+            document['price'] = document.get('priceGH', 0)
+        elif category == "Default USD":
+            document['price'] = round(document.get('priceUSD', 0) * (1-sale), 2) or 0
+        elif category == "GH_USD":
+            document['price'] = document.get('priceUSD_GH', 0)
+        else:
+            document['price'] = round(document.get('priceVK4', 0) * (1-sale), 2) or 0
+        if not document:
+            return JsonResponse({'status': 'error', 'message': 'Product not found'}, status=404)
+
+        subtotal, cart_size = update_cart(email, product_name, new_quantity, document)
+
+        if subtotal is None:  # Assuming update_cart returns None on error
+            return JsonResponse({'status': 'error', 'message': 'An error occurred while processing your request'},
+                                status=500)
+        return JsonResponse({
+            'status': 'success',
+            'quantity': new_quantity,
+            'product_id': product_name,
+            'sum': f"{round(new_quantity * document['price'], 2)}",
+            'product': document,
+            'cart_size': cart_size,
+            'subtotal': f"{subtotal}"
+        })
     else:
-        document['price'] = round(document.get('priceVK4', 0) * (1-sale), 2) or 0
-    if not document:
-        return JsonResponse({'status': 'error', 'message': 'Product not found'}, status=404)
-
-    subtotal, cart_size = update_cart(email, product_name, new_quantity, document)
-
-    if subtotal is None:  # Assuming update_cart returns None on error
         return JsonResponse({'status': 'error', 'message': 'An error occurred while processing your request'},
                             status=500)
-    return JsonResponse({
-        'status': 'success',
-        'quantity': new_quantity,
-        'product_id': product_name,
-        'sum': f"{round(new_quantity * document['price'], 2)}",
-        'product': document,
-        'cart_size': cart_size,
-        'subtotal': f"{subtotal}"
-    })
 
 
 def get_full_product(catalog_product_name):

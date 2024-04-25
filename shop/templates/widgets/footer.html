@@ -76,31 +76,31 @@ li > a.footer-menu-item::after {
                     <div class="container-columns">
                         <div class="column-customer-service list-column">
                             <h3 class="h3">
-                                Customer Service
+                                {% trans "Customer Service"%}
                             </h3>
                             <ul id="footer_sub_menu" class="text-left p-0 m-0">
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "services" service_page="contact_us" %}"> Contact us </a> </li>
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "services" service_page="faq" %}"> Frequently Asked Questions </a> </li>
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "services" service_page="csar" %}"> Customer service and repair </a> </li>
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "services" service_page="shipping_info" %}"> Shipping information </a> </li>
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "services" service_page="returns_exchanges" %}"> Returns and exchanges </a> </li>
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "services" service_page="payment_info" %}"> Payment Information </a></li>
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "services" service_page="b2b" %}"> B2B Customers </a></li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "services" service_page="contact_us" %}"> {% trans "Contact us"%} </a> </li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "services" service_page="faq" %}"> {% trans "Frequently Asked Questions" %} </a> </li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "services" service_page="csar" %}"> {% trans "Customer service and repair" %} </a> </li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "services" service_page="shipping_info" %}"> {% trans "Shipping information" %} </a> </li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "services" service_page="returns_exchanges" %}"> {% trans "Returns and exchanges" %} </a> </li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "services" service_page="payment_info" %}"> {% trans "Payment Information" %} </a></li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "services" service_page="b2b" %}"> {% trans "B2B Customers" %} </a></li>
 {#                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "services" service_page="news_subscription" %}"> Newsletter subscription </a></li>#}
 {#                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Gifts Cards </a>#}
                             </ul>
                         </div>
                         <div class="column-our-company list-column">
                             <h3 class="h3">
-                                Our company
+                               {% trans "Our company" %}
                             </h3>
                             <ul id="footer_sub_menu" class="text-left p-0 m-0">
 
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "company_info" company_info_page="ow_world" %}"> Oliver Weber's World </a></li>
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "company_info" company_info_page="ow_press" %}"> Oliver Weber for Press </a></li>
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "company_info" company_info_page="terms_conditions" %}"> Terms and Conditions </a></li>
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "company_info" company_info_page="impressum" %}"> Impressum </a></li>
-                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "company_info" company_info_page="privacy_policy" %}"> Website Privacy Policy </a></li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "company_info" company_info_page="ow_world" %}"> {% trans "Oliver Weber's World" %} </a></li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "company_info" company_info_page="ow_press" %}"> {% trans "Oliver Weber for Press" %} </a></li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "company_info" company_info_page="terms_conditions" %}"> {% trans "Terms and Conditions" %} </a></li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "company_info" company_info_page="impressum" %}"> {% trans "Impressum" %} </a></li>
+                                <li class="p-0 m-0"> <a class="footer-menu-item" href="{% url "company_info" company_info_page="privacy_policy" %}"> {% trans "Website Privacy Policy" %} </a></li>
 {#                                <li class="p-0 m-0"> <a class="footer-menu-item" href=""> Stores </a> </li>#}
                             </ul>
                         </div>
@@ -109,7 +109,7 @@ li > a.footer-menu-item::after {
                 <div class="col-md-3 wrapper">
                     <div class="block-social col-lg-12 col-md-12 col-sm-12">
                         <div class="row">
-                            <h3 class="h3 hidden-sm-down">Follow us</h3>
+                            <h3 class="h3 hidden-sm-down">{% trans "Follow us" %}</h3>
                             <ul>
                                 <li class="facebook"> <a href="https://de-de.facebook.com/oliverweberinternational/"> Facebook </a> </li>
                                 <li class="youtube"> <a href="https://www.youtube.com/user/owcollection"> YouTube </a> </li>
