@@ -433,16 +433,14 @@
 
         buildPageFavourites(allItems);
         let unfilteredItems = await fetchItemsWithQuantityGreaterThan30(); // Fetch all items on load
+        let email = "{{ user.email }}"
         favouriteitems = await fetchFavouriteItems("westadatabase@gmail.com");
-        allItems = productsTransmutation(unfilteredItems);
+        allItems = productsTransmutation(unfilteredItems, price_category, sale);
         shuffleArray(allItems);
         allItems = allItems.slice(0, 15);
 
 
         buildPageFavourites(allItems);
-
-
-
 
 
     });
