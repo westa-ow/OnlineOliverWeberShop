@@ -12,31 +12,66 @@
     <link rel="stylesheet" href="{% static 'css/profile/profile_favourites.css' %}">
     <link rel="stylesheet" href="{% static 'css/homepage.css' %}">
     <script src="{% static "js/product_cards.js" %}"></script>
+    <script src="{% static "js/productsTransmutation.js" %}"></script>
     {% include 'navigation_bar.html' %}
 </head>
 <body>
+<style>
+    .centered-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
+}
+.carousel {
+    overflow: hidden;
+    position: relative;
+    width: 1240px; /* Match the width of your images */
+    height: 500px; /* Match the height of your images */
+}
+
+.carousel-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;  // Ensures a smooth transition
+    text-align: center;
+}
+
+.carousel-item.active {
+    opacity: 1;
+}
+
+.carousel-item img {
+    width: 100%; /* Adjust based on your needs */
+    vertical-align: middle;
+}
+
+</style>
 <div class="centered-container" style="margin-top: 120px">
 {#      <h1 style="font-weight: 650">Welcome to the home page, {% if user.first_name %} {{ user.first_name }} {% elif user.email %} {{ user.email }} {% else %}  {% endif %} {{ user.last_name|default:"" }}!</h1>#}
     <div class="cl">
         <div id="carousel" class="carousel">
             <div class="carousel-item active"><img src="{% static "images/home/carousel/banner_mothers_day.jpg" %}" alt="Image 1" width="1240" height="500"></div>
-            <div class="carousel-item"><img src="{% static "images/home/carousel/Banners SPRING 20242.jpg" %}" alt="Image 1" width="1240" height="500"></div>
-            <div class="carousel-item"><img src="{% static "images/home/carousel/Banners SPRING 20243.jpg" %}" alt="Image 1" width="1240" height="500"></div>
-            <div class="carousel-item"><img src="{% static "images/home/carousel/slider_06.jpg" %}" alt="Image 1" width="1240" height="500"></div>
-            <div class="carousel-item"><img src="{% static "images/home/carousel/slider_07.webp" %}" alt="Image 1" width="1240" height="500"></div>
+            <div class="carousel-item"><img src="{% static "images/home/carousel/Banners SPRING 20242.jpg" %}" alt="Image 2" width="1240" height="500"></div>
+            <div class="carousel-item"><img src="{% static "images/home/carousel/Banners SPRING 20243.jpg" %}" alt="Image 3" width="1240" height="500"></div>
+            <div class="carousel-item"><img src="{% static "images/home/carousel/slider_06.jpg" %}" alt="Image 4" width="1240" height="500"></div>
+            <div class="carousel-item"><img src="{% static "images/home/carousel/slider_07.webp" %}" alt="Image 5" width="1240" height="500"></div>
         </div>
     </div>
     <div id="roycontent_home" class="roycontent">
         <div class="row">
             <div class="container">
                 <ul class="clearfix">
-                    <li class="htmlcontent-item-1 col-md-12 bview bview-first ">
+                    <li class="htmlcontent-item-1 col-md-12 bview сbview-first ">
                         <div class="li-cont">
                             <div class="html_inside ">
                                 <div class="home-title">
                                     <div class="home-title">
-                                        <h1>ELEGANT JEWELRY AND ACCESSORIES</h1>
+                                        <h1>{% trans "ELEGANT JEWELRY AND ACCESSORIES" %}</h1>
                                     </div>
                                 </div>
                             </div>
@@ -392,37 +427,13 @@
     }
     document.addEventListener("DOMContentLoaded", async function () {
 
-        let currentIndex = 0;
-        const items = document.querySelectorAll('.carousel-item');
-        const itemAmount = items.length;
+        setupImageCarousel();
 
-        // Initialize the first item's opacity directly for clarity
-        items[0].style.opacity = 1;
+        setupItemsCarousel();
 
-        const prev = document.getElementById('prev-btn');
-        const next = document.getElementById('next-btn');
-        const list = document.getElementById('item-list');
-
-        const itemWidth = 250;
-        let autoScroll = setInterval(function () {
-            list.scrollLeft += itemWidth;
-            // Reset to the beginning if it reaches the end
-            if (list.scrollWidth - list.clientWidth === list.scrollLeft) {
-                list.scrollLeft = 0;
-            }
-        }, 6000); // Scroll every 9000 milliseconds
-
-        prev.addEventListener('click', () => {
-            list.scrollLeft -= itemWidth;  // Adjusted to include gap
-            resetAutoScroll();
-        });
-        next.addEventListener('click', () => {
-            list.scrollLeft += itemWidth;  // Adjusted to include gap
-            resetAutoScroll();
-        });
         buildPageFavourites(allItems);
         let unfilteredItems = await fetchItemsWithQuantityGreaterThan30(); // Fetch all items on load
-        favouriteitems = await fetchFavouriteItems("{{ user.email }}");
+        favouriteitems = await fetchFavouriteItems("westadatabase@gmail.com");
         allItems = productsTransmutation(unfilteredItems);
         shuffleArray(allItems);
         allItems = allItems.slice(0, 15);
@@ -430,16 +441,19 @@
 
         buildPageFavourites(allItems);
 
-        function resetAutoScroll() {
-            clearInterval(autoScroll);
-            autoScroll = setInterval(function () {
-                list.scrollLeft += itemWidth;
-                // Reset to the beginning if it reaches the end
-                if (list.scrollWidth - list.clientWidth === list.scrollLeft) {
-                    list.scrollLeft = 0;
-                }
-            }, 6000);
-        }
+
+
+
+
+    });
+
+    function setupImageCarousel() {
+        let currentIndex = 0;
+        const items = document.querySelectorAll('.carousel-item');
+        const itemAmount = items.length;
+
+        // Initialize the first item's opacity directly for clarity
+        items[0].style.opacity = 1;
 
         function cycleItems() {
             const currentItem = items[currentIndex];
@@ -465,117 +479,43 @@
             currentIndex = nextIndex;
         }
 
-        setInterval(cycleItems, 9000); // Adjusted timing for visual clarity
-    });
-
-function productsTransmutation(items){
-
-    let products = {};
-    const regex = /^[a-zA-Z]{0,2}\d{5}[a-zA-Z]{0,5}$/;
-    items.forEach(item => {
-        if(item.Visible === false){
-            return;
-        }
-        let itemName = item.name;
-
-        itemName = itemName.split(' ')[0];
-         if (regex.test(itemName)) {
-            let processedName = itemName.match(/^([a-zA-Z]{0,2})(\d{5})/);
-             // This includes both the initial letters and the 5 digits
-             itemName = processedName[0];
-        } else {
-            itemName = (item.name).split(' ')[0];
-        }
-
-        if (!products[itemName] ) { //&& item.plating && item.stone
-                products[itemName] = {
-                    name: itemName,
-                    product_name: item.category + " "+ item.product_name,
-                    description: item.description,
-                    price:calculatePrice(item),
-                    category: item.category,
-                    material: item.material,
-                    preview_image: item.image_url,
-                    platings: {}
-                };
-            }
-            if (item.plating) {
-                // Initialize plating if it doesn't exist.
-                if (!products[itemName].platings[item.plating]) {
-                    products[itemName].platings[item.plating] = {
-                        stones: {},
-                    };
-                }
-
-                // Proceed only if stone is defined.
-                if (item.stone) {
-                    // Initialize the stone if it doesn't exist under the current plating.
-                    if (!products[itemName].platings[item.plating].stones[item.stone]) {
-                        products[itemName].platings[item.plating].stones[item.stone] = {
-                            sizes: {},
-                            image: item.image_url,
-                            real_name: item.name
-
-                        };
-                    }
-
-                    // If size is present, add or update the size and quantity for the stone.
-                    if (item.size) {
-                        let stoneSizes = products[itemName].platings[item.plating].stones[item.stone].sizes;
-                        if (!stoneSizes[item.size]) {
-                            stoneSizes[item.size] = {'quantity': item.quantity, 'real_name':item.name };
-
-                        } else {
-                            // Assuming you want to sum quantities for the same size.
-                            stoneSizes[item.size].quantity += item.quantity;
-                        }
-                    } else {
-                        // If there's no size, add the quantity directly to the stone.
-                        if (!products[itemName].platings[item.plating].stones[item.stone].quantity) {
-                            products[itemName].platings[item.plating].stones[item.stone].quantity = item.quantity;
-                            products[itemName].platings[item.plating].stones[item.stone].real_name = item.name;
-                        } else {
-                            products[itemName].platings[item.plating].stones[item.stone].quantity += item.quantity;
-                        }
-                    }
-                }
-            }
-    });
-    for (let productName in products) {
-        for (let platingName in products[productName].platings) {
-            for (let stoneName in products[productName].platings[platingName].stones) {
-                let stoneEntry = products[productName].platings[platingName].stones[stoneName];
-                if (stoneEntry.sizes) {
-                    stoneEntry.sizes = orderSizes(stoneEntry.sizes);
-                }
-            }
-        }
-    }
-    return Object.values(products);
+        setInterval(cycleItems, 8000); // Adjusted timing for visual clarity
 }
-    function calculatePrice(item) {
-        return ((price_category === "VK3" ? item.priceVK3 :
-                 price_category === "GH" ? item.priceGH :
-                 price_category === "GH_USD" ? item.priceUSD_GH :
-                 price_category === "Default_USD" ? (item.priceUSD * (1 - sale)) :
-                 (item.priceVK4 * (1 - sale)))).toFixed(2);
-    }
 
-    function orderSizes(sizes) {
-        const sizeOrder = ['S', 'M', 'L', 'XL'];
-        const orderedSizes = {};
-        sizeOrder.forEach(size => {
-            if (sizes.hasOwnProperty(size)) {
-                orderedSizes[size] = sizes[size];
+
+    function setupItemsCarousel(){
+        const prev = document.getElementById('prev-btn');
+        const next = document.getElementById('next-btn');
+        const list = document.getElementById('item-list');
+
+        const itemWidth = 250;
+        let autoScroll = setInterval(function () {
+            list.scrollLeft += itemWidth;
+            // Reset to the beginning if it reaches the end
+            if (list.scrollWidth - list.clientWidth === list.scrollLeft) {
+                list.scrollLeft = 0;
             }
+        }, 6000); // Scroll every 9000 milliseconds
+
+        prev.addEventListener('click', () => {
+            list.scrollLeft -= itemWidth;  // Adjusted to include gap
+            resetAutoScroll();
         });
-        // Include other sizes not in the specified order
-        Object.keys(sizes).forEach(size => {
-            if (!orderedSizes.hasOwnProperty(size)) {
-                orderedSizes[size] = sizes[size];
-            }
+        next.addEventListener('click', () => {
+            list.scrollLeft += itemWidth;  // Adjusted to include gap
+            resetAutoScroll();
         });
-        return orderedSizes;
+
+        function resetAutoScroll() {
+            clearInterval(autoScroll);
+            autoScroll = setInterval(function () {
+                list.scrollLeft += itemWidth;
+                // Reset to the beginning if it reaches the end
+                if (list.scrollWidth - list.clientWidth === list.scrollLeft) {
+                    list.scrollLeft = 0;
+                }
+            }, 6000);
+        }
     }
 
     function buildPageFavourites(items){
