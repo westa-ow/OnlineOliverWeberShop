@@ -5,13 +5,13 @@
 
 <section id="content" class="page-content col-md-12 col-lg-9 myacc_content">
     <header class="page-header">
-        <h1 style=" color: #0a0a0a"> Your personal information</h1>
+        <h1 style=" color: #0a0a0a"> {% trans "Your personal information" %}</h1>
     </header>
     <form action="" id="customer-form" class="js-customer-form" method="post" autocomplete="off">
         <div>
             <div class="form-group row ">
                 <div class="col-md-12 form-control-valign">
-                    <label>Social title</label>
+                    <label>{% trans "Social title" %}</label>
                     <label class="radio-inline">
                         <span class="custom-radio">
                             <input name="id_gender" type="radio" value="1" {% if user_info.social_title == "Mr" %}checked{% endif %}>
@@ -33,7 +33,7 @@
             </div>
             <div class="form-group row ">
                 <div class="col-md-12">
-                    <label>First name</label>
+                    <label>{% trans "First name" %}</label>
                     <input class="form-control" name="firstname" type="text" value="{{ user_info.first_name }}" required="">
                 </div>
                 <div class="col-md-12 form-control-comment">
@@ -42,7 +42,7 @@
             </div>
             <div class="form-group row ">
                 <div class="col-md-12">
-                    <label>Last name</label>
+                    <label>{% trans "Last name" %}</label>
                     <input class="form-control" name="lastname" type="text" value="{{ user_info.last_name }}" required=""></div>
                 <div class="col-md-12 form-control-comment">
                     <span class="req">*</span>
@@ -59,7 +59,7 @@
             </div>
             <div class="form-group row ">
                 <div class="col-md-12">
-                    <label>Password</label>
+                    <label>{% trans "Password" %}</label>
                     <div class="input-group js-parent-focus">
                         <input class="form-control js-child-focus js-visible-password" name="password" type="password" value="" pattern=".{5,}" required="" autocomplete="off">
                         <span class="input-group-btn">
@@ -77,7 +77,7 @@
             </div>
             <div class="form-group row ">
                 <div class="col-md-12">
-                    <label>New password</label>
+                    <label>{% trans "New password" %}</label>
                     <div class="input-group js-parent-focus">
                         <input class="form-control js-child-focus js-visible-password" name="new_password" type="password" value="" pattern=".{5,}">
                         <span class="input-group-btn">
@@ -95,7 +95,7 @@
             </div>
             <div class="form-group row ">
                 <div class="col-md-12">
-                    <label>Birthdate</label>
+                    <label>{% trans "Birthdate" %}</label>
                     <input class="form-control" name="birthday" type="text" value="{{ user_info.birthday }}" placeholder="YYYY-MM-DD">
                     <span class="form-control-comment"> (E.g.: 1970-05-31) </span>
                 </div>
@@ -111,7 +111,7 @@
                         <span>
                             <i class="material-icons rtl-no-flip checkbox-checked"></i>
                         </span>
-                        <label>Receive offers from our partners</label>
+                        <label>{% trans "Receive offers from our partners" %}</label>
                     </span>
                 </div>
                 <div class="col-md-12 form-control-comment">
@@ -126,8 +126,8 @@
                         <span>
                             <i class="material-icons rtl-no-flip checkbox-checked"></i>
                         </span>
-                        <label>Sign up for our newsletter<br>
-                            <em>You may unsubscribe at any moment. For that purpose, please find our contact info in the legal notice.</em>
+                        <label>{% trans "Sign up for our newsletter" %}<br>
+                            <em>{% trans "You may unsubscribe at any moment. For that purpose, please find our contact info in the legal notice" %}.</em>
                         </label>
                     </span>
                 </div>
@@ -136,7 +136,7 @@
         </div>
         <footer class="form-footer clearfix">
             <input type="hidden" name="submitCreate" value="1">
-            <button class="btn btn-primary wide form-control-submit float-xs-right" data-link-action="save-customer" type="submit"> Save </button>
+            <button class="btn btn-primary wide form-control-submit float-xs-right" data-link-action="save-customer" type="submit"> {% trans "Save" %} </button>
         </footer>
     </form>
     <aside id="notifications">
@@ -203,19 +203,19 @@ document.getElementById('customer-form').addEventListener('submit', function(e) 
     // Example: Check if the first name is filled out
     if (!this.firstname.value) {
         isValid = false;
-        messages.push('First name is required.');
+        messages.push('{{ _("First name is required")|escapejs }}.');
     }
     if (!this.lastname.value) {
         isValid = false;
-        messages.push('Last name is required.');
+        messages.push('{{ _("Last name is required")|escapejs }}.');
     }
     if (!this.email.value) {
         isValid = false;
-        messages.push('Email is required.');
+        messages.push('{{ _("Email is required")|escapejs }}.');
     }
     if (!this.password.value) {
         isValid = false;
-        messages.push('Password is required.');
+        messages.push('{{ _("Password is required")|escapejs }}.');
     }
     const dateFormatRegex = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -223,7 +223,7 @@ document.getElementById('customer-form').addEventListener('submit', function(e) 
     if(this.birthday.value !== ""){
         if (!isValidBirthday(this.birthday.value)) {
             isValid = false;
-            messages.push('Invalid birthday. Ensure the date is valid, in YYYY-MM-DD format, and not in the future.');
+            messages.push('{{ _("Invalid birthday. Ensure the date is valid, in YYYY-MM-DD format, and not in the future")|escapejs }}.');
         }
     }
 
@@ -260,7 +260,7 @@ document.getElementById('customer-form').addEventListener('submit', function(e) 
     })
     .then(data => {
         console.log(data);
-        alert("The information has been successfully updated!");
+        alert("{{ _("The information has been successfully updated!")|escapejs }}");
         window.location.href = "{% url 'profile' feature_name='dashboard' %}";
         // Handle success response data
     }).catch(error => {

@@ -1,4 +1,6 @@
 {% block content %}
+{% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +8,7 @@
     <title>Order form</title>
     <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="../static/shop_page.css">
+    <link rel="stylesheet" href="{% static "shop_page.css" %}">
 </head>
 <body>
 
@@ -19,13 +21,13 @@
 <div class="form" style="margin-top: 150px">
     <form action="" method="Post" id="searchForm">
         {% csrf_token %}
-        <label for="number" style="font-size: 22px">Product number</label>
+        <label for="number" style="font-size: 22px">{% trans "Product number" %}</label>
         <br>
         <input name="number" id="number" onkeyup="updateDropdown()" autocomplete="off">
         <br>
         <div id="dropdown"></div>
         <br>
-        <button type="submit" class="search">Search</button>
+        <button type="submit" class="search">{% trans "Search" %}</button>
     </form>
 </div>
 
@@ -34,9 +36,9 @@
         {% if documents %}
 
             {% if search_term %}
-            <h2>Searched Results for "{{ search_term }}":</h2>
+            <h2>{% trans "Searched Results for" %} "{{ search_term }}":</h2>
         {% else %}
-            <h2>Searched Results:</h2>
+            <h2>{% trans "Searched Results" %}:</h2>
         {% endif %}
     </div>
 
@@ -49,7 +51,7 @@
 
                     <div class="document-number"> {{ document.name }} </div> <br><br>
                     <div class="document-price" >{{ currency }}{{ document.price }}</div>
-                    <div class="document-in-stock">In stock: {{ document.quantity }}</div> <br><br>
+                    <div class="document-in-stock">{% trans "In stock" %}: {{ document.quantity }}</div> <br><br>
                     <div class="document-description">{{ document.description }}</div>     <br>
 
                     <div class="deleteBut"  data-product-id="{{ document.name }}"
@@ -66,12 +68,12 @@
                             <input type="range" min="1" max="{{ document.quantity }}" value="{{ quantity }}" class="slider" id="slider-{{ document.name }}">
                             <span class="max">{{ document.quantity }}</span>
                         </div>
-                        <button class="quantity-input-button" id="quantity-input-apply-{{ document.name }}">Confirm</button>
+                        <button class="quantity-input-button" id="quantity-input-apply-{{ document.name }}">{% trans "Confirm" %}</button>
                     </div>
 
                     <br>
                     <br>
-                    <span class="current-quantity" id="current-quantity-{{ document.name }}" >Current quantity: 0</span>
+                    <span class="current-quantity" id="current-quantity-{{ document.name }}" >{% trans "Current quantity" %}: 0</span>
                     <span class="sum" id="sum-{{ document.name }}" style="{% if not inside %} display: none {% endif %}">{{ document.price }}</span>
                 </div>
                 <img class="document-image" src="{{ document.image_url }}" alt="{{ document.name }}">
@@ -83,7 +85,7 @@
 
 {% else %}
     <div class="NoRes">
-    <p>No results to display.</p>
+    <p>{% trans "No results to display" %}.</p>
     </div>
 {% endif %}
 
@@ -104,9 +106,9 @@
 
         const sum = document.getElementById('sum-'+Id);
         if (localStorage.getItem('sum-'+Id)!==null && inside !== "False")
-            sum.innerText = "Total: " + currency_symbol + localStorage.getItem('sum-'+Id);
+            sum.innerText = "{{ _("Total")|escapejs }}: " + currency_symbol + localStorage.getItem('sum-'+Id);
         else {
-            sum.innerText = "Total:"+currency_symbol+"0";
+            sum.innerText = "{{ _("Total")|escapejs }}:"+currency_symbol+"0";
 
         }
         if (localStorage.getItem('quantity-'+Id)!==null && inside !== "False" )
@@ -158,7 +160,7 @@
         button.addEventListener('click', function() {
             const documentId = this.getAttribute('data-product-id');
 
-            const confirmed = confirm("Do you really want to delete this product from your cart?");
+            const confirmed = confirm("{{ _("Do you really want to delete this product from your cart")|escapejs }}?");
 
             if (confirmed) {
                 fetch('{% url "delete_document" %}', {  // Replace with your actual URL
@@ -195,7 +197,7 @@
         slider.value = 1;
         changeCurrentQuantityText(productId,0);
         const button = document.getElementById("quantity-input-apply-"+ productId);
-        button.innerText = "Confirm";
+        button.innerText = "{{ _("Confirm")|escapejs }}";
         button.style.background = "#1daede"
     }
 
@@ -211,7 +213,7 @@
             quantityElement.value = quantity_new;
 
             const button = document.getElementById("quantity-input-apply-"+ product_id);
-                button.innerText = "Confirm";
+                button.innerText = "{{ _("Confirm")|escapejs }}";
                 button.style.background = "#1daede"
         });
     });
@@ -230,11 +232,11 @@
 
 
             if (isNaN(quantity) || quantity <= 0) {
-                alert("Type of written quantity has to be numeric and greater than 0");
+                alert("{{ _("Type of written quantity has to be numeric and greater than 0")|escapejs }}");
             }
             else if (quantity > documentValue.quantity) {
 
-                alert("Quantity has to be less than maximum on storage");
+                alert("{{ _("Quantity has to be less than maximum on storage")|escapejs }}");
             }
             else {
                 updateQuantityInput(productId, quantity, documentValue);
@@ -257,11 +259,11 @@
                 changeCurrentQuantityText(product_id, quantity_new);
 
                 const button = document.getElementById("quantity-input-apply-"+ product_id);
-                button.innerText = "Confirmed!";
+                button.innerText = "{{ _("Confirmed!")|escapejs }}";
                 button.style.background = "#06b206";
 
                 const sum  = document.getElementById('sum-'+data.product_id);
-                sum.innerText = "Total: " + currency_symbol + data.sum;
+                sum.innerText = "{{ _("Total")|escapejs }}: " + currency_symbol + data.sum;
                 saveState('sum-'+product_id, data.sum);
 
                 saveState('quantity-'+data.product_id, data.quantity);
@@ -284,7 +286,7 @@
             const slider = document.getElementById('slider-'+productId);
             slider.value =  input.value;
             const button = document.getElementById("quantity-input-apply-"+ productId);
-            button.innerText = "Confirm";
+            button.innerText = "{{ _("Confirm")|escapejs }}";
             button.style.background = "#1daede"
         });
     });
@@ -308,7 +310,7 @@ function getCookie(name) {
 
 function changeCurrentQuantityText(productId, quantity){
     const current_quantity = document.getElementById('current-quantity-'+productId);
-    current_quantity.innerText = "Current quantity: "+ quantity;
+    current_quantity.innerText = "{{ _("Current quantity")|escapejs }}: "+ quantity;
 }
 $.ajaxSetup({
     beforeSend: function(xhr, settings) {

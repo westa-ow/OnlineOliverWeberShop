@@ -12,16 +12,16 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-function updatePlatings(selectedPlating, stoneSelect, sizeSelect, image, maxQuantity, show_quantities){
+function updatePlatings(selectedPlating, stoneSelect, sizeSelect, image, maxQuantity, show_quantities, vocabulary){
     const firstStone = selectedPlating ? Object.values(selectedPlating.stones || {})[0] : null;
 
     while (stoneSelect.firstChild) {
         stoneSelect.removeChild(stoneSelect.firstChild);
     }
     fulfilDropdown(stoneSelect, selectedPlating.stones);
-    return updateStones(firstStone, sizeSelect, image, maxQuantity, show_quantities);
+    return updateStones(firstStone, sizeSelect, image, maxQuantity, show_quantities, vocabulary);
 }
-function updateStones(selectedStone, sizeSelect, image, maxQuantity, show_quantities){
+function updateStones(selectedStone, sizeSelect, image, maxQuantity, show_quantities, vocabulary){
 
     const firstSizeKey = selectedStone ? Object.keys(selectedStone.sizes || {})[0] : null;
     const withSizes = !!firstSizeKey;
@@ -35,16 +35,16 @@ function updateStones(selectedStone, sizeSelect, image, maxQuantity, show_quanti
     }
     if(withSizes) {
         fulfilDropdown(sizeSelect, selectedStone.sizes);
-        return updateSizes(firstSizeQuantity, maxQuantity, show_quantities);
+        return updateSizes(firstSizeQuantity, maxQuantity, show_quantities, vocabulary);
     }
     else{
         console.log(firstSizeQuantity);
          if(show_quantities) {
-            maxQuantity.innerText = "In Stock: "+firstSizeQuantity;
+            maxQuantity.innerText = `${vocabulary['In stock']}: `+firstSizeQuantity;
         }
         else{
             if (firstSizeQuantity<=5){
-                maxQuantity.innerText = `Less than 5 pieces left!`
+                maxQuantity.innerText = `${vocabulary['Less than 5 pieces left!']}`
             }
             else{
                 maxQuantity.innerText = ``
@@ -52,13 +52,13 @@ function updateStones(selectedStone, sizeSelect, image, maxQuantity, show_quanti
         }
     }
 }
-function updateSizes(sizeQuantity, maxQuantity, show_quantities){
+function updateSizes(sizeQuantity, maxQuantity, show_quantities, vocabulary){
      if(show_quantities) {
-        maxQuantity.innerText = "In stock: "+sizeQuantity;
+        maxQuantity.innerText = `${vocabulary['In stock']}: `+sizeQuantity;
     }
     else{
         if (sizeQuantity<=5){
-            maxQuantity.innerText = `Less than 5 pieces left!`
+            maxQuantity.innerText = `${vocabulary['Less than 5 pieces left!']}`;
         }
         else{
             maxQuantity.innerText = ``
@@ -158,7 +158,7 @@ function showTooltip(event, message) {
 }
 
 
-function generateDialogContent(id, items_array, currency, show_quantities, add_to_cart_url){
+function generateDialogContent(id, items_array, currency, show_quantities, add_to_cart_url, vocabulary){
     let quantity_max = 1;
     document.body.style.overflow = 'hidden';
     const item = items_array.find(item => item.name === id);
@@ -214,17 +214,17 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
 
     const quantitySpan = document.createElement('div');
     if(show_quantities) {
-        quantitySpan.textContent = `In stock: ${quantity_max}`;
+        quantitySpan.textContent = `${vocabulary['In stock']}: ${quantity_max}`;
     }
     else{
         if (quantity_max<=5){
-            quantitySpan.textContent = `Less than 5 pieces left!`;
+            quantitySpan.textContent = `${vocabulary['Less than 5 pieces left']}`;
         }
     }
     quantitySpan.classList.add('maximum-span');
 
     const platingLabel = document.createElement('span');
-    platingLabel.innerText = "Plating Material";
+    platingLabel.innerText = `${vocabulary['Plating Material']}`;
     platingLabel.classList.add('card-dropdown-label');
     const platingsSelect = document.createElement('select');
     platingsSelect.classList.add('card-dropdown');
@@ -233,7 +233,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     secondColumn.appendChild(platingsSelect);
 
     const stoneLabel = document.createElement('span');
-    stoneLabel.innerText = "Stone color";
+    stoneLabel.innerText = `${vocabulary['Stone color']}`;
     stoneLabel.classList.add('card-dropdown-label');
     const stoneSelect = document.createElement('select');
     stoneSelect.classList.add('card-dropdown');
@@ -242,7 +242,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     secondColumn.appendChild(stoneSelect);
 
     const sizeLabel = document.createElement('span');
-    sizeLabel.innerText = "Size";
+    sizeLabel.innerText = `${vocabulary['Size']}`;
     sizeLabel.classList.add('card-dropdown-label');
     const sizeSelect = document.createElement('select');
     sizeSelect.classList.add('card-dropdown');
@@ -257,7 +257,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
         const selectedPlatingKey = event.target.value;
         const selectedPlating = item.platings[selectedPlatingKey];
         inputQuantity.value = '1';
-        quantity_max = updatePlatings(selectedPlating, stoneSelect, sizeSelect, image, quantitySpan, show_quantities);
+        quantity_max = updatePlatings(selectedPlating, stoneSelect, sizeSelect, image, quantitySpan, show_quantities, vocabulary);
     });
 
     stoneSelect.addEventListener('change', (event) => {
@@ -266,7 +266,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
         const selectedPlating = item.platings[selectedPlatingKey];
         const selectedStone = selectedPlating && selectedPlating.stones ? selectedPlating.stones[selectedStoneKey] : null;
         inputQuantity.value = '1';
-        quantity_max = updateStones(selectedStone, sizeSelect, image, quantitySpan, show_quantities);
+        quantity_max = updateStones(selectedStone, sizeSelect, image, quantitySpan, show_quantities,vocabulary);
 
     });
 
@@ -277,11 +277,9 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
         const selectedStoneKey = stoneSelect.value;
         const selectedSizeQuantity = selectedPlating.stones[selectedStoneKey].sizes[selectedSizeKey].quantity;
         inputQuantity.value = '1';
-        quantity_max = updateSizes(selectedSizeQuantity, quantitySpan, show_quantities);
+        quantity_max = updateSizes(selectedSizeQuantity, quantitySpan, show_quantities, vocabulary);
 
     });
-
-
 
     const bottom_part = document.createElement('div');
     bottom_part.classList.add('bottom-card-part');
@@ -306,7 +304,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
             else{
                 inputQuantity.value = 1;
             }
-            alert('Quantity number has to be less than or equal to quantity number in stock or and be greater than 0');
+            alert(`${vocabulary['Quantity number has to be less than or equal to quantity number in stock or and be greater than 0']}`);
         }
     });
 
@@ -334,13 +332,13 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     add_to_cart.type = 'submit';
     add_to_cart.classList.add('add-to-cart-dialog');
     add_to_cart.addEventListener('click', function() {
-        add_to_cart_func(item, platingsSelect.value, stoneSelect.value, sizeSelect.value, Number(inputQuantity.value), add_to_cart, dialog, currency, add_to_cart_url);
+        add_to_cart_func(item, platingsSelect.value, stoneSelect.value, sizeSelect.value, Number(inputQuantity.value), add_to_cart, dialog, currency, add_to_cart_url, vocabulary);
     });
     const icon_cart = document.createElement('i');
     icon_cart.classList.add('fa-solid', 'fa-cart-shopping');
     add_to_cart.appendChild(icon_cart);
     const text_add_to_cart = document.createElement('span');
-    text_add_to_cart.innerText = ' Add to cart';
+    text_add_to_cart.innerText = `${vocabulary['Add to cart']}`;
     add_to_cart.appendChild(icon_cart);
     add_to_cart.appendChild(text_add_to_cart);
     bottom_part.appendChild(counter);
@@ -360,7 +358,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     dialog.style.display = 'block';
 }
 
-function add_to_cart_func(item, plating, stone, size, quantity, add_button, dialog, currency, add_to_cart_url){
+function add_to_cart_func(item, plating, stone, size, quantity, add_button, dialog, currency, add_to_cart_url, vocabulary){
     let doc;
     if( size === "" ){
          doc = item.platings[plating].stones[stone].real_name;
@@ -368,7 +366,7 @@ function add_to_cart_func(item, plating, stone, size, quantity, add_button, dial
     else{
          doc = item.platings[plating].stones[stone].sizes[size].real_name;
     }
-    add_button.textContent = "Processing...";
+    add_button.textContent = `${vocabulary['Processing']}...`;
     add_button.style.backgroundColor = "#7894a6";
     add_button.disabled = true;
 
@@ -386,17 +384,17 @@ function add_to_cart_func(item, plating, stone, size, quantity, add_button, dial
 
             closeDialogWithAnimation(dialog);
             setTimeout(() => {
-                activate_success_card(data.product, data.quantity, data.cart_size, data.subtotal, currency);
+                activate_success_card(data.product, data.quantity, data.cart_size, data.subtotal, currency, vocabulary);
             }, 0);
 
         } else {
-            alert('An error occured: ' + data.error);
+            alert(`${vocabulary['An error occured']}: ` + data.error);
             closeDialogWithAnimation(dialog);
         }
     });
 }
 
-function activate_success_card(item, quantity, cart_count, subtotalValue, currency){
+function activate_success_card(item, quantity, cart_count, subtotalValue, currency, vocabulary){
     const dialog = document.getElementById('product-card-success');
 
     bindGlobalClickEvent(dialog);
@@ -411,10 +409,10 @@ function activate_success_card(item, quantity, cart_count, subtotalValue, curren
     secondColumn.classList.add('second-column');
 
     //Add information about added the product and about the cart
-    informationSuccessSetup(secondColumn, item, quantity, cart_count, subtotalValue, currency);
+    informationSuccessSetup(secondColumn, item, quantity, cart_count, subtotalValue, currency, vocabulary);
 
     //Add buttons to continue shopping or to procceed to checkout
-    manageButtonsSuccessSetup(dialog, secondColumn);
+    manageButtonsSuccessSetup(dialog, secondColumn, vocabulary);
 
     card_content.appendChild(secondColumn);
     dialog.appendChild(card_content);
@@ -427,10 +425,10 @@ function activate_success_card(item, quantity, cart_count, subtotalValue, curren
 
 }
 
-function informationSuccessSetup(column, item, actual_quantity, cart_count, cartSubtotal, currency){
+function informationSuccessSetup(column, item, actual_quantity, cart_count, cartSubtotal, currency, vocabulary){
     const addedText = document.createElement('h4');
     addedText.classList.add('added-text');
-    addedText.innerHTML = `<i class='fa-solid fa-check'></i> `+`Product successfully added to your shopping cart`;
+    addedText.innerHTML = `<i class='fa-solid fa-check'></i> `+`${vocabulary['Product successfully added to your shopping cart']}`;
     column.appendChild(addedText);
     const nameSpan = document.createElement('h3');
     nameSpan.textContent = `${item.name}`;
@@ -441,35 +439,35 @@ function informationSuccessSetup(column, item, actual_quantity, cart_count, cart
     column.appendChild(priceSpan);
 
     const platingSpan = document.createElement('spanSucc');
-    platingSpan.innerHTML= `<strong>Plating material: </strong>` + `${item.plating}`;
+    platingSpan.innerHTML= `<strong>${vocabulary['Plating Material']}: </strong>` + `${item.plating}`;
     column.appendChild(platingSpan);
     const crystalSpan = document.createElement('spanSucc');
-    crystalSpan.innerHTML = `<strong>Crystal color: </strong> ` +`${item.stone}`;
+    crystalSpan.innerHTML = `<strong>${vocabulary['Crystal color']}: </strong> ` +`${item.stone}`;
     column.appendChild(crystalSpan);
     const baseSpan = document.createElement('spanSucc');
-    baseSpan.innerHTML =`<strong>Base material: </strong> ` + `${item.material}`;
+    baseSpan.innerHTML =`<strong>${vocabulary['Base material']}: </strong> ` + `${item.material}`;
     column.appendChild(baseSpan);
 
     const quantitySpan = document.createElement('spanSucc');
-    quantitySpan.innerHTML = `<strong>Quantity: </strong> ` + `${actual_quantity}`;
+    quantitySpan.innerHTML = `<strong>${vocabulary['Quantity']}: </strong> ` + `${actual_quantity}`;
     quantitySpan.style.marginBottom = '20px';
     column.appendChild(quantitySpan);
 
     const items_count = document.createElement('spanSucc');
-    items_count.textContent = `There are ${cart_count} items in your cart.`;
+    items_count.textContent = `${vocabulary['Number of items in your cart']}: ${cart_count}`;
     column.appendChild(items_count);
 
     const subtotal = document.createElement('spanSucc');
-    subtotal.innerHTML =`<strong>Subtotal: </strong>`+ currency + `${cartSubtotal}`;
+    subtotal.innerHTML =`<strong>${vocabulary['Subtotal']}: </strong>`+ currency + `${cartSubtotal}`;
     subtotal.style.marginBottom = '20px';
     column.appendChild(subtotal);
 }
 
-function manageButtonsSuccessSetup(dialog, column){
+function manageButtonsSuccessSetup(dialog, column, vocabulary){
     const container_for_success_buttons = document.createElement('div');
     const continue_shopping = document.createElement('button');
     continue_shopping.classList.add('button-continue-shopping');
-    continue_shopping.textContent = 'Continue shopping';
+    continue_shopping.textContent = `${vocabulary['Continue shopping']}`;
     container_for_success_buttons.appendChild(continue_shopping);
 
     continue_shopping.addEventListener('click', ()=>{
@@ -478,7 +476,7 @@ function manageButtonsSuccessSetup(dialog, column){
     });
 
     const proceed_to_checkout = document.createElement('a');
-    proceed_to_checkout.textContent = 'Proceed to checkout';
+    proceed_to_checkout.textContent = `${vocabulary['Proceed to checkout']}`;
     proceed_to_checkout.classList.add('button-proceed-to-checkout');
     proceed_to_checkout.href = `{% url 'cart' %}`;
 

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -44,10 +45,12 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
     'shop.middleware.ensure_anon_session_middleware.EnsureAnonymousSessionMiddleware',
     # 'django.middleware.cache.UpdateCacheMiddleware',
     # 'django.middleware.common.CommonMiddleware',
@@ -117,6 +120,16 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 LOGIN_URL = 'login'
 USE_I18N = True
+USE_L10N = True
+LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
+from django.utils.translation import gettext_lazy as _
+LANGUAGES = [
+    ('en', _('English')),
+    ('de', _('German')),
+    ('it', _('Italian')),
+    ('fr', _('French')),
+    ('es', _('Spanish')),
+]
 
 USE_TZ = True
 
@@ -131,6 +144,7 @@ EMAIL_HOST_PASSWORD = 'avrt uxcf vahg ixbe'
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'shop/static'),
 ]

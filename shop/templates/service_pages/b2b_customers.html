@@ -18,10 +18,10 @@
       <div class="bread_wrapper">
          <div class="container">
             <nav data-depth="3" class="breadcrumb" style="opacity: 1; transform: matrix(1, 0, 0, 1, 0, 0);">
-               <span class="bread_name"> B2B Customers </span>
+               <span class="bread_name"> {% trans "B2B Customers" %} </span>
                <ol itemscope="" itemtype="http://schema.org/BreadcrumbList">
                   <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
-                     <span itemprop="name">B2B Customers</span> <a itemprop="item" href="#"></a>
+                     <span itemprop="name">{% trans "B2B Customers"%}</span> <a itemprop="item" href="#"></a>
                      <meta itemprop="position" content="3">
                   </li>
                </ol>
@@ -37,7 +37,7 @@
          <section id="main">
             <div class="container">
                <header class="page-header">
-                  <h1> B2B Customers</h1>
+                  <h1>{% trans "B2B Customers" %}</h1>
                </header>
                <section id="content" class="page-content page-cms page-cms-12 b2b-page">
                   <div class="elementor elementor-12 ">
@@ -54,11 +54,11 @@
                                                    <div class="elementor-text-editor elementor-clearfix">
                                                       <p style="text-align:center;"><img src="https://oliverweber.com/img/cms/b2b-bracelets.jpg" alt="B2B Customers" width="1920" height="365"></p>
                                                       <h2 style="text-align:center;">&nbsp;</h2>
-                                                      <h2 style="text-align:center;">As a registered customer you may find our entire product range, stock position, and price information on our B2B eCommerce Platform.</h2>
-                                                      <h4 style="text-align:center;"><a href="https://b2b.oliverweber.com/gb/login">Go directly to the B2B Shop</a></h4>
+                                                      <h2 style="text-align:center;">{% trans "As a registered customer you may find our entire product range, stock position, and price information on our B2B eCommerce Platform."%}</h2>
+                                                      <h4 style="text-align:center;"><a href="https://b2b.oliverweber.com/gb/login">{% trans "Go directly to the B2B Shop"%}</a></h4>
                                                       <h2 style="text-align:center;">&nbsp;</h2>
-                                                      <h2 style="text-align:center;">If you do not have an account yet, please</h2>
-                                                      <h4 style="text-align:center;"><a href="{% url "services" service_page="contact_us" %}">Contact our Sales Office</a></h4>
+                                                      <h2 style="text-align:center;">{% trans "If you do not have an account yet, please"%}</h2>
+                                                      <h4 style="text-align:center;"><a href="{% url "services" service_page="contact_us" %}">{% trans "Contact our Sales Office"%}</a></h4>
                                                    </div>
                                                 </div>
                                              </div>

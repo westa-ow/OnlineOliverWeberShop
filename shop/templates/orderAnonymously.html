@@ -1,5 +1,6 @@
 {% load static %}
 {% load widget_tweaks %}
+{% load i18n %}
 {% block content %}
 <meta charset="UTF-8">
 <title>Checkout user info</title>
@@ -124,11 +125,11 @@
         <div class="page-content">
             <div class="doc-content">
                 <div class="informational-content">
-                    <div class="shopping-cart-label">Personal Information<hr style="padding: 0;"></div>
+                    <div class="shopping-cart-label">{% trans "Personal Information"%}<hr style="padding: 0;"></div>
                     <div class="labels">
-                        <label for="section1">Order as a guest</label>
+                        <label for="section1">{% trans "Order as a guest"%}</label>
                         <input type="radio" id="section1" name="section" style="display:none" checked>
-                        <label for="section2">Sign in</label>
+                        <label for="section2">{% trans "Sign in"%}</label>
                         <input type="radio" id="section2" name="section" style="display:none">
                         <div class="underline"></div>
                     </div>
@@ -143,7 +144,7 @@
                             <section id="main">
                                 <div class="container">
                                     <header class="page-header" style="color: #f2f2f2">
-                                        <h1 style="color: #626262"> Create an account</h1>
+                                        <h1 style="color: #626262">{% trans "Create an account"%} </h1>
                                     </header>
                                     <section id="content" class="page-content card card-block">
                                         <section class="sociallogin displayCustomerAccountFormTop authentication hidden-print">
@@ -156,7 +157,7 @@
                                             <div>
                                                 <div class="form-group row ">
                                                     <div class="col-md-12 form-control-valign">
-                                                        <label>Social title</label>
+                                                        <label>{% trans "Social title"%}</label>
                                                         {% for radio in form_register.social_title %}
                                                             <label class="radio-inline">
                                                                 <span class="custom-radio">
@@ -175,7 +176,7 @@
                                                         <span class="req">*</span>
                                                     </div>
                                                     <div class="col-md-12">
-                                                        <label>First name</label>
+                                                        <label>{% trans "First name"%}</label>
                                                         {{ form_register.first_name | add_class:"form-control" | attr:"" }}
 
                                                     </div>
@@ -186,7 +187,7 @@
                                                         <span class="req">*</span>
                                                     </div>
                                                     <div class="col-md-12">
-                                                        <label>Last name</label>
+                                                        <label>{% trans "Last name"%}</label>
                                                         {{ form_register.last_name | add_class:"form-control" | attr:"" }}
                                                     </div>
                                                 </div>
@@ -206,7 +207,7 @@
                                                         <span class="req">*</span>
                                                     </div>
                                                     <div class="col-md-12">
-                                                        <label>Password</label>
+                                                        <label>{% trans "Password"%}</label>
                                                         <div class="input-group js-parent-focus">
                                                              {{ form_register.password1 | add_class:"form-control js-child-focus js-visible-password" | attr:""|attr:"autocomplete:new-password" }}
                 {#                                            <input class="form-control js-child-focus js-visible-password" name="password" type="password" value="" pattern=".{5,}" required="">#}
@@ -226,7 +227,7 @@
                                                         <span class="req">*</span>
                                                     </div>
                                                     <div class="col-md-12">
-                                                        <label>Confirm you password</label>
+                                                        <label>{% trans "Confirm you password"%}</label>
                                                         <div class="input-group js-parent-focus">
                                                              {{ form_register.password2 | add_class:"form-control js-child-focus js-visible-password" | attr:""|attr:"autocomplete:new-password" }}
                 {#                                            <input class="form-control js-child-focus js-visible-password" name="password" type="password" value="" pattern=".{5,}" required="">#}
@@ -242,7 +243,7 @@
                                                 </div>
                                                 <div class="form-group row ">
                                                     <div class="col-md-12">
-                                                        <label>Birthdate</label>
+                                                        <label>{% trans "Birthdate"%}</label>
                                                         {{ form_register.birthdate | add_class:"form-control" | attr:"" }}
                                                         <span class="form-control-comment"> (E.g.: 1970-05-31) </span>
                                                     </div>
@@ -256,7 +257,7 @@
                                                             <span>
                                                                 <i class="material-icons rtl-no-flip checkbox-checked"></i>
                                                             </span>
-                                                            <label>Receive offers from our partners</label>
+                                                            <label>{% trans "Receive offers from our partners"%}</label>
                                                         </span>
                                                     </div>
                                                     <div class="col-md-12 form-control-comment"></div>
@@ -270,7 +271,7 @@
                                                                 <i class="material-icons rtl-no-flip checkbox-checked"></i>
                                                             </span>
                                                             <label>
-                                                                Sign up for our newsletter<br><em>You may unsubscribe at any moment. For that purpose, please find our contact info in the legal notice.</em>
+                                                                {% trans "Sign up for our newsletter"%}<br><em>{% trans "You may unsubscribe at any moment. For that purpose, please find our contact info in the legal notice."%}</em>
                                                             </label>
                                                         </span>
                                                     </div>
@@ -278,7 +279,7 @@
                                                 </div>
                                             </div>
                                             <footer class="form-footer clearfix">
-                                                <button style="width: 100%" class="btn btn-primary wide form-control-submit float-xs-right" data-link-action="save-customer" type="submit" value="REGISTER"> Continue </button>
+                                                <button style="width: 100%" class="btn btn-primary wide form-control-submit float-xs-right" data-link-action="save-customer" type="submit" value="REGISTER">{% trans "Continue"%} </button>
                                             </footer>
                                         </form>
                                     </section>
@@ -320,7 +321,7 @@
                                                             <span class="req">*</span>
                                                         </div>
                                                         <div class="col-md-12">
-                                                            <label>Password</label>
+                                                            <label>{% trans "Password"%}</label>
                                                             <div class="input-group js-parent-focus">
                                                                 {{  form_login.password | add_class:"form-control js-child-focus js-visible-password" | attr:"placeholder: "  }}
                                                                 <span class="input-group-btn" style="position: initial!important;">
@@ -336,7 +337,7 @@
                                                 </div>
                                                 <footer class="form-footer text-sm-center clearfix">
                                                     <button style="width: 100%" class="btn btn-primary" data-link-action="sign-in" type="submit">
-                                                        Continue
+                                                        {% trans "Continue"%}
                                                     </button>
                                                 </footer>
                                             </form>

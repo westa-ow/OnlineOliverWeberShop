@@ -12,6 +12,27 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
 <style>
+    .language-dropdown{
+        align-content: center;
+        margin-right: 10px;
+    }
+    .selected-language {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-size: 40px 40px; /* Размер флага */
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 40px; /* Ширина, достаточная для отображения флага */
+    height: 40px; /* Высота, соответствующая флагу */
+    padding-left: 10px;
+    border-radius: 50px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    text-indent: 100%; /* Смещаем текст за пределы видимой области */
+    white-space: nowrap; /* Запрещаем перенос текста */
+    overflow: hidden; /* Скрываем всё, что не помещается */
+}
 .toolbar {
     position: fixed; /* Make it stick to the top */
     top: 0;
@@ -67,6 +88,14 @@
             <a></a>
         {% endif %}
         <span class="icons-container">
+            <div class="language-dropdown">
+                <select class="selected-language" id="languageSelect">
+                    <option value="en">English</option>
+                    <option value="de">Deutsch</option>
+                    <option value="it">Italiano</option>
+                    <option value="es">Español </option>
+                </select>
+            </div>
             <span class="icon-link" style="font-style: italic; font-size: 14px; margin-top: 8px; color: white;font-family: poppins,Verdana,sans-serif;">
                 <a id="account-icon" style="display: flex" ><i class="rts" data-size="28" data-color="#000000" style="width: 28px; height: 28px; margin-right: 4px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 28px; height: 28px; "><path d="M23.67,25V22.65A4.67,4.67,0,0,0,19,18H9.67A4.67,4.67,0,0,0,5,22.65V25" style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8px"></path><circle cx="14.33" cy="8.65" r="4.67" style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8px"></circle></svg></i>
                     <span style="margin-top: 6px">
@@ -178,6 +207,56 @@
     <div id="overlay" class="overlay"></div>
 </body>
 <script>
+    function updateBackgroundImage(selectElement) {
+    let imageUrl = '';
+    switch (selectElement.value) {
+        case 'en':
+            imageUrl = '{% static "images/flags/uk.gif" %}'; // Путь к флагу Великобритании
+            break;
+        case 'de':
+            imageUrl = '{% static "images/flags/gm-flag.gif" %}'; // Путь к флагу Германии
+            break;
+        case 'it':
+            imageUrl = '{% static "images/flags/it-flag.gif" %}'; // Путь к флагу Великобритании
+            break;
+        case 'es':
+            imageUrl = '{% static "images/flags/sp-flag.gif" %}'; // Путь к флагу Германии
+            break;
+    }
+    selectElement.style.backgroundImage = `url('${imageUrl}')`;
+}
+
+// Функция для изменения URL
+function changeLanguageURL(selectedLang) {
+    const newPathname = window.location.pathname.replace(/^\/[a-z]{2}/, '');
+    const newUrl = window.location.origin + '/' + selectedLang + newPathname + window.location.search;
+    window.location.href = newUrl;
+}
+
+// Функция для установки начального языка на основе URL
+function setCurrentLanguage() {
+    const path = window.location.pathname;
+    const langMatch = path.match(/^\/(en|de|it|es)/);
+    const currentLang = langMatch ? langMatch[1] : 'en'; // По умолчанию 'en'
+    const selectElement = document.getElementById('languageSelect');
+    selectElement.value = currentLang; // Установка текущего языка в select
+    updateBackgroundImage(selectElement); // Обновление фона
+}
+
+// Инициализация при загрузке страницы
+window.onload = function() {
+    setCurrentLanguage();
+};
+
+document.getElementById('languageSelect').addEventListener('change', function(event) {
+    updateBackgroundImage(this);
+    if (event.isTrusted) {
+        changeLanguageURL(this.value);
+    }
+});
+// Инициализация фона с начальным выбором
+{#document.getElementById('languageSelect').dispatchEvent(new Event('change'));#}
+
     let isCheckout = false;
     let key = "{{ session.session_key }}";
     const currency="{{ currency|safe }}";
@@ -291,11 +370,11 @@ document.getElementById('cartBtn').onclick = function() {
                     name.classList.add('cart-product-name');
 
                     const crystal_color = document.createElement('span');
-                    crystal_color.textContent = `Crystal color: ${item.stone}`;
+                    crystal_color.textContent = `{{ _("Crystal color")|escapejs }}: ${item.stone}`;
                     const plating = document.createElement('span');
-                    plating.textContent = `Plating: ${item.plating}`;
+                    plating.textContent = `{{ _("Plating")|escapejs }}: ${item.plating}`;
                     const base = document.createElement('span');
-                    base.textContent = `Base Material: ${item.material}`;
+                    base.textContent = `{{ _("Base Material")|escapejs }}: ${item.material}`;
 
                     attrs_column_first.appendChild(name);
                     attrs_column_first.appendChild(crystal_color);
@@ -311,7 +390,7 @@ document.getElementById('cartBtn').onclick = function() {
                     price.classList.add('mini-cart-product-price');
 
                     const quantity = document.createElement('span');
-                    quantity.textContent = `Quantity: ${item.quantity}`;
+                    quantity.textContent = `{{ _("Quantity")|escapejs }}: ${item.quantity}`;
                     quantity.classList.add('mini-cart-product-quantity');
 
 
@@ -333,7 +412,7 @@ document.getElementById('cartBtn').onclick = function() {
 
                     const tooltip = document.createElement('span');
                     tooltip.classList.add('delete-icon-tooltip');
-                    tooltip.textContent = 'Remove from cart'; // Tooltip text
+                    tooltip.textContent = "{{ _("Remove from cart")|escapejs }}"; // Tooltip text
 
                     // Append the delete icon and tooltip to the delete panel
                     deletePanel.appendChild(deleteIcon);
@@ -360,7 +439,7 @@ document.getElementById('cartBtn').onclick = function() {
                     // Event listener for delete icon click
                     deleteIcon.addEventListener('click', function(event) {
                         if(isCheckout){
-                            alert("You cant delete items during checkout. Go back to shop pages to change your cart.");
+                            alert("{{ _("You cant delete items during checkout. Go back to shop pages to change your cart")|escapejs }}.");
                             return;
                         }
                         event.stopPropagation();
@@ -455,7 +534,7 @@ function showCartIsEmpty(cartItemsContainer){
 
 
         const emptyMessage = document.createElement('div');
-        emptyMessage.textContent = "Cart is empty";
+        emptyMessage.textContent = "{{ _("Cart is empty")|escapejs }}";
         emptyMessage.classList.add("empty-message");
 
         emptyCartContainer.appendChild(emptyMessage);
@@ -472,7 +551,7 @@ function showCartIsEmpty(cartItemsContainer){
     });
 
     const checkoutBtn = document.querySelector('.checkout-btn');
-    checkoutBtn.textContent = "Back to shop";
+    checkoutBtn.textContent = "{{ _("Back to shop")|escapejs }}";
     checkoutBtn.onclick = closeCart;
 }
 
@@ -515,8 +594,8 @@ document.getElementById('overlay').addEventListener('click', function() {
 document.getElementById('closeCartBtn').onclick = closeCart;
 
 function closeCart(){
-    var cartPanel = document.getElementById('cartPanel');
-    var overlay = document.getElementById('overlay');
+    let cartPanel = document.getElementById('cartPanel');
+    let overlay = document.getElementById('overlay');
     cartPanel.classList.remove('open');
     overlay.style.display = 'none';
 }

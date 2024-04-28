@@ -33,8 +33,9 @@ from shop.views_scripts.profile_views import update_user_account
 from shop.views_scripts.shop_views import fetch_numbers, form_page
 from shop.views_scripts.users_control.edit_user import edit_user
 from shop.views_scripts.users_control.view_user import view_user
+from django.conf.urls.i18n import i18n_patterns
 
-urlpatterns = [
+urlpatterns = i18n_patterns(
     path('admin/', admin.site.urls),
     path('', views.home_page, name='home'),
     path('login/', login_view, name='login'),
@@ -86,4 +87,4 @@ urlpatterns = [
     #Service urls
     path('service_pages/<str:service_page>/', service_pages_view, name='services'),
     path('our_company/<str:company_info_page>/', company_info_pages, name='company_info'),
-]
+)

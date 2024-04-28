@@ -21,6 +21,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.mail import send_mail
 
 from shop.forms import UserRegisterForm, User
+from django.utils.translation import gettext as _
 
 json_file_path = os.path.join(settings.BASE_DIR, "shop", "static", "key2.json")
 cred = credentials.Certificate(json_file_path)
@@ -304,11 +305,34 @@ def get_user_session_type(request):
     else:
         return request.session.session_key
 
+def get_vocabulary_product_card():
+    return {
+        "In stock": _("In stock"),
+        "Less than 5 pieces left!": _("Less than 5 pieces left!"),
+        "Plating Material": _("Plating Material"),
+        "Stone color": _("Stone color"),
+        "Size": _("Size"),
+        "Quantity number has to be less than or equal to quantity number in stock or and be greater than 0": _(
+            "Quantity number has to be less than or equal to quantity number in stock or and be greater than 0"),
+        "Processing": _("Processing"),
+        "An error occured": _("An error occured"),
+        "Product successfully added to your shopping cart": _("Product successfully added to your shopping cart"),
+        "Crystal color": _("Crystal color"),
+        "Base material": _("Base material"),
+        "Quantity": _("Quantity"),
+        "Number of items in your cart": _("Number of items in your cart:"),
+        "Subtotal": _("Subtotal"),
+        "Continue shopping": _("Continue shopping"),
+        "Proceed to checkout": _("Proceed to checkout"),
+        "Add to cart": _("Add to cart"),
+    }
+
 
 def home_page(request):
     context = {
 
     }
+    test_text = _("Welcome to my site.")
     email = get_user_session_type(request)
     category, currency = get_user_category(email) or ("Default", "Euro")
     currency = '€' if currency == 'Euro' else '$'
@@ -319,6 +343,9 @@ def home_page(request):
     context['category'] = category
     context['sale'] = sale
     context['show_quantities'] = show_quantities
+    context['hello'] = test_text
+    context['vocabulary_dialog'] = get_vocabulary_product_card()
+    print(context['hello'])
     return render(request, 'home.html', context)
 
 

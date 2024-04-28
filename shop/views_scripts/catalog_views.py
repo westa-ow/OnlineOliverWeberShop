@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 
 from shop.decorators import login_required_or_session
 from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, cart_ref, get_cart, favourites_ref, \
-    get_user_category, get_user_info, get_user_session_type
+    get_user_category, get_user_info, get_user_session_type, get_vocabulary_product_card
 import ast
 import random
 from datetime import datetime
@@ -48,7 +48,8 @@ def catalog_view(request):
         "plating_catalog": plating_catalog,
         "base_catalog": base_catalog,
         'sale': sale,
-        'show_quantities': show_quantities
+        'show_quantities': show_quantities,
+        'vocabulary':get_vocabulary_product_card()
     }
     return render(request, 'catalog.html', context=context)
 

@@ -6,10 +6,10 @@
       <div class="bread_wrapper">
          <div class="container">
             <nav data-depth="3" class="breadcrumb" style="opacity: 1; transform: matrix(1, 0, 0, 1, 0, 0);">
-               <span class="bread_name"> Contact us </span>
+               <span class="bread_name">{% trans "Contact us" %}  </span>
                <ol itemscope="" itemtype="http://schema.org/BreadcrumbList">
                   <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
-                     <span itemprop="name">Contact us</span> <a itemprop="item" href="#"></a>
+                     <span itemprop="name">{% trans "Contact us" %}</span> <a itemprop="item" href="#"></a>
                      <meta itemprop="position" content="3">
                   </li>
                </ol>
@@ -25,7 +25,7 @@
          <section id="main">
             <div class="container">
                <header class="page-header">
-                  <h1> Contact us</h1>
+                  <h1> {% trans "Contact us" %}</h1>
                </header>
                <section id="content" class="page-content page-cms page-cms-13">
                   <div class="elementor elementor-13 ">
@@ -47,12 +47,12 @@
                                                          </div>
                                                          <div class="col-md-6 text-center">
                                                             <p class="text-center"><img style="width: 50px;" src="{% static "images/home/imgs/phonOW.webp"%}" alt="volumen.png"></p>
-                                                            <p class="text-black">Call us at +43 5223 41 881</p>
+                                                            <p class="text-black">{% trans "Call us at" %} +43 5223 41 881</p>
                                                          </div>
                                                       </div>
                                                       <div class="col-md-12">
-                                                         <p class="text-center text-black"><strong>Hours of Operation:</strong></p>
-                                                         <p class="text-center text-black">Monday to Thursday between 08:00 and 17:00, and Friday between 08:00 and 13:00, with the exception of bank holidays.</p>
+                                                         <p class="text-center text-black"><strong>{% trans "Hours of Operation" %}:</strong></p>
+                                                         <p class="text-center text-black">{% trans "Monday to Thursday between 08:00 and 17:00, and Friday between 08:00 and 13:00, with the exception of bank holidays" %}.</p>
                                                       </div>
                                                    </div>
                                                 </div>

@@ -86,16 +86,16 @@
 
 </style>
 <section class="section-orders">
-<header class="page-header"><h1> Order history</h1> </header>
-<h6>Here are the orders you've placed since your account was created.</h6>
+<header class="page-header"><h1> {% trans "Order history" %}</h1> </header>
+<h6>{% trans "Here are the orders you've placed since your account was created" %}.</h6>
     <table class="outer-table table table-striped table-bordered table-labeled hidden-sm-down" id="table-{{ user.email }}" style="border:1px solid" >
         <thead>
             <tr>
-                <th> Order ID </th>
-                <th> Date </th>
-                <th> Total price </th>
-                <th> Payment </th>
-                <th> Status </th>
+                <th> {% trans "Order ID" %} </th>
+                <th> {% trans "Date" %} </th>
+                <th> {% trans "Total price" %} </th>
+                <th> {% trans "Payment" %} </th>
+                <th> {% trans "Status" %} </th>
                 <th>  </th>
             </tr>
         </thead>
@@ -120,15 +120,15 @@
     </table>
 <div id="contextMenu" class="context-menu" style="display: none;">
     <ul>
-        <li id="downloadCsv">Download csv</li>
-        <li id="downloadPdfWImg">Download pdf with images</li>
-        <li id="downloadPdfWithoutImg">Download pdf without images</li>
+        <li id="downloadCsv">{% trans "Download csv" %}</li>
+        <li id="downloadPdfWImg">{% trans "Download pdf with images" %}</li>
+        <li id="downloadPdfWithoutImg">{% trans "Download pdf without images" %}</li>
     </ul>
 </div>
 </section>
 <dialog id="wait-please-dialog">
-    <h3>File is downloading</h3>
-    <h3>Don't close the page, please!</h3>
+    <h3>{% trans "File is downloading" %}</h3>
+    <h3>{% trans "Don't close the page, please!" %}</h3>
     <button id="closeDialog">Ok</button>
 </dialog>
 <script>
@@ -189,7 +189,6 @@ document.querySelectorAll('.show-content').forEach(button => {
          let table = orderRow.closest('table');
          let rowIndex = orderRow.rowIndex;
          let nextRow = table.rows[rowIndex + 1];
-         {#console.log(JSON.parse(orders));#}
          const order_currency = currencies[orderId];
 
          if (nextRow && nextRow.classList.contains('nested-table-row')) {
@@ -198,7 +197,7 @@ document.querySelectorAll('.show-content').forEach(button => {
             // Access nestedTable directly from nestedTableContainer if it's already in the DOM
             if (nestedTableContainer.classList.contains('expanded')) {
                 nestedTableContainer.classList.remove('expanded');
-                document.getElementById('show-button-' + orderId).innerText = "Show details";
+                document.getElementById('show-button-' + orderId).innerText = "{{ _("Show details")|escapejs }}";
 
                 // Start the collapsing animation by setting max-height to 0
                 nestedTableContainer.style.maxHeight = '0'; // Trigger the collapsing animation
@@ -230,12 +229,12 @@ document.querySelectorAll('.show-content').forEach(button => {
                 requestAnimationFrame(() => {
                     nestedTableContainer.style.maxHeight = contentHeight;
                 });
-                document.getElementById('show-button-' + orderId).innerText = "Hide details";
+                document.getElementById('show-button-' + orderId).innerText = "{{ _("Hide details")|escapejs }}";
             }
 
         } else {
             // This is the section where you're adding the nested table for the first time
-            document.getElementById('show-button-' + orderId).innerText = "Hide details";
+            document.getElementById('show-button-' + orderId).innerText = "{{ _("Hide details")|escapejs }}";
 
             let nestedTableRow = table.insertRow(rowIndex + 1);
             nestedTableRow.classList.add('nested-table-row');
@@ -251,15 +250,22 @@ document.querySelectorAll('.show-content').forEach(button => {
 
             let nestedTable = document.createElement('table');
             nestedTable.classList.add('nested-table');
+            let Name = "{{ _("Name")|escapejs }}";
+            let Image = "{{ _("Image")|escapejs }}";
+            let Description = "{{ _("Description")|escapejs }}";
+            let Price = "{{ _("Price")|escapejs }}";
+            let Quantity = "{{ _("Quantity")|escapejs }}";
+            let Summary = "{{ _("Summary")|escapejs }}";
+            let In_stock = "{{ _("In stock")|escapejs }}";
             let nestedTableContent = `
                 <tr>
-                    <th>Name</th>
-                    <th>Image</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Summary</th>
-                    <th>In stock</th>
+                    <th>${Name}</th>
+                    <th>${Image}</th>
+                    <th>${Description}</th>
+                    <th>${Price}</th>
+                    <th>${Quantity}</th>
+                    <th>${Summary}</th>
+                    <th>${In_stock}</th>
                 </tr>`;
             products[orderId].forEach(function(product) {
                 nestedTableContent += `
@@ -295,7 +301,7 @@ document.querySelectorAll('.show-content').forEach(button => {
                 });
             });
 
-            document.getElementById('show-button-' + orderId).innerText = "Hide details";
+            document.getElementById('show-button-' + orderId).innerText = "{{ _("Hide details")|escapejs }}";
         }
     });
 });

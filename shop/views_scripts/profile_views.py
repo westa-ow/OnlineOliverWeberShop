@@ -3,7 +3,7 @@ import concurrent
 from django.contrib.auth.decorators import login_required
 
 from shop.views import db, orders_ref, serialize_firestore_document, users_ref, addresses_ref, update_email_in_db, \
-    get_user_category, get_user_info
+    get_user_category, get_user_info, get_vocabulary_product_card
 import ast
 import random
 from datetime import datetime
@@ -109,6 +109,7 @@ def build_context(feature_name, email, orders, order_details):
         'orders': orders,
         'products': order_details,
         'feature_name': feature_name,
+        'vocabulary': get_vocabulary_product_card()
     }
 
     if feature_name == "account":
