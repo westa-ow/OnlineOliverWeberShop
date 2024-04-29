@@ -366,7 +366,10 @@ function add_to_cart_func(item, plating, stone, size, quantity, add_button, dial
         },
         body: JSON.stringify({'document': doc, 'quantity': quantity})
     })
-    .then(response => response.json())
+    .then(response => {
+        console.log(response.json());
+        return response.json();
+    })
     .then(data => {
         if (data.status === 'success') {
 
