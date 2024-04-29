@@ -54,7 +54,7 @@ def catalog_view(request):
     return render(request, 'catalog.html', context=context)
 
 
-# @login_required_or_session
+@login_required_or_session
 def add_to_cart_from_catalog(request):
     if request.method == 'POST':
         data = json.loads(request.body)
