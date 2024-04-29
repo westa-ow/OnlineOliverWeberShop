@@ -326,10 +326,10 @@ document.getElementById('cartBtn').addEventListener('click', function() {
 
     }
     else {
-        let sum = 0;
-        let cart = [];
-        cart.forEach(item => {
-                    sum+=parseFloat(item.sum);
+        let sum1 = 0;
+        let cart1 = [];
+        cart1.forEach(item => {
+                    sum1+=parseFloat(item.sum);
                     const itemElement = document.createElement('div');
                     itemElement.setAttribute('data-item-name', item.name);
                     itemElement.classList.add('mini-cart-product');
@@ -421,7 +421,7 @@ document.getElementById('cartBtn').addEventListener('click', function() {
                     // Event listener for delete icon click
 
                 });
-        document.getElementById('subtotalValue').textContent = currency+`${sum.toFixed(1)}`;
+        document.getElementById('subtotalValue').textContent = currency+`${sum1.toFixed(1)}`;
         const emptyCartContainer = document.querySelector('.empty-cart-container');
         if (emptyCartContainer) {
             emptyCartContainer.style.display = 'none';
@@ -441,7 +441,7 @@ document.getElementById('cartBtn').addEventListener('click', function() {
                 const cartItemsContainer = document.getElementById('cartPanel').querySelector('.cart-items');
                 cartItemsContainer.innerHTML = ''; // Clear existing items
 
-                cart = data.cart;
+                let cart = data.cart;
                 if (cart.length === 0) {
                     showCartIsEmpty(cartItemsContainer);
                 } else {
@@ -454,7 +454,7 @@ document.getElementById('cartBtn').addEventListener('click', function() {
                     location.href = "{% url "cart" %}";
                 };
                     // Populate cart items and ensure the empty cart container is not displayed
-                sum = 0;
+                let sum = 0;
                 cart.sort((a, b) => a.number - b.number);
                 cart.forEach(item => {
                     sum+=parseFloat(item.sum);
