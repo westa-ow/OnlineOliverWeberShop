@@ -365,25 +365,33 @@ def get_user_info(email):
 
 
 def get_cart(email):
-    # Get all the documents
     docs = cart_ref.where('emailOwner', '==', email).stream()
 
     cart = []
     for doc in docs:
-        description = doc.to_dict().get('description', '')
-        if description:
-            safe_description = description.encode('utf-8').decode('utf-8')
-        else:
-            safe_description = ''
-        cart.append({'name': doc.to_dict().get('name'), 'product_name': doc.to_dict().get('product_name'),
-                     'quantity': doc.to_dict().get('quantity'), 'category': doc.to_dict().get('category'),
-                     'number': doc.to_dict().get('number'), 'image_url': doc.to_dict().get('image_url'),
-                     'description': safe_description, 'quantity_max': doc.to_dict().get('quantity_max'),
-                     'price': doc.to_dict().get('price'),
-                     'stone': doc.to_dict().get('stone'),
-                     'plating': doc.to_dict().get('plating'),
-                     'material': doc.to_dict().get('material'),
-                     'sum': str(round(doc.to_dict().get('price') * doc.to_dict().get('quantity'), 1))})
+        doc_dict = doc.to_dict()  # Call to_dict once
+        description = doc_dict.get('description', '')
+
+        # Simplify the handling of description encoding if necessary
+        safe_description = description.encode('utf-8').decode('utf-8') if description else ''
+
+        cart_item = {
+            'name': doc_dict.get('name'),
+            'product_name': doc_dict.get('product_name'),
+            'quantity': doc_dict.get('quantity'),
+            'category': doc_dict.get('category'),
+            'number': doc_dict.get('number'),
+            'image_url': doc_dict.get('image_url'),
+            'description': safe_description,
+            'quantity_max': doc_dict.get('quantity_max'),
+            'price': doc_dict.get('price'),
+            'stone': doc_dict.get('stone'),
+            'plating': doc_dict.get('plating'),
+            'material': doc_dict.get('material'),
+            'sum': str(round(doc_dict.get('price') * doc_dict.get('quantity'), 1))
+        }
+        cart.append(cart_item)
+
     return cart
 
 
