@@ -7,12 +7,11 @@ class EnsureAnonymousSessionMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        # Ensure that every non-authenticated user has a session key
-        if not request.user.is_authenticated:
-            if not request.session.session_key:
-                request.session.save()  # This will create a session if one does not exist
+        # Код, выполняемый на каждый запрос перед view
 
         response = self.get_response(request)
+
+        # Код, выполняемый на каждый ответ после view
 
         return response
 
