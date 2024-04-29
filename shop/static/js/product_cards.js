@@ -1,5 +1,17 @@
-
-
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 function updatePlatings(selectedPlating, stoneSelect, sizeSelect, image, maxQuantity, show_quantities, vocabulary){
     const firstStone = selectedPlating ? Object.values(selectedPlating.stones || {})[0] : null;
 
@@ -366,10 +378,7 @@ function add_to_cart_func(item, plating, stone, size, quantity, add_button, dial
         },
         body: JSON.stringify({'document': doc, 'quantity': quantity})
     })
-    .then(response => {
-        console.log(response.json());
-        return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
 
@@ -473,18 +482,4 @@ function manageButtonsSuccessSetup(dialog, column, vocabulary){
 
     container_for_success_buttons.appendChild(proceed_to_checkout);
     column.appendChild(container_for_success_buttons);
-}
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
 }
