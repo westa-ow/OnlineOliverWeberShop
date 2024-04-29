@@ -317,7 +317,7 @@ function confirmLogout(event) {
     return true;
 }
 
-document.getElementById('cartBtn').onclick = function() {
+document.getElementById('cartBtn').addEventListener('click', function() {
     let cartPanel = document.getElementById('cartPanel');
     let overlay = document.getElementById('overlay');
     if (cartPanel.classList.contains('open')) {
@@ -419,43 +419,7 @@ document.getElementById('cartBtn').onclick = function() {
                     img_column.appendChild(deletePanel); // This places the delete panel over the image
 
                     // Event listener for delete icon click
-                    deleteIcon.addEventListener('click', function(event) {
-                        if(isCheckout){
-                            alert("{{ _("You cant delete items during checkout. Go back to shop pages to change your cart")|escapejs }}.");
-                            return;
-                        }
-                        event.stopPropagation();
 
-                        const itemToDelete = this.closest('.mini-cart-product');
-
-                        itemToDelete.classList.add('item-deleting');
-
-                        itemToDelete.addEventListener('transitionend', function(event) {
-                            console.log(event.propertyName );
-                            if (event.propertyName === 'opacity') {
-                                console.log('max-height transition finished, proceed with deletion');
-                                deleteFromCart(item.name);
-
-                                console.log('Deletion successful, updating UI...');
-                                itemToDelete.remove(); // Remove the item from the DOM
-                                // Update subtotal here or any other UI elements as needed
-                                // Recalculate and update the subtotal
-                                let newSum = 0;
-                                cart = cart.filter(cartItem => cartItem.name !== item.name); // Update your cart array
-                                cart.forEach(cartItem => {
-                                    newSum += parseFloat(cartItem.sum);
-                                });
-                                document.getElementById('subtotalValue').textContent = currency+`${newSum.toFixed(1)}`;
-                                console.log(cart.length);
-                                if(cart.length === 0){
-                                    showCartIsEmpty(cartItemsContainer);
-                                }
-                            }
-                        }, { once: true });
-
-                    });
-                    // Add more details as needed
-                    cartItemsContainer.appendChild(itemElement);
                 });
         document.getElementById('subtotalValue').textContent = currency+`${sum.toFixed(1)}`;
         const emptyCartContainer = document.querySelector('.empty-cart-container');
@@ -639,7 +603,7 @@ document.getElementById('cartBtn').onclick = function() {
             .catch(error => console.error('Error loading cart:', error));
         }
 
-    };
+    });
 
 function showCartIsEmpty(cartItemsContainer){
     cartItemsContainer.classList.add('cart-items-container');
