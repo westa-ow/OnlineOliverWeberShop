@@ -7,7 +7,15 @@ from django.urls import reverse
 def login_required_or_session(f):
     @wraps(f)
     def wrapper(request, *args, **kwargs):
-        if request.user.is_authenticated or request.session.session_key:
+        # Check if the user is authenticated
+        if request.user.is_authenticated:
+            return f(request, *args, **kwargs)
+        # If not authenticated, check for a session key
+        elif not request.session.session_key:
+            # No session exists, so create one
+            request.session.save()  # This ensures a session is created
+        # Now, there must be a session key after the above save
+        if request.session.session_key:
             return f(request, *args, **kwargs)
         else:
             return HttpResponseForbidden("Access denied")
