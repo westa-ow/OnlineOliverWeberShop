@@ -376,7 +376,7 @@ document.getElementById('customer-form').addEventListener('submit', function(e) 
         isValid = false;
         messages.push('Email is required.');
     }
-    if (isNaN(parseInt(this.sale.value)) ||parseInt(this.sale.value) > 100 || parseInt(this.sale.value) < 0 ) {
+    if (isNaN(parseFloat(this.sale.value)) ||parseInt(this.sale.value) > 100 || parseInt(this.sale.value) < 0 ) {
         isValid = false;
         messages.push('Sale has to be in correct format.');
     }
