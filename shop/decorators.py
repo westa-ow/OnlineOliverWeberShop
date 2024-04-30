@@ -1,4 +1,4 @@
-from django.http import HttpResponseForbidden, HttpResponseRedirect
+from django.http import HttpResponseForbidden, HttpResponseRedirect, JsonResponse
 from functools import wraps
 
 from django.urls import reverse
@@ -10,7 +10,7 @@ def login_required_or_session(f):
         if request.user.is_authenticated or request.session.session_key:
             return f(request, *args, **kwargs)
         else:
-            return HttpResponseForbidden("Access denied")
+            return JsonResponse({'status': 'error', 'message': 'Access denied'}, status=403)
     return wrapper
 
 def logout_required(function):
