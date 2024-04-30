@@ -158,7 +158,7 @@ function showTooltip(event, message) {
 }
 
 
-function generateDialogContent(id, items_array, currency, show_quantities, add_to_cart_url, vocabulary){
+function generateDialogContent(id, items_array, currency, show_quantities, add_to_cart_url, vocabulary, cookie){
     let quantity_max = 1;
     document.body.style.overflow = 'hidden';
     const item = items_array.find(item => item.name === id);
@@ -218,7 +218,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     }
     else{
         if (quantity_max<=5){
-            quantitySpan.textContent = `${vocabulary['Less than 5 pieces left']}`;
+            quantitySpan.textContent = `${vocabulary['Less than 5 pieces left!']}`;
         }
     }
     quantitySpan.classList.add('maximum-span');
@@ -332,7 +332,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     add_to_cart.type = 'submit';
     add_to_cart.classList.add('add-to-cart-dialog');
     add_to_cart.addEventListener('click', function() {
-        add_to_cart_func(item, platingsSelect.value, stoneSelect.value, sizeSelect.value, Number(inputQuantity.value), add_to_cart, dialog, currency, add_to_cart_url, vocabulary);
+        add_to_cart_func(item, platingsSelect.value, stoneSelect.value, sizeSelect.value, Number(inputQuantity.value), add_to_cart, dialog, currency, add_to_cart_url, vocabulary, cookie);
     });
     const icon_cart = document.createElement('i');
     icon_cart.classList.add('fa-solid', 'fa-cart-shopping');
@@ -358,7 +358,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     dialog.style.display = 'block';
 }
 
-function add_to_cart_func(item, plating, stone, size, quantity, add_button, dialog, currency, add_to_cart_url, vocabulary){
+function add_to_cart_func(item, plating, stone, size, quantity, add_button, dialog, currency, add_to_cart_url, vocabulary, cookie){
     let doc;
     if( size === "" ){
          doc = item.platings[plating].stones[stone].real_name;
@@ -373,7 +373,7 @@ function add_to_cart_func(item, plating, stone, size, quantity, add_button, dial
     fetch(add_to_cart_url, {
         method: 'POST',
         headers: {
-            'X-CSRFToken': getCookie('csrftoken'),
+            'X-CSRFToken': cookie,
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({'document': doc, 'quantity': quantity})
