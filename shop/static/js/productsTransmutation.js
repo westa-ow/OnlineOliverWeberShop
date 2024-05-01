@@ -102,9 +102,9 @@ function orderSizes(sizes) {
 }
 
 function calculatePrice(item, price_category, sale) {
-    return ((price_category === "VK3" ? item.priceVK3 :
+    return (Number(((price_category === "VK3" ? item.priceVK3 :
              price_category === "GH" ? item.priceGH :
              price_category === "GH_USD" ? item.priceUSD_GH :
              price_category === "Default_USD" ? (item.priceUSD * (1 - sale)) :
-             (item.priceVK4 * (1 - sale)))).toFixed(1);
+             (item.priceVK4 * (1 - sale)))).toFixed(1))).toFixed(2);
 }

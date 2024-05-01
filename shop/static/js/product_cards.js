@@ -435,7 +435,7 @@ function informationSuccessSetup(column, item, actual_quantity, cart_count, cart
     column.appendChild(nameSpan);
 
     const priceSpan = document.createElement('div');
-    priceSpan.textContent = currency + `${item.price}`;
+    priceSpan.textContent = currency + `${item.price.toFixed(2)}`;
     column.appendChild(priceSpan);
 
     const platingSpan = document.createElement('spanSucc');

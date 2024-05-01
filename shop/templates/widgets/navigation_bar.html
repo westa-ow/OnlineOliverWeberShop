@@ -327,7 +327,7 @@ document.getElementById('cartBtn').addEventListener('click', function() {
     }
     else {
         let sum1 = 0;
-        document.getElementById('subtotalValue').textContent = currency+`${sum1.toFixed(1)}`;
+        document.getElementById('subtotalValue').textContent = currency+`${sum1.toFixed(2)}`;
         const emptyCartContainer = document.querySelector('.empty-cart-container');
         if (emptyCartContainer) {
             emptyCartContainer.style.display = 'none';
@@ -402,7 +402,7 @@ document.getElementById('cartBtn').addEventListener('click', function() {
                     attrs_column_second.classList.add('cart-second-attrs-column');
 
                     const price = document.createElement('span');
-                    price.textContent = currency+`${item.price}`;
+                    price.textContent = currency+`${item.price.toFixed(2)}`;
                     price.classList.add('mini-cart-product-price');
 
                     const quantity = document.createElement('span');
@@ -494,7 +494,7 @@ document.getElementById('cartBtn').addEventListener('click', function() {
 
                 // Update subtotal
 
-                document.getElementById('subtotalValue').textContent = currency+`${sum.toFixed(1)}`;
+                document.getElementById('subtotalValue').textContent = currency+`${sum.toFixed(2)}`;
                 const emptyCartContainer = document.querySelector('.empty-cart-container');
                 if (emptyCartContainer) {
                     emptyCartContainer.style.display = 'none';
