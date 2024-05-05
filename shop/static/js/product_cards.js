@@ -18,7 +18,7 @@ function updatePlatings(selectedPlating, stoneSelect, sizeSelect, image, maxQuan
     while (stoneSelect.firstChild) {
         stoneSelect.removeChild(stoneSelect.firstChild);
     }
-    fulfilDropdown(stoneSelect, selectedPlating.stones);
+    fulfilDropdown(stoneSelect, selectedPlating.stones, vocabulary);
     return updateStones(firstStone, sizeSelect, image, maxQuantity, show_quantities, vocabulary);
 }
 function updateStones(selectedStone, sizeSelect, image, maxQuantity, show_quantities, vocabulary){
@@ -34,7 +34,7 @@ function updateStones(selectedStone, sizeSelect, image, maxQuantity, show_quanti
         sizeSelect.removeChild(sizeSelect.firstChild);
     }
     if(withSizes) {
-        fulfilDropdown(sizeSelect, selectedStone.sizes);
+        fulfilDropdown(sizeSelect, selectedStone.sizes, vocabulary);
         return updateSizes(firstSizeQuantity, maxQuantity, show_quantities, vocabulary);
     }
     else{
@@ -67,11 +67,11 @@ function updateSizes(sizeQuantity, maxQuantity, show_quantities, vocabulary){
     return Number(sizeQuantity);
 }
 
-function fulfilDropdown(dropdown, array){
+function fulfilDropdown(dropdown, array, vocabulary){
     if(array) {
         (Object.keys(array)).forEach(element => {
             let option = document.createElement('option');
-            option.innerText = element;
+            option.innerText = vocabulary[element] ? vocabulary[element]: element;
             option.value = element;
             dropdown.add(option);
         });
@@ -158,7 +158,7 @@ function showTooltip(event, message) {
 }
 
 
-function generateDialogContent(id, items_array, currency, show_quantities, add_to_cart_url, vocabulary, cookie){
+function generateDialogContent(id, items_array, currency, show_quantities, add_to_cart_url, vocabulary, cookie, checkout_url){
     let quantity_max = 1;
     document.body.style.overflow = 'hidden';
     const item = items_array.find(item => item.name === id);
@@ -200,8 +200,13 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     const secondColumn = document.createElement('div');
     secondColumn.classList.add('second-column');
 
-    const nameSpan = document.createElement('h1');
-    nameSpan.textContent = `${item.product_name}`;
+    let parts = item.product_name.split(" ");
+    // Remove the last word
+    let last_word = parts.pop();
+    // Join the remaining parts to form the full phrase
+    let full_phrase = parts.join(" ");
+    const nameSpan = document.createElement('h2');
+    nameSpan.textContent = vocabulary[full_phrase] ? vocabulary[full_phrase] + " " + last_word : item.product_name;
     secondColumn.appendChild(nameSpan);
 
     const numberSpan = document.createElement('h4');
@@ -228,7 +233,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     platingLabel.classList.add('card-dropdown-label');
     const platingsSelect = document.createElement('select');
     platingsSelect.classList.add('card-dropdown');
-    fulfilDropdown(platingsSelect, item.platings);
+    fulfilDropdown(platingsSelect, item.platings, vocabulary);
     secondColumn.appendChild(platingLabel);
     secondColumn.appendChild(platingsSelect);
 
@@ -237,7 +242,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     stoneLabel.classList.add('card-dropdown-label');
     const stoneSelect = document.createElement('select');
     stoneSelect.classList.add('card-dropdown');
-    fulfilDropdown(stoneSelect, firstPlating.stones);
+    fulfilDropdown(stoneSelect, firstPlating.stones, vocabulary);
     secondColumn.appendChild(stoneLabel);
     secondColumn.appendChild(stoneSelect);
 
@@ -247,7 +252,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     const sizeSelect = document.createElement('select');
     sizeSelect.classList.add('card-dropdown');
     if(Object.keys(firstStone.sizes).length>0) {
-        fulfilDropdown(sizeSelect, firstStone.sizes);
+        fulfilDropdown(sizeSelect, firstStone.sizes, vocabulary);
         secondColumn.appendChild(sizeLabel);
         secondColumn.appendChild(sizeSelect);
     }
@@ -332,7 +337,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     add_to_cart.type = 'submit';
     add_to_cart.classList.add('add-to-cart-dialog');
     add_to_cart.addEventListener('click', function() {
-        add_to_cart_func(item, platingsSelect.value, stoneSelect.value, sizeSelect.value, Number(inputQuantity.value), add_to_cart, dialog, currency, add_to_cart_url, vocabulary, cookie);
+        add_to_cart_func(item, platingsSelect.value, stoneSelect.value, sizeSelect.value, Number(inputQuantity.value), add_to_cart, dialog, currency, add_to_cart_url, vocabulary, cookie, checkout_url);
     });
     const icon_cart = document.createElement('i');
     icon_cart.classList.add('fa-solid', 'fa-cart-shopping');
@@ -358,7 +363,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     dialog.style.display = 'block';
 }
 
-function add_to_cart_func(item, plating, stone, size, quantity, add_button, dialog, currency, add_to_cart_url, vocabulary, cookie){
+function add_to_cart_func(item, plating, stone, size, quantity, add_button, dialog, currency, add_to_cart_url, vocabulary, cookie, checkout_url){
     let doc;
     if( size === "" ){
          doc = item.platings[plating].stones[stone].real_name;
@@ -384,7 +389,7 @@ function add_to_cart_func(item, plating, stone, size, quantity, add_button, dial
 
             closeDialogWithAnimation(dialog);
             setTimeout(() => {
-                activate_success_card(data.product, data.quantity, data.cart_size, data.subtotal, currency, vocabulary);
+                activate_success_card(data.product, data.quantity, data.cart_size, data.subtotal, currency, vocabulary, checkout_url);
             }, 0);
 
         } else {
@@ -394,7 +399,7 @@ function add_to_cart_func(item, plating, stone, size, quantity, add_button, dial
     });
 }
 
-function activate_success_card(item, quantity, cart_count, subtotalValue, currency, vocabulary){
+function activate_success_card(item, quantity, cart_count, subtotalValue, currency, vocabulary, checkout_url){
     const dialog = document.getElementById('product-card-success');
 
     bindGlobalClickEvent(dialog);
@@ -412,7 +417,7 @@ function activate_success_card(item, quantity, cart_count, subtotalValue, curren
     informationSuccessSetup(secondColumn, item, quantity, cart_count, subtotalValue, currency, vocabulary);
 
     //Add buttons to continue shopping or to procceed to checkout
-    manageButtonsSuccessSetup(dialog, secondColumn, vocabulary);
+    manageButtonsSuccessSetup(dialog, secondColumn, vocabulary, checkout_url);
 
     card_content.appendChild(secondColumn);
     dialog.appendChild(card_content);
@@ -431,21 +436,25 @@ function informationSuccessSetup(column, item, actual_quantity, cart_count, cart
     addedText.innerHTML = `<i class='fa-solid fa-check'></i> `+`${vocabulary['Product successfully added to your shopping cart']}`;
     column.appendChild(addedText);
     const nameSpan = document.createElement('h3');
-    nameSpan.textContent = `${item.name}`;
+    nameSpan.textContent = `${vocabulary[item.category]} ${item.product_name}`;
     column.appendChild(nameSpan);
+
+    const numberSpan = document.createElement('h4');
+    numberSpan.textContent = `${item.name}`;
+    column.appendChild(numberSpan);
 
     const priceSpan = document.createElement('div');
     priceSpan.textContent = currency + `${item.price.toFixed(2)}`;
     column.appendChild(priceSpan);
 
     const platingSpan = document.createElement('spanSucc');
-    platingSpan.innerHTML= `<strong>${vocabulary['Plating Material']}: </strong>` + `${item.plating}`;
+    platingSpan.innerHTML= `<strong>${vocabulary['Plating Material']}: </strong>` + `${vocabulary[item.plating]?vocabulary[item.plating]:item.plating}`;
     column.appendChild(platingSpan);
     const crystalSpan = document.createElement('spanSucc');
-    crystalSpan.innerHTML = `<strong>${vocabulary['Crystal color']}: </strong> ` +`${item.stone}`;
+    crystalSpan.innerHTML = `<strong>${vocabulary['Crystal color']}: </strong> ` +`${vocabulary[item.stone]?vocabulary[item.stone]:item.stone}`;
     column.appendChild(crystalSpan);
     const baseSpan = document.createElement('spanSucc');
-    baseSpan.innerHTML =`<strong>${vocabulary['Base material']}: </strong> ` + `${item.material}`;
+    baseSpan.innerHTML =`<strong>${vocabulary['Base material']}: </strong> ` + `${vocabulary[item.material]?vocabulary[item.material]:item.material}`;
     column.appendChild(baseSpan);
 
     const quantitySpan = document.createElement('spanSucc');
@@ -463,7 +472,7 @@ function informationSuccessSetup(column, item, actual_quantity, cart_count, cart
     column.appendChild(subtotal);
 }
 
-function manageButtonsSuccessSetup(dialog, column, vocabulary){
+function manageButtonsSuccessSetup(dialog, column, vocabulary, checkout_url){
     const container_for_success_buttons = document.createElement('div');
     const continue_shopping = document.createElement('button');
     continue_shopping.classList.add('button-continue-shopping');
@@ -478,7 +487,8 @@ function manageButtonsSuccessSetup(dialog, column, vocabulary){
     const proceed_to_checkout = document.createElement('a');
     proceed_to_checkout.textContent = `${vocabulary['Proceed to checkout']}`;
     proceed_to_checkout.classList.add('button-proceed-to-checkout');
-    proceed_to_checkout.href = `{% url 'cart' %}`;
+    console.log(checkout_url);
+    proceed_to_checkout.href = `${checkout_url}`;
 
     container_for_success_buttons.appendChild(proceed_to_checkout);
     column.appendChild(container_for_success_buttons);

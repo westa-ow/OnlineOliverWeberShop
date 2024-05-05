@@ -370,6 +370,7 @@ def get_cart(email):
     cart = []
     for doc in docs:
         doc_dict = doc.to_dict()  # Call to_dict once
+
         description = doc_dict.get('description', '')
 
         # Simplify the handling of description encoding if necessary
@@ -379,15 +380,15 @@ def get_cart(email):
             'name': doc_dict.get('name'),
             'product_name': doc_dict.get('product_name'),
             'quantity': doc_dict.get('quantity'),
-            'category': doc_dict.get('category'),
+            'category': _(doc_dict.get('category')) if _(doc_dict.get('category')) is not None else doc_dict.get('category'),
             'number': doc_dict.get('number'),
             'image_url': doc_dict.get('image_url'),
             'description': safe_description,
             'quantity_max': doc_dict.get('quantity_max'),
             'price': doc_dict.get('price'),
-            'stone': doc_dict.get('stone'),
-            'plating': doc_dict.get('plating'),
-            'material': doc_dict.get('material'),
+            'stone': _(doc_dict.get('stone')),
+            'plating': _(doc_dict.get('plating')),
+            'material': _(doc_dict.get('material')),
             'sum': str(round(doc_dict.get('price') * doc_dict.get('quantity'), 1))
         }
         cart.append(cart_item)
@@ -425,7 +426,7 @@ def update_quantity_input(request):
 
                 new_cart_item = {
                     'description': product['description'],
-                    'stone': product['stone'],
+                    'stone': str(product['stone']),
                     'material': product['material'],
                     'plating': product['plating'],
                     "emailOwner": email,
@@ -434,6 +435,8 @@ def update_quantity_input(request):
                     "price": price,
                     "quantity": quantity_new,
                     "number": number_in_cart,
+                    "product_name": product['product_name'],
+                    "category": product['category'],
                     'quantity_max': product['quantity']
                 }
                 cart_ref.add(new_cart_item)

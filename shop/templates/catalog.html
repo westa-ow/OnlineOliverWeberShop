@@ -32,7 +32,7 @@
             <div class="filter-name">
                 <label for="contains-in-name">{% trans "Name, Product Article" %}</label>
                 <hr>
-                <input type="text" id="contains-in-name" placeholder="Contains in name..."><br>
+                <input type="text" id="contains-in-name" placeholder="{% trans "Contains in name" %}..."><br>
             </div><br>
             <div class="filter-price">
                 <label for="slider-price">{% trans "Price" %}</label>
@@ -230,7 +230,7 @@
 
         constructCategories();
 
-        constructFilters(allItems);
+        constructFilters(allItems, filters_dict);
 
         setupFiltersEventListeners('.plating-checkbox', platingFilters);
         setupFiltersEventListeners('.base-checkbox', baseFilters);
@@ -261,7 +261,6 @@ let stoneFilters = [];
 let sizeFilters = [];
 let subcat = {"Necklaces": ["Necklace","Chain","Pearlchain", "Pendant", "Collier"], "All Earrings": ["Earrings","Post Earrings", "Clip", "Hoop"], "Bracelets":["Bracelet","Bangle", "Anklet"], "Accessories":["Piercing", "Nailfile", "Pen","Key","Brooch"]}
 let category = "{{ category_catalog|safe}}" || "All";
-{#console.log(category);#}
 let categories = [""];
 let all_crystals = [];
 let all_platings = [];
@@ -352,33 +351,69 @@ function changePage(page) {
 
 
 let synonyms = {
-    "All": "All",
-    "Necklaces": "Necklaces",
-    "All Earrings": "Earrings",
-    "Earrings": "Earrings",
-    "Bracelets": "Bracelets",
-    "Accessories": "Accessories",
-    "Pendant": "Pendants",
-    "Chain": "Chains",
-    "Collier": "Colliers",
-    "Pearlchain": "Pearlchains",
-    "Necklace": "Necklaces",
-    "Post Earrings": "Post Earrings",
-    "Hoop": "Hoops",
-    "Creole": "Creoles",
-    "Clip": "Clips",
-    "Piercing": "Piercings",
-    "Bracelet": "Bracelets",
-    "Bangle": "Bangles",
-    "Anklet": "Anklets",
-    "Ring": "Rings",
-    "Match": "Matches",
-    "Pen": "Pens",
-    "Key": "Keys",
-    "Brooch": "Brooches",
-    "Nailfile": "Nailfiles",
-    "Extension": "Extensions",
-    "UV": "UV"
+    "All": "{{ _("All")|escapejs }}",
+    "Necklaces": "{{ _("Necklaces")|escapejs }}",
+    "All Earrings": "{{ _("Earrings")|escapejs }}",
+    "Earrings": "{{ _("Earrings")|escapejs }}",
+    "Bracelets": "{{ _("Bracelets")|escapejs }}",
+    "Accessories": "{{ _("Accessories")|escapejs }}",
+    "Pendant": "{{ _("Pendants")|escapejs }}",
+    "Chain": "{{ _("Chains")|escapejs }}",
+    "Collier": "{{ _("Colliers")|escapejs }}",
+    "Pearlchain": "{{ _("Pearlchains")|escapejs }}",
+    "Necklace": "{{ _("Necklaces")|escapejs }}",
+    "Post Earrings": "{{ _("Post earrings")|escapejs }}",
+    "Hoop": "{{ _("Hoops")|escapejs }}",
+    "Creole": "{{ _("Creoles")|escapejs }}",
+    "Clip": "{{ _("Clips")|escapejs }}",
+    "Piercing": "{{ _("Piercings")|escapejs }}",
+    "Bracelet": "{{ _("Bracelets")|escapejs }}",
+    "Bangle": "{{ _("Bangles")|escapejs }}",
+    "Anklet": "{{ _("Anklets")|escapejs }}",
+    "Ring": "{{ _("Rings")|escapejs }}",
+    "Match": "{{ _("Matches")|escapejs }}",
+    "Pen": "{{ _("Pens")|escapejs }}",
+    "Key": "{{ _("Keys")|escapejs }}",
+    "Brooch": "{{ _("Brooches")|escapejs }}",
+    "Nailfile": "{{ _("Nailfiles")|escapejs }}",
+    "Extension": "{{ _("Extensions")|escapejs }}",
+    "UV": "{{ _("UV")|escapejs }}"
+}
+
+let translations_categories = {
+    "Earrings": "{{ _("Earrings")|escapejs }}",
+    "Pendant": "{{ _("Pendant")|escapejs }}",
+    "Chain": "{{ _("Chain")|escapejs }}",
+    "Collier": "{{ _("Collier")|escapejs }}",
+    "Pearlchain": "{{ _("Pearlchain")|escapejs }}",
+    "Necklace": "{{ _("Necklace")|escapejs }}",
+    "Post Earrings": "{{ _("Post earrings")|escapejs }}",
+    "Hoop": "{{ _("Hoop")|escapejs }}",
+    "Creole": "{{ _("Creole")|escapejs }}",
+    "Clip": "{{ _("Clip")|escapejs }}",
+    "Piercing": "{{ _("Piercing")|escapejs }}",
+    "Bracelet": "{{ _("Bracelet")|escapejs }}",
+    "Bangle": "{{ _("Bangle")|escapejs }}",
+    "Anklet": "{{ _("Anklet")|escapejs }}",
+    "Ring": "{{ _("Ring")|escapejs }}",
+    "Match": "{{ _("Match")|escapejs }}",
+    "Pen": "{{ _("Pen")|escapejs }}",
+    "Key": "{{ _("Key")|escapejs }}",
+    "Brooch": "{{ _("Brooch")|escapejs }}",
+    "Nailfile": "{{ _("Nailfile")|escapejs }}",
+    "Extension": "{{ _("Extension")|escapejs }}",
+    "UV": "{{ _("UV")|escapejs }}"
+}
+
+let filters_dict = {
+    "Default": "{{ _("Default")|escapejs }}",
+    "Rhodium": "{{ _("Rhodium")|escapejs }}",
+    "Gold": "{{ _("Gold")|escapejs }}",
+    "Rosegold": "{{ _("Rosegold")|escapejs }}",
+    "Without": "{{ _("Without")|escapejs }}",
+    "Steel": "{{ _("Steel")|escapejs }}",
+    "Steel Brass": "{{ _("Steel Brass")|escapejs }}",
+    "Silver": "{{ _("Silver")|escapejs }}",
 }
 
 function constructCategories(){
@@ -684,6 +719,9 @@ function displayCurrentPage(items) {
     const productsGrid = document.querySelector('.products-grid');
     productsGrid.innerHTML = '';
 
+    let vocabulary_base =  {{ vocabulary|safe }};
+    let vocabulary = Object.assign(vocabulary_base, translations_categories, filters_dict);
+
     let itemId= 0;
     items.forEach((item) => {
         const productContainer = document.createElement('div');
@@ -692,7 +730,7 @@ function displayCurrentPage(items) {
         productContainer.setAttribute('data-id', itemId);
 
         productContainer.addEventListener('click', () => {
-            generateDialogContent(`${item.name}`, allItems, currency, show_quantities, "{% url "add_from_catalog" %}", {{ vocabulary|safe }}, getCookie('csrftoken'));
+            generateDialogContent(`${item.name}`, allItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}");
         });
 
         // Create the image section
@@ -798,7 +836,13 @@ function displayCurrentPage(items) {
         infoSection.className = 'info-section';
         const nameSpan = document.createElement('span');
         nameSpan.className = 'info-name';
-        nameSpan.textContent = item.product_name;
+
+        var parts = item.product_name.split(" ");
+        // Remove the last word
+        let last_word = parts.pop();
+        // Join the remaining parts to form the full phrase
+        var full_phrase = parts.join(" ");
+        nameSpan.textContent = translations_categories[full_phrase] ? translations_categories[full_phrase]+ " " + last_word : item.product_name;
         const priceSpan = document.createElement('span');
         priceSpan.className = 'info-price';
         priceSpan.textContent = currency + `${item.price}`;

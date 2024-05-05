@@ -122,7 +122,7 @@ def update_cart(email, product_name, new_quantity, document):
     else:
         cart_ref.add({
             'description': document['description'],
-            'stone': document['stone'],
+            'stone': str(document['stone']),
             'material': document['material'],
             'plating': document['plating'],
             "emailOwner": email,

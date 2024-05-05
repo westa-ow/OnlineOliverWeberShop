@@ -222,7 +222,7 @@
     document.querySelectorAll('.quantity-input-button').forEach(button => {
         button.addEventListener('click', function() {
             const documentContainer = this.closest('.document-container');
-
+            console.log(documentContainer.getAttribute('data-document').replace(/'/g, '"'));
             const documentValue = JSON.parse(documentContainer.getAttribute('data-document').replace(/'/g, '"'));
 
             const productId = documentValue['name'];

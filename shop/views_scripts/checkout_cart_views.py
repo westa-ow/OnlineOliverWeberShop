@@ -216,7 +216,7 @@ def receipt_generator(orders, order, name, currency, vat):
     content.append(Spacer(1, 0.3 * inch))
     content.append(Paragraph(f"Client name: {name}", bold_style))
 
-    table_data = [["Product","Image" ,"Quantity", "Price per item", "Total"]]
+    table_data = [["Product", "Image", "Quantity", "Price per item", "Total"]]
     for item_order in orders:
         image_path = item_order['image-url']  # Adjust this line to get the actual image path or object
         image = Image(image_path)

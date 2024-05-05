@@ -4052,3 +4052,138 @@ msgstr "Ajouter au panier"
 #: .\views.py:335
 msgid "Welcome to my site."
 msgstr "Bienvenue sur mon site."
+
+msgid "Pens"
+msgstr "Stylos"
+
+msgid "Chains"
+msgstr "Chaînes"
+
+msgid "Pearlchains"
+msgstr "Chaînes de perles"
+
+msgid "Pendants"
+msgstr "Pendentifs"
+
+msgid "Colliers"
+msgstr "Colliers"
+
+msgid "Post earrings"
+msgstr "Boucles d'oreilles à tige"
+
+msgid "Clips"
+msgstr "Pinces"
+
+msgid "Hoops"
+msgstr "Créoles"
+
+msgid "Piercings"
+msgstr "Piercings"
+
+msgid "Nailfiles"
+msgstr "Limes à ongles"
+
+msgid "Keys"
+msgstr "Clés"
+
+msgid "Brooches"
+msgstr "Broches"
+
+msgid "Extensions"
+msgstr "Extensions"
+
+msgid "Matches"
+msgstr "Allumettes"
+
+msgid "Default"
+msgstr "Défaut"
+
+msgid "Rhodium"
+msgstr "Rhodium"
+
+msgid "Gold"
+msgstr "Or"
+
+msgid "Rosegold"
+msgstr "Or rose"
+
+msgid "Contains in name"
+msgstr "Contient dans le nom"
+
+msgid "Without"
+msgstr "Sans"
+
+msgid "Steel"
+msgstr "Acier"
+
+msgid "Steel Brass"
+msgstr "Acier Laiton"
+
+msgid "Silver"
+msgstr "Argent"
+
+msgid "Pendant"
+msgstr "Pendentif"
+
+msgid "Chain"
+msgstr "Chaîne"
+
+msgid "Collier"
+msgstr "Collier"
+
+msgid "Pearlchain"
+msgstr "Chaîne de perles"
+
+msgid "Necklace"
+msgstr "Collier"
+
+msgid "Post Earrings"
+msgstr "Boucles d'oreilles à tige"
+
+msgid "Hoop"
+msgstr "Créole"
+
+msgid "Creole"
+msgstr "Créole"
+
+msgid "Clip"
+msgstr "Pince"
+
+msgid "Piercing"
+msgstr "Piercing"
+
+msgid "Bracelet"
+msgstr "Bracelet"
+
+msgid "Bangle"
+msgstr "Bracelet rigide"
+
+msgid "Anklet"
+msgstr "Bracelet de cheville"
+
+msgid "Ring"
+msgstr "Bague"
+
+msgid "Match"
+msgstr "Allumette"
+
+msgid "Pen"
+msgstr "Stylo"
+
+msgid "Key"
+msgstr "Clé"
+
+msgid "Brooch"
+msgstr "Broche"
+
+msgid "Nailfile"
+msgstr "Lime à ongles"
+
+msgid "Extension"
+msgstr "Extension"
+
+msgid "UV"
+msgstr "UV"
+
+msgid "Continue shopping"
+msgstr "Continuer les achats"

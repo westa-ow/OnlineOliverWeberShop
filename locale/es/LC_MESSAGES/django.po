@@ -3998,3 +3998,135 @@ msgstr "Añadir a la cesta"
 #: .\views.py:335
 msgid "Welcome to my site."
 msgstr "Bienvenido a mi sitio."
+
+msgid "Pens"
+msgstr "Bolígrafos"
+
+msgid "Chains"
+msgstr "Cadenas"
+
+msgid "Pearlchains"
+msgstr "Cadenas de perlas"
+
+msgid "Pendants"
+msgstr "Colgantes"
+
+msgid "Colliers"
+msgstr "Collares"
+
+msgid "Post earrings"
+msgstr "Pendientes de poste"
+
+msgid "Clips"
+msgstr "Pinzas"
+
+msgid "Hoops"
+msgstr "Aros"
+
+msgid "Piercings"
+msgstr "Piercings"
+
+msgid "Nailfiles"
+msgstr "Limas de uñas"
+
+msgid "Keys"
+msgstr "Llaves"
+
+msgid "Brooches"
+msgstr "Broches"
+
+msgid "Extensions"
+msgstr "Extensiones"
+
+msgid "Matches"
+msgstr "Fósforos"
+
+msgid "Default"
+msgstr "Predeterminado"
+
+msgid "Rhodium"
+msgstr "Rodio"
+
+msgid "Gold"
+msgstr "Oro"
+
+msgid "Rosegold"
+msgstr "Oro rosa"
+
+msgid "Contains in name"
+msgstr "Contiene en el nombre"
+
+msgid "Without"
+msgstr "Sin"
+
+msgid "Steel"
+msgstr "Acero"
+
+msgid "Steel Brass"
+msgstr "Acero latón"
+
+msgid "Silver"
+msgstr "Plata"
+
+msgid "Pendant"
+msgstr "Colgante"
+
+msgid "Chain"
+msgstr "Cadena"
+
+msgid "Collier"
+msgstr "Collar"
+
+msgid "Pearlchain"
+msgstr "Cadena de perlas"
+
+msgid "Necklace"
+msgstr "Collar"
+
+msgid "Post Earrings"
+msgstr "Pendientes de poste"
+
+msgid "Hoop"
+msgstr "Aro"
+
+msgid "Creole"
+msgstr "Criolla"
+
+msgid "Clip"
+msgstr "Pinza"
+
+msgid "Piercing"
+msgstr "Piercing"
+
+msgid "Bracelet"
+msgstr "Pulsera"
+
+msgid "Bangle"
+msgstr "Brazalete"
+
+msgid "Anklet"
+msgstr "Tobillera"
+
+msgid "Ring"
+msgstr "Anillo"
+
+msgid "Match"
+msgstr "Fósforo"
+
+msgid "Pen"
+msgstr "Pluma"
+
+msgid "Key"
+msgstr "Llave"
+
+msgid "Brooch"
+msgstr "Broche"
+
+msgid "Nailfile"
+msgstr "Lima de uñas"
+
+msgid "Extension"
+msgstr "Extensión"
+
+msgid "UV"
+msgstr "UV"

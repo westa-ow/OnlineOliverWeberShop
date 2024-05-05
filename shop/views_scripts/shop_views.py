@@ -52,7 +52,11 @@ def form_page(request):
     category, currency = get_user_category(email) or ("Default", "Euro")
     info = get_user_info(email) or {}
     sale = round((0 if "sale" not in info else info['sale'])/100, 2) or 0
-    products = [doc.to_dict() for doc in documents]
+
+    products = [{key: value for key, value in doc.to_dict().items() if key != 'Visible'} for doc in documents]
+
+
+    # print(products)
     for obj in products:
         if category == "VK3":
             del obj['price']
@@ -96,9 +100,12 @@ def fetch_numbers(request):
         name_query = itemsRef.where('name', '>=', search_term).where('name', '<=', search_term + '\uf8ff').stream()
 
         # Filter the results in Python for the 'quantity' field
-        numbers = [doc.to_dict().get('name', '') for doc in name_query if
-                   search_term in doc.to_dict().get('name', '').lower() and
-                   doc.to_dict().get('quantity', 0) > 0]
+        numbers = [
+            doc.to_dict().get('name', '') for doc in name_query
+            if search_term in doc.to_dict().get('name', '').lower() and
+               doc.to_dict().get('quantity', 0) > 0 and
+               doc.to_dict().get('Visible', True)  # Assumes default is True if 'Visible' is not present
+        ]
 
     return JsonResponse(numbers, safe=False)
 

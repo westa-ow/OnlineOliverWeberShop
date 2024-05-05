@@ -3994,3 +3994,135 @@ msgstr "Aggiungi al carrello"
 #: .\views.py:335
 msgid "Welcome to my site."
 msgstr "Benvenuti nel mio sito."
+
+msgid "Pens"
+msgstr "Penne"
+
+msgid "Chains"
+msgstr "Catene"
+
+msgid "Pearlchains"
+msgstr "Catene di perle"
+
+msgid "Pendants"
+msgstr "Ciondoli"
+
+msgid "Colliers"
+msgstr "Collane"
+
+msgid "Post earrings"
+msgstr "Orecchini a perno"
+
+msgid "Clips"
+msgstr "Clip"
+
+msgid "Hoops"
+msgstr "Orecchini a cerchio"
+
+msgid "Piercings"
+msgstr "Piercing"
+
+msgid "Nailfiles"
+msgstr "Lime per unghie"
+
+msgid "Keys"
+msgstr "Chiavi"
+
+msgid "Brooches"
+msgstr "Spille"
+
+msgid "Extensions"
+msgstr "Estensioni"
+
+msgid "Matches"
+msgstr "Fiammiferi"
+
+msgid "Default"
+msgstr "Predefinito"
+
+msgid "Rhodium"
+msgstr "Rodio"
+
+msgid "Gold"
+msgstr "Oro"
+
+msgid "Rosegold"
+msgstr "Oro rosa"
+
+msgid "Contains in name"
+msgstr "Contiene nel nome"
+
+msgid "Without"
+msgstr "Senza"
+
+msgid "Steel"
+msgstr "Acciaio"
+
+msgid "Steel Brass"
+msgstr "Acciaio Ottone"
+
+msgid "Silver"
+msgstr "Argento"
+
+msgid "Pendant"
+msgstr "Ciondolo"
+
+msgid "Chain"
+msgstr "Catena"
+
+msgid "Collier"
+msgstr "Collana"
+
+msgid "Pearlchain"
+msgstr "Catena di perle"
+
+msgid "Necklace"
+msgstr "Collana"
+
+msgid "Post Earrings"
+msgstr "Orecchini a perno"
+
+msgid "Hoop"
+msgstr "Orecchino a cerchio"
+
+msgid "Creole"
+msgstr "Orecchino a cerchio"
+
+msgid "Clip"
+msgstr "Clip"
+
+msgid "Piercing"
+msgstr "Piercing"
+
+msgid "Bracelet"
+msgstr "Braccialetto"
+
+msgid "Bangle"
+msgstr "Bracciale"
+
+msgid "Anklet"
+msgstr "Cavigliera"
+
+msgid "Ring"
+msgstr "Anello"
+
+msgid "Match"
+msgstr "Fiammifero"
+
+msgid "Pen"
+msgstr "Penna"
+
+msgid "Key"
+msgstr "Chiave"
+
+msgid "Brooch"
+msgstr "Spilla"
+
+msgid "Nailfile"
+msgstr "Lima per unghie"
+
+msgid "Extension"
+msgstr "Estensione"
+
+msgid "UV"
+msgstr "UV"

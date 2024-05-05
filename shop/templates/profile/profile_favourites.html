@@ -29,7 +29,41 @@
 <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
     import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
+    let translations_categories = {
+    "Earrings": "{{ _("Earrings")|escapejs }}",
+    "Pendant": "{{ _("Pendant")|escapejs }}",
+    "Chain": "{{ _("Chain")|escapejs }}",
+    "Collier": "{{ _("Collier")|escapejs }}",
+    "Pearlchain": "{{ _("Pearlchain")|escapejs }}",
+    "Necklace": "{{ _("Necklace")|escapejs }}",
+    "Post Earrings": "{{ _("Post earrings")|escapejs }}",
+    "Hoop": "{{ _("Hoop")|escapejs }}",
+    "Creole": "{{ _("Creole")|escapejs }}",
+    "Clip": "{{ _("Clip")|escapejs }}",
+    "Piercing": "{{ _("Piercing")|escapejs }}",
+    "Bracelet": "{{ _("Bracelet")|escapejs }}",
+    "Bangle": "{{ _("Bangle")|escapejs }}",
+    "Anklet": "{{ _("Anklet")|escapejs }}",
+    "Ring": "{{ _("Ring")|escapejs }}",
+    "Match": "{{ _("Match")|escapejs }}",
+    "Pen": "{{ _("Pen")|escapejs }}",
+    "Key": "{{ _("Key")|escapejs }}",
+    "Brooch": "{{ _("Brooch")|escapejs }}",
+    "Nailfile": "{{ _("Nailfile")|escapejs }}",
+    "Extension": "{{ _("Extension")|escapejs }}",
+    "UV": "{{ _("UV")|escapejs }}"
+}
 
+let filters_dict = {
+    "Default": "{{ _("Default")|escapejs }}",
+    "Rhodium": "{{ _("Rhodium")|escapejs }}",
+    "Gold": "{{ _("Gold")|escapejs }}",
+    "Rosegold": "{{ _("Rosegold")|escapejs }}",
+    "Without": "{{ _("Without")|escapejs }}",
+    "Steel": "{{ _("Steel")|escapejs }}",
+    "Steel Brass": "{{ _("Steel Brass")|escapejs }}",
+    "Silver": "{{ _("Silver")|escapejs }}",
+}
     var firebaseConfig = {
         apiKey: "AIzaSyAM0wDc_WO0wP3-_TPRPLENZDIHbezH7U4",
         authDomain: "flutterapp-fd5c3.firebaseapp.com",
@@ -60,6 +94,8 @@
             const productsGrid = document.querySelector('.products-grid');
             productsGrid.innerHTML = '';
             let itemId= 0;
+            let vocabulary_dialog = {{ vocabulary|safe}};
+            let vocabulary = Object.assign(vocabulary_dialog, translations_categories, filters_dict);
             items.forEach((item) => {
                 const productContainer = document.createElement('div');
                 productContainer.className = 'product-container';
@@ -68,7 +104,7 @@
                 productContainer.setAttribute('data-id', itemId);
 
                 productContainer.addEventListener('click', () => {
-                    generateDialogContent(`${item.name}`, favouriteItems, currency, show_quantities, "{% url "add_from_catalog" %}", {{ vocabulary|safe}});
+                    generateDialogContent(`${item.name}`, favouriteItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}");
                 });
 
                 const container_card = document.createElement("div");

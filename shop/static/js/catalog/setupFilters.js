@@ -1,10 +1,10 @@
-function constructFilters(items){
-    constructCrystals(items);
-    constructPlatings(items);
-    constructBases(items);
+function constructFilters(items, filters_dict){
+    constructCrystals(items, filters_dict);
+    constructPlatings(items, filters_dict);
+    constructBases(items, filters_dict);
 }
 
-function constructCrystals(items) {
+function constructCrystals(items, filters_dict) {
     let uniqueStones = new Set();
     items.forEach(document => {
         Object.values(document.platings).forEach(plating => {
@@ -13,30 +13,30 @@ function constructCrystals(items) {
             });
         });
     });
-    createCrystalElements('crystals', Array.from(uniqueStones), 'crystal');
+    createCrystalElements('crystals', Array.from(uniqueStones), 'crystal', filters_dict);
 }
 
-function constructPlatings(items) {
+function constructPlatings(items, filters_dict) {
     let uniquePlatings = new Set();
     items.forEach(document => {
         Object.keys(document.platings).forEach(plating => {
             uniquePlatings.add(plating);
         });
     });
-    createFilterElements('platings', Array.from(uniquePlatings), 'plating');
+    createFilterElements('platings', Array.from(uniquePlatings), 'plating', filters_dict);
 }
 
-function constructBases(items) {
+function constructBases(items, filters_dict) {
     let all_bases = items.reduce((accumulator, document) => {
         if (!accumulator.includes(document.material)) {
             accumulator.push(document.material);
         }
         return accumulator;
     }, []);
-    createFilterElements('bases', all_bases, 'base');
+    createFilterElements('bases', all_bases, 'base', filters_dict);
 }
 
-function createFilterElements(containerClass, itemsArray, prefix) {
+function createFilterElements(containerClass, itemsArray, prefix, filters_dict) {
     const container = document.querySelector(`.${containerClass}`);
     container.innerHTML = ''; // Clear existing content
 
@@ -60,7 +60,7 @@ function createFilterElements(containerClass, itemsArray, prefix) {
         const label = document.createElement('label');
         label.className = 'checkbox-label';
         label.htmlFor = checkboxId;
-        label.textContent = item;
+        label.textContent = filters_dict[item];
 
         // Append checkbox and label to itemDiv
         itemDiv.appendChild(checkbox);
@@ -71,7 +71,7 @@ function createFilterElements(containerClass, itemsArray, prefix) {
     });
 }
 
-function createCrystalElements(containerClass, itemsArray, prefix) {
+function createCrystalElements(containerClass, itemsArray, prefix, filters_dict) {
     const container = document.querySelector(`.${containerClass}`);
     container.innerHTML = ''; // Clear existing content
 
