@@ -303,7 +303,11 @@ country_dict = {
 }
 
 def get_user_currency(request):
-    ip = request.META.get('REMOTE_ADDR', None)
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]  # В случае нескольких прокси, берем первый IP
+    else:
+        ip = request.META.get('REMOTE_ADDR')
     try:
         response = READER.country(ip)
         country_code = response.country.iso_code
