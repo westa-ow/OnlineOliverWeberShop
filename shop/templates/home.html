@@ -174,7 +174,7 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-
+    console.log("{{ address|safe }}");
     const show_quantities = "{{ show_quantities|safe }}" !== "False";
     let favouriteitems = [ ];
     let allItems = [{

@@ -345,7 +345,7 @@ def get_vocabulary_product_card():
 
 def home_page(request):
     context = {
-
+        'address': request.META.get('REMOTE_ADDR')
     }
 
     test_text = _("Welcome to my site.")
