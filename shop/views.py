@@ -302,7 +302,10 @@ country_dict = {
     "229": "Zimbabwe"
 }
 
-def get_user_currency(request):
+def get_user_prices(request, email):
+    if request.user.is_authenticated:
+        return get_user_category(email) or ("Default", "Euro")
+
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]  # В случае нескольких прокси, берем первый IP
@@ -313,10 +316,12 @@ def get_user_currency(request):
         country_code = response.country.iso_code
         print(country_code)
         if country_code in ['AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GR', 'HR', 'HU', 'IE', 'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK']:
-            return 'Euro'
+            return "Default", 'Euro'
     except geoip2.errors.AddressNotFoundError:
         pass
-    return 'Dollar'
+    return "Default_USD", 'Dollar'
+
+
 
 def get_user_session_type(request):
     if request.user.is_authenticated:
@@ -355,11 +360,7 @@ def home_page(request):
     test_text = _("Welcome to my site.")
     email = get_user_session_type(request)
 
-    if request.user.is_authenticated:
-        category, currency = get_user_category(email) or ("Default", "Euro")
-    else:
-        currency = get_user_currency(request)  # Для анонимных пользователей валюта определяется по IP
-        category = "Default"
+    category, currency = get_user_prices(request, email)  # Для пользователей валюта определяется по IP
 
     currency = '€' if currency == 'Euro' else '$'
     info = get_user_info(email) or {}

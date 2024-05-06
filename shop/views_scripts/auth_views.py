@@ -3,7 +3,7 @@ import concurrent
 from django.contrib.auth.decorators import login_required
 
 from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, get_cart, cart_ref, single_order_ref, \
-    is_admin, users_ref, metadata_ref
+    is_admin, users_ref, metadata_ref, get_user_prices
 import ast
 import random
 from datetime import datetime
@@ -67,7 +67,7 @@ def register(request):
                 social_title = "Mr" if form.cleaned_data.get('social_title') == "1" else "Mrs"
                 offers = form.cleaned_data.get('offers')
                 newsletter = form.cleaned_data.get('receive_newsletter')
-
+                category, currency = get_user_prices(request, email)
                 new_user = {
                     'Enabled': 'True',
                     "display_name": "undefined",
@@ -79,7 +79,7 @@ def register(request):
                     'country': "",
                     "agent_number": "",
                     'price_category': 'Default',
-                    'currency':"Euro",
+                    'currency': currency,
                     'receive_offers': offers,
                     'receive_newsletter': newsletter,
                     'registrationDate': current_time,

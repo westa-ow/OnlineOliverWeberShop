@@ -8,7 +8,7 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 from shop.views import get_user_category, users_ref, is_admin, update_email_in_db, currency_dict, groups_dict, \
-    serialize_firestore_document
+    serialize_firestore_document, get_user_prices
 
 
 @login_required
@@ -16,7 +16,7 @@ from shop.views import get_user_category, users_ref, is_admin, update_email_in_d
 def edit_user(request, user_id):
     print("Edit user " + user_id)
     email = request.user.email
-    category, currency = get_user_category(email)
+    category, currency = get_user_prices(request, email)
     currency = '€' if currency == 'Euro' else '$'
     existing_user = users_ref.where('userId', '==', int(user_id)).limit(1).stream()
     if request.method == 'POST':

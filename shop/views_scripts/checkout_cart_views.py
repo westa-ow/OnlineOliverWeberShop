@@ -6,7 +6,7 @@ from reportlab.lib import colors
 
 from shop.decorators import login_required_or_session, logout_required
 from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, get_cart, cart_ref, single_order_ref, \
-    get_user_category, get_user_session_type, metadata_ref, users_ref, update_email_in_db
+    get_user_category, get_user_session_type, metadata_ref, users_ref, update_email_in_db, get_user_prices
 import ast
 import random
 from datetime import datetime
@@ -69,7 +69,7 @@ vats = {'Afghanistan': 0, 'Åland Islands': 0, 'Albania': 0, 'Algeria': 0, 'Amer
 @login_required_or_session
 def cart_page(request):
     email = get_user_session_type(request)
-    category, currency = get_user_category(email) or ("Default", "Euro")
+    category, currency = get_user_prices(request, email)
     if currency == "Euro":
         currency = "€"
     elif currency == "Dollar":
@@ -289,7 +289,7 @@ def get_check_id():
 def anonym_cart_info(request):
 
     email = get_user_session_type(request)
-    category, currency = get_user_category(email) or ("Default", "Euro")
+    category, currency = get_user_prices(request,email)
     if currency == "Euro":
         currency = "€"
     elif currency == "Dollar":
@@ -358,7 +358,7 @@ def register_anonym_cart_info(request):
                 social_title = "Mr" if form.cleaned_data.get('social_title') == "1" else "Mrs"
                 offers = form.cleaned_data.get('offers')
                 newsletter = form.cleaned_data.get('receive_newsletter')
-
+                category, currency = get_user_prices(request, email2)
                 new_user = {
                     'Enabled': 'True',
                     "display_name": "undefined",
@@ -370,7 +370,7 @@ def register_anonym_cart_info(request):
                     'country': "",
                     "agent_number": "",
                     'price_category': 'Default',
-                    'currency':"Euro",
+                    'currency': currency,
                     'receive_offers': offers,
                     'receive_newsletter': newsletter,
                     'registrationDate': current_time,

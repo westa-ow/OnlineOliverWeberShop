@@ -22,7 +22,7 @@ from django.core.mail import send_mail
 
 from shop.forms import UserRegisterForm, User
 from shop.views import addresses_ref, cart_ref, get_user_category, serialize_firestore_document, users_ref, is_admin, \
-    orders_ref, itemsRef, db, process_items
+    orders_ref, itemsRef, db, process_items, get_user_prices
 from shop.views import get_user_info
 
 
@@ -49,7 +49,7 @@ def view_order(request, order_id):
 
     user_email = specificOrderData['email']
 
-    category, currency = get_user_category(user_email)
+    category, currency = get_user_prices(request,user_email)
     info = get_user_info(user_email)
 
     serialized_data = (serialize_firestore_document(specificOrderRef))
