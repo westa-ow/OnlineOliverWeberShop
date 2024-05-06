@@ -28,6 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+GEOIP_PATH = os.path.join(BASE_DIR, 'shop/static/GEOIP'),
 
 # Application definition
 

@@ -2,6 +2,7 @@ import ast
 import random
 from datetime import datetime
 from random import randint
+import geoip2.database
 
 import concurrent.futures
 from django.contrib.auth.forms import AuthenticationForm
@@ -22,8 +23,8 @@ from django.core.mail import send_mail
 
 from shop.forms import UserRegisterForm, User
 from django.utils.translation import gettext as _
-
 json_file_path = os.path.join(settings.BASE_DIR, "shop", "static", "key2.json")
+GEOIP_path = os.path.join(settings.BASE_DIR, "shop", "static", "GEOIP", "GeoLite2-Country.mmdb")
 cred = credentials.Certificate(json_file_path)
 if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)
@@ -36,6 +37,9 @@ addresses_ref = db.collection('Addresses')
 metadata_ref = db.collection('metadata')
 favourites_ref = db.collection('Favourites')
 single_order_ref = db.collection("Order")
+
+READER = geoip2.database.Reader(GEOIP_path)
+
 
 currency_dict = {
     "1":"Euro",
@@ -298,6 +302,17 @@ country_dict = {
     "229": "Zimbabwe"
 }
 
+def get_user_currency(request):
+    ip = request.META.get('REMOTE_ADDR', None)
+    try:
+        response = READER.country(ip)
+        country_code = response.country.iso_code
+        print(country_code)
+        if country_code in ['AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GR', 'HR', 'HU', 'IE', 'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK']:
+            return 'Euro'
+    except geoip2.errors.AddressNotFoundError:
+        pass
+    return 'Dollar'
 
 def get_user_session_type(request):
     if request.user.is_authenticated:
@@ -332,9 +347,16 @@ def home_page(request):
     context = {
 
     }
+
     test_text = _("Welcome to my site.")
     email = get_user_session_type(request)
-    category, currency = get_user_category(email) or ("Default", "Euro")
+
+    if request.user.is_authenticated:
+        category, currency = get_user_category(email) or ("Default", "Euro")
+    else:
+        currency = get_user_currency(request)  # Для анонимных пользователей валюта определяется по IP
+        category = "Default"
+
     currency = '€' if currency == 'Euro' else '$'
     info = get_user_info(email) or {}
     sale = round((0 if "sale" not in info else info['sale']) / 100, 2) or 0
