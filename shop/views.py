@@ -386,9 +386,9 @@ def get_cart(email):
             'description': safe_description,
             'quantity_max': doc_dict.get('quantity_max'),
             'price': doc_dict.get('price'),
-            'stone': _(doc_dict.get('stone')),
-            'plating': _(doc_dict.get('plating')),
-            'material': _(doc_dict.get('material')),
+            'stone': doc_dict.get('stone'),
+            'plating': doc_dict.get('plating'),
+            'material': doc_dict.get('material'),
             'sum': str(round(doc_dict.get('price') * doc_dict.get('quantity'), 1))
         }
         cart.append(cart_item)

@@ -71,7 +71,7 @@ function fulfilDropdown(dropdown, array, vocabulary){
     if(array) {
         (Object.keys(array)).forEach(element => {
             let option = document.createElement('option');
-            option.innerText = vocabulary[element] ? vocabulary[element]: element;
+            option.innerText = element;
             option.value = element;
             dropdown.add(option);
         });
@@ -448,13 +448,13 @@ function informationSuccessSetup(column, item, actual_quantity, cart_count, cart
     column.appendChild(priceSpan);
 
     const platingSpan = document.createElement('spanSucc');
-    platingSpan.innerHTML= `<strong>${vocabulary['Plating Material']}: </strong>` + `${vocabulary[item.plating]?vocabulary[item.plating]:item.plating}`;
+    platingSpan.innerHTML= `<strong>${vocabulary['Plating Material']}: </strong>` + `${item.plating}`;
     column.appendChild(platingSpan);
     const crystalSpan = document.createElement('spanSucc');
-    crystalSpan.innerHTML = `<strong>${vocabulary['Crystal color']}: </strong> ` +`${vocabulary[item.stone]?vocabulary[item.stone]:item.stone}`;
+    crystalSpan.innerHTML = `<strong>${vocabulary['Crystal color']}: </strong> ` +`${item.stone}`;
     column.appendChild(crystalSpan);
     const baseSpan = document.createElement('spanSucc');
-    baseSpan.innerHTML =`<strong>${vocabulary['Base material']}: </strong> ` + `${vocabulary[item.material]?vocabulary[item.material]:item.material}`;
+    baseSpan.innerHTML =`<strong>${vocabulary['Base material']}: </strong> ` + `${item.material}`;
     column.appendChild(baseSpan);
 
     const quantitySpan = document.createElement('spanSucc');

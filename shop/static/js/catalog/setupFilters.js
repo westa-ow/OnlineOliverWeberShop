@@ -60,7 +60,7 @@ function createFilterElements(containerClass, itemsArray, prefix, filters_dict) 
         const label = document.createElement('label');
         label.className = 'checkbox-label';
         label.htmlFor = checkboxId;
-        label.textContent = filters_dict[item];
+        label.textContent = item;
 
         // Append checkbox and label to itemDiv
         itemDiv.appendChild(checkbox);
