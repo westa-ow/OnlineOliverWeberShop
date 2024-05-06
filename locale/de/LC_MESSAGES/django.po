@@ -3505,8 +3505,8 @@ msgstr "Ohne"
 msgid "Steel"
 msgstr "Stahl"
 
-msgid "Steel Brass"
-msgstr "Stahl Messing"
+msgid "Brass"
+msgstr "Messing"
 
 msgid "Silver"
 msgstr "Silber"

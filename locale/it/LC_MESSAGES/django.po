@@ -4058,8 +4058,8 @@ msgstr "Senza"
 msgid "Steel"
 msgstr "Acciaio"
 
-msgid "Steel Brass"
-msgstr "Acciaio Ottone"
+msgid "Brass"
+msgstr "Ottone"
 
 msgid "Silver"
 msgstr "Argento"

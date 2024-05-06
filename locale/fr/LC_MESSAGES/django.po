@@ -4116,8 +4116,8 @@ msgstr "Sans"
 msgid "Steel"
 msgstr "Acier"
 
-msgid "Steel Brass"
-msgstr "Acier Laiton"
+msgid "Brass"
+msgstr "Laiton"
 
 msgid "Silver"
 msgstr "Argent"
@@ -4184,6 +4184,3 @@ msgstr "Extension"
 
 msgid "UV"
 msgstr "UV"
-
-msgid "Continue shopping"
-msgstr "Continuer les achats"

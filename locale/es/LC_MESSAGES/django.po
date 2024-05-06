@@ -4062,8 +4062,8 @@ msgstr "Sin"
 msgid "Steel"
 msgstr "Acero"
 
-msgid "Steel Brass"
-msgstr "Acero latón"
+msgid "Brass"
+msgstr "Latón"
 
 msgid "Silver"
 msgstr "Plata"
