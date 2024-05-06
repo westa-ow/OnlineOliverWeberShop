@@ -96,7 +96,7 @@ msgstr "Misurare"
 
 #: .\templates\catalog.html:147
 msgid "Items per page"
-msgstr "oggetti per pagina"
+msgstr "Oggetti per pagina"
 
 #: .\templates\catalog.html:155
 msgid "Order by"
@@ -1039,7 +1039,7 @@ msgstr "Cookie e ulteriori tecnologie"
 
 #: .\templates\our_company_pages\Privacy_policy.html:99
 msgid "General information"
-msgstr "informazioni generali"
+msgstr "Informazioni generali"
 
 #: .\templates\our_company_pages\Privacy_policy.html:100
 msgid ""
@@ -1311,7 +1311,7 @@ msgstr ""
 
 #: .\templates\our_company_pages\Privacy_policy.html:116
 msgid "Google Analytics"
-msgstr "statistiche di Google"
+msgstr "Statistiche di Google"
 
 #: .\templates\our_company_pages\Privacy_policy.html:117
 msgid ""
@@ -2836,7 +2836,7 @@ msgstr "Preferiti"
 #: .\templates\profile\profile_side_menu.html:42
 #: .\templates\widgets\navigation_bar.html:174
 msgid "Sign out"
-msgstr "disconnessione"
+msgstr "Disconnessione"
 
 #: .\templates\profile\profile_update_address.html:152
 msgid "The address has been successfully updated!"
@@ -3969,7 +3969,7 @@ msgstr ""
 
 #: .\views.py:317
 msgid "Processing"
-msgstr "in lavorazione"
+msgstr "In lavorazione"
 
 #: .\views.py:318
 msgid "An error occured"
@@ -3985,7 +3985,7 @@ msgstr "Numero di articoli nel carrello:"
 
 #: .\views.py:324
 msgid "Subtotal"
-msgstr "totale parziale"
+msgstr "Totale parziale"
 
 #: .\views.py:327
 msgid "Add to cart"

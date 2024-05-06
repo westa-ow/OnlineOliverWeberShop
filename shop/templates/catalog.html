@@ -821,7 +821,7 @@ function displayCurrentPage(items) {
             }
         });
         // Add event listeners for the new icon
-        newIconContainer.addEventListener('mouseenter', (event) => showTooltip(event, 'Add to cart'));
+        newIconContainer.addEventListener('mouseenter', (event) => showTooltip(event, "{{ _("Add to cart")|escapejs }}"));
         // Append both icon containers to the iconContainer
         iconContainer.appendChild(newIconContainer);
         iconContainer.appendChild(heartIconContainer);

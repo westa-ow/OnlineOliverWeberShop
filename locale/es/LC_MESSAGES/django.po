@@ -80,11 +80,11 @@ msgstr "Precio"
 #: .\templates\catalog.html:55 .\templates\widgets\navigation_bar.html:294
 #: .\views.py:320
 msgid "Crystal color"
-msgstr "color cristal"
+msgstr "Color cristal"
 
 #: .\templates\catalog.html:77
 msgid "Plating material"
-msgstr "material de revestimiento"
+msgstr "Material de revestimiento"
 
 #: .\templates\catalog.html:100 .\views.py:321
 msgid "Base material"
@@ -175,7 +175,7 @@ msgstr "Borrar"
 #: .\templates\orderAnonymAddresses.html:188
 #: .\templates\orderAnonymAddresses.html:247
 msgid "Add new address"
-msgstr "agregar nueva dirección"
+msgstr "Agregar nueva dirección"
 
 #: .\templates\orderAnonymAddresses.html:192
 msgid "Billing address differs from shipping address"
@@ -302,7 +302,7 @@ msgstr "Crea una cuenta"
 #: .\templates\orderAnonymously.html:160
 #: .\templates\profile\profile_information.html:14
 msgid "Social title"
-msgstr "título social"
+msgstr "Título social"
 
 #: .\templates\orderAnonymously.html:210 .\templates\orderAnonymously.html:324
 #: .\templates\profile\profile_information.html:62
@@ -1037,7 +1037,7 @@ msgstr "Cookies y otras tecnologías"
 
 #: .\templates\our_company_pages\Privacy_policy.html:99
 msgid "General information"
-msgstr "información general"
+msgstr "Información general"
 
 #: .\templates\our_company_pages\Privacy_policy.html:100
 msgid ""
@@ -1735,7 +1735,7 @@ msgstr ""
 #: .\templates\our_company_pages\Privacy_policy.html:159
 #: .\templates\our_company_pages\Privacy_policy.html:160
 msgid "here"
-msgstr "aquí"
+msgstr "Aquí"
 
 #: .\templates\our_company_pages\Privacy_policy.html:150
 msgid ""
@@ -2043,19 +2043,19 @@ msgstr ""
 
 #: .\templates\our_company_pages\Privacy_policy.html:174
 msgid "to exercise the right of freedom of expression and information;"
-msgstr "ejercer el derecho a la libertad de expresión e información;"
+msgstr "Ejercer el derecho a la libertad de expresión e información;"
 
 #: .\templates\our_company_pages\Privacy_policy.html:175
 msgid "for compliance with a legal obligation;"
-msgstr "para el cumplimiento de una obligación legal;"
+msgstr "Para el cumplimiento de una obligación legal;"
 
 #: .\templates\our_company_pages\Privacy_policy.html:176
 msgid "for reasons of public interest or"
-msgstr "por razones de interés público o"
+msgstr "Por razones de interés público o"
 
 #: .\templates\our_company_pages\Privacy_policy.html:177
 msgid "for establishing, exercising or defending legal claims;"
-msgstr "para establecer, ejercer o defender reclamaciones legales;"
+msgstr "Para establecer, ejercer o defender reclamaciones legales;"
 
 #: .\templates\our_company_pages\Privacy_policy.html:181
 msgid ""
@@ -2067,11 +2067,11 @@ msgstr ""
 
 #: .\templates\our_company_pages\Privacy_policy.html:183
 msgid "the accuracy of the data is contested by you;"
-msgstr "usted impugna la exactitud de los datos;"
+msgstr "Usted impugna la exactitud de los datos;"
 
 #: .\templates\our_company_pages\Privacy_policy.html:184
 msgid "the processing is unlawful, but you refuse their erasure;"
-msgstr "el tratamiento es ilícito, pero usted se niega a su supresión;"
+msgstr "El tratamiento es ilícito, pero usted se niega a su supresión;"
 
 #: .\templates\our_company_pages\Privacy_policy.html:185
 msgid ""
@@ -2727,11 +2727,11 @@ msgstr "Se requiere apellido"
 
 #: .\templates\profile\profile_information.html:214
 msgid "Email is required"
-msgstr "correo electronico es requerido"
+msgstr "Correo electronico es requerido"
 
 #: .\templates\profile\profile_information.html:218
 msgid "Password is required"
-msgstr "se requiere contraseña"
+msgstr "Se requiere contraseña"
 
 #: .\templates\profile\profile_information.html:226
 msgid ""
@@ -2848,7 +2848,7 @@ msgstr "Favoritos"
 #: .\templates\profile\profile_side_menu.html:42
 #: .\templates\widgets\navigation_bar.html:174
 msgid "Sign out"
-msgstr "desconectar"
+msgstr "Desconectar"
 
 #: .\templates\profile\profile_update_address.html:152
 msgid "The address has been successfully updated!"
@@ -3949,7 +3949,7 @@ msgstr "El carrito esta vacío"
 
 #: .\templates\widgets\navigation_bar.html:475
 msgid "Back to shop"
-msgstr "volver a la tienda"
+msgstr "Volver a la tienda"
 
 #: .\views.py:311
 msgid "Less than 5 pieces left!"

@@ -96,7 +96,7 @@ msgstr "Taille"
 
 #: .\templates\catalog.html:147
 msgid "Items per page"
-msgstr "objets par page"
+msgstr "Objets par page"
 
 #: .\templates\catalog.html:155
 msgid "Order by"
@@ -1045,7 +1045,7 @@ msgstr "Cookies et autres technologies"
 
 #: .\templates\our_company_pages\Privacy_policy.html:99
 msgid "General information"
-msgstr "informations générales"
+msgstr "Informations générales"
 
 #: .\templates\our_company_pages\Privacy_policy.html:100
 msgid ""
@@ -2788,7 +2788,7 @@ msgstr ""
 
 #: .\templates\profile\profile_orders.html:94
 msgid "Order ID"
-msgstr "numéro de commande"
+msgstr "Numéro de commande"
 
 #: .\templates\profile\profile_orders.html:95
 msgid "Date"
@@ -2881,7 +2881,7 @@ msgstr "Favoris"
 #: .\templates\profile\profile_side_menu.html:42
 #: .\templates\widgets\navigation_bar.html:174
 msgid "Sign out"
-msgstr "se déconnecter"
+msgstr "Se déconnecter"
 
 #: .\templates\profile\profile_update_address.html:152
 msgid "The address has been successfully updated!"
