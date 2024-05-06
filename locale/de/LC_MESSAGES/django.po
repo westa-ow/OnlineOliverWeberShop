@@ -182,7 +182,7 @@ msgid "Order as a guest"
 msgstr "Als Gast bestellen"
 
 msgid "Sign in"
-msgstr "anmelden"
+msgstr "Anmelden"
 
 msgid "Create an account"
 msgstr "Ein Konto erstellen"
@@ -848,7 +848,7 @@ msgid "Cookies and further technologies"
 msgstr "Cookies und weitere Technologien"
 
 msgid "General information"
-msgstr "allgemeine Informationen"
+msgstr "Allgemeine Informationen"
 
 msgid ""
 "In order to make visiting our website attractive and to enable the use of "
@@ -3210,7 +3210,7 @@ msgid "Standard delivery Europe: € 5,70&nbsp;"
 msgstr "Standardversand Europa: 5,70 €"
 
 msgid "VAT excl."
-msgstr "zzgl. MwSt."
+msgstr "Zzgl. MwSt."
 
 msgid "&nbsp;2-10 business days"
 msgstr "2-10 Werktage"
@@ -3219,7 +3219,7 @@ msgid "Express delivery: €15,75&nbsp;"
 msgstr "Expressversand: 15,75 €"
 
 msgid "VAT excl.&nbsp;"
-msgstr "zzgl. MwSt."
+msgstr "Zzgl. MwSt."
 
 msgid "for Europe"
 msgstr "für Europa"
@@ -3422,7 +3422,7 @@ msgstr ""
 "oder größer als 0 sein"
 
 msgid "Processing"
-msgstr "wird bearbeitet"
+msgstr "Wird bearbeitet"
 
 msgid "An error occured"
 msgstr "Es ist ein Fehler aufgetreten"
