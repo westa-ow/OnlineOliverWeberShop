@@ -162,12 +162,12 @@ def send_email(request):
             'price': round(sum, 1),
             'currency': 'Euro',
         }
-        pdf_response = receipt_generator(all_orders_info, new_order, "Test Name", currency, vat)
+        # pdf_response = receipt_generator(all_orders_info, new_order, "Test Name", currency, vat)
 
         subject = 'Your Order Receipt'
         server_mail_subject = f"{user_email} just ordered"
-        email_body = 'Here is your order receipt.'
-        server_email_body = 'Here is client order receipt and csv.'
+        email_body = 'Thank you for your order! Information about your order and receipt you can find in your profile.'
+        server_email_body = f'Here is {user_email} order info:'
         recipient_list = [user_email]
 
         recipient_list_server = ['westadatabase@gmail.com']
@@ -175,28 +175,23 @@ def send_email(request):
         email = EmailMessage(subject, email_body, settings.EMAIL_HOST_USER, recipient_list)
 
         emailServer = EmailMessage(server_mail_subject, server_email_body, settings.EMAIL_HOST_USER, recipient_list_server)
-        email.attach(f'order_receipt_{order_id}.pdf', pdf_response, 'application/pdf')
+        # email.attach(f'order_receipt_{order_id}.pdf', pdf_response, 'application/pdf')
         emailServer.attach(f'order_{order_id}.csv', csv_content, 'text/csv')
-        emailServer.attach(f'order_receipt_{order_id}.pdf', pdf_response, 'application/pdf')
+        # emailServer.attach(f'order_receipt_{order_id}.pdf', pdf_response, 'application/pdf')
         email.send()
         emailServer.send()
         orders_ref.add(new_order)
-        for delete_name in names:
-            clear_cart(user_email, delete_name)
+        clear_all_cart(user_email)
         return JsonResponse({'status': 'success', 'redirect_name': 'home'})
     return JsonResponse({'status': 'error'}, status=400)
 
 
-def clear_cart(email, name):
-    # Assuming `cart_ref` is defined and accessible within this scope
-    docs = cart_ref.where('emailOwner', '==', email).where('name', '==', name).stream()
-    for doc in docs:
-        doc.reference.delete()
 def clear_all_cart(email):
     # Assuming `cart_ref` is defined and accessible within this scope
     docs = cart_ref.where('emailOwner', '==', email).stream()
     for doc in docs:
         doc.reference.delete()
+
 
 def receipt_generator(orders, order, name, currency, vat):
     # Assuming 'orders' contains the list of items in the cart
