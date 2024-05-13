@@ -169,7 +169,7 @@ def send_email(request):
         return JsonResponse({'status': 'success', 'redirect_name': 'home'})
     return JsonResponse({'status': 'error'}, status=400)
 
-@background(schedule=5)
+@background(schedule=60)
 def email_process(all_orders_info, new_order, currency, vat, user_email, order_id, csv_content, name):
     pdf_response = receipt_generator(all_orders_info, new_order, name, currency, vat)
 
