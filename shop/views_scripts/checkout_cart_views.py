@@ -3,6 +3,7 @@ import csv
 
 from django.contrib.auth.decorators import login_required
 from reportlab.lib import colors
+from background_task import background
 
 from shop.decorators import login_required_or_session, logout_required
 from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, get_cart, cart_ref, single_order_ref, \
@@ -109,9 +110,8 @@ def send_email(request):
 
         currency = '€' if currency == 'Euro' else '$'
 
-        cart = get_cart(request.user.email)
+        cart = get_cart(user_email)
 
-        user_email = request.user.email
         order_id = randint(1000000, 100000000)
         item_refs = []
         all_orders_info = []
@@ -162,36 +162,39 @@ def send_email(request):
             'price': round(sum, 1),
             'currency': 'Euro',
         }
-        # pdf_response = receipt_generator(all_orders_info, new_order, "Test Name", currency, vat)
-
-        subject = 'Your Order Receipt'
-        server_mail_subject = f"{user_email} just ordered"
-        email_body = 'Thank you for your order! Information about your order and receipt you can find in your profile.'
-        server_email_body = f'Here is {user_email} order info:'
-        recipient_list = [user_email]
-
-        recipient_list_server = ['westadatabase@gmail.com']
-
-        email = EmailMessage(subject, email_body, settings.EMAIL_HOST_USER, recipient_list)
-
-        emailServer = EmailMessage(server_mail_subject, server_email_body, settings.EMAIL_HOST_USER, recipient_list_server)
-        # email.attach(f'order_receipt_{order_id}.pdf', pdf_response, 'application/pdf')
-        emailServer.attach(f'order_{order_id}.csv', csv_content, 'text/csv')
-        # emailServer.attach(f'order_receipt_{order_id}.pdf', pdf_response, 'application/pdf')
-        email.send()
-        emailServer.send()
         orders_ref.add(new_order)
+        new_order['date'] = new_order['date'].isoformat()
+        email_process(all_orders_info, new_order, currency, vat, user_email, order_id, csv_content, request.user.first_name + " "+ request.user.last_name)
         clear_all_cart(user_email)
         return JsonResponse({'status': 'success', 'redirect_name': 'home'})
     return JsonResponse({'status': 'error'}, status=400)
 
+@background(schedule=5)
+def email_process(all_orders_info, new_order, currency, vat, user_email, order_id, csv_content, name):
+    pdf_response = receipt_generator(all_orders_info, new_order, name, currency, vat)
+
+    subject = 'Your Order Receipt'
+    server_mail_subject = f"{user_email} just ordered"
+    email_body = 'Thank you for your order! Here is your receipt! Detailed Information about your order you can find in your profile.'
+    server_email_body = f'Here is {user_email} order info:'
+    recipient_list = [user_email]
+
+    recipient_list_server = ['westadatabase@gmail.com']
+
+    email = EmailMessage(subject, email_body, settings.EMAIL_HOST_USER, recipient_list)
+
+    emailServer = EmailMessage(server_mail_subject, server_email_body, settings.EMAIL_HOST_USER, recipient_list_server)
+    email.attach(f'order_receipt_{order_id}.pdf', pdf_response, 'application/pdf')
+    emailServer.attach(f'order_{order_id}.csv', csv_content, 'text/csv')
+    emailServer.attach(f'order_receipt_{order_id}.pdf', pdf_response, 'application/pdf')
+    email.send()
+    emailServer.send()
 
 def clear_all_cart(email):
     # Assuming `cart_ref` is defined and accessible within this scope
     docs = cart_ref.where('emailOwner', '==', email).stream()
     for doc in docs:
         doc.reference.delete()
-
 
 def receipt_generator(orders, order, name, currency, vat):
     # Assuming 'orders' contains the list of items in the cart
@@ -240,14 +243,17 @@ def receipt_generator(orders, order, name, currency, vat):
 
     # Order details
     email = order.get('email', 'No email provided')
-    date = order.get('date', datetime.now()).strftime("%Y-%m-%d %H:%M:%S")
+    date_str = order['date']
+    date_obj = datetime.fromisoformat(date_str)
 
+    # Теперь применяем форматирование
+    formatted_date = date_obj.strftime('%Y-%m-%d %H:%M:%S')
     total_price = round(order.get('price', 0), 2)
     content.append(Spacer(1, 0.5 * inch))
     content.append(Paragraph(f"Total to pay(incl. VAT): {currency}{total_price}", bold_style))
     # content.append(Paragraph(f"Included VAT: {currency}{round(order['price'] * vat,2)}", bold_style))
     content.append(Spacer(1, 0.3 * inch))
-    content.append(Paragraph(f"Date: {date}", center_bold_style))
+    content.append(Paragraph(f"Date: {formatted_date}", center_bold_style))
     content.append(Spacer(1, 10))
     content.append(Paragraph(f"E-mail: {email}", center_bold_style))
     content.append(Spacer(1, 10))
