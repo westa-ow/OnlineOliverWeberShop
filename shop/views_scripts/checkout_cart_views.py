@@ -169,26 +169,30 @@ def send_email(request):
         return JsonResponse({'status': 'success', 'redirect_name': 'home'})
     return JsonResponse({'status': 'error'}, status=400)
 
+
 @background(schedule=60)
 def email_process(all_orders_info, new_order, currency, vat, user_email, order_id, csv_content, name):
-    pdf_response = receipt_generator(all_orders_info, new_order, name, currency, vat)
+    try:
+        pdf_response = receipt_generator(all_orders_info, new_order, name, currency, vat)
 
-    subject = 'Your Order Receipt'
-    server_mail_subject = f"{user_email} just ordered"
-    email_body = 'Thank you for your order! Here is your receipt! Detailed Information about your order you can find in your profile.'
-    server_email_body = f'Here is {user_email} order info:'
-    recipient_list = [user_email]
+        subject = 'Your Order Receipt'
+        server_mail_subject = f"{user_email} just ordered"
+        email_body = 'Thank you for your order! Here is your receipt! Detailed Information about your order you can find in your profile.'
+        server_email_body = f'Here is {user_email} order info:'
+        recipient_list = [user_email]
 
-    recipient_list_server = ['westadatabase@gmail.com']
+        recipient_list_server = ['westadatabase@gmail.com']
 
-    email = EmailMessage(subject, email_body, settings.EMAIL_HOST_USER, recipient_list)
+        email = EmailMessage(subject, email_body, settings.EMAIL_HOST_USER, recipient_list)
 
-    emailServer = EmailMessage(server_mail_subject, server_email_body, settings.EMAIL_HOST_USER, recipient_list_server)
-    email.attach(f'order_receipt_{order_id}.pdf', pdf_response, 'application/pdf')
-    emailServer.attach(f'order_{order_id}.csv', csv_content, 'text/csv')
-    emailServer.attach(f'order_receipt_{order_id}.pdf', pdf_response, 'application/pdf')
-    email.send()
-    emailServer.send()
+        emailServer = EmailMessage(server_mail_subject, server_email_body, settings.EMAIL_HOST_USER, recipient_list_server)
+        email.attach(f'order_receipt_{order_id}.pdf', pdf_response, 'application/pdf')
+        emailServer.attach(f'order_{order_id}.csv', csv_content, 'text/csv')
+        emailServer.attach(f'order_receipt_{order_id}.pdf', pdf_response, 'application/pdf')
+        email.send()
+        emailServer.send()
+    except Exception as e:
+        print(f"Failed to process email: {str(e)}")
 
 def clear_all_cart(email):
     # Assuming `cart_ref` is defined and accessible within this scope
