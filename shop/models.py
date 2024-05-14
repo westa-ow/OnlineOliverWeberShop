@@ -25,7 +25,7 @@ class User(AbstractUser):
 
 class Banner(models.Model):
     title = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='banners/')
+    image = models.ImageField(upload_to='imgs/')
     priority = models.IntegerField(default=0)
     active = models.BooleanField(default=True)
 
