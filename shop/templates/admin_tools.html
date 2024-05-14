@@ -24,7 +24,8 @@
         {% include 'admin_tools/AT_UC_view_user.html' %}
     {% elif feature_name == 'view_order' %}
         {% include 'admin_tools/AT_OC_view_order.html' %}
-
+    {% elif feature_name == 'manage_banners' %}
+        {% include 'admin_tools/AT_manage_banners.html' %}
     {% endif %}
 </div>
 {% include "widgets/footer.html" %}

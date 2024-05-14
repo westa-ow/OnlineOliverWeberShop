@@ -21,8 +21,11 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.mail import send_mail
 
-from shop.forms import UserRegisterForm, User
+from shop.forms import UserRegisterForm, User, BannerForm
 from django.utils.translation import gettext as _
+
+from shop.models import Banner
+
 json_file_path = os.path.join(settings.BASE_DIR, "shop", "static", "key2.json")
 GEOIP_path = os.path.join(settings.BASE_DIR, "shop", "static", "GEOIP", "GeoLite2-Country.mmdb")
 cred = credentials.Certificate(json_file_path)
@@ -354,7 +357,8 @@ def get_vocabulary_product_card():
 
 def home_page(request):
     context = {
-        'address': request.META.get('REMOTE_ADDR')
+        'address': request.META.get('REMOTE_ADDR'),
+        'banners': Banner.objects.all().order_by('priority')
     }
 
     test_text = _("Welcome to my site.")
@@ -550,11 +554,26 @@ def is_admin(user):
 @login_required
 @user_passes_test(is_admin)
 def admin_tools(request, feature_name):
+    if feature_name=="manage_banners":
+        if request.method == "POST":
+            form = BannerForm(request.POST, request.FILES)
+            if form.is_valid():
+                new_banner = form.save(commit=False)
+                new_banner.priority = Banner.objects.count()
+                new_banner.save()
+                return redirect('admin_tools', feature_name='manage_banners')
+    # Banner.objects.all().delete()
     email = request.user.email
     category, currency = get_user_category(email)
     currency = '€' if currency == 'Euro' else '$'
+    form = BannerForm()
+
+    banners = Banner.objects.all().order_by('priority')
+    print(Banner.objects.all())
     context = {
         "feature_name": feature_name,
+        'banners':banners,
+        'form':form
         # 'currency':currency
     }
     return render(request, 'admin_tools.html', context)

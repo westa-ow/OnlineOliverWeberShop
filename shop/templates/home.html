@@ -56,11 +56,9 @@
 {#      <h1 style="font-weight: 650">Welcome to the home page, {% if user.first_name %} {{ user.first_name }} {% elif user.email %} {{ user.email }} {% else %}  {% endif %} {{ user.last_name|default:"" }}!</h1>#}
     <div class="cl">
         <div id="carousel" class="carousel">
-            <div class="carousel-item active"><img src="{% static "images/home/carousel/banner_mothers_day.jpg" %}" alt="Image 1" width="1240" height="500"></div>
-            <div class="carousel-item"><img src="{% static "images/home/carousel/Banners SPRING 20242.jpg" %}" alt="Image 2" width="1240" height="500"></div>
-            <div class="carousel-item"><img src="{% static "images/home/carousel/Banners SPRING 20243.jpg" %}" alt="Image 3" width="1240" height="500"></div>
-            <div class="carousel-item"><img src="{% static "images/home/carousel/slider_06.jpg" %}" alt="Image 4" width="1240" height="500"></div>
-            <div class="carousel-item"><img src="{% static "images/home/carousel/slider_07.webp" %}" alt="Image 5" width="1240" height="500"></div>
+            {% for banner in banners %}
+                <div class="carousel-item active" style="opacity: 0"><img src="{{ banner.image.url }}" alt="Image {{ banner.priority }}" width="1240" height="500" ></div>
+            {% endfor %}
         </div>
     </div>
     <div id="roycontent_home" class="roycontent">

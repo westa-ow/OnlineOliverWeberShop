@@ -19,6 +19,7 @@ from django.urls import path
 from shop import views
 from shop.views_scripts import profile_views
 from shop.views_scripts.adresses_views import update_address, delete_address, create_address
+from shop.views_scripts.manage_banners.banners_managing import move_down, move_up, delete_banner
 from shop.views_scripts.orders_control.bulk_change_statuses import change_statuses
 from shop.views_scripts.orders_control.download_order import download_csv_order, download_pdf_w_img, \
     download_pdf_no_img, at_delete_order
@@ -34,6 +35,11 @@ from shop.views_scripts.shop_views import fetch_numbers, form_page
 from shop.views_scripts.users_control.edit_user import edit_user
 from shop.views_scripts.users_control.view_user import view_user
 from django.conf.urls.i18n import i18n_patterns
+
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import path, include
 
 urlpatterns = i18n_patterns(
     path('admin/', admin.site.urls),
@@ -87,4 +93,10 @@ urlpatterns = i18n_patterns(
     #Service urls
     path('service_pages/<str:service_page>/', service_pages_view, name='services'),
     path('our_company/<str:company_info_page>/', company_info_pages, name='company_info'),
+    path('delete-banner/<int:banner_id>/', delete_banner, name='delete_banner'),
+    path('move-up/<int:banner_id>/', move_up, name='move_up'),
+    path('move-down/<int:banner_id>/', move_down, name='move_down'),
 )
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
