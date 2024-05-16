@@ -22,7 +22,7 @@ from django.core.mail import send_mail
 
 from shop.forms import UserRegisterForm, User
 from shop.views import addresses_ref, cart_ref, get_user_category, serialize_firestore_document, users_ref, is_admin, \
-    orders_ref, itemsRef, db, process_items, get_user_prices
+    orders_ref, itemsRef, db, process_items, get_user_prices, single_order_ref
 from shop.views import get_user_info
 
 
@@ -67,3 +67,27 @@ def view_order(request, order_id):
         'Order': serialized_data,
     }
     return render(request, 'admin_tools.html', context)
+
+@login_required
+@user_passes_test(is_admin)
+def change_in_stock(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            orderId = data.get('orderId')
+            productId = data.get('productId')
+            stock_value = data.get('new_stock_value')
+
+            query = single_order_ref.where("`order-id`", '==', int(orderId)).where('name', '==', productId).limit(1).stream()
+
+            for item in query:
+                print(item.to_dict())
+                document_ref = item.reference
+
+                # Update the 'in_stock' field in the document
+                update_result = document_ref.update({'in_stock': stock_value})
+            return JsonResponse({"success": True, "message": "Order 'in stock' updated successfully."})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)

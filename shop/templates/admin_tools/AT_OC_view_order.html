@@ -90,7 +90,7 @@
                             <th>Quantity</th>
                             <th>Available</th>
                             <th>Total</th>
-                            <th></th>
+                            <th>In stock</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -103,7 +103,7 @@
                                 <td> {{ order.quantity }}</td>
                                 <td> {{ order.quantity_max }}</td>
                                 <td> {{ currency }}{{ order.total }}</td>
-                                <td> Edit</td>
+                                <td> <input class="checkbox-product" data-order="{{order}}" type="checkbox" {% if order.in_stock != False %} checked {% endif %} ></td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -137,12 +137,25 @@
     document.addEventListener("DOMContentLoaded", async function () {
         const current_order_label =
         document.querySelector(".current-order");
-        current_order_label.textContent = "Order №"+(change_order['order-id']||change_order['order_id']) + " status"
+        if(current_order_label) {
+            current_order_label.textContent = "Order №" + (change_order['order-id'] || change_order['order_id']) + " status"
+        }
+        const edit_status = document.querySelector('.edit-status');
+        if(edit_status){
+            edit_status.addEventListener('click', addEventToEdit)
+        }
+
+        const checkboxes = document.querySelectorAll('.checkbox-product');
+        if(checkboxes){
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', async() => {
+                    await addChangeInStockListener(checkbox);
+                });
+            })
+        }
     });
 
-
-    document.querySelector('.edit-status').addEventListener('click', function (){
-         // Show the modal
+    function addEventToEdit(){
         document.getElementById('myModal').style.display = 'block';
 
 
@@ -185,5 +198,42 @@
 
             }
         };
-    });
+    }
+
+    async function addChangeInStockListener(checkbox){
+        let jsonString = checkbox.getAttribute('data-order');
+        let correctedJsonString = jsonString.replaceAll("'", '"').replace('False', 'false').replace('True', 'true');
+        let jsonData = JSON.parse(correctedJsonString);
+        console.log(jsonData);
+        const csrftoken = getCookie('csrftoken');
+        try {
+            const response = await fetch('{% url 'change_in_stock' %}', { // Use the correct path to your Django view
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken, // Include CSRF token in request headers
+                    // Add any required headers here, like CSRF tokens
+                },
+                body: JSON.stringify({ orderId: jsonData['order_id'] || change_order['order-id'], productId: jsonData.name, new_stock_value: checkbox.checked}),
+            });
+
+            if (response.ok) {
+                {#alert('Information was successfully updated');#}
+            } else {
+                throw new Error('Failed to update order statuses');
+            }
+        } catch (error) {
+            alert(error.message);
+        } finally {
+            // Hide the modal and reset the dropdown regardless of success or failure
+            document.getElementById('myModal').style.display = 'none';
+
+        }
+    }
+    document.querySelectorAll('.checkbox-product').forEach((checkbox) => {
+        checkbox.addEventListener('change', async()=> {
+
+
+        })
+    })
 </script>
