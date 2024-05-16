@@ -511,8 +511,7 @@
             let actionsCell = document.createElement('td');
             // Assuming you have a function to generate these URLs or you set them directly
             let editLink = document.createElement('a');
-
-            let editUrl = `/admin_tools/orders_control/view_order/${order.orderId||order['order-id']}/`; // Construct the URL using the user ID
+            let editUrl = `/admin_tools/orders_control/view_order/${order.order_id||order['order-id']}/`; // Construct the URL using the user ID
             editLink.setAttribute('href', editUrl);
             const editbutton = document.createElement('i');
             editbutton.classList.add('material-icons');

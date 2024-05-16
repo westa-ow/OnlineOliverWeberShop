@@ -34,11 +34,20 @@ def view_order(request, order_id):
     chosenOrderRef = orders_ref.where("`order-id`", '==', int(order_id)).limit(1).stream()
     specificOrderData = {}
     specificOrderRef = ""
+    found = False
     for chosenReference in chosenOrderRef:
         specificOrderData = chosenReference.to_dict()
         specificOrderRef = chosenReference
-
-    # Assuming you have a way to reference your 'Item' collection
+        found = True
+    if not found:
+        # If no results, perform a fallback query based on another condition, such as trying just 'order_id'
+        # Assuming the fallback condition is meant to use a slightly different or less strict query condition
+        fallbackOrderRef = orders_ref.where("order_id", '==', int(order_id)).limit(1).stream()
+        for fallbackReference in fallbackOrderRef:
+            specificOrderData = fallbackReference.to_dict()
+            specificOrderRef = fallbackReference
+            break
+            # Assuming you have a way to reference your 'Item' collection
     itemList = specificOrderData.get('list', [])
 
     order_items = []
@@ -81,13 +90,17 @@ def change_in_stock(request):
             stock_value = data.get('new_stock_value')
 
             query = single_order_ref.where("`order-id`", '==', int(orderId)).where('name', '==', productId).limit(1).stream()
-
+            found = False
             for item in query:
-                print(item.to_dict())
                 document_ref = item.reference
-
-                # Update the 'in_stock' field in the document
-                update_result = document_ref.update({'in_stock': stock_value})
+                document_ref.update({'in_stock': stock_value})
+                found = True
+            if not found:
+                fallbackOrderRef = single_order_ref.where("order_id", '==', int(orderId)).where('name', '==', productId).limit(1).stream()
+                for item in fallbackOrderRef:
+                    document_ref = item.reference
+                    document_ref.update({'in_stock': stock_value})
+                    break
             return JsonResponse({"success": True, "message": "Order 'in stock' updated successfully."})
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
@@ -111,9 +124,17 @@ def upload_in_stock(request, order_id):
                 # Query database to find documents to update
                 query = single_order_ref.where("`order-id`", '==', int(order_id)).where('name', '==',
                                                                                         str(product_name)).limit(1).stream()
+                found = False
                 for item in query:
                     document_ref = item.reference
-                    update_result = document_ref.update({'in_stock': in_stock})
+                    document_ref.update({'in_stock': in_stock})
+                    found = True
+                if not found:
+                    fallbackOrderRef = single_order_ref.where("order_id", '==', int(order_id)).where('name', '==', product_name).limit(1).stream()
+                    for item in fallbackOrderRef:
+                        document_ref = item.reference
+                        document_ref.update({'in_stock': in_stock})
+                        break
             return JsonResponse({"success": True, "message": "Order 'in stock' updated successfully."}, status=200)
         else:
             return JsonResponse({'status': 'error', 'message': "Invalid file format"}, status=400)
