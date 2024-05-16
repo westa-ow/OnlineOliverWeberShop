@@ -74,6 +74,7 @@ def view_order(request, order_id):
         'cart': [],
         'addresses': [],
         'user_info': info,
+        'order_id': serialized_data['order-id'] or serialized_data['order_id'],
         'user_orders': order_items,  # Add order items to context
         'Order': serialized_data,
     }
