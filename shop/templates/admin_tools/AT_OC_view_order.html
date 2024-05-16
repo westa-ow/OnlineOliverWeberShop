@@ -76,9 +76,17 @@
         </div>
     {% endif %}
         <div class="order-table">
-            <div class="card-header table-header">
-                <h3>Products ({{ user_orders|length }})</h3>
-            </div>
+           <div class="card-header table-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+    <h3 style="margin-right: auto;">Products ({{ user_orders|length }})</h3>
+    <div class="card-header table-header" style="display: flex; justify-content: space-between;">
+
+        <form id="uploadForm" action="{% url 'upload_in_stock' order_id=Order.order_id%}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" class="" name="xlsx_file" accept=".xlsx" required>
+            <button type="submit" class="uploadBtn">Upload</button>
+        </form>
+    </div>
+</div>
             <div class="table-body">
                 <table>
                     <thead>
@@ -219,7 +227,9 @@
 
             if (response.ok) {
                 {#alert('Information was successfully updated');#}
+
             } else {
+                alert("Something went wrong, please, reload the page.\nIf the problem is not because of your internet connection and you see this error again and again - please, contact us.");
                 throw new Error('Failed to update order statuses');
             }
         } catch (error) {
@@ -230,10 +240,24 @@
 
         }
     }
-    document.querySelectorAll('.checkbox-product').forEach((checkbox) => {
-        checkbox.addEventListener('change', async()=> {
+    document.getElementById('uploadForm').addEventListener('submit', function(event){
+        event.preventDefault();
+        const form = document.getElementById('uploadForm');
+        const formData = new FormData(form);
+        const url = "{% url 'upload_in_stock' order_id=Order.order_id %}";  // Django template to fill URL
 
-
+        fetch(url, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': formData.get('csrfmiddlewaretoken')  // Ensure CSRF token is included
+            }
         })
-    })
+        .then(response => response.text())  // or response.json() if you return JSON
+        .then(text => {
+            alert("File processed successfully");
+            window.location.reload(true);  // Reload the page to reflect changes or remove if not needed
+        })
+        .catch(error => console.error('Error:', error));
+    });
 </script>

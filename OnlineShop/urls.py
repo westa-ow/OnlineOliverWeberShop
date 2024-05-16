@@ -23,7 +23,7 @@ from shop.views_scripts.manage_banners.banners_managing import move_down, move_u
 from shop.views_scripts.orders_control.bulk_change_statuses import change_statuses
 from shop.views_scripts.orders_control.download_order import download_csv_order, download_pdf_w_img, \
     download_pdf_no_img, at_delete_order
-from shop.views_scripts.orders_control.view_order import view_order, change_in_stock
+from shop.views_scripts.orders_control.view_order import view_order, change_in_stock, upload_in_stock
 from shop.views_scripts.service_views import service_pages_view, company_info_pages
 from shop.views_scripts.users_control.at_uc_bulk_actions import disable_users, enable_users
 from shop.views_scripts.auth_views import register, logout_view, login_view
@@ -89,6 +89,7 @@ urlpatterns = i18n_patterns(
     path('admin_tools/orders_control/download_pdf_with_img/<str:order_id>/', download_pdf_w_img, name='at_download_pdf_w_img'),
     path('admin_tools/orders_control/delete_order/<str:order_id>/', at_delete_order, name='at_delete_order'),
     path('admin_tools/orders_control/edit_product_in_stock/', change_in_stock, name='change_in_stock'),
+    path('admin_tools/orders_control/upload_in_stock/<str:order_id>/', upload_in_stock, name='upload_in_stock'),
     # path('finish_order/', )
 
     #Service urls

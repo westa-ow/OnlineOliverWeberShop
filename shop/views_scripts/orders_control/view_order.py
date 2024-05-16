@@ -3,6 +3,7 @@ import random
 from datetime import datetime
 from random import randint
 
+import openpyxl
 import concurrent.futures
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.password_validation import validate_password
@@ -19,6 +20,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.mail import send_mail
+from openpyxl.reader.excel import load_workbook
 
 from shop.forms import UserRegisterForm, User
 from shop.views import addresses_ref, cart_ref, get_user_category, serialize_firestore_document, users_ref, is_admin, \
@@ -91,3 +93,28 @@ def change_in_stock(request):
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
     else:
         return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
+
+@login_required
+@user_passes_test(is_admin)
+def upload_in_stock(request, order_id):
+    if request.method == 'POST':
+        xlsx_file = request.FILES['xlsx_file']
+
+        if xlsx_file.name.endswith('.xlsx'):
+            wb = load_workbook(filename=xlsx_file, data_only=True)
+            ws = wb.active
+            for row in ws.iter_rows(min_row=2, min_col=1, max_col=2, values_only=True):
+                product_name = str(row[0])
+                in_stock_indicator = row[1]
+                in_stock = bool(in_stock_indicator)  # Converts 1 or 0 to True or False
+
+                # Query database to find documents to update
+                query = single_order_ref.where("`order-id`", '==', int(order_id)).where('name', '==',
+                                                                                        str(product_name)).limit(1).stream()
+                for item in query:
+                    document_ref = item.reference
+                    update_result = document_ref.update({'in_stock': in_stock})
+            return JsonResponse({"success": True, "message": "Order 'in stock' updated successfully."}, status=200)
+        else:
+            return JsonResponse({'status': 'error', 'message': "Invalid file format"}, status=400)
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
