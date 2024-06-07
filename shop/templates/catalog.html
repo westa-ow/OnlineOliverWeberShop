@@ -229,16 +229,16 @@
         changePage(currentPage);
 
         constructCategories();
-
-        constructFilters(allItems, filters_dict);
+        const static_folder = "{% static "images/crystals" %}"
+        console.log(static_folder);
+        constructFilters(allItems, filters_dict, static_folder);
 
         setupFiltersEventListeners('.plating-checkbox', platingFilters);
         setupFiltersEventListeners('.base-checkbox', baseFilters);
         setupFiltersEventListeners('.size-checkbox', sizeFilters);
-
+        constructCrystals(allItems, filters_dict, static_folder);
         applyFilters();
         updateURL();
-        setupSelectEventListener('.crystal-select', stoneFilters);
         hideOverlay();
     });
 
@@ -521,26 +521,169 @@ function setupCategoryClickListener(span) {
         updateURL();
     });
 }
+function constructCrystals(items, filters_dict, static_folder) {
+    let uniqueStones = new Set();
+    items.forEach(document => {
+        Object.values(document.platings).forEach(plating => {
+            Object.keys(plating.stones).forEach(stoneCategory => {
+                uniqueStones.add(stoneCategory);
+            });
+        });
+    });
+    let stones = ['241',
+ '327',
+ '515',
+ '260',
+ '288',
+ '501',
+ '208',
+ '227',
+ '220',
+ 'DAR',
+ '276',
+ '379',
+ '205',
+ '277',
+ '922',
+ '280',
+ '243',
+ '204',
+ '291',
+ '236',
+ '215',
+ '228',
+ '502',
+ '207',
+ '203',
+ '219',
+ '206',
+ '147',
+ '0',
+ '394',
+ '266',
+ '289',
+ '539',
+ '542',
+ '920',
+ '398',
+ '142',
+ '229',
+ '214',
+ '226',
+ '209',
+ 'GSHA',
+ '390',
+ '263',
+ '391',
+ '267',
+ '292',
+ '212',
+ '257',
+ '202',
+ '371',
+ '262',
+ '283',
+ '211',
+ '319',
+ '261',
+ '238',
+ '362',
+ '265',
+ '223',
+ '508',
+ 'CRE',
+ '234',
+ '395',
+ '361',
+ '285',
+ '001',
+ 'AB']
+    createCrystalElements('crystals',stones, 'crystal', filters_dict, static_folder);
+}
+function createCrystalElements(containerClass, itemsArray, prefix, filters_dict, static_folder) {
+    const container = document.querySelector(`.${containerClass}`);
+    container.innerHTML = ''; // Clear existing content
 
+    // Create a div to hold the images in a grid
+    const grid = document.createElement('div');
+    grid.className = 'crystal-grid';
+let imagesLoaded = 0;
+    // Loop through images and create an img element within a div for each
+    itemsArray.forEach((item, index) => {
+                const img = new Image();
+                img.width = 20;
+                img.height = 20;
+                img.src = `${static_folder}/${item}.png`;
+                img.alt = `Crystal ${index + 1}`;
+                img.className = 'crystal-image';
 
-// Function to simulate changing the page (you might have your actual logic to fetch/update content here)
-function setupSelectEventListener(selectClassName, filtersArray) {
-    const select = document.querySelector(selectClassName);
-    select.addEventListener('change', function() {
-        const remove_button = this.parentElement.parentElement.parentElement.querySelector('.remove-filters-container');
-        let selectedValue = this.value;
+                img.onload = () => {
+                    const imgDiv = document.createElement('div');
+                    imgDiv.className = 'crystal-container';
+                    imgDiv.setAttribute('data-value', item); // Set the crystal number
 
-        if (selectedValue) {
-            filtersArray.length = 0; // Clear the filters array
-            remove_button.style.display = "block";
-            filtersArray.push(selectedValue);
-        } else {
-            filtersArray.length = 0; // Clear the filters array if no option is selected
-            remove_button.style.display = "none"; // Hide remove button
+                    imgDiv.appendChild(img);
+                    grid.appendChild(imgDiv);
+                    imagesLoaded++;
+
+                    // Check if all images are loaded
+                    if (imagesLoaded === itemsArray.length) {
+                        // Apply the honeycomb layout
+
+                        // Set up click event listeners for the crystals
+                        setupCrystalClickListeners(stoneFilters);
+                    }
+                    // Add event listener to each image
+                    // imgDiv.addEventListener('click', function() {
+                    //     handleCrystalClick(item, filters_dict);
+                    // });
+                };
+            });
+
+            // Append the grid to the container
+            container.appendChild(grid);
+
+            // Apply the honeycomb layout
+            applyHoneycombLayout(grid);
         }
 
-        applyFilters();
-        updateURL();
+// Function to apply honeycomb layout
+function applyHoneycombLayout(grid) {
+    const containers = grid.querySelectorAll('.crystal-container');
+    containers.forEach((container, index) => {
+        if (Math.floor(index / 4) % 3 === 1) {
+            container.style.marginLeft = '30px'; // Adjust as needed for your layout
+        } else {
+            container.style.marginLeft = '0';
+        }
+    });
+}
+// Function to simulate changing the page (you might have your actual logic to fetch/update content here)
+function setupCrystalClickListeners(filtersArray) {
+    console.log("Here works");
+    const containers = document.querySelectorAll('.crystal-container');
+
+    containers.forEach(container => {
+        container.addEventListener('click', function() {
+            const remove_button = this.parentElement.parentElement.parentElement.querySelector('.remove-filters-container');
+            let selectedValue = this.getAttribute('data-value');
+            // Remove 'selected' class from all containers
+            containers.forEach(c => {
+                c.children[0].classList.remove('selected');
+
+            });
+
+            // Add 'selected' class to the clicked container
+            container.children[0].classList.add('selected');
+            filtersArray.length = 0;
+            remove_button.style.display = "block";
+            filtersArray.push(selectedValue);
+            // Perform the required action when a crystal is clicked
+            console.log(`Crystal clicked: ${container.getAttribute('data-value')}`);
+            // Add your filtering logic here
+            applyFilters();
+            updateURL();
+        });
     });
 }
 

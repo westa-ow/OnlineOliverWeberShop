@@ -1,20 +1,10 @@
-function constructFilters(items, filters_dict){
-    constructCrystals(items, filters_dict);
+function constructFilters(items, filters_dict, static_folder){
+
     constructPlatings(items, filters_dict);
     constructBases(items, filters_dict);
 }
 
-function constructCrystals(items, filters_dict) {
-    let uniqueStones = new Set();
-    items.forEach(document => {
-        Object.values(document.platings).forEach(plating => {
-            Object.keys(plating.stones).forEach(stoneCategory => {
-                uniqueStones.add(stoneCategory);
-            });
-        });
-    });
-    createCrystalElements('crystals', Array.from(uniqueStones), 'crystal', filters_dict);
-}
+
 
 function constructPlatings(items, filters_dict) {
     let uniquePlatings = new Set();
@@ -23,6 +13,7 @@ function constructPlatings(items, filters_dict) {
             uniquePlatings.add(plating);
         });
     });
+
     createFilterElements('platings', Array.from(uniquePlatings), 'plating', filters_dict);
 }
 
@@ -71,29 +62,29 @@ function createFilterElements(containerClass, itemsArray, prefix, filters_dict) 
     });
 }
 
-function createCrystalElements(containerClass, itemsArray, prefix, filters_dict) {
-    const container = document.querySelector(`.${containerClass}`);
-    container.innerHTML = ''; // Clear existing content
-
-    // Create select element
-    const select = document.createElement('select');
-    select.className = `${prefix}-select`;
-    select.id = `${prefix}-select`;
-
-    // Add a default option
-    const defaultOption = document.createElement('option');
-    defaultOption.textContent = 'All';
-    defaultOption.value = '';
-    select.appendChild(defaultOption);
-
-    // Create option for each item
-    itemsArray.forEach((item, index) => {
-        const option = document.createElement('option');
-        option.value = item;
-        option.textContent = item;
-        select.appendChild(option);
-    });
-
-    // Append select to container
-    container.appendChild(select);
-}
+// function createCrystalElements(containerClass, itemsArray, prefix, filters_dict) {
+//     const container = document.querySelector(`.${containerClass}`);
+//     container.innerHTML = ''; // Clear existing content
+//
+//     // Create select element
+//     const select = document.createElement('select');
+//     select.className = `${prefix}-select`;
+//     select.id = `${prefix}-select`;
+//
+//     // Add a default option
+//     const defaultOption = document.createElement('option');
+//     defaultOption.textContent = 'All';
+//     defaultOption.value = '';
+//     select.appendChild(defaultOption);
+//
+//     // Create option for each item
+//     itemsArray.forEach((item, index) => {
+//         const option = document.createElement('option');
+//         option.value = item;
+//         option.textContent = item;
+//         select.appendChild(option);
+//     });
+//
+//     // Append select to container
+//     container.appendChild(select);
+// }

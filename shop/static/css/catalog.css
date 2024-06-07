@@ -560,3 +560,43 @@ input[type=checkbox]{
     font-weight: 600;
 
 }
+.crystal-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            width: 220px; /* Ensure the grid fits within the container */
+            margin: 0 auto; /* Center the grid horizontally */
+        }
+
+        .crystal-container {
+            position: relative;
+            width: 20px; /* Adjust based on your image size and desired spacing */
+            height: 20px; /* Adjust based on your image size and desired spacing */
+            margin: 5px 0; /* Vertical spacing between rows */
+        }
+
+        .crystal-container:nth-child(9n - 1),.crystal-container:nth-child(9n - 2),.crystal-container:nth-child(9n - 3), .crystal-container:nth-child(9n - 4), .crystal-container:nth-child(9n - 5), .crystal-container:nth-child(9n - 6), .crystal-container:nth-child(9n - 7), .crystal-container:nth-child(9n - 8), .crystal-container:nth-child(9n) {
+            margin-left: 21px; /* Adjust to achieve the honeycomb effect */
+        }
+        .crystal-container:nth-child(9n ){
+            /*clear: both;*/
+            margin-right: 20px;
+        }
+
+        .crystal-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            cursor: pointer;
+        }
+
+        /* Optional: Additional styling for the container and images */
+        .crystal-container:hover {
+            transform: scale(1.1);
+            transition: transform 0.2s;
+        }
+.selected {
+            border: 2px solid #002222; /* Change background to gray when selected */
+    border-radius: 5px;
+        }
