@@ -49,6 +49,34 @@
 /* Initial and expanded height */
 .toolbar.large { height: 110px; }
 .toolbar.small { height: 90px; }
+
+.dropdown-container {
+    position: relative;
+    display: inline-block; /* Keeps the icon and the menu aligned nicely */
+}
+
+
+.menu {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    list-style: none;
+    width: 150px; /* or any desired width */
+}
+
+.menu ul {
+    padding: 0;
+    margin: 0;
+}
+
+.menu li {
+    padding: 8px;
+    margin: 0;
+    cursor: pointer;
+}
 </style>
 
 <body class="this-page">
@@ -73,6 +101,14 @@
         <a href="{% url "catalog" %}?category=Bracelets" class="link" title="{% trans "Bracelets"%}" style="font-size: 12px;font-weight: 600;">{% trans "BRACELETS"%}</a>
         <a href="{% url "catalog" %}?category=Anklet" class="link" title="{% trans "Anklets"%}" style="font-size: 12px;font-weight: 600;">{% trans "ANKLETS"%}</a>
         <a href="{% url "catalog" %}?category=Accessories" class="link" title="{% trans "Accessories"%}" style="font-size: 12px;font-weight: 600;">{% trans "ACCESSORIES"%}</a>
+        <div class="dropdown-container">
+            <a class="link other_categories" style="font-size: 16px"><i class="fa-solid fa-angle-double-right"> </i></a>
+            <div id="dropdownMenu" class="menu">
+                <ul>
+                    <li><a href="{% url "catalog" %}?category=All" class="dropdown-link" title="All products}" style="font-size: 15px;font-weight: 600;color: black!important;">All products</a></li>
+                </ul>
+            </div>
+        </div>
         {% if user.email == "westadatabase@gmail.com" %}
             <a></a>
             <a></a>
@@ -209,7 +245,18 @@
     <div id="overlay" class="overlay"></div>
 </body>
 <script>
-    function updateBackgroundImage(selectElement) {
+
+    document.querySelector('.other_categories').addEventListener('click', function(event) {
+       const dropdownMenu = document.getElementById('dropdownMenu');
+       dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+       event.stopPropagation();
+    });
+    document.addEventListener('click', function() {
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        dropdownMenu.style.display = 'none';
+    });
+
+function updateBackgroundImage(selectElement) {
     let imageUrl = '';
     switch (selectElement.value) {
         case 'en':

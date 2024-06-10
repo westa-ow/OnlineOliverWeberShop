@@ -69,7 +69,34 @@
 .link:hover {
     color: #ffffff !important;
 }
+.toolbar .dropdown-link {
+    font-family: 'Poppins', Verdana, sans-serif;
+    cursor: pointer;
+    color: black !important;
+    font-size: 14px;
+    text-decoration: none !important;
+    padding: 5px;
+    margin: 0 5px 0 0px;
+    font-family: 'Poppins', Verdana, sans-serif;
+    position: relative;
+}
+.dropdown-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 5px;
+    width: 0%;
+    height: 1.5px;
+    background-color: #000000;
+    transition: width 0.3s ease;
+}
+.dropdown-link:hover::after {
+    width: 100%;
+}
 
+.dropdown-link:hover {
+    color: #000000 !important;
+}
 
 
 
