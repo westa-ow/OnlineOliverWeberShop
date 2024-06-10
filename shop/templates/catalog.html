@@ -229,14 +229,14 @@
         changePage(currentPage);
 
         constructCategories();
-        const static_folder = "{% static "images/crystals" %}"
+        const static_folder = "{% static "images/crystals" %}";
         console.log(static_folder);
         constructFilters(allItems, filters_dict, static_folder);
 
         setupFiltersEventListeners('.plating-checkbox', platingFilters);
         setupFiltersEventListeners('.base-checkbox', baseFilters);
         setupFiltersEventListeners('.size-checkbox', sizeFilters);
-        constructCrystals(allItems, filters_dict, static_folder);
+
         applyFilters();
         updateURL();
         hideOverlay();
@@ -523,82 +523,21 @@ function setupCategoryClickListener(span) {
 }
 function constructCrystals(items, filters_dict, static_folder) {
     let uniqueStones = new Set();
+    let stones = ['241', '327', '515', '260', '288', '501', '208', '227', '220', 'DAR', '276', '379', '205', '277', '922', '280', '243', '204', '291', '236', '215', '228', '502', '207', '203', '219', '206', '147', '0', '394', '266', '289', '539', '542', '920', '398', '142', '229', '214', '226', '209', 'GSHA', '390', '263', '391', '267', '292', '212', '257', '202', '371', '262', '283', '211', '319', '261', '238', '362', '265', '223', '508', 'CRE', '234', '395', '361', '285', '001', 'AB'];
+
     items.forEach(document => {
         Object.values(document.platings).forEach(plating => {
             Object.keys(plating.stones).forEach(stoneCategory => {
-                uniqueStones.add(stoneCategory);
+                if (stones.includes(stoneCategory)) { // Properly check if the stoneCategory is in stones
+                    uniqueStones.add(stoneCategory);
+                }
             });
         });
     });
-    let stones = ['241',
- '327',
- '515',
- '260',
- '288',
- '501',
- '208',
- '227',
- '220',
- 'DAR',
- '276',
- '379',
- '205',
- '277',
- '922',
- '280',
- '243',
- '204',
- '291',
- '236',
- '215',
- '228',
- '502',
- '207',
- '203',
- '219',
- '206',
- '147',
- '0',
- '394',
- '266',
- '289',
- '539',
- '542',
- '920',
- '398',
- '142',
- '229',
- '214',
- '226',
- '209',
- 'GSHA',
- '390',
- '263',
- '391',
- '267',
- '292',
- '212',
- '257',
- '202',
- '371',
- '262',
- '283',
- '211',
- '319',
- '261',
- '238',
- '362',
- '265',
- '223',
- '508',
- 'CRE',
- '234',
- '395',
- '361',
- '285',
- '001',
- 'AB']
-    createCrystalElements('crystals',stones, 'crystal', filters_dict, static_folder);
+
+    console.log(stones);
+    console.log(uniqueStones);
+    createCrystalElements('crystals',Array.from(uniqueStones), 'crystal', filters_dict, static_folder);
 }
 function createCrystalElements(containerClass, itemsArray, prefix, filters_dict, static_folder) {
     const container = document.querySelector(`.${containerClass}`);
@@ -1008,8 +947,8 @@ function displayCurrentPage(items) {
 function applyFilters() {
    const nameFilterValue = document.getElementById('contains-in-name').value.toLowerCase();
    const [from, to] = getParsed(fromSlider, toSlider);
-
-   filteredItems = allItems.filter(item => {
+   let itemsss = JSON.parse(JSON.stringify(allItems));
+   filteredItems = itemsss.filter(item => {
         let isMatch = (category === "All" || (subcat[category] !== undefined ? subcat[category].concat(category).includes(item.category) : item.category === category)) &&
                       item.price <= to &&
                       item.price >= from &&
@@ -1045,6 +984,10 @@ function applyFilters() {
         let finalPlatings = {};
         Object.keys(orderedPlatings).forEach(plating => {
             let stones = orderedPlatings[plating].stones;
+            if(item.name==="57141") {
+                console.log(item);
+            }
+            {#console.log(item.name);#}
             let orderedStones = {};
             let matchedStones = {};
             let allStones = {};
@@ -1065,6 +1008,7 @@ function applyFilters() {
                 {#);#}
             } else {
                 allStones = stones;
+                console.log(allStones);
                 hasStoneMatch = true;
             }
             orderedStones = { ...matchedStones, ...allStones};
@@ -1138,8 +1082,10 @@ function applyFilters() {
 
    currentPage = 1;
    total_pages = Math.ceil(filteredItems.length / itemsPerPage);
+   constructCrystals(filteredItems, stoneFilters, "{% static "images/crystals" %}");
    changePage(1);
 }
+
 
 function order(array){
     if(order_name==="Name") {
