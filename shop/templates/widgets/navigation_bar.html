@@ -93,6 +93,7 @@
         <a></a>
         <a></a>
         <a></a>
+        <a href="{% url "catalog" %}?category=All" class="link" title="ALL PRODUCTS" style="font-size: 12px;font-weight: 600;">ALL PRODUCTS</a>
         <a href="{% url "catalog" %}?category=Necklaces" class="link" title="{% trans "Necklaces"%}" style="font-size: 12px;font-weight: 600;">{% trans "NECKLACES" %}</a>
         <a href="{% url "catalog" %}?category=All+Earrings" class="link" title="{% trans "Earrings"%}" style="font-size: 12px;font-weight: 600;">{% trans "EARRINGS"%}</a>
 {#                <a href="{% if user.is_authenticated %}{% url 'profile' feature_name='dashboard'%}{% else %}{% url 'login'%}{% endif %}" class="link">Profile</a>#}
@@ -101,14 +102,14 @@
         <a href="{% url "catalog" %}?category=Bracelets" class="link" title="{% trans "Bracelets"%}" style="font-size: 12px;font-weight: 600;">{% trans "BRACELETS"%}</a>
         <a href="{% url "catalog" %}?category=Anklet" class="link" title="{% trans "Anklets"%}" style="font-size: 12px;font-weight: 600;">{% trans "ANKLETS"%}</a>
         <a href="{% url "catalog" %}?category=Accessories" class="link" title="{% trans "Accessories"%}" style="font-size: 12px;font-weight: 600;">{% trans "ACCESSORIES"%}</a>
-        <div class="dropdown-container">
-            <a class="link other_categories" style="font-size: 16px"><i class="fa-solid fa-angle-double-right"> </i></a>
-            <div id="dropdownMenu" class="menu">
-                <ul>
-                    <li><a href="{% url "catalog" %}?category=All" class="dropdown-link" title="All products" style="font-size: 15px;font-weight: 600;color: black!important;">All products</a></li>
-                </ul>
-            </div>
-        </div>
+{#        <div class="dropdown-container">#}
+{#            <a class="link other_categories" style="font-size: 16px"><i class="fa-solid fa-angle-double-right"> </i></a>#}
+{#            <div id="dropdownMenu" class="menu">#}
+{#                <ul>#}
+{#                    <li><a href="{% url "catalog" %}?category=All" class="dropdown-link" title="All products" style="font-size: 15px;font-weight: 600;color: black!important;">All products</a></li>#}
+{#                </ul>#}
+{#            </div>#}
+{#        </div>#}
         {% if user.email == "westadatabase@gmail.com" %}
             <a></a>
             <a></a>
@@ -246,15 +247,15 @@
 </body>
 <script>
 
-    document.querySelector('.other_categories').addEventListener('click', function(event) {
-       const dropdownMenu = document.getElementById('dropdownMenu');
-       dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
-       event.stopPropagation();
-    });
-    document.addEventListener('click', function() {
-        const dropdownMenu = document.getElementById('dropdownMenu');
-        dropdownMenu.style.display = 'none';
-    });
+    {#document.querySelector('.other_categories').addEventListener('click', function(event) {#}
+    {#   const dropdownMenu = document.getElementById('dropdownMenu');#}
+    {#   dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';#}
+    {#   event.stopPropagation();#}
+    {#  #}
+    {#document.addEventListener('click', function() {#}
+    {#    const dropdownMenu = document.getElementById('dropdownMenu');#}
+    {#    dropdownMenu.style.display = 'none';#}
+    {#;#}
 
 function updateBackgroundImage(selectElement) {
     let imageUrl = '';

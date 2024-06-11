@@ -822,8 +822,20 @@ function displayCurrentPage(items) {
         productContainer.setAttribute('data-id', itemId);
 
         productContainer.addEventListener('click', () => {
-            generateDialogContent(`${item.name}`, allItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}");
-        });
+            if(filteredItems.length === 0){
+                generateDialogContent(`${item.name}`, allItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}");
+            }
+            else{
+                if(filteredItems[0] === "No items found"){
+                    generateDialogContent(`${item.name}`, allItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}");
+
+                }
+                else {
+                     generateDialogContent(`${item.name}`, filteredItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}");
+
+                }
+            }
+            });
 
         // Create the image section
         const imgSection = document.createElement('div');
