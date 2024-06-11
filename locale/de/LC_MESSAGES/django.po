@@ -3576,3 +3576,6 @@ msgstr "UV"
 
 msgid "Continue shopping"
 msgstr "Weiter einkaufen"
+
+msgid "All products"
+msgstr "ALLE PRODUKTE"

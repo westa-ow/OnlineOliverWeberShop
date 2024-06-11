@@ -4130,3 +4130,6 @@ msgstr "Extensión"
 
 msgid "UV"
 msgstr "UV"
+
+msgid "All products"
+msgstr "TODOS LOS PRODUCTOS"

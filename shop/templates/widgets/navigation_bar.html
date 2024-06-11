@@ -93,7 +93,7 @@
         <a></a>
         <a></a>
         <a></a>
-        <a href="{% url "catalog" %}?category=All" class="link" title="ALL PRODUCTS" style="font-size: 12px;font-weight: 600;">ALL PRODUCTS</a>
+        <a href="{% url "catalog" %}?category=All" class="link" title="ALL PRODUCTS" style="font-size: 12px;font-weight: 600;">{% trans "All products" %}</a>
         <a href="{% url "catalog" %}?category=Necklaces" class="link" title="{% trans "Necklaces"%}" style="font-size: 12px;font-weight: 600;">{% trans "NECKLACES" %}</a>
         <a href="{% url "catalog" %}?category=All+Earrings" class="link" title="{% trans "Earrings"%}" style="font-size: 12px;font-weight: 600;">{% trans "EARRINGS"%}</a>
 {#                <a href="{% if user.is_authenticated %}{% url 'profile' feature_name='dashboard'%}{% else %}{% url 'login'%}{% endif %}" class="link">Profile</a>#}
