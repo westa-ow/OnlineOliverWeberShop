@@ -1,1 +1,7 @@
+#GitIgnore
+
 shop/static/key2.json
+
+venv/
+
+shop/static/key4_Terminal.json

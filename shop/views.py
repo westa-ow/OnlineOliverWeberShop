@@ -352,6 +352,8 @@ def get_vocabulary_product_card():
         "Continue shopping": _("Continue shopping"),
         "Proceed to checkout": _("Proceed to checkout"),
         "Add to cart": _("Add to cart"),
+        'This item is only available for pre-order!': _("This item is only available for pre-order!"),
+        'Maximum items for pre-order is 20, minimum is 1': _("Maximum items for pre-order is 20, minimum is 1"),
     }
 
 

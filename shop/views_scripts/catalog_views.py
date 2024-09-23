@@ -33,6 +33,7 @@ from shop.forms import UserRegisterForm, User
 @login_required_or_session
 def catalog_view(request):
     category_catalog = request.GET.get('category') or ""
+    collection_catalog = request.GET.get('collection') or ""
     plating_catalog = request.GET.get('plating') or ""
     base_catalog = request.GET.get('base') or ""
     email = get_user_session_type(request)
@@ -45,6 +46,7 @@ def catalog_view(request):
         "currency": "€" if currency == "Euro" else "$",
         "category": category,
         "category_catalog": category_catalog,
+        "collection_catalog": collection_catalog,
         "plating_catalog": plating_catalog,
         "base_catalog": base_catalog,
         'sale': sale,
@@ -115,6 +117,12 @@ def update_cart(email, product_name, new_quantity, document):
     cart_items = get_cart(email)  # This function needs to be defined or adjusted
     subtotal = sum(float(item['sum']) for item in cart_items)
 
+    quantity_max = 0
+    if 'pre_order' in document:
+        quantity_max = 20 if document['pre_order'] else document['quantity']
+    else:
+        quantity_max = document['quantity']
+
     if existing_item:
         doc_ref = existing_item[0].reference
         doc_ref.update({'quantity': new_quantity})
@@ -133,7 +141,7 @@ def update_cart(email, product_name, new_quantity, document):
             "number": len(cart_items) + 1,
             "product_name": document['product_name'],
             "category": document['category'],
-            'quantity_max': document['quantity']
+            'quantity_max': quantity_max
         })
         subtotal += round(new_quantity * document['price'], 2)
 

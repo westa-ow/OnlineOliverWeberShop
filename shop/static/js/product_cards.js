@@ -46,6 +46,9 @@ function updateStones(selectedStone, sizeSelect, image, maxQuantity, show_quanti
             if (firstSizeQuantity<=5){
                 maxQuantity.innerText = `${vocabulary['Less than 5 pieces left!']}`
             }
+            else if (firstSizeQuantity === 0){
+                maxQuantity.innerText = `${vocabulary['This item is only available for pre-order!']}`;
+            }
             else{
                 maxQuantity.innerText = ``
             }
@@ -59,6 +62,9 @@ function updateSizes(sizeQuantity, maxQuantity, show_quantities, vocabulary){
     else{
         if (sizeQuantity<=5){
             maxQuantity.innerText = `${vocabulary['Less than 5 pieces left!']}`;
+        }
+        else if (sizeQuantity === 0){
+            maxQuantity.innerText = `${vocabulary['This item is only available for pre-order!']}`;
         }
         else{
             maxQuantity.innerText = ``
@@ -219,11 +225,19 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
 
     const quantitySpan = document.createElement('div');
     if(show_quantities) {
-        quantitySpan.textContent = `${vocabulary['In stock']}: ${quantity_max}`;
+        if( quantity_max === 0) {
+            quantitySpan.textContent = `${vocabulary['This item is only available for pre-order!']}`;
+        }
+        else{
+            quantitySpan.textContent = `${vocabulary['In stock']}: ${quantity_max}`;
+        }
     }
     else{
         if (quantity_max<=5){
             quantitySpan.textContent = `${vocabulary['Less than 5 pieces left!']}`;
+        }
+        if(quantity_max === 0){
+            quantitySpan.textContent = `${vocabulary['This item is only available for pre-order!']}`;
         }
     }
     quantitySpan.classList.add('maximum-span');
@@ -302,14 +316,25 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     inputQuantity.min = '1';
 
     inputQuantity.addEventListener('input', function() {
-        if(inputQuantity.value > quantity_max || inputQuantity.value < 1 ){
-            if(inputQuantity.value > quantity_max){
-                inputQuantity.value = quantity_max;
+        if(!item.pre_order) {
+            if (inputQuantity.value > quantity_max || inputQuantity.value < 1) {
+                if (inputQuantity.value > quantity_max) {
+                    inputQuantity.value = quantity_max;
+                } else {
+                    inputQuantity.value = 1;
+                }
+                alert(`${vocabulary['Quantity number has to be less than or equal to quantity number in stock or and be greater than 0']}`);
             }
-            else{
-                inputQuantity.value = 1;
+        }
+        else{
+            if (inputQuantity.value > 20 || inputQuantity.value < 1) {
+                if (inputQuantity.value > 20) {
+                    inputQuantity.value = 20;
+                } else {
+                    inputQuantity.value = 1;
+                }
+                alert(`${vocabulary['Maximum items for pre-order is 20, minimum is 1']}`);
             }
-            alert(`${vocabulary['Quantity number has to be less than or equal to quantity number in stock or and be greater than 0']}`);
         }
     });
 
@@ -321,10 +346,17 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     button_plus.innerText = '+';
     button_plus.classList.add('plus-button-dialog');
     button_plus.addEventListener('click', () => {
-
-        if(inputQuantity.value<quantity_max) {
-            let currentValue = Number(inputQuantity.value === "" ? 1 : inputQuantity.value);
-            inputQuantity.value = currentValue + 1;
+        if(!item.pre_order) {
+            if (inputQuantity.value < quantity_max) {
+                let currentValue = Number(inputQuantity.value === "" ? 1 : inputQuantity.value);
+                inputQuantity.value = currentValue + 1;
+            }
+        }
+        else{
+            if (inputQuantity.value < 20) {
+                let currentValue = Number(inputQuantity.value === "" ? 1 : inputQuantity.value);
+                inputQuantity.value = currentValue + 1;
+            }
         }
     });
     counter.appendChild(button_minus);

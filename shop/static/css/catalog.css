@@ -30,7 +30,7 @@ body::-webkit-scrollbar {
     margin-top: 80px;
 
 }
-.filters, .categories{
+.filters, .categories, .collections{
     border: 2px solid #f2f2f2;
     margin: 10px 20px 0 20px;
     padding: 20px;
@@ -40,25 +40,25 @@ body::-webkit-scrollbar {
 .filters .filter-price hr,.filters .filter-crystal-color hr, .filters .filter-plating hr, .filters .filter-base hr, .filters .filter-size hr, .filters .filter-name hr{
     margin: 0 0 10px;
 }
-.filters-label, .categories-label{
+.filters-label, .categories-label, .collections-label{
     font-size: 20px;
     /*text-align: center;*/
     margin-left: 20px;
 }
-.categories-list{
+.categories-list, .collections-list{
     margin-left: 20px;
     line-height: 35px;
     /*margin: 0;*/
     padding: 0;
 }
 
-.categories-list li{
+.categories-list li, .collections-list li{
     font-size: 14px;
     display: list-item;
     list-style: none;
     margin: 0;
 }
-.categories-list li span{
+.categories-list li span, .collections-list li{
 
     cursor: pointer;
     font-weight: normal; /* Or another appropriate default weight */
@@ -181,7 +181,7 @@ ul.sub-category-list.open {
         grid-template-columns: repeat(auto-fill, minmax(115px, 115px));
     }
 
-    .filters, .categories{
+    .filters, .categories, .collections{
         margin: 10px 20px 0 0;
     }
 }
@@ -467,10 +467,37 @@ input[type="range"] {
 
 
 .img-section{
+    position: relative;
     width: 115px;
     height: 115px;
     margin-bottom: 20px;
     /*padding: 10px;*/
+}
+.icon-pre-order{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+}
+.tooltip-pre-order {
+    position: absolute;
+    top: 40px; /* Adjust as needed to position below the icon */
+    right: 10px;
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+    white-space: nowrap;
+    visibility: hidden; /* Hidden by default */
+    opacity: 0; /* Transparent initially */
+    transition: opacity 0.3s; /* Smooth transition for showing the tooltip */
+    z-index: 1; /* Ensures the tooltip appears above other content */
+}
+
+.icon-pre-order:hover .tooltip-pre-order {
+    visibility: visible;
+    opacity: 1;
 }
 .info-section{
     margin-bottom: 10px;
@@ -601,17 +628,17 @@ input[type=checkbox]{
     border-radius: 5px;
         }
 
-.categories-list {
+.categories-list, .collections-list {
     transition: max-height 0.5s ease-in-out;
     overflow: hidden;
     max-height: 500px; /* Максимальная высота, достаточная для показа всех элементов */
 }
 
-.categories.collapsed .categories-list {
+.categories.collapsed .categories-list, .collections.collapsed .collections-list {
     max-height: 0; /* Скрыть список */
 }
 
-.categories-label {
+.categories-label, .collections-label {
     cursor: pointer;
     user-select: none;
 }
@@ -620,6 +647,6 @@ input[type=checkbox]{
     transition: transform 0.5s ease-in-out;
 }
 
-.categories.collapsed .chevron {
+.categories.collapsed .chevron, .collections.collapsed .chevron {
     transform: rotate(-90deg); /* Повернуть иконку, когда список свернут */
 }

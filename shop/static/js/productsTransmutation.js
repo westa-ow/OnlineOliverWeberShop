@@ -24,6 +24,8 @@ function productsTransmutation(items, price_category, sale){
                     description: item.description,
                     price:calculatePrice(item, price_category, sale),
                     category: item.category,
+                    collection: item.hasOwnProperty('collection') ? item.collection : "",
+                    pre_order: item.hasOwnProperty('pre_order') ? item.pre_order : false,
                     material: item.material,
                     preview_image: item.image_url,
                     platings: {}

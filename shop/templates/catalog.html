@@ -30,6 +30,15 @@
 
             </ul>
         </div>
+        <div class="collections" style="display: none;">
+            <div class="collections-label">
+                {% trans "Collections" %}
+                <i class="fas fa-chevron-right chevron"></i>
+            </div>
+            <ul class="collections-list">
+
+            </ul>
+        </div>
         <div class="filters">
             <div class="filters-label">{% trans "Filters" %}<hr></div><br>
             <div class="filter-name">
@@ -232,13 +241,20 @@
         changePage(currentPage);
 
         constructCategories();
+        constructCollections();
         const categoriesLabel = document.querySelector('.categories-label');
-    const categories = document.querySelector('.categories');
+        const categories = document.querySelector('.categories');
 
-    categoriesLabel.addEventListener('click', function() {
-        categories.classList.toggle('collapsed'); // Переключить класс для анимации
+        categoriesLabel.addEventListener('click', function() {
+            categories.classList.toggle('collapsed'); // Переключить класс для анимации
 
-    });
+        });
+        const collectionsLabel = document.querySelector('.collections-label');
+        const collections = document.querySelector('.collections');
+        collectionsLabel.addEventListener('click', function() {
+            collections.classList.toggle('collapsed'); // Переключить класс для анимации
+
+        });
         const static_folder = "{% static "images/crystals" %}";
         console.log(static_folder);
         constructFilters(allItems, filters_dict, static_folder);
@@ -271,6 +287,7 @@ let stoneFilters = [];
 let sizeFilters = [];
 let subcat = {"Necklaces": ["Necklace","Chain","Pearlchain", "Pendant", "Collier"], "All Earrings": ["Earrings","Post Earrings", "Clip", "Hoop"], "Bracelets":["Bracelet","Bangle", "Anklet"], "Accessories":["Piercing", "Nailfile", "Pen","Key","Brooch"]}
 let category = "{{ category_catalog|safe}}" || "All";
+let collection_catalog = "{{ collection_catalog|safe}}" || "";
 let categories = [""];
 let all_crystals = [];
 let all_platings = [];
@@ -389,7 +406,10 @@ let synonyms = {
     "Extension": "{{ _("Extensions")|escapejs }}",
     "UV": "{{ _("UV")|escapejs }}"
 }
-
+let synonyms_collections = {
+        "All": "{{ _("All")|escapejs }}",
+        "Winter_2024" : "Winter 2024"
+    }
 let translations_categories = {
     "Earrings": "{{ _("Earrings")|escapejs }}",
     "Pendant": "{{ _("Pendant")|escapejs }}",
@@ -472,6 +492,60 @@ function constructCategories(){
     categories_div.style.display = 'block';
 }
 
+function constructCollections(){
+    const collections_div = document.querySelector('.collections');
+    const collectionsList = document.querySelector('.collections-list');
+    collectionsList.innerHTML = ''; // Clear existing list items
+
+    // Assuming 'subcat' is defined globally
+
+    let collections = allItems.reduce((acc, item) => {
+        if (!acc.includes(item.collection)) {
+            acc.push(item.collection);
+        }
+        return acc;
+    }, []);
+    const index = collections.indexOf("");
+    if (index > -1) { // only splice array when item is found
+      collections.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    const collectionList = ["All", ...collections];
+    collectionList.forEach(collectionVar => {
+
+        const li = document.createElement('li');
+
+        const collectionSpan = createCollectionSpan(collectionVar);
+        const collectionDivForLi = document.createElement('div');
+        collectionDivForLi.appendChild(collectionSpan);
+        li.appendChild(collectionDivForLi);
+        collectionsList.appendChild(li);
+
+        setupCollectionClickListener(collectionSpan);
+    });
+
+    collections_div.style.display = 'block';
+}
+function createCollectionSpan(currentCollection) {
+    const span = document.createElement('span');
+    span.textContent = synonyms_collections[currentCollection];
+    span.setAttribute("data-collection-name", currentCollection);
+    span.className = 'collection-name';
+
+    if (currentCollection === collection_catalog) span.style.fontWeight = "600";
+    return span;
+}
+function setupCollectionClickListener(span) {
+    span.addEventListener('click', () => {
+        document.querySelectorAll('.collections-list li span').forEach(li => li.style.fontWeight = "");
+        collection_catalog = span.getAttribute("data-collection-name"); // Assuming 'category' is a global variable
+        span.style.fontWeight = "600";
+        const newUrl = `?collection=${encodeURIComponent(collection_catalog)}`;
+        history.pushState({path: newUrl}, '', newUrl);
+
+        applyFilters(); // Call the applyFilters function
+        updateURL();
+    });
+}
 function createCategorySpan(currentCategory) {
     const span = document.createElement('span');
     span.textContent = synonyms[currentCategory];
@@ -681,6 +755,9 @@ function updateURL() {
     const queryParams = new URLSearchParams();
 
     // Add 'category' to the URL if it exists
+    if(collection_catalog){
+        queryParams.set('collection', collection_catalog);
+    }
     if (category) {
         queryParams.set('category', category);
     }
@@ -788,9 +865,24 @@ fromSlider.addEventListener('change', applyFilters);
 toSlider.addEventListener('change', applyFilters);
 
 async function fetchAllItems() {
-    const itemsQuery = query(collection(db, "item") , where("quantity", ">", 0));//
-    const querySnapshot = await getDocs(itemsQuery);
-    return querySnapshot.docs.map(doc => doc.data());
+    const itemsQuery1 = query(collection(db, "item"), where("quantity", ">", 0));
+
+    // Second query: where pre_order is true
+    const itemsQuery2 = query(collection(db, "item"), where("pre_order", "==", true));
+
+    // Fetch both queries in parallel
+    const [querySnapshot1, querySnapshot2] = await Promise.all([
+        getDocs(itemsQuery1),
+        getDocs(itemsQuery2)
+    ]);
+
+    // Get the data from both queries and combine the results
+    const items1 = querySnapshot1.docs.map(doc => doc.data());
+    const items2 = querySnapshot2.docs.map(doc => doc.data());
+
+    // Combine the two arrays and return unique items if needed
+    // Optionally, you can filter out duplicates if there are overlapping items
+    return [...items1, ...items2];
 }
 async function fetchFavouriteItems(userEmail) {
     const favouritesQuery = query(collection(db, "Favourites"), where("email", "==", userEmail));
@@ -840,6 +932,13 @@ function displayCurrentPage(items) {
         // Create the image section
         const imgSection = document.createElement('div');
         imgSection.className = 'img-section';
+
+        const div_pre_order_icon = document.createElement('div');
+        const pre_order_icon = document.createElement('img');
+        pre_order_icon.className = 'icon-pre-order';
+        pre_order_icon.src = "{% static "icons/pre-order-icon.webp" %}";
+        div_pre_order_icon.appendChild(pre_order_icon);
+
         const imgWrapper = document.createElement('div');
         imgWrapper.className = 'img-wrapper';
         const img = document.createElement('img');
@@ -874,7 +973,7 @@ function displayCurrentPage(items) {
             const isFavBefore = Boolean(favouriteItem); // Converts the result to a boolean
             let message_fav = isFavBefore ? "{{ _("Remove from favorites")|escapejs }}" : "{{ _("Add to favorites")|escapejs }}";
 
-            showTooltip(event, message_fav)
+            showTooltip(event, message_fav);
         });
         heartIconContainer.addEventListener('click', async (event) => {
             const favouriteItem = favouriteItems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
@@ -934,7 +1033,17 @@ function displayCurrentPage(items) {
         imgWrapper.appendChild(img);
         imgWrapper.appendChild(iconContainer);
         // Append the imgWrapper to the imgSection
+
+
+
         imgSection.appendChild(imgWrapper);
+
+        if (item.pre_order){
+            imgSection.appendChild(div_pre_order_icon);
+            div_pre_order_icon.addEventListener('mouseenter', (event) => {
+                showTooltip(event, "{{ _("This item is only available for pre-order")|escapejs }}");
+            });
+        }
         // Create the info section
         const infoSection = document.createElement('div');
         infoSection.className = 'info-section';
@@ -980,7 +1089,11 @@ function applyFilters() {
         if (!isMatch) {
             return false;
         }
+        let isCollectionMatch = collection_catalog === "All" || item.collection === collection_catalog;
 
+        if(!isCollectionMatch){
+             return false;
+        }
         let orderedPlatings = {};
         let hasPlatingMatch = false;
 

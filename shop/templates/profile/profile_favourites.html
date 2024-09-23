@@ -111,6 +111,13 @@ let filters_dict = {
                 // Create the image section
                 const imgSection = document.createElement('div');
                 imgSection.className = 'img-section';
+
+                const div_pre_order_icon = document.createElement('div');
+                const pre_order_icon = document.createElement('img');
+                pre_order_icon.className = 'icon-pre-order';
+                pre_order_icon.src = "{% static "icons/pre-order-icon.webp" %}";
+                div_pre_order_icon.appendChild(pre_order_icon);
+
                 const imgWrapper = document.createElement('div');
                 imgWrapper.className = 'img-wrapper';
                 const img = document.createElement('img');
@@ -214,6 +221,12 @@ let filters_dict = {
                 imgWrapper.appendChild(iconContainer);
                 // Append the imgWrapper to the imgSection
                 imgSection.appendChild(imgWrapper);
+                if (item.pre_order){
+                    imgSection.appendChild(div_pre_order_icon);
+                    div_pre_order_icon.addEventListener('mouseenter', (event) => {
+                        showTooltip(event, "{{ _("This item is only available for pre-order")|escapejs }}");
+                    });
+                }
                 // Create the info section
                 const infoSection = document.createElement('div');
                 infoSection.className = 'info-section';
