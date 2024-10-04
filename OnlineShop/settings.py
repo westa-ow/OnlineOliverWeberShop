@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'background_task',
     'widget_tweaks',
     'shop',
-    'autotranslate',
+    # 'autotranslate',
 ]
 
 MIDDLEWARE = [
