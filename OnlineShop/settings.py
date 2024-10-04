@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'background_task',
     'widget_tweaks',
-'shop',
-    # 'autotranslate',
+    'shop',
+    'autotranslate',
 ]
 
 MIDDLEWARE = [
@@ -79,6 +79,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'shop.context_processor.user_role',
             ],
         },
     },

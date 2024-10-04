@@ -79,6 +79,8 @@
     const db = getFirestore(app);
 
     let allUsers = [];
+    let isSpecialAdmin = "{{ special|safe }}" === "True";
+
     let currentPage = 1;
     let usersPerPage = 10;
     let totalPages = 0;
@@ -86,7 +88,7 @@
     let filteredUsers = [];
     document.addEventListener("DOMContentLoaded", async function () {
         showOverlay();
-
+        console.log(isSpecialAdmin);
         allUsers = await fetchAllUsers();
         console.log(allUsers);
 
@@ -99,7 +101,13 @@
 
 
     async function fetchAllUsers() {
-        const usersQuery = query(collection(db, "webUsers"));
+        let usersQuery = "";
+        if (isSpecialAdmin){
+            usersQuery = query(collection(db, "webUsers"), where("special_customer", "==", true));
+        }
+        else{
+            usersQuery = query(collection(db, "webUsers"));
+        }
         const querySnapshot = await getDocs(usersQuery);
         return querySnapshot.docs.map(doc => doc.data());
     }

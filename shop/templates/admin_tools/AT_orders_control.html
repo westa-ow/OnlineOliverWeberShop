@@ -128,8 +128,14 @@
 
 {% include "widgets/overlay.html" %}
 <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
-    import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
+    import {initializeApp} from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
+    import {
+        collection,
+        getDocs,
+        getFirestore,
+        query,
+        where
+    } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
 
     var firebaseConfig = {
         apiKey: "AIzaSyAM0wDc_WO0wP3-_TPRPLENZDIHbezH7U4",
@@ -140,6 +146,9 @@
     const db = getFirestore(app);
 
     let allOrders = [];
+
+    let isSpecialAdmin = "{{ special|safe }}" === "True";
+
     let currentPage = 1;
     let ordersPerPage = 10;
     let totalPages = 0;
@@ -160,9 +169,20 @@
 
 
     async function fetchAllOrders() {
+        const usersQuery = query(collection(db, "webUsers"), where("special_customer", "==", true));
+        const usersSnapshot = await getDocs(usersQuery);
+
+        // Извлечь email-адреса пользователей со статусом isSpecial
+        const specialUserEmails = usersSnapshot.docs.map(doc => doc.data().email);
+
+        // Получить все заказы
         const ordersQuery = query(collection(db, "Orders"));
-        const querySnapshot = await getDocs(ordersQuery);
-        return querySnapshot.docs.map(doc => doc.data());
+        const ordersSnapshot = await getDocs(ordersQuery);
+
+        // Фильтровать заказы по specialUserEmails
+        return ordersSnapshot.docs
+            .map(doc => doc.data())
+            .filter(order => specialUserEmails.includes(order.email));
     }
 
 

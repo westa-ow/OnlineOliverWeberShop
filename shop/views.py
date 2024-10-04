@@ -390,6 +390,8 @@ def get_user_category(email):
             return user_dict['price_category'], user_dict['currency'] if 'currency' in user_dict else "Euro"
     else:
         return "Default", "Euro"
+
+
 def get_user_info(email):
     user = users_ref.where('email', '==', email).limit(1).get()
     for user_info in user:
@@ -548,6 +550,7 @@ def serialize_firestore_document(doc):
             doc_dict[key] = value.isoformat()
     return doc_dict
 
+
 # Test on is user an admin
 def is_admin(user):
     return user.is_authenticated and user.is_staff
@@ -566,17 +569,17 @@ def admin_tools(request, feature_name):
                 return redirect('admin_tools', feature_name='manage_banners')
     # Banner.objects.all().delete()
     email = request.user.email
-    category, currency = get_user_category(email)
-    currency = '€' if currency == 'Euro' else '$'
     form = BannerForm()
-
+    special = False
+    if email == "westadatabase@gmail.com":     #TODO: HERE I HAVE TO PASTE EMAIL OF SPECIAL ADMIN
+        special = True
     banners = Banner.objects.all().order_by('priority')
     print(Banner.objects.all())
     context = {
         "feature_name": feature_name,
         'banners':banners,
-        'form':form
-        # 'currency':currency
+        'form':form,
+        'special': special
     }
     return render(request, 'admin_tools.html', context)
 
