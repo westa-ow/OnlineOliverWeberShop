@@ -69,7 +69,7 @@ input[type="range"] {
                     <div class="column-connector">
                     <div class="column-2">
                         <div>
-                            <div class="quantity-slider" id="quantity-slider-{{ document.name }}" >
+                            <div class="quantity-slider" id="quantity-slider-{{ document.name }}" style=" {% if isSpecialCustomer == True %} display:none {% endif %}">
                                 <span class="min">{{ 1 }}</span>
                                 <div class="slider-body">
                                     <input class="inp" min=1 id="quantity-input-inp-{{ document.name }}" value="{{ document.quantity }}" type="number" placeholder="Enter the quantity">
