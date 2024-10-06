@@ -69,14 +69,14 @@ input[type="range"] {
                     <div class="column-connector">
                     <div class="column-2">
                         <div>
-                            <div class="quantity-slider" id="quantity-slider-{{ document.name }}" style=" {% if isSpecialCustomer == True %} display:none {% endif %}">
-                                <span class="min">{{ 1 }}</span>
-                                <div class="slider-body">
+                            <div class="quantity-slider" id="quantity-slider-{{ document.name }}" >
+                                <span class="min" style=" {% if isSpecialCustomer == True %} display:none {% endif %}">{{ 1 }}</span>
+                                <div class="slider-body" >
                                     <input class="inp" min=1 id="quantity-input-inp-{{ document.name }}" value="{{ document.quantity }}" type="number" placeholder="Enter the quantity">
-                                    <input type="range" min="1" max="{{ document.quantity_max }}" value="{{ document.quantity }}" class="slider" id="slider-{{ document.name }}">
+                                    <input type="range" min="1" max="{{ document.quantity_max }}" value="{{ document.quantity }}" class="slider" id="slider-{{ document.name }}" style=" {% if isSpecialCustomer == True %} display:none {% endif %}">
                                     <button class="quantity-input-button" id="quantity-input-apply-{{ document.name }}">{% trans "Confirm"%}</button>
                                 </div>
-                                <span class="max">{{ document.quantity_max }}</span>
+                                <span class="max" style=" {% if isSpecialCustomer == True %} display:none {% endif %}">{{ document.quantity_max }}</span>
                             </div>
                         </div>
 
