@@ -51,7 +51,7 @@ def form_page(request):
 
     category, currency = get_user_prices(request, email)
     info = get_user_info(email) or {}
-    sale = round((0 if "sale" not in info else info['sale'])/100, 2) or 0
+    sale = round((0 if "sale" not in info else info['sale'])/100, 3) or 0
 
     products = [{key: value for key, value in doc.to_dict().items() if key != 'Visible'} for doc in documents]
 

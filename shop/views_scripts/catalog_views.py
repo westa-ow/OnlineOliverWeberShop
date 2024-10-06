@@ -39,7 +39,7 @@ def catalog_view(request):
     email = get_user_session_type(request)
     category, currency = get_user_prices(request,email)
     info = get_user_info(email) or {}
-    sale = round((0 if "sale" not in info else info['sale'])/100, 2) or 0
+    sale = round((0 if "sale" not in info else info['sale'])/100, 3) or 0
 
     show_quantities = info['show_quantities'] if 'show_quantities' in info else False
     context = {
@@ -68,7 +68,7 @@ def add_to_cart_from_catalog(request):
         currency = '€' if currency == 'Euro' else '$'
         email = get_user_session_type(request)
         info = get_user_info(email) or {}
-        sale = round((0 if "sale" not in info else info['sale'])/100, 2) or 0
+        sale = round((0 if "sale" not in info else info['sale'])/100, 3) or 0
         if not product_name or new_quantity is None:
             return JsonResponse({'status': 'error', 'message': 'Missing product name or quantity'}, status=400)
 
