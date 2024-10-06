@@ -10,6 +10,7 @@
         <h1 style=" color: #0a0a0a"> Customer №{{ user_info.userId }} information</h1>
     </header>
     <form action="" id="customer-form" class="js-customer-form" method="post" autocomplete="off">
+    {% csrf_token %}
         <div>
             <div class="form-group row ">
                 <div class="col-md-12 form-control-valign">
