@@ -571,7 +571,7 @@ def admin_tools(request, feature_name):
     email = request.user.email
     form = BannerForm()
     special = False
-    if email == "specialAdmin@gmail.com":     #TODO: HERE I HAVE TO PASTE EMAIL OF SPECIAL ADMIN
+    if email == "specialAdmin@oliverweber.at":     #TODO: HERE I HAVE TO PASTE EMAIL OF SPECIAL ADMIN
         special = True
     banners = Banner.objects.all().order_by('priority')
     print(Banner.objects.all())
