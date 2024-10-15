@@ -406,6 +406,8 @@ def get_cart(email):
     for doc in docs:
         doc_dict = doc.to_dict()  # Call to_dict once
 
+        if len(doc_dict) <= 7:
+            continue
         description = doc_dict.get('description', '')
 
         # Simplify the handling of description encoding if necessary
@@ -415,7 +417,7 @@ def get_cart(email):
             'name': doc_dict.get('name'),
             'product_name': doc_dict.get('product_name'),
             'quantity': doc_dict.get('quantity'),
-            'category': _(doc_dict.get('category')) if _(doc_dict.get('category')) is not None else doc_dict.get('category'),
+            'category': _(doc_dict.get('category', "")) if _(doc_dict.get('category')) is not None else doc_dict.get('category'),
             'number': doc_dict.get('number'),
             'image_url': doc_dict.get('image_url'),
             'description': safe_description,
