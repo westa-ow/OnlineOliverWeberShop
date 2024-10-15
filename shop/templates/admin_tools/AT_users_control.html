@@ -12,10 +12,10 @@
 
     <div class="table-header">
         <select id="bulk-actions" disabled value="Bulk actions">
-            <option value="" disabled selected>Bulk actions</option>
-            <option value="Enable selected">Enable selected</option>
-            <option value="Disable selected">Disable selected</option>
-            <option value="Delete accounts"> Delete selected</option>
+            <option value="" disabled selected>{% trans "Bulk actions" %}</option>
+            <option value="Enable selected">{% trans "Enable selected" %}</option>
+            <option value="Disable selected">{% trans "Disable selected" %}</option>
+            <option value="Delete accounts"> {% trans "Delete selected" %} </option>
         </select>
         <button id="remove-filters" style="display: none;">Remove all filters</button>
     </div>
@@ -25,16 +25,16 @@
             <tr>
                 <th></th>
                 <th>User ID<span class="arrow-sorting"><i class="sort-arrow fa-solid fa-x"></i></span></th>
-                <th>Social Title<span class="arrow-sorting"><i class="sort-arrow fa-solid fa-x"></i></span></th>
-                <th>First Name<span class="arrow-sorting"><i class="sort-arrow fa-solid fa-x"></i></span></th>
-                <th>Last Name<span class="arrow-sorting"><i class="sort-arrow fa-solid fa-x"></i></span></th>
+                <th>{% trans "Social Title" %}<span class="arrow-sorting"><i class="sort-arrow fa-solid fa-x"></i></span></th>
+                <th>{% trans "First Name"%}<span class="arrow-sorting"><i class="sort-arrow fa-solid fa-x"></i></span></th>
+                <th>{% trans "Last Name"%}<span class="arrow-sorting"><i class="sort-arrow fa-solid fa-x"></i></span></th>
                 <th>Email<span class="arrow-sorting"><i class="sort-arrow fa-solid fa-x"></i></span></th>
-                <th>Sales</th>
-                <th>Enabled<span class="arrow-sorting"><i class="sort-arrow fa-solid fa-x"></i></span></th>
-                <th>Newsletter<span class="arrow-sorting"><i class="sort-arrow fa-solid fa-x"></i></span></th>
-                <th>Partners Offer<span class="arrow-sorting"><i class="sort-arrow fa-solid fa-x"></i></span></th>
-                <th>Registration Date<span class="arrow-sorting"><i class="sort-arrow fa-solid fa-x"></i></span></th>
-                <th>Actions</th>
+                <th>{% trans "Sales"%} </th>
+                <th>{% trans "Enabled"%}<span class="arrow-sorting"><i class="sort-arrow fa-solid fa-x"></i></span></th>
+                <th>{% trans "Newsletter"%}<span class="arrow-sorting"><i class="sort-arrow fa-solid fa-x"></i></span></th>
+                <th>{% trans "Partners Offer"%}<span class="arrow-sorting"><i class="sort-arrow fa-solid fa-x"></i></span></th>
+                <th>{% trans "Registration Date"%}<span class="arrow-sorting"><i class="sort-arrow fa-solid fa-x"></i></span></th>
+                <th>{% trans "Actions"%}</th>
             </tr>
         </thead>
         <tbody>
@@ -49,7 +49,7 @@
             <span class="pgntn-info"></span>
         </div>
         <div class="pgntn-items-per-page">
-            <span> Items per page: </span>
+            <span> {% trans "Items per page"%}: </span>
             <select id="items-per-page">
                 <option value="10">10</option>
                 <option value="20">20</option>
@@ -61,8 +61,8 @@
 </div>
 <div id="contextMenu" class="context-menu" style="display: none;">
     <ul>
-        <li id="viewUser">View User</li>
-        <li id="deleteUser">Delete User</li>
+        <li id="viewUser">{% trans "View User"%}</li>
+        <li id="deleteUser">{% trans "Delete User"%}</li>
     </ul>
 </div>
 {% include "widgets/overlay.html" %}

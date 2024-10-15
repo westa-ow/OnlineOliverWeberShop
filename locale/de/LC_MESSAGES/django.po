@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-23 17:47+0200\n"
+"POT-Creation-Date: 2024-10-15 09:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,25 +18,104 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\OnlineShop\settings.py:132
+#: .\OnlineShop\settings.py:134
 msgid "English"
 msgstr "Englisch"
 
-#: .\OnlineShop\settings.py:133
+#: .\OnlineShop\settings.py:135
 msgid "German"
 msgstr "Deutsch"
 
-#: .\OnlineShop\settings.py:134
+#: .\OnlineShop\settings.py:136
 msgid "Italian"
 msgstr "Italienisch"
 
-#: .\OnlineShop\settings.py:135
+#: .\OnlineShop\settings.py:137
 msgid "French"
 msgstr "Französisch"
 
-#: .\OnlineShop\settings.py:136
+#: .\OnlineShop\settings.py:138
 msgid "Spanish"
 msgstr "Spanisch"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:15
+#, fuzzy
+#| msgid "Colliers"
+msgid "Bulk actions"
+msgstr "Massenaktionen"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:16
+msgid "Enable selected"
+msgstr "Ausgewählte aktivieren"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:17
+msgid "Disable selected"
+msgstr "Ausgewählte Option deaktivieren"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:18
+msgid "Delete selected"
+msgstr "Ausgewählte löschen"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:28
+#, fuzzy
+#| msgid "Social title"
+msgid "Social Title"
+msgstr "Sozialer Titel"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:29
+#, fuzzy
+#| msgid "First name"
+msgid "First Name"
+msgstr "Vorname"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:30
+#, fuzzy
+#| msgid "Last name"
+msgid "Last Name"
+msgstr "Nachname"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:32
+msgid "Sales"
+msgstr "Verkäufe"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:33
+msgid "Enabled"
+msgstr "Ermöglicht"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:34
+#, fuzzy
+#| msgid "Newsletter mailing"
+msgid "Newsletter"
+msgstr "Newsletter"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:35
+msgid "Partners Offer"
+msgstr "Partnerangebot"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:36
+msgid "Registration Date"
+msgstr "Anmeldedatum"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:37
+#, fuzzy
+#| msgid "Options"
+msgid "Actions"
+msgstr "Aktionen"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:52
+#: .\shop\templates\catalog.html:160
+msgid "Items per page"
+msgstr "Artikel pro Seite"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:64
+msgid "View User"
+msgstr "Benutzer anzeigen"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:65
+#, fuzzy
+#| msgid "Delete"
+msgid "Delete User"
+msgstr "Benutzer löschen"
 
 #: .\shop\templates\cart.html:54
 #, fuzzy
@@ -60,7 +139,7 @@ msgid "Continue shopping"
 msgstr "Weiter einkaufen"
 
 #: .\shop\templates\cart.html:133
-#: .\shop\templates\widgets\navigation_bar.html:406 .\shop\views.py:353
+#: .\shop\templates\widgets\navigation_bar.html:411 .\shop\views.py:353
 msgid "Proceed to checkout"
 msgstr "Gehen Sie zur Kasse"
 
@@ -111,7 +190,7 @@ msgid "Price"
 msgstr "Preis"
 
 #: .\shop\templates\catalog.html:68
-#: .\shop\templates\widgets\navigation_bar.html:438 .\shop\views.py:347
+#: .\shop\templates\widgets\navigation_bar.html:443 .\shop\views.py:347
 msgid "Crystal color"
 msgstr "Kristallfarbe"
 
@@ -126,10 +205,6 @@ msgstr "Grundmaterial"
 #: .\shop\templates\catalog.html:129 .\shop\views.py:341
 msgid "Size"
 msgstr "Größe"
-
-#: .\shop\templates\catalog.html:160
-msgid "Items per page"
-msgstr "Artikel pro Seite"
 
 #: .\shop\templates\catalog.html:168
 msgid "Order by"
@@ -447,7 +522,7 @@ msgstr "Persönliche Informationen"
 
 #: .\shop\templates\orderAnonymAddresses.html:140
 #: .\shop\templates\profile\profile_side_menu.html:30
-#: .\shop\templates\widgets\navigation_bar.html:236
+#: .\shop\templates\widgets\navigation_bar.html:241
 msgid "Addresses"
 msgstr "Adressen"
 
@@ -768,24 +843,24 @@ msgstr ""
 "Silberschmuck und passende schicke Accessoires werden mit größter Präzision "
 "ausgewählt und alle Kristalle oder Zirkonias werden sorgfältig von Hand "
 "eingefasst.<br><br>Die Farbpalette der Kristalle reicht von klassischer "
-"Transparenz zu tiefen Rot-, Blau- und Grüntönen, während die Materialien mit"
-" 18-Karat-Gold, Roségold, Palladium und Rhodium beschichtet sind, um den "
-"Glanz zu erhalten.<br><br>In den Shop-in-Shop-Solution-Stores unserer "
-"Partner und auch in unseren eigenen In den Oliver Weber Flagship Stores "
-"finden Sie das umfangreiche Produktsortiment der Oliver Weber "
-"Collection.<br><br>Unser Team aus internationalen Designern und Trendscouts "
-"kreiert jedes Jahr 2 neue Saisonkollektionen mit den neuesten Schmucktrends "
-"für saisonale Anlässe. In der Modeschmuck-Kollektion finden Sie eine große "
-"Auswahl an Stilen und Farben.<br><br>In der Oliver Weber-Kollektion finden "
-"Sie Schmuck für jeden Anlass, egal ob zur Hochzeit, zum Geburtstag, zum "
-"Muttertag, zum Valentinstag oder als Weihnachtsgeschenk.<br><br>Bei über "
-"1500 einzelnen Schmuckstücken ist für jeden und jeden Anlass etwas "
-"dabei.<br><br>Schmuck liegt voll im Trend. Die große Auswahl an Ringen, "
-"Ohrringen und Anhängern bis hin zu Halsketten und Broschen, die mit "
-"hochwertigen Kristallen verziert sind, hilft Ihnen, den richtigen Schmuck "
-"für Sie zu finden.<br><br>Wenn Sie mehr über Oliver Weber und das Konzept "
-"erfahren möchten, finden Sie hier Wir sind auch auf Messen weltweit mit "
-"weltweiter Lieferung und Vertretungen vor Ort vertreten."
+"Transparenz bis hin zu tiefen Rot-, Blau- und Grüntönen, während die "
+"Materialien mit 18-karätigem Gold, Roségold, Palladium und Rhodium "
+"beschichtet sind, um den Glanz zu erhalten.<br><br>In den Shop-in-Shop-"
+"Solution-Stores unserer Partner und auch in unseren eigenen In den Oliver "
+"Weber Flagship Stores finden Sie das umfangreiche Produktsortiment der "
+"Oliver Weber Collection.<br><br>Unser Team aus internationalen Designern und"
+" Trendscouts kreiert jedes Jahr 2 neue Saisonkollektionen mit den neuesten "
+"Schmucktrends für saisonale Anlässe. In der Modeschmuck-Kollektion finden "
+"Sie eine große Auswahl an Stilen und Farben.<br><br>In der Oliver Weber-"
+"Kollektion finden Sie Schmuck für jeden Anlass, egal ob zur Hochzeit, zum "
+"Geburtstag, zum Muttertag, zum Valentinstag oder als "
+"Weihnachtsgeschenk.<br><br>Bei über 1500 einzelnen Schmuckstücken ist für "
+"jeden und jeden Anlass etwas dabei.<br><br>Schmuck liegt voll im Trend. Die "
+"große Auswahl an Ringen, Ohrringen und Anhängern bis hin zu Halsketten und "
+"Broschen, die mit hochwertigen Kristallen verziert sind, hilft Ihnen, den "
+"richtigen Schmuck für Sie zu finden.<br><br>Wenn Sie mehr über Oliver Weber "
+"und das Konzept erfahren möchten, finden Sie hier Wir sind auch auf Messen "
+"weltweit mit weltweiter Lieferung und Vertretungen vor Ort vertreten."
 
 #: .\shop\templates\our_company_pages\Olivers_Weber_World.html:28
 msgid "Oliver Weber's World "
@@ -885,7 +960,7 @@ msgstr ""
 "Sie können unsere Website besuchen, ohne Angaben zu Ihrer Person zu machen. "
 "Bei jedem Besuch auf der Website speichert der Webserver automatisch "
 "lediglich ein sogenanntes Server-Logfile, das z.B. den Namen der "
-"angeforderten Datei, Ihre IP-Adresse, Datum und Uhrzeit der Anforderung, "
+"angeforderten Datei, Ihre IP-Adresse, Datum und Uhrzeit der Anfrage, "
 "übertragene Datenmenge und den anfragenden Provider (Zugriffsdaten) und "
 "dokumentieren die Anfrage. Die Auswertung dieser Zugriffsdaten erfolgt "
 "ausschließlich zu dem Zweck, einen reibungslosen Betrieb der Website "
@@ -907,11 +982,11 @@ msgid ""
 msgstr ""
 "Die Leistungen zum Hosting und zur Darstellung der Website werden teilweise "
 "durch unsere Dienstleister im Rahmen einer Verarbeitung in unserem Auftrag "
-"erbracht. Sofern in dieser Datenschutzerklärung nichts anderes angegeben "
-"ist, werden sämtliche Zugriffsdaten und alle in dafür vorgesehenen "
-"Formularen dieser Website erhobenen Daten auf deren Servern verarbeitet. Bei"
-" Fragen zu unseren Dienstleistern und den Grundlagen unserer Zusammenarbeit "
-"mit ihnen nutzen Sie bitte die in dieser Datenschutzerklärung beschriebene "
+"erbracht. Sofern sich aus dieser Datenschutzerklärung nichts anderes ergibt,"
+" werden sämtliche Zugriffsdaten und alle in dafür vorgesehenen Formularen "
+"dieser Website erhobenen Daten auf deren Servern verarbeitet. Bei Fragen zu "
+"unseren Dienstleistern und den Grundlagen unserer Zusammenarbeit mit ihnen "
+"nutzen Sie bitte die in dieser Datenschutzerklärung beschriebene "
 "Kontaktmöglichkeit."
 
 #: .\shop\templates\our_company_pages\Privacy_policy.html:61
@@ -929,8 +1004,8 @@ msgid ""
 "service providers and the basis of our cooperation with them, please use the"
 " contact option described in this privacy policy."
 msgstr ""
-"Zum Zweck einer kürzeren Ladezeit nutzen wir bei einigen Angeboten ein "
-"sogenanntes Content Delivery Network („CDN“). Dieser Dienst stellt Inhalte "
+"Zum Zwecke einer kürzeren Ladezeit nutzen wir für einige Angebote ein "
+"sogenanntes Content Delivery Network (‚CDN‘). Dieser Dienst stellt Inhalte "
 "bereit, z.B. große Mediendateien, über regional verteilte Server externer "
 "CDN-Dienstleister. Aus diesem Grund werden Zugriffsdaten auf den Servern "
 "dieser Dienstleister verarbeitet. Wir beauftragen unsere Dienstleister mit "
@@ -1121,14 +1196,14 @@ msgstr ""
 " 6 Abs. 1 lit. a DSGVO an den ausgewählten Versanddienstleister, um diesem "
 "die Kontaktaufnahme zum Zwecke der Versandankündigung bzw. -abstimmung vor "
 "dem Versand zu ermöglichen.<br>Diese Einwilligung kann jederzeit durch eine "
-"Nachricht an den widerrufen werden Kontaktinformationen gemäß dieser "
-"Datenschutzerklärung oder direkt an den Versanddienstleister über die unten "
-"aufgeführte Kontaktadresse. Nach Widerruf der Einwilligung löschen wir die "
-"von Ihnen zu diesem Zweck übermittelten Daten, sofern Sie nicht ausdrücklich"
-" in eine weitere Nutzung Ihrer Daten eingewilligt haben oder wir uns eine "
-"anderweitige Datenverwendung vorbehalten, die gesetzlich erlaubt ist und "
-"über die wir Sie informieren Sie in dieser Datenschutzerklärung. "
-"&ZeroWidthSpace;&ZeroWidthSpace;"
+"Nachricht an den widerrufen werden Kontaktinformationen wie in dieser "
+"Datenschutzerklärung beschrieben oder direkt an den Versanddienstleister "
+"über die unten aufgeführte Kontaktadresse. Nach Widerruf der Einwilligung "
+"löschen wir die von Ihnen zu diesem Zweck übermittelten Daten, sofern Sie "
+"nicht ausdrücklich in eine weitere Nutzung Ihrer Daten eingewilligt haben "
+"oder wir uns eine anderweitige Datenverwendung vorbehalten, die gesetzlich "
+"erlaubt ist und über die wir Sie informieren Sie in dieser "
+"Datenschutzerklärung. &ZeroWidthSpace;&ZeroWidthSpace;"
 
 #: .\shop\templates\our_company_pages\Privacy_policy.html:82
 msgid "Data processing for the purposes of payment"
@@ -1238,8 +1313,9 @@ msgstr ""
 "erfolgen. Nach der Abmeldung löschen wir Ihre E-Mail-Adresse aus der "
 "Empfängerliste, sofern Sie nicht ausdrücklich in eine weitere Nutzung Ihrer "
 "Daten eingewilligt haben oder wir uns eine anderweitige Verwendung Ihrer "
-"Daten für andere gesetzlich zulässige Zwecke vorbehalten darüber informieren"
-" wir Sie in dieser Datenschutzerklärung."
+"Daten für andere Zwecke vorbehalten, die gesetzlich erlaubt sind und über "
+"die wir uns informieren darüber informieren wir Sie in dieser "
+"Datenschutzerklärung."
 
 #: .\shop\templates\our_company_pages\Privacy_policy.html:91
 msgid "Newsletter mailing"
@@ -1366,11 +1442,11 @@ msgstr ""
 "wiederzuerkennen (persistente Cookies). Wir nutzen solche Technologien, die "
 "für die Nutzung bestimmter Funktionen unserer Website (z. B. "
 "Warenkorbfunktion) unbedingt erforderlich sind. Durch diese Technologien "
-"werden IP-Adressen, Besuchszeit, Geräte- und Browserinformationen sowie "
-"Informationen zu Ihrer Nutzung unserer Website (z. B. Informationen zum "
-"Inhalt des Warenkorbs) erhoben und verarbeitet. Dies dient der Wahrung "
+"werden IP-Adressen, Zeitpunkt des Besuchs, Geräte- und Browserinformationen "
+"sowie Informationen zu Ihrer Nutzung unserer Website (z. B. Informationen "
+"zum Inhalt des Warenkorbs) erhoben und verarbeitet. Dies dient der Wahrung "
 "unserer berechtigten Interessen an einer optimierten Darstellung unseres "
-"Angebots gemäß Art. 6 Abs. 1 S. 1 lit. f DSGVO. Die im Rahmen der "
+"Angebots gemäß Art. 6 Abs. 1 lit. f DSGVO. Die im Rahmen der "
 "Interessenabwägung überwiegenden Rechtsgrundlagen sind Art. 6 Abs. 1 lit. f "
 "DSGVO."
 
@@ -1773,9 +1849,9 @@ msgstr ""
 "können Cookies eingesetzt werden und Daten (IP-Adresse, Zeitpunkt des "
 "Besuchs, Geräte- und Browserinformationen sowie Informationen zu Ihrer "
 "Nutzung unserer Website aufgrund von uns vorgegebener Ereignisse, wie z. B. "
-"Besuch einer Website oder Newsletter-Anmeldung) verwendet werden. erhoben "
-"werden, aus denen unter Verwendung von Pseudonymen Nutzungsprofile erstellt "
-"werden."
+"einem Besuch einer Website oder einer Newsletter-Anmeldung) verwendet "
+"werden. erhoben werden, aus denen unter Verwendung von Pseudonymen "
+"Nutzungsprofile erstellt werden."
 
 #: .\shop\templates\our_company_pages\Privacy_policy.html:129
 msgid ""
@@ -1819,7 +1895,7 @@ msgid ""
 "processed by Google. We have no influence on this subsequent data "
 "processing."
 msgstr ""
-"Zum Zweck einer einheitlichen Darstellung der Inhalte auf unserer Website "
+"Zum Zwecke einer einheitlichen Darstellung der Inhalte auf unserer Website "
 "werden durch den Script-Code „Google Fonts“ Daten (IP-Adresse, Zeitpunkt des"
 " Besuchs, Geräte- und Browser-Informationen) erfasst, an Google übermittelt "
 "und anschließend von Google verarbeitet. Auf diese weitere Datenverarbeitung"
@@ -1832,9 +1908,9 @@ msgid ""
 "in the expanded data protection mode used by us, transmitted to Google and "
 "then processed by Google only when you play a video."
 msgstr ""
-"Zur Einbindung von Inhalten Dritter werden über das YouTube-Video-Plugin "
-"Daten (IP-Adresse, Zeitpunkt des Besuchs, Geräte- und Browser-Informationen)"
-" in dem von uns genutzten erweiterten Datenschutzmodus erhoben, an Google "
+"Zur Einbindung von Inhalten Dritter werden über das YouTube-Video-Plugin in "
+"dem von uns genutzten erweiterten Datenschutzmodus Daten (IP-Adresse, "
+"Zeitpunkt des Besuchs, Geräte- und Browserinformationen) erhoben, an Google "
 "übermittelt und dann von Google nur dann verarbeitet, wenn Sie dies tun ein "
 "Video abspielen."
 
@@ -1874,7 +1950,7 @@ msgid ""
 "about data processing by Facebook can be found in&nbsp;"
 msgstr ""
 "wie unten beschrieben. Über den Facebook-Pixel werden automatisch Daten (IP-"
-"Adresse, Zeitpunkt des Besuchs, Geräte- und Browserinformationen sowie "
+"Adresse, Zeitpunkt des Besuchs, Geräte- und Browser-Informationen sowie "
 "Informationen zu Ihrer Nutzung unserer Website aufgrund von uns vorgegebener"
 " Ereignisse, wie z. B. Besuch einer Website oder Newsletter-Anmeldung, "
 "erhoben und gespeichert ), aus denen unter Verwendung von Pseudonymen "
@@ -2194,14 +2270,13 @@ msgid ""
 "assistance in this regard, please contact us."
 msgstr ""
 "Sofern Sie gegenüber dem jeweiligen Social-Media-Anbieter Ihre Einwilligung "
-"gemäß Art. Beim Besuch unserer Onlinepräsenzen in den oben genannten "
-"sozialen Medien werden Ihre Daten auf Grundlage von Art. 6 Abs. 1 lit. a "
-"DSGVO automatisch für Marktforschungs- und Werbezwecke erhoben und "
-"gespeichert, aus denen unter Verwendung von Pseudonymen Nutzungsprofile "
-"erstellt werden. Mithilfe dieser können beispielsweise Werbeanzeigen "
-"innerhalb und außerhalb der Plattformen geschaltet werden, die "
-"voraussichtlich Ihren Interessen entsprechen. Zu diesem Zweck werden in der "
-"Regel Cookies eingesetzt. Die detaillierten Informationen zur Verarbeitung "
+"gemäß Art. Bei Ihrem Besuch unserer Online-Präsenz in den oben genannten "
+"sozialen Medien werden Ihre Daten automatisch für Zwecke der Marktforschung "
+"und Werbung erhoben und gespeichert. Daraus werden unter Verwendung von "
+"Pseudonymen Nutzungsprofile erstellt. Mithilfe dieser können beispielsweise "
+"Werbeanzeigen innerhalb und außerhalb der Plattformen geschaltet werden, die"
+" voraussichtlich Ihren Interessen entsprechen. Zu diesem Zweck werden in der"
+" Regel Cookies eingesetzt. Die detaillierten Informationen zur Verarbeitung "
 "und Nutzung der Daten durch den jeweiligen Social-Media-Anbieter sowie eine "
 "Kontaktmöglichkeit und Ihre diesbezüglichen Rechte und "
 "Einstellungsmöglichkeiten zum Schutz Ihrer Privatsphäre entnehmen Sie bitte "
@@ -2228,8 +2303,9 @@ msgstr ""
 "Zusammenarbeit basiert auf den von der Europäischen Kommission "
 "verabschiedeten Standarddatenschutzklauseln. Die Datenverarbeitung im Rahmen"
 " des Besuchs einer Facebook-Fanpage erfolgt auf Grundlage einer Vereinbarung"
-" zwischen gemeinsam Verantwortlichen gemäß Art. 26 DSGVO. Weitere "
-"Informationen (Informationen zu Insights-Daten) finden Sie hier "
+" zwischen gemeinsam Verantwortlichen gemäß Art. 6 Abs. 1 lit. f DSGVO. 26 "
+"DSGVO. Weitere Informationen (Informationen zu Insights-Daten) finden Sie "
+"hier "
 
 #: .\shop\templates\our_company_pages\Privacy_policy.html:160
 msgid ""
@@ -2519,10 +2595,10 @@ msgid ""
 "receive a confirmation via e-mail."
 msgstr ""
 "Durch Einstellung der Produkte in den Online-Shop geben wir unsererseits ein"
-" verbindliches Angebot zum Abschluss eines Vertrages über die Produkte ab. "
-"Sie können unsere Produkte unverbindlich in den Warenkorb legen und Ihre "
+" verbindliches Angebot zum Abschluss eines Vertrages über die Waren ab. Sie "
+"können unsere Produkte unverbindlich in den Warenkorb legen und Ihre "
 "Eingaben vor Absenden Ihrer verbindlichen Bestellung jederzeit ändern, indem"
-" Sie die hierfür vorgesehenen und im Bestellvorgang erläuterten "
+" Sie die dafür vorgesehenen und im Bestellvorgang erläuterten "
 "Korrekturmöglichkeiten nutzen. Durch Anklicken des Bestellbuttons kommt der "
 "Vertrag zustande und Sie akzeptieren unser Angebot über die im Warenkorb "
 "enthaltenen Waren. Sobald Sie Ihre Bestellung abgeschickt haben, erhalten "
@@ -2621,14 +2697,14 @@ msgid ""
 " for pre-notification regarding the date for debiting the account (pre-"
 "notification period), is 0 days."
 msgstr ""
-"Mit Abgabe der Bestellung erteilen Sie uns ein Lastschriftmandat. Über den "
-"Zeitpunkt der Belastung des Kontos werden wir Sie gesondert in einer "
-"Vorabbenachrichtigung (Pre-Notification) informieren. Mit Abgabe der "
-"Lastschrift fordern wir unser Kreditinstitut auf, die Zahlungstransaktion "
-"einzuleiten. Die Zahlungstransaktion wird automatisch durchgeführt und Ihr "
-"Konto belastet. Die Belastung des Kontos erfolgt vor Versand der Ware. Die "
-"Frist für die Vorabankündigung des Belastungsdatums (Pre-Notification-Frist)"
-" beträgt 0 Tage."
+"Mit der Abgabe der Bestellung erteilen Sie uns ein Lastschriftmandat. Über "
+"den Zeitpunkt der Belastung des Kontos informieren wir Sie gesondert in "
+"einer Vorabbenachrichtigung (Pre-Notification). Mit Abgabe der Lastschrift "
+"fordern wir unser Kreditinstitut auf, die Zahlungstransaktion einzuleiten. "
+"Die Zahlungstransaktion wird automatisch durchgeführt und Ihr Konto "
+"belastet. Die Belastung des Kontos erfolgt vor Versand der Ware. Die Frist "
+"für die Vorabankündigung des Belastungsdatums (Pre-Notification-Frist) "
+"beträgt 0 Tage."
 
 #: .\shop\templates\our_company_pages\Terms_and_conditions.html:68
 msgid ""
@@ -2863,8 +2939,8 @@ msgid ""
 "complaints and claims on weekdays from TO By e-mail at "
 "office@oliverweber.com."
 msgstr ""
-"Kundenservice: Für Fragen, Reklamationen und Reklamationen steht Ihnen unser"
-" Kundenservice werktags von TO per E-Mail unter office@oliverweber.com zur "
+"Kundenservice: Unser Kundenservice steht Ihnen für Fragen, Reklamationen und"
+" Reklamationen werktags von TO per E-Mail unter office@oliverweber.com zur "
 "Verfügung."
 
 #: .\shop\templates\our_company_pages\Terms_and_conditions.html:98
@@ -3006,7 +3082,7 @@ msgid ""
 "You may unsubscribe at any moment. For that purpose, please find our contact"
 " info in the legal notice"
 msgstr ""
-"Sie können sich jederzeit abmelden. Unsere Kontaktdaten hierzu finden Sie "
+"Sie können sich jederzeit abmelden. Unsere Kontaktdaten finden Sie hierzu "
 "bitte im Impressum"
 
 #: .\shop\templates\profile\profile_information.html:139
@@ -3111,7 +3187,7 @@ msgid "Description"
 msgstr "Beschreibung"
 
 #: .\shop\templates\profile\profile_orders.html:264
-#: .\shop\templates\widgets\navigation_bar.html:458 .\shop\views.py:349
+#: .\shop\templates\widgets\navigation_bar.html:463 .\shop\views.py:349
 msgid "Quantity"
 msgstr "Menge"
 
@@ -3125,27 +3201,27 @@ msgid "In stock"
 msgstr "Auf Lager"
 
 #: .\shop\templates\profile\profile_side_menu.html:15
-#: .\shop\templates\widgets\navigation_bar.html:212
+#: .\shop\templates\widgets\navigation_bar.html:217
 msgid "Dashboard"
 msgstr "Armaturenbrett"
 
 #: .\shop\templates\profile\profile_side_menu.html:20
-#: .\shop\templates\widgets\navigation_bar.html:224
+#: .\shop\templates\widgets\navigation_bar.html:229
 msgid "Orders"
 msgstr "Bestellungen"
 
 #: .\shop\templates\profile\profile_side_menu.html:25
-#: .\shop\templates\widgets\navigation_bar.html:230
+#: .\shop\templates\widgets\navigation_bar.html:235
 msgid "Information"
 msgstr "Information"
 
 #: .\shop\templates\profile\profile_side_menu.html:36
-#: .\shop\templates\widgets\navigation_bar.html:218
+#: .\shop\templates\widgets\navigation_bar.html:223
 msgid "Favorites"
 msgstr "Favoriten"
 
 #: .\shop\templates\profile\profile_side_menu.html:42
-#: .\shop\templates\widgets\navigation_bar.html:243
+#: .\shop\templates\widgets\navigation_bar.html:248
 msgid "Sign out"
 msgstr "Abmelden"
 
@@ -3332,10 +3408,10 @@ msgstr ""
 "Um unseren Garantieservice in Anspruch zu nehmen, senden Sie uns (oder an "
 "das Geschäft, in dem Sie unseren Schmuck gekauft haben) bitte das "
 "betreffende Schmuckstück zusammen mit dem Kaufbeleg und der Garantiekarte "
-"zu. Wir werden die Sache nach unserer Wahl entweder reparieren oder, je nach"
-" Grad des Schadens und der Verfügbarkeit von Ersatzteilen; Ersetzen Sie den "
-"Artikel durch einen identischen Artikel (sofern vorhanden) oder ersetzen Sie"
-" ihn durch einen Artikel mit vergleichbarem Wert."
+"zu. Nach unserer Wahl reparieren wir die Sache oder, je nach Grad der "
+"Beschädigung und Verfügbarkeit von Ersatzteilen; Ersetzen Sie den Artikel "
+"durch einen identischen Artikel (falls vorhanden) oder ersetzen Sie ihn "
+"durch einen Artikel mit vergleichbarem Wert."
 
 #: .\shop\templates\service_pages\customer_service_and_repair.html:57
 msgid "PRODUCT INFORMATION AND CARE INSTRUCTIONS"
@@ -3592,7 +3668,7 @@ msgid ""
 msgstr ""
 "Sie erreichen uns zu unseren Bürozeiten: Montag bis Donnerstag von 08:00 bis"
 " 17:00 Uhr und Freitag von 08:00 bis 13:00 Uhr, außer an Feiertagen, oder "
-"schreiben Sie uns eine E-Mail an"
+"schreiben Sie eine E-Mail an"
 
 #: .\shop\templates\service_pages\faq.html:72
 msgid "Can I return a product after I received it?"
@@ -3684,8 +3760,8 @@ msgid ""
 "the time and temperature, the finger circumference varies."
 msgstr ""
 "Nehmen Sie ein Stück Faden und wickeln Sie diesen Faden um den betreffenden "
-"Finger. Nachdem Sie den Faden gelöst haben, messen Sie die Länge des Fadens."
-" Je nach Zeit und Temperatur variiert der Fingerumfang."
+"Finger. Messen Sie nach dem Lösen des Fadens die Länge des Fadens. Je nach "
+"Zeit und Temperatur variiert der Fingerumfang."
 
 #: .\shop\templates\service_pages\payment_information.html:9
 #: .\shop\templates\service_pages\payment_information.html:12
@@ -3789,10 +3865,10 @@ msgid ""
 "existing Amazon account information to pay for your purchase on our website."
 " Amazon Pay is a further way to shop online safely and securely."
 msgstr ""
-"Amazon Pay macht den Online-Einkauf noch einfacher, indem es Ihnen "
-"ermöglicht, Ihren Einkauf auf unserer Website mit Ihren bestehenden Amazon-"
-"Kontodaten zu bezahlen. Amazon Pay ist eine weitere Möglichkeit, sicher und "
-"geschützt online einzukaufen."
+"Amazon Pay macht Online-Einkäufe noch einfacher, indem es Ihnen ermöglicht, "
+"Ihren Einkauf auf unserer Website mit Ihren bestehenden Amazon-Kontodaten zu"
+" bezahlen. Amazon Pay ist eine weitere Möglichkeit, sicher und geschützt "
+"online einzukaufen."
 
 #: .\shop\templates\service_pages\returns_and_exchanges.html:9
 msgid "Returns and exchanges "
@@ -3923,8 +3999,8 @@ msgid ""
 "Date<br> (*) Delete as appropriate"
 msgstr ""
 "An Westa GmbH, Gewerbepark Süd 24, 6068 Mils, Österreich, "
-"office@oliverweber.at, Fax: 43-5223-41881-30<br> — Hiermit erkläre(n) "
-"ich/wir(*) dass ich/wir(*) meinen Vertrag widerrufe(n). /unser (*) Vertrag "
+"office@oliverweber.at, Fax: 43-5223-41881-30<br> — Ich/Wir(*) erkläre(n) "
+"hiermit, dass ich/wir(*) meinen Vertrag widerrufe(n). /unser (*) Vertrag "
 "über den Kauf der folgenden Waren (*)/für die Erbringung der folgenden "
 "Dienstleistung (*)<br> — Bestellt am (*) / erhalten am (*)<br> — Name "
 "des/der Verbraucher(s). )<br> — Anschrift des/der Verbraucher(s)<br> — "
@@ -4193,37 +4269,37 @@ msgstr "Fußkettchen"
 msgid "ACCESSORIES"
 msgstr "ZUBEHÖR"
 
-#: .\shop\templates\widgets\navigation_bar.html:176
+#: .\shop\templates\widgets\navigation_bar.html:181
 msgid "Shopping Cart"
 msgstr "Warenkorb"
 
-#: .\shop\templates\widgets\navigation_bar.html:185
+#: .\shop\templates\widgets\navigation_bar.html:190
 msgid "Subtotal:"
 msgstr "Zwischensumme:"
 
-#: .\shop\templates\widgets\navigation_bar.html:188
+#: .\shop\templates\widgets\navigation_bar.html:193
 #, fuzzy
 #| msgid "Proceed to checkout"
 msgid "Proceed to Checkout"
 msgstr "Gehen Sie zur Kasse"
 
-#: .\shop\templates\widgets\navigation_bar.html:194
+#: .\shop\templates\widgets\navigation_bar.html:199
 msgid "Account"
 msgstr "Konto"
 
-#: .\shop\templates\widgets\navigation_bar.html:440
+#: .\shop\templates\widgets\navigation_bar.html:445
 msgid "Plating"
 msgstr "Überzug"
 
-#: .\shop\templates\widgets\navigation_bar.html:442
+#: .\shop\templates\widgets\navigation_bar.html:447
 msgid "Base Material"
 msgstr "Grundmaterial"
 
-#: .\shop\templates\widgets\navigation_bar.html:480
+#: .\shop\templates\widgets\navigation_bar.html:485
 msgid "Remove from cart"
 msgstr "Aus dem Warenkorb entfernen"
 
-#: .\shop\templates\widgets\navigation_bar.html:507
+#: .\shop\templates\widgets\navigation_bar.html:512
 msgid ""
 "You cant delete items during checkout. Go back to shop pages to change your "
 "cart"
@@ -4231,11 +4307,11 @@ msgstr ""
 "Sie können Artikel während des Bezahlvorgangs nicht löschen. Gehen Sie "
 "zurück zu den Shop-Seiten, um Ihren Warenkorb zu ändern"
 
-#: .\shop\templates\widgets\navigation_bar.html:602
+#: .\shop\templates\widgets\navigation_bar.html:607
 msgid "Cart is empty"
 msgstr "Der Warenkorb ist leer"
 
-#: .\shop\templates\widgets\navigation_bar.html:619
+#: .\shop\templates\widgets\navigation_bar.html:624
 msgid "Back to shop"
 msgstr "Zurück zum Shop"
 
@@ -4994,15 +5070,15 @@ msgstr "Boolescher Wert (entweder wahr, falsch oder keiner)"
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2350
 msgid "Positive big integer"
-msgstr "Positive große Ganzzahl"
+msgstr "Positive große ganze Zahl"
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2365
 msgid "Positive integer"
-msgstr "Positive ganze Zahl"
+msgstr "Positive Ganzzahl"
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2380
 msgid "Positive small integer"
-msgstr "Positive kleine Ganzzahl"
+msgstr "Positive kleine ganze Zahl"
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2396
 #, python-format
@@ -6040,7 +6116,7 @@ msgstr "Umgeleitet, aber in der Antwort fehlt der Header „Location:“."
 msgid "Attempting to connect to qpid with SASL mechanism %s"
 msgstr ""
 "Es wird versucht, mit dem SASL-Mechanismus %seine Verbindung zu qpid "
-"herzustellen."
+"herzustellen"
 
 #: .\venv\Lib\site-packages\kombu\transport\qpid.py:1316
 #, python-format

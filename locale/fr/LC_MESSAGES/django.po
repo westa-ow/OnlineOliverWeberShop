@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-23 17:47+0200\n"
+"POT-Creation-Date: 2024-10-15 09:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,25 +18,104 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\OnlineShop\settings.py:132
+#: .\OnlineShop\settings.py:134
 msgid "English"
 msgstr "Anglais"
 
-#: .\OnlineShop\settings.py:133
+#: .\OnlineShop\settings.py:135
 msgid "German"
 msgstr "Allemand"
 
-#: .\OnlineShop\settings.py:134
+#: .\OnlineShop\settings.py:136
 msgid "Italian"
 msgstr "italien"
 
-#: .\OnlineShop\settings.py:135
+#: .\OnlineShop\settings.py:137
 msgid "French"
 msgstr "Français"
 
-#: .\OnlineShop\settings.py:136
+#: .\OnlineShop\settings.py:138
 msgid "Spanish"
 msgstr "Espagnol"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:15
+#, fuzzy
+#| msgid "Colliers"
+msgid "Bulk actions"
+msgstr "Actions groupées"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:16
+msgid "Enable selected"
+msgstr "Activer la sélection"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:17
+msgid "Disable selected"
+msgstr "Désactiver la sélection"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:18
+msgid "Delete selected"
+msgstr "Supprimer la sélection"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:28
+#, fuzzy
+#| msgid "Social title"
+msgid "Social Title"
+msgstr "Titre social"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:29
+#, fuzzy
+#| msgid "First name"
+msgid "First Name"
+msgstr "Prénom"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:30
+#, fuzzy
+#| msgid "Last name"
+msgid "Last Name"
+msgstr "Nom de famille"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:32
+msgid "Sales"
+msgstr "Ventes"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:33
+msgid "Enabled"
+msgstr "Activé"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:34
+#, fuzzy
+#| msgid "Newsletter mailing"
+msgid "Newsletter"
+msgstr "Bulletin"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:35
+msgid "Partners Offer"
+msgstr "Offre Partenaires"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:36
+msgid "Registration Date"
+msgstr "Date d'inscription"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:37
+#, fuzzy
+#| msgid "Options"
+msgid "Actions"
+msgstr "Actes"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:52
+#: .\shop\templates\catalog.html:160
+msgid "Items per page"
+msgstr "Articles par page"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:64
+msgid "View User"
+msgstr "Afficher l'utilisateur"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:65
+#, fuzzy
+#| msgid "Delete"
+msgid "Delete User"
+msgstr "Supprimer un utilisateur"
 
 #: .\shop\templates\cart.html:54
 msgid "Shopping cart"
@@ -58,7 +137,7 @@ msgid "Continue shopping"
 msgstr "Continuer mes achats"
 
 #: .\shop\templates\cart.html:133
-#: .\shop\templates\widgets\navigation_bar.html:406 .\shop\views.py:353
+#: .\shop\templates\widgets\navigation_bar.html:411 .\shop\views.py:353
 msgid "Proceed to checkout"
 msgstr "Passer à la caisse"
 
@@ -109,7 +188,7 @@ msgid "Price"
 msgstr "Prix"
 
 #: .\shop\templates\catalog.html:68
-#: .\shop\templates\widgets\navigation_bar.html:438 .\shop\views.py:347
+#: .\shop\templates\widgets\navigation_bar.html:443 .\shop\views.py:347
 msgid "Crystal color"
 msgstr "Couleur cristal"
 
@@ -124,10 +203,6 @@ msgstr "Matériau de base"
 #: .\shop\templates\catalog.html:129 .\shop\views.py:341
 msgid "Size"
 msgstr "Taille"
-
-#: .\shop\templates\catalog.html:160
-msgid "Items per page"
-msgstr "Articles par page"
 
 #: .\shop\templates\catalog.html:168
 msgid "Order by"
@@ -445,7 +520,7 @@ msgstr "Informations personnelles"
 
 #: .\shop\templates\orderAnonymAddresses.html:140
 #: .\shop\templates\profile\profile_side_menu.html:30
-#: .\shop\templates\widgets\navigation_bar.html:236
+#: .\shop\templates\widgets\navigation_bar.html:241
 msgid "Addresses"
 msgstr "Adresses"
 
@@ -1297,8 +1372,8 @@ msgid ""
 " your data for these purposes at any time by sending a message to the "
 "contact option specified below."
 msgstr ""
-"Nous nous réservons en outre le droit d'utiliser votre nom, prénom et votre "
-"adresse postale à des fins publicitaires, par ex. pour l'envoi par courrier "
+"Nous nous réservons en outre le droit d'utiliser votre nom, prénom et "
+"adresse postale à nos fins publicitaires, par ex. pour l'envoi par courrier "
 "d'offres intéressantes et d'informations sur nos produits. Cela sert à "
 "sauvegarder nos intérêts légitimes dans la promotion et la publicité de nos "
 "produits auprès des clients conformément à l'art. 6 (1) (f) du RGPD qui "
@@ -1370,15 +1445,16 @@ msgstr ""
 "de la session du navigateur, c'est-à-dire après la fermeture de votre "
 "navigateur (appelés cookies de session). D'autres cookies restent sur votre "
 "terminal et nous permettent de reconnaître votre navigateur lors de votre "
-"prochaine visite (cookies persistants). Nous utilisons des technologies "
-"strictement nécessaires à l'utilisation de certaines fonctions de notre site"
-" Internet (par exemple la fonction panier). Ces technologies sont utilisées "
-"pour collecter et traiter les adresses IP, l'heure de la visite, les "
-"informations sur l'appareil et le navigateur ainsi que des informations sur "
-"votre utilisation de notre site Internet (par exemple des informations sur "
-"le contenu du panier). Cela sert à sauvegarder nos intérêts légitimes dans "
-"une présentation optimisée de notre offre conformément à l'art. 6 (1) (f) du"
-" RGPD qui prévalent dans le processus de mise en balance des intérêts."
+"prochaine visite (cookies persistants). Nous utilisons de telles "
+"technologies qui sont strictement nécessaires à l'utilisation de certaines "
+"fonctions de notre site Internet (par exemple la fonction panier). Ces "
+"technologies sont utilisées pour collecter et traiter les adresses IP, "
+"l'heure de la visite, les informations sur l'appareil et le navigateur ainsi"
+" que des informations sur votre utilisation de notre site Internet (par "
+"exemple des informations sur le contenu du panier). Cela sert à sauvegarder "
+"nos intérêts légitimes dans une présentation optimisée de notre offre "
+"conformément à l'art. 6 (1) (f) du RGPD qui prévalent dans le processus de "
+"mise en balance des intérêts."
 
 #: .\shop\templates\our_company_pages\Privacy_policy.html:101
 msgid ""
@@ -1577,8 +1653,8 @@ msgstr ""
 "de la visite, informations sur l'appareil et le navigateur), les transmet à "
 "Adobe et les traite ensuite par Adobe. Nous n'avons aucune influence sur ce "
 "traitement ultérieur des données.  Le traitement des données est effectué "
-"sur la base d'un accord entre les parties conjointement responsables "
-"conformément à l'art. 26 RGPD."
+"sur la base d'un accord entre les parties coresponsables conformément à "
+"l'art. 26 RGPD."
 
 #: .\shop\templates\our_company_pages\Privacy_policy.html:114
 msgid "Use of Google services for web analysis and advertising purposes"
@@ -1608,8 +1684,8 @@ msgstr ""
 "collectées automatiquement par les technologies Google concernant votre "
 "utilisation de notre site Internet sont généralement transférées à un "
 "serveur de Google LLC, 1600 Amphitheatre Parkway Mountain View, CA 94043, "
-"USA et y sont stockées. Il n’existe pas de décision d’adéquation de la part "
-"de la Commission européenne à l’égard des États-Unis. Notre coopération "
+"USA et y sont stockées. Il n’existe pas de décision d’adéquation à l’égard "
+"des États-Unis de la part de la Commission européenne. Notre coopération "
 "repose sur des clauses types de protection des données adoptées par la "
 "Commission européenne. Si votre adresse IP est collectée à l'aide des "
 "technologies Google, elle sera raccourcie en activant l'anonymisation IP "
@@ -1737,9 +1813,9 @@ msgstr ""
 " par centres d'intérêt grâce à la collecte et au traitement de données "
 "(adresse IP, heure de la visite, informations sur l'appareil et le "
 "navigateur ainsi que des informations sur votre utilisation de notre site "
-"Web) et à l'attribution automatique d'un UserID pseudonyme, qui est utilisé "
-"pour déterminer les intérêts en fonction des visites sur ce site Web et sur "
-"d’autres."
+"Internet) et à l'attribution automatique d'un UserID pseudonyme, qui est "
+"utilisé pour déterminer les intérêts en fonction des visites sur ce site Web"
+" et sur d’autres."
 
 #: .\shop\templates\our_company_pages\Privacy_policy.html:126
 msgid ""
@@ -1822,8 +1898,8 @@ msgstr ""
 "utilisation de notre site Web. ) et effectue une analyse de votre "
 "utilisation de notre site Web au moyen de ce que l'on appelle JavaScript et "
 "de cookies. En outre, d'autres cookies stockés dans votre navigateur par les"
-" services de Google sont évalués. Les données personnelles ne sont ni lues "
-"ni stockées dans les champs de saisie du formulaire concerné."
+" services Google sont évalués. Les données personnelles ne sont ni lues ni "
+"stockées dans les champs de saisie du formulaire concerné."
 
 #: .\shop\templates\our_company_pages\Privacy_policy.html:133
 msgid ""
@@ -2764,7 +2840,7 @@ msgid ""
 "received the goods together with the invoice. We reserve the right to allow "
 "payment by invoice only after we verify your credit rating."
 msgstr ""
-"Vous pouvez payer votre achat par virement bancaire après avoir reçu la "
+"Vous pouvez régler votre achat par virement bancaire après avoir reçu la "
 "marchandise accompagnée de la facture. Nous nous réservons le droit "
 "d'autoriser le paiement par facture uniquement après avoir vérifié votre "
 "cote de crédit."
@@ -3143,7 +3219,7 @@ msgid "Description"
 msgstr "Description"
 
 #: .\shop\templates\profile\profile_orders.html:264
-#: .\shop\templates\widgets\navigation_bar.html:458 .\shop\views.py:349
+#: .\shop\templates\widgets\navigation_bar.html:463 .\shop\views.py:349
 msgid "Quantity"
 msgstr "Quantité"
 
@@ -3157,27 +3233,27 @@ msgid "In stock"
 msgstr "En stock"
 
 #: .\shop\templates\profile\profile_side_menu.html:15
-#: .\shop\templates\widgets\navigation_bar.html:212
+#: .\shop\templates\widgets\navigation_bar.html:217
 msgid "Dashboard"
 msgstr "Tableau de bord"
 
 #: .\shop\templates\profile\profile_side_menu.html:20
-#: .\shop\templates\widgets\navigation_bar.html:224
+#: .\shop\templates\widgets\navigation_bar.html:229
 msgid "Orders"
 msgstr "Ordres"
 
 #: .\shop\templates\profile\profile_side_menu.html:25
-#: .\shop\templates\widgets\navigation_bar.html:230
+#: .\shop\templates\widgets\navigation_bar.html:235
 msgid "Information"
 msgstr "Information"
 
 #: .\shop\templates\profile\profile_side_menu.html:36
-#: .\shop\templates\widgets\navigation_bar.html:218
+#: .\shop\templates\widgets\navigation_bar.html:223
 msgid "Favorites"
 msgstr "Favoris"
 
 #: .\shop\templates\profile\profile_side_menu.html:42
-#: .\shop\templates\widgets\navigation_bar.html:243
+#: .\shop\templates\widgets\navigation_bar.html:248
 msgid "Sign out"
 msgstr "se déconnecter"
 
@@ -3471,8 +3547,8 @@ msgstr ""
 "parcourir et ajouter des produits à votre panier comme dans une boutique "
 "classique. Ajouter des produits à votre panier ne signifie pas que vous êtes"
 " obligé de les acheter. Si vous aimez un produit mais que vous n'en êtes pas"
-" encore sûr, vous pouvez utiliser le bouton \"Ajouter à ma liste de "
-"souhaits\". Il vous aidera à voir tous les produits que vous avez aimés lors"
+" encore sûr, vous pouvez utiliser le bouton « Ajouter à ma liste de "
+"souhaits ». Il vous aidera à voir tous les produits que vous avez aimés lors"
 " de votre navigation, sans avoir besoin de revenir sur vos pas ni de lancer "
 "une recherche. encore une fois pour eux."
 
@@ -3921,7 +3997,7 @@ msgstr ""
 "utilisant le même moyen de paiement que celui que vous avez utilisé pour la "
 "transaction initiale, sauf accord contraire exprès de votre part ; en tout "
 "état de cause, vous n’aurez à payer aucun frais du fait d’un tel "
-"remboursement. Nous pouvons refuser le remboursement jusqu'à ce que nous "
+"remboursement. Nous pouvons différer le remboursement jusqu'à ce que nous "
 "ayons reçu les marchandises ou que vous ayez fourni la preuve du renvoi des "
 "marchandises, selon la première éventualité."
 
@@ -4241,35 +4317,35 @@ msgstr "Bracelets de cheville"
 msgid "ACCESSORIES"
 msgstr "ACCESSOIRES"
 
-#: .\shop\templates\widgets\navigation_bar.html:176
+#: .\shop\templates\widgets\navigation_bar.html:181
 msgid "Shopping Cart"
 msgstr "Panier"
 
-#: .\shop\templates\widgets\navigation_bar.html:185
+#: .\shop\templates\widgets\navigation_bar.html:190
 msgid "Subtotal:"
 msgstr "Total:"
 
-#: .\shop\templates\widgets\navigation_bar.html:188
+#: .\shop\templates\widgets\navigation_bar.html:193
 msgid "Proceed to Checkout"
 msgstr "Passer à la caisse"
 
-#: .\shop\templates\widgets\navigation_bar.html:194
+#: .\shop\templates\widgets\navigation_bar.html:199
 msgid "Account"
 msgstr "Compte"
 
-#: .\shop\templates\widgets\navigation_bar.html:440
+#: .\shop\templates\widgets\navigation_bar.html:445
 msgid "Plating"
 msgstr "Placage"
 
-#: .\shop\templates\widgets\navigation_bar.html:442
+#: .\shop\templates\widgets\navigation_bar.html:447
 msgid "Base Material"
 msgstr "Matériau de base"
 
-#: .\shop\templates\widgets\navigation_bar.html:480
+#: .\shop\templates\widgets\navigation_bar.html:485
 msgid "Remove from cart"
 msgstr "Supprimer du panier"
 
-#: .\shop\templates\widgets\navigation_bar.html:507
+#: .\shop\templates\widgets\navigation_bar.html:512
 msgid ""
 "You cant delete items during checkout. Go back to shop pages to change your "
 "cart"
@@ -4277,11 +4353,11 @@ msgstr ""
 "Vous ne pouvez pas supprimer des articles lors du paiement. Retournez aux "
 "pages de la boutique pour modifier votre panier"
 
-#: .\shop\templates\widgets\navigation_bar.html:602
+#: .\shop\templates\widgets\navigation_bar.html:607
 msgid "Cart is empty"
 msgstr "Le panier est vide"
 
-#: .\shop\templates\widgets\navigation_bar.html:619
+#: .\shop\templates\widgets\navigation_bar.html:624
 msgid "Back to shop"
 msgstr "Retour à la boutique"
 
@@ -4764,7 +4840,7 @@ msgid_plural ""
 "%(show_value)d)."
 msgstr[0] ""
 "Assurez-vous que cette valeur comporte au moins le caractère %(limit_value)d"
-" (elle contient %(show_value)d)."
+" (elle comporte %(show_value)d)."
 msgstr[1] ""
 "Assurez-vous que cette valeur comporte au moins %(limit_value)d caractères "
 "(elle comporte %(show_value)d)."
@@ -4779,10 +4855,10 @@ msgid_plural ""
 "%(show_value)d)."
 msgstr[0] ""
 "Assurez-vous que cette valeur comporte au plus le caractère %(limit_value)d "
-"(elle contient %(show_value)d)."
+"(elle comporte %(show_value)d)."
 msgstr[1] ""
 "Assurez-vous que cette valeur comporte au plus %(limit_value)d caractères "
-"(elle comporte %(show_value)d)."
+"(elle contient %(show_value)d)."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:480
 #: .\venv\Lib\site-packages\django\forms\fields.py:355
@@ -5227,7 +5303,7 @@ msgstr "Entrez une valeur complète."
 
 #: .\venv\Lib\site-packages\django\forms\fields.py:1321
 msgid "Enter a valid UUID."
-msgstr "Entrez un UUID valide."
+msgstr "Saisissez un UUID valide."
 
 #: .\venv\Lib\site-packages\django\forms\fields.py:1351
 msgid "Enter a valid JSON."

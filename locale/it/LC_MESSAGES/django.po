@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-23 17:47+0200\n"
+"POT-Creation-Date: 2024-10-15 09:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,25 +18,104 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\OnlineShop\settings.py:132
+#: .\OnlineShop\settings.py:134
 msgid "English"
 msgstr "Inglese"
 
-#: .\OnlineShop\settings.py:133
+#: .\OnlineShop\settings.py:135
 msgid "German"
 msgstr "tedesco"
 
-#: .\OnlineShop\settings.py:134
+#: .\OnlineShop\settings.py:136
 msgid "Italian"
 msgstr "Italiano"
 
-#: .\OnlineShop\settings.py:135
+#: .\OnlineShop\settings.py:137
 msgid "French"
 msgstr "francese"
 
-#: .\OnlineShop\settings.py:136
+#: .\OnlineShop\settings.py:138
 msgid "Spanish"
 msgstr "spagnolo"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:15
+#, fuzzy
+#| msgid "Colliers"
+msgid "Bulk actions"
+msgstr "Azioni collettive"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:16
+msgid "Enable selected"
+msgstr "Abilita selezionato"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:17
+msgid "Disable selected"
+msgstr "Disattiva selezionato"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:18
+msgid "Delete selected"
+msgstr "Elimina selezionato"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:28
+#, fuzzy
+#| msgid "Social title"
+msgid "Social Title"
+msgstr "Titolo sociale"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:29
+#, fuzzy
+#| msgid "First name"
+msgid "First Name"
+msgstr "Nome di battesimo"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:30
+#, fuzzy
+#| msgid "Last name"
+msgid "Last Name"
+msgstr "Cognome"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:32
+msgid "Sales"
+msgstr "Saldi"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:33
+msgid "Enabled"
+msgstr "Abilitato"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:34
+#, fuzzy
+#| msgid "Newsletter mailing"
+msgid "Newsletter"
+msgstr "Notiziario"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:35
+msgid "Partners Offer"
+msgstr "Offerta partner"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:36
+msgid "Registration Date"
+msgstr "Data di registrazione"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:37
+#, fuzzy
+#| msgid "Options"
+msgid "Actions"
+msgstr "Azioni"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:52
+#: .\shop\templates\catalog.html:160
+msgid "Items per page"
+msgstr "Articoli per pagina"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:64
+msgid "View User"
+msgstr "Visualizza utente"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:65
+#, fuzzy
+#| msgid "Delete"
+msgid "Delete User"
+msgstr "Elimina utente"
 
 #: .\shop\templates\cart.html:54
 msgid "Shopping cart"
@@ -58,7 +137,7 @@ msgid "Continue shopping"
 msgstr "Continua a fare acquisti"
 
 #: .\shop\templates\cart.html:133
-#: .\shop\templates\widgets\navigation_bar.html:406 .\shop\views.py:353
+#: .\shop\templates\widgets\navigation_bar.html:411 .\shop\views.py:353
 msgid "Proceed to checkout"
 msgstr "Procedere al checkout"
 
@@ -109,7 +188,7 @@ msgid "Price"
 msgstr "Prezzo"
 
 #: .\shop\templates\catalog.html:68
-#: .\shop\templates\widgets\navigation_bar.html:438 .\shop\views.py:347
+#: .\shop\templates\widgets\navigation_bar.html:443 .\shop\views.py:347
 msgid "Crystal color"
 msgstr "Colore cristallo"
 
@@ -124,10 +203,6 @@ msgstr "Materiale di base"
 #: .\shop\templates\catalog.html:129 .\shop\views.py:341
 msgid "Size"
 msgstr "Misurare"
-
-#: .\shop\templates\catalog.html:160
-msgid "Items per page"
-msgstr "Articoli per pagina"
 
 #: .\shop\templates\catalog.html:168
 msgid "Order by"
@@ -445,7 +520,7 @@ msgstr "Informazioni personali"
 
 #: .\shop\templates\orderAnonymAddresses.html:140
 #: .\shop\templates\profile\profile_side_menu.html:30
-#: .\shop\templates\widgets\navigation_bar.html:236
+#: .\shop\templates\widgets\navigation_bar.html:241
 msgid "Addresses"
 msgstr "Indirizzi"
 
@@ -1384,8 +1459,8 @@ msgstr ""
 "Inoltre, utilizziamo tecnologie per adempiere agli obblighi legali a cui "
 "siamo soggetti (ad esempio per poter dimostrare il consenso al trattamento "
 "dei vostri dati personali) nonché per l'analisi web e il marketing online. "
-"Ulteriori informazioni al riguardo, inclusa la rispettiva base giuridica per"
-" il trattamento dei dati, sono disponibili nelle seguenti sezioni della "
+"Ulteriori informazioni in merito, compresa la rispettiva base giuridica per "
+"il trattamento dei dati, sono disponibili nelle sezioni seguenti della "
 "presente informativa sulla privacy."
 
 #: .\shop\templates\our_company_pages\Privacy_policy.html:102
@@ -3099,7 +3174,7 @@ msgid "Description"
 msgstr "Descrizione"
 
 #: .\shop\templates\profile\profile_orders.html:264
-#: .\shop\templates\widgets\navigation_bar.html:458 .\shop\views.py:349
+#: .\shop\templates\widgets\navigation_bar.html:463 .\shop\views.py:349
 msgid "Quantity"
 msgstr "Quantità"
 
@@ -3113,27 +3188,27 @@ msgid "In stock"
 msgstr "In magazzino"
 
 #: .\shop\templates\profile\profile_side_menu.html:15
-#: .\shop\templates\widgets\navigation_bar.html:212
+#: .\shop\templates\widgets\navigation_bar.html:217
 msgid "Dashboard"
 msgstr "Pannello di controllo"
 
 #: .\shop\templates\profile\profile_side_menu.html:20
-#: .\shop\templates\widgets\navigation_bar.html:224
+#: .\shop\templates\widgets\navigation_bar.html:229
 msgid "Orders"
 msgstr "Ordini"
 
 #: .\shop\templates\profile\profile_side_menu.html:25
-#: .\shop\templates\widgets\navigation_bar.html:230
+#: .\shop\templates\widgets\navigation_bar.html:235
 msgid "Information"
 msgstr "Informazioni"
 
 #: .\shop\templates\profile\profile_side_menu.html:36
-#: .\shop\templates\widgets\navigation_bar.html:218
+#: .\shop\templates\widgets\navigation_bar.html:223
 msgid "Favorites"
 msgstr "Preferiti"
 
 #: .\shop\templates\profile\profile_side_menu.html:42
-#: .\shop\templates\widgets\navigation_bar.html:243
+#: .\shop\templates\widgets\navigation_bar.html:248
 msgid "Sign out"
 msgstr "disconnessione"
 
@@ -3938,9 +4013,8 @@ msgid ""
 "We ship your package with Austrian Post (Austria and Germany) or UPS and "
 "FedEx (EU and International). Packing and insured shipping is included."
 msgstr ""
-"Spediamo il tuo pacco con Poste austriache (Austria e Germania) o UPS e "
-"FedEx (UE e internazionali). E' compreso l'imballo e la spedizione "
-"assicurata."
+"Spediamo il tuo pacco con Posta austriaca (Austria e Germania) o UPS e FedEx"
+" (UE e internazionale). E' compreso l'imballo e la spedizione assicurata."
 
 #: .\shop\templates\service_pages\shipping_information.html:45
 msgid "Delivery Time:"
@@ -4184,35 +4258,35 @@ msgstr "CAVIGLIERE"
 msgid "ACCESSORIES"
 msgstr "ACCESSORI"
 
-#: .\shop\templates\widgets\navigation_bar.html:176
+#: .\shop\templates\widgets\navigation_bar.html:181
 msgid "Shopping Cart"
 msgstr "Carrello della spesa"
 
-#: .\shop\templates\widgets\navigation_bar.html:185
+#: .\shop\templates\widgets\navigation_bar.html:190
 msgid "Subtotal:"
 msgstr "Totale parziale:"
 
-#: .\shop\templates\widgets\navigation_bar.html:188
+#: .\shop\templates\widgets\navigation_bar.html:193
 msgid "Proceed to Checkout"
 msgstr "Procedere al checkout"
 
-#: .\shop\templates\widgets\navigation_bar.html:194
+#: .\shop\templates\widgets\navigation_bar.html:199
 msgid "Account"
 msgstr "Account"
 
-#: .\shop\templates\widgets\navigation_bar.html:440
+#: .\shop\templates\widgets\navigation_bar.html:445
 msgid "Plating"
 msgstr "Placcatura"
 
-#: .\shop\templates\widgets\navigation_bar.html:442
+#: .\shop\templates\widgets\navigation_bar.html:447
 msgid "Base Material"
 msgstr "Materiale di base"
 
-#: .\shop\templates\widgets\navigation_bar.html:480
+#: .\shop\templates\widgets\navigation_bar.html:485
 msgid "Remove from cart"
 msgstr "Rimuovi dal carrello"
 
-#: .\shop\templates\widgets\navigation_bar.html:507
+#: .\shop\templates\widgets\navigation_bar.html:512
 msgid ""
 "You cant delete items during checkout. Go back to shop pages to change your "
 "cart"
@@ -4220,11 +4294,11 @@ msgstr ""
 "Non puoi eliminare gli articoli durante il checkout. Torna alle pagine del "
 "negozio per modificare il carrello"
 
-#: .\shop\templates\widgets\navigation_bar.html:602
+#: .\shop\templates\widgets\navigation_bar.html:607
 msgid "Cart is empty"
 msgstr "Il carrello è vuoto"
 
-#: .\shop\templates\widgets\navigation_bar.html:619
+#: .\shop\templates\widgets\navigation_bar.html:624
 msgid "Back to shop"
 msgstr "Ritorno al negozio"
 
@@ -5725,7 +5799,7 @@ msgid ""
 msgstr ""
 "Se hai configurato il tuo browser per disabilitare le intestazioni "
 "\"Referer\", riattivale, almeno per questo sito, o per le connessioni HTTPS,"
-" o per richieste della \"stessa origine\"."
+" o per le richieste \"della stessa origine\"."
 
 #: .\venv\Lib\site-packages\django\views\csrf.py:45
 msgid ""
