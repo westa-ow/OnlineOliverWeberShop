@@ -169,7 +169,13 @@
 
 
     async function fetchAllOrders() {
-        const usersQuery = query(collection(db, "webUsers"), where("special_customer", "==", true));
+        let usersQuery = "";
+        if (isSpecialAdmin){
+            usersQuery = query(collection(db, "webUsers"), where("special_customer", "==", true));
+        }
+        else{
+            usersQuery = query(collection(db, "webUsers"));
+        }
         const usersSnapshot = await getDocs(usersQuery);
 
         // Извлечь email-адреса пользователей со статусом isSpecial
