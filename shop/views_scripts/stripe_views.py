@@ -172,7 +172,7 @@ def stripe_webhook(request):
 
     # Logging the event data
     logging.info(event)
-    if event['type'] == 'checkout.session.completed':
+    if event['type'] == 'payment_intent.succeeded':
         # Extract the session ID from the event data
         session_id = event['data']['object']['id']
 
@@ -182,6 +182,7 @@ def stripe_webhook(request):
 
         # Access 'Id' from metadata and update Firestore
         order_id = metadata.get('Id')
+
         if order_id:
             # Update the 'Status' field to 'Paid'
             stripe_checkout(metadata.get('email'), metadata.get('full_name'), order_id, metadata.get('vat'))
