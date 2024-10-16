@@ -25,7 +25,8 @@ from shop.views_scripts.orders_control.download_order import download_csv_order,
     download_pdf_no_img, at_delete_order
 from shop.views_scripts.orders_control.view_order import view_order, change_in_stock, upload_in_stock
 from shop.views_scripts.service_views import service_pages_view, company_info_pages
-from shop.views_scripts.stripe_views import stripe_config, create_checkout_session, CancelledView, SuccessView
+from shop.views_scripts.stripe_views import stripe_config, create_checkout_session, CancelledView, SuccessView, \
+    stripe_webhook
 from shop.views_scripts.users_control.at_uc_bulk_actions import disable_users, enable_users
 from shop.views_scripts.auth_views import register, logout_view, login_view
 from shop.views_scripts.catalog_views import add_to_cart_from_catalog, catalog_view, change_favorite_state
@@ -108,6 +109,7 @@ urlpatterns = i18n_patterns(
     path('create-checkout-session/', create_checkout_session, name='create_checkout_session'),  # Создание сессии оплаты
     path('success/', SuccessView.as_view(), name='success'),  # Страница успеха
     path('cancelled/', CancelledView.as_view(), name='cancelled'),  # Страница отмены
+    path('webhook/', stripe_webhook, name='stripe_webhook')
 
 )
 
