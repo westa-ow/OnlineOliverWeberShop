@@ -618,34 +618,7 @@ document.getElementById('continueCheckoutBtn').addEventListener('click', functio
              }
              if (documentss.length !== 0){
                  if(customer_type === "Customer"){
-                    fetch('{% url 'create_checkout_session' %}', {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRFToken': getCookie('csrftoken'),
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            vat: vat,
-                            items: documentss,  // данные товаров для Stripe
-                            shipping_address: selectedShippingAddressId,  // адрес доставки
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.id) {
-                            // Перенаправить на страницу оплаты Stripe
-                            const stripe = Stripe('{{ STRIPE_PUBLISHABLE_KEY }}');
-                            stripe.redirectToCheckout({ sessionId: data.id })
-                                .then(function (result) {
-                                    if (result.error) {
-                                        console.error('Ошибка при редиректе на оплату:', result.error.message);
-                                    }
-                                });
-                        } else {
-                            console.error('Ошибка создания сессии оплаты:', data.error);
-                        }
-                    })
-                    .catch(error => console.error('Ошибка:', error));
+                    window.location.href = "{% url 'create_checkout_session' %}";
                  }
                  else{
                      window.alert("{{ _("Order will be delivered to your email")|escapejs }}");
