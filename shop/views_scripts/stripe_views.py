@@ -172,7 +172,7 @@ def stripe_webhook(request):
 
     # Logging the event data
     logging.info(event)
-    if event['type'] == 'payment_intent.succeeded':
+    if event['type'] == 'checkout.session.completed':
         # Extract the session ID from the event data
         session_id = event['data']['object']['id']
 
