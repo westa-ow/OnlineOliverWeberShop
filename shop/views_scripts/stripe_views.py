@@ -39,6 +39,7 @@ def create_checkout_session(request):
         domain_url = 'https://www.oliverweber.online/'  # Замените на ваш домен
         stripe.api_key = settings.STRIPE_SECRET_KEY
         print(f"Stripe API Key: {settings.STRIPE_SECRET_KEY}")
+        data = json.loads(request.body.decode('utf-8'))
         try:
             # Создаем сессию оплаты
             email = get_user_session_type(request)
@@ -50,7 +51,7 @@ def create_checkout_session(request):
             order_id = random.randint(1000000, 100000000)
             cart = get_cart(email)
             full_price = round(sum(item["price"] for item in cart), 2)
-            metadata = {"Id": order_id, "email": email, "full_name": request.user.first_name + " " + request.user.last_name, "vat": request.data.get('vat', 0)}
+            metadata = {"Id": order_id, "email": email, "full_name": request.user.first_name + " " + request.user.last_name, "vat": data.get('vat', 0)}
 
             checkout_session = stripe.checkout.Session.create(
                 success_url=domain_url + 'success/',
