@@ -423,12 +423,13 @@ def checkout_addresses(request):
     form_register = UserRegisterForm()
     form_login = AuthenticationForm()
     context = {
-               'documents': sorted(get_cart(email), key=lambda x: x['number']),
-               'currency': currency,
-               'form_register': form_register,
-               'form_login': form_login,
-               'my_addresses': addresses,
-               'addresses_dict': addresses_dict,
-               'customer_type': customer_type,
-            }
+        'documents': sorted(get_cart(email), key=lambda x: x['number']),
+        'currency': currency,
+        'form_register': form_register,
+        'form_login': form_login,
+        'my_addresses': addresses,
+        'addresses_dict': addresses_dict,
+        'customer_type': customer_type,
+        'STRIPE_PUBLISHABLE_KEY': settings.STRIPE_PUBLISHABLE_KEY
+    }
     return render(request, 'orderAnonymAddresses.html', context=context)

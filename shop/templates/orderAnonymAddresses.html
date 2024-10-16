@@ -11,8 +11,8 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" href="{% static "css/profile/profile_information.css" %}">
 <link rel="stylesheet" href="{% static 'css/SeparateWidgets/addressesWidget.css' %}">
-
-    <link rel="icon" href="{% static "images/icons/web-icon.png" %}" type="image/x-icon">
+<script src="https://js.stripe.com/v3/"></script>  <!-- new -->
+<link rel="icon" href="{% static "images/icons/web-icon.png" %}" type="image/x-icon">
 <script src="{% static "js/checkout/totalCalculation.js" %}"></script>
 <style>
 body {
@@ -618,7 +618,6 @@ document.getElementById('continueCheckoutBtn').addEventListener('click', functio
              }
              if (documentss.length !== 0){
                  if(customer_type === "Customer"){
-                    // Создаем форму для POST-запроса
                     const form = document.createElement('form');
                     form.method = 'POST';
                     form.action = "{% url 'create_checkout_session' %}";
@@ -631,16 +630,39 @@ document.getElementById('continueCheckoutBtn').addEventListener('click', functio
                     csrfInput.value = csrfToken;
                     form.appendChild(csrfInput);
 
-                    // Если нужно передать дополнительные данные (например, VAT)
-                    const vatInput = document.createElement('input');
-                    vatInput.type = 'hidden';
-                    vatInput.name = 'vat';
-                    vatInput.value = 'your_vat_value';  // Замените на реальное значение
-                    form.appendChild(vatInput);
-
                     // Добавляем форму на страницу и отправляем
                     document.body.appendChild(form);
-                    form.submit();
+
+                    // Отправляем форму и получаем session ID от сервера
+                    fetch(form.action, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': csrfToken,
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ vat: 'your_vat_value' })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.id) {
+                            // Инициализируем Stripe с вашим publishable ключом
+                            const stripe = Stripe('{{ STRIPE_PUBLISHABLE_KEY }}');  // Подставьте ваш publishable key
+
+                            // Перенаправляем пользователя на страницу оплаты Stripe
+                            stripe.redirectToCheckout({ sessionId: data.id })
+                                .then(function (result) {
+                                    if (result.error) {
+                                        // Обрабатываем ошибки, если они возникнут
+                                        console.error('Error redirecting to Stripe checkout:', result.error.message);
+                                    }
+                                });
+                        } else {
+                            console.error('Error creating checkout session:', data.error);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
                  }
                  else{
                      window.alert("{{ _("Order will be delivered to your email")|escapejs }}");
