@@ -26,12 +26,22 @@ class UserRegisterForm(UserCreationForm):
         (1, "Mr."),
         (2, "Mrs."),
     ]
+    TYPE_OF_USER_CHOICES = [
+        (1, "Customer"),
+        (2, "B2B Customer"),
+    ]
     social_title = forms.ChoiceField(
         choices=SOCIAL_TITLE_CHOICES,
         widget=forms.RadioSelect,
         label="Social title",
         required=False
     )
+    type_of_user = forms.ChoiceField(
+        choices=TYPE_OF_USER_CHOICES,
+        widget=forms.RadioSelect,
+        label="User type",
+        required=True
+    )
     class Meta(UserCreationForm.Meta):
         model =User
-        fields = ("social_title", "first_name", "last_name",  "email","birthdate", "offers", "receive_newsletter")
+        fields = ("social_title", "first_name", "last_name",  "email", "type_of_user", "birthdate", "offers", "receive_newsletter")
