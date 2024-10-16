@@ -183,11 +183,9 @@ def stripe_webhook(request):
         # Access 'Id' from metadata and update Firestore
         order_id = metadata.get('Id')
         if order_id:
-            query = orders_ref.where('order_id', '==', order_id).limit(1).stream()
-            for doc in query:
-                # Update the 'Status' field to 'Paid'
-                stripe_checkout(metadata.get('email'), metadata.get('full_name'), order_id, metadata.get('vat'))
-                doc.update({"Status": "Paid"})
-                print(f"Order {order_id} has been marked as paid.")
+            # Update the 'Status' field to 'Paid'
+            stripe_checkout(metadata.get('email'), metadata.get('full_name'), order_id, metadata.get('vat'))
+            # doc.update({"Status": "Paid"})
+            print(f"Order {order_id} has been marked as paid.")
 
     return HttpResponse(status=200)
