@@ -37,6 +37,7 @@ def stripe_config(request):
 def create_checkout_session(request):
     if request.method == 'POST':
         domain_url = 'https://www.oliverweber.online/'  # Замените на ваш домен
+        stripe.api_key = settings.STRIPE_SECRET_KEY
         try:
             # Создаем сессию оплаты
             email = get_user_session_type(request)
