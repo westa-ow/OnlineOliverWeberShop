@@ -5,6 +5,8 @@ from random import randint
 import geoip2.database
 
 import concurrent.futures
+
+import stripe
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
@@ -29,6 +31,7 @@ from shop.models import Banner
 json_file_path = os.path.join(settings.BASE_DIR, "shop", "static", "key2.json")
 GEOIP_path = os.path.join(settings.BASE_DIR, "shop", "static", "GEOIP", "GeoLite2-Country.mmdb")
 cred = credentials.Certificate(json_file_path)
+stripe.api_key = settings.STRIPE_SECRET_KEY
 if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)
 db = firestore.client()
