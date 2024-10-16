@@ -20,12 +20,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # load_dotenv(dotenv_path)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
+dotenv_path = Path('.env')
 
+load_dotenv(dotenv_path=dotenv_path)
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-av+bzqy62h9m=9%^%c11v16=7h(aq(e*j2zn9-vk6r20wpn%_n'
-STRIPE_SECRET_KEY = "sk_test_51I3Ib7LFF1bEl4ZbPMLG5HAtRTCmlONZStEdOZrUzzrnBfux88iJ80xE2rSYT63cukBEoq9s7HCVf5ovx6A4XWNC00SAX3ZmtB"#os.getenv('STRIPE_SECRET_KEY')
-STRIPE_PUBLISHABLE_KEY = "pk_test_51I3Ib7LFF1bEl4ZbWY8NNnXC4y6yKTnFQA5iykEsN3i3bo2wogstN9I9Revzoj2cb9rKy4cAFGg79gBA14ukH6AN00y0nSmpvv"#os.getenv('STRIPE_PUBLISHABLE_KEY')
-STRIPE_ENDPOINT_SECRET = "whsec_gi5PCoeIoqdOl8RFf68dK3Ma56lISsce"#os.getenv('STRIPE_ENDPOINT_SECRET')
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY') #"sk_test_51I3Ib7LFF1bEl4ZbPMLG5HAtRTCmlONZStEdOZrUzzrnBfux88iJ80xE2rSYT63cukBEoq9s7HCVf5ovx6A4XWNC00SAX3ZmtB"#
+STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY') #"pk_test_51I3Ib7LFF1bEl4ZbWY8NNnXC4y6yKTnFQA5iykEsN3i3bo2wogstN9I9Revzoj2cb9rKy4cAFGg79gBA14ukH6AN00y0nSmpvv"
+STRIPE_ENDPOINT_SECRET = os.getenv('STRIPE_ENDPOINT_SECRET') #"whsec_gi5PCoeIoqdOl8RFf68dK3Ma56lISsce"#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

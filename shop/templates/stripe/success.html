@@ -1,4 +1,6 @@
-
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
 <!DOCTYPE html>
 <html>
   <head>
@@ -9,6 +11,7 @@
     <script defer src="https://use.fontawesome.com/releases/v6.4.0/js/all.js"></script>
   </head>
   <body>
+  {% include 'widgets/navigation_bar.html' %}
   <section class="section">
     <div class="container">
       <p>Your payment succeeded.</p>
@@ -16,3 +19,4 @@
   </section>
   </body>
 </html>
+{% endblock %}

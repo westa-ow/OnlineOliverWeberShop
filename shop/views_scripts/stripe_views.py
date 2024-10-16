@@ -131,7 +131,7 @@ def stripe_checkout(email,user_name, order_id, vat):
     csv_output.close()
 
     new_order = {
-        'Status': 'Awaiting',
+        'Status': 'Paid',
         'date': datetime.now(),  # Current date and time
         'email': user_email,
         'list': [ref.path for ref in item_refs],  # Using document paths as references
