@@ -36,7 +36,7 @@ def stripe_config(request):
 @login_required
 def create_checkout_session(request):
     if request.method == 'POST':
-        domain_url = 'http://127.0.0.1:8000/'  # Замените на ваш домен
+        domain_url = 'https://www.oliverweber.online/'  # Замените на ваш домен
         try:
             # Создаем сессию оплаты
             email = get_user_session_type(request)
@@ -49,7 +49,6 @@ def create_checkout_session(request):
             cart = get_cart(email)
             full_price = round(sum(item["price"] for item in cart), 2)
             metadata = {"Id": order_id, "email": email, "full_name": request.user.first_name + " " + request.user.last_name}
-
 
             checkout_session = stripe.checkout.Session.create(
                 success_url=domain_url + 'success/',
@@ -69,11 +68,13 @@ def create_checkout_session(request):
                     },
                 ],
                 metadata=metadata,
-
             )
             return JsonResponse({'id': checkout_session['id']})
         except Exception as e:
             return JsonResponse({'error': str(e)})
+
+    # Обработка для GET-запроса или других методов
+    return HttpResponse(status=405)
 
 def stripe_checkout(request, order_id):
     # Создаю order
