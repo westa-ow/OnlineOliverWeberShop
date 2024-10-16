@@ -79,11 +79,11 @@ def create_checkout_session(request):
     # Обработка для GET-запроса или других методов
     return HttpResponse(status=405)
 
-def stripe_checkout(request, order_id, vat):
+def stripe_checkout(email,user_name, order_id, vat):
     # Создаю order
     vat = int(vat) / 100
 
-    user_email = request.user.email
+    user_email = email
     category, currency = get_user_category(user_email) or ("Default", "Euro")
 
     currency = '€' if currency == 'Euro' else '$'
@@ -143,7 +143,7 @@ def stripe_checkout(request, order_id, vat):
     orders_ref.add(new_order)
     new_order['date'] = new_order['date'].isoformat()
     email_process(all_orders_info, new_order, currency, vat, user_email, order_id, csv_content,
-                  request.user.first_name + " " + request.user.last_name)
+                  user_name)
     clear_all_cart(user_email)
     return sum
 
@@ -186,7 +186,7 @@ def stripe_webhook(request):
             query = orders_ref.where('order_id', '==', order_id).limit(1).stream()
             for doc in query:
                 # Update the 'Status' field to 'Paid'
-                stripe_checkout(request, order_id, metadata.get('vat'))
+                stripe_checkout(metadata.get('email'), metadata.get('full_name'), order_id, metadata.get('vat'))
                 doc.update({"Status": "Paid"})
                 print(f"Order {order_id} has been marked as paid.")
 
