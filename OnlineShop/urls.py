@@ -25,6 +25,7 @@ from shop.views_scripts.orders_control.download_order import download_csv_order,
     download_pdf_no_img, at_delete_order
 from shop.views_scripts.orders_control.view_order import view_order, change_in_stock, upload_in_stock
 from shop.views_scripts.service_views import service_pages_view, company_info_pages
+from shop.views_scripts.stripe_views import stripe_config, create_checkout_session, CancelledView, SuccessView
 from shop.views_scripts.users_control.at_uc_bulk_actions import disable_users, enable_users
 from shop.views_scripts.auth_views import register, logout_view, login_view
 from shop.views_scripts.catalog_views import add_to_cart_from_catalog, catalog_view, change_favorite_state
@@ -98,6 +99,16 @@ urlpatterns = i18n_patterns(
     path('delete-banner/<int:banner_id>/', delete_banner, name='delete_banner'),
     path('move-up/<int:banner_id>/', move_up, name='move_up'),
     path('move-down/<int:banner_id>/', move_down, name='move_down'),
+
+
+
+
+    #STRIPE
+    path('config/', stripe_config, name='stripe_config'),
+    path('create-checkout-session/', create_checkout_session, name='create_checkout_session'),  # Создание сессии оплаты
+    path('success/', SuccessView.as_view(), name='success'),  # Страница успеха
+    path('cancelled/', CancelledView.as_view(), name='cancelled'),  # Страница отмены
+
 )
 
 if settings.DEBUG:

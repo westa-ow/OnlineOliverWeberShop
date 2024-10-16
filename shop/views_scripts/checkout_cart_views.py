@@ -7,7 +7,8 @@ from background_task import background
 
 from shop.decorators import login_required_or_session, logout_required
 from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, get_cart, cart_ref, single_order_ref, \
-    get_user_category, get_user_session_type, metadata_ref, users_ref, update_email_in_db, get_user_prices
+    get_user_category, get_user_session_type, metadata_ref, users_ref, update_email_in_db, get_user_prices, \
+    get_user_info
 import ast
 import random
 from datetime import datetime
@@ -361,6 +362,7 @@ def register_anonym_cart_info(request):
                 last_name = form.cleaned_data.get('last_name')
                 birthdate = form.cleaned_data.get('birthdate')
                 social_title = "Mr" if form.cleaned_data.get('social_title') == "1" else "Mrs"
+                customer_type = "Customer" if form.cleaned_data.get('type_of_user') == "1" else "B2B"
                 offers = form.cleaned_data.get('offers')
                 newsletter = form.cleaned_data.get('receive_newsletter')
                 category, currency = get_user_prices(request, email2)
@@ -381,6 +383,7 @@ def register_anonym_cart_info(request):
                     'registrationDate': current_time,
                     'userId': user_id,
                     'sale': 0,
+                    'customer_type': customer_type,
                     'show_quantities': False
 
                 }
@@ -415,6 +418,8 @@ def checkout_addresses(request):
         currency = "€"
     elif currency == "Dollar":
         currency = "$"
+    info = get_user_info(email) or {}
+    customer_type = info['customer_type'] if 'customer_type' in info else "Customer"
     form_register = UserRegisterForm()
     form_login = AuthenticationForm()
     context = {
@@ -423,6 +428,7 @@ def checkout_addresses(request):
                'form_register': form_register,
                'form_login': form_login,
                'my_addresses': addresses,
-               'addresses_dict': addresses_dict
+               'addresses_dict': addresses_dict,
+               'customer_type': customer_type,
             }
     return render(request, 'orderAnonymAddresses.html', context=context)

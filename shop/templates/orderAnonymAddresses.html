@@ -414,6 +414,7 @@ let countrys_vat = {'Afghanistan': 0, 'Åland Islands': 0, 'Albania': 0, 'Algeri
 let selectedShippingAddressId = null;
 let selectedBillingAddressCountry = "";
 let selectedBillingAddressId = "false";
+let customer_type = "{{ customer_type }}"
 document.getElementById('addBillingAddressBtn').addEventListener('click', function() {
     this.style.display = "none";
     document.getElementById('newAddressForm').style.display = 'block';
@@ -616,32 +617,65 @@ document.getElementById('continueCheckoutBtn').addEventListener('click', functio
                 vat = countrys_vat[currentShippingRadio.getAttribute('data-country')]
              }
              if (documentss.length !== 0){
-                window.alert("{{ _("Order will be delivered to your email")|escapejs }}");
-                showOverlay();
-                fetch('{% url 'send_email'%}', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': getCookie('csrftoken'),
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ vat: vat })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    if (data.status === 'success') {
-                        // Redirect to the home URL
-                        window.location.href = '{% url 'home' %}';
-                    } else {
-                        // Handle error or unsuccessful status
-                        console.error('Error in processing the order');
-                    }
-                })
-                .catch(error => console.error('Error:', error))
-                .finally(() => {
-                   // This will execute after fetch is complete, regardless of the outcome
-                   hideOverlay();
-               });
+                 if(customer_type === "Customer"){
+                    fetch('{% url 'create_checkout_session' %}', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': getCookie('csrftoken'),
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            vat: vat,
+                            items: documentss,  // данные товаров для Stripe
+                            shipping_address: selectedShippingAddressId,  // адрес доставки
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.id) {
+                            // Перенаправить на страницу оплаты Stripe
+                            const stripe = Stripe('{{ STRIPE_PUBLISHABLE_KEY }}');
+                            stripe.redirectToCheckout({ sessionId: data.id })
+                                .then(function (result) {
+                                    if (result.error) {
+                                        console.error('Ошибка при редиректе на оплату:', result.error.message);
+                                    }
+                                });
+                        } else {
+                            console.error('Ошибка создания сессии оплаты:', data.error);
+                        }
+                    })
+                    .catch(error => console.error('Ошибка:', error));
+                 }
+                 else{
+                     window.alert("{{ _("Order will be delivered to your email")|escapejs }}");
+                     showOverlay();
+                     fetch('{% url 'send_email'%}', {
+                         method: 'POST',
+                         headers: {
+                             'X-CSRFToken': getCookie('csrftoken'),
+                             'Content-Type': 'application/json',
+                         },
+                         body: JSON.stringify({ vat: vat })
+                     })
+                     .then(response => response.json())
+                     .then(data => {
+                         console.log(data);
+                         if (data.status === 'success') {
+                             // Redirect to the home URL
+                             window.location.href = '{% url 'home' %}';
+                         } else {
+                             // Handle error or unsuccessful status
+                             console.error('Error in processing the order');
+                         }
+                     })
+                     .catch(error => console.error('Error:', error))
+                     .finally(() => {
+                        // This will execute after fetch is complete, regardless of the outcome
+                        hideOverlay();
+                     });
+                 }
+
              }
             else
              {
