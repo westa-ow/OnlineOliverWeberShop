@@ -640,7 +640,7 @@ document.getElementById('continueCheckoutBtn').addEventListener('click', functio
                             'X-CSRFToken': csrfToken,
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ vat: 'your_vat_value' })
+                        body: JSON.stringify({ vat: vat })
                     })
                     .then(response => response.json())
                     .then(data => {

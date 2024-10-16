@@ -50,7 +50,7 @@ def create_checkout_session(request):
             order_id = random.randint(1000000, 100000000)
             cart = get_cart(email)
             full_price = round(sum(item["price"] for item in cart), 2)
-            metadata = {"Id": order_id, "email": email, "full_name": request.user.first_name + " " + request.user.last_name}
+            metadata = {"Id": order_id, "email": email, "full_name": request.user.first_name + " " + request.user.last_name, "vat": request.data.get('vat', 0)}
 
             checkout_session = stripe.checkout.Session.create(
                 success_url=domain_url + 'success/',
@@ -78,10 +78,9 @@ def create_checkout_session(request):
     # Обработка для GET-запроса или других методов
     return HttpResponse(status=405)
 
-def stripe_checkout(request, order_id):
+def stripe_checkout(request, order_id, vat):
     # Создаю order
-    data = json.loads(request.body)
-    vat = int(data.get('vat', 0)) / 100
+    vat = int(vat) / 100
 
     user_email = request.user.email
     category, currency = get_user_category(user_email) or ("Default", "Euro")
@@ -186,6 +185,7 @@ def stripe_webhook(request):
             query = orders_ref.where('order_id', '==', order_id).limit(1).stream()
             for doc in query:
                 # Update the 'Status' field to 'Paid'
+                stripe_checkout(request, order_id, metadata.get('vat'))
                 doc.update({"Status": "Paid"})
                 print(f"Order {order_id} has been marked as paid.")
 
