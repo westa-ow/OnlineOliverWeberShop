@@ -37474,7 +37474,7 @@ body select.form-control:not([size]):not([multiple]),
 input.uniform-input,
 select.uniform-multiselect,
 textarea.uniform {
-  border-color:#f2f2f2
+  border-color: #d2d2d2
 }
 .input-group .input-group-btn>.btn {
   background:none!important
