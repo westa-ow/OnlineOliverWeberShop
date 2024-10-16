@@ -618,7 +618,29 @@ document.getElementById('continueCheckoutBtn').addEventListener('click', functio
              }
              if (documentss.length !== 0){
                  if(customer_type === "Customer"){
-                    window.location.href = "{% url 'create_checkout_session' %}";
+                    // Создаем форму для POST-запроса
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = "{% url 'create_checkout_session' %}";
+
+                    // Добавляем CSRF-токен
+                    const csrfToken = getCookie('csrftoken');  // Предположим, у вас есть функция для получения CSRF токена
+                    const csrfInput = document.createElement('input');
+                    csrfInput.type = 'hidden';
+                    csrfInput.name = 'csrfmiddlewaretoken';
+                    csrfInput.value = csrfToken;
+                    form.appendChild(csrfInput);
+
+                    // Если нужно передать дополнительные данные (например, VAT)
+                    const vatInput = document.createElement('input');
+                    vatInput.type = 'hidden';
+                    vatInput.name = 'vat';
+                    vatInput.value = 'your_vat_value';  // Замените на реальное значение
+                    form.appendChild(vatInput);
+
+                    // Добавляем форму на страницу и отправляем
+                    document.body.appendChild(form);
+                    form.submit();
                  }
                  else{
                      window.alert("{{ _("Order will be delivered to your email")|escapejs }}");
