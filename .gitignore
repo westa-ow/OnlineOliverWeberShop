@@ -7,3 +7,6 @@ venv/
 shop/static/key4_Terminal.json
 
 OnlineShop/.env
+
+db.sqlite3
+shop/media/imgs
