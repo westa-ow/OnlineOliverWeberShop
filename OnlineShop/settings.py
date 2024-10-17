@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 dotenv_path = Path('OnlineShop/.env')
 
-load_dotenv(dotenv_path=dotenv_path)
+load_dotenv(dotenv_path)
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-av+bzqy62h9m=9%^%c11v16=7h(aq(e*j2zn9-vk6r20wpn%_n'
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
