@@ -1,9 +1,9 @@
-function calculate_final(vat, currency){
+function calculate_final(vat, currency, documents){
      let totalQuantity = 0;
      let totalSum = 0;
      let totalItems = 0;
 
-     documentss.forEach(doc => {
+     documents.forEach(doc => {
             totalItems+=1;
             totalQuantity += doc.quantity;
             totalSum += (doc.quantity * doc.price);

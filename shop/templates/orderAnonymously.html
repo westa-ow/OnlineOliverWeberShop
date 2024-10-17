@@ -243,6 +243,20 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row ">
+                                                    <div class="col-md-12 form-control-valign">
+                                                        <label>User type</label>
+                                                        {% for radio in form_register.type_of_user %}
+                                                            <label class="radio-inline">
+                                                                <span class="custom-radio">
+                                                                    {{ radio.tag }}
+                                                                    <span></span>
+                                                                </span> {{ radio.choice_label }}
+                                                            </label>
+                                                        {% endfor %}
+                                                    </div>
+                                                    <div class="col-md-12 form-control-comment"></div>
+                                                </div>
+                                                <div class="form-group row ">
                                                     <div class="col-md-12">
                                                         <label>{% trans "Birthdate"%}</label>
                                                         {{ form_register.birthdate | add_class:"form-control" | attr:"" }}
@@ -388,68 +402,69 @@
 </body>
 {{ form.errors|json_script:"form_errors" }}
 <script>
-let isCheckout = true;
 let documentss = [];
 function init() {
     documentss = {{ documents|safe }};
-    calculate_final(0, currency);
+    calculate_final(0, currency, documentss);
 }
 document.addEventListener("DOMContentLoaded", function() {
-    isCheckout = true;
-         init();
-         const togglePasswordButtons = document.querySelectorAll('button[data-action="show-password"]');
-         togglePasswordButtons.forEach(togglePasswordButton =>
-         togglePasswordButton.addEventListener('click', function() {
-             // Select the password input
-             const passwordInput = this.parentElement.parentElement.querySelector('input');
 
-             // Check the current type of the password input and toggle
-             if (passwordInput.type === "password") {
-                passwordInput.type = "text"; // Show the password
-                // Change the SVG to 'eye'
-                togglePasswordButton.innerHTML = '<i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></i>';
-             } else {
-                passwordInput.type = "password"; // Hide the password
-                // Change the SVG back to 'eye-off'
-                togglePasswordButton.innerHTML = '<i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg></i>';
-             }
-         }));
-        var formErrors = {% if form.errors %}true{% else %}false{% endif %};
-        var errorModal = document.getElementById("errorModal");
-        var errorText = document.getElementById("errorText");
-        var okButton = document.getElementById("okButton");
-        var closeButton = document.querySelector(".close-button");
+     isCheckout = true;
+     init();
+     const togglePasswordButtons = document.querySelectorAll('button[data-action="show-password"]');
+     togglePasswordButtons.forEach(togglePasswordButton =>
+     togglePasswordButton.addEventListener('click', function() {
+         // Select the password input
+         const passwordInput = this.parentElement.parentElement.querySelector('input');
 
-        if (formErrors) {
-            var errorMessage = "";
-            {% for field in form %}
-                {% for error in field.errors %}
-                    errorMessage += "{{ error }}\n";
-                {% endfor %}
+         // Check the current type of the password input and toggle
+         if (passwordInput.type === "password") {
+            passwordInput.type = "text"; // Show the password
+            // Change the SVG to 'eye'
+            togglePasswordButton.innerHTML = '<i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></i>';
+         } else {
+            passwordInput.type = "password"; // Hide the password
+            // Change the SVG back to 'eye-off'
+            togglePasswordButton.innerHTML = '<i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg></i>';
+         }
+     }));
+    var formErrors = {% if form_register.errors or form_login.errors%}true{% else %}false{% endif %};
+
+    var errorModal = document.getElementById("errorModal");
+    var errorText = document.getElementById("errorText");
+    var okButton = document.getElementById("okButton");
+    var closeButton = document.querySelector(".close-button");
+
+    if (formErrors) {
+        var errorMessage = "";
+        {% for field in error_form %}
+            {% for error in field.errors %}
+                errorMessage += "{{ error }}\n";
             {% endfor %}
-            {% if form.non_field_errors %}
-                {% for error in form.non_field_errors %}
-                    errorMessage += "{{ error }}\n";
-                {% endfor %}
-            {% endif  %}
-            errorText.innerText = errorMessage;
-            errorModal.style.display = "block";
-        }
+        {% endfor %}
+        {% if error_form.non_field_errors %}
+            {% for error in error_form.non_field_errors %}
+                errorMessage += "{{ error }}\n";
+            {% endfor %}
+        {% endif  %}
+        errorText.innerText = errorMessage;
+        errorModal.style.display = "block";
+    }
 
-        okButton.onclick = function() {
+    okButton.onclick = function() {
+        errorModal.style.display = "none";
+    }
+
+    closeButton.onclick = function() {
+        errorModal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == errorModal) {
             errorModal.style.display = "none";
         }
-
-        closeButton.onclick = function() {
-            errorModal.style.display = "none";
-        }
-
-        window.onclick = function(event) {
-            if (event.target == errorModal) {
-                errorModal.style.display = "none";
-            }
-        }
-    });
+    }
+});
 document.getElementById("section1").addEventListener("change", function() {
     document.querySelector(".section-1").style.display = "block";
     document.querySelector(".section-2").style.display = "none";

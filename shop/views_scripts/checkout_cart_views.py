@@ -338,12 +338,32 @@ def login_anonym_cart_info(request):
                     login(request, user)
                     update_email_in_db(email1, email2)
                     return redirect('checkout_addresses')
+    else:
+        form = UserRegisterForm()
+    email = get_user_session_type(request)
+    category, currency = get_user_prices(request, email)
+    if currency == "Euro":
+        currency = "€"
+    elif currency == "Dollar":
+        currency = "$"
+    form_register = UserRegisterForm()
+    context = {
+        'documents': sorted(get_cart(email), key=lambda x: x['number']),
+        'currency': currency,
+        'form_register': form_register,
+        'form_login': form,
+        'errors': form.errors,
+        'error_form': form
+    }
+    return render(request, 'orderAnonymously.html', context)
+
 
 
 def register_anonym_cart_info(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         email1 = get_user_session_type(request)
+        print(form.errors)
         if form.is_valid():
 
             email2 = form.cleaned_data.get('email')
@@ -407,6 +427,25 @@ def register_anonym_cart_info(request):
                     login(request, user)
                     update_email_in_db(email1, email2)
                     return redirect('checkout_addresses')
+    else:
+        form = UserRegisterForm()
+    email = get_user_session_type(request)
+    category, currency = get_user_prices(request, email)
+    if currency == "Euro":
+        currency = "€"
+    elif currency == "Dollar":
+        currency = "$"
+    form_login = AuthenticationForm()
+    context = {
+        'documents': sorted(get_cart(email), key=lambda x: x['number']),
+        'currency': currency,
+        'form_register': form,
+        'form_login': form_login,
+        'errors': form.errors,
+        'error_form': form
+    }
+    return render(request, 'orderAnonymously.html', context)
+
 
 
 def checkout_addresses(request):
