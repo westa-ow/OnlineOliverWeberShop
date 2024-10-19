@@ -249,7 +249,7 @@ msgstr "Цепи"
 
 #: .\shop\templates\catalog.html:389
 msgid "Colliers"
-msgstr "Угольщики"
+msgstr "Колье"
 
 #: .\shop\templates\catalog.html:390
 msgid "Pearlchains"
@@ -259,7 +259,7 @@ msgstr "Жемчужные цепочки"
 #: .\shop\templates\home.html:386
 #: .\shop\templates\profile\profile_favourites.html:39
 msgid "Post earrings"
-msgstr "Серьги-стойки"
+msgstr "Серьги-пуссеты"
 
 #: .\shop\templates\catalog.html:393
 msgid "Hoops"
@@ -279,12 +279,12 @@ msgstr "Пирсинг"
 
 #: .\shop\templates\catalog.html:398
 msgid "Bangles"
-msgstr "Браслеты"
+msgstr "Наручные браслеты"
 
 #: .\shop\templates\catalog.html:399
 #: .\shop\templates\widgets\navigation_bar.html:103
 msgid "Anklets"
-msgstr "Ножные браслеты"
+msgstr "Анклеты"
 
 #: .\shop\templates\catalog.html:400
 #: .\shop\templates\widgets\navigation_bar.html:101
@@ -374,12 +374,12 @@ msgstr "Браслет"
 #: .\shop\templates\catalog.html:426 .\shop\templates\home.html:392
 #: .\shop\templates\profile\profile_favourites.html:45
 msgid "Bangle"
-msgstr "Браслет"
+msgstr "Наручный браслет"
 
 #: .\shop\templates\catalog.html:427 .\shop\templates\home.html:393
 #: .\shop\templates\profile\profile_favourites.html:46
 msgid "Anklet"
-msgstr "Ножный браслет"
+msgstr "Анклет"
 
 #: .\shop\templates\catalog.html:428 .\shop\templates\home.html:394
 #: .\shop\templates\profile\profile_favourites.html:47
@@ -4208,7 +4208,7 @@ msgstr "Браслеты"
 
 #: .\shop\templates\widgets\navigation_bar.html:103
 msgid "ANKLETS"
-msgstr "Ножные браслеты"
+msgstr "Анклеты"
 
 #: .\shop\templates\widgets\navigation_bar.html:104
 msgid "ACCESSORIES"

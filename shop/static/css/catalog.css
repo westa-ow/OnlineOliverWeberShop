@@ -631,7 +631,7 @@ input[type=checkbox]{
 .categories-list, .collections-list {
     transition: max-height 0.5s ease-in-out;
     overflow: hidden;
-    max-height: 500px; /* Максимальная высота, достаточная для показа всех элементов */
+    /*max-height: 500px; !* Максимальная высота, достаточная для показа всех элементов *!*/
 }
 
 .categories.collapsed .categories-list, .collections.collapsed .collections-list {
