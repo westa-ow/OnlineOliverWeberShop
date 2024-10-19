@@ -32,7 +32,7 @@ from shop.views_scripts.auth_views import register, logout_view, login_view
 from shop.views_scripts.catalog_views import add_to_cart_from_catalog, catalog_view, change_favorite_state
 from shop.views_scripts.checkout_cart_views import sort_documents, send_email, cart_page, anonym_cart_info, \
     register_anonym_cart_info, login_anonym_cart_info, checkout_addresses
-from shop.views_scripts.profile_views import update_user_account
+from shop.views_scripts.profile_views import update_user_account, upload_file
 from shop.views_scripts.shop_views import fetch_numbers, form_page
 from shop.views_scripts.users_control.edit_user import edit_user
 from shop.views_scripts.users_control.view_user import view_user
@@ -64,6 +64,8 @@ urlpatterns = i18n_patterns(
 
     path('profile/<str:feature_name>/', profile_views.profile, name='profile'),
     path('update_user_account/', update_user_account, name='update_user_account'),
+    path('upload-file-cart/', upload_file, name='upload_cart'),
+
 
     path('fetch-numbers/', fetch_numbers, name='fetch_numbers'),
 

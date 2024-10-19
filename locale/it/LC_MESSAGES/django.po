@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-15 09:54+0200\n"
+"POT-Creation-Date: 2024-10-19 20:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,100 +18,104 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\OnlineShop\settings.py:134
+#: .\OnlineShop\settings.py:140
 msgid "English"
 msgstr "Inglese"
 
-#: .\OnlineShop\settings.py:135
+#: .\OnlineShop\settings.py:141
 msgid "German"
 msgstr "tedesco"
 
-#: .\OnlineShop\settings.py:136
+#: .\OnlineShop\settings.py:142
 msgid "Italian"
 msgstr "Italiano"
 
-#: .\OnlineShop\settings.py:137
+#: .\OnlineShop\settings.py:143
 msgid "French"
 msgstr "francese"
 
-#: .\OnlineShop\settings.py:138
+#: .\OnlineShop\settings.py:144
 msgid "Spanish"
 msgstr "spagnolo"
 
-#: .\shop\templates\admin_tools\AT_users_control.html:15
+#: .\OnlineShop\settings.py:145
+msgid "Russian"
+msgstr "russo"
+
+#: .\shop\templates\admin_tools\AT_users_control.html:16
 #, fuzzy
 #| msgid "Colliers"
 msgid "Bulk actions"
 msgstr "Azioni collettive"
 
-#: .\shop\templates\admin_tools\AT_users_control.html:16
+#: .\shop\templates\admin_tools\AT_users_control.html:17
 msgid "Enable selected"
 msgstr "Abilita selezionato"
 
-#: .\shop\templates\admin_tools\AT_users_control.html:17
+#: .\shop\templates\admin_tools\AT_users_control.html:18
 msgid "Disable selected"
 msgstr "Disattiva selezionato"
 
-#: .\shop\templates\admin_tools\AT_users_control.html:18
+#: .\shop\templates\admin_tools\AT_users_control.html:19
 msgid "Delete selected"
 msgstr "Elimina selezionato"
 
-#: .\shop\templates\admin_tools\AT_users_control.html:28
+#: .\shop\templates\admin_tools\AT_users_control.html:29
 #, fuzzy
 #| msgid "Social title"
 msgid "Social Title"
 msgstr "Titolo sociale"
 
-#: .\shop\templates\admin_tools\AT_users_control.html:29
+#: .\shop\templates\admin_tools\AT_users_control.html:30
 #, fuzzy
 #| msgid "First name"
 msgid "First Name"
 msgstr "Nome di battesimo"
 
-#: .\shop\templates\admin_tools\AT_users_control.html:30
+#: .\shop\templates\admin_tools\AT_users_control.html:31
 #, fuzzy
 #| msgid "Last name"
 msgid "Last Name"
 msgstr "Cognome"
 
-#: .\shop\templates\admin_tools\AT_users_control.html:32
+#: .\shop\templates\admin_tools\AT_users_control.html:33
 msgid "Sales"
 msgstr "Saldi"
 
-#: .\shop\templates\admin_tools\AT_users_control.html:33
+#: .\shop\templates\admin_tools\AT_users_control.html:34
 msgid "Enabled"
 msgstr "Abilitato"
 
-#: .\shop\templates\admin_tools\AT_users_control.html:34
+#: .\shop\templates\admin_tools\AT_users_control.html:35
 #, fuzzy
 #| msgid "Newsletter mailing"
 msgid "Newsletter"
 msgstr "Notiziario"
 
-#: .\shop\templates\admin_tools\AT_users_control.html:35
+#: .\shop\templates\admin_tools\AT_users_control.html:36
 msgid "Partners Offer"
 msgstr "Offerta partner"
 
-#: .\shop\templates\admin_tools\AT_users_control.html:36
+#: .\shop\templates\admin_tools\AT_users_control.html:37
 msgid "Registration Date"
 msgstr "Data di registrazione"
 
-#: .\shop\templates\admin_tools\AT_users_control.html:37
+#: .\shop\templates\admin_tools\AT_users_control.html:38
 #, fuzzy
 #| msgid "Options"
 msgid "Actions"
 msgstr "Azioni"
 
-#: .\shop\templates\admin_tools\AT_users_control.html:52
+#: .\shop\templates\admin_tools\AT_users_control.html:53
 #: .\shop\templates\catalog.html:160
 msgid "Items per page"
 msgstr "Articoli per pagina"
 
-#: .\shop\templates\admin_tools\AT_users_control.html:64
+#: .\shop\templates\admin_tools\AT_users_control.html:65
 msgid "View User"
 msgstr "Visualizza utente"
 
-#: .\shop\templates\admin_tools\AT_users_control.html:65
+#: .\shop\templates\admin_tools\AT_users_control.html:66
 #, fuzzy
 #| msgid "Delete"
 msgid "Delete User"
@@ -132,12 +136,12 @@ msgstr "Nel carrello"
 msgid "Confirm"
 msgstr "Confermare"
 
-#: .\shop\templates\cart.html:99 .\shop\views.py:352
+#: .\shop\templates\cart.html:99 .\shop\views.py:355
 msgid "Continue shopping"
 msgstr "Continua a fare acquisti"
 
 #: .\shop\templates\cart.html:133
-#: .\shop\templates\widgets\navigation_bar.html:411 .\shop\views.py:353
+#: .\shop\templates\widgets\navigation_bar.html:417 .\shop\views.py:356
 msgid "Proceed to checkout"
 msgstr "Procedere al checkout"
 
@@ -188,7 +192,7 @@ msgid "Price"
 msgstr "Prezzo"
 
 #: .\shop\templates\catalog.html:68
-#: .\shop\templates\widgets\navigation_bar.html:443 .\shop\views.py:347
+#: .\shop\templates\widgets\navigation_bar.html:449 .\shop\views.py:350
 msgid "Crystal color"
 msgstr "Colore cristallo"
 
@@ -196,11 +200,11 @@ msgstr "Colore cristallo"
 msgid "Plating material"
 msgstr "Materiale di placcatura"
 
-#: .\shop\templates\catalog.html:113 .\shop\views.py:348
+#: .\shop\templates\catalog.html:113 .\shop\views.py:351
 msgid "Base material"
 msgstr "Materiale di base"
 
-#: .\shop\templates\catalog.html:129 .\shop\views.py:341
+#: .\shop\templates\catalog.html:129 .\shop\views.py:344
 msgid "Size"
 msgstr "Misurare"
 
@@ -481,7 +485,7 @@ msgstr "Rimuovi dai preferiti"
 msgid "Add to favorites"
 msgstr "Aggiungi ai preferiti"
 
-#: .\shop\templates\catalog.html:1027 .\shop\views.py:354
+#: .\shop\templates\catalog.html:1027 .\shop\views.py:357
 msgid "Add to cart"
 msgstr "Aggiungi al carrello"
 
@@ -520,7 +524,7 @@ msgstr "Informazioni personali"
 
 #: .\shop\templates\orderAnonymAddresses.html:140
 #: .\shop\templates\profile\profile_side_menu.html:30
-#: .\shop\templates\widgets\navigation_bar.html:241
+#: .\shop\templates\widgets\navigation_bar.html:242
 msgid "Addresses"
 msgstr "Indirizzi"
 
@@ -622,38 +626,38 @@ msgid "Cancel"
 msgstr "Cancellare"
 
 #: .\shop\templates\orderAnonymAddresses.html:372
-#: .\shop\templates\orderAnonymously.html:283
-#: .\shop\templates\orderAnonymously.html:341
+#: .\shop\templates\orderAnonymously.html:297
+#: .\shop\templates\orderAnonymously.html:355
 msgid "Continue"
 msgstr "Continuare"
 
-#: .\shop\templates\orderAnonymAddresses.html:475
+#: .\shop\templates\orderAnonymAddresses.html:476
 msgid "Please select a shipping address first"
 msgstr "Seleziona prima un indirizzo di spedizione"
 
-#: .\shop\templates\orderAnonymAddresses.html:548
+#: .\shop\templates\orderAnonymAddresses.html:549
 #: .\shop\templates\profile\profile_create_address.html:135
 msgid "The address has been successfully added!"
 msgstr "L'indirizzo è stato aggiunto con successo!"
 
-#: .\shop\templates\orderAnonymAddresses.html:561
+#: .\shop\templates\orderAnonymAddresses.html:562
 #: .\shop\templates\profile\profile_addresses.html:63
 msgid "Are you sure you want to delete this address?"
 msgstr "Sei sicuro di voler eliminare questo indirizzo?"
 
-#: .\shop\templates\orderAnonymAddresses.html:619
+#: .\shop\templates\orderAnonymAddresses.html:668
 msgid "Order will be delivered to your email"
 msgstr "L'ordine verrà consegnato alla tua email"
 
-#: .\shop\templates\orderAnonymAddresses.html:648
+#: .\shop\templates\orderAnonymAddresses.html:699
 msgid "You have to add at least 1 item to finish order"
 msgstr "Devi aggiungere almeno 1 articolo per completare l'ordine"
 
-#: .\shop\templates\orderAnonymAddresses.html:652
+#: .\shop\templates\orderAnonymAddresses.html:703
 msgid "You didn't provide billing address"
 msgstr "Non hai fornito l'indirizzo di fatturazione"
 
-#: .\shop\templates\orderAnonymAddresses.html:656
+#: .\shop\templates\orderAnonymAddresses.html:707
 msgid "You didn't provide shipping address"
 msgstr "Non hai fornito l'indirizzo di spedizione"
 
@@ -675,7 +679,7 @@ msgid "Social title"
 msgstr "Titolo sociale"
 
 #: .\shop\templates\orderAnonymously.html:211
-#: .\shop\templates\orderAnonymously.html:325
+#: .\shop\templates\orderAnonymously.html:339
 #: .\shop\templates\profile\profile_information.html:62
 msgid "Password"
 msgstr "Password"
@@ -684,22 +688,22 @@ msgstr "Password"
 msgid "Confirm you password"
 msgstr "Conferma la tua password"
 
-#: .\shop\templates\orderAnonymously.html:247
+#: .\shop\templates\orderAnonymously.html:261
 #: .\shop\templates\profile\profile_information.html:98
 msgid "Birthdate"
 msgstr "Data di nascita"
 
-#: .\shop\templates\orderAnonymously.html:261
+#: .\shop\templates\orderAnonymously.html:275
 #: .\shop\templates\profile\profile_information.html:114
 msgid "Receive offers from our partners"
 msgstr "Ricevi offerte dai nostri partner"
 
-#: .\shop\templates\orderAnonymously.html:275
+#: .\shop\templates\orderAnonymously.html:289
 #: .\shop\templates\profile\profile_information.html:129
 msgid "Sign up for our newsletter"
 msgstr "Iscriviti alla nostra newsletter"
 
-#: .\shop\templates\orderAnonymously.html:275
+#: .\shop\templates\orderAnonymously.html:289
 msgid ""
 "You may unsubscribe at any moment. For that purpose, please find our contact"
 " info in the legal notice."
@@ -1197,13 +1201,12 @@ msgstr ""
 "coordinamento prima della spedizione.<br>Questo consenso può essere revocato"
 " in qualsiasi momento inviando un messaggio al informazioni di contatto "
 "descritte nella presente informativa sulla privacy o direttamente al "
-"fornitore di servizi di spedizione utilizzando l'indirizzo di contatto "
-"elencato di seguito. Dopo la revoca del consenso cancelleremo i dati da voi "
-"forniti a tale scopo, a meno che non abbiate espressamente acconsentito a un"
-" ulteriore utilizzo dei vostri dati o ci siamo riservati il ​​diritto di "
-"utilizzare i vostri dati per altri scopi consentiti dalla legge e di cui "
-"informiamo nella presente informativa sulla privacy. "
-"&ZeroWidthSpace;&ZeroWidthSpace;"
+"fornitore di spedizioni utilizzando l'indirizzo di contatto elencato di "
+"seguito. Dopo la revoca del consenso cancelleremo i dati da voi forniti a "
+"tale scopo, a meno che non abbiate espressamente acconsentito a un ulteriore"
+" utilizzo dei vostri dati o ci siamo riservati il ​​diritto di utilizzare i "
+"vostri dati per altri scopi consentiti dalla legge e di cui informiamo nella"
+" presente informativa sulla privacy. &ZeroWidthSpace;&ZeroWidthSpace;"
 
 #: .\shop\templates\our_company_pages\Privacy_policy.html:82
 msgid "Data processing for the purposes of payment"
@@ -1459,8 +1462,8 @@ msgstr ""
 "Inoltre, utilizziamo tecnologie per adempiere agli obblighi legali a cui "
 "siamo soggetti (ad esempio per poter dimostrare il consenso al trattamento "
 "dei vostri dati personali) nonché per l'analisi web e il marketing online. "
-"Ulteriori informazioni in merito, compresa la rispettiva base giuridica per "
-"il trattamento dei dati, sono disponibili nelle sezioni seguenti della "
+"Ulteriori informazioni al riguardo, inclusa la rispettiva base giuridica per"
+" il trattamento dei dati, sono disponibili nelle seguenti sezioni della "
 "presente informativa sulla privacy."
 
 #: .\shop\templates\our_company_pages\Privacy_policy.html:102
@@ -3023,33 +3026,33 @@ msgstr "I tuoi indirizzi"
 msgid "Create new address"
 msgstr "Crea nuovo indirizzo"
 
-#: .\shop\templates\profile\profile_dashboard.html:7
+#: .\shop\templates\profile\profile_dashboard.html:8
 msgid "Your account"
 msgstr "Il tuo conto"
 
-#: .\shop\templates\profile\profile_dashboard.html:10
+#: .\shop\templates\profile\profile_dashboard.html:11
 msgid "From your account dashboard you can view your"
 msgstr "Dalla dashboard del tuo account puoi visualizzare il tuo"
 
-#: .\shop\templates\profile\profile_dashboard.html:12
+#: .\shop\templates\profile\profile_dashboard.html:13
 msgid "recent orders"
 msgstr "ordini recenti"
 
-#: .\shop\templates\profile\profile_dashboard.html:14
+#: .\shop\templates\profile\profile_dashboard.html:15
 msgid "manage your"
 msgstr "gestisci il tuo"
 
-#: .\shop\templates\profile\profile_dashboard.html:16
+#: .\shop\templates\profile\profile_dashboard.html:17
 msgid "shipping and billing addresses"
 msgstr "indirizzi di spedizione e fatturazione"
 
-#: .\shop\templates\profile\profile_dashboard.html:19
+#: .\shop\templates\profile\profile_dashboard.html:20
 #: .\venv\Lib\site-packages\django\db\models\base.py:1465
 #: .\venv\Lib\site-packages\django\forms\models.py:902
 msgid "and"
 msgstr "E"
 
-#: .\shop\templates\profile\profile_dashboard.html:21
+#: .\shop\templates\profile\profile_dashboard.html:22
 msgid "edit your password and account details"
 msgstr "modificare la password e i dettagli dell'account"
 
@@ -3104,6 +3107,31 @@ msgstr ""
 #: .\shop\templates\profile\profile_information.html:263
 msgid "The information has been successfully updated!"
 msgstr "Le informazioni sono state aggiornate con successo!"
+
+#: .\shop\templates\profile\profile_order_import.html:8
+#: .\shop\templates\widgets\navigation_bar.html:248
+#, fuzzy
+#| msgid "Order history"
+msgid "Order import"
+msgstr "Importazione dell'ordine"
+
+#: .\shop\templates\profile\profile_order_import.html:11
+msgid ""
+"Here you can upload an xlsx file that holds product numbers and quantities "
+"to add them to your cart immediately"
+msgstr ""
+"Qui puoi caricare un file xlsx che contiene i numeri e le quantità dei "
+"prodotti per aggiungerli immediatamente al carrello"
+
+#: .\shop\templates\profile\profile_order_import.html:14
+#, fuzzy
+#| msgid "Download csv"
+msgid "Download example"
+msgstr "Scarica esempio"
+
+#: .\shop\templates\profile\profile_order_import.html:18
+msgid "Upload xlsx"
+msgstr "Carica xlsx"
 
 #: .\shop\templates\profile\profile_orders.html:89
 msgid "Order history"
@@ -3174,7 +3202,7 @@ msgid "Description"
 msgstr "Descrizione"
 
 #: .\shop\templates\profile\profile_orders.html:264
-#: .\shop\templates\widgets\navigation_bar.html:463 .\shop\views.py:349
+#: .\shop\templates\widgets\navigation_bar.html:469 .\shop\views.py:352
 msgid "Quantity"
 msgstr "Quantità"
 
@@ -3183,32 +3211,38 @@ msgid "Summary"
 msgstr "Riepilogo"
 
 #: .\shop\templates\profile\profile_orders.html:266
-#: .\shop\templates\shop_page.html:55 .\shop\views.py:337
+#: .\shop\templates\shop_page.html:55 .\shop\views.py:340
 msgid "In stock"
 msgstr "In magazzino"
 
 #: .\shop\templates\profile\profile_side_menu.html:15
-#: .\shop\templates\widgets\navigation_bar.html:217
+#: .\shop\templates\widgets\navigation_bar.html:218
 msgid "Dashboard"
 msgstr "Pannello di controllo"
 
 #: .\shop\templates\profile\profile_side_menu.html:20
-#: .\shop\templates\widgets\navigation_bar.html:229
+#: .\shop\templates\widgets\navigation_bar.html:230
 msgid "Orders"
 msgstr "Ordini"
 
 #: .\shop\templates\profile\profile_side_menu.html:25
-#: .\shop\templates\widgets\navigation_bar.html:235
+#: .\shop\templates\widgets\navigation_bar.html:236
 msgid "Information"
 msgstr "Informazioni"
 
 #: .\shop\templates\profile\profile_side_menu.html:36
-#: .\shop\templates\widgets\navigation_bar.html:223
+#: .\shop\templates\widgets\navigation_bar.html:224
 msgid "Favorites"
 msgstr "Preferiti"
 
-#: .\shop\templates\profile\profile_side_menu.html:42
-#: .\shop\templates\widgets\navigation_bar.html:248
+#: .\shop\templates\profile\profile_side_menu.html:44
+#, fuzzy
+#| msgid "Order ID"
+msgid "Order Import"
+msgstr "Importazione ordini"
+
+#: .\shop\templates\profile\profile_side_menu.html:50
+#: .\shop\templates\widgets\navigation_bar.html:254
 msgid "Sign out"
 msgstr "disconnessione"
 
@@ -4013,8 +4047,9 @@ msgid ""
 "We ship your package with Austrian Post (Austria and Germany) or UPS and "
 "FedEx (EU and International). Packing and insured shipping is included."
 msgstr ""
-"Spediamo il tuo pacco con Posta austriaca (Austria e Germania) o UPS e FedEx"
-" (UE e internazionale). E' compreso l'imballo e la spedizione assicurata."
+"Spediamo il tuo pacco con Poste austriache (Austria e Germania) o UPS e "
+"FedEx (UE e internazionali). E' compreso l'imballo e la spedizione "
+"assicurata."
 
 #: .\shop\templates\service_pages\shipping_information.html:45
 msgid "Delivery Time:"
@@ -4258,35 +4293,35 @@ msgstr "CAVIGLIERE"
 msgid "ACCESSORIES"
 msgstr "ACCESSORI"
 
-#: .\shop\templates\widgets\navigation_bar.html:181
+#: .\shop\templates\widgets\navigation_bar.html:182
 msgid "Shopping Cart"
 msgstr "Carrello della spesa"
 
-#: .\shop\templates\widgets\navigation_bar.html:190
+#: .\shop\templates\widgets\navigation_bar.html:191
 msgid "Subtotal:"
 msgstr "Totale parziale:"
 
-#: .\shop\templates\widgets\navigation_bar.html:193
+#: .\shop\templates\widgets\navigation_bar.html:194
 msgid "Proceed to Checkout"
 msgstr "Procedere al checkout"
 
-#: .\shop\templates\widgets\navigation_bar.html:199
+#: .\shop\templates\widgets\navigation_bar.html:200
 msgid "Account"
 msgstr "Account"
 
-#: .\shop\templates\widgets\navigation_bar.html:445
+#: .\shop\templates\widgets\navigation_bar.html:451
 msgid "Plating"
 msgstr "Placcatura"
 
-#: .\shop\templates\widgets\navigation_bar.html:447
+#: .\shop\templates\widgets\navigation_bar.html:453
 msgid "Base Material"
 msgstr "Materiale di base"
 
-#: .\shop\templates\widgets\navigation_bar.html:485
+#: .\shop\templates\widgets\navigation_bar.html:491
 msgid "Remove from cart"
 msgstr "Rimuovi dal carrello"
 
-#: .\shop\templates\widgets\navigation_bar.html:512
+#: .\shop\templates\widgets\navigation_bar.html:518
 msgid ""
 "You cant delete items during checkout. Go back to shop pages to change your "
 "cart"
@@ -4294,27 +4329,27 @@ msgstr ""
 "Non puoi eliminare gli articoli durante il checkout. Torna alle pagine del "
 "negozio per modificare il carrello"
 
-#: .\shop\templates\widgets\navigation_bar.html:607
+#: .\shop\templates\widgets\navigation_bar.html:613
 msgid "Cart is empty"
 msgstr "Il carrello è vuoto"
 
-#: .\shop\templates\widgets\navigation_bar.html:624
+#: .\shop\templates\widgets\navigation_bar.html:630
 msgid "Back to shop"
 msgstr "Ritorno al negozio"
 
-#: .\shop\views.py:338
+#: .\shop\views.py:341
 msgid "Less than 5 pieces left!"
 msgstr "Meno di 5 pezzi rimasti!"
 
-#: .\shop\views.py:339
+#: .\shop\views.py:342
 msgid "Plating Material"
 msgstr "Materiale di placcatura"
 
-#: .\shop\views.py:340
+#: .\shop\views.py:343
 msgid "Stone color"
 msgstr "Colore pietra"
 
-#: .\shop\views.py:343
+#: .\shop\views.py:346
 msgid ""
 "Quantity number has to be less than or equal to quantity number in stock or "
 "and be greater than 0"
@@ -4322,35 +4357,35 @@ msgstr ""
 "Il numero di quantità deve essere inferiore o uguale al numero di quantità "
 "in magazzino o maggiore di 0"
 
-#: .\shop\views.py:344
+#: .\shop\views.py:347
 msgid "Processing"
 msgstr "Elaborazione"
 
-#: .\shop\views.py:345
+#: .\shop\views.py:348
 msgid "An error occured"
 msgstr "Si è verificato un errore"
 
-#: .\shop\views.py:346
+#: .\shop\views.py:349
 msgid "Product successfully added to your shopping cart"
 msgstr "Prodotto aggiunto con successo al tuo carrello"
 
-#: .\shop\views.py:350
+#: .\shop\views.py:353
 msgid "Number of items in your cart:"
 msgstr "Numero di articoli nel carrello:"
 
-#: .\shop\views.py:351
+#: .\shop\views.py:354
 msgid "Subtotal"
 msgstr "Totale parziale"
 
-#: .\shop\views.py:355
+#: .\shop\views.py:358
 msgid "This item is only available for pre-order!"
 msgstr "Questo articolo è disponibile solo per il preordine!"
 
-#: .\shop\views.py:356
+#: .\shop\views.py:359
 msgid "Maximum items for pre-order is 20, minimum is 1"
 msgstr "Il numero massimo di articoli preordinabili è 20, il minimo è 1"
 
-#: .\shop\views.py:366
+#: .\shop\views.py:369
 msgid "Welcome to my site."
 msgstr "Benvenuti nel mio sito."
 
@@ -5799,7 +5834,7 @@ msgid ""
 msgstr ""
 "Se hai configurato il tuo browser per disabilitare le intestazioni "
 "\"Referer\", riattivale, almeno per questo sito, o per le connessioni HTTPS,"
-" o per le richieste \"della stessa origine\"."
+" o per richieste della \"stessa origine\"."
 
 #: .\venv\Lib\site-packages\django\views\csrf.py:45
 msgid ""
@@ -6044,6 +6079,1330 @@ msgstr "Intervallo IP"
 #: .\venv\Lib\site-packages\django_geoip\models.py:131
 msgid "IP ranges"
 msgstr "Intervalli IP"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:139
+#, python-format
+msgid "Error: Cannot handle glob %s"
+msgstr "Errore: impossibile gestire glob %s"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:293
+#, python-format
+msgid "Cannot read %s"
+msgstr "Impossibile leggere %s"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:463
+#, python-format
+msgid "Unimplemented function: %s"
+msgstr "Funzione non implementata: %s"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:613
+#, python-format
+msgid "new name needed for rename of %s"
+msgstr "nuovo nome necessario per rinominare %s"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:635
+#, python-format
+msgid "Unhandled filechange type: %s"
+msgstr "Tipo di modifica file non gestita: %s"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1041
+msgid "Couldn't parse rename source"
+msgstr "Impossibile analizzare l'origine della ridenominazione"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1071
+#, python-format
+msgid "Malformed %(refname)s line: '%(line)s'"
+msgstr "Riga %(refname)s non valida: '%(line)s'"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1439
+#, fuzzy, python-format
+#| msgid "Unsupported value for qop: %s."
+msgid "Unsupported command: '%s'"
+msgstr "Comando non supportato: '%s'"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1441
+#, python-format
+msgid "Could not parse line: '%s'"
+msgstr "Impossibile analizzare la riga: '%s'"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1510
+#, python-format
+msgid "%s does not appear to be a valid git repository"
+msgstr "%s non sembra essere un repository git valido"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1556
+#, python-format
+msgid "Processed %d blob sizes"
+msgstr "Dimensioni BLOB %d elaborate"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1631
+msgid ""
+"Error: --path-rename expects one colon in its argument: <old_name:new_name>."
+msgstr ""
+"Errore: --path-rename prevede due punti nel suo argomento: "
+"<old_name:new_name>."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1635
+msgid ""
+"Error: With --path-rename, if OLD_NAME and NEW_NAME are both non-empty and "
+"either ends with a slash then both must."
+msgstr ""
+"Errore: con --path-rename, se OLD_NAME e NEW_NAME non sono vuoti e terminano"
+" con una barra, devono essere entrambi."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1639
+#: .\venv\Lib\site-packages\git_filter_repo.py:1646
+msgid "Error: Pathnames cannot begin with a '/'"
+msgstr "Errore: i nomi dei percorsi non possono iniziare con \"/\""
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1649
+#, python-format
+msgid "Error: Invalid path component '%s' found in '%s'"
+msgstr "Errore: componente del percorso non valido '%s' trovato in '%s'"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1672
+#, python-format
+msgid "Error: HelperFilter given invalid option_string: %s"
+msgstr "Errore: HelperFilter ha fornito una stringa_opzione non valida: %s"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1684
+msgid ""
+"Rewrite (or analyze) repository history\n"
+"\n"
+"    git-filter-repo destructively rewrites history (unless --analyze or\n"
+"    --dry-run are given) according to specified rules.  It refuses to do any\n"
+"    rewriting unless either run from a clean fresh clone, or --force was\n"
+"    given.\n"
+"\n"
+"    Basic Usage:\n"
+"      git-filter-repo --analyze\n"
+"      git-filter-repo [FILTER/RENAME/CONTROL OPTIONS]\n"
+"\n"
+"    See EXAMPLES section for details.\n"
+"    "
+msgstr ""
+"Riscrivere (o analizzare) la cronologia del repository\n"
+"\n"
+"    git-filter-repo riscrive in modo distruttivo la cronologia (a meno che --analyze or\n"
+"    --dry-run sono forniti) secondo le regole specificate.  Si rifiuta di fare qualsiasi cosa\n"
+"    riscrittura a meno che non venga eseguito da un clone nuovo e pulito o --force lo fosse\n"
+"    dato.\n"
+"\n"
+"    Utilizzo di base:\n"
+"      git-filter-repo --analyze\n"
+"      git-filter-repo [OPZIONI FILTRO/RINOMINA/CONTROLLO]\n"
+"\n"
+"    Per i dettagli vedere la sezione ESEMPI."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1699
+msgid ""
+"CALLBACKS\n"
+"\n"
+"    All callback functions are of the same general format.  For a command line\n"
+"    argument like\n"
+"      --foo-callback 'BODY'\n"
+"\n"
+"    the following code will be compiled and called:\n"
+"      def foo_callback(foo):\n"
+"        BODY\n"
+"\n"
+"    Thus, to replace 'Jon' with 'John' in author/committer/tagger names:\n"
+"      git filter-repo --name-callback 'return name.replace(b\"Jon\", b\"John\")'\n"
+"\n"
+"    To remove all 'Tested-by' tags in commit (or tag) messages:\n"
+"      git filter-repo --message-callback 'return re.sub(br\"\\nTested-by:.*\", \"\", message)'\n"
+"\n"
+"    To remove all .DS_Store files:\n"
+"      git filter-repo --filename-callback 'return None if os.path.basename(filename) == b\".DS_Store\" else filename'\n"
+"\n"
+"    Note that if BODY resolves to a filename, then the contents of that file\n"
+"    will be used as the BODY in the callback function.\n"
+"\n"
+"    For more detailed examples and explanations AND caveats, see\n"
+"      https://htmlpreview.github.io/?https://github.com/newren/git-filter-repo/blob/docs/html/git-filter-repo.html#CALLBACKS\n"
+"\n"
+"EXAMPLES\n"
+"\n"
+"    To get a bunch of reports mentioning renames that have occurred in\n"
+"    your repo and listing sizes of objects aggregated by any of path,\n"
+"    directory, extension, or blob-id:\n"
+"      git filter-repo --analyze\n"
+"\n"
+"    (These reports can help you choose how to filter your repo; it can\n"
+"    be useful to re-run this command after filtering to regenerate the\n"
+"    report and verify the changes look correct.)\n"
+"\n"
+"    To extract the history that touched just 'guides' and 'tools/releases':\n"
+"      git filter-repo --path guides/ --path tools/releases\n"
+"\n"
+"    To remove foo.zip and bar/baz/zips from every revision in history:\n"
+"      git filter-repo --path foo.zip --path bar/baz/zips/ --invert-paths\n"
+"\n"
+"    To replace the text 'password' with 'p455w0rd':\n"
+"      git filter-repo --replace-text <(echo \"password==>p455w0rd\")\n"
+"\n"
+"    To use the current version of the .mailmap file to update authors,\n"
+"    committers, and taggers throughout history and make it permanent:\n"
+"      git filter-repo --use-mailmap\n"
+"\n"
+"    To extract the history of 'src/', rename all files to have a new leading\n"
+"    directory 'my-module' (e.g. src/foo.java -> my-module/src/foo.java), and\n"
+"    add a 'my-module-' prefix to all tags:\n"
+"      git filter-repo --path src/ --to-subdirectory-filter my-module --tag-rename '':'my-module-'\n"
+"\n"
+"    For more detailed examples and explanations, see\n"
+"      https://htmlpreview.github.io/?https://github.com/newren/git-filter-repo/blob/docs/html/git-filter-repo.html#EXAMPLES"
+msgstr ""
+"RICHIAMO\n"
+"\n"
+"    Tutte le funzioni di callback hanno lo stesso formato generale.  Per una riga di comando\n"
+"    argomento come\n"
+"      --foo-callback 'CORPO'\n"
+"\n"
+"    verrà compilato e chiamato il seguente codice:\n"
+"      def foo_callback(foo):\n"
+"        CORPO\n"
+"\n"
+"    Pertanto, per sostituire 'Jon' con 'John' nei nomi autore/committer/tagger:\n"
+"      git filter-repo --name-callback 'restituisce nome.sostituisci(b\"Jon\", b\"John\")'\n"
+"\n"
+"    Per rimuovere tutti i tag \"Testato da\" nei messaggi di commit (o tag):\n"
+"      git filter-repo --message-callback 'return re.sub(br\"\\nTested-by:.*\", \"\", messaggio)'\n"
+"\n"
+"    Per rimuovere tutti i file .DS_Store:\n"
+"      git filter-repo --filename-callback 'return None if os.path.basename(filename) == b\".DS_Store\" else filename'\n"
+"\n"
+"    Tieni presente che se BODY si risolve in un nome file, allora il contenuto di quel file\n"
+"    verrà utilizzato come BODY nella funzione di callback.\n"
+"\n"
+"    Per esempi e spiegazioni più dettagliati E avvertenze, vedere\n"
+"      https://htmlpreview.github.io/?https://github.com/newren/git-filter-repo/blob/docs/html/git-filter-repo.html#CALLBACKS\n"
+"\n"
+"ESEMPI\n"
+"\n"
+"    Per ottenere una serie di rapporti che menzionano le ridenominazioni avvenute in\n"
+"    il tuo repository e le dimensioni dell'elenco degli oggetti aggregati da qualsiasi percorso,\n"
+"    directory, estensione o ID BLOB:\n"
+"      git filter-repo --analyze\n"
+"\n"
+"    (Questi report possono aiutarti a scegliere come filtrare il tuo repository; può farlo\n"
+"    essere utile rieseguire questo comando dopo il filtraggio per rigenerare il file\n"
+"    segnalare e verificare che le modifiche siano corrette.)\n"
+"\n"
+"    Per estrarre la cronologia che ha toccato solo 'guide' e 'strumenti/release':\n"
+"      git filter-repo --path guide/ --path tools/releases\n"
+"\n"
+"    Per rimuovere foo.zip e bar/baz/zips da ogni revisione nella cronologia:\n"
+"      git filter-repo --path foo.zip --path bar/baz/zips/ --invert-paths\n"
+"\n"
+"    Per sostituire il testo \"password\" con \"p455w0rd\":\n"
+"      git filter-repo --replace-text <(echo \"password==>p455w0rd\")\n"
+"\n"
+"    Per utilizzare la versione corrente del file .mailmap per aggiornare gli autori,\n"
+"    committer e tagger nel corso della storia e renderlo permanente:\n"
+"      git filter-repo --use-mailmap\n"
+"\n"
+"    Per estrarre la cronologia di 'src/', rinominare tutti i file con una nuova iniziale\n"
+"    directory 'mio-modulo' (ad esempio src/foo.java -> mio-modulo/src/foo.java) e\n"
+"    aggiungi un prefisso 'my-module-' a tutti i tag:\n"
+"      git filter-repo --path src/ --to-subdirectory-filter mio-modulo --tag-rename '':'mio-modulo-'\n"
+"\n"
+"    Per esempi e spiegazioni più dettagliate, cfr\n"
+"      https://htmlpreview.github.io/?https://github.com/newren/git-filter-repo/blob/docs/html/git-filter-repo.html#EXAMPLES"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1763
+msgid "Analysis"
+msgstr "Analisi"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1765
+msgid ""
+"Analyze repository history and create a report that may be useful in "
+"determining what to filter in a subsequent run. Will not modify your repo."
+msgstr ""
+"Analizza la cronologia del repository e crea un report che potrebbe essere "
+"utile per determinare cosa filtrare in un'esecuzione successiva. Non "
+"modificherà il tuo repository."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1772
+msgid ""
+"Directory to write report, defaults to GIT_DIR/filter_repo/analysis,refuses "
+"to run if exists, --force delete existing dir first."
+msgstr ""
+"Directory in cui scrivere il report, il valore predefinito è "
+"GIT_DIR/filter_repo/analysis, rifiuta di essere eseguito se esiste, --force "
+"elimina prima la directory esistente."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1775
+msgid "Filtering based on paths (see also --filename-callback)"
+msgstr "Filtraggio in base ai percorsi (vedi anche --filename-callback)"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1777
+msgid ""
+"\n"
+"           These options specify the paths to select.  Note that much like git\n"
+"           itself, renames are NOT followed so you may need to specify multiple\n"
+"           paths, e.g. `--path olddir/ --path newdir/`\n"
+"           "
+msgstr ""
+"\n"
+"Queste opzioni specificano i percorsi da selezionare.  Nota che è molto simile a git\n"
+"           stesso, le ridenominazioni NON vengono seguite, quindi potrebbe essere necessario specificarne più di una\n"
+"           percorsi, ad es. `--percorso vecchiadir/ --percorso nuovadir/`"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1784
+msgid ""
+"Invert the selection of files from the specified --path-{match,glob,regex} "
+"options below, i.e. only select files matching none of those options."
+msgstr ""
+"Inverti la selezione dei file dalle opzioni --path-{match,glob,regex} "
+"specificate di seguito, ovvero seleziona solo i file che non corrispondono a"
+" nessuna di queste opzioni."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1791
+msgid ""
+"Exact paths (files or directories) to include in filtered history.  Multiple"
+" --path options can be specified to get a union of paths."
+msgstr ""
+"Percorsi esatti (file o directory) da includere nella cronologia filtrata.  "
+"È possibile specificare più opzioni --path per ottenere un'unione di "
+"percorsi."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1796
+msgid ""
+"Glob of paths to include in filtered history. Multiple --path-glob options "
+"can be specified to get a union of paths."
+msgstr ""
+"Glob di percorsi da includere nella cronologia filtrata. È possibile "
+"specificare più opzioni --path-glob per ottenere un'unione di percorsi."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1801
+msgid ""
+"Regex of paths to include in filtered history. Multiple --path-regex options"
+" can be specified to get a union of paths"
+msgstr ""
+"Regex dei percorsi da includere nella cronologia filtrata. È possibile "
+"specificare più opzioni --path-regex per ottenere un'unione di percorsi"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1805
+msgid ""
+"Match on file base name instead of full path from the top of the repo.  "
+"Incompatible with --path-rename, and incompatible with matching against "
+"directory names."
+msgstr ""
+"Corrispondenza in base al nome della base del file anziché al percorso "
+"completo dalla parte superiore del repository.  Incompatibile con --path-"
+"rename e incompatibile con la corrispondenza con i nomi di directory."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1809
+msgid "Renaming based on paths (see also --filename-callback)"
+msgstr "Rinomina in base ai percorsi (vedi anche --filename-callback)"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1814
+msgid ""
+"Path to rename; if filename or directory matches OLD_NAME rename to "
+"NEW_NAME.  Multiple --path-rename options can be specified.  NOTE: If you "
+"combine filtering options with renaming ones, do not rely on a rename "
+"argument to select paths; you also need a filter to select them."
+msgstr ""
+"Percorso da rinominare; se il nome file o la directory corrisponde a "
+"OLD_NAME, rinominalo in NEW_NAME.  È possibile specificare più opzioni "
+"--path-rename.  NOTA: se si combinano le opzioni di filtro con quelle di "
+"ridenominazione, non fare affidamento su un argomento di ridenominazione per"
+" selezionare i percorsi; è necessario anche un filtro per selezionarli."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1820
+msgid "Path shortcuts"
+msgstr "Scorciatoie del percorso"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1825
+msgid ""
+"Specify several path filtering and renaming directives, one per line.  Lines"
+" with '==>' in them specify path renames, and lines can begin with "
+"'literal:' (the default), 'glob:', or 'regex:' to specify different matching"
+" styles.  Blank lines and lines starting with a '#' are ignored."
+msgstr ""
+"Specificare diverse direttive di filtraggio e ridenominazione del percorso, "
+"una per riga.  Le righe con '==>' al loro interno specificano le "
+"ridenominazioni del percorso e le righe possono iniziare con 'literal:' (il "
+"valore predefinito), 'glob:' o 'regex:' per specificare diversi stili di "
+"corrispondenza.  Le righe vuote e le righe che iniziano con \"#\" vengono "
+"ignorate."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1832
+msgid ""
+"Only look at history that touches the given subdirectory and treat that "
+"directory as the project root.  Equivalent to using '--path DIRECTORY/ "
+"--path-rename DIRECTORY/:'"
+msgstr ""
+"Guarda solo la cronologia che tocca la sottodirectory specificata e "
+"considera quella directory come la radice del progetto.  Equivalente a "
+"utilizzare '--path DIRECTORY/ --path-rename DIRECTORY/:'"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1837
+msgid ""
+"Treat the project root as instead being under DIRECTORY. Equivalent to using"
+" '--path-rename :DIRECTORY/'"
+msgstr ""
+"Tratta la radice del progetto come se si trovasse invece in DIRECTORY. "
+"Equivalente a usare '--path-rename :DIRECTORY/'"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1840
+msgid "Content editing filters (see also --blob-callback)"
+msgstr "Filtri di modifica dei contenuti (vedi anche --blob-callback)"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1843
+msgid ""
+"A file with expressions that, if found, will be replaced. By default, each "
+"expression is treated as literal text, but 'regex:' and 'glob:' prefixes are"
+" supported.  You can end the line with '==>' and some replacement text to "
+"choose a replacement choice other than the default of '{}'."
+msgstr ""
+"Un file con espressioni che, se trovate, verranno sostituite. Per "
+"impostazione predefinita, ogni espressione viene trattata come testo "
+"letterale, ma sono supportati i prefissi \"regex:\" e \"glob:\".  Puoi "
+"terminare la riga con '==>' e del testo sostitutivo per scegliere una scelta"
+" sostitutiva diversa da quella predefinita di '{}'."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1851
+msgid "Strip blobs (files) bigger than specified size (e.g. '5M', '2G', etc)"
+msgstr ""
+"Elimina BLOB (file) più grandi della dimensione specificata (ad esempio "
+"\"5M\", \"2G\", ecc.)"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1854
+msgid ""
+"Read git object ids from each line of the given file, and strip all of them "
+"from history"
+msgstr ""
+"Leggi gli ID oggetto git da ogni riga del file specificato e rimuovili tutti"
+" dalla cronologia"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1857
+msgid "Renaming of refs (see also --refname-callback)"
+msgstr "Rinominare i riferimenti (vedi anche --refname-callback)"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1860
+msgid ""
+"Rename tags starting with OLD to start with NEW.  For example, --tag-rename "
+"foo:bar will rename tag foo-1.2.3 to bar-1.2.3; either OLD or NEW can be "
+"empty."
+msgstr ""
+"Rinominare i tag che iniziano con VECCHIO per iniziare con NUOVO.  Ad "
+"esempio, --tag-rename foo:bar rinominerà il tag foo-1.2.3 in bar-1.2.3; sia "
+"OLD che NEW possono essere vuoti."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1864
+msgid "Filtering of commit messages (see also --message-callback)"
+msgstr "Filtraggio dei messaggi di commit (vedi anche --message-callback)"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1867
+msgid ""
+"A file with expressions that, if found in commit messages, will be replaced."
+" This file uses the same syntax as --replace-text."
+msgstr ""
+"Un file con espressioni che, se trovate nei messaggi di commit, verranno "
+"sostituite. Questo file utilizza la stessa sintassi di --replace-text."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1871
+msgid ""
+"By default, since commits are rewritten and thus gain new hashes, references"
+" to old commit hashes in commit messages are replaced with new commit hashes"
+" (abbreviated to the same length as the old reference).  Use this flag to "
+"turn off updating commit hashes in commit messages."
+msgstr ""
+"Per impostazione predefinita, poiché i commit vengono riscritti e quindi "
+"ottengono nuovi hash, i riferimenti ai vecchi hash di commit nei messaggi di"
+" commit vengono sostituiti con nuovi hash di commit (abbreviati alla stessa "
+"lunghezza del vecchio riferimento).  Utilizza questo flag per disattivare "
+"l'aggiornamento degli hash di commit nei messaggi di commit."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1877
+msgid ""
+"Do not reencode commit messages into UTF-8.  By default, if the commit "
+"object specifies an encoding for the commit message, the message is re-"
+"encoded into UTF-8."
+msgstr ""
+"Non ricodificare i messaggi di commit in UTF-8.  Per impostazione "
+"predefinita, se l'oggetto commit specifica una codifica per il messaggio di "
+"commit, il messaggio viene ricodificato in UTF-8."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1881
+msgid ""
+"Filtering of names & emails (see also --name-callback and --email-callback)"
+msgstr ""
+"Filtraggio di nomi ed email (vedi anche --name-callback e --email-callback)"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1886
+msgid ""
+"Use specified mailmap file (see git-shortlog(1) for details on the format) "
+"when rewriting author, committer, and tagger names and emails.  If the "
+"specified file is part of git history, historical versions of the file will "
+"be ignored; only the current contents are consulted."
+msgstr ""
+"Utilizza il file mailmap specificato (vedi git-shortlog(1) per i dettagli "
+"sul formato) quando riscrivi i nomi e le email di autore, committer e "
+"tagger.  Se il file specificato fa parte della cronologia git, le versioni "
+"storiche del file verranno ignorate; vengono consultati solo i contenuti "
+"attuali."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1893
+msgid "Same as: '--mailmap .mailmap' "
+msgstr "Uguale a: '--mailmap .mailmap'"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1895
+msgid "Parent rewriting"
+msgstr "Riscrittura dei genitori"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1900
+msgid ""
+"How to handle replace refs (see git-replace(1)).  Replace refs can be added "
+"during the history rewrite as a way to allow users to pass old commit IDs "
+"(from before git-filter-repo was run) to git commands and have git know how "
+"to translate those old commit IDs to the new (post-rewrite) commit IDs.  "
+"Also, replace refs that existed before the rewrite can either be deleted or "
+"updated.  The choices to pass to --replace-refs thus need to specify both "
+"what to do with existing refs and what to do with commit rewrites.  Thus "
+"'update-and-add' means to update existing replace refs, and for any commit "
+"rewrite (even if already pointed at by a replace ref) add a new "
+"refs/replace/ reference to map from the old commit ID to the new commit ID."
+"  The default is update-no-add, meaning update existing replace refs but do "
+"not add any new ones.  There is also a special 'old-default' option for "
+"picking the default used in versions prior to git-filter-repo-2.45, namely "
+"'update-and-add' upon the first run of git-filter-repo in a repository and "
+"'update-or-add' if running git-filter-repo again on a repository."
+msgstr ""
+"Come gestire i riferimenti di sostituzione (vedi git-replace(1)).  I "
+"riferimenti di sostituzione possono essere aggiunti durante la riscrittura "
+"della cronologia come un modo per consentire agli utenti di passare i vecchi"
+" ID di commit (da prima che git-filter-repo fosse eseguito) ai comandi git e"
+" far sapere a git come tradurre quei vecchi ID di commit nei nuovi (post "
+"-rewrite) ID di commit.  Inoltre, sostituisci i riferimenti esistenti prima "
+"della riscrittura che possono essere eliminati o aggiornati.  Le scelte da "
+"passare a --replace-refs devono quindi specificare sia cosa fare con i "
+"riferimenti esistenti sia cosa fare con le riscritture dei commit.  Pertanto"
+" 'aggiorna-e-aggiungi' significa aggiornare i riferimenti di sostituzione "
+"esistenti e per qualsiasi riscrittura del commit (anche se già indicato da "
+"un riferimento di sostituzione) aggiungere un nuovo "
+"riferimento/sostituzione/riferimento per mappare dal vecchio ID di commit al"
+" nuovo commit ID.  L'impostazione predefinita è update-no-add, ovvero "
+"aggiorna i riferimenti di sostituzione esistenti ma non aggiungerne di "
+"nuovi.  C'è anche un'opzione speciale 'old-default' per scegliere il valore "
+"predefinito utilizzato nelle versioni precedenti a git-filter-repo-2.45, "
+"vale a dire 'update-and-add' alla prima esecuzione di git-filter-repo in un "
+"repository e 'update-or-add' se si esegue nuovamente git-filter-repo su un "
+"repository."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1922
+msgid ""
+"Whether to prune empty commits.  'auto' (the default) means only prune "
+"commits which become empty (not commits which were empty in the original "
+"repo, unless their parent was pruned). When the parent of a commit is "
+"pruned, the first non-pruned ancestor becomes the new parent."
+msgstr ""
+"Se eliminare i commit vuoti.  'auto' (l'impostazione predefinita) significa "
+"solo eliminare i commit che diventano vuoti (non i commit che erano vuoti "
+"nel repository originale, a meno che il loro genitore non sia stato "
+"eliminato). Quando il genitore di un commit viene eliminato, il primo "
+"antenato non eliminato diventa il nuovo genitore."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1929
+msgid ""
+"Since merge commits are needed for history topology, they are typically "
+"exempt from pruning.  However, they can become degenerate with the pruning "
+"of other commits (having fewer than two parents, having one commit serve as "
+"both parents, or having one parent as the ancestor of the other.)  If such "
+"merge commits have no file changes, they can be pruned.  The default "
+"('auto') is to only prune empty merge commits which become degenerate (not "
+"which started as such)."
+msgstr ""
+"Poiché i commit di unione sono necessari per la topologia della cronologia, "
+"in genere sono esenti dall'eliminazione.  Tuttavia, possono degenerare con "
+"la potatura di altri commit (avere meno di due genitori, avere un commit che"
+" funge da entrambi i genitori o avere un genitore come antenato dell'altro)."
+" Se tali commit di unione non hanno modifiche ai file, possono essere "
+"potato.  L'impostazione predefinita (\"auto\") è quella di eliminare solo i "
+"commit di unione vuoti che diventano degenerati (non quelli avviati come "
+"tali)."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1938
+msgid ""
+"Even if the first parent is or becomes an ancestor of another parent, do not"
+" prune it.  This modifies how --prune-degenerate behaves, and may be useful "
+"in projects who always use merge --no-ff."
+msgstr ""
+"Anche se il primo genitore è o diventa antenato di un altro genitore, non "
+"potarlo.  Ciò modifica il comportamento di --prune-degenerate e può essere "
+"utile nei progetti che utilizzano sempre merge --no-ff."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1943
+msgid "Generic callback code snippets"
+msgstr "Snippet di codice di richiamata generici"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1945
+msgid ""
+"Python code body for processing filenames; see CALLBACKS sections below."
+msgstr ""
+"Corpo del codice Python per l'elaborazione dei nomi di file; vedere le "
+"sezioni CALLBACK di seguito."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1948
+msgid ""
+"Python code body for processing messages (both commit messages and tag "
+"messages); see CALLBACKS section below."
+msgstr ""
+"Corpo del codice Python per l'elaborazione dei messaggi (sia messaggi di "
+"commit che messaggi di tag); vedere la sezione CALLBACK di seguito."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1951
+msgid ""
+"Python code body for processing names of people; see CALLBACKS section "
+"below."
+msgstr ""
+"Corpo del codice Python per l'elaborazione dei nomi delle persone; vedere la"
+" sezione CALLBACK di seguito."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1954
+msgid ""
+"Python code body for processing emails addresses; see CALLBACKS section "
+"below."
+msgstr ""
+"Corpo del codice Python per l'elaborazione degli indirizzi e-mail; vedere la"
+" sezione CALLBACK di seguito."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1957
+msgid "Python code body for processing refnames; see CALLBACKS section below."
+msgstr ""
+"Corpo del codice Python per l'elaborazione dei nomi di riferimento; vedere "
+"la sezione CALLBACK di seguito."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1961
+msgid ""
+"Python code body for processing blob objects; see CALLBACKS section below."
+msgstr ""
+"Corpo del codice Python per l'elaborazione di oggetti BLOB; vedere la "
+"sezione CALLBACK di seguito."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1964
+msgid ""
+"Python code body for processing commit objects; see CALLBACKS section below."
+msgstr ""
+"Corpo del codice Python per l'elaborazione di oggetti commit; vedere la "
+"sezione CALLBACK di seguito."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1967
+msgid ""
+"Python code body for processing tag objects; see CALLBACKS section below."
+msgstr ""
+"Corpo del codice Python per l'elaborazione di oggetti tag; vedere la sezione"
+" CALLBACK di seguito."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1970
+msgid ""
+"Python code body for processing reset objects; see CALLBACKS section below."
+msgstr ""
+"Corpo del codice Python per l'elaborazione di oggetti di ripristino; vedere "
+"la sezione CALLBACK di seguito."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1974
+msgid ""
+"Specifying alternate source or target locations implies --partial,\n"
+"except that the normal default for --replace-refs is used.  However,\n"
+"unlike normal uses of --partial, this doesn't risk mixing old and new\n"
+"history since the old and new histories are in different repositories."
+msgstr ""
+"La specifica di posizioni di origine o destinazione alternative implica --partial,\n"
+"tranne che viene utilizzato il valore predefinito normale per --replace-refs.  Tuttavia,\n"
+"a differenza degli usi normali di --partial, questo non rischia di mescolare vecchio e nuovo\n"
+"cronologia poiché la vecchia e la nuova cronologia si trovano in repository diversi."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1978
+msgid "Location to filter from/to"
+msgstr "Posizione da/a da filtrare"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1981
+msgid "Git repository to read from"
+msgstr "Repository Git da cui leggere"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1983
+msgid "Git repository to overwrite with filtered history"
+msgstr "Repository Git da sovrascrivere con la cronologia filtrata"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1985
+msgid "Ordering of commits"
+msgstr "Ordinamento dei commit"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1987
+msgid "Processes commits in commit timestamp order."
+msgstr "Elabora i commit nell'ordine del timestamp del commit."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1989
+#, fuzzy
+#| msgid "Missing option"
+msgid "Miscellaneous options"
+msgstr "Opzioni varie"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1991
+#, fuzzy
+#| msgid "Show this message and exit."
+msgid "Show this help message and exit."
+msgstr "Mostra questo messaggio di aiuto ed esci."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1993
+#, fuzzy
+#| msgid "Show the version and exit."
+msgid "Display filter-repo's version and exit."
+msgstr "Visualizza la versione di filter-repo ed esce."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:1995
+msgid ""
+"Rewrite repository history even if the current repo does not look like a "
+"fresh clone.  History rewriting is irreversible (and includes immediate "
+"pruning of reflogs and old objects), so be cautious about using this flag."
+msgstr ""
+"Riscrivi la cronologia del repository anche se il repository corrente non "
+"sembra un nuovo clone.  La riscrittura della cronologia è irreversibile (e "
+"include l'eliminazione immediata dei relog e dei vecchi oggetti), quindi sii"
+" cauto nell'usare questo flag."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2000
+msgid ""
+"Do a partial history rewrite, resulting in the mixture of old and new "
+"history.  This disables rewriting refs/remotes/origin/* to refs/heads/*, "
+"disables removing of the 'origin' remote, disables removing unexported refs,"
+" disables expiring the reflog, and disables the automatic post-filter gc.  "
+"Also, this modifies --tag-rename and --refname-callback options such that "
+"instead of replacing old refs with new refnames, it will instead create new "
+"refs and keep the old ones around.  Use with caution."
+msgstr ""
+"Esegui una riscrittura parziale della storia, ottenendo una miscela di "
+"storia vecchia e nuova.  Ciò disabilita la riscrittura di "
+"refs/remotes/origin/* in refs/heads/*, disabilita la rimozione del "
+"telecomando 'origin', disabilita la rimozione di refs non esportati, "
+"disabilita la scadenza del reflog e disabilita il gc post-filtro automatico."
+"  Inoltre, questo modifica le opzioni --tag-rename e --refname-callback in "
+"modo tale che invece di sostituire i vecchi riferimenti con nuovi nomi di "
+"riferimento, creerà invece nuovi riferimenti e manterrà quelli vecchi in "
+"giro.  Usare con cautela."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2015
+msgid ""
+"Limit history rewriting to the specified refs.  Implies --partial.  In "
+"addition to the normal caveats of --partial (mixing old and new history, no "
+"automatic remapping of refs/remotes/origin/* to refs/heads/*, etc.), this "
+"also may cause problems for pruning of degenerate empty merge commits when "
+"negative revisions are specified."
+msgstr ""
+"Limita la riscrittura della cronologia ai riferimenti specificati.  Implica "
+"--parziale.  Oltre ai normali avvertimenti di --partial (mescolare la "
+"vecchia e la nuova cronologia, nessuna rimappatura automatica di "
+"refs/remotes/origin/* su refs/heads/*, ecc.), ciò potrebbe anche causare "
+"problemi per l'eliminazione di un'unione vuota degenerata si impegna quando "
+"vengono specificate revisioni negative."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2023
+msgid ""
+"Do not change the repository.  Run `git fast-export` and filter its output, "
+"and save both the original and the filtered version for comparison.  This "
+"also disables rewriting commit messages due to not knowing new commit IDs "
+"and disables filtering of some empty commits due to inability to query the "
+"fast-import backend."
+msgstr ""
+"Non modificare il repository.  Esegui `git fast-export` e filtra il suo "
+"output, quindi salva sia la versione originale che quella filtrata per il "
+"confronto.  Ciò disabilita anche la riscrittura dei messaggi di commit a "
+"causa della mancata conoscenza dei nuovi ID di commit e disabilita il "
+"filtraggio di alcuni commit vuoti a causa dell'impossibilità di eseguire "
+"query sul backend di importazione rapida."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2030
+msgid ""
+"Print additional information about operations being performed and commands "
+"being run.  When used together with --dry-run, also show extra information "
+"about what would be run."
+msgstr ""
+"Stampa informazioni aggiuntive sulle operazioni eseguite e sui comandi "
+"eseguiti.  Se utilizzato insieme a --dry-run, mostra anche informazioni "
+"aggiuntive su cosa verrebbe eseguito."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2052
+msgid ""
+"Instead of running `git fast-export` and filtering its output, filter the "
+"fast-export stream from stdin.    The stdin must be in the expected input "
+"format (e.g. it needs to include original-oid directives)."
+msgstr ""
+"Invece di eseguire `git fast-export` e filtrarne l'output, filtra il flusso "
+"di esportazione rapida da stdin.    Lo stdin deve essere nel formato di "
+"input previsto (ad esempio deve includere le direttive original-oid)."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2057
+msgid "Pass --quiet to other git commands called"
+msgstr "Passa --quiet ad altri comandi git chiamati"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2063
+msgid ""
+"Error: --analyze is incompatible with --path* flags; it's a read-only "
+"operation."
+msgstr ""
+"Errore: --analyze non è compatibile con i flag --path*; è un'operazione di "
+"sola lettura."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2066
+msgid "Error: --analyze is incompatible with --stdin."
+msgstr "Errore: --analyze non è compatibile con --stdin."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2081
+msgid "Error: --use-base-name and --path-rename are incompatible."
+msgstr "Errore: --use-base-name e --path-rename sono incompatibili."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2096
+msgid "Error: need git >= 2.24.0"
+msgstr "Errore: è necessario git >= 2.24.0"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2100
+msgid "Error: need git >= 2.23.0"
+msgstr "Errore: è necessario git >= 2.23.0"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2113
+msgid "Error: need git >= 2.22.0"
+msgstr "Errore: è necessario git >= 2.22.0"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2120
+#, python-format
+msgid "Error: could not parse --strip-blobs-bigger-than argument %s"
+msgstr ""
+"Errore: impossibile analizzare l'argomento --strip-blobs-bigger-than %s"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2185
+#, python-format
+msgid ""
+"Error: In %s, 'glob:' and '==>' are incompatible (renaming globs makes no "
+"sense)"
+msgstr ""
+"Errore: in %s, 'glob:' e '==>' sono incompatibili (rinominare i glob non ha "
+"senso)"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2193
+msgid ""
+"Error: When rename directories, if OLDNAME and NEW_NAME are both non-empty "
+"and either ends with a slash then both must."
+msgstr ""
+"Errore: quando si rinominano le directory, se OLDNAME e NEW_NAME non sono "
+"vuoti e terminano con una barra, devono essere entrambi."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2216
+#, fuzzy
+#| msgid "No month specified"
+msgid "No arguments specified."
+msgstr "Nessun argomento specificato."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2343
+#, python-format
+msgid "Unhandled change type(s): %(change_type)s (in commit %(commit)s)"
+msgstr "Tipi di modifica non gestiti: %(change_type)s (nel commit %(commit)s)"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2362
+#, fuzzy, python-format
+#| msgid "Proceed to checkout"
+msgid "Processed %d commits"
+msgstr " %d commit elaborati"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2372
+msgid "Nothing to analyze; repository is empty."
+msgstr "Niente da analizzare; il repository è vuoto."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2429
+msgid "Error: rev-list|diff-tree pipeline failed; see above."
+msgstr "Errore: pipeline rev-list|diff-tree non riuscita; vedere sopra."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2436
+msgid "<present>"
+msgstr "<presente>"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2486
+msgid "Overall Statistics"
+msgstr "Statistiche generali"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2487
+msgid "Number of commits"
+msgstr "Numero di commit"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2489
+msgid "Number of filenames"
+msgstr "Numero di nomi di file"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2491
+#, fuzzy
+#| msgid "Index of %(directory)s"
+msgid "Number of directories"
+msgstr "Numero di directory"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2493
+msgid "Number of file extensions"
+msgstr "Numero di estensioni di file"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2496
+msgid "Total unpacked size (bytes)"
+msgstr "Dimensione totale non imballata (byte)"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2498
+msgid "Total packed size (bytes)"
+msgstr "Dimensione totale compressa (byte)"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2503
+msgid "Caveats"
+msgstr "Avvertenze"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2504
+#, fuzzy
+#| msgid "Size"
+msgid "Sizes"
+msgstr "Dimensioni"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2505
+msgid ""
+"\n"
+"        Packed size represents what size your repository would be if no\n"
+"        trees, commits, tags, or other metadata were included (though it may\n"
+"        fail to represent de-duplication; see below).  It also represents the\n"
+"        current packing, which may be suboptimal if you haven't gc'ed for a\n"
+"        while.\n"
+"\n"
+"        Unpacked size represents what size your repository would be if no\n"
+"        trees, commits, tags, or other metadata were included AND if no\n"
+"        files were packed; i.e., without delta-ing or compression.\n"
+"\n"
+"        Both unpacked and packed sizes can be slightly misleading.  Deleting\n"
+"        a blob from history not save as much space as the unpacked size,\n"
+"        because it is obviously normally stored in packed form.  Also,\n"
+"        deleting a blob from history may not save as much space as its packed\n"
+"        size either, because another blob could be stored as a delta against\n"
+"        that blob, so when you remove one blob another blob's packed size may\n"
+"        grow.\n"
+"\n"
+"        Also, the sum of the packed sizes can add up to more than the\n"
+"        repository size; if the same contents appeared in the repository in\n"
+"        multiple places, git will automatically de-dupe and store only one\n"
+"        copy, while the way sizes are added in this analysis adds the size\n"
+"        for each file path that has those contents.  Further, if a file is\n"
+"        ever reverted to a previous version's contents, the previous\n"
+"        version's size will be counted multiple times in this analysis, even\n"
+"        though git will only store it once.\n"
+"        "
+msgstr ""
+"\n"
+"La dimensione compressa rappresenta la dimensione che avrebbe il tuo repository se no\n"
+"        sono stati inclusi alberi, commit, tag o altri metadati (anche se potrebbe\n"
+"        non rappresentano la deduplicazione; vedere sotto).  Rappresenta anche il\n"
+"        imballaggio attuale, che potrebbe non essere ottimale se non hai fatto il gc per a\n"
+"        Mentre.\n"
+"\n"
+"        La dimensione non imballata rappresenta la dimensione che avrebbe il tuo repository se no\n"
+"        sono stati inclusi alberi, commit, tag o altri metadati E se no\n"
+"        i file erano pieni; cioè senza delta o compressione.\n"
+"\n"
+"        Sia le dimensioni non imballate che quelle imballate possono essere leggermente fuorvianti.  Eliminazione\n"
+"        un BLOB della cronologia non risparmia tanto spazio quanto la dimensione non imballata,\n"
+"        perché ovviamente è normalmente immagazzinato in forma imballata.  Anche,\n"
+"        l'eliminazione di un BLOB dalla cronologia potrebbe non risparmiare tanto spazio quanto è compresso\n"
+"        size, perché un altro BLOB potrebbe essere archiviato come delta\n"
+"        quel blob, quindi quando rimuovi un blob la dimensione compressa di un altro blob potrebbe\n"
+"        crescere.\n"
+"\n"
+"        Inoltre, la somma delle dimensioni imballate può essere superiore a\n"
+"        dimensione del deposito; se gli stessi contenuti sono apparsi nel repository in\n"
+"        più posti, git deduplica automaticamente e ne memorizza solo uno\n"
+"        copy, mentre il modo in cui vengono aggiunte le dimensioni in questa analisi aggiunge la dimensione\n"
+"        per ogni percorso di file che ha tali contenuti.  Inoltre, se un file è\n"
+"        mai tornato ai contenuti di una versione precedente, la precedente\n"
+"        anche la dimensione della versione verrà conteggiata più volte in questa analisi\n"
+"        anche se git lo memorizzerà solo una volta."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2534
+#, fuzzy
+#| msgid "Colliers"
+msgid "Deletions"
+msgstr "Eliminazioni"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2535
+#, python-format
+msgid ""
+"\n"
+"        Whether a file is deleted is not a binary quality, since it can be\n"
+"        deleted on some branches but still exist in others.  Also, it might\n"
+"        exist in an old tag, but have been deleted in versions newer than\n"
+"        that.  More thorough tracking could be done, including looking at\n"
+"        merge commits where one side of history deleted and the other modified,\n"
+"        in order to give a more holistic picture of deletions.  However, that\n"
+"        algorithm would not only be more complex to implement, it'd also be\n"
+"        quite difficult to present and interpret by users.  Since --analyze\n"
+"        is just about getting a high-level rough picture of history, it instead\n"
+"        implements the simplistic rule that is good enough for 98% of cases:\n"
+"          A file is marked as deleted if the last commit in the fast-export\n"
+"          stream that mentions the file lists it as deleted.\n"
+"        This makes it dependent on topological ordering, but generally gives\n"
+"        the \"right\" answer.\n"
+"        "
+msgstr ""
+"\n"
+"Se un file viene eliminato non è una qualità binaria, poiché può esserlo\n"
+"        cancellati su alcuni rami ma esistono ancora in altri.  Inoltre, potrebbe\n"
+"        esistono in un vecchio tag, ma sono stati eliminati nelle versioni più recenti\n"
+"        Quello.  Potrebbe essere effettuato un monitoraggio più approfondito, inclusa l'osservazione\n"
+"        unire i commit in cui un lato della cronologia è stato cancellato e l'altro modificato,\n"
+"        al fine di fornire un quadro più olistico delle eliminazioni.  Tuttavia, quello\n"
+"        l'algoritmo non solo sarebbe più complesso da implementare, ma lo sarebbe anche\n"
+"        abbastanza difficile da presentare e interpretare da parte degli utenti.  Poiché --analyze\n"
+"        si tratta semplicemente di ottenere un quadro approssimativo di alto livello della storia, invece\n"
+"        implementa la regola semplicistica che è sufficiente per il 98% dei casi:\n"
+"          Un file viene contrassegnato come eliminato se è stato eseguito l'ultimo commit nell'esportazione rapida\n"
+"          stream che menziona il file lo elenca come eliminato.\n"
+"        Ciò lo rende dipendente dall'ordinamento topologico, ma generalmente dà\n"
+"        la risposta \"giusta\"."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2552
+msgid "Renames"
+msgstr "Rinomina"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2553
+msgid ""
+"\n"
+"        Renames share the same non-binary nature that deletions do, plus\n"
+"        additional challenges:\n"
+"          * If the renamed file is renamed again, instead of just two names for\n"
+"            a path you can have three or more.\n"
+"          * Rename pairs of the form (oldname, newname) that we consider to be\n"
+"            different names of the \"same file\" might only be valid over certain\n"
+"            commit ranges.  For example, if a new commit reintroduces a file\n"
+"            named oldname, then new versions of oldname aren't the \"same file\"\n"
+"            anymore.  We could try to portray this to the user, but it's easier\n"
+"            for the user to just break the pairing and only report unbroken\n"
+"            rename pairings to the user.\n"
+"          * The ability for users to rename files differently in different\n"
+"            branches means that our chains of renames will not necessarily be\n"
+"            linear but may branch out.\n"
+"        "
+msgstr ""
+"\n"
+"Le ridenominazioni condividono la stessa natura non binaria delle eliminazioni, inoltre\n"
+"        ulteriori sfide:\n"
+"          * Se il file rinominato viene rinominato nuovamente, invece di avere solo due nomi per\n"
+"            un percorso puoi averne tre o più.\n"
+"          * Rinominare le coppie della forma (vecchio nome, nuovo nome) che consideriamo essere\n"
+"            nomi diversi dello \"stesso file\" potrebbero essere validi solo per determinati\n"
+"            intervalli di commit.  Ad esempio, se un nuovo commit reintroduce un file\n"
+"            denominato oldname, le nuove versioni di oldname non sono lo \"stesso file\"\n"
+"            più.  Potremmo provare a presentarlo all'utente, ma è più semplice\n"
+"            affinché l'utente interrompa semplicemente l'accoppiamento e riporti solo i dati ininterrotti\n"
+"            rinominare gli abbinamenti per l'utente.\n"
+"          * La possibilità per gli utenti di rinominare i file in modo diverso in diversi\n"
+"            branch significa che le nostre catene di rinominazioni non lo saranno necessariamente\n"
+"            lineare ma può ramificarsi."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2587
+msgid "Deleted directories by reverse size"
+msgstr "Directory cancellate per dimensione inversa"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2589
+#: .\venv\Lib\site-packages\git_filter_repo.py:2601
+msgid "Format: unpacked size, packed size, date deleted, directory name\n"
+msgstr ""
+"Formato: dimensione non imballata, dimensione compressa, data di "
+"eliminazione, nome della directory\n"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2597
+#: .\venv\Lib\site-packages\git_filter_repo.py:2608
+msgid "<toplevel>"
+msgstr "<livello superiore>"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2600
+msgid "All directories by reverse size"
+msgstr "Tutte le directory per dimensione inversa"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2612
+msgid "Deleted extensions by reverse size"
+msgstr "Estensioni eliminate per dimensione inversa"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2614
+#: .\venv\Lib\site-packages\git_filter_repo.py:2626
+msgid "Format: unpacked size, packed size, date deleted, extension name\n"
+msgstr ""
+"Formato: dimensione non imballata, dimensione imballata, data di "
+"eliminazione, nome estensione\n"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2622
+#: .\venv\Lib\site-packages\git_filter_repo.py:2633
+#, fuzzy
+#| msgid "Extension"
+msgid "<no extension>"
+msgstr "<nessuna estensione>"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2625
+msgid "All extensions by reverse size"
+msgstr "Tutte le estensioni per dimensione inversa"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2637
+msgid "Deleted paths by reverse accumulated size"
+msgstr "Percorsi eliminati per dimensione accumulata inversa"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2639
+msgid "Format: unpacked size, packed size, date deleted, path name(s)\n"
+msgstr ""
+"Formato: dimensione non imballata, dimensione compressa, data di "
+"eliminazione, nome/i del percorso\n"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2651
+msgid "All paths by reverse accumulated size"
+msgstr "Tutti i percorsi in base alla dimensione accumulata inversa"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2653
+msgid "Format: unpacked size, packed size, date deleted, path name\n"
+msgstr ""
+"Formato: dimensione non imballata, dimensione compressa, data di "
+"eliminazione, nome del percorso\n"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2665
+msgid "Files by sha and associated pathnames in reverse size"
+msgstr "File per sha e nomi di percorso associati in dimensioni inverse"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2666
+msgid "Format: sha, unpacked size, packed size, filename(s) object stored as\n"
+msgstr ""
+"Formato: sha, dimensione non imballata, dimensione compressa, nome file "
+"oggetto memorizzato come\n"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2698
+#, python-format
+msgid "Warning: Removing recursively: \"%s\""
+msgstr "Attenzione: rimozione ricorsiva: \"%s\""
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2701
+#, python-format
+msgid "Error: dir already exists (use --force to delete): \"%s\"\n"
+msgstr "Errore: dir esiste già (usa --force per eliminare): \"%s\"\n"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2710
+#, python-format
+msgid "Writing reports to %s..."
+msgstr "Scrittura di report su %s..."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2713
+msgid "done.\n"
+msgstr "Fatto.\n"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2856
+#, python-format
+msgid "Parsed %d commits"
+msgstr " %d commit analizzati"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2876
+#, python-format
+msgid "Error: Cannot pass a %s_callback to RepoFilter AND pass --%s-callback"
+msgstr ""
+"Errore: impossibile passare un %s_callback a RepoFilter E passare "
+"--%s-callback"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2881
+#, python-format
+msgid "Error: --%s-callback should have a return statement"
+msgstr "Errore: --%s-callback dovrebbe avere un'istruzione return"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2939
+msgid ""
+"Note: when cloning local repositories, you need to pass\n"
+"      --no-local to git clone to avoid this issue.\n"
+msgstr ""
+"Nota: quando si clonano i repository locali, è necessario passare\n"
+"      --no-local su git clone per evitare questo problema.\n"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2942
+#, python-format
+msgid ""
+"Aborting: Refusing to destructively overwrite repo history since\n"
+"this does not look like a fresh clone.\n"
+"  (%s)\n"
+"%sPlease operate on a fresh clone instead.  If you want to proceed\n"
+"anyway, use --force."
+msgstr ""
+"Interruzione: rifiuto di sovrascrivere in modo distruttivo la cronologia dei repository da allora\n"
+"questo non sembra un nuovo clone.\n"
+"  (%s)\n"
+"%sSi prega di operare invece su un nuovo clone.  Se vuoi procedere\n"
+"comunque, usa --force."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2959
+msgid "expected freshly packed repo"
+msgstr "previsto pronti contro termine appena confezionati"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2965
+msgid "expected one remote, origin"
+msgstr "previsto uno remoto, origine"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2971
+msgid "GIT_DIR must be ."
+msgstr "GIT_DIR deve essere ."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2973
+msgid "GIT_DIR must be .git"
+msgstr "GIT_DIR deve essere .git"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2983
+#, python-format
+msgid "expected at most one entry in the reflog for %s"
+msgstr "prevista al massimo una voce nel reflog per %s"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2988
+#, fuzzy
+#| msgid "Returns and exchanges"
+msgid "has stashed changes"
+msgstr "ha nascosto le modifiche"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2994
+msgid "you have uncommitted changes"
+msgstr "hai modifiche non confermate"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2996
+#, fuzzy
+#| msgid "Returns and exchanges"
+msgid "you have unstaged changes"
+msgstr "hai modifiche non graduali"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:2998
+msgid "you have untracked changes"
+msgstr "hai modifiche non tracciate"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:3006
+#, python-format
+msgid "%s exists, but %s not found"
+msgstr "%s esiste, ma %s non trovato"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:3009
+#, python-format
+msgid "%s does not match %s"
+msgstr "%s non corrisponde a %s"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:3015
+msgid "you have multiple worktrees"
+msgstr "hai più alberi di lavoro"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:3026
+msgid "Repacking your repo and cleaning out old unneeded objects"
+msgstr ""
+"Reimballare il repository e ripulire i vecchi oggetti non più necessari"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:3415
+msgid "File renaming caused colliding pathnames!\n"
+msgstr ""
+"La ridenominazione dei file ha causato la collisione dei nomi dei "
+"percorsi!\n"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:3416
+msgid "  Commit: {}\n"
+msgstr "Impegno: {}\n"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:3417
+msgid "  Filename: {}"
+msgstr "Nome file: {}"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:3602
+#, python-format
+msgid "Failed loading %s from %s"
+msgstr "Caricamento %s da %snon riuscito"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:3627
+#, python-format
+msgid "Failed to find %s to save to %s"
+msgstr "Impossibile trovare %s da salvare in %s"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:3762
+#: .\venv\Lib\site-packages\git_filter_repo.py:3829
+msgid "git update-ref failed; see above"
+msgstr "git update-ref non riuscito; vedere sopra"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:3834
+#: .\venv\Lib\site-packages\git_filter_repo.py:3844
+#, fuzzy
+#| msgid "Gold"
+msgid "old"
+msgstr "vecchio"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:3834
+#: .\venv\Lib\site-packages\git_filter_repo.py:3844
+msgid "new"
+msgstr "nuovo"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:3844
+msgid "ref"
+msgstr "rif"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:3870
+#, python-format
+msgid "Failed to find new id for %(refname)s (old id was %(old_hash)s)"
+msgstr ""
+"Impossibile trovare il nuovo ID per %(refname)s (il vecchio ID era "
+"%(old_hash)s)"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:3890
+msgid ""
+"\n"
+"          The following commits used to be merge commits but due to filtering\n"
+"          are now regular commits; they likely have suboptimal commit messages\n"
+"          (e.g. \"Merge branch next into master\").  Original commit hash on the\n"
+"          left, commit hash after filtering/rewriting on the right:\n"
+"          "
+msgstr ""
+"\n"
+"I seguenti commit erano commit di unione ma a causa del filtraggio\n"
+"          ora sono commit regolari; probabilmente hanno messaggi di commit non ottimali\n"
+"          (ad esempio \"Unisci il ramo successivo nel master\").  Hash di commit originale sul file\n"
+"          a sinistra, conferma l'hash dopo aver filtrato/riscritto a destra:"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:3902
+msgid ""
+"\n"
+"          The following commits were filtered out, but referenced in another\n"
+"          commit message.  The reference to the now-nonexistent commit hash\n"
+"          (or a substring thereof) was left as-is in any commit messages:\n"
+"          "
+msgstr ""
+"\n"
+"I seguenti commit sono stati filtrati, ma citati in un altro\n"
+"          messaggio di commit.  Il riferimento all'hash di commit ormai inesistente\n"
+"          (o una sua sottostringa) è stato lasciato così com'è in qualsiasi messaggio di commit:"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:3912
+msgid "No filtering problems encountered.\n"
+msgstr "Nessun problema di filtraggio riscontrato.\n"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:3915
+msgid "This file exists to allow you to filter again without --force.\n"
+msgstr ""
+"Questo file esiste per consentirti di filtrare nuovamente senza --force.\n"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:3973
+msgid "Error: fast-export failed; see above."
+msgstr "Errore: esportazione rapida non riuscita; vedere sopra."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:3983
+msgid "Error: fast-import failed; see above."
+msgstr "Errore: importazione rapida non riuscita; vedere sopra."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:3997
+msgid "NOTE: Not running fast-import or cleaning up; --dry-run passed."
+msgstr ""
+"NOTA: non è in esecuzione l'importazione rapida o la pulizia; --prova di "
+"prova superata."
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:3999
+msgid "      Requested filtering can be seen by comparing:"
+msgstr "Il filtraggio richiesto può essere visualizzato confrontando:"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:4002
+msgid "      Requested filtering can be seen at:"
+msgstr "Il filtro richiesto può essere visualizzato all'indirizzo:"
+
+#: .\venv\Lib\site-packages\git_filter_repo.py:4022
+msgid "Completely finished after {:.2f} seconds."
+msgstr "Completamente terminato dopo {:.2f} secondi."
 
 #: .\venv\Lib\site-packages\httplib2\__init__.py:408
 #, python-format

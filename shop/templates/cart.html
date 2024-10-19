@@ -336,7 +336,7 @@ function getCookie(name) {
 }
 function changeCurrentQuantityText(productId, quantity){
     const current_quantity = document.getElementById('current-quantity-'+productId);
-    current_quantity.innerText = "In cart: "+ quantity;
+    current_quantity.innerText = "{% trans "In cart" %}" + ": "+ quantity;
 }
 </script>
 </html>

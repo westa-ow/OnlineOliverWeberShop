@@ -19,7 +19,10 @@
 
 
 }
-
+.modal-content{
+    width: 60% !important;
+    align-items: center;
+}
 .logo img {
 
     margin-left: 10px;

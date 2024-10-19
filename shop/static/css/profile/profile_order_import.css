@@ -1,0 +1,41 @@
+#content{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+}
+.upload-btn{
+    background-color: #00962a;
+    color: white!important;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: all 0.2s;
+}
+
+.upload-btn:hover{
+    background-color: #008011;
+}
+
+.download-btn{
+    background-color: #003765;
+    color: white!important;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: all 0.2s;
+}
+
+.download-btn:hover{
+    background-color: #014b8a;
+}
+.container-buttons{
+    display: flex;
+    gap: 20px;
+
+}

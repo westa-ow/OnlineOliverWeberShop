@@ -2,26 +2,23 @@
 {% load i18n %}
 
 <link rel="stylesheet" href="{% static 'css/profile/profile_information.css' %}">
-<link rel="stylesheet" href="{% static 'css/profile/profile_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/profile/profile_order_import.css' %}">
 <section id="content" class="page-content col-md-12 col-lg-9 myacc_content">
     <header class="page-header">
-        <h1 style="margin-bottom: 30px; color: #0a0a0a"> {% trans "Your account" %}</h1>
+        <h1 style="color: #0a0a0a"> {% trans "Order import" %}</h1>
     </header>
     <p>
-        {% trans "From your account dashboard you can view your" %}
-        <a href="{% url "profile" feature_name="orders" %}">
-            {% trans "recent orders" %}
-        </a>
-        , {% trans "manage your" %}
-        <a href="{% url "profile" feature_name="addresses" %}">
-            {% trans "shipping and billing addresses" %}
+        <div>{% trans "Here you can upload an xlsx file that holds product numbers and quantities to add them to your cart immediately" %}</div>
 
-        </a>
-        {% trans "and" %}
-        <a rel="nofollow" href="{% url "profile" feature_name="account" %}">
-            {% trans "edit your password and account details" %}
-        </a>
-    </p>
+        <div class="container-buttons">
+            <a class="download-btn" href="{% static "files/Example.xlsx" %}">{% trans "Download example" %} <i class="fa-solid fa-download"></i> </a>
+            <form id="upload-form" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" id="file-input" name="file" accept=".xlsx,.xls" style="display: none;" />
+                <button type="button" class="upload-btn" id="upload-button">{% trans "Upload xlsx" %} <i class="fa-solid fa-upload"></i></button>
+            </form>
+        </div>
+
 
 
 </section>

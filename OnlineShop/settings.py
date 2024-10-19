@@ -142,6 +142,7 @@ LANGUAGES = [
     ('it', _('Italian')),
     ('fr', _('French')),
     ('es', _('Spanish')),
+    ('ru', _('Russian')),
 ]
 
 USE_TZ = True

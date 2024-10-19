@@ -1,9 +1,11 @@
 import concurrent
 
 from django.contrib.auth.decorators import login_required
+from django.core.files.storage import FileSystemStorage
+from openpyxl import load_workbook
 
 from shop.views import db, orders_ref, serialize_firestore_document, users_ref, addresses_ref, update_email_in_db, \
-    get_user_category, get_user_info, get_vocabulary_product_card, get_user_prices
+    get_user_category, get_user_info, get_vocabulary_product_card, get_user_prices, get_user_session_type
 import ast
 import random
 from datetime import datetime
@@ -27,6 +29,10 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.mail import send_mail
 
 from shop.forms import UserRegisterForm, User
+from django.utils.translation import gettext as _
+
+from shop.views_scripts.catalog_views import update_cart, get_full_product
+
 
 @login_required
 def profile(request, feature_name):
@@ -235,3 +241,66 @@ def update_user_account(request):
             return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
     else:
         return JsonResponse({'status': 'error', 'message': 'Invalid request method.'}, status=400)
+
+
+def upload_file(request):
+    if request.method == 'POST' and 'file' in request.FILES:
+        uploaded_file = request.FILES['file']
+
+        # Проверка на корректное расширение файла
+        if not (uploaded_file.name.endswith('.xlsx') or uploaded_file.name.endswith('.xls')):
+            return JsonResponse({'status': 'error', 'message': 'Invalid file format. Only .xlsx or .xls are allowed'}, status=400)
+
+        try:
+            # Открываем загруженный файл с помощью openpyxl
+            workbook = load_workbook(uploaded_file)
+            sheet = workbook.active
+
+            # Проходим по строкам файла и вызываем нужную функцию
+            for row in sheet.iter_rows(min_row=2, values_only=True):  # min_row=2 пропускает заголовок
+                product_name, new_quantity = row
+                if not product_name or new_quantity is None:
+                    continue  # Пропускаем строки с отсутствующими данными
+
+                product_name=str(product_name)
+                new_quantity = int(new_quantity)
+                # Получаем данные из пользовательской сессии и вызываем нужные функции
+                email = get_user_session_type(request)
+                category, currency = get_user_prices(request, email)
+                currency = '€' if currency == 'Euro' else '$'
+                info = get_user_info(email) or {}
+                sale = round((0 if "sale" not in info else info['sale'])/100, 3) or 0
+
+                # Проверяем наличие имени товара и количества
+                if not product_name or new_quantity is None:
+                    continue  # Пропускаем строки без продукта или количества
+
+                # Ищем информацию о продукте
+                document = get_full_product(product_name)
+                if not document:
+                    continue  # Если продукт не найден, продолжаем обработку следующей строки
+
+                # Определяем цену товара в зависимости от категории
+                if category == "VK3":
+                    document['price'] = document.get('priceVK3', 0)
+                elif category == "GH":
+                    document['price'] = document.get('priceGH', 0)
+                elif category == "Default USD":
+                    document['price'] = round(document.get('priceUSD', 0) * (1-sale), 1) or 0
+                elif category == "GH_USD":
+                    document['price'] = document.get('priceUSD_GH', 0)
+                else:
+                    document['price'] = round(document.get('priceVK4', 0) * (1-sale), 1) or 0
+
+                # Обновляем корзину
+                subtotal, cart_size = update_cart(email, product_name, new_quantity, document)
+
+                if subtotal is None:
+                    return JsonResponse({'status': 'error', 'message': 'An error occurred while processing your request'}, status=500)
+
+            return JsonResponse({'status': 'success', 'message': 'All products processed successfully'})
+
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': f'Error processing file: {str(e)}'}, status=500)
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
