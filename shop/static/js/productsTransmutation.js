@@ -30,6 +30,19 @@ function productsTransmutation(items, price_category, sale){
                     preview_image: item.image_url,
                     platings: {}
                 };
+                if (item.product_width) {
+                    products[itemName].product_width = item.product_width;
+                }
+
+                // Conditionally add product_height if it exists
+                if (item.product_height) {
+                    products[itemName].product_height = item.product_height;
+                }
+
+                // Conditionally add chain_length if it exists
+                if (item.chain_length) {
+                    products[itemName].chain_length = item.chain_length;
+                }
             }
             if (item.plating) {
                 // Initialize plating if it doesn't exist.
@@ -46,16 +59,22 @@ function productsTransmutation(items, price_category, sale){
                         products[itemName].platings[item.plating].stones[item.stone] = {
                             sizes: {},
                             image: item.image_url,
-                            real_name: item.name
-
+                            real_name: item.name,
                         };
+
                     }
 
                     // If size is present, add or update the size and quantity for the stone.
                     if (item.size) {
                         let stoneSizes = products[itemName].platings[item.plating].stones[item.stone].sizes;
                         if (!stoneSizes[item.size]) {
-                            stoneSizes[item.size] = {'quantity': item.quantity, 'real_name':item.name };
+                                stoneSizes[item.size] = {
+                                    'quantity': item.quantity,
+                                    'real_name': item.name
+                                };
+
+                                // Conditionally add product_width if it exists
+
 
                         } else {
                             // Assuming you want to sum quantities for the same size.

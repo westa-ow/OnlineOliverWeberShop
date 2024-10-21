@@ -300,6 +300,52 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
 
     });
 
+    const dimensions_container = document.createElement('div');
+    dimensions_container.classList.add('dimensions-container');
+
+    if(item.product_width) {
+        const product_width_div = document.createElement('div');
+        const product_width_label = document.createElement('span');
+        product_width_label.classList.add('card-dropdown-label');
+        product_width_label.innerText = "Product width";//`${vocabulary['Product width']}`;
+        const product_width_value = document.createElement('span');
+        product_width_value.innerText = `${item.product_width} cm`;
+        product_width_div.appendChild(product_width_label);
+        product_width_div.appendChild(product_width_value);
+
+        dimensions_container.appendChild(product_width_div);
+    }
+
+    if(item.product_height) {
+        const product_height_div = document.createElement('div');
+        const product_height_label = document.createElement('span');
+        product_height_label.classList.add('card-dropdown-label');
+        product_height_label.innerText = "Product height";//`${vocabulary['Product height']}`;
+        const product_height_value = document.createElement('span');
+        product_height_value.innerText = `${item.product_height} cm`;
+        product_height_div.appendChild(product_height_label);
+        product_height_div.appendChild(product_height_value);
+
+        dimensions_container.appendChild(product_height_div);
+    }
+
+    secondColumn.appendChild(dimensions_container);
+
+    if(item.chain_length) {
+        const chain_length_container = document.createElement('div');
+        chain_length_container.classList.add('chain-dimensions-container');
+        const product_chain_length_label = document.createElement('span');
+        product_chain_length_label.classList.add('card-dropdown-label');
+        product_chain_length_label.innerText = "Chain length";
+        const product_chain_length_value = document.createElement('span');
+        product_chain_length_value.innerText = `${item.chain_length} cm`;
+
+        chain_length_container.appendChild(product_chain_length_label);
+        chain_length_container.appendChild(product_chain_length_value);
+
+        secondColumn.appendChild(chain_length_container);
+    }
+
     const bottom_part = document.createElement('div');
     bottom_part.classList.add('bottom-card-part');
 
