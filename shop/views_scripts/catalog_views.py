@@ -51,7 +51,7 @@ def catalog_view(request):
         "base_catalog": base_catalog,
         'sale': sale,
         'show_quantities': show_quantities,
-        'vocabulary':get_vocabulary_product_card()
+        'vocabulary': get_vocabulary_product_card()
     }
     return render(request, 'catalog.html', context=context)
 

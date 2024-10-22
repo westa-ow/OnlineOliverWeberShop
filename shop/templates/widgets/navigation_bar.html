@@ -158,7 +158,7 @@
                     </span>
                 </a>
             </span>
-            <a class="icon-link" id="searchBtn" href="{% url "shop_page"%}">
+            <a class="icon-link" id="searchBtn">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 28px; height: 28px; margin-top: 9px">
                     <circle cx="13.41" cy="12.91" r="9.41" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:2px"></circle>
                     <line x1="25.18" y1="23.5" x2="21.65" y2="19.97" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:2px"></line>
@@ -253,6 +253,22 @@
                 </i>
                 {% trans "Sign out" %}
             </a>
+        </div>
+    </div>
+    <div id="side_search_wrap" class="searchPanel">
+        <div class="search-header">
+            <h4 class="side_title">
+               {% trans "Search"%}
+            </h4>
+            <span class="close_cross" >
+                <i>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </i>
+            </span>
+        </div>
+        <div class="search-container">
+            <input type="text" id="input-search" class="search-form" onkeyup="updateDropdown()" autocomplete="off" placeholder="{% trans "Start typing here..." %}">
+            <div id="dropdown"></div>
         </div>
     </div>
     <div id="overlay" class="overlay"></div>
@@ -359,13 +375,17 @@ document.getElementById('account-icon').addEventListener('click',function() {
 
 // Additionally, you'll need to manage closing the panel.
 // If you have a close button similar to the cartPanel's close button, you can add an event listener to it:
-document.querySelector('.close_cross').addEventListener('click', function() {
+document.querySelectorAll('.close_cross').forEach(button => button.addEventListener('click', function() {
     let accPanel = document.getElementById('side_acc_wrap');
     let overlay = document.getElementById('overlay');
+    let searchPanel = document.getElementById('side_search_wrap');
+
 
     accPanel.classList.remove('open');
+    searchPanel.classList.remove('open');
     overlay.style.display = 'none'; // Hide the overlay when the account panel is closed
-});
+    closeDropdownSearch();
+}));2
 
 function confirmLogout(event) {
     // Show a confirmation dialog
@@ -379,7 +399,19 @@ function confirmLogout(event) {
     // If the user confirms, allow the default link action (logout)
     return true;
 }
+document.getElementById('searchBtn').addEventListener('click', function (){
+    let searchPanel = document.getElementById('side_search_wrap');
+    let overlay = document.getElementById('overlay');
+    if (searchPanel.classList.contains('open')) {
+        searchPanel.classList.remove('open');
+        overlay.style.display = 'none'; // Hide the overlay when the cart is closed
 
+    }
+    else {
+        searchPanel.classList.add('open');
+        overlay.style.display = 'block';
+    }
+});
 document.getElementById('cartBtn').addEventListener('click', function() {
     let cartPanel = document.getElementById('cartPanel');
     let overlay = document.getElementById('overlay');
@@ -667,6 +699,8 @@ function deleteFromCart(documentId) {
 document.getElementById('overlay').addEventListener('click', function() {
     document.getElementById('cartPanel').classList.remove('open');
     document.getElementById('side_acc_wrap').classList.remove('open');
+    document.getElementById('side_search_wrap').classList.remove('open');
+    closeDropdownSearch();
     this.style.display = 'none'; // Hide the overlay
 });
 
@@ -678,7 +712,41 @@ function closeCart(){
     cartPanel.classList.remove('open');
     overlay.style.display = 'none';
 }
-
+function closeDropdownSearch(){
+    document.getElementById('input-search').value = "";
+    document.getElementById('dropdown').innerHTML = '';
+}
+function updateDropdown() {
+    let inputVal = document.getElementById('input-search').value;
+    console.log("AA");
+    if (inputVal.length === 0) {
+        document.getElementById('dropdown').innerHTML = '';
+        return;
+    }
+    fetch('/fetch-numbers/?term=' + inputVal)
+    .then(response => response.json())
+    .then(data => {
+        let dropdownHTML = '';
+    data.forEach((item) => {
+        dropdownHTML += `
+                <div onclick="fillInput('${item.name}')" class="container-search-result">
+                    <img src="${item.image_url}" alt="Product Image" style="width: 50px; height: 50px; margin-right: 10px;">
+                    <div class="properties-search-container">
+                        <span class="name-search" ">${item.name}</span>
+                        <span class="product-name-search">${item.product_name}</span>
+                    </div>
+                </div>
+                <hr style="margin: 0 10px;">
+            `;
+        });
+        document.getElementById('dropdown').innerHTML = dropdownHTML;
+    });
+}
+function fillInput(productId) {
+    // Construct the URL using the product ID
+    // Redirect to the constructed URL
+    window.location.href = `/shop/${productId}`;
+}
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {

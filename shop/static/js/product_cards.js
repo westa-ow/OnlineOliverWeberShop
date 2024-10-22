@@ -479,7 +479,7 @@ function add_to_cart_func(item, plating, stone, size, quantity, add_button, dial
 
 function activate_success_card(item, quantity, cart_count, subtotalValue, currency, vocabulary, checkout_url){
     const dialog = document.getElementById('product-card-success');
-
+    console.log(item);
     bindGlobalClickEvent(dialog);
     dialog.innerHTML = '';
     const card_content = document.createElement('div');
@@ -552,6 +552,7 @@ function informationSuccessSetup(column, item, actual_quantity, cart_count, cart
 
 function manageButtonsSuccessSetup(dialog, column, vocabulary, checkout_url){
     const container_for_success_buttons = document.createElement('div');
+    container_for_success_buttons.classList.add('container-for-success-buttons');
     const continue_shopping = document.createElement('button');
     continue_shopping.classList.add('button-continue-shopping');
     continue_shopping.textContent = `${vocabulary['Continue shopping']}`;

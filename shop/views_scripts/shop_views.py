@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 
 from shop.decorators import login_required_or_session
 from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, get_cart, cart_ref, users_ref, \
-    get_user_category, get_user_info, get_user_session_type, get_user_prices
+    get_user_category, get_user_info, get_user_session_type, get_user_prices, get_vocabulary_product_card
 import ast
 import random
 from datetime import datetime
@@ -31,81 +31,75 @@ from shop.forms import UserRegisterForm, User
 
 
 @login_required_or_session
-def form_page(request):
+def form_page(request, product_id):
     documents = []
     search_term = ''
     email = get_user_session_type(request)
-    if request.method == 'POST':
-        search_term = request.POST.get('number').upper()
-
-        documents = itemsRef.where('name', '==', search_term).stream()
-
-    cart = get_cart(email)
-    quantity = 1
-    inside = False
-    for prod in cart:
-        if search_term == prod['name']:
-            inside = True
-            quantity = prod['quantity']
-            break
-
     category, currency = get_user_prices(request, email)
     info = get_user_info(email) or {}
-    sale = round((0 if "sale" not in info else info['sale'])/100, 3) or 0
-
-    products = [{key: value for key, value in doc.to_dict().items() if key != 'Visible'} for doc in documents]
-
-
-    # print(products)
-    for obj in products:
-        if category == "VK3":
-            del obj['price']
-            obj['price'] = obj['priceVK3']
-        if category == "GH":
-            del obj['price']
-            obj['price'] = obj['priceGH']
-        if category == "USD_GH":
-            del obj['price']
-            obj['price'] = obj['priceUSD_GH']
-        if category == "Default_USD":
-            del obj['price']
-            obj['price'] = round(obj['priceUSD'] * (1-sale), 1)
-        else:
-            del obj['price']
-            obj['price'] = round(obj['priceVK4'] * (1-sale), 1)
-
+    sale = round((0 if "sale" not in info else info['sale']) / 100, 3) or 0
+    show_quantities = False if "show_quantities" not in info else info['show_quantities']
+    cart = get_cart(email)
     if currency == "Euro":
         currency = "€"
     elif currency == "Dollar":
         currency = "$"
-    context = {
-        'documents': products,
+    documents = itemsRef.where('name', '==', product_id).stream()
+    products = [{key: value for key, value in doc.to_dict().items() if key != 'Visible'} for doc in documents]
+
+    for obj in products:
+        # Adjust price based on user category
+        if category == "VK3":
+            obj['price'] = obj['priceVK3']
+        elif category == "GH":
+            obj['price'] = obj['priceGH']
+        elif category == "USD_GH":
+            obj['price'] = obj['priceUSD_GH']
+        elif category == "Default_USD":
+            obj['price'] = round(obj['priceUSD'] * (1 - sale), 1)
+        else:
+            obj['price'] = round(obj['priceVK4'] * (1 - sale), 1)
+
+
+    # Non-AJAX requests will return the rendered HTML page
+    return render(request, 'shop_page.html', {
         'search_term': search_term,
-        'inside': inside,
-        'quantity': quantity,
-        'is_authenticated': 'False',
-        'in_cart': 'False',
         'cart': cart,
-        'currency': currency
-    }
-
-    return render(request, 'shop_page.html', context)
-
+        'currency': currency,
+        'document': products[0],
+        'show_quantities': show_quantities,
+        'product_id': product_id,
+        'vocabulary': get_vocabulary_product_card()
+    })
 def fetch_numbers(request):
-    search_term = request.GET.get('term', '').lower()
-    numbers = []
+    search_term = request.GET.get('term', '')
+    results = []
 
     if search_term != '':
-        # Using Firestore query to filter documents
+        # Perform two separate queries to search by 'name' and 'product_name' (case-insensitive search is applied in Python)
         name_query = itemsRef.where('name', '>=', search_term).where('name', '<=', search_term + '\uf8ff').stream()
+        product_name_query = itemsRef.where('product_name', '>=', search_term).where('product_name', '<=',
+                                                                                     search_term + '\uf8ff').stream()
 
-        # Filter the results in Python for the 'quantity' field
-        numbers = [
-            doc.to_dict().get('name', '') for doc in name_query
-            if search_term in doc.to_dict().get('name', '').lower() and
-               doc.to_dict().get('quantity', 0) > 0 and
+        # Combine the results of both queries
+        combined_docs = list(name_query) + list(product_name_query)
+
+        # Remove duplicates if a document matches both queries
+        seen_ids = set()
+        results = [
+            {
+                'name': doc.to_dict().get('name', ''),
+                'product_name': doc.to_dict().get('category', '') + " " + str(doc.to_dict().get('product_name', '')),
+                'image_url': doc.to_dict().get('image_url', '')
+            }
+            for doc in combined_docs
+            if doc.id not in seen_ids and not seen_ids.add(doc.id) and  # This ensures no duplicate documents
+               (
+                       search_term.lower() in doc.to_dict().get('name', '').lower() or
+                       search_term.lower() in doc.to_dict().get('product_name', '').lower()
+               ) and
                doc.to_dict().get('Visible', True)  # Assumes default is True if 'Visible' is not present
         ]
 
-    return JsonResponse(numbers, safe=False)
+    return JsonResponse(results, safe=False)
 

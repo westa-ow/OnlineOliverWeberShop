@@ -208,7 +208,7 @@
     display: block;
 }
 
- .circular-select {
+.circular-select {
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -223,26 +223,26 @@
     -webkit-appearance: none;
     -moz-appearance: none;
 
-  }
- .circular-select{
-     color: transparent;
- }
- .circular-select option{
-     color: black;
- }
+}
+.circular-select{
+    color: transparent;
+}
+.circular-select option{
+    color: black;
+}
 
- .icons-container{
-     display: flex;
- }
- #logout-icon{
-     margin-top: 10px;
- }
- #cartBtn{
-      margin-right: 10px;
-     margin-top: 5px;
-     cursor: pointer;
- }
-.cart-panel, .accPanel{
+.icons-container{
+    display: flex;
+}
+#logout-icon{
+    margin-top: 10px;
+}
+#cartBtn{
+    margin-right: 10px;
+    margin-top: 5px;
+    cursor: pointer;
+}
+.cart-panel, .accPanel, .searchPanel{
     height: 100%;
     position: fixed;
     z-index: 1111;
@@ -256,7 +256,7 @@
     /* Add box shadow or other styles as needed */
 }
 
-.cart-panel.open , .accPanel.open{
+.cart-panel.open , .accPanel.open, .searchPanel.open{
     /*right: 0;!* Or any other width *!*/
     right: 0;
     display: "";
@@ -271,14 +271,14 @@
     background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
     z-index: 1100; /* Ensure it's below the cart panel but above other content */
 }
-.cart-panel, .accPanel {
+.cart-panel, .accPanel, .searchPanel {
     /* Other styles remain the same */
     display: flex;
     flex-direction: column;
 }
 
 .cart-header, .cart-footer {
-    padding: 10px;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -309,14 +309,14 @@
 
 .checkout-btn {
     width: 90%;
-    margin: 10px 5%; /* Centers the button and ensures 90% width */
+    /* Centers the button and ensures 90% width */
     padding: 22px 32px;
     background-color: #003765; /* Example color */
     border-radius: 7px;
     color: white;
     border: none;
     cursor: pointer;
-margin-bottom: 50px;
+    margin: 10px 5% 50px;
 }
 .cart-header, .cart-items, .cart-footer {
     padding: 15px; /* Adjust padding as needed */
@@ -485,7 +485,7 @@ img{
 .accPanel *{
     font-family: 'Poppins',Verdana,sans-serif;
 }
-.account-header{
+.account-header, .search-header{
     padding-bottom: 50px ;
     display: flex;
     justify-content: space-between;
@@ -554,4 +554,58 @@ img{
 .acc_ul.acc_links a {
     /* Other styles... */
     line-height: 22px; /* Set this to the height of your SVG icon */
+}
+.search-header{
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.search-container{
+    padding: 15px;
+
+}
+
+.search-container input {
+    width: 100%;
+    font-size: 18px;
+    border: none;
+    border-bottom: 2px solid #000!important; /* You can adjust the thickness and color as needed */
+    outline: none; /* Remove the default outline on focus */
+    border-radius: 0!important;
+    box-shadow: none!important;
+}
+
+.search-container input:focus {
+    border-bottom: 2px solid #056cc2; /* Add a different color for focus state if needed */
+}
+#dropdown {
+    max-height: 400px;
+    overflow-y: auto;
+    width: 92%;
+    background-color: white;
+    border: 1px solid #ddd;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 210px;
+    z-index: 1000;
+    margin-top: 2px;
+}
+
+#dropdown div {
+    cursor: pointer;
+    padding: 5px;
+}
+
+#dropdown div:hover {
+    background-color: #f0f0f0;
+}
+.container-search-result{
+    display: flex;
+}
+.properties-search-container{
+    display: flex;
+    flex-direction: column;
+}
+.product-name-search{
 }
