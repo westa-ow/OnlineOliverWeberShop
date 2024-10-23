@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-19 20:21+0200\n"
+"POT-Creation-Date: 2024-10-23 10:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -127,14 +127,12 @@ msgstr "Benutzer löschen"
 msgid "Shopping cart"
 msgstr "Warenkorb"
 
-#: .\shop\templates\cart.html:67
+#: .\shop\templates\cart.html:67 .\shop\templates\cart.html:339
 msgid "In cart"
 msgstr "Im Warenkorb"
 
 #: .\shop\templates\cart.html:77 .\shop\templates\cart.html:187
-#: .\shop\templates\cart.html:251 .\shop\templates\shop_page.html:72
-#: .\shop\templates\shop_page.html:201 .\shop\templates\shop_page.html:217
-#: .\shop\templates\shop_page.html:290
+#: .\shop\templates\cart.html:251
 msgid "Confirm"
 msgstr "Bestätigen"
 
@@ -143,17 +141,15 @@ msgid "Continue shopping"
 msgstr "Weiter einkaufen"
 
 #: .\shop\templates\cart.html:133
-#: .\shop\templates\widgets\navigation_bar.html:417 .\shop\views.py:356
+#: .\shop\templates\widgets\navigation_bar.html:452 .\shop\views.py:356
 msgid "Proceed to checkout"
 msgstr "Gehen Sie zur Kasse"
 
 #: .\shop\templates\cart.html:196 .\shop\templates\cart.html:234
-#: .\shop\templates\shop_page.html:236
 msgid "Type of written quantity has to be numeric and greater than 0"
 msgstr "Die Art der geschriebenen Menge muss numerisch und größer als 0 sein"
 
 #: .\shop\templates\cart.html:200 .\shop\templates\cart.html:237
-#: .\shop\templates\shop_page.html:240
 msgid "Quantity has to be less than maximum on storage"
 msgstr "Die Menge muss bei der Lagerung unter dem Maximalwert liegen"
 
@@ -161,7 +157,7 @@ msgstr "Die Menge muss bei der Lagerung unter dem Maximalwert liegen"
 msgid "Do you really want to delete this product from your cart?"
 msgstr "Möchten Sie dieses Produkt wirklich aus Ihrem Warenkorb löschen?"
 
-#: .\shop\templates\cart.html:272 .\shop\templates\shop_page.html:263
+#: .\shop\templates\cart.html:272
 msgid "Confirmed!"
 msgstr "Bestätigt!"
 
@@ -194,7 +190,7 @@ msgid "Price"
 msgstr "Preis"
 
 #: .\shop\templates\catalog.html:68
-#: .\shop\templates\widgets\navigation_bar.html:449 .\shop\views.py:350
+#: .\shop\templates\widgets\navigation_bar.html:484 .\shop\views.py:350
 msgid "Crystal color"
 msgstr "Kristallfarbe"
 
@@ -206,7 +202,8 @@ msgstr "Beschichtungsmaterial"
 msgid "Base material"
 msgstr "Grundmaterial"
 
-#: .\shop\templates\catalog.html:129 .\shop\views.py:344
+#: .\shop\templates\catalog.html:129 .\shop\templates\shop_page.html:57
+#: .\shop\views.py:344
 msgid "Size"
 msgstr "Größe"
 
@@ -243,6 +240,7 @@ msgstr "Halsketten"
 #: .\shop\templates\catalog.html:383 .\shop\templates\catalog.html:384
 #: .\shop\templates\catalog.html:414 .\shop\templates\home.html:380
 #: .\shop\templates\profile\profile_favourites.html:33
+#: .\shop\templates\shop_page.html:155
 #: .\shop\templates\widgets\navigation_bar.html:98
 msgid "Earrings"
 msgstr "Ohrringe"
@@ -276,6 +274,7 @@ msgstr "Perlenketten"
 #: .\shop\templates\catalog.html:392 .\shop\templates\catalog.html:420
 #: .\shop\templates\home.html:386
 #: .\shop\templates\profile\profile_favourites.html:39
+#: .\shop\templates\shop_page.html:161
 msgid "Post earrings"
 msgstr "Post-Ohrringe"
 
@@ -340,140 +339,167 @@ msgstr "Erweiterungen"
 #: .\shop\templates\catalog.html:407 .\shop\templates\catalog.html:435
 #: .\shop\templates\home.html:401
 #: .\shop\templates\profile\profile_favourites.html:54
+#: .\shop\templates\shop_page.html:176
 msgid "UV"
 msgstr "UV"
 
 #: .\shop\templates\catalog.html:415 .\shop\templates\home.html:381
 #: .\shop\templates\profile\profile_favourites.html:34
+#: .\shop\templates\shop_page.html:156
 msgid "Pendant"
 msgstr "Anhänger"
 
 #: .\shop\templates\catalog.html:416 .\shop\templates\home.html:382
 #: .\shop\templates\profile\profile_favourites.html:35
+#: .\shop\templates\shop_page.html:157
 msgid "Chain"
 msgstr "Kette"
 
 #: .\shop\templates\catalog.html:417 .\shop\templates\home.html:383
 #: .\shop\templates\profile\profile_favourites.html:36
+#: .\shop\templates\shop_page.html:158
 msgid "Collier"
 msgstr "Collier"
 
 #: .\shop\templates\catalog.html:418 .\shop\templates\home.html:384
 #: .\shop\templates\profile\profile_favourites.html:37
+#: .\shop\templates\shop_page.html:159
 msgid "Pearlchain"
 msgstr "Perlenkette"
 
 #: .\shop\templates\catalog.html:419 .\shop\templates\home.html:385
 #: .\shop\templates\profile\profile_favourites.html:38
+#: .\shop\templates\shop_page.html:160
 msgid "Necklace"
 msgstr "Halskette"
 
 #: .\shop\templates\catalog.html:421 .\shop\templates\home.html:387
 #: .\shop\templates\profile\profile_favourites.html:40
+#: .\shop\templates\shop_page.html:162
 msgid "Hoop"
 msgstr "Band"
 
 #: .\shop\templates\catalog.html:422 .\shop\templates\home.html:388
 #: .\shop\templates\profile\profile_favourites.html:41
+#: .\shop\templates\shop_page.html:163
 msgid "Creole"
 msgstr "Kreolisch"
 
 #: .\shop\templates\catalog.html:423 .\shop\templates\home.html:389
 #: .\shop\templates\profile\profile_favourites.html:42
+#: .\shop\templates\shop_page.html:164
 msgid "Clip"
 msgstr "Clip"
 
 #: .\shop\templates\catalog.html:424 .\shop\templates\home.html:390
 #: .\shop\templates\profile\profile_favourites.html:43
+#: .\shop\templates\shop_page.html:165
 msgid "Piercing"
 msgstr "Piercing"
 
 #: .\shop\templates\catalog.html:425 .\shop\templates\home.html:391
 #: .\shop\templates\profile\profile_favourites.html:44
+#: .\shop\templates\shop_page.html:166
 msgid "Bracelet"
 msgstr "Armband"
 
 #: .\shop\templates\catalog.html:426 .\shop\templates\home.html:392
 #: .\shop\templates\profile\profile_favourites.html:45
+#: .\shop\templates\shop_page.html:167
 msgid "Bangle"
 msgstr "Armreif"
 
 #: .\shop\templates\catalog.html:427 .\shop\templates\home.html:393
 #: .\shop\templates\profile\profile_favourites.html:46
+#: .\shop\templates\shop_page.html:168
 msgid "Anklet"
 msgstr "Fußkettchen"
 
 #: .\shop\templates\catalog.html:428 .\shop\templates\home.html:394
 #: .\shop\templates\profile\profile_favourites.html:47
+#: .\shop\templates\shop_page.html:169
 msgid "Ring"
 msgstr "Ring"
 
 #: .\shop\templates\catalog.html:429 .\shop\templates\home.html:395
 #: .\shop\templates\profile\profile_favourites.html:48
+#: .\shop\templates\shop_page.html:170
 msgid "Match"
 msgstr "Übereinstimmen"
 
 #: .\shop\templates\catalog.html:430 .\shop\templates\home.html:396
 #: .\shop\templates\profile\profile_favourites.html:49
+#: .\shop\templates\shop_page.html:171
 msgid "Pen"
 msgstr "Stift"
 
 #: .\shop\templates\catalog.html:431 .\shop\templates\home.html:397
 #: .\shop\templates\profile\profile_favourites.html:50
+#: .\shop\templates\shop_page.html:172
 msgid "Key"
 msgstr "Schlüssel"
 
 #: .\shop\templates\catalog.html:432 .\shop\templates\home.html:398
 #: .\shop\templates\profile\profile_favourites.html:51
+#: .\shop\templates\shop_page.html:173
 msgid "Brooch"
 msgstr "Brosche"
 
 #: .\shop\templates\catalog.html:433 .\shop\templates\home.html:399
 #: .\shop\templates\profile\profile_favourites.html:52
+#: .\shop\templates\shop_page.html:174
 msgid "Nailfile"
 msgstr "Nagelfeile"
 
 #: .\shop\templates\catalog.html:434 .\shop\templates\home.html:400
 #: .\shop\templates\profile\profile_favourites.html:53
+#: .\shop\templates\shop_page.html:175
 msgid "Extension"
 msgstr "Verlängerung"
 
 #: .\shop\templates\catalog.html:439 .\shop\templates\home.html:405
 #: .\shop\templates\profile\profile_favourites.html:58
+#: .\shop\templates\shop_page.html:180
 msgid "Default"
 msgstr "Standard"
 
 #: .\shop\templates\catalog.html:440 .\shop\templates\home.html:406
 #: .\shop\templates\profile\profile_favourites.html:59
+#: .\shop\templates\shop_page.html:181
 msgid "Rhodium"
 msgstr "Rhodium"
 
 #: .\shop\templates\catalog.html:441 .\shop\templates\home.html:407
 #: .\shop\templates\profile\profile_favourites.html:60
+#: .\shop\templates\shop_page.html:182
 msgid "Gold"
 msgstr "Gold"
 
 #: .\shop\templates\catalog.html:442 .\shop\templates\home.html:408
 #: .\shop\templates\profile\profile_favourites.html:61
+#: .\shop\templates\shop_page.html:183
 msgid "Rosegold"
 msgstr "Roségold"
 
 #: .\shop\templates\catalog.html:443 .\shop\templates\home.html:409
 #: .\shop\templates\profile\profile_favourites.html:62
+#: .\shop\templates\shop_page.html:184
 msgid "Without"
 msgstr "Ohne"
 
 #: .\shop\templates\catalog.html:444 .\shop\templates\home.html:410
 #: .\shop\templates\profile\profile_favourites.html:63
+#: .\shop\templates\shop_page.html:185
 msgid "Steel"
 msgstr "Stahl"
 
-#: .\shop\templates\catalog.html:445
+#: .\shop\templates\catalog.html:445 .\shop\templates\shop_page.html:186
 msgid "Brass"
 msgstr "Messing"
 
 #: .\shop\templates\catalog.html:446 .\shop\templates\home.html:412
 #: .\shop\templates\profile\profile_favourites.html:65
+#: .\shop\templates\shop_page.html:187
 msgid "Silver"
 msgstr "Silber"
 
@@ -487,7 +513,8 @@ msgstr "Aus Favoriten entfernen"
 msgid "Add to favorites"
 msgstr "Zu Favoriten hinzufügen"
 
-#: .\shop\templates\catalog.html:1027 .\shop\views.py:357
+#: .\shop\templates\catalog.html:1027 .\shop\templates\shop_page.html:126
+#: .\shop\views.py:357
 msgid "Add to cart"
 msgstr "In den Warenkorb legen"
 
@@ -711,7 +738,7 @@ msgid ""
 "You may unsubscribe at any moment. For that purpose, please find our contact"
 " info in the legal notice."
 msgstr ""
-"Sie können sich jederzeit abmelden. Unsere Kontaktdaten finden Sie hierzu "
+"Sie können sich jederzeit abmelden. Unsere Kontaktdaten hierzu finden Sie "
 "bitte im Impressum."
 
 #: .\shop\templates\our_company_pages\Impressum.html:47
@@ -797,8 +824,8 @@ msgid ""
 "Press Office directly:<br><br>Tel .: +43 (0) 5223 41 881<br>Fax .: +43 (0) "
 "5223 41 881-3<br><br>Email: office@oliverweber.at<br><br>&nbsp;<br><br>"
 msgstr ""
-"Sie haben Anfragen zu Zeitschriften oder Magazinen?<br><br>Wir informieren "
-"Sie gerne über Neuigkeiten und Aktivitäten unseres "
+"Sie haben Anfragen zu Zeitschriften oder Zeitschriften?<br><br>Wir "
+"informieren Sie gerne über Neuigkeiten und Aktivitäten unseres "
 "Unternehmens.<br><br>Suchen Sie Informationen zu unserer aktuellen "
 "Kollektion oder druckfähiges Druckmaterial und Fotos, z.B. aus unserer "
 "Sammlung?<br><br>Bitte wenden Sie sich direkt an die Oliver Weber-"
@@ -964,7 +991,7 @@ msgstr ""
 "Sie können unsere Website besuchen, ohne Angaben zu Ihrer Person zu machen. "
 "Bei jedem Besuch auf der Website speichert der Webserver automatisch "
 "lediglich ein sogenanntes Server-Logfile, das z.B. den Namen der "
-"angeforderten Datei, Ihre IP-Adresse, Datum und Uhrzeit der Anforderung, "
+"angeforderten Datei, Ihre IP-Adresse, Datum und Uhrzeit der Anfrage, "
 "übertragene Datenmenge und den anfragenden Provider (Zugriffsdaten) und "
 "dokumentieren die Anfrage. Die Auswertung dieser Zugriffsdaten erfolgt "
 "ausschließlich zu dem Zweck, einen reibungslosen Betrieb der Website "
@@ -986,11 +1013,11 @@ msgid ""
 msgstr ""
 "Die Leistungen zum Hosting und zur Darstellung der Website werden teilweise "
 "durch unsere Dienstleister im Rahmen einer Verarbeitung in unserem Auftrag "
-"erbracht. Sofern in dieser Datenschutzerklärung nichts anderes angegeben "
-"ist, werden sämtliche Zugriffsdaten und alle in dafür vorgesehenen "
-"Formularen dieser Website erhobenen Daten auf deren Servern verarbeitet. Bei"
-" Fragen zu unseren Dienstleistern und den Grundlagen unserer Zusammenarbeit "
-"mit ihnen nutzen Sie bitte die in dieser Datenschutzerklärung beschriebene "
+"erbracht. Sofern sich aus dieser Datenschutzerklärung nichts anderes ergibt,"
+" werden sämtliche Zugriffsdaten und alle in dafür vorgesehenen Formularen "
+"dieser Website erhobenen Daten auf deren Servern verarbeitet. Bei Fragen zu "
+"unseren Dienstleistern und den Grundlagen unserer Zusammenarbeit mit ihnen "
+"nutzen Sie bitte die in dieser Datenschutzerklärung beschriebene "
 "Kontaktmöglichkeit."
 
 #: .\shop\templates\our_company_pages\Privacy_policy.html:61
@@ -1008,8 +1035,8 @@ msgid ""
 "service providers and the basis of our cooperation with them, please use the"
 " contact option described in this privacy policy."
 msgstr ""
-"Zum Zweck einer kürzeren Ladezeit nutzen wir für einige Angebote ein "
-"sogenanntes Content Delivery Network (‚CDN‘). Dieser Dienst stellt Inhalte "
+"Zum Zweck einer kürzeren Ladezeit nutzen wir bei einigen Angeboten ein "
+"sogenanntes Content Delivery Network („CDN“). Dieser Dienst stellt Inhalte "
 "bereit, z.B. große Mediendateien, über regional verteilte Server externer "
 "CDN-Dienstleister. Aus diesem Grund werden Zugriffsdaten auf den Servern "
 "dieser Dienstleister verarbeitet. Wir beauftragen unsere Dienstleister mit "
@@ -1200,14 +1227,14 @@ msgstr ""
 " 6 Abs. 1 lit. a DSGVO an den ausgewählten Versanddienstleister, um diesem "
 "die Kontaktaufnahme zum Zwecke der Versandankündigung bzw. -abstimmung vor "
 "dem Versand zu ermöglichen.<br>Diese Einwilligung kann jederzeit durch eine "
-"Nachricht an den widerrufen werden Kontaktinformationen gemäß dieser "
-"Datenschutzerklärung oder direkt an den Versanddienstleister über die unten "
-"aufgeführte Kontaktadresse. Nach Widerruf der Einwilligung löschen wir die "
-"von Ihnen zu diesem Zweck übermittelten Daten, sofern Sie nicht ausdrücklich"
-" in eine weitere Nutzung Ihrer Daten eingewilligt haben oder wir uns eine "
-"anderweitige Datenverwendung vorbehalten, die gesetzlich erlaubt ist und "
-"über die wir Sie informieren Sie in dieser Datenschutzerklärung. "
-"&ZeroWidthSpace;&ZeroWidthSpace;"
+"Nachricht an den widerrufen werden Kontaktinformationen wie in dieser "
+"Datenschutzerklärung beschrieben oder direkt an den Versanddienstleister "
+"über die unten aufgeführte Kontaktadresse. Nach Widerruf der Einwilligung "
+"löschen wir die von Ihnen zu diesem Zweck übermittelten Daten, sofern Sie "
+"nicht ausdrücklich in eine weitere Nutzung Ihrer Daten eingewilligt haben "
+"oder wir uns eine anderweitige Datenverwendung vorbehalten, die gesetzlich "
+"erlaubt ist und über die wir Sie informieren Sie in dieser "
+"Datenschutzerklärung. &ZeroWidthSpace;&ZeroWidthSpace;"
 
 #: .\shop\templates\our_company_pages\Privacy_policy.html:82
 msgid "Data processing for the purposes of payment"
@@ -1274,15 +1301,15 @@ msgid ""
 "efficient payment management in accordance with Art. 6 (1) (f) GDPR that are"
 " overriding in the process of balancing of interests."
 msgstr ""
-"Wir geben gegebenenfalls weitere Daten an unsere Dienstleister weiter, die "
-"diese zum Zwecke der Betrugsprävention und zur Optimierung unserer "
-"Zahlungsprozesse (z. B. Rechnungsstellung, Abwicklung angefochtener "
-"Zahlungen, Buchhaltungsunterstützung) zusammen mit den für die "
-"Zahlungsabwicklung erforderlichen Daten als unsere Auftragsverarbeiter "
-"weitergeben. <br>Dies dient der Wahrung unserer berechtigten Interessen an "
-"der Betrugsprävention bzw. einem effizienten Zahlungsmanagement gemäß Art. 6"
-" Abs. 1 lit. f DSGVO. Die im Rahmen der Interessenabwägung überwiegenden "
-"Rechtsgrundlagen sind Art. 6 Abs. 1 lit. f DSGVO."
+"Wir geben ggf. weitere Daten an unsere Dienstleister weiter, die diese zum "
+"Zwecke der Betrugsprävention und zur Optimierung unserer Zahlungsprozesse "
+"(z.B. Rechnungsstellung, Abwicklung angefochtener Zahlungen, "
+"Buchhaltungsunterstützung) zusammen mit den für die Zahlungsabwicklung "
+"notwendigen Daten als unsere Auftragsverarbeiter weitergeben. <br>Dies dient"
+" der Wahrung unserer berechtigten Interessen an der Betrugsprävention bzw. "
+"einem effizienten Zahlungsmanagement gemäß Art. 6 Abs. 1 lit. f DSGVO. Die "
+"im Rahmen der Interessenabwägung überwiegenden Rechtsgrundlagen sind Art. 6 "
+"Abs. 1 lit. f DSGVO."
 
 #: .\shop\templates\our_company_pages\Privacy_policy.html:88
 msgid "Marketing via e-mail, mail, telephone"
@@ -1317,8 +1344,9 @@ msgstr ""
 "erfolgen. Nach der Abmeldung löschen wir Ihre E-Mail-Adresse aus der "
 "Empfängerliste, sofern Sie nicht ausdrücklich in eine weitere Nutzung Ihrer "
 "Daten eingewilligt haben oder wir uns eine anderweitige Verwendung Ihrer "
-"Daten für andere gesetzlich zulässige Zwecke vorbehalten darüber informieren"
-" wir Sie in dieser Datenschutzerklärung."
+"Daten für andere Zwecke vorbehalten, die gesetzlich erlaubt sind und über "
+"die wir uns informieren darüber informieren wir Sie in dieser "
+"Datenschutzerklärung."
 
 #: .\shop\templates\our_company_pages\Privacy_policy.html:91
 msgid "Newsletter mailing"
@@ -1507,7 +1535,7 @@ msgid ""
 "functionality of our website may be limited."
 msgstr ""
 "Sofern Sie in den Einsatz der Technologien gemäß Art. 6 Abs. 1 lit. a DSGVO "
-"eingewilligt haben: Sie können Ihre Einwilligung gemäß Art. 6 Abs. 1 lit. a "
+"eingewilligt haben, Sie können Ihre Einwilligung gemäß Art. 6 Abs. 1 lit. a "
 "DSGVO jederzeit durch eine Nachricht an die in der Datenschutzerklärung "
 "beschriebene Kontaktmöglichkeit widerrufen. Alternativ können Sie auch auf "
 "den Fingerabdruck-Button unten rechts oder links auf der Seite klicken. Bei "
@@ -1588,7 +1616,7 @@ msgid ""
 msgstr ""
 "Sofern Sie Ihre Einwilligung gemäß Art. Auf unserer Website verwenden wir "
 "gemäß Art. 6 Abs. 1 lit. a DSGVO folgende Cookies und weitere Technologien "
-"Dritter. Die in diesem Zusammenhang erhobenen Daten werden nach "
+"von Drittanbietern. Die in diesem Zusammenhang erhobenen Daten werden nach "
 "Zweckerfüllung und Beendigung des Einsatzes der jeweiligen Technologie durch"
 " uns gelöscht. Ihre Einwilligung können Sie jederzeit mit Wirkung für die "
 "Zukunft widerrufen. Weitere Informationen zu Ihren Widerrufsmöglichkeiten "
@@ -1764,7 +1792,7 @@ msgid ""
 "do not process personal data in this respect; we only receive statistics "
 "based on Google Signals."
 msgstr ""
-"Zu Webanalysezwecken ermöglicht die Erweiterungsfunktion von Google "
+"Zu Zwecken der Webanalyse ermöglicht die Erweiterungsfunktion von Google "
 "Analytics Google Signals das sogenannte „Cross-Device-Tracking“. Sofern Ihre"
 " internetfähigen Geräte mit Ihrem Google-Konto verknüpft sind und Sie in "
 "Ihrem Google-Konto die Einstellung „personalisierte Werbung“ aktiviert "
@@ -1852,9 +1880,9 @@ msgstr ""
 "können Cookies eingesetzt werden und Daten (IP-Adresse, Zeitpunkt des "
 "Besuchs, Geräte- und Browserinformationen sowie Informationen zu Ihrer "
 "Nutzung unserer Website aufgrund von uns vorgegebener Ereignisse, wie z. B. "
-"einem Besuch einer Website oder einer Newsletter-Anmeldung) verwendet "
-"werden. erhoben werden, aus denen unter Verwendung von Pseudonymen "
-"Nutzungsprofile erstellt werden."
+"Besuch einer Website oder Newsletter-Anmeldung) verwendet werden. erhoben "
+"werden, aus denen unter Verwendung von Pseudonymen Nutzungsprofile erstellt "
+"werden."
 
 #: .\shop\templates\our_company_pages\Privacy_policy.html:129
 msgid ""
@@ -1898,7 +1926,7 @@ msgid ""
 "processed by Google. We have no influence on this subsequent data "
 "processing."
 msgstr ""
-"Zum Zweck einer einheitlichen Darstellung der Inhalte auf unserer Website "
+"Zum Zwecke einer einheitlichen Darstellung der Inhalte auf unserer Website "
 "werden durch den Script-Code „Google Fonts“ Daten (IP-Adresse, Zeitpunkt des"
 " Besuchs, Geräte- und Browser-Informationen) erfasst, an Google übermittelt "
 "und anschließend von Google verarbeitet. Auf diese weitere Datenverarbeitung"
@@ -1953,12 +1981,12 @@ msgid ""
 "about data processing by Facebook can be found in&nbsp;"
 msgstr ""
 "wie unten beschrieben. Über den Facebook-Pixel werden automatisch Daten (IP-"
-"Adresse, Zeitpunkt des Besuchs, Geräte- und Browser-Informationen sowie "
+"Adresse, Zeitpunkt des Besuchs, Geräte- und Browserinformationen sowie "
 "Informationen zu Ihrer Nutzung unserer Website aufgrund von uns vorgegebener"
 " Ereignisse, wie z. B. Besuch einer Website oder Newsletter-Anmeldung, "
 "erhoben und gespeichert ), aus denen unter Verwendung von Pseudonymen "
 "Nutzungsprofile erstellt werden.<br>Im Rahmen des sogenannten erweiterten "
-"Matchings werden zudem Informationen zu Matchingzwecken gesammelt und "
+"Matchings werden außerdem Informationen zu Matching-Zwecken gesammelt und "
 "gehasht gespeichert, mit denen Personen identifiziert werden können (z.B. "
 "Namen, E-Mail-Adressen usw.). Telefonnummern). Zu diesem Zweck wird beim "
 "Besuch unserer Website automatisch ein Cookie durch den Facebook-Pixel "
@@ -2029,7 +2057,7 @@ msgstr ""
 "Besucheraktivitäten auf unserer Website betreiben wir gruppenbasierte "
 "Werbung auf Facebook über Facebook Custom Audience, indem wir die Merkmale "
 "der jeweiligen Zielgruppe ermitteln. Im Rahmen des erweiterten Matchings "
-"(siehe oben) zur Ermittlung der jeweiligen Zielgruppe fungiert Facebook als "
+"(siehe oben) zur Bestimmung der jeweiligen Zielgruppe fungiert Facebook als "
 "unser Datenverarbeiter."
 
 #: .\shop\templates\our_company_pages\Privacy_policy.html:144
@@ -2273,14 +2301,13 @@ msgid ""
 "assistance in this regard, please contact us."
 msgstr ""
 "Sofern Sie gegenüber dem jeweiligen Social-Media-Anbieter Ihre Einwilligung "
-"gemäß Art. Beim Besuch unserer Onlinepräsenzen in den oben genannten "
-"sozialen Medien werden Ihre Daten auf Grundlage von Art. 6 Abs. 1 lit. a "
-"DSGVO automatisch für Marktforschungs- und Werbezwecke erhoben und "
-"gespeichert, aus denen unter Verwendung von Pseudonymen Nutzungsprofile "
-"erstellt werden. Mithilfe dieser können beispielsweise Werbeanzeigen "
-"innerhalb und außerhalb der Plattformen geschaltet werden, die "
-"voraussichtlich Ihren Interessen entsprechen. Zu diesem Zweck werden in der "
-"Regel Cookies eingesetzt. Die detaillierten Informationen zur Verarbeitung "
+"gemäß Art. Bei Ihrem Besuch unserer Online-Präsenz in den oben genannten "
+"sozialen Medien werden Ihre Daten automatisch für Zwecke der Marktforschung "
+"und Werbung erhoben und gespeichert. Daraus werden unter Verwendung von "
+"Pseudonymen Nutzungsprofile erstellt. Mithilfe dieser können beispielsweise "
+"Werbeanzeigen innerhalb und außerhalb der Plattformen geschaltet werden, die"
+" voraussichtlich Ihren Interessen entsprechen. Zu diesem Zweck werden in der"
+" Regel Cookies eingesetzt. Die detaillierten Informationen zur Verarbeitung "
 "und Nutzung der Daten durch den jeweiligen Social-Media-Anbieter sowie eine "
 "Kontaktmöglichkeit und Ihre diesbezüglichen Rechte und "
 "Einstellungsmöglichkeiten zum Schutz Ihrer Privatsphäre entnehmen Sie bitte "
@@ -2943,8 +2970,8 @@ msgid ""
 "complaints and claims on weekdays from TO By e-mail at "
 "office@oliverweber.com."
 msgstr ""
-"Kundenservice: Unser Kundenservice steht Ihnen für Fragen, Reklamationen und"
-" Reklamationen werktags von TO per E-Mail unter office@oliverweber.com zur "
+"Kundenservice: Für Fragen, Reklamationen und Reklamationen steht Ihnen unser"
+" Kundenservice werktags von TO per E-Mail unter office@oliverweber.com zur "
 "Verfügung."
 
 #: .\shop\templates\our_company_pages\Terms_and_conditions.html:98
@@ -3133,8 +3160,8 @@ msgid ""
 "Here you can upload an xlsx file that holds product numbers and quantities "
 "to add them to your cart immediately"
 msgstr ""
-"Hier können Sie eine XLSX-Datei hochladen, die Produktnummern und -mengen "
-"enthält, um diese sofort in Ihren Warenkorb zu legen"
+"Hier können Sie eine XLSX-Datei mit Produktnummern und -mengen hochladen, um"
+" diese sofort in Ihren Warenkorb zu legen"
 
 #: .\shop\templates\profile\profile_order_import.html:14
 #, fuzzy
@@ -3176,6 +3203,12 @@ msgstr "Zahlung"
 msgid "Status"
 msgstr "Status"
 
+#: .\shop\templates\profile\profile_orders.html:113
+#, fuzzy
+#| msgid "Show details"
+msgid "Show Details"
+msgstr "Details anzeigen"
+
 #: .\shop\templates\profile\profile_orders.html:123
 msgid "Download csv"
 msgstr "CSV herunterladen"
@@ -3216,7 +3249,7 @@ msgid "Description"
 msgstr "Beschreibung"
 
 #: .\shop\templates\profile\profile_orders.html:264
-#: .\shop\templates\widgets\navigation_bar.html:469 .\shop\views.py:352
+#: .\shop\templates\widgets\navigation_bar.html:504 .\shop\views.py:352
 msgid "Quantity"
 msgstr "Menge"
 
@@ -3225,7 +3258,8 @@ msgid "Summary"
 msgstr "Zusammenfassung"
 
 #: .\shop\templates\profile\profile_orders.html:266
-#: .\shop\templates\shop_page.html:55 .\shop\views.py:340
+#: .\shop\templates\shop_page.html:109 .\shop\templates\shop_page.html:115
+#: .\shop\views.py:340
 msgid "In stock"
 msgstr "Auf Lager"
 
@@ -3558,9 +3592,9 @@ msgstr ""
 "Um den bisherigen Inhalt Ihres Warenkorbs anzuzeigen, klicken Sie auf die "
 "Schaltfläche „Warenkorb“ (in der oberen rechten Ecke Ihres Bildschirms). "
 "Wenn Sie entscheiden, dass Sie ein Produkt doch nicht möchten, können Sie es"
-" einfach aus dem Beutel entfernen, indem Sie auf „Löschen“ klicken, oder Sie"
-" können es mehrmals bestellen, indem Sie auf die Schaltfläche „+“ klicken, "
-"bis Sie die gewünschte Menge erreicht haben."
+" einfach durch Klicken auf „Löschen“ aus dem Beutel entfernen oder es durch "
+"Klicken auf die Schaltfläche „+“ mehrmals bestellen, bis Sie die gewünschte "
+"Menge erreicht haben."
 
 #: .\shop\templates\service_pages\faq.html:48
 msgid ""
@@ -3688,8 +3722,8 @@ msgid ""
 "Shipping to United States (except. Alaska, Hawaii) – 18.90 €, delivery times"
 " between 5 and 10 days from the time you place your order."
 msgstr ""
-"Versand in die USA (außer Alaska, Hawaii) – 18,90 €, Lieferzeiten zwischen 5"
-" und 10 Tagen ab dem Zeitpunkt Ihrer Bestellung."
+"Versand in die Vereinigten Staaten (außer Alaska, Hawaii) – 18,90 €, "
+"Lieferzeiten zwischen 5 und 10 Tagen ab dem Zeitpunkt Ihrer Bestellung."
 
 #: .\shop\templates\service_pages\faq.html:69
 msgid "Are you available 24/7?"
@@ -3981,7 +4015,7 @@ msgstr ""
 "Wenn Sie diesen Vertrag widerrufen, erstatten wir Ihnen alle von Ihnen "
 "erhaltenen Zahlungen einschließlich der Lieferkosten (mit Ausnahme der "
 "zusätzlichen Kosten, die entstehen, wenn Sie eine andere Art der Lieferung "
-"als die von uns angebotene günstigste Standardlieferung gewählt haben). "
+"als die von uns angebotene, günstigste Standardlieferung gewählt haben). "
 "uns), unverzüglich und in jedem Fall spätestens 14 Tage nach dem Tag, an dem"
 " wir über Ihre Entscheidung, von diesem Vertrag zurückzutreten, informiert "
 "werden. Für die Rückzahlung verwenden wir dasselbe Zahlungsmittel, das Sie "
@@ -4224,38 +4258,60 @@ msgstr ""
 "Kundenservice. Bitte halten Sie Ihre Bestell- und Sendungsverfolgungsnummer "
 "bereit."
 
-#: .\shop\templates\shop_page.html:25
-msgid "Product number"
-msgstr "Produktnummer"
-
-#: .\shop\templates\shop_page.html:31
-msgid "Search"
-msgstr "Suchen"
-
 #: .\shop\templates\shop_page.html:40
-msgid "Searched Results for"
-msgstr "Gesuchte Ergebnisse für"
+#: .\shop\templates\widgets\navigation_bar.html:486
+msgid "Plating"
+msgstr "Überzug"
 
-#: .\shop\templates\shop_page.html:42
-msgid "Searched Results"
-msgstr "Gesuchte Ergebnisse"
+#: .\shop\templates\shop_page.html:48
+#, fuzzy
+#| msgid "Stone color"
+msgid "Stone"
+msgstr "Stein"
 
-#: .\shop\templates\shop_page.html:77 .\shop\templates\shop_page.html:314
-msgid "Current quantity"
-msgstr "Aktuelle Menge"
+#: .\shop\templates\shop_page.html:68
+msgid "Product width"
+msgstr "Produktbreite"
+
+#: .\shop\templates\shop_page.html:78
+#, fuzzy
+#| msgid "Product number"
+msgid "Product height"
+msgstr "Produkthöhe"
 
 #: .\shop\templates\shop_page.html:89
-msgid "No results to display"
-msgstr "Keine Ergebnisse zum Anzeigen"
+msgid "Chain length"
+msgstr "Kettenlänge"
 
-#: .\shop\templates\shop_page.html:110 .\shop\templates\shop_page.html:112
-#: .\shop\templates\shop_page.html:267
-msgid "Total"
-msgstr "Gesamt"
+#: .\shop\templates\shop_page.html:111 .\shop\templates\shop_page.html:119
+#, fuzzy
+#| msgid "In stock"
+msgid "Out of stock"
+msgstr "Ausverkauft"
 
-#: .\shop\templates\shop_page.html:164
-msgid "Do you really want to delete this product from your cart"
-msgstr "Möchten Sie dieses Produkt wirklich aus Ihrem Warenkorb löschen?"
+#: .\shop\templates\shop_page.html:117 .\shop\views.py:341
+msgid "Less than 5 pieces left!"
+msgstr "Weniger als 5 Stück übrig!"
+
+#: .\shop\templates\shop_page.html:213 .\shop\views.py:348
+msgid "An error occured"
+msgstr "Es ist ein Fehler aufgetreten"
+
+#: .\shop\templates\shop_page.html:226 .\shop\views.py:346
+msgid ""
+"Quantity number has to be less than or equal to quantity number in stock or "
+"and be greater than 0"
+msgstr ""
+"Die Mengennummer muss kleiner oder gleich der Mengennummer im Lager sein "
+"oder größer als 0 sein"
+
+#: .\shop\templates\shop_page.html:236 .\shop\views.py:359
+msgid "Maximum items for pre-order is 20, minimum is 1"
+msgstr "Es können maximal 20 Artikel vorbestellt werden, mindestens 1"
+
+#: .\shop\templates\shop_page.html:281
+msgid "Current quantity"
+msgstr "Aktuelle Menge"
 
 #: .\shop\templates\widgets\footer.html:79
 msgid "Customer Service"
@@ -4323,19 +4379,23 @@ msgstr "Gehen Sie zur Kasse"
 msgid "Account"
 msgstr "Konto"
 
-#: .\shop\templates\widgets\navigation_bar.html:451
-msgid "Plating"
-msgstr "Überzug"
+#: .\shop\templates\widgets\navigation_bar.html:261
+msgid "Search"
+msgstr "Suchen"
 
-#: .\shop\templates\widgets\navigation_bar.html:453
+#: .\shop\templates\widgets\navigation_bar.html:270
+msgid "Start typing here..."
+msgstr "Beginnen Sie hier mit der Eingabe..."
+
+#: .\shop\templates\widgets\navigation_bar.html:488
 msgid "Base Material"
 msgstr "Grundmaterial"
 
-#: .\shop\templates\widgets\navigation_bar.html:491
+#: .\shop\templates\widgets\navigation_bar.html:526
 msgid "Remove from cart"
 msgstr "Aus dem Warenkorb entfernen"
 
-#: .\shop\templates\widgets\navigation_bar.html:518
+#: .\shop\templates\widgets\navigation_bar.html:553
 msgid ""
 "You cant delete items during checkout. Go back to shop pages to change your "
 "cart"
@@ -4343,17 +4403,13 @@ msgstr ""
 "Sie können Artikel während des Bezahlvorgangs nicht löschen. Gehen Sie "
 "zurück zu den Shop-Seiten, um Ihren Warenkorb zu ändern"
 
-#: .\shop\templates\widgets\navigation_bar.html:613
+#: .\shop\templates\widgets\navigation_bar.html:648
 msgid "Cart is empty"
 msgstr "Der Warenkorb ist leer"
 
-#: .\shop\templates\widgets\navigation_bar.html:630
+#: .\shop\templates\widgets\navigation_bar.html:665
 msgid "Back to shop"
 msgstr "Zurück zum Shop"
-
-#: .\shop\views.py:341
-msgid "Less than 5 pieces left!"
-msgstr "Weniger als 5 Stück übrig!"
 
 #: .\shop\views.py:342
 msgid "Plating Material"
@@ -4363,21 +4419,9 @@ msgstr "Beschichtungsmaterial"
 msgid "Stone color"
 msgstr "Steinfarbe"
 
-#: .\shop\views.py:346
-msgid ""
-"Quantity number has to be less than or equal to quantity number in stock or "
-"and be greater than 0"
-msgstr ""
-"Die Mengennummer muss kleiner oder gleich der Mengennummer im Lager sein "
-"oder größer als 0 sein"
-
 #: .\shop\views.py:347
 msgid "Processing"
 msgstr "Verarbeitung"
-
-#: .\shop\views.py:348
-msgid "An error occured"
-msgstr "Es ist ein Fehler aufgetreten"
 
 #: .\shop\views.py:349
 msgid "Product successfully added to your shopping cart"
@@ -4394,10 +4438,6 @@ msgstr "Zwischensumme"
 #: .\shop\views.py:358
 msgid "This item is only available for pre-order!"
 msgstr "Dieser Artikel ist nur vorbestellbar!"
-
-#: .\shop\views.py:359
-msgid "Maximum items for pre-order is 20, minimum is 1"
-msgstr "Es können maximal 20 Artikel vorbestellt werden, mindestens 1"
 
 #: .\shop\views.py:369
 msgid "Welcome to my site."
@@ -5080,7 +5120,7 @@ msgstr "Große Ganzzahl (8 Byte)."
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2164
 msgid "Small integer"
-msgstr "Kleine ganze Zahl"
+msgstr "Kleine Ganzzahl"
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2172
 #, fuzzy
@@ -6319,7 +6359,7 @@ msgstr ""
 "BEISPIELE\n"
 "\n"
 "    Um eine Reihe von Berichten zu erhalten, in denen Umbenennungen erwähnt werden, die in vorgenommen wurden\n"
-"    Ihre Repo- und Auflistungsgrößen von Objekten, aggregiert nach einem beliebigen Pfad,\n"
+"    Ihr Repo und die Auflistung der Objektgrößen, aggregiert nach einem beliebigen Pfad,\n"
 "    Verzeichnis, Erweiterung oder Blob-ID:\n"
 "      git filter-repo --analyze\n"
 "\n"
@@ -6327,7 +6367,7 @@ msgstr ""
 "    Es kann sinnvoll sein, diesen Befehl nach dem Filtern erneut auszuführen, um die Datei neu zu generieren\n"
 "    melden Sie uns und überprüfen Sie, ob die Änderungen korrekt sind.)\n"
 "\n"
-"    So extrahieren Sie den Verlauf, der nur „Anleitungen“ und „Tools/Releases“ berührt:\n"
+"    So extrahieren Sie den Verlauf, der nur „Anleitungen“ und „Tools/Releases“ betrifft:\n"
 "      git filter-repo --path guides/ --path tools/releases\n"
 "\n"
 "    So entfernen Sie foo.zip und bar/baz/zips aus jeder Revision im Verlauf:\n"
@@ -6530,7 +6570,7 @@ msgid ""
 msgstr ""
 "Benennen Sie Tags um, die mit OLD beginnen, sodass sie mit NEW beginnen.  "
 "Beispielsweise benennt --tag-rename foo:bar das Tag foo-1.2.3 in bar-1.2.3 "
-"um; entweder OLD oder NEW können leer sein."
+"um. entweder OLD oder NEW können leer sein."
 
 #: .\venv\Lib\site-packages\git_filter_repo.py:1864
 msgid "Filtering of commit messages (see also --message-callback)"
@@ -6552,7 +6592,7 @@ msgid ""
 " (abbreviated to the same length as the old reference).  Use this flag to "
 "turn off updating commit hashes in commit messages."
 msgstr ""
-"Da Commits neu geschrieben werden und somit neue Hashes erhalten, werden "
+"Da Commits neu geschrieben werden und dadurch neue Hashes erhalten, werden "
 "Verweise auf alte Commit-Hashes in Commit-Nachrichten standardmäßig durch "
 "neue Commit-Hashes ersetzt (abgekürzt auf die gleiche Länge wie die alte "
 "Referenz).  Verwenden Sie dieses Flag, um die Aktualisierung von Commit-"
@@ -6841,7 +6881,7 @@ msgid ""
 msgstr ""
 "Beschränken Sie das Umschreiben des Verlaufs auf die angegebenen Referenzen."
 "  Impliziert --partial.  Zusätzlich zu den normalen Vorbehalten von "
-"--partial (Vermischen von altem und neuem Verlauf, keine automatische "
+"--partial (Mischen von altem und neuem Verlauf, keine automatische "
 "Neuzuordnung von refs/remotes/origin/* zu refs/heads/* usw.) kann dies auch "
 "zu Problemen beim Bereinigen degenerierter leerer Zusammenführungen führen "
 "Wird festgeschrieben, wenn negative Revisionen angegeben werden."
@@ -7055,7 +7095,7 @@ msgstr ""
 "        denn es wird offensichtlich normalerweise in verpackter Form gelagert.  Auch,\n"
 "        Durch das Löschen eines Blobs aus dem Verlauf wird möglicherweise nicht so viel Platz eingespart wie durch das Packen\n"
 "        Größe auch nicht, da ein anderer Blob als Delta dagegen gespeichert werden könnte\n"
-"        Wenn Sie also einen Blob entfernen, kann sich die Packungsgröße eines anderen Blobs ändern\n"
+"        Wenn Sie also einen Blob entfernen, kann sich die Packgröße eines anderen Blobs ändern\n"
 "        wachsen.\n"
 "\n"
 "        Außerdem kann die Summe der Packmaße mehr als das betragen\n"
@@ -7138,7 +7178,7 @@ msgstr ""
 "          * Wenn die umbenannte Datei erneut umbenannt wird, statt nur zwei Namen für\n"
 "            Ein Pfad kann aus drei oder mehr bestehen.\n"
 "          * Benennen Sie Paare der Form (alter Name, neuer Name) um, die wir für richtig halten\n"
-"            Unterschiedliche Namen der „gleichen Datei“ sind möglicherweise nur für bestimmte Zwecke gültig\n"
+"            Unterschiedliche Namen derselben Datei sind möglicherweise nur für bestimmte Zwecke gültig\n"
 "            Commit-Bereiche.  Wenn beispielsweise ein neues Commit eine Datei erneut einführt\n"
 "            mit dem Namen „oldname“, dann sind neue Versionen von „oldname“ nicht dieselbe Datei.\n"
 "            mehr.  Wir könnten versuchen, dies dem Benutzer darzustellen, aber es ist einfacher\n"
@@ -7482,7 +7522,7 @@ msgstr "Umgeleitet, aber in der Antwort fehlt der Header „Location:“."
 msgid "Attempting to connect to qpid with SASL mechanism %s"
 msgstr ""
 "Es wird versucht, mit dem SASL-Mechanismus %seine Verbindung zu qpid "
-"herzustellen."
+"herzustellen"
 
 #: .\venv\Lib\site-packages\kombu\transport\qpid.py:1316
 #, python-format
@@ -7493,6 +7533,21 @@ msgstr "Verbunden mit qpid mit SASL-Mechanismus %s"
 #, python-format
 msgid "Unable to connect to qpid with SASL mechanism %s"
 msgstr "Verbindung zu qpid mit SASL-Mechanismus %snicht möglich"
+
+#~ msgid "Searched Results for"
+#~ msgstr "Gesuchte Ergebnisse für"
+
+#~ msgid "Searched Results"
+#~ msgstr "Gesuchte Ergebnisse"
+
+#~ msgid "No results to display"
+#~ msgstr "Keine Ergebnisse zum Anzeigen"
+
+#~ msgid "Total"
+#~ msgstr "Gesamt"
+
+#~ msgid "Do you really want to delete this product from your cart"
+#~ msgstr "Möchten Sie dieses Produkt wirklich aus Ihrem Warenkorb löschen?"
 
 #~ msgid "Post Earrings"
 #~ msgstr "Steckerohrringe"

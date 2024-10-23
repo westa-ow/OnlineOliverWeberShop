@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-19 20:21+0200\n"
+"POT-Creation-Date: 2024-10-23 10:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -125,14 +125,12 @@ msgstr "Elimina utente"
 msgid "Shopping cart"
 msgstr "Carrello della spesa"
 
-#: .\shop\templates\cart.html:67
+#: .\shop\templates\cart.html:67 .\shop\templates\cart.html:339
 msgid "In cart"
 msgstr "Nel carrello"
 
 #: .\shop\templates\cart.html:77 .\shop\templates\cart.html:187
-#: .\shop\templates\cart.html:251 .\shop\templates\shop_page.html:72
-#: .\shop\templates\shop_page.html:201 .\shop\templates\shop_page.html:217
-#: .\shop\templates\shop_page.html:290
+#: .\shop\templates\cart.html:251
 msgid "Confirm"
 msgstr "Confermare"
 
@@ -141,17 +139,15 @@ msgid "Continue shopping"
 msgstr "Continua a fare acquisti"
 
 #: .\shop\templates\cart.html:133
-#: .\shop\templates\widgets\navigation_bar.html:417 .\shop\views.py:356
+#: .\shop\templates\widgets\navigation_bar.html:452 .\shop\views.py:356
 msgid "Proceed to checkout"
 msgstr "Procedere al checkout"
 
 #: .\shop\templates\cart.html:196 .\shop\templates\cart.html:234
-#: .\shop\templates\shop_page.html:236
 msgid "Type of written quantity has to be numeric and greater than 0"
 msgstr "Il tipo di quantità scritta deve essere numerico e maggiore di 0"
 
 #: .\shop\templates\cart.html:200 .\shop\templates\cart.html:237
-#: .\shop\templates\shop_page.html:240
 msgid "Quantity has to be less than maximum on storage"
 msgstr "La quantità deve essere inferiore al massimo immagazzinato"
 
@@ -159,7 +155,7 @@ msgstr "La quantità deve essere inferiore al massimo immagazzinato"
 msgid "Do you really want to delete this product from your cart?"
 msgstr "Vuoi davvero eliminare questo prodotto dal carrello?"
 
-#: .\shop\templates\cart.html:272 .\shop\templates\shop_page.html:263
+#: .\shop\templates\cart.html:272
 msgid "Confirmed!"
 msgstr "Confermato!"
 
@@ -192,7 +188,7 @@ msgid "Price"
 msgstr "Prezzo"
 
 #: .\shop\templates\catalog.html:68
-#: .\shop\templates\widgets\navigation_bar.html:449 .\shop\views.py:350
+#: .\shop\templates\widgets\navigation_bar.html:484 .\shop\views.py:350
 msgid "Crystal color"
 msgstr "Colore cristallo"
 
@@ -204,7 +200,8 @@ msgstr "Materiale di placcatura"
 msgid "Base material"
 msgstr "Materiale di base"
 
-#: .\shop\templates\catalog.html:129 .\shop\views.py:344
+#: .\shop\templates\catalog.html:129 .\shop\templates\shop_page.html:57
+#: .\shop\views.py:344
 msgid "Size"
 msgstr "Misurare"
 
@@ -241,6 +238,7 @@ msgstr "Collane"
 #: .\shop\templates\catalog.html:383 .\shop\templates\catalog.html:384
 #: .\shop\templates\catalog.html:414 .\shop\templates\home.html:380
 #: .\shop\templates\profile\profile_favourites.html:33
+#: .\shop\templates\shop_page.html:155
 #: .\shop\templates\widgets\navigation_bar.html:98
 msgid "Earrings"
 msgstr "Orecchini"
@@ -274,6 +272,7 @@ msgstr "Catene di perle"
 #: .\shop\templates\catalog.html:392 .\shop\templates\catalog.html:420
 #: .\shop\templates\home.html:386
 #: .\shop\templates\profile\profile_favourites.html:39
+#: .\shop\templates\shop_page.html:161
 msgid "Post earrings"
 msgstr "Orecchini postali"
 
@@ -338,140 +337,167 @@ msgstr "Estensioni"
 #: .\shop\templates\catalog.html:407 .\shop\templates\catalog.html:435
 #: .\shop\templates\home.html:401
 #: .\shop\templates\profile\profile_favourites.html:54
+#: .\shop\templates\shop_page.html:176
 msgid "UV"
 msgstr "UV"
 
 #: .\shop\templates\catalog.html:415 .\shop\templates\home.html:381
 #: .\shop\templates\profile\profile_favourites.html:34
+#: .\shop\templates\shop_page.html:156
 msgid "Pendant"
 msgstr "Pendente"
 
 #: .\shop\templates\catalog.html:416 .\shop\templates\home.html:382
 #: .\shop\templates\profile\profile_favourites.html:35
+#: .\shop\templates\shop_page.html:157
 msgid "Chain"
 msgstr "Catena"
 
 #: .\shop\templates\catalog.html:417 .\shop\templates\home.html:383
 #: .\shop\templates\profile\profile_favourites.html:36
+#: .\shop\templates\shop_page.html:158
 msgid "Collier"
 msgstr "Collier"
 
 #: .\shop\templates\catalog.html:418 .\shop\templates\home.html:384
 #: .\shop\templates\profile\profile_favourites.html:37
+#: .\shop\templates\shop_page.html:159
 msgid "Pearlchain"
 msgstr "Catena di perle"
 
 #: .\shop\templates\catalog.html:419 .\shop\templates\home.html:385
 #: .\shop\templates\profile\profile_favourites.html:38
+#: .\shop\templates\shop_page.html:160
 msgid "Necklace"
 msgstr "Collana"
 
 #: .\shop\templates\catalog.html:421 .\shop\templates\home.html:387
 #: .\shop\templates\profile\profile_favourites.html:40
+#: .\shop\templates\shop_page.html:162
 msgid "Hoop"
 msgstr "Cerchio"
 
 #: .\shop\templates\catalog.html:422 .\shop\templates\home.html:388
 #: .\shop\templates\profile\profile_favourites.html:41
+#: .\shop\templates\shop_page.html:163
 msgid "Creole"
 msgstr "Creolo"
 
 #: .\shop\templates\catalog.html:423 .\shop\templates\home.html:389
 #: .\shop\templates\profile\profile_favourites.html:42
+#: .\shop\templates\shop_page.html:164
 msgid "Clip"
 msgstr "Clip"
 
 #: .\shop\templates\catalog.html:424 .\shop\templates\home.html:390
 #: .\shop\templates\profile\profile_favourites.html:43
+#: .\shop\templates\shop_page.html:165
 msgid "Piercing"
 msgstr "Penetrante"
 
 #: .\shop\templates\catalog.html:425 .\shop\templates\home.html:391
 #: .\shop\templates\profile\profile_favourites.html:44
+#: .\shop\templates\shop_page.html:166
 msgid "Bracelet"
 msgstr "Braccialetto"
 
 #: .\shop\templates\catalog.html:426 .\shop\templates\home.html:392
 #: .\shop\templates\profile\profile_favourites.html:45
+#: .\shop\templates\shop_page.html:167
 msgid "Bangle"
 msgstr "Braccialetto"
 
 #: .\shop\templates\catalog.html:427 .\shop\templates\home.html:393
 #: .\shop\templates\profile\profile_favourites.html:46
+#: .\shop\templates\shop_page.html:168
 msgid "Anklet"
 msgstr "Cavigliera"
 
 #: .\shop\templates\catalog.html:428 .\shop\templates\home.html:394
 #: .\shop\templates\profile\profile_favourites.html:47
+#: .\shop\templates\shop_page.html:169
 msgid "Ring"
 msgstr "Squillo"
 
 #: .\shop\templates\catalog.html:429 .\shop\templates\home.html:395
 #: .\shop\templates\profile\profile_favourites.html:48
+#: .\shop\templates\shop_page.html:170
 msgid "Match"
 msgstr "Incontro"
 
 #: .\shop\templates\catalog.html:430 .\shop\templates\home.html:396
 #: .\shop\templates\profile\profile_favourites.html:49
+#: .\shop\templates\shop_page.html:171
 msgid "Pen"
 msgstr "Penna"
 
 #: .\shop\templates\catalog.html:431 .\shop\templates\home.html:397
 #: .\shop\templates\profile\profile_favourites.html:50
+#: .\shop\templates\shop_page.html:172
 msgid "Key"
 msgstr "Chiave"
 
 #: .\shop\templates\catalog.html:432 .\shop\templates\home.html:398
 #: .\shop\templates\profile\profile_favourites.html:51
+#: .\shop\templates\shop_page.html:173
 msgid "Brooch"
 msgstr "Spilla"
 
 #: .\shop\templates\catalog.html:433 .\shop\templates\home.html:399
 #: .\shop\templates\profile\profile_favourites.html:52
+#: .\shop\templates\shop_page.html:174
 msgid "Nailfile"
 msgstr "Lima per unghie"
 
 #: .\shop\templates\catalog.html:434 .\shop\templates\home.html:400
 #: .\shop\templates\profile\profile_favourites.html:53
+#: .\shop\templates\shop_page.html:175
 msgid "Extension"
 msgstr "Estensione"
 
 #: .\shop\templates\catalog.html:439 .\shop\templates\home.html:405
 #: .\shop\templates\profile\profile_favourites.html:58
+#: .\shop\templates\shop_page.html:180
 msgid "Default"
 msgstr "Predefinito"
 
 #: .\shop\templates\catalog.html:440 .\shop\templates\home.html:406
 #: .\shop\templates\profile\profile_favourites.html:59
+#: .\shop\templates\shop_page.html:181
 msgid "Rhodium"
 msgstr "rodio"
 
 #: .\shop\templates\catalog.html:441 .\shop\templates\home.html:407
 #: .\shop\templates\profile\profile_favourites.html:60
+#: .\shop\templates\shop_page.html:182
 msgid "Gold"
 msgstr "Oro"
 
 #: .\shop\templates\catalog.html:442 .\shop\templates\home.html:408
 #: .\shop\templates\profile\profile_favourites.html:61
+#: .\shop\templates\shop_page.html:183
 msgid "Rosegold"
 msgstr "Oro rosa"
 
 #: .\shop\templates\catalog.html:443 .\shop\templates\home.html:409
 #: .\shop\templates\profile\profile_favourites.html:62
+#: .\shop\templates\shop_page.html:184
 msgid "Without"
 msgstr "Senza"
 
 #: .\shop\templates\catalog.html:444 .\shop\templates\home.html:410
 #: .\shop\templates\profile\profile_favourites.html:63
+#: .\shop\templates\shop_page.html:185
 msgid "Steel"
 msgstr "Acciaio"
 
-#: .\shop\templates\catalog.html:445
+#: .\shop\templates\catalog.html:445 .\shop\templates\shop_page.html:186
 msgid "Brass"
 msgstr "Ottone"
 
 #: .\shop\templates\catalog.html:446 .\shop\templates\home.html:412
 #: .\shop\templates\profile\profile_favourites.html:65
+#: .\shop\templates\shop_page.html:187
 msgid "Silver"
 msgstr "Argento"
 
@@ -485,7 +511,8 @@ msgstr "Rimuovi dai preferiti"
 msgid "Add to favorites"
 msgstr "Aggiungi ai preferiti"
 
-#: .\shop\templates\catalog.html:1027 .\shop\views.py:357
+#: .\shop\templates\catalog.html:1027 .\shop\templates\shop_page.html:126
+#: .\shop\views.py:357
 msgid "Add to cart"
 msgstr "Aggiungi al carrello"
 
@@ -1121,7 +1148,7 @@ msgstr ""
 "personali per elaborare le vostre richieste ai sensi dell'art. 6 (1) (b) "
 "GDPR se ci fornisci volontariamente questi dati quando ci contatti (ad "
 "esempio tramite modulo di contatto o e-mail). I campi obbligatori sono "
-"contrassegnati come tali, poiché in questi casi abbiamo necessariamente "
+"contrassegnati come tali poiché in questi casi abbiamo necessariamente "
 "bisogno dei dati per elaborare la tua richiesta. Quali dati vengono raccolti"
 " possono essere visualizzati nei rispettivi moduli di input. Una volta "
 "elaborata la vostra richiesta, i vostri dati verranno cancellati, a meno che"
@@ -1201,12 +1228,13 @@ msgstr ""
 "coordinamento prima della spedizione.<br>Questo consenso può essere revocato"
 " in qualsiasi momento inviando un messaggio al informazioni di contatto "
 "descritte nella presente informativa sulla privacy o direttamente al "
-"fornitore di spedizioni utilizzando l'indirizzo di contatto elencato di "
-"seguito. Dopo la revoca del consenso cancelleremo i dati da voi forniti a "
-"tale scopo, a meno che non abbiate espressamente acconsentito a un ulteriore"
-" utilizzo dei vostri dati o ci siamo riservati il ​​diritto di utilizzare i "
-"vostri dati per altri scopi consentiti dalla legge e di cui informiamo nella"
-" presente informativa sulla privacy. &ZeroWidthSpace;&ZeroWidthSpace;"
+"fornitore di servizi di spedizione utilizzando l'indirizzo di contatto "
+"elencato di seguito. Dopo la revoca del consenso cancelleremo i dati da voi "
+"forniti a tale scopo, a meno che non abbiate espressamente acconsentito a un"
+" ulteriore utilizzo dei vostri dati o ci siamo riservati il ​​diritto di "
+"utilizzare i vostri dati per altri scopi consentiti dalla legge e di cui "
+"informiamo nella presente informativa sulla privacy. "
+"&ZeroWidthSpace;&ZeroWidthSpace;"
 
 #: .\shop\templates\our_company_pages\Privacy_policy.html:82
 msgid "Data processing for the purposes of payment"
@@ -1462,8 +1490,8 @@ msgstr ""
 "Inoltre, utilizziamo tecnologie per adempiere agli obblighi legali a cui "
 "siamo soggetti (ad esempio per poter dimostrare il consenso al trattamento "
 "dei vostri dati personali) nonché per l'analisi web e il marketing online. "
-"Ulteriori informazioni al riguardo, inclusa la rispettiva base giuridica per"
-" il trattamento dei dati, sono disponibili nelle seguenti sezioni della "
+"Ulteriori informazioni in merito, compresa la rispettiva base giuridica per "
+"il trattamento dei dati, sono disponibili nelle sezioni seguenti della "
 "presente informativa sulla privacy."
 
 #: .\shop\templates\our_company_pages\Privacy_policy.html:102
@@ -1872,14 +1900,14 @@ msgid ""
 "Personal data is not read out or stored from the input fields of the "
 "respective form."
 msgstr ""
-"Ai fini della protezione contro l'uso improprio dei nostri moduli web e "
-"contro lo spam da parte di software automatizzati (i cosiddetti bot), Google"
-" reCAPTCHA raccoglie dati (indirizzo IP, ora della visita, informazioni sul "
-"browser e informazioni sull'utilizzo del nostro sito web ) ed esegue "
-"un'analisi del vostro utilizzo del nostro sito web mediante i cosiddetti "
-"JavaScript e cookie. Inoltre vengono valutati altri cookie memorizzati dai "
-"servizi Google nel vostro browser. I dati personali non vengono letti o "
-"memorizzati dai campi di input del rispettivo modulo."
+"Per proteggerci dall'uso improprio dei nostri moduli web e dallo spam da "
+"parte di software automatizzati (i cosiddetti bot), Google reCAPTCHA "
+"raccoglie dati (indirizzo IP, ora della visita, informazioni sul browser e "
+"informazioni sull'utilizzo del nostro sito web ) ed esegue un'analisi del "
+"vostro utilizzo del nostro sito web mediante i cosiddetti JavaScript e "
+"cookie. Inoltre vengono valutati altri cookie memorizzati dai servizi Google"
+" nel vostro browser. I dati personali non vengono letti o memorizzati dai "
+"campi di input del rispettivo modulo."
 
 #: .\shop\templates\our_company_pages\Privacy_policy.html:133
 msgid ""
@@ -2698,8 +2726,8 @@ msgstr ""
 "chiediamo alla nostra banca di avviare l'operazione di pagamento. La "
 "transazione di pagamento viene eseguita automaticamente e l'importo viene "
 "addebitato sul tuo conto. L'addebito sul conto avviene prima della "
-"spedizione della merce. Il tempo limite per la pre-notifica relativa alla "
-"data di addebito sul conto (periodo di pre-notifica), è di 0 giorni."
+"spedizione della merce. Il termine di pre-notifica relativo alla data di "
+"addebito sul conto (periodo di pre-notifica), è di 0 giorni."
 
 #: .\shop\templates\our_company_pages\Terms_and_conditions.html:68
 msgid ""
@@ -3162,6 +3190,12 @@ msgstr "Pagamento"
 msgid "Status"
 msgstr "Stato"
 
+#: .\shop\templates\profile\profile_orders.html:113
+#, fuzzy
+#| msgid "Show details"
+msgid "Show Details"
+msgstr "Mostra dettagli"
+
 #: .\shop\templates\profile\profile_orders.html:123
 msgid "Download csv"
 msgstr "Scarica CSV"
@@ -3202,7 +3236,7 @@ msgid "Description"
 msgstr "Descrizione"
 
 #: .\shop\templates\profile\profile_orders.html:264
-#: .\shop\templates\widgets\navigation_bar.html:469 .\shop\views.py:352
+#: .\shop\templates\widgets\navigation_bar.html:504 .\shop\views.py:352
 msgid "Quantity"
 msgstr "Quantità"
 
@@ -3211,7 +3245,8 @@ msgid "Summary"
 msgstr "Riepilogo"
 
 #: .\shop\templates\profile\profile_orders.html:266
-#: .\shop\templates\shop_page.html:55 .\shop\views.py:340
+#: .\shop\templates\shop_page.html:109 .\shop\templates\shop_page.html:115
+#: .\shop\views.py:340
 msgid "In stock"
 msgstr "In magazzino"
 
@@ -3942,7 +3977,7 @@ msgid ""
 "communication concerning your exercise of the right of cancel before the "
 "cancellation period has expired."
 msgstr ""
-"Per rispettare il termine di recesso, è sufficiente che invii la "
+"Per rispettare il termine di recesso è sufficiente che invii la "
 "comunicazione relativa all'esercizio del diritto di recesso prima della "
 "scadenza del periodo di recesso."
 
@@ -4212,38 +4247,60 @@ msgstr ""
 "Se il tuo pacco non viene trovato, contatta il nostro servizio clienti. "
 "Tieni a portata di mano il tuo ordine e il numero di tracciabilità."
 
-#: .\shop\templates\shop_page.html:25
-msgid "Product number"
-msgstr "Numero del prodotto"
-
-#: .\shop\templates\shop_page.html:31
-msgid "Search"
-msgstr "Ricerca"
-
 #: .\shop\templates\shop_page.html:40
-msgid "Searched Results for"
-msgstr "Risultati cercati per"
+#: .\shop\templates\widgets\navigation_bar.html:486
+msgid "Plating"
+msgstr "Placcatura"
 
-#: .\shop\templates\shop_page.html:42
-msgid "Searched Results"
-msgstr "Risultati cercati"
+#: .\shop\templates\shop_page.html:48
+#, fuzzy
+#| msgid "Stone color"
+msgid "Stone"
+msgstr "Calcolo"
 
-#: .\shop\templates\shop_page.html:77 .\shop\templates\shop_page.html:314
-msgid "Current quantity"
-msgstr "Quantità attuale"
+#: .\shop\templates\shop_page.html:68
+msgid "Product width"
+msgstr "Larghezza del prodotto"
+
+#: .\shop\templates\shop_page.html:78
+#, fuzzy
+#| msgid "Product number"
+msgid "Product height"
+msgstr "Altezza del prodotto"
 
 #: .\shop\templates\shop_page.html:89
-msgid "No results to display"
-msgstr "Nessun risultato da visualizzare"
+msgid "Chain length"
+msgstr "Lunghezza della catena"
 
-#: .\shop\templates\shop_page.html:110 .\shop\templates\shop_page.html:112
-#: .\shop\templates\shop_page.html:267
-msgid "Total"
-msgstr "Totale"
+#: .\shop\templates\shop_page.html:111 .\shop\templates\shop_page.html:119
+#, fuzzy
+#| msgid "In stock"
+msgid "Out of stock"
+msgstr "Esaurito"
 
-#: .\shop\templates\shop_page.html:164
-msgid "Do you really want to delete this product from your cart"
-msgstr "Vuoi davvero eliminare questo prodotto dal carrello?"
+#: .\shop\templates\shop_page.html:117 .\shop\views.py:341
+msgid "Less than 5 pieces left!"
+msgstr "Meno di 5 pezzi rimasti!"
+
+#: .\shop\templates\shop_page.html:213 .\shop\views.py:348
+msgid "An error occured"
+msgstr "Si è verificato un errore"
+
+#: .\shop\templates\shop_page.html:226 .\shop\views.py:346
+msgid ""
+"Quantity number has to be less than or equal to quantity number in stock or "
+"and be greater than 0"
+msgstr ""
+"Il numero di quantità deve essere inferiore o uguale al numero di quantità "
+"in magazzino o maggiore di 0"
+
+#: .\shop\templates\shop_page.html:236 .\shop\views.py:359
+msgid "Maximum items for pre-order is 20, minimum is 1"
+msgstr "Il numero massimo di articoli preordinabili è 20, il minimo è 1"
+
+#: .\shop\templates\shop_page.html:281
+msgid "Current quantity"
+msgstr "Quantità attuale"
 
 #: .\shop\templates\widgets\footer.html:79
 msgid "Customer Service"
@@ -4309,19 +4366,23 @@ msgstr "Procedere al checkout"
 msgid "Account"
 msgstr "Account"
 
-#: .\shop\templates\widgets\navigation_bar.html:451
-msgid "Plating"
-msgstr "Placcatura"
+#: .\shop\templates\widgets\navigation_bar.html:261
+msgid "Search"
+msgstr "Ricerca"
 
-#: .\shop\templates\widgets\navigation_bar.html:453
+#: .\shop\templates\widgets\navigation_bar.html:270
+msgid "Start typing here..."
+msgstr "Inizia a scrivere qui..."
+
+#: .\shop\templates\widgets\navigation_bar.html:488
 msgid "Base Material"
 msgstr "Materiale di base"
 
-#: .\shop\templates\widgets\navigation_bar.html:491
+#: .\shop\templates\widgets\navigation_bar.html:526
 msgid "Remove from cart"
 msgstr "Rimuovi dal carrello"
 
-#: .\shop\templates\widgets\navigation_bar.html:518
+#: .\shop\templates\widgets\navigation_bar.html:553
 msgid ""
 "You cant delete items during checkout. Go back to shop pages to change your "
 "cart"
@@ -4329,17 +4390,13 @@ msgstr ""
 "Non puoi eliminare gli articoli durante il checkout. Torna alle pagine del "
 "negozio per modificare il carrello"
 
-#: .\shop\templates\widgets\navigation_bar.html:613
+#: .\shop\templates\widgets\navigation_bar.html:648
 msgid "Cart is empty"
 msgstr "Il carrello è vuoto"
 
-#: .\shop\templates\widgets\navigation_bar.html:630
+#: .\shop\templates\widgets\navigation_bar.html:665
 msgid "Back to shop"
 msgstr "Ritorno al negozio"
-
-#: .\shop\views.py:341
-msgid "Less than 5 pieces left!"
-msgstr "Meno di 5 pezzi rimasti!"
 
 #: .\shop\views.py:342
 msgid "Plating Material"
@@ -4349,21 +4406,9 @@ msgstr "Materiale di placcatura"
 msgid "Stone color"
 msgstr "Colore pietra"
 
-#: .\shop\views.py:346
-msgid ""
-"Quantity number has to be less than or equal to quantity number in stock or "
-"and be greater than 0"
-msgstr ""
-"Il numero di quantità deve essere inferiore o uguale al numero di quantità "
-"in magazzino o maggiore di 0"
-
 #: .\shop\views.py:347
 msgid "Processing"
 msgstr "Elaborazione"
-
-#: .\shop\views.py:348
-msgid "An error occured"
-msgstr "Si è verificato un errore"
 
 #: .\shop\views.py:349
 msgid "Product successfully added to your shopping cart"
@@ -4380,10 +4425,6 @@ msgstr "Totale parziale"
 #: .\shop\views.py:358
 msgid "This item is only available for pre-order!"
 msgstr "Questo articolo è disponibile solo per il preordine!"
-
-#: .\shop\views.py:359
-msgid "Maximum items for pre-order is 20, minimum is 1"
-msgstr "Il numero massimo di articoli preordinabili è 20, il minimo è 1"
 
 #: .\shop\views.py:369
 msgid "Welcome to my site."
@@ -7449,6 +7490,21 @@ msgstr "Connesso a qpid con meccanismo SASL %s"
 #, python-format
 msgid "Unable to connect to qpid with SASL mechanism %s"
 msgstr "Impossibile connettersi a qpid con il meccanismo SASL %s"
+
+#~ msgid "Searched Results for"
+#~ msgstr "Risultati cercati per"
+
+#~ msgid "Searched Results"
+#~ msgstr "Risultati cercati"
+
+#~ msgid "No results to display"
+#~ msgstr "Nessun risultato da visualizzare"
+
+#~ msgid "Total"
+#~ msgstr "Totale"
+
+#~ msgid "Do you really want to delete this product from your cart"
+#~ msgstr "Vuoi davvero eliminare questo prodotto dal carrello?"
 
 #~ msgid "Post Earrings"
 #~ msgstr "Orecchini a perno"

@@ -723,7 +723,9 @@ function updateDropdown() {
         document.getElementById('dropdown').innerHTML = '';
         return;
     }
-    fetch('/fetch-numbers/?term=' + inputVal)
+    let fetchUrl = "{% url 'fetch_numbers' %}?term=" + encodeURIComponent(inputVal);
+    console.log(fetchUrl);
+    fetch(fetchUrl)
     .then(response => response.json())
     .then(data => {
         let dropdownHTML = '';
@@ -745,7 +747,13 @@ function updateDropdown() {
 function fillInput(productId) {
     // Construct the URL using the product ID
     // Redirect to the constructed URL
-    window.location.href = `/shop/${productId}`;
+    let url = "{% url 'shop_page' 'DUMMY_ID' %}";
+
+    // Replace the placeholder "DUMMY_ID" with the actual productId dynamically
+    url = url.replace('DUMMY_ID', productId);
+
+    // Redirect to the dynamically constructed URL
+    window.location.href = url;
 }
 function getCookie(name) {
     let cookieValue = null;

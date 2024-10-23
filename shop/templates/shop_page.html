@@ -105,60 +105,30 @@
                     {% endif %}
                     <div class="maximum-span">
                         {% if show_quantities %}
-                            In stock: {{ document.quantity }}
-                        {% else %}
-                            {% if document.quantity > 5 %}
-                                <i class="fa-solid fa-check"></i> In stock
-                            {% elif document.quantity < 5 and document.quantity > 0 %}
-                                Less than 5 pieces left!
+                            {% if document.quantity > 5 or document.pre_order %}
+                                {% trans "In stock" %}: {{ document.quantity }}
                             {% elif document.quantity <= 0 %}
-                                <i class="fa-solid fa-remove cross-icon"></i> Out of stock
+                                <i class="fa-solid fa-remove cross-icon"></i> {% trans "Out of stock" %}
+                            {% endif %}
+                        {% else %}
+                            {% if document.quantity > 5 or document.pre_order %}
+                                <i class="fa-solid fa-check"></i> {% trans "In stock" %}
+                            {% elif document.quantity < 5 and document.quantity > 0 %}
+                                {% trans "Less than 5 pieces left!" %}
+                            {% elif document.quantity <= 0 %}
+                                <i class="fa-solid fa-remove cross-icon"></i> {% trans "Out of stock" %}
                             {% endif %}
                         {% endif %}
                     </div>
                     {% if document.quantity > 0 %}
                         <button id="add-to-cart-search" type="submit" class="add-to-cart-dialog">
                             <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
-                            <span>Add to cart</span>
+                            <span>{% trans "Add to cart" %}</span>
                         </button>
                     {% endif %}
                 </div>
             </div>
         </div>
-{#            <div class="document-container" data-document="{{ document }}">#}
-{#                <div class="number-in-cart" data-product-id="{{ document.name }}" style="{% if not inside %} display: none {% endif %}">{{ document.number }}</div>#}
-{##}
-{#                <div class="document-info" id="info-{{ document.name }}">#}
-{##}
-{#                    <div class="document-number"> {{ document.name }} </div> <br><br>#}
-{#                    <div class="document-price" >{{ currency }}{{ document.price }}</div>#}
-{#                    <div class="document-in-stock">{% trans "In stock" %}: {{ document.quantity }}</div> <br><br>#}
-{#                    <div class="document-description">{{ document.description }}</div>     <br>#}
-{##}
-{#                    <div class="deleteBut"  data-product-id="{{ document.name }}"#}
-{#                         style="{% if not inside %} display: none {% endif %}">#}
-{#                        <i class="fa-solid fa-trash"></i>#}
-{#                    </div>#}
-{##}
-{#                    <div>#}
-{#                        <div class="quantity-input" id="quantity-input-{{ document.name }}">#}
-{#                               <input class="inp" min=1 id="quantity-input-inp-{{ document.name }}" type="number" placeholder="Enter the quantity">#}
-{#                        </div>#}
-{#                        <div class="quantity-slider" id="quantity-slider-{{ document.name }}">#}
-{#                            <span class="min">{{ 1 }}</span>#}
-{#                            <input type="range" min="1" max="{{ document.quantity }}" value="{{ quantity }}" class="slider" id="slider-{{ document.name }}">#}
-{#                            <span class="max">{{ document.quantity }}</span>#}
-{#                        </div>#}
-{#                        <button class="quantity-input-button" id="quantity-input-apply-{{ document.name }}">{% trans "Confirm" %}</button>#}
-{#                    </div>#}
-{##}
-{#                    <br>#}
-{#                    <br>#}
-{#                    <span class="current-quantity" id="current-quantity-{{ document.name }}" >{% trans "Current quantity" %}: 0</span>#}
-{#                    <span class="sum" id="sum-{{ document.name }}" style="{% if not inside %} display: none {% endif %}">{{ document.price }}</span>#}
-{#                </div>#}
-{#                <img class="document-image" src="{{ document.image_url }}" alt="{{ document.name }}">#}
-{#            </div>#}
 </div>
 
 <dialog id="product-card-success" >
