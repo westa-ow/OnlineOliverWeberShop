@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-23 10:31+0200\n"
+"POT-Creation-Date: 2024-10-23 21:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\OnlineShop\settings.py:140
+#: .\OnlineShop\settings.py:141
 msgid "English"
 msgstr "Englisch"
 
-#: .\OnlineShop\settings.py:141
+#: .\OnlineShop\settings.py:142
 msgid "German"
 msgstr "Deutsch"
 
-#: .\OnlineShop\settings.py:142
+#: .\OnlineShop\settings.py:143
 msgid "Italian"
 msgstr "Italienisch"
 
-#: .\OnlineShop\settings.py:143
+#: .\OnlineShop\settings.py:144
 msgid "French"
 msgstr "Französisch"
 
-#: .\OnlineShop\settings.py:144
+#: .\OnlineShop\settings.py:145
 msgid "Spanish"
 msgstr "Spanisch"
 
-#: .\OnlineShop\settings.py:145
+#: .\OnlineShop\settings.py:146
 msgid "Russian"
 msgstr "Russisch"
 
@@ -141,7 +141,7 @@ msgid "Continue shopping"
 msgstr "Weiter einkaufen"
 
 #: .\shop\templates\cart.html:133
-#: .\shop\templates\widgets\navigation_bar.html:452 .\shop\views.py:356
+#: .\shop\templates\widgets\navigation_bar.html:468 .\shop\views.py:356
 msgid "Proceed to checkout"
 msgstr "Gehen Sie zur Kasse"
 
@@ -190,7 +190,7 @@ msgid "Price"
 msgstr "Preis"
 
 #: .\shop\templates\catalog.html:68
-#: .\shop\templates\widgets\navigation_bar.html:484 .\shop\views.py:350
+#: .\shop\templates\widgets\navigation_bar.html:500 .\shop\views.py:350
 msgid "Crystal color"
 msgstr "Kristallfarbe"
 
@@ -202,7 +202,7 @@ msgstr "Beschichtungsmaterial"
 msgid "Base material"
 msgstr "Grundmaterial"
 
-#: .\shop\templates\catalog.html:129 .\shop\templates\shop_page.html:57
+#: .\shop\templates\catalog.html:129 .\shop\templates\shop_page.html:58
 #: .\shop\views.py:344
 msgid "Size"
 msgstr "Größe"
@@ -233,25 +233,25 @@ msgid "All"
 msgstr "Alle"
 
 #: .\shop\templates\catalog.html:382 .\shop\templates\catalog.html:391
-#: .\shop\templates\widgets\navigation_bar.html:97
+#: .\shop\templates\widgets\navigation_bar.html:103
 msgid "Necklaces"
 msgstr "Halsketten"
 
 #: .\shop\templates\catalog.html:383 .\shop\templates\catalog.html:384
 #: .\shop\templates\catalog.html:414 .\shop\templates\home.html:380
 #: .\shop\templates\profile\profile_favourites.html:33
-#: .\shop\templates\shop_page.html:155
-#: .\shop\templates\widgets\navigation_bar.html:98
+#: .\shop\templates\shop_page.html:161
+#: .\shop\templates\widgets\navigation_bar.html:104
 msgid "Earrings"
 msgstr "Ohrringe"
 
 #: .\shop\templates\catalog.html:385 .\shop\templates\catalog.html:397
-#: .\shop\templates\widgets\navigation_bar.html:102
+#: .\shop\templates\widgets\navigation_bar.html:108
 msgid "Bracelets"
 msgstr "Armbänder"
 
 #: .\shop\templates\catalog.html:386
-#: .\shop\templates\widgets\navigation_bar.html:104
+#: .\shop\templates\widgets\navigation_bar.html:110
 msgid "Accessories"
 msgstr "Zubehör"
 
@@ -274,7 +274,7 @@ msgstr "Perlenketten"
 #: .\shop\templates\catalog.html:392 .\shop\templates\catalog.html:420
 #: .\shop\templates\home.html:386
 #: .\shop\templates\profile\profile_favourites.html:39
-#: .\shop\templates\shop_page.html:161
+#: .\shop\templates\shop_page.html:167
 msgid "Post earrings"
 msgstr "Post-Ohrringe"
 
@@ -303,12 +303,12 @@ msgid "Bangles"
 msgstr "Armreifen"
 
 #: .\shop\templates\catalog.html:399
-#: .\shop\templates\widgets\navigation_bar.html:103
+#: .\shop\templates\widgets\navigation_bar.html:109
 msgid "Anklets"
 msgstr "Fußkettchen"
 
 #: .\shop\templates\catalog.html:400
-#: .\shop\templates\widgets\navigation_bar.html:101
+#: .\shop\templates\widgets\navigation_bar.html:107
 msgid "Rings"
 msgstr "Ringe"
 
@@ -339,167 +339,167 @@ msgstr "Erweiterungen"
 #: .\shop\templates\catalog.html:407 .\shop\templates\catalog.html:435
 #: .\shop\templates\home.html:401
 #: .\shop\templates\profile\profile_favourites.html:54
-#: .\shop\templates\shop_page.html:176
+#: .\shop\templates\shop_page.html:182
 msgid "UV"
 msgstr "UV"
 
 #: .\shop\templates\catalog.html:415 .\shop\templates\home.html:381
 #: .\shop\templates\profile\profile_favourites.html:34
-#: .\shop\templates\shop_page.html:156
+#: .\shop\templates\shop_page.html:162
 msgid "Pendant"
 msgstr "Anhänger"
 
 #: .\shop\templates\catalog.html:416 .\shop\templates\home.html:382
 #: .\shop\templates\profile\profile_favourites.html:35
-#: .\shop\templates\shop_page.html:157
+#: .\shop\templates\shop_page.html:163
 msgid "Chain"
 msgstr "Kette"
 
 #: .\shop\templates\catalog.html:417 .\shop\templates\home.html:383
 #: .\shop\templates\profile\profile_favourites.html:36
-#: .\shop\templates\shop_page.html:158
+#: .\shop\templates\shop_page.html:164
 msgid "Collier"
 msgstr "Collier"
 
 #: .\shop\templates\catalog.html:418 .\shop\templates\home.html:384
 #: .\shop\templates\profile\profile_favourites.html:37
-#: .\shop\templates\shop_page.html:159
+#: .\shop\templates\shop_page.html:165
 msgid "Pearlchain"
 msgstr "Perlenkette"
 
 #: .\shop\templates\catalog.html:419 .\shop\templates\home.html:385
 #: .\shop\templates\profile\profile_favourites.html:38
-#: .\shop\templates\shop_page.html:160
+#: .\shop\templates\shop_page.html:166
 msgid "Necklace"
 msgstr "Halskette"
 
 #: .\shop\templates\catalog.html:421 .\shop\templates\home.html:387
 #: .\shop\templates\profile\profile_favourites.html:40
-#: .\shop\templates\shop_page.html:162
+#: .\shop\templates\shop_page.html:168
 msgid "Hoop"
 msgstr "Band"
 
 #: .\shop\templates\catalog.html:422 .\shop\templates\home.html:388
 #: .\shop\templates\profile\profile_favourites.html:41
-#: .\shop\templates\shop_page.html:163
+#: .\shop\templates\shop_page.html:169
 msgid "Creole"
 msgstr "Kreolisch"
 
 #: .\shop\templates\catalog.html:423 .\shop\templates\home.html:389
 #: .\shop\templates\profile\profile_favourites.html:42
-#: .\shop\templates\shop_page.html:164
+#: .\shop\templates\shop_page.html:170
 msgid "Clip"
 msgstr "Clip"
 
 #: .\shop\templates\catalog.html:424 .\shop\templates\home.html:390
 #: .\shop\templates\profile\profile_favourites.html:43
-#: .\shop\templates\shop_page.html:165
+#: .\shop\templates\shop_page.html:171
 msgid "Piercing"
 msgstr "Piercing"
 
 #: .\shop\templates\catalog.html:425 .\shop\templates\home.html:391
 #: .\shop\templates\profile\profile_favourites.html:44
-#: .\shop\templates\shop_page.html:166
+#: .\shop\templates\shop_page.html:172
 msgid "Bracelet"
 msgstr "Armband"
 
 #: .\shop\templates\catalog.html:426 .\shop\templates\home.html:392
 #: .\shop\templates\profile\profile_favourites.html:45
-#: .\shop\templates\shop_page.html:167
+#: .\shop\templates\shop_page.html:173
 msgid "Bangle"
 msgstr "Armreif"
 
 #: .\shop\templates\catalog.html:427 .\shop\templates\home.html:393
 #: .\shop\templates\profile\profile_favourites.html:46
-#: .\shop\templates\shop_page.html:168
+#: .\shop\templates\shop_page.html:174
 msgid "Anklet"
 msgstr "Fußkettchen"
 
 #: .\shop\templates\catalog.html:428 .\shop\templates\home.html:394
 #: .\shop\templates\profile\profile_favourites.html:47
-#: .\shop\templates\shop_page.html:169
+#: .\shop\templates\shop_page.html:175
 msgid "Ring"
 msgstr "Ring"
 
 #: .\shop\templates\catalog.html:429 .\shop\templates\home.html:395
 #: .\shop\templates\profile\profile_favourites.html:48
-#: .\shop\templates\shop_page.html:170
+#: .\shop\templates\shop_page.html:176
 msgid "Match"
 msgstr "Übereinstimmen"
 
 #: .\shop\templates\catalog.html:430 .\shop\templates\home.html:396
 #: .\shop\templates\profile\profile_favourites.html:49
-#: .\shop\templates\shop_page.html:171
+#: .\shop\templates\shop_page.html:177
 msgid "Pen"
 msgstr "Stift"
 
 #: .\shop\templates\catalog.html:431 .\shop\templates\home.html:397
 #: .\shop\templates\profile\profile_favourites.html:50
-#: .\shop\templates\shop_page.html:172
+#: .\shop\templates\shop_page.html:178
 msgid "Key"
 msgstr "Schlüssel"
 
 #: .\shop\templates\catalog.html:432 .\shop\templates\home.html:398
 #: .\shop\templates\profile\profile_favourites.html:51
-#: .\shop\templates\shop_page.html:173
+#: .\shop\templates\shop_page.html:179
 msgid "Brooch"
 msgstr "Brosche"
 
 #: .\shop\templates\catalog.html:433 .\shop\templates\home.html:399
 #: .\shop\templates\profile\profile_favourites.html:52
-#: .\shop\templates\shop_page.html:174
+#: .\shop\templates\shop_page.html:180
 msgid "Nailfile"
 msgstr "Nagelfeile"
 
 #: .\shop\templates\catalog.html:434 .\shop\templates\home.html:400
 #: .\shop\templates\profile\profile_favourites.html:53
-#: .\shop\templates\shop_page.html:175
+#: .\shop\templates\shop_page.html:181
 msgid "Extension"
 msgstr "Verlängerung"
 
 #: .\shop\templates\catalog.html:439 .\shop\templates\home.html:405
 #: .\shop\templates\profile\profile_favourites.html:58
-#: .\shop\templates\shop_page.html:180
+#: .\shop\templates\shop_page.html:186
 msgid "Default"
 msgstr "Standard"
 
 #: .\shop\templates\catalog.html:440 .\shop\templates\home.html:406
 #: .\shop\templates\profile\profile_favourites.html:59
-#: .\shop\templates\shop_page.html:181
+#: .\shop\templates\shop_page.html:187
 msgid "Rhodium"
 msgstr "Rhodium"
 
 #: .\shop\templates\catalog.html:441 .\shop\templates\home.html:407
 #: .\shop\templates\profile\profile_favourites.html:60
-#: .\shop\templates\shop_page.html:182
+#: .\shop\templates\shop_page.html:188
 msgid "Gold"
 msgstr "Gold"
 
 #: .\shop\templates\catalog.html:442 .\shop\templates\home.html:408
 #: .\shop\templates\profile\profile_favourites.html:61
-#: .\shop\templates\shop_page.html:183
+#: .\shop\templates\shop_page.html:189
 msgid "Rosegold"
 msgstr "Roségold"
 
 #: .\shop\templates\catalog.html:443 .\shop\templates\home.html:409
 #: .\shop\templates\profile\profile_favourites.html:62
-#: .\shop\templates\shop_page.html:184
+#: .\shop\templates\shop_page.html:190
 msgid "Without"
 msgstr "Ohne"
 
 #: .\shop\templates\catalog.html:444 .\shop\templates\home.html:410
 #: .\shop\templates\profile\profile_favourites.html:63
-#: .\shop\templates\shop_page.html:185
+#: .\shop\templates\shop_page.html:191
 msgid "Steel"
 msgstr "Stahl"
 
-#: .\shop\templates\catalog.html:445 .\shop\templates\shop_page.html:186
+#: .\shop\templates\catalog.html:445 .\shop\templates\shop_page.html:192
 msgid "Brass"
 msgstr "Messing"
 
 #: .\shop\templates\catalog.html:446 .\shop\templates\home.html:412
 #: .\shop\templates\profile\profile_favourites.html:65
-#: .\shop\templates\shop_page.html:187
+#: .\shop\templates\shop_page.html:193
 msgid "Silver"
 msgstr "Silber"
 
@@ -513,7 +513,7 @@ msgstr "Aus Favoriten entfernen"
 msgid "Add to favorites"
 msgstr "Zu Favoriten hinzufügen"
 
-#: .\shop\templates\catalog.html:1027 .\shop\templates\shop_page.html:126
+#: .\shop\templates\catalog.html:1027 .\shop\templates\shop_page.html:127
 #: .\shop\views.py:357
 msgid "Add to cart"
 msgstr "In den Warenkorb legen"
@@ -553,7 +553,7 @@ msgstr "Persönliche Informationen"
 
 #: .\shop\templates\orderAnonymAddresses.html:140
 #: .\shop\templates\profile\profile_side_menu.html:30
-#: .\shop\templates\widgets\navigation_bar.html:242
+#: .\shop\templates\widgets\navigation_bar.html:248
 msgid "Addresses"
 msgstr "Adressen"
 
@@ -803,7 +803,7 @@ msgstr ""
 "13:00 Uhr, außer an Feiertagen."
 
 #: .\shop\templates\our_company_pages\Oliver_Weber_for_Press.html:28
-#: .\shop\templates\widgets\footer.html:100
+#: .\shop\templates\widgets\footer.html:106
 msgid "Oliver Weber for Press"
 msgstr "Oliver Weber für Presse"
 
@@ -952,7 +952,7 @@ msgstr ""
 " sich jedem Anlass und den unterschiedlichsten Geschmäckern anpasst."
 
 #: .\shop\templates\our_company_pages\Privacy_policy.html:38
-#: .\shop\templates\widgets\footer.html:103
+#: .\shop\templates\widgets\footer.html:109
 msgid "Website Privacy Policy"
 msgstr "Website-Datenschutzrichtlinie"
 
@@ -2575,7 +2575,7 @@ msgstr ""
 "Kontaktdaten."
 
 #: .\shop\templates\our_company_pages\Terms_and_conditions.html:28
-#: .\shop\templates\widgets\footer.html:101
+#: .\shop\templates\widgets\footer.html:107
 msgid "Terms and Conditions"
 msgstr "Geschäftsbedingungen"
 
@@ -3066,6 +3066,21 @@ msgstr "Ihre Adressen"
 msgid "Create new address"
 msgstr "Neue Adresse erstellen"
 
+#: .\shop\templates\profile\profile_archive_search.html:8
+#: .\shop\templates\widgets\navigation_bar.html:263
+msgid "Archive search"
+msgstr "Archivsuche"
+
+#: .\shop\templates\profile\profile_archive_search.html:11
+msgid "Here you can search for articles, including articles from the archive"
+msgstr ""
+"Hier können Sie nach Artikeln suchen, auch nach Artikeln aus dem Archiv"
+
+#: .\shop\templates\profile\profile_archive_search.html:14
+#: .\shop\templates\widgets\navigation_bar.html:286
+msgid "Start typing here..."
+msgstr "Beginnen Sie hier mit der Eingabe..."
+
 #: .\shop\templates\profile\profile_dashboard.html:8
 msgid "Your account"
 msgstr "Ihr Konto"
@@ -3149,7 +3164,7 @@ msgid "The information has been successfully updated!"
 msgstr "Die Informationen wurden erfolgreich aktualisiert!"
 
 #: .\shop\templates\profile\profile_order_import.html:8
-#: .\shop\templates\widgets\navigation_bar.html:248
+#: .\shop\templates\widgets\navigation_bar.html:255
 #, fuzzy
 #| msgid "Order history"
 msgid "Order import"
@@ -3249,7 +3264,7 @@ msgid "Description"
 msgstr "Beschreibung"
 
 #: .\shop\templates\profile\profile_orders.html:264
-#: .\shop\templates\widgets\navigation_bar.html:504 .\shop\views.py:352
+#: .\shop\templates\widgets\navigation_bar.html:520 .\shop\views.py:352
 msgid "Quantity"
 msgstr "Menge"
 
@@ -3258,28 +3273,28 @@ msgid "Summary"
 msgstr "Zusammenfassung"
 
 #: .\shop\templates\profile\profile_orders.html:266
-#: .\shop\templates\shop_page.html:109 .\shop\templates\shop_page.html:115
+#: .\shop\templates\shop_page.html:110 .\shop\templates\shop_page.html:116
 #: .\shop\views.py:340
 msgid "In stock"
 msgstr "Auf Lager"
 
 #: .\shop\templates\profile\profile_side_menu.html:15
-#: .\shop\templates\widgets\navigation_bar.html:218
+#: .\shop\templates\widgets\navigation_bar.html:224
 msgid "Dashboard"
 msgstr "Armaturenbrett"
 
 #: .\shop\templates\profile\profile_side_menu.html:20
-#: .\shop\templates\widgets\navigation_bar.html:230
+#: .\shop\templates\widgets\navigation_bar.html:236
 msgid "Orders"
 msgstr "Bestellungen"
 
 #: .\shop\templates\profile\profile_side_menu.html:25
-#: .\shop\templates\widgets\navigation_bar.html:236
+#: .\shop\templates\widgets\navigation_bar.html:242
 msgid "Information"
 msgstr "Information"
 
 #: .\shop\templates\profile\profile_side_menu.html:36
-#: .\shop\templates\widgets\navigation_bar.html:224
+#: .\shop\templates\widgets\navigation_bar.html:230
 msgid "Favorites"
 msgstr "Favoriten"
 
@@ -3289,8 +3304,14 @@ msgstr "Favoriten"
 msgid "Order Import"
 msgstr "Auftragsimport"
 
-#: .\shop\templates\profile\profile_side_menu.html:50
-#: .\shop\templates\widgets\navigation_bar.html:254
+#: .\shop\templates\profile\profile_side_menu.html:55
+#, fuzzy
+#| msgid "Search"
+msgid "Archive Search"
+msgstr "Archivsuche"
+
+#: .\shop\templates\profile\profile_side_menu.html:62
+#: .\shop\templates\widgets\navigation_bar.html:270
 msgid "Sign out"
 msgstr "Abmelden"
 
@@ -3301,7 +3322,7 @@ msgstr "Die Adresse wurde erfolgreich aktualisiert!"
 #: .\shop\templates\service_pages\b2b_customers.html:21
 #: .\shop\templates\service_pages\b2b_customers.html:24
 #: .\shop\templates\service_pages\b2b_customers.html:40
-#: .\shop\templates\widgets\footer.html:88
+#: .\shop\templates\widgets\footer.html:94
 msgid "B2B Customers"
 msgstr "B2B-Kunden"
 
@@ -3328,7 +3349,7 @@ msgstr "Kontaktieren Sie unser Vertriebsbüro"
 #: .\shop\templates\service_pages\contact_us.html:9
 #: .\shop\templates\service_pages\contact_us.html:12
 #: .\shop\templates\service_pages\contact_us.html:28
-#: .\shop\templates\widgets\footer.html:82
+#: .\shop\templates\widgets\footer.html:88
 msgid "Contact us"
 msgstr "Kontaktieren Sie uns"
 
@@ -3347,7 +3368,7 @@ msgstr ""
 #: .\shop\templates\service_pages\customer_service_and_repair.html:9
 #: .\shop\templates\service_pages\customer_service_and_repair.html:12
 #: .\shop\templates\service_pages\customer_service_and_repair.html:28
-#: .\shop\templates\widgets\footer.html:84
+#: .\shop\templates\widgets\footer.html:90
 msgid "Customer service and repair"
 msgstr "Kundendienst und Reparatur"
 
@@ -3523,7 +3544,7 @@ msgstr ""
 #: .\shop\templates\service_pages\faq.html:9
 #: .\shop\templates\service_pages\faq.html:12
 #: .\shop\templates\service_pages\faq.html:28
-#: .\shop\templates\widgets\footer.html:83
+#: .\shop\templates\widgets\footer.html:89
 msgid "Frequently Asked Questions"
 msgstr "Häufig gestellte Fragen"
 
@@ -3836,7 +3857,7 @@ msgstr ""
 #: .\shop\templates\service_pages\payment_information.html:9
 #: .\shop\templates\service_pages\payment_information.html:12
 #: .\shop\templates\service_pages\payment_information.html:28
-#: .\shop\templates\widgets\footer.html:87
+#: .\shop\templates\widgets\footer.html:93
 msgid "Payment Information"
 msgstr "Zahlungsinformationen"
 
@@ -3946,7 +3967,7 @@ msgstr "Rückgabe und Umtausch"
 
 #: .\shop\templates\service_pages\returns_and_exchanges.html:12
 #: .\shop\templates\service_pages\returns_and_exchanges.html:28
-#: .\shop\templates\widgets\footer.html:86
+#: .\shop\templates\widgets\footer.html:92
 msgid "Returns and exchanges"
 msgstr "Rückgabe und Umtausch"
 
@@ -4083,7 +4104,7 @@ msgstr "Versandinformationen"
 
 #: .\shop\templates\service_pages\shipping_information.html:12
 #: .\shop\templates\service_pages\shipping_information.html:28
-#: .\shop\templates\widgets\footer.html:85
+#: .\shop\templates\widgets\footer.html:91
 msgid "Shipping information"
 msgstr "Versandinformationen"
 
@@ -4258,46 +4279,50 @@ msgstr ""
 "Kundenservice. Bitte halten Sie Ihre Bestell- und Sendungsverfolgungsnummer "
 "bereit."
 
-#: .\shop\templates\shop_page.html:40
-#: .\shop\templates\widgets\navigation_bar.html:486
+#: .\shop\templates\shop_page.html:41
+#: .\shop\templates\widgets\navigation_bar.html:502
 msgid "Plating"
 msgstr "Überzug"
 
-#: .\shop\templates\shop_page.html:48
+#: .\shop\templates\shop_page.html:49
 #, fuzzy
 #| msgid "Stone color"
 msgid "Stone"
 msgstr "Stein"
 
-#: .\shop\templates\shop_page.html:68
+#: .\shop\templates\shop_page.html:69
 msgid "Product width"
 msgstr "Produktbreite"
 
-#: .\shop\templates\shop_page.html:78
+#: .\shop\templates\shop_page.html:79
 #, fuzzy
 #| msgid "Product number"
 msgid "Product height"
 msgstr "Produkthöhe"
 
-#: .\shop\templates\shop_page.html:89
+#: .\shop\templates\shop_page.html:90
 msgid "Chain length"
 msgstr "Kettenlänge"
 
-#: .\shop\templates\shop_page.html:111 .\shop\templates\shop_page.html:119
+#: .\shop\templates\shop_page.html:112 .\shop\templates\shop_page.html:120
 #, fuzzy
 #| msgid "In stock"
 msgid "Out of stock"
 msgstr "Ausverkauft"
 
-#: .\shop\templates\shop_page.html:117 .\shop\views.py:341
+#: .\shop\templates\shop_page.html:118 .\shop\views.py:341
 msgid "Less than 5 pieces left!"
 msgstr "Weniger als 5 Stück übrig!"
 
-#: .\shop\templates\shop_page.html:213 .\shop\views.py:348
+#: .\shop\templates\shop_page.html:135
+msgid "Oops... searched product is not available"
+msgstr "Ups... das gesuchte Produkt ist nicht verfügbar"
+
+#: .\shop\templates\shop_page.html:219 .\shop\views.py:348
 msgid "An error occured"
 msgstr "Es ist ein Fehler aufgetreten"
 
-#: .\shop\templates\shop_page.html:226 .\shop\views.py:346
+#: .\shop\templates\shop_page.html:232 .\shop\views.py:346
 msgid ""
 "Quantity number has to be less than or equal to quantity number in stock or "
 "and be greater than 0"
@@ -4305,97 +4330,93 @@ msgstr ""
 "Die Mengennummer muss kleiner oder gleich der Mengennummer im Lager sein "
 "oder größer als 0 sein"
 
-#: .\shop\templates\shop_page.html:236 .\shop\views.py:359
+#: .\shop\templates\shop_page.html:242 .\shop\views.py:359
 msgid "Maximum items for pre-order is 20, minimum is 1"
 msgstr "Es können maximal 20 Artikel vorbestellt werden, mindestens 1"
 
-#: .\shop\templates\shop_page.html:281
+#: .\shop\templates\shop_page.html:287
 msgid "Current quantity"
 msgstr "Aktuelle Menge"
 
-#: .\shop\templates\widgets\footer.html:79
+#: .\shop\templates\widgets\footer.html:85
 msgid "Customer Service"
 msgstr "Kundendienst"
 
-#: .\shop\templates\widgets\footer.html:95
+#: .\shop\templates\widgets\footer.html:101
 msgid "Our company"
 msgstr "Unser Unternehmen"
 
-#: .\shop\templates\widgets\footer.html:99
+#: .\shop\templates\widgets\footer.html:105
 msgid "Oliver Weber's World"
 msgstr "Oliver Webers Welt"
 
-#: .\shop\templates\widgets\footer.html:102
+#: .\shop\templates\widgets\footer.html:108
 msgid "Impressum"
 msgstr "Impressum"
 
-#: .\shop\templates\widgets\footer.html:112
+#: .\shop\templates\widgets\footer.html:118
 msgid "Follow us"
 msgstr "Folgen Sie uns"
 
-#: .\shop\templates\widgets\navigation_bar.html:96
+#: .\shop\templates\widgets\navigation_bar.html:102
 msgid "All products"
 msgstr "Alle Produkte"
 
-#: .\shop\templates\widgets\navigation_bar.html:97
+#: .\shop\templates\widgets\navigation_bar.html:103
 msgid "NECKLACES"
 msgstr "HALSKETTEN"
 
-#: .\shop\templates\widgets\navigation_bar.html:98
+#: .\shop\templates\widgets\navigation_bar.html:104
 msgid "EARRINGS"
 msgstr "OHRRINGE"
 
-#: .\shop\templates\widgets\navigation_bar.html:101
+#: .\shop\templates\widgets\navigation_bar.html:107
 msgid "RINGS"
 msgstr "RINGE"
 
-#: .\shop\templates\widgets\navigation_bar.html:102
+#: .\shop\templates\widgets\navigation_bar.html:108
 msgid "BRACELETS"
 msgstr "ARMBÄNDER"
 
-#: .\shop\templates\widgets\navigation_bar.html:103
+#: .\shop\templates\widgets\navigation_bar.html:109
 msgid "ANKLETS"
 msgstr "Fußkettchen"
 
-#: .\shop\templates\widgets\navigation_bar.html:104
+#: .\shop\templates\widgets\navigation_bar.html:110
 msgid "ACCESSORIES"
 msgstr "ZUBEHÖR"
 
-#: .\shop\templates\widgets\navigation_bar.html:182
+#: .\shop\templates\widgets\navigation_bar.html:188
 msgid "Shopping Cart"
 msgstr "Warenkorb"
 
-#: .\shop\templates\widgets\navigation_bar.html:191
+#: .\shop\templates\widgets\navigation_bar.html:197
 msgid "Subtotal:"
 msgstr "Zwischensumme:"
 
-#: .\shop\templates\widgets\navigation_bar.html:194
+#: .\shop\templates\widgets\navigation_bar.html:200
 #, fuzzy
 #| msgid "Proceed to checkout"
 msgid "Proceed to Checkout"
 msgstr "Gehen Sie zur Kasse"
 
-#: .\shop\templates\widgets\navigation_bar.html:200
+#: .\shop\templates\widgets\navigation_bar.html:206
 msgid "Account"
 msgstr "Konto"
 
-#: .\shop\templates\widgets\navigation_bar.html:261
+#: .\shop\templates\widgets\navigation_bar.html:277
 msgid "Search"
 msgstr "Suchen"
 
-#: .\shop\templates\widgets\navigation_bar.html:270
-msgid "Start typing here..."
-msgstr "Beginnen Sie hier mit der Eingabe..."
-
-#: .\shop\templates\widgets\navigation_bar.html:488
+#: .\shop\templates\widgets\navigation_bar.html:504
 msgid "Base Material"
 msgstr "Grundmaterial"
 
-#: .\shop\templates\widgets\navigation_bar.html:526
+#: .\shop\templates\widgets\navigation_bar.html:542
 msgid "Remove from cart"
 msgstr "Aus dem Warenkorb entfernen"
 
-#: .\shop\templates\widgets\navigation_bar.html:553
+#: .\shop\templates\widgets\navigation_bar.html:569
 msgid ""
 "You cant delete items during checkout. Go back to shop pages to change your "
 "cart"
@@ -4403,11 +4424,11 @@ msgstr ""
 "Sie können Artikel während des Bezahlvorgangs nicht löschen. Gehen Sie "
 "zurück zu den Shop-Seiten, um Ihren Warenkorb zu ändern"
 
-#: .\shop\templates\widgets\navigation_bar.html:648
+#: .\shop\templates\widgets\navigation_bar.html:664
 msgid "Cart is empty"
 msgstr "Der Warenkorb ist leer"
 
-#: .\shop\templates\widgets\navigation_bar.html:665
+#: .\shop\templates\widgets\navigation_bar.html:681
 msgid "Back to shop"
 msgstr "Zurück zum Shop"
 
@@ -7095,7 +7116,7 @@ msgstr ""
 "        denn es wird offensichtlich normalerweise in verpackter Form gelagert.  Auch,\n"
 "        Durch das Löschen eines Blobs aus dem Verlauf wird möglicherweise nicht so viel Platz eingespart wie durch das Packen\n"
 "        Größe auch nicht, da ein anderer Blob als Delta dagegen gespeichert werden könnte\n"
-"        Wenn Sie also einen Blob entfernen, kann sich die Packgröße eines anderen Blobs ändern\n"
+"        Wenn Sie also einen Blob entfernen, kann sich die Packungsgröße eines anderen Blobs ändern\n"
 "        wachsen.\n"
 "\n"
 "        Außerdem kann die Summe der Packmaße mehr als das betragen\n"
