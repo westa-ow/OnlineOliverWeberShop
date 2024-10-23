@@ -24,7 +24,8 @@
 
 {% include 'widgets/navigation_bar.html' %}
 
-<div id="product-card" >
+<div id="product-card" {% if not is_available %} style="height: 50vh" {% endif %}>
+    {% if is_available %}
         <div class="card-content">
             <img class="img-card" src="{{ document.image_url }}" width="400" height="400">
             <div class="close-card">
@@ -129,6 +130,11 @@
                 </div>
             </div>
         </div>
+    {% else %}
+        <div>
+            <span class="wrong-product"> {% trans "Oops... searched product is not available" %}</span>
+        </div>
+    {% endif %}
 </div>
 
 <dialog id="product-card-success" >

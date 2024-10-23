@@ -1,0 +1,97 @@
+{% load static %}
+{% load i18n %}
+
+<link rel="stylesheet" href="{% static 'css/profile/profile_information.css' %}">
+<link rel="stylesheet" href="{% static 'css/profile/profile_archive_search.css' %}">
+<section id="content" class="page-content col-md-12 col-lg-9 myacc_content">
+    <header class="page-header">
+        <h1 style="color: #0a0a0a"> {% trans "Archive search" %}</h1>
+    </header>
+
+        <div>{% trans "Here you can search for articles, including articles from the archive" %}</div>
+
+        <div class="container-search-archive">
+            <input type="text" id="input-search-archived" class="search-form" onkeyup="updateDropdownArchived()" autocomplete="off" placeholder="{% trans "Start typing here..." %}">
+            <div id="dropdown-archive"></div>
+        </div>
+
+
+
+</section>
+<script>
+    function updateDropdownArchived() {
+        let inputVal = document.getElementById('input-search-archived').value;
+        console.log("AA");
+        if (inputVal.length === 0) {
+            document.getElementById('dropdown-archive').innerHTML = '';
+            return;
+        }
+        let fetchUrl = "{% url 'fetch_numbers' %}?term=" + encodeURIComponent(inputVal);
+        console.log(fetchUrl);
+        fetch(fetchUrl)
+        .then(response => response.json())
+        .then(data => {
+            let dropdownHTML = '';
+            data.forEach((item) => {
+                dropdownHTML += `
+                        <div onclick="fillInputArchived('${item.name}')" class="container-search-result">
+                            <img src="${item.image_url}" alt="Product Image" class="img-search-archive" >
+                            <div class="properties-search-container-archive">
+                                <span class="name-search-archive" ">${item.name}</span>
+                                <span class="product-name-search-archive">${item.product_name}</span>
+                            </div>
+                        </div>
+                        <hr style="margin: 0 10px;">
+                    `;
+                });
+                document.getElementById('dropdown-archive').innerHTML = dropdownHTML;
+            });
+    }
+    function fillInputArchived(productId) {
+        // Construct the URL using the product ID
+        // Redirect to the constructed URL
+        let url = "{% url 'shop_page' 'DUMMY_ID' %}";
+
+        // Replace the placeholder "DUMMY_ID" with the actual productId dynamically
+        url = url.replace('DUMMY_ID', productId);
+
+        // Redirect to the dynamically constructed URL
+        let form = document.createElement('form');
+        form.method = 'POST';
+        form.action = url;  // Keep productId in the URL as a GET parameter
+
+        // Add a hidden input field for the search_type parameter
+        let searchTypeInput = document.createElement('input');
+        searchTypeInput.type = 'hidden';
+        searchTypeInput.name = 'search_type';
+        searchTypeInput.value = 'archived';
+        form.appendChild(searchTypeInput);
+
+        // Add a CSRF token if needed (for Django)
+        let csrfToken = document.createElement('input');
+        csrfToken.type = 'hidden';
+        csrfToken.name = 'csrfmiddlewaretoken';
+        csrfToken.value = '{{ csrf_token }}';  // Django template variable for CSRF token
+        form.appendChild(csrfToken);
+
+        // Append the form to the body and submit it
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>

@@ -32,23 +32,40 @@ from shop.forms import UserRegisterForm, User
 
 @login_required_or_session
 def form_page(request, product_id):
-    documents = []
+
     search_term = ''
+    search_type = request.POST.get('search_type', 'default')
     email = get_user_session_type(request)
     category, currency = get_user_prices(request, email)
     info = get_user_info(email) or {}
     sale = round((0 if "sale" not in info else info['sale']) / 100, 3) or 0
     show_quantities = False if "show_quantities" not in info else info['show_quantities']
     cart = get_cart(email)
+
+    # Set currency symbol
     if currency == "Euro":
         currency = "€"
     elif currency == "Dollar":
         currency = "$"
-    documents = itemsRef.where('name', '==', product_id).stream()
-    products = [{key: value for key, value in doc.to_dict().items() if key != 'Visible'} for doc in documents]
 
+    # Fetch documents
+    documents = itemsRef.where('name', '==', product_id).stream()
+    products = [
+        {key: value for key, value in doc.to_dict().items() if key != 'Visible'}
+        for doc in documents
+        if (
+                search_type != 'archived' or doc.to_dict().get('quantity', 0) > 0
+        )
+    ]
+
+    # If no product is found, return with an is_available flag as False
+    if not products:
+        return render(request, 'shop_page.html', {
+            "is_available": False
+        })
+
+    # Adjust price based on user category
     for obj in products:
-        # Adjust price based on user category
         if category == "VK3":
             obj['price'] = obj['priceVK3']
         elif category == "GH":
@@ -60,7 +77,6 @@ def form_page(request, product_id):
         else:
             obj['price'] = round(obj['priceVK4'] * (1 - sale), 1)
 
-
     # Non-AJAX requests will return the rendered HTML page
     return render(request, 'shop_page.html', {
         'search_term': search_term,
@@ -69,10 +85,14 @@ def form_page(request, product_id):
         'document': products[0],
         'show_quantities': show_quantities,
         'product_id': product_id,
-        'vocabulary': get_vocabulary_product_card()
+        'vocabulary': get_vocabulary_product_card(),
+        'is_available': True
     })
+
+
 def fetch_numbers(request):
     search_term = request.GET.get('term', '')
+    search_type = request.GET.get('search_type', 'default')
     results = []
 
     if search_term != '':
@@ -97,8 +117,13 @@ def fetch_numbers(request):
                (
                        search_term.lower() in doc.to_dict().get('name', '').lower() or
                        search_term.lower() in doc.to_dict().get('product_name', '').lower()
-               ) and
-               doc.to_dict().get('Visible', True)  # Assumes default is True if 'Visible' is not present
+               )
+               and doc.to_dict().get('Visible', True)  # Assumes default is True if 'Visible' is not present
+               and
+               (
+                       search_type != 'archived' or doc.to_dict().get('quantity', 0) > 0
+               # Only check quantity for B2B customers
+               )
         ]
 
     return JsonResponse(results, safe=False)

@@ -87,6 +87,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'shop.context_processor.user_role',
                 'shop.context_processor.user_is_special',
+                'shop.context_processor.customer_type',
             ],
         },
     },

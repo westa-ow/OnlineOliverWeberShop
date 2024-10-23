@@ -26,35 +26,7 @@
 
 </section>
 <script>
-    document.getElementById('upload-button').addEventListener('click', function() {
-        document.getElementById('file-input').click();
-    });
-
-    document.getElementById('file-input').addEventListener('change', function() {
-        var fileInput = document.getElementById('file-input');
-        var formData = new FormData();
-        formData.append('file', fileInput.files[0]);
-
-        fetch("{% url 'upload_cart' %}", {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRFToken': getCookie('csrftoken'),
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                alert('Products updated successfully');
-            } else {
-                alert('Error: ' + data.message);
-            }
-        })
-        .catch(error => {
-            alert('An error occurred while processing the request');
-            console.error('Error:', error);
-        });
-    });
+    console.log("{{ customer_type }}");
     function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {

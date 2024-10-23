@@ -1,0 +1,53 @@
+#content{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+}
+.container-search-archive input {
+    width: 100%;
+    font-size: 18px;
+    border: none;
+    border-bottom: 2px solid #000!important; /* You can adjust the thickness and color as needed */
+    outline: none; /* Remove the default outline on focus */
+    border-radius: 0!important;
+    box-shadow: none!important;
+}
+
+.container-search-archive input:focus {
+    border-bottom: 2px solid #056cc2; /* Add a different color for focus state if needed */
+}
+
+#dropdown-archive {
+    max-height: 400px;
+    overflow-y: auto;
+    width: 92%;
+    background-color: white;
+    border: 1px solid #ddd;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 134px;
+    z-index: 1000;
+    margin-top: 2px;
+}
+
+#dropdown-archive div {
+    cursor: pointer;
+    padding: 5px;
+}
+
+#dropdown-archive div:hover {
+    background-color: #f0f0f0;
+}
+.container-search-result-archive{
+    display: flex;
+}
+.img-search-archive{
+    width: 100px; height: 100px; margin-right: 10px;
+}
+.properties-search-container-archive{
+    display: flex;
+    flex-direction: column;
+}
+.product-name-search{
+}

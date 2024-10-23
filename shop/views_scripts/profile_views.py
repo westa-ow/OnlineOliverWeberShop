@@ -47,6 +47,10 @@ def profile(request, feature_name):
         currency = "€"
     elif currency == "Dollar":
         currency = "$"
+
+    if feature_name == 'order_import' or feature_name == "archive_search":
+        if info.get('customer_type', 'Customer') != 'B2B':
+            return redirect('profile', feature_name='dashboard')
     context = build_context(feature_name, email, orders, order_details)
     context['currency'] = currency
     context['show_quantities'] = show_quantities

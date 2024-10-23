@@ -409,3 +409,8 @@ input[type=number] {
 .cross-icon{
     color: #cc0000;
 }
+
+.wrong-product{
+    font-size: 20px;
+    font-weight: 600;
+}
