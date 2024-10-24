@@ -1,0 +1,198 @@
+#cartBtn{
+    margin-right: 10px;
+    margin-top: 5px;
+    cursor: pointer;
+}
+.cart-header, .cart-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.cart-footer{
+    flex-direction: column;
+}
+.cart-header{
+}
+.shopping-cart-span{
+    font-size: 22px;
+    color:#1c1c1c !important;
+}
+#closeCartBtn{
+    cursor: pointer;
+    font-size: 22px;
+    transition: 0.3s;
+    margin-right: 20px;
+}
+#closeCartBtn:hover{
+    color: #919191;
+
+}
+.cart-items {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.checkout-btn {
+    width: 90%;
+    /* Centers the button and ensures 90% width */
+    padding: 22px 32px;
+    background-color: #003765; /* Example color */
+    border-radius: 7px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin: 10px 5% 50px;
+}
+.cart-header, .cart-items, .cart-footer {
+    padding: 15px; /* Adjust padding as needed */
+}
+img{
+    margin-top: 10px;
+}
+.attrs-container{
+    display: flex;
+    width:100%;
+    justify-content: space-between;
+}
+.cart-first-attrs-column{
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
+}
+.cart-first-attrs-column span{
+    font-size: 12px;
+    color: #8d8d8d
+}
+
+
+.cart-product-name{
+    font-size: 14px!important;
+    color: #1c1c1c !important;
+}
+
+.mini-cart-product{
+    display: flex;
+}
+
+.cart-second-attrs-column{
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+    text-align: center;
+    color: #1c1c1c !important;
+}
+
+.mini-cart-product-price{
+    margin-top: 20px;
+    font-size: 14px;
+}
+.mini-cart-product-quantity{
+    margin-top: 15px;
+    font-size: 13px;
+}
+
+.subtotal{
+  color:#1c1c1c !important;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 20px 0 20px;
+  font-size: 18px;
+}
+.cart-footer hr {
+    background-color: #1c1c1c; /* Color of the hr line */
+    height: 3px; /* Thickness of the hr line */
+    width: 100%;
+    border: none; /* Removes the default border */
+    opacity: 1; /* Ensure it's fully opaque */
+    margin-top: 0;
+}
+.mini-cart-product {
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  transition: opacity 0.4s ease, transform 0.4s ease, max-height 0.4s ease;
+  max-height: 200px; /* Adjust based on your item's actual height */
+}
+
+.delete-panel {
+  display: flex;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0; /* Initial width is 0 */
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  overflow: hidden; /* Ensures content is clipped during transition */
+  transition: width 0.3s ease; /* Smooth transition for width */
+}
+
+.mini-cart-product:hover .delete-panel {
+  width: 30px; /* Expand width on hover */
+}
+
+.delete-icon {
+  color: white;
+  cursor: pointer;
+  visibility: hidden; /* Initially hide the delete icon */
+    padding: 10px 5px 10px 5px;
+}
+
+.mini-cart-product:hover .delete-icon {
+  visibility: visible; /* Only show icon when panel is fully visible */
+}
+.delete-icon-tooltip {
+  position: fixed; /* Use fixed positioning relative to the viewport */
+  transform: translate(-50%, 0); /* Adjust if necessary for your design */
+  background-color: black;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+  pointer-events: none; /* Prevents tooltip from interfering with mouse events */
+}
+
+.delete-icon:hover + .delete-icon-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s; /* Remove delay when showing tooltip */
+}
+
+
+.item-deleting {
+  opacity: 0;
+  transform: translateX(-100%);
+  max-height: 0; /* Triggers the transition */
+}
+.empty-cart-container {
+    text-align: center;
+    opacity: 0;
+    transition: opacity 1s ease-out;
+    display: none; /* Initially hidden */
+}
+
+/* Style to make the container visible and fade in */
+.show-empty-cart {
+    display: block;
+    opacity: 1;
+}
+.empty-message{
+    margin-top: 20px;
+    color:#1c1c1c;
+    font-size: 16px;
+
+}
+.cart-items-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 100%; /* Set to 100% of the viewport height, or the height you want */
+}
+

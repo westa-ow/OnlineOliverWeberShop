@@ -1,0 +1,24 @@
+.selected-lang{
+    font-weight: normal;
+}
+
+.selected-lang::before{
+    background-image: url(https://www.worldometers.info/img/flags/gm-flag.gif);
+}
+.gm:before {
+    background-image: url(https://www.worldometers.info/img/flags/gm-flag.gif);
+}
+
+.uk:before {
+    background-image: url(https://www.worldometers.info/img/flags/uk-flag.gif);
+}
+.fr:before {
+    background-image: url(https://www.worldometers.info/img/flags/fr-flag.gif);
+}
+
+.sp:before {
+    background-image: url(https://www.worldometers.info/img/flags/sp-flag.gif);
+}
+.it:before {
+    background-image: url(https://www.worldometers.info/img/flags/it-flag.gif);
+}

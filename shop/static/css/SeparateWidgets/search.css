@@ -1,0 +1,54 @@
+.search-header{
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.search-container{
+    padding: 15px;
+
+}
+
+.search-container input {
+    width: 100%;
+    font-size: 18px;
+    border: none;
+    border-bottom: 2px solid #000!important; /* You can adjust the thickness and color as needed */
+    outline: none; /* Remove the default outline on focus */
+    border-radius: 0!important;
+    box-shadow: none!important;
+}
+
+.search-container input:focus {
+    border-bottom: 2px solid #056cc2; /* Add a different color for focus state if needed */
+}
+#dropdown {
+    max-height: 400px;
+    overflow-y: auto;
+    width: 92%;
+    background-color: white;
+    border: 1px solid #ddd;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 210px;
+    z-index: 1000;
+    margin-top: 2px;
+}
+
+#dropdown div {
+    cursor: pointer;
+    padding: 5px;
+}
+
+#dropdown div:hover {
+    background-color: #f0f0f0;
+}
+.container-search-result{
+    display: flex;
+}
+.properties-search-container{
+    display: flex;
+    flex-direction: column;
+}
+.product-name-search{
+}
