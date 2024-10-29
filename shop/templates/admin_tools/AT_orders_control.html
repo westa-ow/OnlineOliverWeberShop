@@ -170,27 +170,46 @@
 
 
     async function fetchAllOrders() {
-        let usersQuery = "";
-        if (isSpecialAdmin){
-            usersQuery = query(collection(db, "webUsers"), where("special_customer", "==", true));
-        }
-        else{
-            usersQuery = query(collection(db, "webUsers"));
-        }
+    let usersQuery = "";
+    let usersQuery2 = "";
+    let specialUserEmails = [];
+
+    // Determine which queries to run based on admin status
+    if (isSpecialAdmin) {
+        usersQuery = query(collection(db, "webUsers"), where("special_customer", "==", true));
+
+        // Fetch users matching special criteria
         const usersSnapshot = await getDocs(usersQuery);
 
-        // Извлечь email-адреса пользователей со статусом isSpecial
-        const specialUserEmails = usersSnapshot.docs.map(doc => doc.data().email);
+        // Extract email addresses of special users
+        specialUserEmails = usersSnapshot.docs.map(doc => doc.data().email);
+    } else {
+        // Define queries for both collections
+        usersQuery = query(collection(db, "webUsers"));
+        usersQuery2 = query(collection(db, "users"));
 
-        // Получить все заказы
-        const ordersQuery = query(collection(db, "Orders"));
-        const ordersSnapshot = await getDocs(ordersQuery);
+        // Fetch users from both collections in parallel
+        const [webUsersSnapshot, usersSnapshot] = await Promise.all([
+            getDocs(usersQuery),
+            getDocs(usersQuery2)
+        ]);
 
-        // Фильтровать заказы по specialUserEmails
-        return ordersSnapshot.docs
-            .map(doc => doc.data())
-            .filter(order => specialUserEmails.includes(order.email));
+        // Extract email addresses from both collections
+        specialUserEmails = [
+            ...webUsersSnapshot.docs.map(doc => doc.data().email),
+            ...usersSnapshot.docs.map(doc => doc.data().email)
+        ];
     }
+
+    // Get all orders
+    const ordersQuery = query(collection(db, "Orders"));
+    const ordersSnapshot = await getDocs(ordersQuery);
+
+    // Filter orders based on specialUserEmails
+    return ordersSnapshot.docs
+        .map(doc => doc.data())
+        .filter(order => specialUserEmails.includes(order.email));
+}
 
 
     function addEventListenersToOrders() {
