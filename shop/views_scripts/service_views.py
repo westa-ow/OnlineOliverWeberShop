@@ -36,4 +36,4 @@ def service_pages_view(request, service_page):
 
 def company_info_pages(request, company_info_page):
     context = {"info_page": company_info_page}
-    return render(request, 'our_company_pages/main_company_info_page.html', context)
+    return render(request, 'our_company_pages/../templates/service_pages/main_company_info_page.html', context)
