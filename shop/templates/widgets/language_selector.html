@@ -15,6 +15,7 @@
 <script>
     function updateBackgroundImage(selectElement) {
         let imageUrl = '';
+        console.log(selectElement.value);
         switch (selectElement.value) {
             case 'gb':
                 imageUrl = '{% static "images/flags/uk.gif" %}'; // Путь к флагу Великобритании
