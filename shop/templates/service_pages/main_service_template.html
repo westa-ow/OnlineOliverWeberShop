@@ -1,4 +1,33 @@
 {% extends 'widgets/base.html' %}
+{% block title %}
+    {% if service_page == "contact_us" %}
+        Contact us | Oliver Weber | Contact
+    {% elif service_page == "faq" %}
+        Frequently Asked Questions | Oliver Weber | FAQ
+    {% elif service_page == "csar" %}
+        Customer service and repair | Oliver Weber | Customer service
+    {% elif service_page == "shipping_info" %}
+        Shipping information | Oliver Weber | Shipping
+    {% elif service_page == "returns_exchanges" %}
+        Returns and exchanges | Oliver Weber | Returns
+    {% elif service_page == "payment_info" %}
+        Payment Information | Oliver Weber | Payments
+    {% elif service_page == "b2b" %}
+        B2B Customers | Oliver Weber | Customers Area
+    {% elif service_page == "ow_world" %}
+        Oliver Weber's World | Oliver Weber | About Us
+    {% elif service_page == "ow_press" %}
+        Oliver Weber for Press | Oliver Weber | Press
+    {% elif service_page == "terms_conditions" %}
+        Terms and Conditions
+    {% elif service_page == "impressum" %}
+        Impressum
+    {% elif service_page == "privacy_policy" %}
+        Website Privacy Policy | Oliver Weber | Privacy
+    {% else %}
+        Oliver Weber Shop | New Collection
+    {% endif %}
+{% endblock %}
 {% block content %}
 {% load static %}
 <!DOCTYPE html>
