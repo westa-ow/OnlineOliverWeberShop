@@ -31,6 +31,9 @@
             case 'ru':
                 imageUrl = '{% static "images/flags/ru-flag.gif" %}'; // Путь к флагу Германии
                 break;
+            default:
+                imageUrl = '{% static "images/flags/uk.gif" %}'; // Путь к флагу Германии
+                break;
         }
         selectElement.style.backgroundImage = `url('${imageUrl}')`;
     }
