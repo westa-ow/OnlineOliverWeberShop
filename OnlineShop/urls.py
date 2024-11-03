@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from shop import views
-from shop.views_scripts import profile_views, paypal_views
+from shop.views_scripts import profile_views
 from shop.views_scripts.adresses_views import update_address, delete_address, create_address
 from shop.views_scripts.manage_banners.banners_managing import move_down, move_up, delete_banner
 from shop.views_scripts.orders_control.bulk_change_statuses import change_statuses
@@ -117,10 +117,10 @@ urlpatterns = i18n_patterns(
 
 
     #PAYPAL
-    path('paypal/success/', paypal_views.PayPalSuccessView.as_view(), name='paypal-success'),
-    path('paypal/cancelled/', paypal_views.PayPalCancelledView.as_view(), name='paypal-cancelled'),
-    path('paypal/create-payment/', paypal_views.create_paypal_payment, name='create-paypal-payment'),
-    path('paypal/webhook/', paypal_views.paypal_webhook, name='paypal-webhook'),
+    # path('paypal/success/', paypal_views.PayPalSuccessView.as_view(), name='paypal-success'),
+    # path('paypal/cancelled/', paypal_views.PayPalCancelledView.as_view(), name='paypal-cancelled'),
+    # path('paypal/create-payment/', paypal_views.create_paypal_payment, name='create-paypal-payment'),
+    # path('paypal/webhook/', paypal_views.paypal_webhook, name='paypal-webhook'),
 
 )
 
