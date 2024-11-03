@@ -65,7 +65,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'shop.middleware.ensure_anon_session_middleware.EnsureAnonymousSessionMiddleware',
-    'shop.middleware.DefaultLanguageMiddlware.DefaultLanguageMiddleware',
+    # 'shop.middleware.DefaultLanguageMiddlware.DefaultLanguageMiddleware',
     # 'django.middleware.cache.UpdateCacheMiddleware',
     # 'django.middleware.common.CommonMiddleware',
     # 'django.middleware.cache.FetchFromCacheMiddleware',
