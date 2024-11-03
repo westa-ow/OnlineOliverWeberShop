@@ -29,6 +29,9 @@ STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
 STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
 STRIPE_ENDPOINT_SECRET = os.getenv('STRIPE_ENDPOINT_SECRET')
 
+# PAYPAL_MODE = os.getenv('PAYPAL_MODE', 'sandbox')  # По умолчанию 'sandbox' для тестирования
+# PAYPAL_CLIENT_ID = os.getenv('PAYPAL_CLIENT_ID')
+# PAYPAL_CLIENT_SECRET = os.getenv('PAYPAL_CLIENT_SECRET')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -129,7 +132,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'gb'
 
 TIME_ZONE = 'UTC'
 LOGIN_URL = 'login'
@@ -138,7 +141,7 @@ USE_L10N = True
 LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
 from django.utils.translation import gettext_lazy as _
 LANGUAGES = [
-    ('en', _('English')),
+    ('gb', _('English')),
     ('de', _('German')),
     ('it', _('Italian')),
     ('fr', _('French')),
