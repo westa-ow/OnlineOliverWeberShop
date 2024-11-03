@@ -46,9 +46,9 @@ from django.urls import path, include
 urlpatterns = i18n_patterns(
     path('admin/', admin.site.urls),
     path('', views.home_page, name='home'),
-    path('login/', login_view, name='login'),
+    path('login', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
-    path('register/', register, name='register'),
+    path('register', register, name='register'),
     path('shop/<str:product_id>', form_page, name='shop_page'),
     path('catalog/', catalog_view, name='catalog'),
     path('cart/', cart_page, name='cart'),
@@ -102,7 +102,7 @@ urlpatterns = i18n_patterns(
     # path('finish_order/', )
 
     #Service urls
-    path('content/<str:service_page>/', service_pages_view, name='services'),
+    path('content/<str:service_page>', service_pages_view, name='services'),
     path('delete-banner/<int:banner_id>/', delete_banner, name='delete_banner'),
     path('move-up/<int:banner_id>/', move_up, name='move_up'),
     path('move-down/<int:banner_id>/', move_down, name='move_down'),

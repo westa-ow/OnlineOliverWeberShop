@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{% static 'css/SeparateWidgets/language_selector.css' %}">
 <div class="language-dropdown">
     <select class="selected-language" id="languageSelect">
-        <option value="en">English</option>
+        <option value="gb">English</option>
         <option value="de">Deutsch</option>
         <option value="it">Italiano</option>
         <option value="es">Español </option>
@@ -16,7 +16,7 @@
     function updateBackgroundImage(selectElement) {
         let imageUrl = '';
         switch (selectElement.value) {
-            case 'en':
+            case 'gb':
                 imageUrl = '{% static "images/flags/uk.gif" %}'; // Путь к флагу Великобритании
                 break;
             case 'de':
@@ -44,7 +44,7 @@
     // Функция для установки начального языка на основе URL
     function setCurrentLanguage() {
         const path = window.location.pathname;
-        const langMatch = path.match(/^\/(en|de|it|es|ru)/);
+        const langMatch = path.match(/^\/(gb|de|it|es|ru)/);
         const currentLang = langMatch ? langMatch[1] : 'en'; // По умолчанию 'en'
         const selectElement = document.getElementById('languageSelect');
         selectElement.value = currentLang; // Установка текущего языка в select
