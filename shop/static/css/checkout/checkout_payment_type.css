@@ -1,0 +1,127 @@
+body {
+    font-family: Poppins, Verdana, sans-serif;
+}
+
+.all{
+    margin-top: 150px
+}
+.container-steps{
+    display: flex;
+    flex-direction: column;
+    margin-left: 0;
+    padding-left: 0;
+    margin-right: -2rem;
+    width: 70%;
+    gap:50px;
+}
+.page-header h1 {
+    color: #333;
+}
+
+button {
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.add-address, #cancelBtn {
+    border: none;
+    font-family: Poppins, Verdana, sans-serif;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+.informational-content {
+    width: 66%;
+    margin: auto;
+    position: relative;
+}
+
+.shopping-cart-label {
+    width: initial;
+}
+
+
+.labels label {
+    cursor: pointer;
+    position: relative;
+}
+
+.page-addresses {
+    display: grid;
+    grid-auto-columns: auto;
+    grid-template-columns: 46% 46%;
+    width: 100%;
+    justify-content: center;
+    grid-gap: 0 8%;
+}
+.address {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.address-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.address-body {
+    /* Keeps the body at the top */
+    flex-grow: 1; /* Takes up all available space */
+    padding: 20px 20px!important;
+    text-align: center;
+
+}
+
+.address-footer {
+    /* Aligns the footer at the bottom */
+    margin-top: auto;
+}
+.address-radio{
+    height: 2.5rem!important;
+}
+.address-billing-address{
+    font-size: 20px;
+    font-weight: 600;
+
+}
+.address-billing-address::after{
+    content: '';
+    position: absolute;
+    width: 0%; /* Start width at 0 to be invisible initially */
+    height: 2px; /* Adjust the thickness of the underline */
+    bottom: -5px; /* Adjust distance from the link */
+    left: 0;
+    background-color: #000; /* Underline color */
+    transition: width 0.3s ease; /* Smooth transition for the width */
+}
+.address-billing-address:hover::after{
+        width: 100%; /* Full width on hover */
+}
+
+.address-billing-address,.add-address {
+    cursor: pointer;
+}
+
+.page-addresses *{
+    font-family: Poppins, Verdana, sans-serif;
+    font-weight: 500;
+    color: black;
+}
+.container-pay-types{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 30px;
+}
+.payment-type{
+    display: flex;
+    align-items: center;
+}
+.payment-type label{
+    font-size: 22px;
+}

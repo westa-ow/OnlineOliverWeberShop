@@ -105,6 +105,10 @@ def send_email(request):
         # Создаю order
         data = json.loads(request.body)
         vat = int(data.get('vat', 0))/100
+        shippingAddress = data.get('shippingAddress', '')
+        billingAddress = data.get('billingAddress', 0)
+        if billingAddress == 0:
+            billingAddress = shippingAddress
 
         user_email = request.user.email
         category, currency = get_user_category(user_email) or ("Default", "Euro")
@@ -160,6 +164,8 @@ def send_email(request):
             'list': [ref.path for ref in item_refs],  # Using document paths as references
             'order_id': order_id,
             'order-id': order_id,
+            'billingAddressId': billingAddress,
+            'shippingAddressId': shippingAddress,
             'price': round(sum, 1),
             'currency': 'Euro',
         }
@@ -310,7 +316,7 @@ def anonym_cart_info(request):
     }
     print(context['documents'])
 
-    return render(request, 'orderAnonymously.html', context=context)
+    return render(request, 'checkout/Checkout_Account_Auth.html', context=context)
 
 
 
@@ -331,7 +337,7 @@ def login_anonym_cart_info(request):
                     # Redirect to home with an error message
                     messages.error(request, "Your account was disabled")
                     form.add_error(None, "Your account was disabled")
-                    return render(request, 'orderAnonymously.html', {'form': form})
+                    return render(request, 'checkout/Checkout_Account_Auth.html', {'form': form})
                 else:
                     # Proceed to log the user in
                     clear_all_cart(email2)
@@ -355,7 +361,7 @@ def login_anonym_cart_info(request):
         'errors': form.errors,
         'error_form': form
     }
-    return render(request, 'orderAnonymously.html', context)
+    return render(request, 'checkout/Checkout_Account_Auth.html', context)
 
 
 
@@ -444,7 +450,7 @@ def register_anonym_cart_info(request):
         'errors': form.errors,
         'error_form': form
     }
-    return render(request, 'orderAnonymously.html', context)
+    return render(request, 'checkout/Checkout_Account_Auth.html', context)
 
 
 
@@ -471,4 +477,23 @@ def checkout_addresses(request):
         'customer_type': customer_type,
         'STRIPE_PUBLISHABLE_KEY': settings.STRIPE_PUBLISHABLE_KEY
     }
-    return render(request, 'orderAnonymAddresses.html', context=context)
+    return render(request, 'checkout/Checkout_Addresses.html', context=context)
+
+def checkout_payment_type(request):
+    email = get_user_session_type(request)
+
+    category, currency = get_user_category(email) or ("Default", "Euro")
+    if currency == "Euro":
+        currency = "€"
+    elif currency == "Dollar":
+        currency = "$"
+    addresses_properties_json = request.POST.get('addresses_properties')
+    addresses_properties = json.loads(addresses_properties_json) if addresses_properties_json else {}
+    context = {
+        'documents': sorted(get_cart(email), key=lambda x: x['number']),
+        'currency': currency,
+        'STRIPE_PUBLISHABLE_KEY': settings.STRIPE_PUBLISHABLE_KEY,
+        'addresses_properties': addresses_properties,
+    }
+
+    return render(request, 'checkout/Checkout_Payment_Type.html', context=context)

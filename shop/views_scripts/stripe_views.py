@@ -40,6 +40,11 @@ def create_checkout_session(request):
         stripe.api_key = settings.STRIPE_SECRET_KEY
         print(f"Stripe API Key: {settings.STRIPE_SECRET_KEY}")
         data = json.loads(request.body.decode('utf-8'))
+
+        shippingAddress = data.get('shippingAddress', '')
+        billingAddress = data.get('billingAddress', 0)
+        if billingAddress == 0:
+            billingAddress = shippingAddress
         try:
             # Создаем сессию оплаты
             email = get_user_session_type(request)
@@ -51,7 +56,7 @@ def create_checkout_session(request):
             order_id = random.randint(1000000, 100000000)
             cart = get_cart(email)
             full_price = round(sum(item["price"] for item in cart), 2)
-            metadata = {"Id": order_id, "email": email, "full_name": request.user.first_name + " " + request.user.last_name, "vat": data.get('vat', 0)}
+            metadata = {"Id": order_id, "email": email, "full_name": request.user.first_name + " " + request.user.last_name, "vat": data.get('vat', 0), "shippingAddress": shippingAddress, 'billingAddress': billingAddress}
 
             checkout_session = stripe.checkout.Session.create(
                 success_url=domain_url + 'success/',
@@ -79,10 +84,10 @@ def create_checkout_session(request):
     # Обработка для GET-запроса или других методов
     return HttpResponse(status=405)
 
-def stripe_checkout(email,user_name, order_id, vat):
+
+def stripe_checkout(email,user_name, order_id, vat, shippingAddress, billingAddress):
     # Создаю order
     vat = int(vat) / 100
-
     user_email = email
     category, currency = get_user_category(user_email) or ("Default", "Euro")
 
@@ -137,6 +142,8 @@ def stripe_checkout(email,user_name, order_id, vat):
         'list': [ref.path for ref in item_refs],  # Using document paths as references
         'order_id': order_id,
         'order-id': order_id,
+        'billingAddressId': billingAddress,
+        'shippingAddressId': shippingAddress,
         'price': round(sum, 1),
         'currency': 'Euro',
     }
@@ -185,7 +192,7 @@ def stripe_webhook(request):
 
         if order_id:
             # Update the 'Status' field to 'Paid'
-            stripe_checkout(metadata.get('email'), metadata.get('full_name'), order_id, metadata.get('vat'))
+            stripe_checkout(metadata.get('email'), metadata.get('full_name'), order_id, metadata.get('vat'), metadata.get('shippingAddress'), metadata.get('billingAddress'),)
             # doc.update({"Status": "Paid"})
             print(f"Order {order_id} has been marked as paid.")
 

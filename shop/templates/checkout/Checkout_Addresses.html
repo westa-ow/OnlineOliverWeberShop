@@ -8,128 +8,15 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" type="text/css" href="{% static 'css/checkout_cart.css' %}">
+<link rel="stylesheet" href="{% static 'css/checkout/checkout_addresses.css' %}">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" href="{% static "css/profile/profile_information.css" %}">
 <link rel="stylesheet" href="{% static 'css/SeparateWidgets/addressesWidget.css' %}">
 <script src="https://js.stripe.com/v3/"></script>  <!-- new -->
 <link rel="icon" href="{% static "images/icons/web-icon.png" %}" type="image/x-icon">
 <script src="{% static "js/checkout/totalCalculation.js" %}"></script>
-<style>
-body {
-    font-family: Poppins, Verdana, sans-serif;
-}
 
-.all{
-    margin-top: 150px
-}
-.container-steps{
-    display: flex;
-    flex-direction: column;
-    margin-left: 0;
-    padding-left: 0;
-    margin-right: -2rem;
-    width: 70%;
-}
-.page-header h1 {
-    color: #333;
-}
-
-button {
-    margin-top: 10px;
-    cursor: pointer;
-}
-
-.add-address, #cancelBtn {
-    border: none;
-    font-family: Poppins, Verdana, sans-serif;
-    font-weight: 500;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-}
-.informational-content {
-    width: 66%;
-    margin: auto;
-    position: relative;
-}
-
-.shopping-cart-label {
-    width: initial;
-}
-
-
-.labels label {
-    cursor: pointer;
-    position: relative;
-}
-
-.page-addresses {
-    display: grid;
-    grid-auto-columns: auto;
-    grid-template-columns: 46% 46%;
-    width: 100%;
-    justify-content: center;
-    grid-gap: 0 8%;
-}
-.address {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border: 1px solid #ccc;
-    padding: 10px;
-}
-
-.address-content {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-.address-body {
-    /* Keeps the body at the top */
-    flex-grow: 1; /* Takes up all available space */
-    padding: 20px 20px!important;
-    text-align: center;
-
-}
-
-.address-footer {
-    /* Aligns the footer at the bottom */
-    margin-top: auto;
-}
-.address-radio{
-    height: 2.5rem!important;
-}
-.address-billing-address{
-    font-size: 20px;
-    font-weight: 600;
-
-}
-.address-billing-address::after{
-    content: '';
-    position: absolute;
-    width: 0%; /* Start width at 0 to be invisible initially */
-    height: 2px; /* Adjust the thickness of the underline */
-    bottom: -5px; /* Adjust distance from the link */
-    left: 0;
-    background-color: #000; /* Underline color */
-    transition: width 0.3s ease; /* Smooth transition for the width */
-}
-.address-billing-address:hover::after{
-        width: 100%; /* Full width on hover */
-}
-
-.address-billing-address,.add-address {
-    cursor: pointer;
-}
-
-.page-addresses *{
-    font-family: Poppins, Verdana, sans-serif;
-    font-weight: 500;
-    color: black;
-}
-</style>
-    <body>
+<body>
 {% include 'widgets/navigation_bar.html' %}
 <div class="all" >
     <div class="page-content" style="width: 100%;">
@@ -371,38 +258,8 @@ button {
 
                 <button style="width: 80%;  margin: auto auto 0 14%;text-align: center;" class="btn btn-primary wide form-control-submit float-xs-right" id="continueCheckoutBtn"> {% trans "Continue"%} </button>
 
-        </div>
-        <div class="final-container" style="margin: 0 20px 10px; width: 30%">
-            <div class="finish-section">
-                <div class="card-detailed-totals">
-                    <h4>Subtotal</h4>
-                    <div class="info-cart-block">
-                        <div class="block-total">
-                            <div class="final-unique-quantity">5 items</div>
-                            <div class="final-sum" id="final-sum">{{ currency }}500.00</div>
-                        </div>
-                    </div>
-                    <div class="promo-block">
-                        <div class="voucher">
-
-                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag"> <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path> <line x1="7" y1="7" x2="7" y2="7"></line> </svg>
-                            <span class="label-voucher">Have a promo code?</span>
-
-                        </div>
-                    </div>
-                    <div class="card-block-totals">
-                        <div class="cart-total" id="cart-total">
-                            <span class="label-total">Total (VAT Excl.)</span>
-                            <span class="value-total">{{ currency }}500.00</span>
-                        </div>
-                        <div id="cart-taxes" class="cart-taxes" style="display: none;">
-                            <span class="label-taxes">Included taxes:</span>
-                            <span class="value-taxes">{{ currency }}84.00</span>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </div>
+        {% include "checkout/checkout_widget.html" %}
     </div>
 </div>
 {% include "widgets/overlay.html" %}
@@ -493,14 +350,17 @@ document.getElementById('addAddressBtn').addEventListener('click', function() {
     this.style.display = "none";
     document.getElementById('newAddressForm').style.display = 'block';
     document.getElementById('toggleAddress').style.display = "none";
+    document.getElementById('continueCheckoutBtn').style.display = "none";
 });
 document.getElementById('addBillingAddressBtn').addEventListener('click', function() {
     this.style.display = "none";
     document.getElementById('newAddressForm').style.display = 'block';
     document.getElementById('toggleBillingAddress').style.display = "none";
+    document.getElementById('continueCheckoutBtn').style.display = "none";
 });
 document.getElementById('cancelBtn').addEventListener('click', function() {
     document.getElementById('newAddressForm').style.display = 'none';
+    document.getElementById('continueCheckoutBtn').style.display = "block";
     if(document.getElementById('billingAddresses').style.display === "none"){
 
         document.getElementById('addAddressBtn').style.display = 'inherit';
@@ -549,6 +409,7 @@ document.getElementById('form-address-form').addEventListener('submit', function
         alert("{{ _("The address has been successfully added!")|escapejs }}");
         window.location.reload(true);
     }).catch(error => console.error('Error:', error));
+    document.getElementById('continueCheckoutBtn').style.display = "none";
 });
 document.addEventListener("click", function(e) {
     if (e.target.dataset.linkAction === "delete-address" || e.target.closest("[data-link-action='delete-address']")) {
@@ -604,7 +465,8 @@ document.addEventListener("click", function(e) {
     }
 });
 document.getElementById('continueCheckoutBtn').addEventListener('click', function (){
-    console.log(selectedBillingAddressId);
+    console.log("Billing Address: " + selectedBillingAddressId);
+    console.log("Shipping Address: " + selectedShippingAddressId);
     if(selectedShippingAddressId!==null){
         if(selectedBillingAddressId==="false" || selectedBillingAddressId!=="true"){
              let vat = ""
@@ -617,10 +479,14 @@ document.getElementById('continueCheckoutBtn').addEventListener('click', functio
                 vat = countrys_vat[currentShippingRadio.getAttribute('data-country')]
              }
              if (documentss.length !== 0){
+                 let addresses_properties = { vat: vat, shippingAddress: selectedShippingAddressId };
+                 addresses_properties['billingAddress'] = selectedBillingAddressId === "false" ? selectedShippingAddressId : selectedBillingAddressId;
+
                  if(customer_type === "Customer"){
+                    console.log("CUSTOMEEEEEEEEEEEEEEEEEEEER");
                     const form = document.createElement('form');
                     form.method = 'POST';
-                    form.action = "{% url 'create_checkout_session' %}";
+                    form.action = "{% url 'checkout_payment_type' %}";
 
                     // Добавляем CSRF-токен
                     const csrfToken = getCookie('csrftoken');  // Предположим, у вас есть функция для получения CSRF токена
@@ -631,38 +497,18 @@ document.getElementById('continueCheckoutBtn').addEventListener('click', functio
                     form.appendChild(csrfInput);
 
                     // Добавляем форму на страницу и отправляем
+                    const addressesInput = document.createElement('input');
+                    addressesInput.type = 'hidden';
+                    addressesInput.name = 'addresses_properties';
+                    addressesInput.value = JSON.stringify(addresses_properties);
+                    form.appendChild(addressesInput);
+
+                    // Добавляем форму на страницу и отправляем
                     document.body.appendChild(form);
+                    form.submit();
 
                     // Отправляем форму и получаем session ID от сервера
-                    fetch(form.action, {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRFToken': csrfToken,
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ vat: vat })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.id) {
-                            // Инициализируем Stripe с вашим publishable ключом
-                            const stripe = Stripe('{{ STRIPE_PUBLISHABLE_KEY }}');  // Подставьте ваш publishable key
 
-                            // Перенаправляем пользователя на страницу оплаты Stripe
-                            stripe.redirectToCheckout({ sessionId: data.id })
-                                .then(function (result) {
-                                    if (result.error) {
-                                        // Обрабатываем ошибки, если они возникнут
-                                        console.error('Error redirecting to Stripe checkout:', result.error.message);
-                                    }
-                                });
-                        } else {
-                            console.error('Error creating checkout session:', data.error);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
                  }
                  else{
                      window.alert("{{ _("Order will be delivered to your email")|escapejs }}");
@@ -673,7 +519,7 @@ document.getElementById('continueCheckoutBtn').addEventListener('click', functio
                              'X-CSRFToken': getCookie('csrftoken'),
                              'Content-Type': 'application/json',
                          },
-                         body: JSON.stringify({ vat: vat })
+                         body: JSON.stringify(addresses_properties)
                      })
                      .then(response => response.json())
                      .then(data => {
