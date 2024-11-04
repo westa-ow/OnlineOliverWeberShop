@@ -22,14 +22,14 @@
         </div>
 
         <div class="toolbar-icons-container">
-            <a href="{% url "catalog" %}?category=All" class="link" title="ALL PRODUCTS" style="font-size: 12px;font-weight: 600;">{% trans "All products" %}</a>
-            <a href="{% url "catalog" %}?category=Necklaces" class="link" title="{% trans "Necklaces"%}" style="font-size: 12px;font-weight: 600;">{% trans "NECKLACES" %}</a>
-            <a href="{% url "catalog" %}?category=All+Earrings" class="link" title="{% trans "Earrings"%}" style="font-size: 12px;font-weight: 600;">{% trans "EARRINGS"%}</a>
-            <a href="{% url "catalog" %}?category=Ring" class="link" title="{% trans "Rings"%}" style="font-size: 12px;font-weight: 600;">{% trans "RINGS"%}</a>
-            <a href="{% url "catalog" %}?category=Bracelets" class="link" title="{% trans "Bracelets"%}" style="font-size: 12px;font-weight: 600;">{% trans "BRACELETS"%}</a>
-            <a href="{% url "catalog" %}?category=Anklet" class="link" title="{% trans "Anklets"%}" style="font-size: 12px;font-weight: 600;">{% trans "ANKLETS"%}</a>
-            <a href="{% url "catalog" %}?category=Accessories" class="link" title="{% trans "Accessories"%}" style="font-size: 12px;font-weight: 600;">{% trans "ACCESSORIES"%}</a>
-            <a href="{% url "catalog" %}?collection=Winter_2025" class="link" title="Winter 2025" style="font-size: 12px;font-weight: 600;">Winter 2025</a>
+            <a href="{% url "param_catalog" category_id="0" category_name="all"%}" class="link" title="ALL PRODUCTS" style="font-size: 12px;font-weight: 600;">{% trans "All products" %}</a>
+            <a href="{% url "param_catalog" category_id="3" category_name="necklaces"%}" class="link" title="{% trans "Necklaces"%}" style="font-size: 12px;font-weight: 600;">{% trans "NECKLACES" %}</a>
+            <a href="{% url "param_catalog" category_id="8" category_name="earrings"%}" class="link" title="{% trans "Earrings"%}" style="font-size: 12px;font-weight: 600;">{% trans "EARRINGS"%}</a>
+            <a href="{% url "param_catalog" category_id="7" category_name="rings"%}" class="link" title="{% trans "Rings"%}" style="font-size: 12px;font-weight: 600;">{% trans "RINGS"%}</a>
+            <a href="{% url "param_catalog" category_id="9" category_name="bracelets"%}" class="link" title="{% trans "Bracelets"%}" style="font-size: 12px;font-weight: 600;">{% trans "BRACELETS"%}</a>
+            <a href="{% url "param_catalog" category_id="79" category_name="anklets"%}" class="link" title="{% trans "Anklets"%}" style="font-size: 12px;font-weight: 600;">{% trans "ANKLETS"%}</a>
+            <a href="{% url "param_catalog" category_id="4" category_name="accessories"%}" class="link" title="{% trans "Accessories"%}" style="font-size: 12px;font-weight: 600;">{% trans "ACCESSORIES"%}</a>
+            <a href="{% url "param_catalog" category_id="0" category_name="all"%}?collection=Winter_2025" class="link" title="Winter 2025" style="font-size: 12px;font-weight: 600;">Winter 2025</a>
 
             {% if user_role  == "Admin" %}
                 <a href="{% url 'admin_tools' feature_name='dashboard' %}" class="link">Admin tools</a>

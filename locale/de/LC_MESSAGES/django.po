@@ -2671,7 +2671,7 @@ msgstr ""
 
 #: .\shop\templates\our_company_pages\Terms_and_conditions.html:57
 msgid ""
-"We only dispatch goods en route; pick up by the customer is not possible."
+"We only dispatch goods gb route; pick up by the customer is not possible."
 msgstr ""
 "Wir versenden Waren ausschließlich unterwegs; Eine Selbstabholung ist nicht "
 "möglich."
@@ -6058,10 +6058,10 @@ msgstr "Die Installation hat erfolgreich funktioniert! Glückwunsch!"
 #: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:206
 #, python-format
 msgid ""
-"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
+"View <a href=\"https://docs.djangoproject.com/gb/%(version)s/releases/\" "
 "target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
 msgstr ""
-"<a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
+"<a href=\"https://docs.djangoproject.com/gb/%(version)s/releases/\" "
 "target=\"_blank\" rel=\"noopener\">Versionshinweise</a> für Django "
 "%(version)sanzeigen"
 
@@ -6069,12 +6069,12 @@ msgstr ""
 #, python-format
 msgid ""
 "You are seeing this page because <a "
-"href=\"https://docs.djangoproject.com/en/%(version)s/ref/settings/#debug\" "
+"href=\"https://docs.djangoproject.com/gb/%(version)s/ref/settings/#debug\" "
 "target=\"_blank\" rel=\"noopener\">DEBUG=True</a> is in your settings file "
 "and you have not configured any URLs."
 msgstr ""
 "Sie sehen diese Seite, weil <a "
-"href=\"https://docs.djangoproject.com/en/%(version)s/ref/settings/#debug\" "
+"href=\"https://docs.djangoproject.com/gb/%(version)s/ref/settings/#debug\" "
 "target=\"_blank\" rel=\"noopener\">DEBUG=True</a> befindet sich in Ihrer "
 "Einstellungsdatei und Sie haben keine URLs konfiguriert."
 

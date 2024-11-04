@@ -256,7 +256,7 @@
 
         });
         const static_folder = "{% static "images/crystals" %}";
-        console.log(static_folder);
+
         constructFilters(allItems, filters_dict, static_folder);
 
         setupFiltersEventListeners('.plating-checkbox', platingFilters);
@@ -406,6 +406,96 @@ let synonyms = {
     "Extension": "{{ _("Extensions")|escapejs }}",
     "UV": "{{ _("UV")|escapejs }}"
 }
+let categories_codes = {
+    "All": "0",
+    "Necklaces": "3",
+    "All Earrings": "8",
+    "Earrings": "208",
+    "Bracelets": "9",
+    "Accessories": "4",
+    "Pendant": "275",
+    "Chain": "40",
+    "Collier": "74",
+    "Pearlchain": "240",
+    "Necklace": "203",
+    "Post Earrings": "2208",
+    "Hoop": "27",
+    "Creole": "227",
+    "Clip": "228",
+    "Piercing": "229",
+    "Bracelet": "209",
+    "Bangle": "39",
+    "Anklet": "79",
+    "Ring": "7",
+    "Match": "2000",
+    "Pen": "2001",
+    "Key": "2002",
+    "Brooch": "67",
+    "Nailfile": "267",
+    "Extension": "2003",
+    "UV": "2004",
+    "undefined": "404",
+    "NotFound": "404",
+}
+let categories_code_to_name = {
+    "0": "all",
+    "3": "necklaces",
+    "203": "necklace",
+    "74": "colliers",
+    "274": "pendants",
+    "76": "pearls",
+    "61": "rosegold-necklaces",
+    "62": "gold-necklaces",
+    "63": "rhodium-necklaces",
+    "64": "sterling-silver-necklaces",
+    "65": "zircon-necklaces",
+    "80": "stainless-steel-necklaces",
+    "4": "accessories",
+    "66": "pen",
+    "67": "brooch",
+    "267": "nailfile",
+    "7": "rings",
+    "20": "rosegold-rings",
+    "21": "gold-rings",
+    "22": "rhodium-rings",
+    "23": "sterling-silver-rings",
+    "24": "zircon-rings",
+    "81": "stainless-steel-rings",
+    "8": "earrings",
+    "208": "simple-earrings",
+    "2208": "post-earrings",
+    "25": "studs",
+    "26": "drops",
+    "27": "hoops",
+    "227": "creole",
+    "228": "clips",
+    "229": "piercing",
+    "28": "pearl",
+    "34": "rosegold-earrings",
+    "35": "gold-earrings",
+    "36": "rhodium-earrings",
+    "37": "sterling-silver-earrings",
+    "38": "zircon-earrings",
+    "82": "stainless-steel-earrings",
+    "9": "bracelets",
+    "209": "bracelets",
+    "39": "bangle",
+    "40": "chain",
+    "240": "pearlchain",
+    "48": "rosegold-bracelets",
+    "50": "rhodium-bracelets",
+    "51": "sterling-silver-bracelets",
+    "52": "zircon-bracelets",
+    "83": "stainless-steel-bracelets",
+    "79": "anklets",
+    "2000": "match",
+    "2001": "pen",
+    "2002": "key",
+    "84": "stainless-steel-anklets",
+    "2003": "extensions",
+    "2004": "uv",
+    "404": "not-found"
+}
 let synonyms_collections = {
         "All": "{{ _("All")|escapejs }}",
         "Winter_2025" : "Winter 2025"
@@ -463,7 +553,7 @@ function constructCategories(){
     }, []);
 
     const categoryList = ["All", ...generalCategories, ...categories];
-    console.log(categoryList);
+
     categoryList.forEach(categoryVar => {
 
         if (subCategories.has(categoryVar)) return; // Skip adding sub-categories here
@@ -550,6 +640,7 @@ function createCategorySpan(currentCategory) {
     const span = document.createElement('span');
     span.textContent = synonyms[currentCategory];
     span.setAttribute("data-category-name", currentCategory);
+    span.setAttribute("category-id", categories_codes[currentCategory]);
     span.className = 'category-name';
     console.log(currentCategory);
 
@@ -598,8 +689,8 @@ function setupCategoryClickListener(span) {
         document.querySelectorAll('.categories-list li span').forEach(li => li.style.fontWeight = "");
         category = span.getAttribute("data-category-name"); // Assuming 'category' is a global variable
         span.style.fontWeight = "600";
-        const newUrl = `?category=${encodeURIComponent(category)}`;
-        history.pushState({path: newUrl}, '', newUrl);
+        {#const newUrl = `?category=${encodeURIComponent(category)}`;#}
+        {#history.pushState({path: newUrl}, '', newUrl);#}
 
         applyFilters(); // Call the applyFilters function
         updateURL();
@@ -609,18 +700,24 @@ function constructCrystals(items, filters_dict, static_folder) {
     let uniqueStones = new Set();
     let stones = ['241', '327', '515', '260', '288', '501', '208', '227', '220', 'DAR', '276', '379', '205', '277', '922', '280', '243', '204', '291', '236', '215', '228', '502', '207', '203', '219', '206', '147', '0', '394', '266', '289', '539', '542', '920', '398', '142', '229', '214', '226', '209', 'GSHA', '390', '263', '391', '267', '292', '212', '257', '202', '371', '262', '283', '211', '319', '261', '238', '362', '265', '223', '508', 'CRE', '234', '395', '361', '285', '001', 'AB'];
 
-    items.forEach(document => {
-        Object.values(document.platings).forEach(plating => {
-            Object.keys(plating.stones).forEach(stoneCategory => {
-                if (stones.includes(stoneCategory)) { // Properly check if the stoneCategory is in stones
-                    uniqueStones.add(stoneCategory);
-                }
-            });
+    if (Array.isArray(items) && items.length > 0) {
+        items.forEach(document => {
+            if (document.platings) { // Проверка, что у document есть platings
+                Object.values(document.platings).forEach(plating => {
+                    if (plating.stones) { // Проверка, что у plating есть stones
+                        Object.keys(plating.stones).forEach(stoneCategory => {
+                            if (stones.includes(stoneCategory)) { // Проверяем, есть ли stoneCategory в stones
+                                uniqueStones.add(stoneCategory);
+                            }
+                        });
+                    }
+                });
+            }
         });
-    });
+    } else {
+        console.log("Items is either empty or not an array.");
+    }
 
-    console.log(stones);
-    console.log(uniqueStones);
     createCrystalElements('crystals',Array.from(uniqueStones), 'crystal', filters_dict, static_folder);
 }
 function createCrystalElements(containerClass, itemsArray, prefix, filters_dict, static_folder) {
@@ -683,7 +780,6 @@ function applyHoneycombLayout(grid) {
 }
 // Function to simulate changing the page (you might have your actual logic to fetch/update content here)
 function setupCrystalClickListeners(filtersArray) {
-    console.log("Here works");
     const containers = document.querySelectorAll('.crystal-container');
 
     containers.forEach(container => {
@@ -751,20 +847,42 @@ function setupFiltersEventListeners(checkboxClassName, filtersArray) {
     });
 }
 function updateURL() {
-    const baseUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-    const queryParams = new URLSearchParams();
+    const currentUrl = new URL(window.location.href);
 
-    // Add 'category' to the URL if it exists
-    if(collection_catalog){
+    // Извлекаем языковой код из текущего пути
+    const pathSegments = currentUrl.pathname.split('/').filter(segment => segment); // Убираем пустые сегменты
+    const languageCode = pathSegments[0]; // Считаем, что первый сегмент пути — это языковой код
+    let categoryPath = '';
+
+    // Проверяем, если указан category, добавляем его к пути
+    if (category) {
+
+        let code = categories_codes[category.toString()];
+        if(!code) code="404";
+        let cat_name_url = code + "-" + categories_code_to_name[code];
+        // Если в URL уже есть категория, заменяем её
+        if (pathSegments[1]) {
+            pathSegments[1] = cat_name_url;
+        } else {
+            // Если категории нет, добавляем новую
+            pathSegments.push(cat_name_url);
+        }
+        categoryPath = pathSegments.slice(0, 2).join('/');
+    } else {
+        // Если category не указан, оставляем текущий путь
+        categoryPath = pathSegments.join('/');
+    }
+
+    // Формируем базовый URL с текущим языковым кодом и категорией
+    const baseUrl = `${window.location.protocol}//${window.location.host}/${categoryPath}`;
+
+    // Создаем и заполняем queryParams параметрами фильтров
+    const queryParams = new URLSearchParams();
+    if (collection_catalog) {
         queryParams.set('collection', collection_catalog);
     }
-    if (category) {
-        queryParams.set('category', category);
-    }
-
-    // Assuming stoneFilters, platingFilters, baseFilters, and sizeFilters are global
     if (baseFilters.length > 0) {
-        queryParams.set('base', baseFilters.join(',')); // If expecting multiple, join them
+        queryParams.set('base', baseFilters.join(','));
     }
     if (platingFilters.length > 0) {
         queryParams.set('plating', platingFilters.join(','));
@@ -776,8 +894,9 @@ function updateURL() {
         queryParams.set('size', sizeFilters.join(','));
     }
 
-    // Use history.pushState to update the URL
-    history.pushState({}, '', `${baseUrl}?${queryParams.toString()}`);
+    // Обновляем URL с использованием history.pushState
+    const newUrl = queryParams.toString() ? `${baseUrl}?${queryParams.toString()}` : baseUrl;
+    history.pushState({}, '', newUrl);
 }
 function toggleOffUnnecessaryCheckboxes(checkboxes, currentValue ){
     checkboxes.forEach(checkbox => {
@@ -844,7 +963,8 @@ function removeQueryParam(param) {
     queryParams.delete(param);
 
     // Update the URL without reloading the page
-    history.pushState({}, '', `${baseUrl}?${queryParams.toString()}`);
+    const newUrl = queryParams.toString() ? `${baseUrl}?${queryParams.toString()}` : baseUrl;
+    history.pushState({}, '', newUrl);
 }
 
 
@@ -1122,7 +1242,6 @@ function applyFilters() {
             if(item.name==="57141") {
                 console.log(item);
             }
-            {#console.log(item.name);#}
             let orderedStones = {};
             let matchedStones = {};
             let allStones = {};
@@ -1135,15 +1254,9 @@ function applyFilters() {
                         hasStoneMatch = true;
                     }
                 });
-                {#Object.keys(stones).forEach(stoneKey => {#}
-                {##}
-                {#    if (!allStones.hasOwnProperty(stoneKey) && !(stoneKey in matchedStones)) {#}
-                {#        allStones[stoneKey] = stones[stoneKey];#}
-                {#    }#}
-                {#);#}
+
             } else {
                 allStones = stones;
-                console.log(allStones);
                 hasStoneMatch = true;
             }
             orderedStones = { ...matchedStones, ...allStones};
@@ -1190,7 +1303,6 @@ function applyFilters() {
 
         return true;
    });
-
    if(sizeFilters.length === 0){
        for (let productName in filteredItems) {
         for (let platingName in filteredItems[productName].platings) {
@@ -1339,7 +1451,7 @@ document.getElementById('select-items-per-page').addEventListener('change', func
 });
 document.getElementById('select-order').addEventListener('change', function (event) {
     let order = (event.target.value).split(', ');
-    console.log(order[0]);
+
     order_name = order[0];
     order_type=order[1];
     changePage(1);
