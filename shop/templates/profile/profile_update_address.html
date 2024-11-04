@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{% static 'css/profile/profile_information.css' %}">
 <section id="content" class="page-content col-md-12 col-lg-9 myacc_content">
     <header class="page-header">
-        <h1> Update your address</h1>
+        <h1> {% trans "Update your address" %}</h1>
     </header>
     <div class="address-form">
         <div class="js-address-form">
@@ -104,7 +104,7 @@
                 </section>
                 <footer class="form-footer clearfix">
                     <input type="hidden" name="submitAddress" value="1">
-                    <button class="btn btn-primary float-xs-right" type="submit"> Save </button>
+                    <button class="btn btn-primary float-xs-right" type="submit"> {% trans "Save" %} </button>
                 </footer>
             </form>
         </div>

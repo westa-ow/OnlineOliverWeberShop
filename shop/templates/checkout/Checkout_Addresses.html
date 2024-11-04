@@ -250,7 +250,7 @@
                         <footer class="form-footer clearfix" style="display: flex;">
 {#                            <input type="hidden" name="submitAddress" value="1">#}
                             <button class="btn btn-primary float-xs-right" id="cancelBtn" style="margin-right: 40px"> {% trans "Cancel"%} </button>
-                            <button class="btn btn-primary float-xs-right" type="submit"> Save </button>
+                            <button class="btn btn-primary float-xs-right" type="submit"> {% trans "Save" %} </button>
                         </footer>
                     </form>
                 </div>
@@ -307,7 +307,7 @@ document.querySelectorAll('input[name="shipping_address"]').forEach(radio => {
     radio.addEventListener('change', function() {
         selectedShippingAddressId = this.value;
         if(selectedBillingAddressId ==="false"){
-            document.getElementById('cart-total').querySelector('.label-total').textContent = "Total (VAT incl.)"
+            document.getElementById('cart-total').querySelector('.label-total').textContent = "{% trans "Total"  %}" + "(VAT incl.)"
             document.getElementById("cart-taxes").style.display = "block";
             calculate_final(countrys_vat[this.getAttribute('data-country')], currency, documentss);
         }
@@ -483,7 +483,6 @@ document.getElementById('continueCheckoutBtn').addEventListener('click', functio
                  addresses_properties['billingAddress'] = selectedBillingAddressId === "false" ? selectedShippingAddressId : selectedBillingAddressId;
 
                  if(customer_type === "Customer"){
-                    console.log("CUSTOMEEEEEEEEEEEEEEEEEEEER");
                     const form = document.createElement('form');
                     form.method = 'POST';
                     form.action = "{% url 'checkout_payment_type' %}";
