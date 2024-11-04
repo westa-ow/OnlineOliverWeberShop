@@ -356,13 +356,19 @@ margin-top: auto;
 .quantity-input-button, .quantity-slider-button{
     background-color: #003665;
     color: #fff;
-    padding: 5px;
+    padding: 5px 10px;
     border: none;
-    font-size: 16px;
+    font-size: 15px;
     cursor: pointer;
     max-width: 120px;
+    min-width: 90px;
     border-radius: 4px;
     margin-top: 10px;
+    transition: all 0.3s;
+    /*box-shadow: 1px 1px 2px 1px rgba(0, 0, 255, .2);*/
+}
+.quantity-input-button:hover{
+    background-color: #01539a;
 }
 .sum{
     font-weight: 600;
