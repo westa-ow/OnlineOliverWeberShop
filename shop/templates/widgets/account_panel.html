@@ -73,6 +73,17 @@
                 </i>
                 {% trans "Sign out" %}
             </a>
+        {% else %}
+            <div>
+                <a class="show" href="{% url 'login'%}" rel="nofollow">
+
+                    {% trans "Login" %}
+                </a>
+                <a class="show" href="{% url 'register'%}" rel="nofollow">
+
+                    {% trans "Register" %}
+                </a>
+            </div>
         {% endif %}
     </div>
 </div>

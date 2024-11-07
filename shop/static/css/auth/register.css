@@ -1,0 +1,87 @@
+.logininstead a:hover {
+   text-decoration: none;
+   color: black;
+}
+.logininstead a {
+   color: black;
+}
+.logininstead{
+  padding: 30px;
+  text-align: center;
+  border: 2px solid #f2f2f2;
+  margin-top: 50px;
+}
+#errorText{
+    text-align: center;
+    font-size: 28px;
+}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 16% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 60%;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+#okButton{
+    text-align: center;
+    padding: 10px;
+    width: 100px;
+    font-size: 18px;
+    border-radius: 10px;
+}
+
+@media only screen and (min-width: 769px){
+    #wrapper{
+        opacity: 1;  width: 60%; margin: auto; margin-top: 120px
+    }
+}
+@media only screen and (max-width: 768px){
+    #wrapper{
+        opacity: 1;   margin-top: 120px
+    }
+    #main{
+        padding: 0!important;
+
+    }
+    .container.page-header.header-login{
+        display: block!important;
+    }
+    #top_column{
+        padding: 0!important;
+    }
+
+}
+@media (max-width: 991px) {
+  h1.page-header, h2.page-header, h3.page-header, h4.page-header, h5.page-header, h6.page-header, body:not(#authentication):not(#cart) #main h1:not(.product-title):not(.products-section-title):not(.active-filter-title) {
+    display: block!important;
+  }
+}
