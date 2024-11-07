@@ -4429,7 +4429,6 @@ msgid "Product width"
 msgstr "Largeur du produit"
 
 #: .\shop\templates\shop_page.html:78
-#, fuzzy
 #| msgid "Product number"
 msgid "Product height"
 msgstr "Hauteur du produit"

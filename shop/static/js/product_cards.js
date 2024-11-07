@@ -307,7 +307,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
         const product_width_div = document.createElement('div');
         const product_width_label = document.createElement('span');
         product_width_label.classList.add('card-dropdown-label');
-        product_width_label.innerText = "Product width";//`${vocabulary['Product width']}`;
+        product_width_label.innerText = `${vocabulary['Product width']}`;
         const product_width_value = document.createElement('span');
         product_width_value.innerText = `${item.product_width} cm`;
         product_width_div.appendChild(product_width_label);
@@ -320,7 +320,8 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
         const product_height_div = document.createElement('div');
         const product_height_label = document.createElement('span');
         product_height_label.classList.add('card-dropdown-label');
-        product_height_label.innerText = "Product height";//`${vocabulary['Product height']}`;
+        console.log(vocabulary);
+        product_height_label.innerText = `${vocabulary["Product height"]}`;
         const product_height_value = document.createElement('span');
         product_height_value.innerText = `${item.product_height} cm`;
         product_height_div.appendChild(product_height_label);
@@ -336,7 +337,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
         chain_length_container.classList.add('chain-dimensions-container');
         const product_chain_length_label = document.createElement('span');
         product_chain_length_label.classList.add('card-dropdown-label');
-        product_chain_length_label.innerText = "Chain length";
+        product_chain_length_label.innerText = `${vocabulary['Chain length']}`;
         const product_chain_length_value = document.createElement('span');
         product_chain_length_value.innerText = `${item.chain_length} cm`;
 

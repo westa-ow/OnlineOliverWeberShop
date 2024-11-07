@@ -4380,8 +4380,6 @@ msgid "Product width"
 msgstr "Produktbreite"
 
 #: .\shop\templates\shop_page.html:78
-#, fuzzy
-#| msgid "Product number"
 msgid "Product height"
 msgstr "Produkthöhe"
 
@@ -4390,7 +4388,7 @@ msgid "Chain length"
 msgstr "Kettenlänge"
 
 #: .\shop\templates\shop_page.html:111 .\shop\templates\shop_page.html:119
-#, fuzzy
+
 #| msgid "In stock"
 msgid "Out of stock"
 msgstr "Ausverkauft"
@@ -4456,7 +4454,7 @@ msgid "Subtotal:"
 msgstr "Zwischensumme:"
 
 #: .\shop\templates\widgets\mini_cart.html:20
-#, fuzzy
+
 #| msgid "Proceed to checkout"
 msgid "Proceed to Checkout"
 msgstr "Gehen Sie zur Kasse"
@@ -4623,7 +4621,6 @@ msgid "default: {default}"
 msgstr "Standard: {Standard}"
 
 #: .\venv\Lib\site-packages\click\core.py:2834
-#, fuzzy
 #| msgid "Email is required"
 msgid "required"
 msgstr "erforderlich"
@@ -4667,7 +4664,6 @@ msgid "Missing option"
 msgstr "Fehlende Option"
 
 #: .\venv\Lib\site-packages\click\exceptions.py:183
-#, fuzzy
 #| msgid "Ring diameter"
 msgid "Missing parameter"
 msgstr "Fehlender Parameter"
@@ -4729,7 +4725,6 @@ msgstr ""
 "wird nicht unterstützt."
 
 #: .\venv\Lib\site-packages\click\termui.py:158
-#, fuzzy
 #| msgid "General information"
 msgid "Repeat for confirmation"
 msgstr "Zur Bestätigung wiederholen"
@@ -6237,7 +6232,6 @@ msgid "regions"
 msgstr "Regionen"
 
 #: .\venv\Lib\site-packages\django_geoip\models.py:57
-#, fuzzy
 #| msgid "First name"
 msgid "city name"
 msgstr "Stadtname"
@@ -6301,7 +6295,6 @@ msgid "Malformed %(refname)s line: '%(line)s'"
 msgstr "Fehlerhafte %(refname)s -Zeile: „%(line)s“"
 
 #: .\venv\Lib\site-packages\git_filter_repo.py:1439
-#, fuzzy, python-format
 #| msgid "Unsupported value for qop: %s."
 msgid "Unsupported command: '%s'"
 msgstr "Nicht unterstützter Befehl: „%s“"
@@ -6933,7 +6926,6 @@ msgid "Processes commits in commit timestamp order."
 msgstr "Verarbeitet Commits in der Commit-Zeitstempel-Reihenfolge."
 
 #: .\venv\Lib\site-packages\git_filter_repo.py:1989
-#, fuzzy
 #| msgid "Missing option"
 msgid "Miscellaneous options"
 msgstr "Verschiedene Optionen"
