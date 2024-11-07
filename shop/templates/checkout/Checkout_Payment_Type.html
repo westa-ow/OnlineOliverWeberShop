@@ -28,7 +28,7 @@
                     <div class="shopping-cart-label">3. {% trans "Payment type"%}<hr style="padding: 0;"></div>
                 </div>
 
-                <section id="content" class="page-content col-md-12 col-lg-9 myacc_content" style="display: flex; flex-direction: column; margin: auto auto 0 14%;  ">
+                <section id="content" class="page-content col-md-12 col-lg-9 myacc_content">
 
                     <header class="page-header">
                         <h1 style="margin-bottom: 40px;  color: #0a0a0a">{% trans "Choose payment type"%} </h1>
@@ -45,7 +45,7 @@
                     </header>
                 </section>
             </div>
-            <button style="width: 80%;  margin: auto auto 0 14%;text-align: center;" class="btn btn-primary wide form-control-submit float-xs-right" id="continueCheckoutBtn"> {% trans "Continue"%} </button>
+            <button class="btn btn-primary wide form-control-submit float-xs-right" id="continueCheckoutBtn"> {% trans "Continue"%} </button>
         </div>
 
         {% include "checkout/checkout_widget.html" %}

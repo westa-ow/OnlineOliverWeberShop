@@ -1,0 +1,169 @@
+{% block content %}
+
+{% load static %}
+{% load i18n %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://kit.fontawesome.com/ba99d1b9b2.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+
+    <link rel="icon" href="{% static 'images/icons/web-icon.png' %}" type="image/x-icon">
+</head>
+
+<body class="this-page">
+    <div class="toolbar large">
+        <div class="logo" >
+            <a href="{% url "home" %}">
+                <img class = "imag" src="{% static "logonormal.webp" %}" alt="OliverWeber" style="cursor:pointer" height="70px"/>
+            </a>
+        </div>
+
+        <div class="toolbar-icons-container">
+            <a href="{% url "param_catalog" category_id="0" category_name="all"%}" class="link" title="ALL PRODUCTS" style="font-size: 12px;font-weight: 600;">{% trans "All products" %}</a>
+            <a href="{% url "param_catalog" category_id="3" category_name="necklaces"%}" class="link" title="{% trans "Necklaces"%}" style="font-size: 12px;font-weight: 600;">{% trans "NECKLACES" %}</a>
+            <a href="{% url "param_catalog" category_id="8" category_name="earrings"%}" class="link" title="{% trans "Earrings"%}" style="font-size: 12px;font-weight: 600;">{% trans "EARRINGS"%}</a>
+            <a href="{% url "param_catalog" category_id="7" category_name="rings"%}" class="link" title="{% trans "Rings"%}" style="font-size: 12px;font-weight: 600;">{% trans "RINGS"%}</a>
+            <a href="{% url "param_catalog" category_id="9" category_name="bracelets"%}" class="link" title="{% trans "Bracelets"%}" style="font-size: 12px;font-weight: 600;">{% trans "BRACELETS"%}</a>
+            <a href="{% url "param_catalog" category_id="79" category_name="anklets"%}" class="link" title="{% trans "Anklets"%}" style="font-size: 12px;font-weight: 600;">{% trans "ANKLETS"%}</a>
+            <a href="{% url "param_catalog" category_id="4" category_name="accessories"%}" class="link" title="{% trans "Accessories"%}" style="font-size: 12px;font-weight: 600;">{% trans "ACCESSORIES"%}</a>
+            <a href="{% url "param_catalog" category_id="0" category_name="all"%}?collection=Winter_2025" class="link" title="Winter 2025" style="font-size: 12px;font-weight: 600;">Winter 2025</a>
+
+            {% if user_role  == "Admin" %}
+                <a href="{% url 'admin_tools' feature_name='dashboard' %}" class="link">Admin tools</a>
+            {% elif user_role == "Special_Admin" %}
+                <a href="{% url 'admin_tools' feature_name='dashboard' %}" class="link">Special tools</a>
+            {% endif %}
+            {% if user.is_authenticated %}
+            {% else %}
+                <a href="{% url 'login'%}" class="link">Login</a>
+                <a href="{% url 'register'%}" class="link">Register</a>
+            {% endif %}
+        </div>
+        <span class="icons-container">
+            {% include "widgets/language_selector.html" %}
+            <span class="icon-link" style="font-style: italic; font-size: 14px; margin-top: 8px; color: white;font-family: poppins,Verdana,sans-serif;">
+                <a id="account-icon" style="display: flex" ><i class="rts" data-size="28" data-color="#000000" style="width: 28px; height: 28px; margin-right: 4px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 28px; height: 28px; "><path d="M23.67,25V22.65A4.67,4.67,0,0,0,19,18H9.67A4.67,4.67,0,0,0,5,22.65V25" style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8px"></path><circle cx="14.33" cy="8.65" r="4.67" style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8px"></circle></svg></i>
+                    <span style="margin-top: 6px">
+                        {% if user.is_authenticated %}
+                            {% if user.first_name %}
+                                {{ user.first_name }}
+                            {% elif user.email %}
+                                {{ user.email }}
+                            {% else %}
+
+                            {% endif %}
+                                {{ user.last_name|default:"" }}
+                        {% endif %}
+                    </span>
+                </a>
+            </span>
+            <a class="icon-link" id="searchBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 28px; height: 28px; margin-top: 9px">
+                    <circle cx="13.41" cy="12.91" r="9.41" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:2px"></circle>
+                    <line x1="25.18" y1="23.5" x2="21.65" y2="19.97" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:2px"></line>
+                </svg>
+            </a>
+            <a class="icon-link" id="cartBtn">
+                <svg width="28px" height="28px" style="margin-top: 5px" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M21.46,26H6.54C4,26,4,23.86,4,22.46V2H24V22.46C24,23.86,24,26,21.46,26Z" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="2"/>
+                  <path d="M10,8v.78c0,2.68,1.8,4.88,4,4.88s4-2.19,4-4.88V8" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="2"/>
+                </svg>
+            </a>
+        </span>
+
+    </div>
+
+    {% include "widgets/mini_cart.html" %}
+    {% include "widgets/account_panel.html" %}
+    {% include "widgets/search.html" %}
+    <div id="overlay" class="overlay"></div>
+</body>
+<script>
+
+
+// Инициализация фона с начальным выбором
+{#document.getElementById('languageSelect').dispatchEvent(new Event('change'));#}
+
+    let isCheckout = false;
+    let key = "{{ session.session_key }}";
+    const currency="{{ currency|safe }}";
+
+
+    window.addEventListener('scroll', function() {
+        let toolbar = document.querySelector('.toolbar');
+        // Check if the page is scrolled more than 50 pixels
+        if(window.pageYOffset > 50) {
+            // User has scrolled down, shrink the toolbar
+            toolbar.classList.remove('large');
+            toolbar.classList.add('small');
+        } else {
+            // User is near the top of the page, expand the toolbar
+            toolbar.classList.remove('small');
+            toolbar.classList.add('large');
+        }
+    });
+
+
+// Additionally, you'll need to manage closing the panel.
+// If you have a close button similar to the cartPanel's close button, you can add an event listener to it:
+document.querySelectorAll('.close_cross').forEach(button => button.addEventListener('click', function() {
+    let accPanel = document.getElementById('side_acc_wrap');
+    let overlay = document.getElementById('overlay');
+    let searchPanel = document.getElementById('side_search_wrap');
+
+
+    accPanel.classList.remove('open');
+    searchPanel.classList.remove('open');
+    overlay.style.display = 'none'; // Hide the overlay when the account panel is closed
+    closeDropdownSearch();
+}));
+
+
+document.getElementById('searchBtn').addEventListener('click', function (){
+    let searchPanel = document.getElementById('side_search_wrap');
+    let overlay = document.getElementById('overlay');
+    if (searchPanel.classList.contains('open')) {
+        searchPanel.classList.remove('open');
+        overlay.style.display = 'none'; // Hide the overlay when the cart is closed
+
+    }
+    else {
+        searchPanel.classList.add('open');
+        overlay.style.display = 'block';
+    }
+});
+
+document.getElementById('overlay').addEventListener('click', function() {
+    document.getElementById('cartPanel').classList.remove('open');
+    document.getElementById('side_acc_wrap').classList.remove('open');
+    document.getElementById('side_search_wrap').classList.remove('open');
+    closeDropdownSearch();
+    this.style.display = 'none'; // Hide the overlay
+});
+
+
+function closeDropdownSearch(){
+    document.getElementById('input-search').value = "";
+    document.getElementById('dropdown').innerHTML = '';
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+</html>
+{% endblock %}

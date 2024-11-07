@@ -57,3 +57,30 @@
   transform: translateY(-.225rem);
   opacity: .4;
 }
+
+@media only screen and (min-width: 769px)  {
+    .container-columns{
+      display: grid;
+      grid-template-columns: auto auto;
+      column-gap: 20px;
+  }
+}
+@media only screen and (max-width: 768px) {
+    .container-columns{
+        display: flex;
+        flex-direction: column;
+
+        align-items: center;
+        gap:30px;
+        .list-column ul, .list-column h3{
+           text-align: center!important;
+        }
+    }
+    .footer-social-links{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        margin-top: 20px;
+    }
+}

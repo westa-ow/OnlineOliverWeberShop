@@ -15,18 +15,8 @@
 .page-content{
     display: flex;
 }
-.doc-content{
-    margin-left: 0;
-  padding-left: 0;
-  margin-right: -2rem;
-  width: 60%;
-}
-ul {
-    margin-left: 0;
-    padding-left: 0;
-    margin-right: -2rem;
-    /*width: 60%;*/
-}
+
+
 
 .products{
     }
@@ -70,83 +60,23 @@ ul {
     margin-top: 200px;
 
 }
-.document-container {
-    padding: 0 0 10px 10px;
-  display: flex;
-  margin: 0 auto 50px;
-  width: 700px;
-  /*height: 350px;*/
-  border-radius: 10px;
-}
+
 .column-connector{
     display: flex;
   width: 50%;
   justify-content: space-between;
 }
-.column-1{
-display: flex;
-  flex-direction: column;
-  /* Ensure the container stretches to full available height */
-  height: 100%;
-}
+
 
 .column-3{
     text-align: end;
 }
-/*input[type=range] {*/
-/*  !*-webkit-appearance: none; !* Removes default styling in WebKit browsers *!*!*/
-/*  width: 100%; !* Required to control the width of the slider *!*/
-/*}*/
-/*!*.slider::-webkit-slider-thumb {*!*/
-/*!*  !*-webkit-appearance: none !important;*!*!*/
-/*!*  appearance: none;*!*/
-/*!*  background: #003665; !* Change thumb color *!*!*/
-/*!*  cursor: pointer; !* Cursor on hover *!*!*/
-/*!*}*!*/
-/*!*input[type=range]::-webkit-slider-runnable-track {*!*/
-/*!*  background: #003666;*!*/
-/*!*  height: 8px;*!*/
-/*!*  border-radius: 4px;*!*/
-/*!*}*!*/
-
-/*input[type=range]::-webkit-slider-thumb {*/
-/*  -webkit-appearance: none; !* Removes default styling *!*/
-/*  margin-top: -6px; !* Adjusts the position of the thumb relative to the track *!*/
-/*  height: 20px;*/
-/*  width: 20px;*/
-/*  background: #003666;*/
-/*  border-radius: 50%;*/
-/*  cursor: pointer;*/
-/*    z-index: 999;*/
-/*}*/
-/*.slider::-moz-range-thumb {*/
-/*  background: #003665; !* Change thumb color *!*/
-/*  cursor: pointer; !* Cursor on hover *!*/
-/*}*/
-
-/*.slider::-ms-thumb {*/
-/*  background: #003665; !* Change thumb color *!*/
-/*  cursor: pointer; !* Cursor on hover *!*/
-/*}*/
-/*.slider::-webkit-slider-runnable-track {*/
-/*  background: #003665; !* Change track color *!*/
-/*}*/
-
-/*.slider::-moz-range-track {*/
-/*  background: #003665; !* Change track color *!*/
-/*}*/
-
-/*.slider::-ms-track {*/
-/*  background: #003665; !* Change track color *!*/
-/*}*/
-/*.slider{*/
-/*}*/
 
 .document-container-body{
     display: flex;
-  justify-content: space-between;
-  width: 100%;
-  flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    flex-direction: row;
 }
 .document-image {
     max-width: 88px;
@@ -427,22 +357,6 @@ a{
     cursor: pointer;
     margin: auto;
     text-decoration: none;
-}
-
-.final-container{
-     margin: 0 auto 10px;
-}
-
-.finish-section{
-    /*position: relative;*/
-    background-color: #f2f2f2;
-
-    width: 350px;
-    /*height: 260px;*/
-    padding: 2.5rem;
-    /*box-sizing: border-box;*/
-    border-radius: 5px;
-
 }
 
 h4{

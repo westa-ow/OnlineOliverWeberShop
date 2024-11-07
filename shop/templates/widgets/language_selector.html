@@ -49,16 +49,17 @@
     function setCurrentLanguage() {
         const path = window.location.pathname;
         const langMatch = path.match(/^\/(gb|de|it|es|ru)/);
-        const currentLang = langMatch ? langMatch[1] : 'en'; // По умолчанию 'en'
+        const currentLang = langMatch ? langMatch[1] : 'gb'; // По умолчанию 'en'
         const selectElement = document.getElementById('languageSelect');
         selectElement.value = currentLang; // Установка текущего языка в select
         updateBackgroundImage(selectElement); // Обновление фона
     }
 
     // Инициализация при загрузке страницы
-    window.onload = function() {
-        setCurrentLanguage();
-    };
+    document.addEventListener("DOMContentLoaded", (event) => {
+      console.log("DOM fully loaded and parsed");
+      setCurrentLanguage();
+    });
 
     document.getElementById('languageSelect').addEventListener('change', function(event) {
         updateBackgroundImage(this);

@@ -1,16 +1,66 @@
 .centered-container {
+    margin-top: 110px!important;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
 }
-.carousel {
-    overflow: hidden;
-    position: relative;
-    width: 1240px; /* Match the width of your images */
-    height: 500px; /* Match the height of your images */
+@media only screen and (min-width: 769px)  {
+   .carousel {
+        overflow: hidden;
+        position: relative;
+        width: 1240px; /* Match the width of your images */
+        height: 500px; /* Match the height of your images */
+   }
+   .item-list {
+      width: 1250px;
+      padding: 10px 10px;
+      display: flex;
+      gap: 48px;
+      scroll-behavior: smooth;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+   }
 }
+@media only screen and (min-width: 401px) and (max-width: 768px) {
+   .carousel {
+        overflow: hidden;
+        position: relative;
+        width: 100vw; /* Match the width of your images */
+        min-height: 34vh; /* Match the height of your images */
+        margin: 0;
+   }
+   .item-list {
+      width: 70vw;
+      padding: 10px 10px;
+      display: flex;
+      gap: 48px;
+      scroll-behavior: smooth;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+   }
+}
+@media only screen and (max-width: 400px) {
+   .carousel {
+        overflow: hidden;
+        position: relative;
+        width: 100vw; /* Match the width of your images */
+        min-height: 20vh; /* Match the height of your images */
+        margin: 0;
+   }
+   .item-list {
+      width: 70vw;
+      padding: 10px 10px;
+      display: flex;
+      gap: 48px;
+      scroll-behavior: smooth;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+   }
+}
+
+
 
 .carousel-item {
     position: absolute;
@@ -79,15 +129,8 @@ html {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
-.item-list {
-  width: 1250px;
-  padding: 10px 10px;
-  display: flex;
-  gap: 48px;
-  scroll-behavior: smooth;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-}
+
+
 
 .item-list::-webkit-scrollbar {
   display: none;

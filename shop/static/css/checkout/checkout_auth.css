@@ -89,12 +89,77 @@
   text-decoration: none;
         color: black;
 }
-    .logininstead a {
+.logininstead a {
   color: black;
 }
-    .logininstead{
-        padding: 30px;
+.logininstead{
+  padding: 30px;
   text-align: center;
   border: 2px solid #f2f2f2;
   margin-top: 50px;
+}
+
+@media only screen and (min-width: 769px){
+    .page-content{
+
     }
+    .doc-content{
+        width: 70%;
+    }
+    #continueCheckoutBtn{
+        width: 80%;
+        margin: auto auto 0 14%;
+        text-align: center;
+    }
+    .informational-content {
+        width: 66%;
+        margin: auto;
+        position: relative;
+    }
+    #wrapper, #wrapper2{
+        display: flex; flex-direction: column; margin: auto auto 0 14%;
+    }
+    .page-addresses {
+        display: grid;
+        grid-auto-columns: auto;
+        grid-template-columns: 46% 46%;
+        width: 100%;
+        justify-content: center;
+        grid-gap: 0 8%;
+    }
+}
+@media only screen and (max-width: 768px){
+    .page-content{
+        display: flex;
+        flex-direction: column;
+        gap:10px;
+    }
+    #main{
+        padding: 0;
+    }
+    .container-steps{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .informational-content {
+        margin: 0 10px;
+    }
+    #wrapper, #wrapper2{
+        display: flex;
+        flex-direction: column;
+    }
+    .page-addresses {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    #continueCheckoutBtn{
+        margin: 0;
+        width: 90%;
+    }
+    .doc-content > {
+        margin: 0;
+    }
+}

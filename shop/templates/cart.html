@@ -31,37 +31,36 @@
             <div class="document-container-body">
                 <div><img class="document-image" src="{{ document.image_url }}" alt="{{ document.name }}"></div>
                 <div class="document-info" id="info-{{ document.name }}">
-
-                    <div class="column-1">
+                    <div class="row-1">
                         <div class="document-number">{{ document.category }} {{ document.product_name }}</div>
-                        <div class="document-description">{{ document.description }}</div>
-                        <div class="current-quantity" id="current-quantity-{{ document.name }}">{% trans "In cart"%}: {{ document.quantity }}</div>
-                    </div>
-                    <div class="column-connector">
-                    <div class="column-2">
-                        <div>
-                            <div class="quantity-slider" id="quantity-slider-{{ document.name }}" >
-{#                                <span class="min" style=" {% if isSpecialCustomer == True %} display:none {% endif %}">{{ 1 }}</span>#}
-                                <div class="slider-body" >
-                                    <input class="inp" min=1 id="quantity-input-inp-{{ document.name }}" value="{{ document.quantity }}" type="number" placeholder="Enter the quantity">
-{#                                    <input type="range" min="1" max="{{ document.quantity_max }}" value="{{ document.quantity }}" class="slider" id="slider-{{ document.name }}" style=" {% if isSpecialCustomer == True %} display:none {% endif %}">#}
-                                    {% if document.quantity_max < 5 %} <span> {% trans "Less than 5 items left" %} </span>{% endif %}
-                                    <button class="quantity-input-button" id="quantity-input-apply-{{ document.name }}">{% trans "Confirm"%}</button>
-                                </div>
-{#                                <span class="max" style=" {% if isSpecialCustomer == True %} display:none {% endif %}">{{ document.quantity_max }}</span>#}
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="column-3">
                         <div class="deleteBut"  data-product-id="{{ document.name }}" ><i class="fa-solid fa-remove"></i></div>
-
-                        <div class="sum" id="sum-{{ document.name }}">{{ currency }}{{ document.sum }}</div>
                     </div>
+                    <div class="row-2">
+                        <div class="column-1">
+
+                            <div class="document-description">{{ document.description }}</div>
+                            <div class="current-quantity" id="current-quantity-{{ document.name }}">{% trans "In cart"%}: {{ document.quantity }}</div>
                         </div>
+                        <div class="column-2">
+                            <div>
+                                <div class="quantity-slider" id="quantity-slider-{{ document.name }}" >
+    {#                                <span class="min" style=" {% if isSpecialCustomer == True %} display:none {% endif %}">{{ 1 }}</span>#}
+                                    <div class="slider-body" >
+                                        <input class="inp" min=1 id="quantity-input-inp-{{ document.name }}" value="{{ document.quantity }}" type="number" placeholder="Enter the quantity">
+    {#                                    <input type="range" min="1" max="{{ document.quantity_max }}" value="{{ document.quantity }}" class="slider" id="slider-{{ document.name }}" style=" {% if isSpecialCustomer == True %} display:none {% endif %}">#}
+                                        {% if document.quantity_max < 5 %} <span> {% trans "Less than 5 items left" %} </span>{% endif %}
+                                        <button class="quantity-input-button" id="quantity-input-apply-{{ document.name }}">{% trans "Confirm"%}</button>
+                                    </div>
+    {#                                <span class="max" style=" {% if isSpecialCustomer == True %} display:none {% endif %}">{{ document.quantity_max }}</span>#}
+                                </div>
+                            </div>
+                            <div class="sum" id="sum-{{ document.name }}">{{ currency }}{{ document.sum }}</div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-        </div>
+      </div>
     {% endfor %}
 
     </ul>

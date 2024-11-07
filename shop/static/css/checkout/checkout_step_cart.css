@@ -43,3 +43,98 @@ input[type="range"]::-webkit-slider-thumb {
     border: 2px solid #053a5f;
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 255, .2);
 }
+
+
+@media only screen and (min-width: 769px)  {
+    .document-container {
+       padding: 0 0 10px 10px;
+       display: flex;
+       margin: 0 auto 50px;
+       width: 700px;
+       /*height: 350px;*/
+       border-radius: 10px;
+    }
+    ul {
+        margin-left: 0;
+        padding-left: 0;
+        margin-right: -2rem;
+        /*width: 60%;*/
+    }
+    .doc-content{
+        width: 60%;
+    }
+    .document-info{
+        display: flex;
+        flex-direction: column;
+    }
+    .row-1{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .row-2{
+        display: grid;
+        grid-template-columns: 30% 70%;
+        gap: 20px;
+
+    }
+    .column-1{
+        display: flex;
+        flex-direction: column;
+    }
+    .column-2{
+        display: flex;
+        align-items: end;
+        gap: 20px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    ul{
+        padding: 0;
+    }
+    .document-container {
+       padding: 0 0 10px 10px;
+       display: flex;
+       margin: 0 auto 50px;
+       max-width: 700px;
+       /*height: 350px;*/
+       border-radius: 10px;
+    }
+    .doc-content{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .page-content {
+        display: flex;
+        flex-direction: column;
+    }
+    .document-info{
+        display: flex;
+        flex-direction: column;
+    }
+    .row-1{
+        display: flex;
+        /*justify-content: space-between;*/
+        gap:30px;
+        align-items: center;
+    }
+    .row-2{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+    }
+    .column-1{
+        display: flex;
+        flex-direction: column;
+    }
+    .column-2{
+        display: flex;
+        align-items: end;
+        gap: 20px;
+    }
+}

@@ -21,7 +21,9 @@
         </div>
     </div>
 <script>
-document.getElementById('cartBtn').addEventListener('click', function() {
+document.getElementById('cartBtnMobile').addEventListener('click', miniCartPanel);
+document.getElementById('cartBtn').addEventListener('click', miniCartPanel);
+function miniCartPanel() {
     let cartPanel = document.getElementById('cartPanel');
     let overlay = document.getElementById('overlay');
     if (cartPanel.classList.contains('open')) {
@@ -213,7 +215,7 @@ document.getElementById('cartBtn').addEventListener('click', function() {
             .catch(error => console.error('Error loading cart:', error));
         }
 
-    });
+};
 
 
 function showCartIsEmpty(cartItemsContainer){

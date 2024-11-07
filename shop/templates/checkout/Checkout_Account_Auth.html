@@ -38,13 +38,13 @@
                     </div>
                 </div>
 
-                <section id="wrapper" class="stick_parent_lb section-1" style="opacity: 1; margin: auto auto 0 14%;">
+                <section id="wrapper" class="stick_parent_lb section-1" style="opacity: 1;">
                     <aside id="notifications">
                         <div class="container"></div>
                     </aside>
                     <div class="container">
                         <div id="content-wrapper">
-                            <section id="main">
+                            <section id="main1">
                                 <div class="container">
                                     <header class="page-header" style="color: #f2f2f2">
                                         <h1 style="color: #626262">{% trans "Create an account"%} </h1>
@@ -196,7 +196,7 @@
                                                 </div>
                                             </div>
                                             <footer class="form-footer clearfix">
-                                                <button style="width: 100%" class="btn btn-primary wide form-control-submit float-xs-right" data-link-action="save-customer" type="submit" value="REGISTER">{% trans "Continue"%} </button>
+                                                <button class="btn btn-primary wide form-control-submit float-xs-right" data-link-action="save-customer" type="submit" value="REGISTER">{% trans "Continue"%} </button>
                                             </footer>
                                         </form>
                                     </section>
@@ -208,15 +208,18 @@
                         </div>
                     </div>
                 </section>
-                <section id="wrapper" class="stick_parent_lb section-2" style="opacity: 1; display: none ;  margin: auto auto 0 14%">
+                <section id="wrapper2" class="stick_parent_lb section-2" style="opacity: 1; display: none ; ">
 
                     <aside id="notifications">
                         <div class="container"></div>
                     </aside>
                     <div class="container">
                         <div id="content-wrapper">
-                            <section id="main">
+                            <section id="main2">
                                 <div class="container">
+                                    <header class="page-header" style="color: #f2f2f2">
+                                        <h1 style="color: #626262">{% trans "Login"%} </h1>
+                                    </header>
                                     <section id="content" class="page-content card card-block">
                                         <section class="login-form">
                                             <form id="login-form" action="{% url 'cart_anonymous_login' %}" method="post">
@@ -253,7 +256,7 @@
                                                     </div>
                                                 </div>
                                                 <footer class="form-footer text-sm-center clearfix">
-                                                    <button style="width: 100%" class="btn btn-primary" data-link-action="sign-in" type="submit">
+                                                    <button class="btn btn-primary" data-link-action="sign-in" type="submit">
                                                         {% trans "Continue"%}
                                                     </button>
                                                 </footer>

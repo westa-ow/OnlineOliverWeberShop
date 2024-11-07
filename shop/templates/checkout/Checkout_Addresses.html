@@ -27,7 +27,7 @@
                     <div class="shopping-cart-label">2. {% trans "Addresses"%}<hr style="padding: 0;"></div>
                 </div>
 
-                <section id="content" class="page-content col-md-12 col-lg-9 myacc_content" style="display: flex; flex-direction: column; margin: auto auto 0 14%;  ">
+                <section id="content" class="page-content col-md-12 col-lg-9 myacc_content" >
                     <header class="page-header">
                         <h1 style="margin-bottom: 40px;  color: #0a0a0a">{% trans "Shipping address"%} </h1>
                     </header>
@@ -86,7 +86,7 @@
 
                 <div id="billingAddresses" style="display: none;">
                         <!-- Similar to the shipping addresses, but with different IDs or classes for distinction -->
-                    <section id="content" class="page-content col-md-12 col-lg-9 myacc_content" style="display: flex; flex-direction: column; margin: auto auto 0 14%;  ">
+                    <section id="content2" class="page-content col-md-12 col-lg-9 myacc_content">
                             <header class="page-header">
                                 <h1 style="margin-bottom: 40px;  color: #0a0a0a"> {% trans "Billing address"%}</h1>
                             </header>
@@ -256,7 +256,7 @@
                 </div>
             </div>
 
-                <button style="width: 80%;  margin: auto auto 0 14%;text-align: center;" class="btn btn-primary wide form-control-submit float-xs-right" id="continueCheckoutBtn"> {% trans "Continue"%} </button>
+                <button class="btn btn-primary wide form-control-submit float-xs-right" id="continueCheckoutBtn"> {% trans "Continue"%} </button>
 
             </div>
         {% include "checkout/checkout_widget.html" %}

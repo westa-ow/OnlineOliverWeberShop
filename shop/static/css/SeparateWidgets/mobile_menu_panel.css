@@ -1,0 +1,83 @@
+.menuPanel{
+    padding: 50px 24px 0 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.menuPanel *{
+    font-family: 'Poppins',Verdana,sans-serif;
+}
+.lang-container{
+    padding-bottom: 25px;
+}
+.menu-header{
+    padding-bottom: 20px ;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu_ul.menu_links{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.menu_ul.menu_links a {
+    color: #000000;
+    font-size: 18px;
+    margin-bottom: 18px;
+    display: flex !important;
+    align-items: center !important; /* This ensures vertical alignment */
+    text-decoration: none !important;
+}
+
+.menu_ul.menu_links i{
+    opacity: .3;
+    margin-right: 10px;
+}
+
+.menu_ul.menu_links a {
+    color: #000000;
+    font-size: 18px;
+    margin-bottom: 18px;
+    align-items: center;
+    display: flex;
+    text-decoration: none!important;
+    transition: color 0.3s ease, transform 0.3s ease; /* Add transition for color and transform */
+}
+
+/* Base styles for icons */
+.menu_ul.menu_links i {
+    opacity: .3;
+    margin: 0 10px 0 0;
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Add transition for opacity and transform */
+}
+
+/* Hover styles for link */
+.menu_ul.menu_links a:hover {
+    /*color: #003665; !* Change text color on hover *!*/
+}
+
+/* Hover styles for icons within a link */
+.menu_ul.menu_links a:hover i {
+    opacity: 1; /* Change icon opacity on hover */
+    transform: translateX(3px); /* Move icon to the right by 3px */
+}
+.menu_links .logout{
+
+    margin-top: 30px;
+}
+.menu_links .name a span{
+    font-size: 24px!important;
+    margin-bottom: 10px;
+}
+
+.menu_ul.menu_links svg {
+    /* If needed, ensure there is no extra space inside the SVG that could affect alignment */
+    display: block;
+}
+.menu_ul.menu_links a {
+    /* Other styles... */
+    line-height: 22px; /* Set this to the height of your SVG icon */
+}

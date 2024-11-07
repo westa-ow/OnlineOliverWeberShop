@@ -1,0 +1,60 @@
+{% block content %}
+{% load static %}
+{% load i18n %}
+<meta charset="UTF-8">
+<link rel="stylesheet" href="{% static 'css/SeparateWidgets/mobile_menu_panel.css' %}">
+<div id="side_menu_wrap" class="menuPanel">
+    <div class="menu-header">
+        <h4 class="side_title">
+           {% trans "Account"%}
+        </h4>
+        <span class="close_cross" >
+            <i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </i>
+        </span>
+    </div>
+    <div class="lang-container">
+        {% include "widgets/language_selector_mobile.html" %}
+
+    </div>
+    <div class="menu_ul menu_links">
+        <a href="{% url "param_catalog" category_id="0" category_name="all"%}" class="link" title="ALL PRODUCTS">{% trans "All products" %}</a>
+        <a href="{% url "param_catalog" category_id="3" category_name="necklaces"%}" class="link" title="{% trans "Necklaces"%}">{% trans "NECKLACES" %}</a>
+        <a href="{% url "param_catalog" category_id="8" category_name="earrings"%}" class="link" title="{% trans "Earrings"%}">{% trans "EARRINGS"%}</a>
+        <a href="{% url "param_catalog" category_id="7" category_name="rings"%}" class="link" title="{% trans "Rings"%}">{% trans "RINGS"%}</a>
+        <a href="{% url "param_catalog" category_id="9" category_name="bracelets"%}" class="link" title="{% trans "Bracelets"%}">{% trans "BRACELETS"%}</a>
+        <a href="{% url "param_catalog" category_id="79" category_name="anklets"%}" class="link" title="{% trans "Anklets"%}">{% trans "ANKLETS"%}</a>
+        <a href="{% url "param_catalog" category_id="4" category_name="accessories"%}" class="link" title="{% trans "Accessories"%}" >{% trans "ACCESSORIES"%}</a>
+        <a href="{% url "param_catalog" category_id="0" category_name="all"%}?collection=Winter_2025" class="link" title="Winter 2025" >Winter 2025</a>
+        {% if user_role  == "Admin" %}
+            <a href="{% url 'admin_tools' feature_name='dashboard' %}" class="link">Admin tools</a>
+        {% elif user_role == "Special_Admin" %}
+            <a href="{% url 'admin_tools' feature_name='dashboard' %}" class="link">Special tools</a>
+        {% endif %}
+        {% if user.is_authenticated %}
+        {% else %}
+            <a href="{% url 'login'%}" class="link">Login</a>
+            <a href="{% url 'register'%}" class="link">Register</a>
+        {% endif %}
+    </div>
+</div>
+<script>
+    document.getElementById('menuBtnMobile').addEventListener('click', menuPanelOpen);
+    function menuPanelOpen() {
+        let accPanel = document.getElementById('side_menu_wrap');
+        let overlay = document.getElementById('overlay');
+
+        if (accPanel.classList.contains('open')) {
+            accPanel.classList.remove('open');
+            overlay.style.display = 'none'; // Hide the overlay when the account panel is closed
+        } else {
+            // Unlike the cart, we don't need to load data here since we're not populating with dynamic content
+            // Open the account panel and overlay
+            accPanel.classList.add('open');
+            overlay.style.display = 'block';
+        }
+    }
+
+</script>
+{% endblock %}

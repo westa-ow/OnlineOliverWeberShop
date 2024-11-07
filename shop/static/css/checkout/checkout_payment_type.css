@@ -31,11 +31,6 @@ button {
     display: inline-block;
     font-size: 16px;
 }
-.informational-content {
-    width: 66%;
-    margin: auto;
-    position: relative;
-}
 
 .shopping-cart-label {
     width: initial;
@@ -124,4 +119,63 @@ button {
 }
 .payment-type label{
     font-size: 22px;
+}
+
+@media only screen and (min-width: 769px){
+    .page-content{
+
+    }
+    #continueCheckoutBtn{
+        width: 80%;
+        margin: auto auto 0 14%;
+        text-align: center;
+    }
+    .informational-content {
+        width: 66%;
+        margin: auto;
+        position: relative;
+    }
+    #content{
+        display: flex; flex-direction: column; margin: auto auto 0 14%;
+    }
+    .page-addresses {
+        display: grid;
+        grid-auto-columns: auto;
+        grid-template-columns: 46% 46%;
+        width: 100%;
+        justify-content: center;
+        grid-gap: 0 8%;
+    }
+}
+@media only screen and (max-width: 768px){
+    .page-content{
+        display: flex;
+        flex-direction: column;
+        gap:10px;
+    }
+    .container-steps{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .informational-content {
+        margin: 0 10px;
+    }
+    #content{
+        display: flex;
+        flex-direction: column;
+    }
+    .page-addresses {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    #continueCheckoutBtn{
+        margin: 0;
+        width: 90%;
+    }
+    .doc-content > {
+        margin: 0;
+    }
 }

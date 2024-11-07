@@ -19,42 +19,18 @@
 </head>
 <body>
 <style>
-    .centered-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-}
-.carousel {
-    overflow: hidden;
-    position: relative;
-    width: 1240px; /* Match the width of your images */
-    height: 500px; /* Match the height of your images */
-}
-
-.carousel-item {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;  // Ensures a smooth transition
-    text-align: center;
-}
-
-.carousel-item.active {
-    opacity: 1;
-}
-
-.carousel-item img {
-    width: 100%; /* Adjust based on your needs */
-    vertical-align: middle;
-}
-
+    .carousel-item {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;  // Ensures a smooth transition
+        text-align: center;
+    }
 </style>
-<div class="centered-container" style="margin-top: 120px">
-{#      <h1 style="font-weight: 650">Welcome to the home page, {% if user.first_name %} {{ user.first_name }} {% elif user.email %} {{ user.email }} {% else %}  {% endif %} {{ user.last_name|default:"" }}!</h1>#}
+<div class="centered-container">
     <div class="cl">
         <div id="carousel" class="carousel">
             {% for banner in banners %}
@@ -63,7 +39,6 @@
         </div>
     </div>
     <div id="roycontent_home" class="roycontent">
-        <div class="row">
             <div class="container">
                 <ul class="clearfix">
                     <li class="htmlcontent-item-1 col-md-12 bview сbview-first ">
@@ -128,7 +103,6 @@
                     </li>
                 </ul>
             </div>
-        </div>
     </div>
     <div class="containerr">
         <h3>{% trans "BEST SELLERS" %}</h3>

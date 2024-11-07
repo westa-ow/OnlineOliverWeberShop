@@ -26,20 +26,10 @@
     align-content: center;
     margin-right: 10px;
 }
-.selected-language {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-size: 40px 40px; /* Размер флага */
-    background-repeat: no-repeat;
-    background-position: center;
-    width: 40px; /* Ширина, достаточная для отображения флага */
-    height: 40px; /* Высота, соответствующая флагу */
+.selected-language-mobile {
     padding-left: 10px;
-    border-radius: 50px;
-    border: 1px solid #ccc;
+    border: none;
+    border-bottom: 1px solid #ccc;
     cursor: pointer;
-    text-indent: 100%; /* Смещаем текст за пределы видимой области */
-    white-space: nowrap; /* Запрещаем перенос текста */
-    overflow: hidden; /* Скрываем всё, что не помещается */
+    background-color: transparent;
 }

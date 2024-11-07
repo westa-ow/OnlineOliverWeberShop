@@ -1,24 +1,41 @@
-.section-orders{
-    padding-left: 2rem;
-    width: 75%;
+
+@media (min-width: 769px) {
+    .section-orders{
+        padding-left: 2rem;
+        width: 75%;
+    }
+    .table th, .table td {
+        padding: .75rem;
+    }
 }
+@media (max-width: 768px) {
+    .section-orders{
+    }
+    .table th, .table td {
+        padding: .35rem;
+    }
+}
+
 .page-header {
   margin-bottom: 40px;
 }
-h1{
 
+h1{
     font-size: 24px !important;
     font-weight: 600;
 }
+
 h6{
-font-size: 16px;
+    font-size: 16px;
 }
+
 table {
     border-collapse: collapse;
     font-family: 'Poppins',Verdana,sans-serif;
     color: #777!important;
     background-color: rgba(0,0,0,0);
 }
+
 .table-bordered{
     border: 2px solid #f6f6f6;
 
@@ -43,9 +60,7 @@ table {
 .table-bordered th, .table-bordered td {
     border: 2px solid #f6f6f6;
 }
-.table th, .table td {
-    padding: .75rem;
-}
+
 th {
   text-align: left;
 }
