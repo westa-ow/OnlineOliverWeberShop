@@ -58,6 +58,9 @@
       overflow-x: auto;
       scroll-snap-type: x mandatory;
    }
+   .carousel-view{
+       max-width: 100%;
+   }
 }
 
 
