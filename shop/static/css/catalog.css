@@ -783,7 +783,7 @@ input[type='number'] {
     justify-content: space-between; /* This spreads out the items */
     align-items: flex-end; /* Aligns items at the bottom */
     width: 93%; /* Ensure it covers the full width */
-    margin-right: 300px;
+    /*margin-right: 300px;*/
 }
 .semi a{
     padding: 10px;
