@@ -37,7 +37,7 @@
                 <section id="main">
                     <div class="container">
                         <header class="page-header" style="text-align: center">
-                            <h1 class="header-login"> Log in to your account</h1>
+                            <h1 class="header-login"> {% trans "Log in to your account" %}</h1>
                         </header>
                         <section id="content" class="page-content card card-block">
                             <section class="login-form">
@@ -60,7 +60,7 @@
                                                 <span class="req">*</span>
                                             </div>
                                             <div class="col-md-12">
-                                                <label>Password</label>
+                                                <label>{% trans "Password" %}</label>
                                                 <div class="input-group js-parent-focus">
                                                     {{  form.password | add_class:"form-control js-child-focus js-visible-password" | attr:"placeholder: "  }}
                                                     <span class="input-group-btn" style="position: initial!important;">
@@ -81,7 +81,7 @@
                                     </div>
                                     <footer class="form-footer text-sm-center clearfix">
                                         <button style="width: 100%" class="btn btn-primary" data-link-action="sign-in" type="submit">
-                                            Sign in
+                                            {% trans "Sign in" %}
                                         </button>
                                     </footer>
                                 </form>

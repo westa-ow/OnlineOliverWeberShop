@@ -138,3 +138,14 @@ input[type="range"]::-webkit-slider-thumb {
         gap: 20px;
     }
 }
+@media only screen and (max-width: 768px){
+    .final-container{
+        width: 100%
+    }
+    .finish-section{
+        background-color: #e5e5e5;
+        margin: 0 10px;
+        padding: 2.5rem;
+        border-radius: 5px;
+    }
+}

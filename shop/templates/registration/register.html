@@ -3,6 +3,7 @@
 {% load static %}
 {% load widget_tweaks %}
 {% block content %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,7 +37,7 @@
             <section id="main">
                 <div class="container">
                     <header class="page-header" style="text-align: center">
-                        <h1> Create an account</h1>
+                        <h1> {% trans "Create an account" %}</h1>
                     </header>
                     <section id="content" class="page-content card card-block">
                         <section class="sociallogin displayCustomerAccountFormTop authentication hidden-print">
@@ -49,7 +50,7 @@
                             <div>
                                 <div class="form-group row ">
                                     <div class="col-md-12 form-control-valign">
-                                        <label>Social title</label>
+                                        <label>{% trans "Social title" %}</label>
                                         {% for radio in form.social_title %}
                                             <label class="radio-inline">
                                                 <span class="custom-radio">
@@ -68,7 +69,7 @@
                                         <span class="req">*</span>
                                     </div>
                                     <div class="col-md-12">
-                                        <label>First name</label>
+                                        <label>{% trans "First name" %}</label>
                                         {{ form.first_name | add_class:"form-control" | attr:"" }}
 
                                     </div>
@@ -79,7 +80,7 @@
                                         <span class="req">*</span>
                                     </div>
                                     <div class="col-md-12">
-                                        <label>Last name</label>
+                                        <label>{% trans "Last name" %}</label>
                                         {{ form.last_name | add_class:"form-control" | attr:"" }}
                                     </div>
                                 </div>
@@ -95,7 +96,7 @@
                                 </div>
                                 <div class="form-group row ">
                                     <div class="col-md-12 form-control-valign">
-                                        <label>User type</label>
+                                        <label>{% trans "User type" %}</label>
                                         {% for radio in form.type_of_user %}
                                             <label class="radio-inline">
                                                 <span class="custom-radio">
@@ -113,7 +114,7 @@
                                         <span class="req">*</span>
                                     </div>
                                     <div class="col-md-12">
-                                        <label>Password</label>
+                                        <label>{% trans "Password" %}</label>
                                         <div class="input-group js-parent-focus">
                                              {{ form.password1 | add_class:"form-control js-child-focus js-visible-password" | attr:""|attr:"autocomplete:new-password" }}
 {#                                            <input class="form-control js-child-focus js-visible-password" name="password" type="password" value="" pattern=".{5,}" required="">#}
@@ -133,7 +134,7 @@
                                         <span class="req">*</span>
                                     </div>
                                     <div class="col-md-12">
-                                        <label>Confirm you password</label>
+                                        <label>{% trans "Confirm you password" %}</label>
                                         <div class="input-group js-parent-focus">
                                              {{ form.password2 | add_class:"form-control js-child-focus js-visible-password" | attr:""|attr:"autocomplete:new-password" }}
 {#                                            <input class="form-control js-child-focus js-visible-password" name="password" type="password" value="" pattern=".{5,}" required="">#}
@@ -149,7 +150,7 @@
                                 </div>
                                 <div class="form-group row ">
                                     <div class="col-md-12">
-                                        <label>Birthdate</label>
+                                        <label>{% trans "Birthdate" %}</label>
                                         {{ form.birthdate | add_class:"form-control" | attr:"" }}
                                         <span class="form-control-comment"> (E.g.: 1970-05-31) </span>
                                     </div>
@@ -163,7 +164,7 @@
                                             <span>
                                                 <i class="material-icons rtl-no-flip checkbox-checked"></i>
                                             </span>
-                                            <label>Receive offers from our partners</label>
+                                            <label>{% trans "Receive offers from our partners" %}</label>
                                         </span>
                                     </div>
                                     <div class="col-md-12 form-control-comment"></div>
@@ -177,7 +178,7 @@
                                                 <i class="material-icons rtl-no-flip checkbox-checked"></i>
                                             </span>
                                             <label>
-                                                Sign up for our newsletter<br><em>You may unsubscribe at any moment. For that purpose, please find our contact info in the legal notice.</em>
+                                                {% trans "Sign up for our newsletter" %}<br><em> {% trans "You may unsubscribe at any moment. For that purpose, please find our contact info in the legal notice" %}.</em>
                                             </label>
                                         </span>
                                     </div>
@@ -185,11 +186,11 @@
                                 </div>
                             </div>
                             <footer class="form-footer clearfix">
-                                <button style="width: 100%" class="btn btn-primary wide form-control-submit float-xs-right" data-link-action="save-customer" type="submit" value="REGISTER"> Save </button>
+                                <button style="width: 100%" class="btn btn-primary wide form-control-submit float-xs-right" data-link-action="save-customer" type="submit" value="REGISTER"> {% trans "Save" %} </button>
                             </footer>
                         </form>
                     </section>
-                        <p class="logininstead">Already have an account? <a class="" href="{% url 'login' %}">Log in instead!</a>
+                        <p class="logininstead">{% trans "Already have an account?" %} <a class="" href="{% url 'login' %}"> {% trans "Log in instead!" %}</a>
                         </p>
                     </section>
                     <footer class="page-footer hidden"> </footer>
