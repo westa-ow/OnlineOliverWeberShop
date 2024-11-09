@@ -164,7 +164,7 @@ function showTooltip(event, message) {
 }
 
 
-function generateDialogContent(id, items_array, currency, show_quantities, add_to_cart_url, vocabulary, cookie, checkout_url){
+function generateDialogContent(id, items_array, currency, show_quantities, add_to_cart_url, vocabulary, cookie, checkout_url, isFavourite){
     let quantity_max = 1;
     document.body.style.overflow = 'hidden';
     const item = items_array.find(item => item.name === id);
@@ -218,6 +218,21 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     const numberSpan = document.createElement('h4');
     numberSpan.textContent = `${item.name}`;
     secondColumn.appendChild(numberSpan);
+
+
+    if (window.matchMedia("(max-width: 769px)").matches) {
+        // Code to run if the viewport width is less than 798px
+        const heartIconContainer = document.createElement('div');
+        heartIconContainer.className = 'mobile-heart-container';
+        heartIconContainer.setAttribute('data-item-name', JSON.stringify(item));
+        console.log(vocabulary);
+        heartIconContainer.innerHTML = isFavourite ?
+        `<div class="favourites-mobile-container"><span class="mobile-favourites-btn"> ${vocabulary["RemoveFromFavourites"]} <i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:#000000;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i> </span></div>` :
+        `<div class="favourites-mobile-container"><span class="mobile-favourites-btn"> ${vocabulary["AddToFavourites"]} <i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i> </span></div>`; // Example with FontAwesome
+        secondColumn.appendChild(heartIconContainer);
+
+
+    }
 
     const priceSpan = document.createElement('div');
     priceSpan.textContent = currency+`${item.price}`;

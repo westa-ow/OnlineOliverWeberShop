@@ -474,3 +474,14 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+.mobile-favourites-btn{
+    cursor: pointer;
+    border: 2px solid #797979;
+    display: flex;
+    gap: 5px;
+    padding: 10px ;
+    border-radius: 8px;
+}
+.favourites-mobile-container{
+    display: flex;
+}

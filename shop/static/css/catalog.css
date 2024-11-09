@@ -897,3 +897,15 @@ input[type=checkbox]{
 .categories.collapsed .chevron, .collections.collapsed .chevron {
     transform: rotate(-90deg); /* Повернуть иконку, когда список свернут */
 }
+
+.mobile-favourites-btn{
+    cursor: pointer;
+    border: 2px solid #797979;
+    display: flex;
+    gap: 5px;
+    padding: 10px ;
+    border-radius: 8px;
+}
+.favourites-mobile-container{
+    display: flex;
+}

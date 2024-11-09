@@ -104,7 +104,8 @@ let filters_dict = {
                 productContainer.setAttribute('data-id', itemId);
 
                 productContainer.addEventListener('click', () => {
-                    generateDialogContent(`${item.name}`, favouriteItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}");
+
+                    generateDialogContent(`${item.name}`, favouriteItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}", true);
                 });
 
                 const container_card = document.createElement("div");
@@ -299,5 +300,59 @@ let filters_dict = {
             console.log("Null");
         }
     }
+document.getElementById('product-card').addEventListener('click', async (event) => {
+    const heartIconContainer = event.target.closest('.mobile-heart-container');
+    if (!heartIconContainer) return;
+
+    const item = JSON.parse(heartIconContainer.getAttribute('data-item-name')); // Assumes each heartIconContainer has `data-item-name`
+
+    const favouriteItem = favouriteItems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
+    const isFavBefore = Boolean(favouriteItem); // Converts the result to a boolean
+
+
+    // Stop the event from propagating to other elements
+    event.stopPropagation();
+    try {
+        // Replace `yourItemId` with the actual item ID or any identifier you use
+        const response = await fetch('{% url "change_favorite_state" %}', {
+            method: 'POST', // or 'DELETE' if removing from favorites
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'),
+
+                // Include other headers as needed, like authorization tokens
+            },
+            body: JSON.stringify({item: JSON.stringify(item), "alreadyFavourite": isFavBefore ? "true":"false"}),
+        });
+
+        if (!response.ok) throw new Error('Network response was not ok.');
+
+        // Assuming the backend responds with the updated favorite status
+        const data = await response.json();
+        const isFavourite = data.isFavourite === "true";
+        const itemToAddOrRemove = JSON.parse(data.item); // Assuming this is an object {name_id: "someId", ...}
+        const existingTooltip = document.querySelector('.custom-tooltip');
+        if (existingTooltip) {
+            existingTooltip.remove();
+        }
+        if (isFavourite) {
+            // Add to favoriteItems if not already present
+            const exists = favouriteItems.some(item => item.name === itemToAddOrRemove.name);
+            if (!exists) {
+                favouriteItems.push(itemToAddOrRemove);
+            }
+        } else {
+            // Remove from favoriteItems
+            favouriteItems = favouriteItems.filter(item => item.name !== itemToAddOrRemove.name);
+        }
+
+        // Update the heart icon based on `isFavourite`
+        heartIconContainer.innerHTML = isFavourite ?
+            `<div class="favourites-mobile-container"><span class="mobile-favourites-btn">` + "{{ _("Remove from favorites")|escapejs }}" + `<i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:#000000;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i> </span></div>` :
+            `<div class="favourites-mobile-container"><span class="mobile-favourites-btn">` + "{{ _("Add to favorites")|escapejs }}" + `<i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i> </span></div>`; // Example with FontAwesome
+    } catch (error) {
+        console.error('Error updating favorites:', error);
+    }
+});
 
 </script>

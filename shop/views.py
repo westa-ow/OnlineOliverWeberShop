@@ -360,6 +360,8 @@ def get_vocabulary_product_card():
         "Product width": _("Product width"),
         "Product height": _("Product height"),
         "Chain length": _("Chain length"),
+        "AddToFavourites": _("Add to favorites"),
+        "RemoveFromFavourites": _("Remove from favorites"),
 
     }
 
