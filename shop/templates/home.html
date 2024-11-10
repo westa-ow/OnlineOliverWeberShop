@@ -543,7 +543,7 @@ let filters_dict = {
                     const favouriteItem = favouriteitems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
 
                     let itemIsFavourite = Boolean(favouriteItem);
-                    generateDialogContent(`${item.name}`, allItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}", itemIsFavourite);
+                    generateDialogContent(`${item.name}`, allItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}", itemIsFavourite, "{{ user.is_authenticated|safe }}");
                 });
 
                 // Create the image section

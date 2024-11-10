@@ -1063,15 +1063,15 @@ function displayCurrentPage(items) {
 
             let itemIsFavourite = Boolean(favouriteItem);
             if(filteredItems.length === 0){
-                generateDialogContent(`${item.name}`, allItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}", itemIsFavourite);
+                generateDialogContent(`${item.name}`, allItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}", itemIsFavourite, "{{ user.is_authenticated|safe }}");
             }
             else{
                 if(filteredItems[0] === "No items found"){
-                    generateDialogContent(`${item.name}`, allItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}", itemIsFavourite);
+                    generateDialogContent(`${item.name}`, allItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}", itemIsFavourite, "{{ user.is_authenticated|safe }}");
 
                 }
                 else {
-                     generateDialogContent(`${item.name}`, filteredItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}", itemIsFavourite);
+                     generateDialogContent(`${item.name}`, filteredItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}", itemIsFavourite,  "{{ user.is_authenticated|safe}}");
 
                 }
             }
