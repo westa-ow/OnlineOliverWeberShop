@@ -164,7 +164,7 @@ function showTooltip(event, message) {
 }
 
 
-function generateDialogContent(id, items_array, currency, show_quantities, add_to_cart_url, vocabulary, cookie, checkout_url, isFavourite){
+function generateDialogContent(id, items_array, currency, show_quantities, add_to_cart_url, vocabulary, cookie, checkout_url, isFavourite, user_auth){
     let quantity_max = 1;
     document.body.style.overflow = 'hidden';
     const item = items_array.find(item => item.name === id);
@@ -220,7 +220,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     secondColumn.appendChild(numberSpan);
 
 
-    if (window.matchMedia("(max-width: 769px)").matches) {
+    if (window.matchMedia("(max-width: 769px)").matches && user_auth === "True") {
         // Code to run if the viewport width is less than 798px
         const heartIconContainer = document.createElement('div');
         heartIconContainer.className = 'mobile-heart-container';
