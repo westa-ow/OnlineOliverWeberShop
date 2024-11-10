@@ -416,6 +416,21 @@ dialog[open]::backdrop {
     .card-content, .success-card-content {
         grid-template-columns: auto auto;
     }
+    .card-dropdown-label{
+        font-weight: 500;
+        font-size: 16px;
+        color: #575757;
+    }
+    .card-dropdown{
+        width: 50%;
+        padding: 15px 20px;
+        background-color: white;
+        border-radius: 4px;
+        border: 2px solid #f2f2f2;
+        margin-bottom: 15px;
+        cursor: pointer;
+        color: #393939;
+    }
     .card-content, .success-card-content {
         .img-card{
             margin: auto;
@@ -436,20 +451,7 @@ dialog[open]::backdrop {
             height: 100%;
             margin-left: 10px;
 
-            .card-dropdown-label{
-                font-weight: 500;
-                font-size: 16px;
-                color: #575757;
-            }
-            .card-dropdown{
-                width: 50%;
-                padding: 15px 20px;
-                background-color: white;
-                border-radius: 4px;
-                border: 2px solid #f2f2f2;
-                margin-bottom: 15px;
-                cursor: pointer;
-            }
+
             .bottom-card-part{
                 margin-top: auto;
                 text-align: center;
@@ -524,6 +526,16 @@ dialog[open]::backdrop {
         flex-direction: column;
     }
 
+    .card-dropdown{
+        width: 50%;
+        padding: 15px 20px;
+        background-color: white;
+        border-radius: 4px;
+        border: 2px solid #f2f2f2;
+        margin-bottom: 15px;
+        cursor: pointer;
+        color: #393939;
+    }
     .card-content, .success-card-content {
         .img-card{
             margin: auto;
@@ -549,15 +561,7 @@ dialog[open]::backdrop {
                 font-size: 16px;
                 color: #575757;
             }
-            .card-dropdown{
-                width: 50%;
-                padding: 15px 20px;
-                background-color: white;
-                border-radius: 4px;
-                border: 2px solid #f2f2f2;
-                margin-bottom: 15px;
-                cursor: pointer;
-            }
+
             .bottom-card-part{
                 margin-top: auto;
                 text-align: center;
