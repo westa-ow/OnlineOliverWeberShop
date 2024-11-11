@@ -28,6 +28,35 @@
         Oliver Weber Shop | New Collection
     {% endif %}
 {% endblock %}
+{% block meta_description %}
+    {% if service_page == "13-contact-us" %}
+        Contact our shop Oliver Weber and we reply to your questions within a day.
+    {% elif service_page == "6-frequently-asked-questions" %}
+        Frequently Asked Questions
+    {% elif service_page == "7-customer-service-and-repair" %}
+        Customer service and repair
+    {% elif service_page == "8-shipping-information" %}
+        Shipping information
+    {% elif service_page == "9-returns-and-exchanges" %}
+        Returns and exchanges
+    {% elif service_page == "11-payment-information" %}
+        Payment Information
+    {% elif service_page == "12-b2b-customers" %}
+        B2B Customers
+    {% elif service_page == "14-oliver-weber-s-world" %}
+        Oliver Weber's World
+    {% elif service_page == "15-oliver-weber-for-press" %}
+        Oliver Weber for Press
+    {% elif service_page == "17-terms-and-conditions" %}
+        Terms and Conditions
+    {% elif service_page == "20-impressum" %}
+        Impressum
+    {% elif service_page == "21-website-privacy-policy" %}
+        Website Privacy Policy
+    {% else %}
+        Oliver Weber Shop
+    {% endif %}
+{% endblock %}
 {% block content %}
 {% load static %}
 <!DOCTYPE html>

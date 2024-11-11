@@ -1,3 +1,144 @@
+{% extends 'widgets/base.html' %}
+{% block title %}
+    {% if category_catalog == "All"%}
+        Oliver Weber Shop Online | All products
+    {% elif category_catalog == "Necklaces"%}
+        Oliver Weber Shop| Pendants and Necklaces
+    {% elif category_catalog == "Necklace"%}
+        Oliver Weber Shop| Pendants and Necklaces
+    {% elif category_catalog == "Colliers"%}
+        Oliver Weber Shop| Pendants and Necklaces
+    {% elif category_catalog == "Pendants"%}
+        Oliver Weber Shop| Pendants and Necklaces| Oliver Weber Shop
+    {% elif category_catalog == "Pearls"%}
+        Oliver Weber Shop| Pearls
+    {% elif category_catalog == "Accessories"%}
+        Oliver Weber Shop Online| Jewelry and accessories
+    {% elif category_catalog == "Pen"%}
+        Oliver Weber Shop Online| Jewelry and accessories
+    {% elif category_catalog == "Brooch"%}
+        Oliver Weber Shop Online| Jewelry and accessories
+    {% elif category_catalog == "Nailfile"%}
+        Oliver Weber Shop Online| Jewelry and accessories
+    {% elif category_catalog == "Ring"%}
+        Oliver Weber Shop| Rings
+    {% elif category_catalog == "All Earrings"%}
+        Oliver Weber Shop| All Earrings
+    {% elif category_catalog == "Earrings"%}
+        Oliver Weber Shop| Earrings
+    {% elif category_catalog == "Post Earrings"%}
+        Oliver Weber Shop| Post Earrings
+    {% elif category_catalog == "Studs"%}
+        Oliver Weber Shop| Studs
+    {% elif category_catalog == "Drops"%}
+        Oliver Weber Shop| Drops
+    {% elif category_catalog == "Hoops"%}
+        Oliver Weber Shop| Hoops
+    {% elif category_catalog == "Creole"%}
+        Oliver Weber Shop| Creole
+    {% elif category_catalog == "Clips"%}
+        Oliver Weber Shop| Clips
+    {% elif category_catalog == "Piercing"%}
+        Oliver Weber Shop| Piercing
+    {% elif category_catalog == "Pearl"%}
+        Oliver Weber Shop| Pearls
+    {% elif category_catalog == "Bracelets"%}
+        Oliver Weber Shop| Bracelets
+    {% elif category_catalog == "Bracelets"%}
+        Oliver Weber Shop| Bracelets
+    {% elif category_catalog == "Bangle"%}
+        Oliver Weber Shop| Bangle
+    {% elif category_catalog == "Chain"%}
+        Oliver Weber Shop| Chains
+    {% elif category_catalog == "Pearlchain"%}
+        Oliver Weber Shop| Pearlchains
+    {% elif category_catalog == "Anklet"%}
+        Oliver Weber Shop| Anklets
+    {% elif category_catalog == "Match"%}
+        Oliver Weber Shop| Matches
+    {% elif category_catalog == "Pen"%}
+        Oliver Weber Shop Online| Jewelry and accessories
+    {% elif category_catalog == "Key"%}
+        Oliver Weber Shop Online| Jewelry and accessories
+    {% elif category_catalog == "Extension"%}
+        Oliver Weber Shop Online| Extension
+    {% elif category_catalog == "UV"%}
+        Oliver Weber Shop| UV
+    {% elif category_catalog == "NotFound"%}
+        Page is not found
+    {% else %}
+        Page is not found
+    {% endif %}
+{% endblock %}
+{% block meta_description %}
+{% if category_catalog == "All"%}
+        All Oliver Weber's best selling products, get elegant jewelry, earrings, necklaces and chokers with rhinestones.
+    {% elif category_catalog == "Necklaces"%}
+        Pendants and necklaces with pearls and colored rhinestones. Elegant necklaces for women available in Oliver Weber's online store.
+    {% elif category_catalog == "Necklace"%}
+        Pendants and necklaces with pearls and colored rhinestones. Elegant necklaces for women available in Oliver Weber's online store.
+    {% elif category_catalog == "Colliers"%}
+        Pendants and necklaces with pearls and colored rhinestones. Elegant necklaces for women available in Oliver Weber's online store
+    {% elif category_catalog == "Pendants"%}
+        Pendants and necklaces with pearls and colored rhinestones. Elegant necklaces for women available in Oliver Weber's online store.
+    {% elif category_catalog == "Pearls"%}
+        Bracelets and bangles with chain, jewelry with pearls and colored rhinestones. Elegant bracelets for women available in Oliver Weber's online store.
+    {% elif category_catalog == "Accessories"%}
+        Jewelry, accessories, key rings, brooches... Find everything you are looking for in the Oliver Weber store.
+    {% elif category_catalog == "Pen"%}
+        Jewelry, accessories, key rings, brooches... Find everything you are looking for in the Oliver Weber store.
+    {% elif category_catalog == "Brooch"%}
+        Jewelry, accessories, key rings, brooches... Find everything you are looking for in the Oliver Weber store.
+    {% elif category_catalog == "Nailfile"%}
+        Jewelry, accessories, key rings, brooches... Find everything you are looking for in the Oliver Weber store.
+    {% elif category_catalog == "Ring"%}
+        Rings with pearls and colored rhinestones. Elegant ring for women available in Oliver Weber's online store.
+    {% elif category_catalog == "All Earrings"%}
+        Earrings for women, different designs, elegant sizes. Earrings for evening and office. Oliver Weber Collection.
+    {% elif category_catalog == "Earrings"%}
+        Earrings for women, different designs, elegant sizes. Earrings for evening and office. Oliver Weber Collection.
+    {% elif category_catalog == "Post Earrings"%}
+        Post Earrings for women, different designs, elegant sizes. Earrings for evening and office. Oliver Weber Collection.
+    {% elif category_catalog == "Studs"%}
+        Studs for women, different designs, elegant sizes. Earrings for evening and office. Oliver Weber Collection.
+    {% elif category_catalog == "Drops"%}
+        Drop Earrings for women, different designs, elegant sizes. Earrings for evening and office. Oliver Weber Collection.
+    {% elif category_catalog == "Hoops"%}
+        Hoops for women, different designs, elegant sizes. Earrings for evening and office. Oliver Weber Collection.
+    {% elif category_catalog == "Creole"%}
+        Creoles for women, different designs, elegant sizes. Earrings for evening and office. Oliver Weber Collection.
+    {% elif category_catalog == "Clips"%}
+        Clips for women, different designs, elegant sizes. Earrings for evening and office. Oliver Weber Collection.
+    {% elif category_catalog == "Piercing"%}
+        Jewelry, accessories, key rings, brooches... Find everything you are looking for in the Oliver Weber store.
+    {% elif category_catalog == "Pearl"%}
+        Bracelets and bangles with chain, jewelry with pearls and colored rhinestones. Elegant bracelets for women available in Oliver Weber's online store.
+    {% elif category_catalog == "Bracelets"%}
+        Bracelets and bangles with chain, jewelry with pearls and colored rhinestones. Elegant bracelets for women available in Oliver Weber's online store.
+    {% elif category_catalog == "Bracelets"%}
+        Bracelets and bangles with chain, jewelry with pearls and colored rhinestones. Elegant bracelets for women available in Oliver Weber's online store.
+    {% elif category_catalog == "Bangle"%}
+        Bracelets and bangles with chain, jewelry with pearls and colored rhinestones. Elegant bracelets for women available in Oliver Weber's online store.
+    {% elif category_catalog == "Chain"%}
+        Bracelets and bangles with chain, jewelry with pearls and colored rhinestones. Elegant bracelets for women available in Oliver Weber's online store.
+    {% elif category_catalog == "Pearlchain"%}
+        Pearlchain for women. Elegant jewelry and accessories for women. Find everything you are looking for in the Oliver Weber store.
+    {% elif category_catalog == "Anklet"%}
+        Anklets for women. Elegant jewelry and accessories for women. Find everything you are looking for in the Oliver Weber store.
+    {% elif category_catalog == "Match"%}
+        Matches for women. Elegant jewelry and accessories for women. Find everything you are looking for in the Oliver Weber store.
+    {% elif category_catalog == "Pen"%}
+        Jewelry, accessories, key rings, brooches... Find everything you are looking for in the Oliver Weber store.
+    {% elif category_catalog == "Key"%}
+        Jewelry, accessories, key rings, brooches... Find everything you are looking for in the Oliver Weber store.
+    {% elif category_catalog == "Extension"%}
+        Extension and much more! Find everything you are looking for in the Oliver Weber store.
+    {% elif category_catalog == "UV"%}
+        UV boxes and much more! Find everything you are looking for in the Oliver Weber store.
+    {% elif category_catalog == "NotFound"%}
+        Page doesn't exist.
+    {% endif %}
+{% endblock %}
 {% block content %}
 {% load static %}
 {% load i18n  %}
