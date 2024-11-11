@@ -58,7 +58,9 @@ def create_paypal_payment(request):
 
             order_id = random.randint(1000000, 100000000)
             cart = get_cart(email)
+            shipping = data.get('shipping', 0)
             full_price = round(sum(item["price"] for item in cart), 2)
+            full_price = full_price + shipping
             shippingAddress = data.get('shippingAddress', '')
             billingAddress = data.get('billingAddress', 0)
             if billingAddress == 0:

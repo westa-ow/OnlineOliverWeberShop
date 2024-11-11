@@ -410,8 +410,10 @@ h4{
 
 .card-block-totals{
     display: flex;
+    flex-direction: column;
+    gap:10px;
 }
-.cart-total,.cart-taxes{
+.cart-total, .cart-taxes, .cart-shipping{
     display: flex;
     flex-direction: column;
     color: #777;
@@ -419,7 +421,8 @@ h4{
     font-weight: 600;
 }
 .cart-total{
-    margin-right: 20px;
+    color: #5b5b5b;
+    font-size: 19px;
 }
 .cart-detailed-actions{
     text-align: center;

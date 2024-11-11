@@ -43,6 +43,8 @@ def create_checkout_session(request):
 
         shippingAddress = data.get('shippingAddress', '')
         billingAddress = data.get('billingAddress', 0)
+        vat = data.get('vat', 0)
+        shipping = data.get('shipping', 0)
         if billingAddress == 0:
             billingAddress = shippingAddress
         try:
@@ -56,6 +58,7 @@ def create_checkout_session(request):
             order_id = random.randint(1000000, 100000000)
             cart = get_cart(email)
             full_price = round(sum(item["price"] for item in cart), 2)
+            full_price += shipping
             metadata = {"Id": order_id, "email": email, "full_name": request.user.first_name + " " + request.user.last_name, "vat": data.get('vat', 0), "shippingAddress": shippingAddress, 'billingAddress': billingAddress}
 
             checkout_session = stripe.checkout.Session.create(

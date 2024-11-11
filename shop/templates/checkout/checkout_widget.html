@@ -20,14 +20,19 @@
                 </div>
             </div>
             <div class="card-block-totals">
-                <div class="cart-total" id="cart-total">
-                    <span class="label-total">{% trans "Total" %} (VAT Excl.)</span>
-                    <span class="value-total">{{ currency }}500.00</span>
-                </div>
                 <div id="cart-taxes" class="cart-taxes" style="display: none;">
                     <span class="label-taxes"> {% trans "Included taxes" %}: </span>
                     <span class="value-taxes">{{ currency }}84.00</span>
                 </div>
+                <div id="cart-shipping" class="cart-shipping" style="display: none;">
+                    <span class="label-shipping"> {% trans "Included shipping" %}: </span>
+                    <span class="value-shipping">{{ currency }}84.00</span>
+                </div>
+                <div class="cart-total" id="cart-total">
+                    <span class="label-total">{% trans "Total" %} (VAT Incl.)</span>
+                    <span class="value-total">{{ currency }}500.00</span>
+                </div>
+
             </div>
         </div>
     </div>
