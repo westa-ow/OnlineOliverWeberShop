@@ -202,6 +202,9 @@ li{
 .chat-answered {
     border-right: 5px solid green;
 }
+.chat-archived {
+    border-right: 5px solid #7c7c7c;
+}
 .file-message {
     border: 1px solid #ccc;
     padding: 5px;

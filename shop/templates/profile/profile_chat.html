@@ -35,6 +35,7 @@
         <div class="chat-type-selector">
             <span id="B2C" class="type-selector-value" data-chat-type="B2C">{% trans "B2C" %}</span>
             <span id="B2B" class="type-selector-value" data-chat-type="B2B">{% trans "B2B" %}</span>
+            <span id="Archived" class="type-selector-value" data-chat-type="archived">{% trans "Archive" %}</span>
         </div>
 
         <!-- Интерфейс для админа -->
@@ -100,11 +101,17 @@ function setTypesCorrectly(){
         if(selectedChatType==="B2C"){
             document.getElementById("B2C").classList.add('active');
             document.getElementById("B2B").classList.remove('active');
+            document.getElementById("Archived").classList.remove('active');
         }
-        else{
+        else if(selectedChatType==="B2B"){
             document.getElementById("B2B").classList.add('active');
             document.getElementById("B2C").classList.remove('active');
-
+            document.getElementById("Archived").classList.remove('active');
+        }
+        else{
+            document.getElementById("B2B").classList.remove('active');
+            document.getElementById("B2C").classList.remove('active');
+            document.getElementById("Archived").classList.add('active');
         }
         currentChatId = null;
         document.querySelector('#chat-log').innerHTML = `<span class="center-span">{% trans "Select chat" %}</span>`;
@@ -182,7 +189,12 @@ onSnapshot(q2, (chatsRef) => {
         const list = document.querySelector('.chat-list');
         list.innerHTML = '';
         chats.forEach((chat) => {
-            if(chat.chat_type !== selectedChatType) return;
+            if(selectedChatType !== "archived") {
+                if (chat.chat_type !== selectedChatType) return;
+            }
+            else{
+                if (chat.chat_state !== selectedChatType) return;
+            }
             const messageElement = document.createElement('li');
 
             if (chat.chat_id === currentChatId) {
@@ -426,19 +438,6 @@ function updateChatUI(messages) {
 async function setUpChats() {
     if (role === "Admin") {
         const chatsRef = collection(db, "chats");
-        {#let queryChats;#}
-        {#if (selectedChatType) {#}
-        {#    queryChats = query(#}
-        {#        chatsRef,#}
-        {#        where("chat_type", "==", selectedChatType), // Apply chat type filter#}
-        {#        orderBy("activity", "desc") // Order by activity#}
-        {#    );#}
-        {# else {#}
-        {#    queryChats = query(#}
-        {#        chatsRef,#}
-        {#        orderBy("activity", "desc") // Default order without filtering#}
-        {#    );#}
-        {##}
         const queryChats = query(chatsRef, orderBy("activity", "desc"));
 
         onSnapshot(queryChats, (chatsSnapshot) => {
@@ -455,12 +454,17 @@ async function setUpChats() {
                     console.log("Condition failed for:", chat.chat_type);
                     return;
                 }
-                if(chat.chat_type === selectedChatType){
-
+                if(selectedChatType!=="archived"){
+                    if(chat.chat_type !== selectedChatType || chat.chat_state === "archived"){
+                        return;
+                    }
                 }
                 else{
-                    return;
+                    if(chat.chat_state !== selectedChatType){
+                        return;
+                    }
                 }
+
                 console.log("It reached here");
                 const chatElement = document.createElement('li');
                 chatElement.classList.add('li-select');
@@ -477,6 +481,9 @@ async function setUpChats() {
                         break;
                     case 'answered':
                         chatElement.classList.add('chat-answered');
+                        break;
+                    case 'archived':
+                        chatElement.classList.add('chat-archived');
                         break;
                 }
 
