@@ -98,6 +98,10 @@
                     <span class="label-taxes">{% trans "Included taxes"  %}:</span>
                     <span class="value-taxes">{{ currency }}84.00</span>
                 </div>
+                <div class="cart-shipping" style="display: none">
+                    <span class="label-shippinh">{% trans "Included shippinh"  %}:</span>
+                    <span class="value-shipping">{{ currency }}84.00</span>
+                </div>
             </div>
         </div>
         <div class="cart-detailed-actions">
@@ -116,7 +120,7 @@
     let documentss = [];
     function init() {
         documentss = {{ documents|safe }};
-        calculate_final(0, currency, documentss);
+        calculate_final(0, 0, currency, documentss);
     }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -140,7 +144,7 @@ function parameters_final(productId, newQuantity){
         return doc;
 
     });
-    calculate_final(0, currency, documentss);
+    calculate_final(0,0, currency, documentss);
 }
 function saveState(name, value) {
     localStorage.setItem(name, value);
@@ -276,7 +280,7 @@ function deleteBut(documentId, documentContainer){
                     let docElement = document.querySelector(`[data-document-id="${doc.id}"]`);
                     console.log(docElement);
                 });
-                calculate_final(0, currency, documents);
+                calculate_final(0,0, currency, documents);
               } else {
                   console.error('Error in deletion');
               }

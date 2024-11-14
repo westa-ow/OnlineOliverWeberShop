@@ -5,7 +5,7 @@ def user_role(request):
     role = None
     if request.user.is_authenticated:
         user_info = get_user_info(request.user.email)
-        role = user_info['role'] if user_info and 'role' in user_info else None
+        role = user_info['role'] if user_info and 'role' in user_info else "Customer"
     return {'user_role': role}
 
 def user_is_special(request):

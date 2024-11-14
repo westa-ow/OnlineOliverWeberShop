@@ -1,8 +1,9 @@
 @media (min-width: 769px) {
     .cont1-1 {
-        width: 1260px;
+        width: 1460px;
         max-width: 100%;
         display: flex;
+        gap:10px;
     }
 }
 @media (max-width: 768px) {
@@ -14,7 +15,7 @@
 }
 .cont1-1{
    margin-left: auto;
-  margin-right: auto;
-  padding-left: 15px;
-  padding-right: 15px;
+   margin-right: auto;
+   padding-left: 15px;
+   padding-right: 15px;
 }

@@ -38,6 +38,7 @@ from shop.views_scripts.catalog_views import update_cart, get_full_product
 def profile(request, feature_name):
     email = request.user.email
     orders = get_orders_for_user(email)
+    print(orders)
     order_details = get_order_details(orders)
     email = request.user.email
     category, currency = get_user_prices(request,email)
@@ -53,7 +54,11 @@ def profile(request, feature_name):
             return redirect('profile', feature_name='dashboard')
     context = build_context(feature_name, email, orders, order_details)
     context['currency'] = currency
+    context['userId'] = info['userId']
+    context['username'] = info['first_name'] + " " + info['last_name']
     context['show_quantities'] = show_quantities
+
+
     return render(request, 'profile.html', context=context)
 
 def get_orders_for_user(email):
@@ -72,6 +77,7 @@ def get_orders_for_user(email):
             'order_id': order_id,
             'sum': order_info.get('price')
         })
+    orders.sort(key=lambda x: x['date'], reverse=True)
     return orders
 
 def format_date(date_obj):
@@ -266,7 +272,7 @@ def upload_file(request):
                 if not product_name or new_quantity is None:
                     continue  # Пропускаем строки с отсутствующими данными
 
-                product_name=str(product_name)
+                product_name = str(product_name)
                 new_quantity = int(new_quantity)
                 # Получаем данные из пользовательской сессии и вызываем нужные функции
                 email = get_user_session_type(request)
