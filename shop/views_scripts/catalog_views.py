@@ -238,7 +238,7 @@ def add_to_cart_from_catalog(request):
 
 
 def get_full_product(catalog_product_name):
-    docs = itemsRef.where('name', '==', catalog_product_name).where('Visibility', '==', True).limit(1).stream()
+    docs = itemsRef.where('name', '==', catalog_product_name).where('Visible', '==', True).limit(1).stream()
     for doc in docs:
         return doc.to_dict()
     return None
