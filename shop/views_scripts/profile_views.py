@@ -257,9 +257,12 @@ def upload_file(request):
     if request.method == 'POST' and 'file' in request.FILES:
         uploaded_file = request.FILES['file']
 
+        errors = []
+
         # Проверка на корректное расширение файла
         if not (uploaded_file.name.endswith('.xlsx') or uploaded_file.name.endswith('.xls')):
-            return JsonResponse({'status': 'error', 'message': 'Invalid file format. Only .xlsx or .xls are allowed'}, status=400)
+            errors.append(_('Invalid file format. Only .xlsx or .xls are allowed'))
+            return JsonResponse({'status': 'error', 'message': 'Invalid file format. Only .xlsx or .xls are allowed', 'errors': errors}, status=400)
 
         try:
             # Открываем загруженный файл с помощью openpyxl
@@ -270,6 +273,7 @@ def upload_file(request):
             for row in sheet.iter_rows(min_row=2, values_only=True):  # min_row=2 пропускает заголовок
                 product_name, new_quantity = row
                 if not product_name or new_quantity is None:
+                    errors.append(_('Invalid data in row') + f': {row}')
                     continue  # Пропускаем строки с отсутствующими данными
 
                 product_name = str(product_name)
@@ -283,13 +287,20 @@ def upload_file(request):
 
                 # Проверяем наличие имени товара и количества
                 if not product_name or new_quantity is None:
+                    errors.append(_('Invalid data in row') + f': {row}')
                     continue  # Пропускаем строки без продукта или количества
-
+                if new_quantity <= 0:
+                    errors.append(_("Quantity can only be greater than 0)") + f": {row}")
+                    continue
                 # Ищем информацию о продукте
                 document = get_full_product(product_name)
                 if not document:
+                    errors.append(_('Product not found') + f': {product_name}')
                     continue  # Если продукт не найден, продолжаем обработку следующей строки
 
+                if document['quantity'] < new_quantity:
+                    errors.append(_('Requested quantity') + f'({new_quantity})' + _('is less than number of products in storage for product')+ f': {product_name}')
+                    continue
                 # Определяем цену товара в зависимости от категории
                 if category == "VK3":
                     document['price'] = document.get('priceVK3', 0)
@@ -306,11 +317,12 @@ def upload_file(request):
                 subtotal, cart_size = update_cart(email, product_name, new_quantity, document)
 
                 if subtotal is None:
-                    return JsonResponse({'status': 'error', 'message': 'An error occurred while processing your request'}, status=500)
+                    errors.append(_('Error updating cart for product') + f': {product_name}')
+                    return JsonResponse({'status': 'error', 'message': 'An error occurred while processing your request', 'errors': errors}, status=500)
 
-            return JsonResponse({'status': 'success', 'message': 'All products processed successfully'})
+            return JsonResponse({'status': 'success', 'message': 'All products processed successfully', 'errors': errors}, status=200)
 
         except Exception as e:
-            return JsonResponse({'status': 'error', 'message': f'Error processing file: {str(e)}'}, status=500)
+            return JsonResponse({'status': 'error', 'message': f'Error processing file: {str(e)}', 'errors': errors}, status=500)
     else:
         return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)

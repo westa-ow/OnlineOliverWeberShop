@@ -7,19 +7,29 @@
     <header class="page-header">
         <h1 style="color: #0a0a0a"> {% trans "Order import" %}</h1>
     </header>
-    <p>
-        <div>{% trans "Here you can upload an xlsx file that holds product numbers and quantities to add them to your cart immediately" %}</div>
+    <div>{% trans "Here you can upload an xlsx file that holds product numbers and quantities to add them to your cart immediately" %}</div>
 
-        <div class="container-buttons">
-            <a class="download-btn" href="{% static "files/Example.xlsx" %}">{% trans "Download example" %} <i class="fa-solid fa-download"></i> </a>
-            <form id="upload-form" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input type="file" id="file-input" name="file" accept=".xlsx,.xls" style="display: none;" />
-                <button type="button" class="upload-btn" id="upload-button">{% trans "Upload xlsx" %} <i class="fa-solid fa-upload"></i></button>
-            </form>
+    <div class="container-buttons">
+        <a class="download-btn" href="{% static "files/Example.xlsx" %}">{% trans "Download example" %} <i class="fa-solid fa-download"></i> </a>
+        <form id="upload-form" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" id="file-input" name="file" accept=".xlsx,.xls" style="display: none;" />
+            <button type="button" class="upload-btn" id="upload-button">{% trans "Upload xlsx" %} <i class="fa-solid fa-upload"></i></button>
+        </form>
+    </div>
+
+    <div id="errorModal" class="modal-import" style="display:none;">
+        <div class="modal-overlay">
+            <div class="modal-content-import">
+            <div class="success-message"><span>{% trans "Items were successfully added!" %}</span> <span class="close-button">&times;</span></div>
+            <div class="error-message"> {% trans "Errors occurred during file processing:" %}</div>
+            <span class="close-button">&times;</span>
+            <div id="errorText"></div>
+            <button id="okButton">OK</button>
+        </div>
         </div>
 
-
+    </div>
 
 </section>
 <script>
@@ -42,9 +52,37 @@
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                alert('Products updated successfully');
-            } else {
-                alert('Error: ' + data.message);
+                let errorModal = document.getElementById("errorModal");
+                let errorText = document.getElementById("errorText");
+                let okButton = document.getElementById("okButton");
+                let closeButton = document.querySelector(".close-button");
+                let overlay = document.querySelector(".modal-overlay");
+
+                if (data.errors) {
+                    errorModal.style.display = "block";
+                    document.body.classList.add('modal-open');
+                    overlay.style.display = "flex"; // Show overlay
+                    errorText.innerHTML = '';
+                    for (let i = 0; i < data.errors.length; i++) {
+                        let errorText1 = document.createElement('p');
+                        errorText1.textContent = data.errors[i];
+                        errorText.appendChild(errorText1);
+                    }
+                } else {
+                    alert('Products updated successfully');
+                }
+
+                okButton.onclick = function () {
+                    errorModal.style.display = "none";
+                    overlay.style.display = "none"; // Hide overlay
+                    document.body.classList.remove('modal-open');
+                };
+
+                closeButton.onclick = function () {
+                    errorModal.style.display = "none";
+                    overlay.style.display = "none"; // Hide overlay
+                    document.body.classList.remove('modal-open');
+                };
             }
         })
         .catch(error => {
