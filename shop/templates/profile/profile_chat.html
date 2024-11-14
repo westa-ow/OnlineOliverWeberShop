@@ -35,7 +35,8 @@
         <div class="chat-type-selector">
             <span id="B2C" class="type-selector-value" data-chat-type="B2C">{% trans "B2C" %}</span>
             <span id="B2B" class="type-selector-value" data-chat-type="B2B">{% trans "B2B" %}</span>
-            <span id="Archived" class="type-selector-value" data-chat-type="archived">{% trans "Archive" %}</span>
+            <span id="ArchivedB2C" class="type-selector-value" data-chat-type="archivedB2C">{% trans "Archive B2C" %}</span>
+            <span id="ArchivedB2B" class="type-selector-value" data-chat-type="archivedB2B">{% trans "Archive B2B" %}</span>
         </div>
 
         <!-- Интерфейс для админа -->
@@ -59,6 +60,7 @@
                     <textarea id="chat-message-input" placeholder="{% trans "Write a message" %}..."></textarea>
                     <button id="chat-message-submit" type="button">{% trans "Send" %}</button>
                     <button id="chat-message-view" type="button"><i class=""></i></button>
+                    <button id="chat-message-archive" type="button"><i class=""></i></button>
                 </div>
             </div>
 
@@ -96,26 +98,39 @@ const chatMessagesRef = collection(db, "chat_messages");
 const q = query(chatMessagesRef, where("chat_id", "==", currentChatId), orderBy("timestamp"));
 const chatMessagesRef2 = collection(db, "chat_messages");
 const q2 = query(chatMessagesRef2, orderBy("activity"));
-function setTypesCorrectly(){
+function setTypesCorrectly(deleteChat){
     if(role === "Admin"){
         if(selectedChatType==="B2C"){
             document.getElementById("B2C").classList.add('active');
             document.getElementById("B2B").classList.remove('active');
-            document.getElementById("Archived").classList.remove('active');
+            document.getElementById("ArchivedB2C").classList.remove('active');
+            document.getElementById("ArchivedB2B").classList.remove('active');
         }
         else if(selectedChatType==="B2B"){
             document.getElementById("B2B").classList.add('active');
             document.getElementById("B2C").classList.remove('active');
-            document.getElementById("Archived").classList.remove('active');
+            document.getElementById("ArchivedB2C").classList.remove('active');
+            document.getElementById("ArchivedB2B").classList.remove('active');
+        }
+        else if(selectedChatType==="archivedB2C"){
+            document.getElementById("B2B").classList.remove('active');
+            document.getElementById("B2C").classList.remove('active');
+            document.getElementById("ArchivedB2C").classList.add('active');
+            document.getElementById("ArchivedB2B").classList.remove('active');
         }
         else{
             document.getElementById("B2B").classList.remove('active');
             document.getElementById("B2C").classList.remove('active');
-            document.getElementById("Archived").classList.add('active');
+            document.getElementById("ArchivedB2C").classList.remove('active');
+            document.getElementById("ArchivedB2B").classList.add('active');
         }
-        currentChatId = null;
-        document.querySelector('#chat-log').innerHTML = `<span class="center-span">{% trans "Select chat" %}</span>`;
+        if(deleteChat){
+            currentChatId = null;
+            document.querySelector('#chat-log').innerHTML = `<span class="center-span">{% trans "Select chat" %}</span>`;
+        }
     }
+
+
 
 }
 document.addEventListener("DOMContentLoaded", async function () {
@@ -124,7 +139,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     {##}
     if(role === "Admin"){
         setUpChats();
-        setTypesCorrectly();
+        setTypesCorrectly(true);
 
     }
     if(currentChatId === null){
@@ -138,6 +153,11 @@ document.addEventListener("DOMContentLoaded", async function () {
             const button_viewed = document.getElementById('chat-message-view');
             button_viewed.disabled = true;
             button_viewed.style.backgroundColor = "#ccc";
+
+            const button_archive = document.getElementById('chat-message-archive');
+            button_archive.disabled = true;
+            button_archive.style.backgroundColor = "#ccc";
+
         }
     }
     else{
@@ -151,6 +171,9 @@ document.addEventListener("DOMContentLoaded", async function () {
             const button_viewed = document.getElementById('chat-message-view');
             button_viewed.disabled = false;
             button_viewed.style.backgroundColor = "#139313";
+            const button_archive = document.getElementById('chat-message-archive');
+            button_archive.disabled = false;
+            button_archive.style.backgroundColor = "#003765";
         }
     }
 });
@@ -164,11 +187,10 @@ document.addEventListener("click", function (event) {
 function selectChatType(type) {
     selectedChatType = type;
     setUpChats(); // Refresh chats with the selected type
-    setTypesCorrectly();
+    setTypesCorrectly(true);
 }
 
 onSnapshot(q, (querySnapshot) => {
-    console.log("THIS 12 THIS THIS THIS THIS");
     const messages = [];
     querySnapshot.forEach((doc) => {
         messages.push(doc.data());
@@ -189,11 +211,11 @@ onSnapshot(q2, (chatsRef) => {
         const list = document.querySelector('.chat-list');
         list.innerHTML = '';
         chats.forEach((chat) => {
-            if(selectedChatType !== "archived") {
+            if(selectedChatType !== "archivedB2B" && selectedChatType !== "archivedB2C")  {
                 if (chat.chat_type !== selectedChatType) return;
             }
             else{
-                if (chat.chat_state !== selectedChatType) return;
+                if (chat.chat_state !== "archived") return;
             }
             const messageElement = document.createElement('li');
 
@@ -284,6 +306,21 @@ async function selectChat(task) {
             button_viewed_icon.classList.remove('fa-check');
         }
 
+
+        const button_archived = document.getElementById('chat-message-archive');
+        button_archived.disabled = false;
+        button_archived.style.backgroundColor = "#003665";
+        const button_archived_icon = document.querySelector('#chat-message-archive i');
+        button_archived_icon.classList.add('fa-solid');
+        if(chatDoc.data().chat_state === "archived") {
+            button_archived_icon.classList.remove('fa-remove');
+            button_archived_icon.classList.add('fa-archive');
+        }
+        else{
+            button_archived_icon.classList.add('fa-remove');
+            button_archived_icon.classList.remove('fa-archive');
+        }
+
     }
 
 
@@ -294,7 +331,6 @@ async function selectChat(task) {
 
     // Set up a new onSnapshot listener and store the unsubscribe function
     unsubscribeChatMessages = onSnapshot(q, async (querySnapshot) => {
-        console.log("THIS IS NOT IT");
         if (querySnapshot.empty) {
             updateChatUI([]);
             return;
@@ -322,6 +358,10 @@ async function selectChat(task) {
                 const button_viewed_icon = document.querySelector('#chat-message-view i');
                 button_viewed_icon.classList.add('fa-remove');
                 button_viewed_icon.classList.remove('fa-check');
+
+                const button_archived_icon = document.querySelector('#chat-message-archive i');
+                button_archived_icon.classList.add('fa-remove');
+                button_archived_icon.classList.remove('fa-archive');
             }
         }
     });
@@ -345,6 +385,7 @@ async function change_status() {
     updateChatBorderColor('answered');
 }
 async function sendMessage(senderId, senderName, messageText) {
+    if(messageText==="") return;
     const chatRef = doc(db, "chats", currentChatId); // Получаем ссылку на документ чата
     const chatDoc = await getDoc(chatRef);
     if (role === "Customer") {
@@ -406,7 +447,6 @@ function updateChatUI(messages) {
             // The message is from an admin
             messageElement.classList.add('message-admin');
         }
-        console.log(message);
 
         if (message.type === "file") {
             // If the message is a file, display it as a downloadable link
@@ -448,20 +488,27 @@ async function setUpChats() {
             chatsSnapshot.forEach((doc) => {
 
                 const chat = doc.data();
-                console.log("Chat started:", chat.chat_started, "| Chat type:", chat.chat_type, "| Selected chat type:", selectedChatType);
 
                 if(chat.chat_started === false){
-                    console.log("Condition failed for:", chat.chat_type);
                     return;
                 }
-                if(selectedChatType!=="archived"){
+                if(selectedChatType !== "archivedB2C" && selectedChatType !== "archivedB2B" ){
                     if(chat.chat_type !== selectedChatType || chat.chat_state === "archived"){
                         return;
                     }
                 }
-                else{
-                    if(chat.chat_state !== selectedChatType){
+                else {
+
+                    if(chat.chat_state !== "archived" ){
                         return;
+                    }
+                    else{
+                        if(selectedChatType==="archivedB2C" && chat.chat_type !== "B2C"){
+                            return;
+                        }
+                        if(selectedChatType==="archivedB2B" && chat.chat_type !== "B2B"){
+                            return;
+                        }
                     }
                 }
 
@@ -496,8 +543,9 @@ async function setUpChats() {
         });
     }}
 
-function updateChatBorderColor(state) {
+function updateChatBorderColor(state, type="viewed") {
     const selectedItem = document.querySelector(`.chat-list .selected`);
+    console.log("Once here");
     if (selectedItem) {
         selectedItem.classList.remove('chat-sent', 'chat-viewed', 'chat-answered');
         switch (state) {
@@ -510,17 +558,23 @@ function updateChatBorderColor(state) {
             case 'answered':
                 selectedItem.classList.add('chat-answered');
                 break;
+            case 'archived':
+                selectedItem.classList.add('chat-archived');
+                break;
         }
     }
-    const button_viewed_icon = document.querySelector('#chat-message-view i');
-    if(state === 'answered') {
-        button_viewed_icon.classList.remove('fa-remove');
-        button_viewed_icon.classList.add('fa-check');
+    if(type==="viewed") {
+        const button_viewed_icon = document.querySelector('#chat-message-view i');
+        if (state === 'answered') {
+            button_viewed_icon.classList.remove('fa-remove');
+            button_viewed_icon.classList.add('fa-check');
+        } else {
+            button_viewed_icon.classList.add('fa-remove');
+            button_viewed_icon.classList.remove('fa-check');
+        }
     }
-    else{
-        button_viewed_icon.classList.add('fa-remove');
-        button_viewed_icon.classList.remove('fa-check');
-    }
+
+
 }
 
 document.querySelector('#chat-message-submit').onclick = function(e) {
@@ -545,15 +599,55 @@ document.querySelector('#chat-message-view').onclick = function(e) {
     else{
         console.log("Виберіть чат");
     }};
+document.querySelector('#chat-message-archive').onclick = function(e) {
+    if(currentChatId !== null){
+        const archive_button_icon = document.querySelector('#chat-message-archive i');
+        archive_button_icon.classList.add('fa-solid','fa-archive');
+        archive_button_icon.classList.remove('fa-remove');
 
+        if(selectedChatType.length === 3){
+            selectedChatType = "archived" + selectedChatType;
+        }
+        else{
+            selectedChatType = selectedChatType.slice(-3);
+        }
+        change_status_archive();
+        setTypesCorrectly(false);
+    }
+    else{
+        console.log("Виберіть чат");
+    }};
+async function change_status_archive() {
+
+    const chatRef = doc(db, "chats", currentChatId); // Получаем ссылку на документ чата
+    if(selectedChatType.length>3) {
+        await updateDoc(chatRef, {
+            chat_state: "archived" // Если сообщение отправляет студент, флаг viewed становится false
+        });
+        const button_archived_icon = document.querySelector('#chat-message-archive i');
+        button_archived_icon.classList.remove('fa-remove');
+        button_archived_icon.classList.add('fa-archive');
+        updateChatBorderColor('archived', "archive");
+
+    }
+    else{
+        await updateDoc(chatRef, {
+            chat_state: "answered" // Если сообщение отправляет студент, флаг viewed становится false
+        });
+        const button_archived_icon = document.querySelector('#chat-message-archive i');
+        button_archived_icon.classList.add('fa-remove');
+        button_archived_icon.classList.remove('fa-archive');
+
+
+        updateChatBorderColor('answered', "archive");
+    }
+}
 document.getElementById('chat-file-upload').onclick = function() {
     // Trigger the file input when the button is clicked
-    console.log("CLICKED");
     document.getElementById('chat-file-input').click();
 };
 
 document.getElementById('chat-file-input').onchange = async function(e) {
-    console.log("CLICKED");
     if(currentChatId !== null){
         const file = e.target.files[0]; // Get the selected file
         if (file) {
