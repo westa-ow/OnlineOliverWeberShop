@@ -221,6 +221,11 @@ li{
 .message{
 
 }
+.icon-functions{
+    font-size: 22px;
+    cursor: pointer;
+
+}
 .message-customer {
     /*border: 2px solid #f3b296;*/
     padding: 10px;
@@ -229,6 +234,9 @@ li{
     background-color: #f0f0f0; /* Light red background */
     .message-text{
         color: #8a8a8a;
+    }
+    .icon-functions{
+        color: #34373a;
     }
 }
 
@@ -242,10 +250,18 @@ li{
     .message-text{
         color: #e0e0e0;
     }
+    .icon-functions{
+        color: #d2d2d2;
+    }
 }
 .timestamp{
     font-size: 14px;
 
+}
+.message-name-container{
+    display: flex;
+    gap:10px;
+    align-items: center;
 }
 .message-name{
     font-size: 18px;
@@ -259,24 +275,6 @@ li{
 .message-text{
     word-wrap: break-word;
 }
-/* Адаптивность */
-/*@media (max-width: 600px) {*/
-/*    .chat-container {*/
-/*        width: 100%;*/
-/*        height: 100%;*/
-/*    }*/
-
-/*    .chat-list {*/
-/*        width: 100%;*/
-/*        height: 150px;*/
-/*        border-right: none;*/
-/*        border-bottom: 1px solid #ddd;*/
-/*    }*/
-
-/*    .chat-window {*/
-/*        width: 100%;*/
-/*    }*/
-/*}*/
 
 .center-span{
     position: absolute;
@@ -285,4 +283,36 @@ li{
     transform: translate(-50%, -50%);
     font-size: 32px;
     color: #a9a9a9;
+}
+
+/* Icon */
+.icon-functions {
+    cursor: pointer;
+    font-size: 20px;
+    margin: 10px;
+}
+
+.context-menu {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 5px;
+    z-index: 1000;
+}
+
+.context-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.context-menu li {
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.context-menu li:hover {
+    background-color: #f0f0f0;
 }

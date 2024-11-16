@@ -70,7 +70,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-import { getFirestore, collection, query, onSnapshot, doc, getDoc, setDoc, serverTimestamp, addDoc,updateDoc, where, orderBy } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+import { getFirestore, collection, query, onSnapshot, doc, getDoc, setDoc, serverTimestamp, addDoc, deleteDoc,updateDoc, where, orderBy } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-storage.js";
 
 
@@ -192,13 +192,15 @@ function selectChatType(type) {
 
 onSnapshot(q, (querySnapshot) => {
     const messages = [];
+    const messagesSnapshots = [];
     querySnapshot.forEach((doc) => {
         messages.push(doc.data());
+        messagesSnapshots.push(doc);
     });
 
     // Обновление интерфейса только если это текущий чат
     if (currentChatId === querySnapshot.query._query.path.segments[1] ) {
-        updateChatUI(messages);
+        updateChatUI(messagesSnapshots);
     }});
 
 // Modify onSnapshot for chats to update the chat list without changing the selected chat
@@ -337,12 +339,14 @@ async function selectChat(task) {
         }
 
         const messages = [];
+        const messagesSnapshots = [];
         querySnapshot.forEach((doc) => {
             messages.push(doc.data());
+            messagesSnapshots.push(doc);
         });
         // Обновляем интерфейс только если это текущий чат
         if (currentChatId === messages[0].chat_id) {
-            updateChatUI(messages);
+            updateChatUI(messagesSnapshots);
 
             const chatRef = doc(db, "chats", currentChatId);
             const chatDoc = await getDoc(chatRef);
@@ -419,25 +423,32 @@ async function sendMessage(senderId, senderName, messageText) {
         activity: serverTimestamp()
     });}
 
-function updateChatUI(messages) {
+function updateChatUI(messagesSnapshots) {
     const chatLog = document.querySelector('#chat-log');
 
     // Clear the chat log
     chatLog.innerHTML = '';
 
     // Add each message to the chat log
-    messages.forEach((message) => {
+    messagesSnapshots.forEach((messageSnapshot) => {
+        let message = messageSnapshot.data();
         const messageElement = document.createElement('div');
+        messageElement.classList.add('message');
+
+
         const messageElementHigh = document.createElement('div');
         messageElementHigh.classList.add('message-high');
+
+        const messageElementHighNameContainer = document.createElement('div');
+        messageElementHighNameContainer.classList.add('message-name-container');
         const messageElementHighName = document.createElement('div');
         messageElementHighName.classList.add('message-name');
+
 
         const messageElementHighTime = document.createElement('div');
         messageElementHighTime.classList.add('timestamp');
         const messageElementText = document.createElement('div');
         messageElementText.classList.add('message-text');
-
 
 
         if (message.user_role !== "Admin") {
@@ -465,10 +476,51 @@ function updateChatUI(messages) {
             messageElementHighTime.textContent = formatTimestamp(message.timestamp.seconds, message.timestamp.nanoseconds);
             messageElementHighName.textContent = message.sender_name;
         }
+        messageElementHighNameContainer.appendChild(messageElementHighName);
+        if (role === "Admin") {
+            const functionsIcon = document.createElement('i');
+            functionsIcon.classList.add('fa-solid', 'fa-ellipsis-h', 'icon-functions');
+            messageElementHighNameContainer.appendChild(functionsIcon);
+
+            const menu = document.createElement('div');
+            menu.classList.add('context-menu');
+            menu.style.display = 'none'; // Initially hidden
+            menu.innerHTML = `
+                <ul>
+                    <li class="deleteMessage">Delete Message</li>
+                </ul>
+            `;
+
+            // Append the menu to the message element to avoid global conflicts
+            document.body.appendChild(menu);
+
+            // Show menu on icon click
+            functionsIcon.addEventListener('click', (e) => {
+                menu.style.display = 'block';
+                menu.style.position = 'absolute';
+                menu.style.left = `${e.pageX}px`;
+                menu.style.top = `${e.pageY}px`;
+            });
+
+            // Hide menu on click outside
+            document.addEventListener('click', (e) => {
+                if (e.target !== functionsIcon && !menu.contains(e.target)) {
+                    menu.style.display = 'none';
+                }
+            });
+
+            // Attach deleteMessage functionality
+            menu.querySelector('.deleteMessage').addEventListener('click', () => {
+                {#console.log(messageSnapshot.id);#}
+                deleteMessage(messageSnapshot.id); // Pass the current message as context
+                menu.style.display = 'none'; // Hide the menu after selecting an option
+            });
+        }
+        messageElementHigh.appendChild(messageElementHighNameContainer);
+        messageElementHigh.appendChild(messageElementHighTime);
         messageElement.appendChild(messageElementHigh);
         messageElement.appendChild(messageElementText);
-        messageElementHigh.appendChild(messageElementHighName);
-        messageElementHigh.appendChild(messageElementHighTime);
+
         chatLog.appendChild(messageElement);
     });
 
@@ -708,6 +760,21 @@ async function sendFileMessage(senderId, senderName, fileName, fileURL) {
     await updateDoc(chatRef, {
         activity: serverTimestamp()
     });}
+
+async function deleteMessage(messageId) {
+    try {
+        // Reference the message document by ID
+        const messageRef = doc(db, "chat_messages", messageId);
+
+        // Delete the document
+        await deleteDoc(messageRef);
+
+        console.log(`Message with ID ${messageId} has been deleted.`);
+    } catch (error) {
+        console.error("Error deleting message:", error);
+    }
+}
+
 function formatTimestamp(seconds, nanoseconds) {
     // Преобразуем секунды в миллисекунды
     const timestampInMillis = (seconds * 1000) + (nanoseconds / 1000000);
