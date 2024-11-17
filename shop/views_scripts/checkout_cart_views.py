@@ -230,8 +230,8 @@ def receipt_generator(orders, order, name, currency, vat):
     # and 'order' contains details about the order itself
     buffer = BytesIO()
 
-    shipping_address = get_address_info(order.shippingAddressId)
-    billing_address = get_address_info(order.billingAddressId)
+    shipping_address = get_address_info(order.get('shippingAddressId', ""))
+    billing_address = get_address_info(order.get('billingAddressId', ""))
 
     date_str = order['date']
     date_obj = datetime.fromisoformat(date_str)
