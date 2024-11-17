@@ -740,7 +740,7 @@ def get_order(order_id):
 
     # Если ничего не найдено, ищем по ключу `order-id`
     if not order:
-        chosenOrderRef = orders_ref.where("order-id", '==', int(order_id)).limit(1).stream()
+        chosenOrderRef = orders_ref.where("`order-id`", '==', int(order_id)).limit(1).stream()
         for chosenReference in chosenOrderRef:
             order = chosenReference.to_dict()
             break  # Если найден хотя бы один результат, выходим из цикла
