@@ -321,7 +321,7 @@ def receipt_generator(orders, order, name, currency, vat):
         ["Billing Address:", f"Ship-To Name: {shipping_address.get('first_name', '')} {shipping_address.get('last_name', '')}"],
         [f"{billing_address.get('real_address', '')}", f"Shipping Address: {shipping_address.get('real_address', '')}"],
         [f"{billing_address.get('city', '')}", f"{shipping_address.get('city','')}"],
-        [f"{billing_address}", f"{shipping_address.get('postal_code','')}"],
+        [f"{billing_address.get('postal_code','')}", f"{shipping_address.get('postal_code','')}"],
         # ["Ontario", "ON"],
         [f"{billing_address.get('country', '')}", f"{shipping_address.get('country', '')}"],
     ]
@@ -342,7 +342,7 @@ def receipt_generator(orders, order, name, currency, vat):
     # Таблица товаров
     product_data = [
         ["Product", "Photo", "Item Details", "Quantity", "Unit Price", "Total"],
-        ["12345G", "", "DE LA MER CARMELIZED ONION COD CAKES (5OZ)", "1", "CA$5.99", "CA$5.99"],
+
     ]
     for item_order in orders:
         image_path = item_order['image-url']  # Adjust this line to get the actual image path or object
