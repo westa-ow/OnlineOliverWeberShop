@@ -106,7 +106,7 @@ def send_email(request):
         data = json.loads(request.body)
         vat = int(data.get('vat', 0))/100
         shippingAddress = data.get('shippingAddress', '')
-        billingAddress = data.get('billingAddress', '')
+        billingAddress = data.get('billingAddress', 0)
         if billingAddress == 0:
             billingAddress = shippingAddress
 
