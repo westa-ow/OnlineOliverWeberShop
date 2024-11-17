@@ -4,11 +4,13 @@ import csv
 from django.contrib.auth.decorators import login_required
 from reportlab.lib import colors
 from background_task import background
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 
 from shop.decorators import login_required_or_session, logout_required
 from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, get_cart, cart_ref, single_order_ref, \
     get_user_category, get_user_session_type, metadata_ref, users_ref, update_email_in_db, get_user_prices, \
-    get_user_info, get_address_info
+    get_user_info, get_address_info, get_vat_info, get_shipping_price, get_order, get_order_items
 import ast
 import random
 from datetime import datetime
@@ -23,6 +25,7 @@ from django.contrib.auth import authenticate, login, logout, get_user_model, upd
 import os
 import json
 import firebase_admin
+from django.utils.translation import gettext as _
 from django.views.decorators.csrf import csrf_exempt
 from firebase_admin import credentials, firestore
 from django.conf import settings
@@ -168,13 +171,14 @@ def send_email(request):
             'billingAddressId': billingAddress,
             'shippingAddressId': shippingAddress,
             'price': round(sum + shippingValue, 2),
+            'receipt_id': get_check_id(),
             'currency': 'Euro',
             'payment_type': "BANK TRANSFER",
         }
 
         orders_ref.add(new_order)
         new_order['date'] = (new_order["date"]).isoformat()
-        email_process(all_orders_info, new_order, currency, vat, shippingValue, user_email, order_id, csv_content, request.user.first_name + " "+ request.user.last_name)
+        email_process(all_orders_info, new_order, currency, user_email, order_id, csv_content)
         clear_all_cart(user_email)
         return JsonResponse({'status': 'success', 'redirect_name': 'home'})
     return JsonResponse({'status': 'error'}, status=400)
@@ -184,11 +188,11 @@ import logging
 logger = logging.getLogger(__name__)
 
 @background(schedule=60)
-def email_process(all_orders_info, new_order, currency, vat, shippingValue, user_email, order_id, csv_content, name):
+def email_process(all_orders_info, new_order, currency, user_email, order_id, csv_content):
     try:
         logger.info("Starting email_process")
         print("Starting email process")
-        pdf_response = receipt_generator(all_orders_info, new_order, name, currency, vat, shippingValue)
+        pdf_response = receipt_generator(order_id, new_order)
         if not pdf_response:
             print("PDF generation failed")
         logger.info("PDF generated successfully")
@@ -226,20 +230,50 @@ def clear_all_cart(email):
     for doc in docs:
         doc.reference.delete()
 
-def receipt_generator(orders, order, name, currency, vat, shippingValue):
+
+def receipt_generator(order_id, order):
     # Assuming 'orders' contains the list of items in the cart
     # and 'order' contains details about the order itself
+
     buffer = BytesIO()
 
-    shipping_address = get_address_info(order.get('shippingAddressId', {} ))
-    billing_address = get_address_info(order.get('billingAddressId', {} ))
+    make_pdf(order_id, buffer, True)
 
-    date_str = order['date']
+    # Preparing response
+    pdf = buffer.getvalue()
+    buffer.close()
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="order_{order.get("order_id", "unknown")}.pdf"'
+    response.write(pdf)
+
+    return pdf
+
+
+def make_pdf(order_id, buffer, isWithImgs):
+    order = get_order(order_id)
+    orders = get_order_items(order_id)
+    userEmail = order.get('emailOwner', "")
+    info = {}
+    if userEmail:
+        info = get_user_info(userEmail) or {}
+    currency = "€" if info.get("currency", "Euro") == "Euro" else "$"
+
+    shipping_address = get_address_info(order.get('shippingAddressId', {}))
+    billing_address = get_address_info(order.get('billingAddressId', {}))
+
+    vat = get_vat_info(billing_address)
+    vat = round(int(vat)/100, 3)
+    shippingValue = get_shipping_price(shipping_address)
+
+    date_str =  str(order['date'])
     date_obj = datetime.fromisoformat(date_str)
 
     # Теперь применяем форматирование
     formatted_date = date_obj.strftime('%Y-%m-%d %H:%M:%S')
-
+    roboto_font_path = os.path.join(settings.BASE_DIR, "shop", "static", "fonts", "Roboto-Regular.ttf")
+    pdfmetrics.registerFont(TTFont('Roboto', roboto_font_path))
+    roboto_bold_font_path = os.path.join(settings.BASE_DIR, "shop", "static", "fonts", "Roboto-Bold.ttf")
+    pdfmetrics.registerFont(TTFont('Roboto-Bold', roboto_bold_font_path))
     doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=30, leftMargin=30, topMargin=30, bottomMargin=18)
     elements = []
 
@@ -251,33 +285,43 @@ def receipt_generator(orders, order, name, currency, vat, shippingValue):
     # Заголовок
     styles = getSampleStyleSheet()
     title_style = styles["Heading1"]
+    title_style.fontName = "Roboto"
     title_style.alignment = 1
-    elements.append(Paragraph("Thank you for shopping with Oliver Weber Shop.", title_style))
-    subtitle = "You'll find your Order Summary below. If you have any questions regarding your order, please contact us."
-    elements.append(Paragraph(subtitle, styles["Normal"]))
+
+    normal_style = styles["Normal"]
+    normal_style.fontName = "Roboto"
+
+    elements.append(Paragraph(_("Thank you for shopping with Oliver Weber Shop."), title_style))
+    subtitle = _(
+        "You'll find your Order Summary below. If you have any questions regarding your order, please contact us.")
+    elements.append(Paragraph(subtitle, normal_style))
     elements.append(Spacer(1, 20))
-    bold_style = styles["Normal"]
+    bold_style = styles["Normal"].clone('bold_style')  # Создаём новый стиль на основе "Normal"
+    bold_style.fontName = "Roboto-Bold"  # Указываем зарегистрированный жирный шрифт
+    bold_style.fontSize = 10  # Опционально, можно указать размер шрифта
+    bold_style.textColor = colors.black
+
     white_style = styles["Normal"]
     white_style.fontColor = colors.white
-    bold_style.fontName = "Helvetica-Bold"
+    white_style.fontName = "Roboto"
     # Таблицы
 
     order_data = [
-        [Paragraph("<b>Order Status</b>", bold_style), "PROCESSING"],
-        [Paragraph("<b>Order No</b>", bold_style), f"{order.get('order_id')}"],
-        [Paragraph("<b>Shipping Date</b>", bold_style), f""],
-        [Paragraph("<b>Receipt </b>", bold_style), f"{get_check_id()}"],
+        [Paragraph('<b>' + _("Order Status") + '</b>', bold_style), "PROCESSING"],
+        [Paragraph('<b>'+_("Order")+'</b>', bold_style), f"{order.get('order_id')}"],
+        [Paragraph('<b>' + _("Shipping Date") + '</b>', bold_style), f""],
+        [Paragraph('<b>' + _("Receipt") + '</b>', bold_style), f"{order.get('receipt_id')}"],
         ["", ""],
-        [Paragraph("<b>Customer Code</b>", bold_style), f"{order.get('payment_type', '')}"],
-        [Paragraph("<b>Date</b>", bold_style), f"{formatted_date}"]
+        [Paragraph('<b>' + _("Customer Code") + '</b>', bold_style), f"{order.get('payment_type', '')}"],
+        [Paragraph('<b>' + _("Date") + '</b>', bold_style), f"{formatted_date}"]
     ]
 
     # Данные для второй таблицы
     contact_data = [
         [Paragraph("<b>Oliver Weber Collection</b>", bold_style), ""],
         ["", ""],
-        ["Phone:", "+43 5223 41 881"],
-        ["Email:", "office@oliverweber.at"]
+        [Paragraph('<b>' + _("Phone:")+ '</b>', bold_style), "+43 5223 41 881"],
+        [Paragraph("Email:", bold_style), "office@oliverweber.at"]
     ]
 
     # Создание таблиц
@@ -314,15 +358,21 @@ def receipt_generator(orders, order, name, currency, vat, shippingValue):
     ]))
     elements.append(composite_table)
     elements.append(Spacer(1, 20))
-
+    white_style = styles["Normal"]
+    white_style.fontName = 'Roboto'  # Укажите ваш шрифт
+    white_style.fontSize = 10
+    white_style.textColor = colors.white
     # Адреса
     address_data = [
-        ["Customer Billing Details", "Delivery Details"],
-        [f"Contact Phone: {billing_address.get('phone', '')}", f"Ship-To Code: {shipping_address.get('address_id','')}"],
-        ["Billing Address:", f"Ship-To Name: {shipping_address.get('first_name', '')} {shipping_address.get('last_name', '')}"],
-        [f"{billing_address.get('real_address', '')}", f"Shipping Address: {shipping_address.get('real_address', '')}"],
-        [f"{billing_address.get('city', '')}", f"{shipping_address.get('city','')}"],
-        [f"{billing_address.get('postal_code','')}", f"{shipping_address.get('postal_code','')}"],
+        [Paragraph(_("Customer Billing Details"), white_style), Paragraph(_("Delivery Details"), white_style)],
+        [_("Contact Phone")+f': {billing_address.get("phone", "")}',
+         _("Ship-To Code") + f': {shipping_address.get("address_id", "")}'],
+        [ _("Billing Address") + ':',
+         _("Ship-To Name") + f': {shipping_address.get("first_name", "")} {shipping_address.get("last_name", "")}'],
+        [f"{billing_address.get('real_address', '')}",
+         _("Shipping Address") + f': {shipping_address.get("real_address", "")}'],
+        [f'{billing_address.get("city", "")}', f'{shipping_address.get("city", "")}'],
+        [f'{billing_address.get("postal_code", "")}', f"{shipping_address.get('postal_code', '')}"],
         # ["Ontario", "ON"],
         [f"{billing_address.get('country', '')}", f"{shipping_address.get('country', '')}"],
     ]
@@ -330,6 +380,7 @@ def receipt_generator(orders, order, name, currency, vat, shippingValue):
     address_table = Table(address_data, colWidths=[250, 250])
     address_table.setStyle(TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#003765")),
                                        ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+                                       ('FONTNAME', (0, 0), (-1, -1), 'Roboto'),  # Задаём шрифт для всей таблицы
                                        ]))
 
     elements.append(address_table)
@@ -341,21 +392,30 @@ def receipt_generator(orders, order, name, currency, vat, shippingValue):
     elements.append(Spacer(1, 20))
 
     # Таблица товаров
-    product_data = [
-        ["Product", "Photo", "Item Details", "Quantity", "Unit Price", "Total"],
 
-    ]
+    product_data = [ [Paragraph(_("Product"), white_style), Paragraph(_("Photo"), white_style),
+         Paragraph(_("Item Details"), white_style), Paragraph(_("Quantity"), white_style),
+         Paragraph(_("Unit Price"), white_style), Paragraph(_("Total"), white_style)]] if isWithImgs else [ [Paragraph(_("Product"), white_style),
+         Paragraph(_("Item Details"), white_style), Paragraph(_("Quantity"), white_style),
+         Paragraph(_("Unit Price"), white_style), Paragraph(_("Total"), white_style)]]
     for item_order in orders:
-        image_path = item_order['image-url']  # Adjust this line to get the actual image path or object
-        image = Image(image_path)
-        image.drawHeight = 50  # Example height in points
-        image.drawWidth = 50
-        row = [item_order['name'], image, item_order['description'], item_order['quantity'], currency + str(item_order['price']),
-               currency + str(round(item_order['price'] * item_order['quantity'], 2))]
+        if isWithImgs:
+            image_path = item_order['image-url']  # Adjust this line to get the actual image path or object
+            image = Image(image_path)
+            image.drawHeight = 50  # Example height in points
+            image.drawWidth = 50
+            row = [item_order['name'], image, item_order['description'], item_order['quantity'],
+                   currency + str(item_order['price']),
+                   currency + str(round(item_order['price'] * item_order['quantity'], 2))]
+        else:
+            row = [item_order['name'], item_order['description'], item_order['quantity'],
+                   currency + str(item_order['price']),
+                   currency + str(round(item_order['price'] * item_order['quantity'], 2))]
         product_data.append(row)
     product_table = Table(product_data)
     product_table.setStyle(TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#003765")),
                                        ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+                                       ('VALIGN', (0, 0), (-1, 0), 'MIDDLE'),
                                        ]))
 
     elements.append(product_table)
@@ -363,13 +423,17 @@ def receipt_generator(orders, order, name, currency, vat, shippingValue):
 
     # Итоговая сумма
     total_price = round(order.get('price', 0), 2)
-    vat_price = round(order.get('price', 0) * vat,2)
+    vat_price = round(order.get('price', 0) * vat, 2)
     total_price_without_shipping = round(total_price - shippingValue, 2)
 
+    bold_style1 = styles["Normal"].clone('bold_style1')  # Создаём копию стиля
+    bold_style1.fontName = "Roboto-Bold"  # Указываем жирный шрифт
+    bold_style1.fontSize = 10  # Размер шрифта
+    bold_style1.textColor = colors.black
     summary_data = [
-        [Paragraph("<b>Subtotal</b>", bold_style), f"{currency}{total_price_without_shipping}"],
-        [Paragraph("<b>VAT</b>", bold_style), f"{currency}{vat_price}"],
-        [Paragraph("<b>TOTAL</b>", bold_style), f"{currency}{total_price}"],
+        [Paragraph('<b>' + _('Subtotal') + '</b>', bold_style1), f"{currency}{total_price_without_shipping}"],
+        [Paragraph("<b>VAT</b>", bold_style1), f"{currency}{vat_price}"],
+        [Paragraph("<b>" + _("TOTAL") + "</b>", bold_style1), f"{currency}{total_price}"],
     ]
 
     # Создание таблицы
@@ -394,14 +458,8 @@ def receipt_generator(orders, order, name, currency, vat, shippingValue):
     # Добавление таблицы в элементы
     elements.append(table_wrapper)
     doc.build(elements)
-    # Preparing response
-    pdf = buffer.getvalue()
-    buffer.close()
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="order_{order.get("order_id", "unknown")}.pdf"'
-    response.write(pdf)
 
-    return pdf
+    return buffer
 
 def get_check_id():
     @firestore.transactional

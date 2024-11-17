@@ -15,7 +15,7 @@ from django.views.generic import TemplateView
 from OnlineShop import settings
 from shop.views import addresses_ref, country_dict, users_ref, get_user_category, get_user_prices, \
     get_user_session_type, get_cart, orders_ref, single_order_ref
-from shop.views_scripts.checkout_cart_views import clear_all_cart, email_process
+from shop.views_scripts.checkout_cart_views import clear_all_cart, email_process, get_check_id
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -148,13 +148,13 @@ def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddr
         'billingAddressId': billingAddress,
         'shippingAddressId': shippingAddress,
         'price': round(sum + shippingPrice, 2),
+        'receipt_id': get_check_id(),
         'currency': 'Euro',
         'payment_type': payment_type,
     }
     orders_ref.add(new_order)
     new_order['date'] = new_order['date'].isoformat()
-    email_process(all_orders_info, new_order, currency, vat, shippingPrice, user_email, order_id, csv_content,
-                  user_name)
+    email_process(all_orders_info, new_order, currency, user_email, order_id, csv_content)
     clear_all_cart(user_email)
     return sum
 

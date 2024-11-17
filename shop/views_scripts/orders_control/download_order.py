@@ -27,7 +27,7 @@ from celery import shared_task
 
 from shop.forms import UserRegisterForm, User
 from shop.views import addresses_ref, cart_ref, get_user_category, serialize_firestore_document, users_ref, is_admin, \
-    orders_ref, itemsRef, db, process_items, get_order_items, single_order_ref
+    orders_ref, itemsRef, db, process_items, get_order_items, single_order_ref, get_order
 from shop.views import get_user_info
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
@@ -36,6 +36,10 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, Image
 
 from PIL import Image as PILImage
+
+from shop.views_scripts.checkout_cart_views import make_pdf
+
+
 @login_required
 def download_csv_order(request, order_id):
     order_items = get_order_items(order_id)
@@ -58,57 +62,10 @@ def download_csv_order(request, order_id):
 
 @login_required
 def download_pdf_no_img(request, order_id):
-    order_items = get_order_items(order_id)
-    userEmail = order_items[0].get('emailOwner', "")
-    info = {}
-    if userEmail:
-        info = get_user_info(userEmail) or {}
-    client_name = info.get('first_name', "") + " " + info.get('last_name', "")
+
     buffer = BytesIO()
 
-    # Basic setup
-    styles = getSampleStyleSheet()
-
-    center_bold_style2 = ParagraphStyle('CenterBold', parent=styles['Heading2'], fontSize=18, alignment=1,
-                                        fontName='Times-Bold')
-    bold_style = ParagraphStyle('Bold', parent=styles['Normal'], fontSize=12, fontName='Times-Bold')
-    doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=30, leftMargin=30, topMargin=30, bottomMargin=18)
-    content = []
-    content.append(Paragraph(f"Order N.: {order_id}", center_bold_style2))
-    content.append(Spacer(1, 0.3 * inch))
-    content.append(Paragraph(f"Client name: {client_name}", bold_style))
-    content.append(Paragraph(f"Client email: {userEmail}", bold_style))
-
-    currency = "€" if info.get("currency", "Euro") == "Euro" else "$"
-
-    table_data = [["Product", "Quantity", "Price per item", "Total"]]
-    for item_order in order_items:
-
-        row = [item_order['name'], item_order['quantity'], currency + str(item_order['price']),
-               currency + str(round(item_order['price'] * item_order['quantity'], 2))]
-        table_data.append(row)
-
-    table = Table(table_data, colWidths=[1.7 * inch, 1.7 * inch, 1.7 * inch, 1.7 * inch, 1.3 * inch])
-
-    table_style = TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), '#f0f0f0'),
-        ('TEXTCOLOR', (0, 0), (-1, 0), '#000000'),
-        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-        ('VALIGN', (0, 1), (-1, -1), 'MIDDLE'),
-        ('FONTNAME', (0, 0), (-1, 0), 'Times-Bold'),
-        ('FONTSIZE', (0, 0), (-1, 0), 14),
-        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-        ('BACKGROUND', (0, 1), (-1, -1), '#ffffff'),
-        ('GRID', (0, 0), (-1, -1), 1, '#000000')
-    ])
-    table.setStyle(table_style)
-    content.append(Spacer(1, 1 * cm))
-
-    content.append(table)
-
-    # Order items table
-
-    doc.build(content)
+    make_pdf(order_id, buffer, False)
 
     # Preparing response
     pdf = buffer.getvalue()
@@ -135,67 +92,9 @@ def get_optimized_image(url, output_size=(50, 50)):
 @login_required
 # @user_passes_test(is_admin)
 def download_pdf_w_img(request, order_id):
-
-    order_items = get_order_items(order_id)
-    userEmail = order_items[0].get('emailOwner', "")
-    info = {}
-    if userEmail:
-        info = get_user_info(userEmail) or {}
-    client_name = info.get('first_name', "") + " " + info.get('last_name', "")
     buffer = BytesIO()
 
-    # Basic setup
-    styles = getSampleStyleSheet()
-
-    center_bold_style2 = ParagraphStyle('CenterBold', parent=styles['Heading2'], fontSize=18, alignment=1,
-                                        fontName='Times-Bold')
-    bold_style = ParagraphStyle('Bold', parent=styles['Normal'], fontSize=12, fontName='Times-Bold')
-    doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=30, leftMargin=30, topMargin=30, bottomMargin=18)
-    content = []
-    content.append(Paragraph(f"Order N.: {order_id}", center_bold_style2))
-    content.append(Spacer(1, 0.3 * inch))
-    content.append(Paragraph(f"Client name: {client_name}", bold_style))
-    content.append(Paragraph(f"Client email: {userEmail}", bold_style))
-
-    currency = "€" if info.get("currency", "Euro") == "Euro" else "$"
-
-    table_data = [["Product", "Image", "Quantity", "Price per item", "Total"]]
-
-    for item_order in order_items:
-        image_path = item_order['image-url'] if 'image-url' in item_order else item_order['image_url']
-        optimized_image_io = get_optimized_image(image_path)
-
-        # Convert the BytesIO object to a ReportLab Image object
-        reportlab_image = Image(optimized_image_io)
-        reportlab_image.drawHeight = 50  # Set the desired display height
-        reportlab_image.drawWidth = 50  # Set the desired display width
-
-        row = [item_order['name'], reportlab_image, item_order['quantity'],
-               currency + str(item_order['price']),
-               currency + str(round(item_order['price'] * item_order['quantity'], 2))]
-        table_data.append(row)
-
-    table = Table(table_data, colWidths=[1.7 * inch, 1.0 * inch, 1.0 * inch, 1.7 * inch, 1.3 * inch])
-
-    table_style = TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), '#f0f0f0'),
-        ('TEXTCOLOR', (0, 0), (-1, 0), '#000000'),
-        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-        ('VALIGN', (0, 1), (-1, -1), 'MIDDLE'),
-        ('FONTNAME', (0, 0), (-1, 0), 'Times-Bold'),
-        ('FONTSIZE', (0, 0), (-1, 0), 14),
-        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-        ('BACKGROUND', (0, 1), (-1, -1), '#ffffff'),
-        ('GRID', (0, 0), (-1, -1), 1, '#000000')
-    ])
-    table.setStyle(table_style)
-    content.append(Spacer(1, 1 * cm))
-
-    content.append(table)
-
-    # Order items table
-
-    doc.build(content)
+    make_pdf(order_id, buffer, True)
 
     # Preparing response
     pdf = buffer.getvalue()

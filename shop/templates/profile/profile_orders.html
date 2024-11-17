@@ -174,7 +174,9 @@ document.querySelectorAll('.i-menu-points').forEach(button => {
               dialog.style.display="block";
               // Show the dialog
               dialog.showModal();
-              window.location.href = `/admin_tools/orders_control/download_pdf_with_img/${orderId}/`;
+              let address = "{% url "at_download_pdf_w_img" order_id="BIG" %}";
+              address = address.replace('BIG', orderId);
+              window.location.href = address;
               // Set a timeout to close the dialog after 3 seconds
               setTimeout(function() {
                   dialog.close();// Redirect to the download URL after closing the dialog
@@ -184,6 +186,9 @@ document.querySelectorAll('.i-menu-points').forEach(button => {
         });
         document.getElementById('downloadPdfWithoutImg').onclick = function() {
                 // Replace with the actual function or navigation action
+            let address = "{% url "at_download_pdf_no_img" order_id="BIG" %}";
+            address = address.replace('BIG', orderId);
+            window.location.href = address;
             window.location.href = `/admin_tools/orders_control/download_pdf_no_img/${orderId}/`;
         };
     });
