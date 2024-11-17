@@ -8,7 +8,7 @@ from background_task import background
 from shop.decorators import login_required_or_session, logout_required
 from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, get_cart, cart_ref, single_order_ref, \
     get_user_category, get_user_session_type, metadata_ref, users_ref, update_email_in_db, get_user_prices, \
-    get_user_info
+    get_user_info, get_address_info
 import ast
 import random
 from datetime import datetime
@@ -168,6 +168,7 @@ def send_email(request):
             'shippingAddressId': shippingAddress,
             'price': round(sum, 1),
             'currency': 'Euro',
+            'payment_type': "BANK TRANSFER",
         }
         orders_ref.add(new_order)
         new_order['date'] = new_order['date'].isoformat()
@@ -212,68 +213,235 @@ def receipt_generator(orders, order, name, currency, vat):
     # and 'order' contains details about the order itself
     buffer = BytesIO()
 
-    # Basic setup
-    styles = getSampleStyleSheet()
+    shipping_address = get_address_info(order.shippingAddressId)
+    billing_address = get_address_info(order.billingAddressId)
 
-    center_bold_style = ParagraphStyle('CenterBold', parent=styles['Normal'], fontSize=12, alignment=1,
-                                       fontName='Times-Bold')
-    bold_style = ParagraphStyle('Bold', parent=styles['Normal'], fontSize=12, fontName='Times-Bold')
-    doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=30, leftMargin=30, topMargin=30, bottomMargin=18)
-    content = []
-    title_style = styles['Heading1']
-    content.append(Paragraph("OLIVER WEBER COLLECTION", title_style))
-    content.append(Spacer(1, 0.3 * inch))
-    content.append(Paragraph(f"Client name: {name}", bold_style))
-
-    table_data = [["Product", "Image", "Quantity", "Price per item", "Total"]]
-    for item_order in orders:
-        image_path = item_order['image-url']  # Adjust this line to get the actual image path or object
-        image = Image(image_path)
-        image.drawHeight = 50  # Example height in points
-        image.drawWidth = 50
-        row = [item_order['name'], image, item_order['quantity'], currency + str(item_order['price']), currency + str(round(item_order['price'] * item_order['quantity'], 2))]
-        table_data.append(row)
-
-    table = Table(table_data, colWidths=[1.7 * inch, 1.0 * inch, 1.0 * inch, 1.7 * inch, 1.3 * inch])
-
-    table_style = TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), '#f0f0f0'),
-        ('TEXTCOLOR', (0, 0), (-1, 0), '#000000'),
-        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-        ('VALIGN', (0, 1), (-1, -1), 'MIDDLE'),
-        ('FONTNAME', (0, 0), (-1, 0), 'Times-Bold'),
-        ('FONTSIZE', (0, 0), (-1, 0), 14),
-        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-        ('BACKGROUND', (0, 1), (-1, -1), '#ffffff'),
-        ('GRID', (0, 0), (-1, -1), 1, '#000000')
-    ])
-    table.setStyle(table_style)
-    content.append(Spacer(1, 1 * cm))
-
-    content.append(table)
-
-    # Order details
-    email = order.get('email', 'No email provided')
     date_str = order['date']
     date_obj = datetime.fromisoformat(date_str)
 
     # Теперь применяем форматирование
     formatted_date = date_obj.strftime('%Y-%m-%d %H:%M:%S')
+    # Basic setup
+    # styles = getSampleStyleSheet()
+    #
+    # center_bold_style = ParagraphStyle('CenterBold', parent=styles['Normal'], fontSize=12, alignment=1,
+    #                                    fontName='Times-Bold')
+    # bold_style = ParagraphStyle('Bold', parent=styles['Normal'], fontSize=12, fontName='Times-Bold')
+    # doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=30, leftMargin=30, topMargin=30, bottomMargin=18)
+    # content = []
+    # title_style = styles['Heading1']
+    # content.append(Paragraph("OLIVER WEBER COLLECTION", title_style))
+    # content.append(Spacer(1, 0.3 * inch))
+    # content.append(Paragraph(f"Client name: {name}", bold_style))
+    #
+    # table_data = [["Product", "Image", "Quantity", "Price per item", "Total"]]
+    # for item_order in orders:
+    #     image_path = item_order['image-url']  # Adjust this line to get the actual image path or object
+    #     image = Image(image_path)
+    #     image.drawHeight = 50  # Example height in points
+    #     image.drawWidth = 50
+    #     row = [item_order['name'], image, item_order['quantity'], currency + str(item_order['price']), currency + str(round(item_order['price'] * item_order['quantity'], 2))]
+    #     table_data.append(row)
+    #
+    # table = Table(table_data, colWidths=[1.7 * inch, 1.0 * inch, 1.0 * inch, 1.7 * inch, 1.3 * inch])
+    #
+    # table_style = TableStyle([
+    #     ('BACKGROUND', (0, 0), (-1, 0), '#f0f0f0'),
+    #     ('TEXTCOLOR', (0, 0), (-1, 0), '#000000'),
+    #     ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+    #     ('VALIGN', (0, 1), (-1, -1), 'MIDDLE'),
+    #     ('FONTNAME', (0, 0), (-1, 0), 'Times-Bold'),
+    #     ('FONTSIZE', (0, 0), (-1, 0), 14),
+    #     ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+    #     ('BACKGROUND', (0, 1), (-1, -1), '#ffffff'),
+    #     ('GRID', (0, 0), (-1, -1), 1, '#000000')
+    # ])
+    # table.setStyle(table_style)
+    # content.append(Spacer(1, 1 * cm))
+    #
+    # content.append(table)
+    #
+    #
+    #
+    # # Order details
+    # email = order.get('email', 'No email provided')
+
+    #
+    #
+    #
+    #
+    # total_price = round(order.get('price', 0), 2)
+    # content.append(Spacer(1, 0.5 * inch))
+    # content.append(Paragraph(f"Total to pay(incl. VAT): {currency}{total_price}", bold_style))
+    # # content.append(Paragraph(f"Included VAT: {currency}{round(order['price'] * vat,2)}", bold_style))
+    # content.append(Spacer(1, 0.3 * inch))
+    # content.append(Paragraph(f"Date: {formatted_date}", center_bold_style))
+    # content.append(Spacer(1, 10))
+    # content.append(Paragraph(f"E-mail: {email}", center_bold_style))
+    # content.append(Spacer(1, 10))
+    # content.append(Paragraph(f"DOCUMENT N.: {get_check_id()}", center_bold_style))
+    # content.append(Spacer(1, 10))
+    # content.append(Paragraph("Thank you for your purchase!", center_bold_style))
+    #
+    # doc.build(content)
+
+
+
+
+
+    doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=30, leftMargin=30, topMargin=30, bottomMargin=18)
+    elements = []
+
+    # Логотип
+    logo_path = os.path.join(settings.BASE_DIR, "shop", "static", "images", "general", "main_logo_receipt.png")
+    elements.append(Image(logo_path, width=180, height=60))
+    elements.append(Spacer(1, 20))
+
+    # Заголовок
+    styles = getSampleStyleSheet()
+    title_style = styles["Heading1"]
+    title_style.alignment = 1
+    elements.append(Paragraph("Thank you for shopping with Oliver Weber Shop.", title_style))
+    subtitle = "You'll find your Order Summary below. If you have any questions regarding your order, please contact us"
+    elements.append(Paragraph(subtitle, styles["Normal"]))
+    elements.append(Spacer(1, 20))
+    bold_style = styles["Normal"]
+    white_style = styles["Normal"]
+    white_style.fontColor = colors.white
+    bold_style.fontName = "Helvetica-Bold"
+    # Таблицы
+
+    order_data = [
+        [Paragraph("<b>Order Status</b>", bold_style), "PROCESSING"],
+        [Paragraph("<b>Order No</b>", bold_style), f"{order.get('order_id')}"],
+        [Paragraph("<b>Shipping Date</b>", bold_style), f""],
+        [Paragraph("<b>Receipt </b>", bold_style), f"{get_check_id()}"],
+        ["", ""],
+        [Paragraph("<b>Customer Code</b>", bold_style), f"{order.get('payment_type', '')}"],
+        [Paragraph("<b>Date</b>", bold_style), f"{formatted_date}"]
+    ]
+
+    # Данные для второй таблицы
+    contact_data = [
+        [Paragraph("<b>Oliver Weber Collection</b>", bold_style), ""],
+        ["", ""],
+        ["Phone:", "+43 5223 41 881"],
+        ["Email:", "office@oliverweber.at"]
+    ]
+
+    # Создание таблиц
+    order_table = Table(order_data, colWidths=[120, 180])  # Ширина столбцов
+    contact_table = Table(contact_data, colWidths=[80, 220])
+
+    # Стили таблиц
+    order_table.setStyle(TableStyle([
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 0), (-1, -1), 10),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 5),
+    ]))
+
+    contact_table.setStyle(TableStyle([
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 0), (-1, -1), 10),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 5),
+        ('SPAN', (0, 0), (1, 0)),  # Объединение ячейки для заголовка
+    ]))
+
+    # Компоновка таблиц на одной строке
+    composite_table_data = [[order_table, contact_table]]
+
+    composite_table = Table(composite_table_data, colWidths=[250, 250])  # Общая ширина
+
+    # Установка общего стиля для компоновки
+    composite_table.setStyle(TableStyle([
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+    ]))
+    elements.append(composite_table)
+    elements.append(Spacer(1, 20))
+
+    # Адреса
+    address_data = [
+        ["Customer Billing Details", "Delivery Details"],
+        [f"Contact Phone: {billing_address.phone}", f"Ship-To Code: {shipping_address.address_id}"],
+        ["Billing Address:", f"Ship-To Name: {shipping_address.first_name} {shipping_address.last_name}"],
+        [f"{billing_address.real_address}", f"Shipping Address: {shipping_address.real_address}"],
+        [f"{billing_address.city}", f"{shipping_address.city}"],
+        [f"{billing_address}", f"{shipping_address.postal_code}"],
+        # ["Ontario", "ON"],
+        [f"{billing_address.country}", f"{shipping_address.country}"],
+    ]
+
+    address_table = Table(address_data, colWidths=[250, 250])
+    address_table.setStyle(TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#003765")),
+                                       ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+                                       ]))
+
+    elements.append(address_table)
+    elements.append(Spacer(1, 20))
+
+    # Примечания
+    # comments = "Comments:<br/>Test order by commercebuild - Do not process!<br/>Shipping Via: 10PKUP - Store Pickup - Bayview - Orders placed before 3pm can be picked up same day"
+    # elements.append(Paragraph(comments, styles["Normal"]))
+    elements.append(Spacer(1, 20))
+
+    # Таблица товаров
+    product_data = [
+        ["Product", "Photo", "Item Details", "Quantity", "Unit Price", "Total"],
+        ["12345G", "", "DE LA MER CARMELIZED ONION COD CAKES (5OZ)", "1", "CA$5.99", "CA$5.99"],
+    ]
+    for item_order in orders:
+        image_path = item_order['image-url']  # Adjust this line to get the actual image path or object
+        image = Image(image_path)
+        image.drawHeight = 50  # Example height in points
+        image.drawWidth = 50
+        row = [item_order['name'], image, item_order['quantity'], item_order['quantity'], currency + str(item_order['price']),
+               currency + str(round(item_order['price'] * item_order['quantity'], 2))]
+        product_data.append(row)
+    product_table = Table(product_data)
+    product_table.setStyle(TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#003765")),
+                                       ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+                                       ]))
+
+    elements.append(product_table)
+    elements.append(Spacer(1, 20))
+
+    # Итоговая сумма
     total_price = round(order.get('price', 0), 2)
-    content.append(Spacer(1, 0.5 * inch))
-    content.append(Paragraph(f"Total to pay(incl. VAT): {currency}{total_price}", bold_style))
-    # content.append(Paragraph(f"Included VAT: {currency}{round(order['price'] * vat,2)}", bold_style))
-    content.append(Spacer(1, 0.3 * inch))
-    content.append(Paragraph(f"Date: {formatted_date}", center_bold_style))
-    content.append(Spacer(1, 10))
-    content.append(Paragraph(f"E-mail: {email}", center_bold_style))
-    content.append(Spacer(1, 10))
-    content.append(Paragraph(f"DOCUMENT N.: {get_check_id()}", center_bold_style))
-    content.append(Spacer(1, 10))
-    content.append(Paragraph("Thank you for your purchase!", center_bold_style))
+    vat_price = round(order.get('price', 0) * vat,2)
 
-    doc.build(content)
+    summary_data = [
+        [Paragraph("<b>Subtotal</b>", bold_style), f"{currency}{total_price}"],
+        [Paragraph("<b>VAT</b>", bold_style), f"{currency}{vat_price}"],
+        [Paragraph("<b>TOTAL</b>", bold_style), f"{currency}{total_price}"],
+    ]
 
+    # Создание таблицы
+    summary_table = Table(summary_data, colWidths=[100, 100])  # Ширина столбцов
+
+    # Стилизация таблицы
+    summary_table.setStyle(TableStyle([
+        ('ALIGN', (0, 0), (-1, -1), 'RIGHT'),  # Выравнивание текста в ячейках
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),  # Шрифт текста
+        ('FONTSIZE', (0, 0), (-1, -1), 10),  # Размер шрифта
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 5),  # Нижний отступ
+        ('LINEBELOW', (0, 1), (-1, 1), 1, colors.black),  # Линия под строкой VAT
+        ('LINEBELOW', (0, 2), (-1, 2), 1.5, colors.black),  # Линия под строкой TOTAL
+    ]))
+
+    # Добавление таблицы с отступом вправо
+    table_wrapper = Table([[summary_table]], colWidths=[doc.width])  # Внешняя таблица для отступа
+    table_wrapper.setStyle(TableStyle([
+        ('ALIGN', (0, 0), (-1, -1), 'RIGHT'),  # Выравнивание всей таблицы по правому краю
+    ]))
+
+    # Добавление таблицы в элементы
+    elements.append(table_wrapper)
+    doc.build(elements)
     # Preparing response
     pdf = buffer.getvalue()
     buffer.close()

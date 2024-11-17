@@ -88,7 +88,7 @@ def create_checkout_session(request):
     return HttpResponse(status=405)
 
 
-def stripe_checkout(email,user_name, order_id, vat, shippingAddress, billingAddress):
+def stripe_checkout(email,user_name, order_id, vat, shippingAddress, billingAddress, payment_type):
     # Создаю order
     vat = int(vat) / 100
     user_email = email
@@ -149,6 +149,7 @@ def stripe_checkout(email,user_name, order_id, vat, shippingAddress, billingAddr
         'shippingAddressId': shippingAddress,
         'price': round(sum, 1),
         'currency': 'Euro',
+        'payment_type': payment_type,
     }
     orders_ref.add(new_order)
     new_order['date'] = new_order['date'].isoformat()
@@ -195,7 +196,7 @@ def stripe_webhook(request):
 
         if order_id:
             # Update the 'Status' field to 'Paid'
-            stripe_checkout(metadata.get('email'), metadata.get('full_name'), order_id, metadata.get('vat'), metadata.get('shippingAddress'), metadata.get('billingAddress'),)
+            stripe_checkout(metadata.get('email'), metadata.get('full_name'), order_id, metadata.get('vat'), metadata.get('shippingAddress'), metadata.get('billingAddress'), "STRIPE")
             # doc.update({"Status": "Paid"})
             print(f"Order {order_id} has been marked as paid.")
 

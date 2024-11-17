@@ -126,7 +126,7 @@ def paypal_webhook(request):
                 vat = metadata.get('vat', 0)
                 shippingAddress = metadata.get('shippingAddress', '')
                 billingAddress = metadata.get('billingAddress', '')
-                stripe_checkout(email, user_name, order_id, vat, shippingAddress, billingAddress)
+                stripe_checkout(email, user_name, order_id, vat, shippingAddress, billingAddress, "PAYPAL")
                 print(f"Order {order_id} has been marked as paid.")
 
         return HttpResponse(status=200)

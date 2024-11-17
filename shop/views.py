@@ -407,6 +407,12 @@ def get_user_info(email):
         user_dict = user_info.to_dict()
         return user_dict
 
+def get_address_info(addressId):
+    addresses = addresses_ref.where('address_id', '==', addressId).limit(1).get()
+    for address in addresses:
+        address_dict = address.to_dict()
+        return address_dict
+
 
 def get_cart(email):
     docs = cart_ref.where('emailOwner', '==', email).stream()
