@@ -317,13 +317,13 @@ def receipt_generator(orders, order, name, currency, vat):
     # Адреса
     address_data = [
         ["Customer Billing Details", "Delivery Details"],
-        [f"Contact Phone: {billing_address.phone}", f"Ship-To Code: {shipping_address.address_id}"],
-        ["Billing Address:", f"Ship-To Name: {shipping_address.first_name} {shipping_address.last_name}"],
-        [f"{billing_address.real_address}", f"Shipping Address: {shipping_address.real_address}"],
-        [f"{billing_address.city}", f"{shipping_address.city}"],
-        [f"{billing_address}", f"{shipping_address.postal_code}"],
+        [f"Contact Phone: {billing_address.get('phone', '')}", f"Ship-To Code: {shipping_address.get('address_id','')}"],
+        ["Billing Address:", f"Ship-To Name: {shipping_address.get('first_name', '')} {shipping_address.get('last_name', '')}"],
+        [f"{billing_address.get('real_address', '')}", f"Shipping Address: {shipping_address.get('real_address', '')}"],
+        [f"{billing_address.get('city', '')}", f"{shipping_address.get('city','')}"],
+        [f"{billing_address}", f"{shipping_address.get('postal_code','')}"],
         # ["Ontario", "ON"],
-        [f"{billing_address.country}", f"{shipping_address.country}"],
+        [f"{billing_address.get('country', '')}", f"{shipping_address.get('country', '')}"],
     ]
 
     address_table = Table(address_data, colWidths=[250, 250])
