@@ -179,31 +179,45 @@ def send_email(request):
     return JsonResponse({'status': 'error'}, status=400)
 
 
+import logging
+logger = logging.getLogger(__name__)
+
 @background(schedule=60)
 def email_process(all_orders_info, new_order, currency, vat, user_email, order_id, csv_content, name):
     try:
-        print("HIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHI")
+        logger.info("Starting email_process")
+        print("Starting email process")
         pdf_response = receipt_generator(all_orders_info, new_order, name, currency, vat)
+        if not pdf_response:
+            print("PDF generation failed")
+        logger.info("PDF generated successfully")
+        print("PDF generated successfully")
 
-        subject = 'Your Order Receipt'
-        server_mail_subject = f"{user_email} just ordered"
-        email_body = 'Thank you for your order! Here is your receipt! Detailed Information about your order you can find in your profile.'
-        server_email_body = f'Here is {user_email} order info:'
-        recipient_list = [user_email]
-        print(email_body)
-
-        recipient_list_server = ['westadatabase@gmail.com']
-
-        email = EmailMessage(subject, email_body, settings.EMAIL_HOST_USER, recipient_list)
-
-        emailServer = EmailMessage(server_mail_subject, server_email_body, settings.EMAIL_HOST_USER, recipient_list_server)
+        # Email creation
+        email = EmailMessage(
+            subject='Your Order Receipt',
+            body='Thank you for your order! Here is your receipt!',
+            from_email=settings.EMAIL_HOST_USER,
+            to=[user_email],
+        )
         email.attach(f'order_receipt_{order_id}.pdf', pdf_response, 'application/pdf')
-        emailServer.attach(f'order_{order_id}.csv', csv_content, 'text/csv')
-        emailServer.attach(f'order_receipt_{order_id}.pdf', pdf_response, 'application/pdf')
         email.send()
-        emailServer.send()
+        logger.info("Customer email sent successfully")
+
+        # Server-side email
+        email_server = EmailMessage(
+            subject=f'{user_email} just ordered',
+            body=f'Order info for {user_email}',
+            from_email=settings.EMAIL_HOST_USER,
+            to=['westadatabase@gmail.com'],
+        )
+        email_server.attach(f'order_{order_id}.csv', csv_content, 'text/csv')
+        email_server.attach(f'order_receipt_{order_id}.pdf', pdf_response, 'application/pdf')
+        email_server.send()
+        logger.info("Server email sent successfully")
     except Exception as e:
-        print(f"Failed to process email: {str(e)}")
+        logger.error(f"Error in email_process: {e}")
+        print(f"Error in email_process: {e}")
 
 def clear_all_cart(email):
     # Assuming `cart_ref` is defined and accessible within this scope
