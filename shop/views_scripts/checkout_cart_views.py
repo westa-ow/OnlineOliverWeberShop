@@ -171,7 +171,7 @@ def send_email(request):
             'order-id': order_id,
             'billingAddressId': billingAddress,
             'shippingAddressId': shippingAddress,
-            'price': round(sum + shippingValue, 2),
+            'price': round(float(sum) + float(shippingValue), 2),
             'receipt_id': get_check_id(),
             'currency': 'Euro',
             'payment_type': "BANK TRANSFER",

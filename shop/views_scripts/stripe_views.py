@@ -148,7 +148,7 @@ def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddr
         'order-id': order_id,
         'billingAddressId': billingAddress,
         'shippingAddressId': shippingAddress,
-        'price': round(sum + shippingPrice, 2),
+        'price': round(float(sum) + float(shippingPrice), 2),
         'receipt_id': get_check_id(),
         'currency': 'Euro',
         'payment_type': payment_type,
