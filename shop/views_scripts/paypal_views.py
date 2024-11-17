@@ -65,7 +65,7 @@ def create_paypal_payment(request):
             billingAddress = data.get('billingAddress', 0)
             if billingAddress == 0:
                 billingAddress = shippingAddress
-            metadata = {"Id": order_id, "email": email, "full_name": request.user.first_name + " " + request.user.last_name, "vat": data.get('vat', 0), "shippingAddress": shippingAddress, 'billingAddress': billingAddress}
+            metadata = {"Id": order_id, "email": email, "full_name": request.user.first_name + " " + request.user.last_name, "vat": data.get('vat', 0), "shippingValue": shipping, "shippingAddress": shippingAddress, 'billingAddress': billingAddress}
 
             payment = paypalrestsdk.Payment({
                 "intent": "sale",
@@ -124,9 +124,10 @@ def paypal_webhook(request):
                 email = metadata.get('email')
                 user_name = metadata.get('full_name')
                 vat = metadata.get('vat', 0)
+                shippingValue = metadata.get('shippingValue', 0)
                 shippingAddress = metadata.get('shippingAddress', '')
                 billingAddress = metadata.get('billingAddress', '')
-                stripe_checkout(email, user_name, order_id, vat, shippingAddress, billingAddress, "PAYPAL")
+                stripe_checkout(email, user_name, order_id, vat, shippingValue, shippingAddress, billingAddress, "PAYPAL")
                 print(f"Order {order_id} has been marked as paid.")
 
         return HttpResponse(status=200)

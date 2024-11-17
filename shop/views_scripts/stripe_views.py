@@ -59,7 +59,7 @@ def create_checkout_session(request):
             cart = get_cart(email)
             full_price = round(sum(item["price"] for item in cart), 2)
             full_price += shipping
-            metadata = {"Id": order_id, "email": email, "full_name": request.user.first_name + " " + request.user.last_name, "vat": data.get('vat', 0), "shippingAddress": shippingAddress, 'billingAddress': billingAddress}
+            metadata = {"Id": order_id, "email": email, "full_name": request.user.first_name + " " + request.user.last_name, "vat": data.get('vat', 0), "shippingPrice": shipping, "shippingAddress": shippingAddress, 'billingAddress': billingAddress}
 
             checkout_session = stripe.checkout.Session.create(
                 success_url=domain_url + 'success/',
@@ -88,7 +88,7 @@ def create_checkout_session(request):
     return HttpResponse(status=405)
 
 
-def stripe_checkout(email,user_name, order_id, vat, shippingAddress, billingAddress, payment_type):
+def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddress, billingAddress, payment_type):
     # Создаю order
     vat = int(vat) / 100
     user_email = email
@@ -147,13 +147,13 @@ def stripe_checkout(email,user_name, order_id, vat, shippingAddress, billingAddr
         'order-id': order_id,
         'billingAddressId': billingAddress,
         'shippingAddressId': shippingAddress,
-        'price': round(sum, 1),
+        'price': round(sum + shippingPrice, 2),
         'currency': 'Euro',
         'payment_type': payment_type,
     }
     orders_ref.add(new_order)
     new_order['date'] = new_order['date'].isoformat()
-    email_process(all_orders_info, new_order, currency, vat, user_email, order_id, csv_content,
+    email_process(all_orders_info, new_order, currency, vat, shippingPrice, user_email, order_id, csv_content,
                   user_name)
     clear_all_cart(user_email)
     return sum
@@ -196,7 +196,7 @@ def stripe_webhook(request):
 
         if order_id:
             # Update the 'Status' field to 'Paid'
-            stripe_checkout(metadata.get('email'), metadata.get('full_name'), order_id, metadata.get('vat'), metadata.get('shippingAddress'), metadata.get('billingAddress'), "STRIPE")
+            stripe_checkout(metadata.get('email'), metadata.get('full_name'), order_id, metadata.get('vat'), metadata.get('shippingPrice'), metadata.get('shippingAddress'), metadata.get('billingAddress'), "STRIPE")
             # doc.update({"Status": "Paid"})
             print(f"Order {order_id} has been marked as paid.")
 

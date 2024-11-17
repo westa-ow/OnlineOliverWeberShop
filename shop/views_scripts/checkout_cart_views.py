@@ -105,6 +105,7 @@ def send_email(request):
         # Создаю order
         data = json.loads(request.body)
         vat = int(data.get('vat', 0))/100
+        shippingValue = data.get('shipping', 0)
         shippingAddress = data.get('shippingAddress', '')
         billingAddress = data.get('billingAddress', 0)
         if billingAddress == 0:
@@ -166,14 +167,14 @@ def send_email(request):
             'order-id': order_id,
             'billingAddressId': billingAddress,
             'shippingAddressId': shippingAddress,
-            'price': round(sum, 1),
+            'price': round(sum + shippingValue, 2),
             'currency': 'Euro',
             'payment_type': "BANK TRANSFER",
         }
 
         orders_ref.add(new_order)
         new_order['date'] = (new_order["date"]).isoformat()
-        email_process(all_orders_info, new_order, currency, vat, user_email, order_id, csv_content, request.user.first_name + " "+ request.user.last_name)
+        email_process(all_orders_info, new_order, currency, vat, shippingValue, user_email, order_id, csv_content, request.user.first_name + " "+ request.user.last_name)
         clear_all_cart(user_email)
         return JsonResponse({'status': 'success', 'redirect_name': 'home'})
     return JsonResponse({'status': 'error'}, status=400)
@@ -183,11 +184,11 @@ import logging
 logger = logging.getLogger(__name__)
 
 @background(schedule=60)
-def email_process(all_orders_info, new_order, currency, vat, user_email, order_id, csv_content, name):
+def email_process(all_orders_info, new_order, currency, vat, shippingValue, user_email, order_id, csv_content, name):
     try:
         logger.info("Starting email_process")
         print("Starting email process")
-        pdf_response = receipt_generator(all_orders_info, new_order, name, currency, vat)
+        pdf_response = receipt_generator(all_orders_info, new_order, name, currency, vat, shippingValue)
         if not pdf_response:
             print("PDF generation failed")
         logger.info("PDF generated successfully")
@@ -225,13 +226,13 @@ def clear_all_cart(email):
     for doc in docs:
         doc.reference.delete()
 
-def receipt_generator(orders, order, name, currency, vat):
+def receipt_generator(orders, order, name, currency, vat, shippingValue):
     # Assuming 'orders' contains the list of items in the cart
     # and 'order' contains details about the order itself
     buffer = BytesIO()
 
-    shipping_address = get_address_info(order.get('shippingAddressId', ""))
-    billing_address = get_address_info(order.get('billingAddressId', ""))
+    shipping_address = get_address_info(order.get('shippingAddressId', {} ))
+    billing_address = get_address_info(order.get('billingAddressId', {} ))
 
     date_str = order['date']
     date_obj = datetime.fromisoformat(date_str)
@@ -252,7 +253,7 @@ def receipt_generator(orders, order, name, currency, vat):
     title_style = styles["Heading1"]
     title_style.alignment = 1
     elements.append(Paragraph("Thank you for shopping with Oliver Weber Shop.", title_style))
-    subtitle = "You'll find your Order Summary below. If you have any questions regarding your order, please contact us"
+    subtitle = "You'll find your Order Summary below. If you have any questions regarding your order, please contact us."
     elements.append(Paragraph(subtitle, styles["Normal"]))
     elements.append(Spacer(1, 20))
     bold_style = styles["Normal"]
@@ -363,9 +364,10 @@ def receipt_generator(orders, order, name, currency, vat):
     # Итоговая сумма
     total_price = round(order.get('price', 0), 2)
     vat_price = round(order.get('price', 0) * vat,2)
+    total_price_without_shipping = round(total_price - shippingValue, 2)
 
     summary_data = [
-        [Paragraph("<b>Subtotal</b>", bold_style), f"{currency}{total_price}"],
+        [Paragraph("<b>Subtotal</b>", bold_style), f"{currency}{total_price_without_shipping}"],
         [Paragraph("<b>VAT</b>", bold_style), f"{currency}{vat_price}"],
         [Paragraph("<b>TOTAL</b>", bold_style), f"{currency}{total_price}"],
     ]
