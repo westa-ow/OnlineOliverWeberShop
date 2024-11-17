@@ -243,7 +243,7 @@ def receipt_generator(orders, order, name, currency, vat):
     elements = []
 
     # Логотип
-    logo_path = os.path.join(settings.BASE_DIR, "shop", "static", "images", "general", "main_logo_receipt.png")
+    logo_path = os.path.join(settings.BASE_DIR, "shop", "static", "images", "general", "main_logo_receipt.jpg")
     elements.append(Image(logo_path, width=180, height=60))
     elements.append(Spacer(1, 20))
 
