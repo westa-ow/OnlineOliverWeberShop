@@ -349,7 +349,7 @@ def receipt_generator(orders, order, name, currency, vat):
         image = Image(image_path)
         image.drawHeight = 50  # Example height in points
         image.drawWidth = 50
-        row = [item_order['name'], image, item_order['quantity'], item_order['quantity'], currency + str(item_order['price']),
+        row = [item_order['name'], image, item_order['description'], item_order['quantity'], currency + str(item_order['price']),
                currency + str(round(item_order['price'] * item_order['quantity'], 2))]
         product_data.append(row)
     product_table = Table(product_data)
