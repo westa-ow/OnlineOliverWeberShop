@@ -194,7 +194,7 @@ def email_process(new_order, user_email, order_id, csv_content, language_code):
         activate(language_code)
         logger.info("Starting email_process")
         print("Starting email process")
-        pdf_response = receipt_generator(order_id, new_order)
+        pdf_response = receipt_generator(new_order)
         if not pdf_response:
             print("PDF generation failed")
         logger.info("PDF generated successfully")
@@ -233,13 +233,13 @@ def clear_all_cart(email):
         doc.reference.delete()
 
 
-def receipt_generator(order_id, order):
+def receipt_generator(order):
     # Assuming 'orders' contains the list of items in the cart
     # and 'order' contains details about the order itself
 
     buffer = BytesIO()
 
-    make_pdf(order_id, buffer, True)
+    make_pdf(order, buffer, True)
 
     # Preparing response
     pdf = buffer.getvalue()
@@ -251,10 +251,9 @@ def receipt_generator(order_id, order):
     return pdf
 
 
-def make_pdf(order_id, buffer, isWithImgs):
+def make_pdf(order, buffer, isWithImgs):
 
-    order = get_order(order_id)
-    orders = get_order_items(order_id)
+    orders = get_order_items(order.get('order_id'))
     userEmail = order.get('emailOwner', "")
     info = {}
     if userEmail:
