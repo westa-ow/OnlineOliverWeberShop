@@ -812,7 +812,7 @@ msgstr "Выберите тип оплаты"
 
 #: .\shop\templates\checkout\Checkout_Payment_Type.html:38
 msgid "Pay with Stripe"
-msgstr "Дата (со временем)"
+msgstr "Оплата Stripe"
 
 #: .\shop\templates\checkout\checkout_widget.html:28
 msgid "Included shipping"
