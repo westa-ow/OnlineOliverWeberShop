@@ -106,7 +106,7 @@ def send_email(request):
         data = json.loads(request.body)
         vat = int(data.get('vat', 0))/100
         shippingAddress = data.get('shippingAddress', '')
-        billingAddress = data.get('billingAddress', 0)
+        billingAddress = data.get('billingAddress', '')
         if billingAddress == 0:
             billingAddress = shippingAddress
 
@@ -170,8 +170,9 @@ def send_email(request):
             'currency': 'Euro',
             'payment_type': "BANK TRANSFER",
         }
+
         orders_ref.add(new_order)
-        new_order['date'] = new_order['date'].isoformat()
+        new_order['date'] = (new_order["date"]).isoformat()
         email_process(all_orders_info, new_order, currency, vat, user_email, order_id, csv_content, request.user.first_name + " "+ request.user.last_name)
         clear_all_cart(user_email)
         return JsonResponse({'status': 'success', 'redirect_name': 'home'})
@@ -181,6 +182,7 @@ def send_email(request):
 @background(schedule=60)
 def email_process(all_orders_info, new_order, currency, vat, user_email, order_id, csv_content, name):
     try:
+        print("HIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHI")
         pdf_response = receipt_generator(all_orders_info, new_order, name, currency, vat)
 
         subject = 'Your Order Receipt'
@@ -188,6 +190,7 @@ def email_process(all_orders_info, new_order, currency, vat, user_email, order_i
         email_body = 'Thank you for your order! Here is your receipt! Detailed Information about your order you can find in your profile.'
         server_email_body = f'Here is {user_email} order info:'
         recipient_list = [user_email]
+        print(email_body)
 
         recipient_list_server = ['westadatabase@gmail.com']
 
