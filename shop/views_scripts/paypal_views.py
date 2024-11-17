@@ -46,6 +46,7 @@ class PayPalCancelledView(TemplateView):
 def create_paypal_payment(request):
     if request.method == 'POST':
         domain_url = 'https://www.oliverweber.online/'  # Замените на ваш домен
+        language_code = request.path.split('/')[1]
         try:
             data = json.loads(request.body.decode('utf-8'))
             email = get_user_session_type(request)
@@ -65,7 +66,7 @@ def create_paypal_payment(request):
             billingAddress = data.get('billingAddress', 0)
             if billingAddress == 0:
                 billingAddress = shippingAddress
-            metadata = {"Id": order_id, "email": email, "full_name": request.user.first_name + " " + request.user.last_name, "vat": data.get('vat', 0), "shippingValue": shipping, "shippingAddress": shippingAddress, 'billingAddress': billingAddress}
+            metadata = {"Id": order_id, "email": email, "full_name": request.user.first_name + " " + request.user.last_name, "vat": data.get('vat', 0), "shippingValue": shipping, "shippingAddress": shippingAddress, 'billingAddress': billingAddress, "lang_code": language_code}
 
             payment = paypalrestsdk.Payment({
                 "intent": "sale",
@@ -127,7 +128,8 @@ def paypal_webhook(request):
                 shippingValue = metadata.get('shippingValue', 0)
                 shippingAddress = metadata.get('shippingAddress', '')
                 billingAddress = metadata.get('billingAddress', '')
-                stripe_checkout(email, user_name, order_id, vat, shippingValue, shippingAddress, billingAddress, "PAYPAL")
+                lang_code = metadata.get('lang_code', 'gb')
+                stripe_checkout(email, user_name, order_id, vat, shippingValue, shippingAddress, billingAddress, "PAYPAL", lang_code)
                 print(f"Order {order_id} has been marked as paid.")
 
         return HttpResponse(status=200)

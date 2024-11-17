@@ -25,7 +25,7 @@ from django.contrib.auth import authenticate, login, logout, get_user_model, upd
 import os
 import json
 import firebase_admin
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext as _, get_language, activate
 from django.views.decorators.csrf import csrf_exempt
 from firebase_admin import credentials, firestore
 from django.conf import settings
@@ -106,6 +106,7 @@ def sort_documents(request):
 def send_email(request):
     if request.method == 'POST':
         # Создаю order
+        language_code = request.path.split('/')[1]
         data = json.loads(request.body)
         vat = int(data.get('vat', 0))/100
         shippingValue = data.get('shipping', 0)
@@ -178,7 +179,7 @@ def send_email(request):
 
         orders_ref.add(new_order)
         new_order['date'] = (new_order["date"]).isoformat()
-        email_process(all_orders_info, new_order, currency, user_email, order_id, csv_content)
+        email_process(new_order, user_email, order_id, csv_content, language_code)
         clear_all_cart(user_email)
         return JsonResponse({'status': 'success', 'redirect_name': 'home'})
     return JsonResponse({'status': 'error'}, status=400)
@@ -188,8 +189,9 @@ import logging
 logger = logging.getLogger(__name__)
 
 @background(schedule=60)
-def email_process(all_orders_info, new_order, currency, user_email, order_id, csv_content):
+def email_process(new_order, user_email, order_id, csv_content, language_code):
     try:
+        activate(language_code)
         logger.info("Starting email_process")
         print("Starting email process")
         pdf_response = receipt_generator(order_id, new_order)
@@ -250,6 +252,7 @@ def receipt_generator(order_id, order):
 
 
 def make_pdf(order_id, buffer, isWithImgs):
+
     order = get_order(order_id)
     orders = get_order_items(order_id)
     userEmail = order.get('emailOwner', "")

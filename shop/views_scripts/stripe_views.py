@@ -37,6 +37,7 @@ def stripe_config(request):
 def create_checkout_session(request):
     if request.method == 'POST':
         domain_url = 'https://www.oliverweber.online/'  # Замените на ваш домен
+        language_code = request.path.split('/')[1]
         stripe.api_key = settings.STRIPE_SECRET_KEY
         print(f"Stripe API Key: {settings.STRIPE_SECRET_KEY}")
         data = json.loads(request.body.decode('utf-8'))
@@ -59,7 +60,7 @@ def create_checkout_session(request):
             cart = get_cart(email)
             full_price = round(sum(item["price"] for item in cart), 2)
             full_price += shipping
-            metadata = {"Id": order_id, "email": email, "full_name": request.user.first_name + " " + request.user.last_name, "vat": data.get('vat', 0), "shippingPrice": shipping, "shippingAddress": shippingAddress, 'billingAddress': billingAddress}
+            metadata = {"Id": order_id, "email": email, "full_name": request.user.first_name + " " + request.user.last_name, "vat": data.get('vat', 0), "shippingPrice": shipping, "shippingAddress": shippingAddress, 'billingAddress': billingAddress, 'lang_code': language_code}
 
             checkout_session = stripe.checkout.Session.create(
                 success_url=domain_url + 'success/',
@@ -88,7 +89,7 @@ def create_checkout_session(request):
     return HttpResponse(status=405)
 
 
-def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddress, billingAddress, payment_type):
+def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddress, billingAddress, payment_type, lang_code):
     # Создаю order
     vat = int(vat) / 100
     user_email = email
@@ -154,7 +155,7 @@ def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddr
     }
     orders_ref.add(new_order)
     new_order['date'] = new_order['date'].isoformat()
-    email_process(all_orders_info, new_order, currency, user_email, order_id, csv_content)
+    email_process(new_order, user_email, order_id, csv_content, lang_code)
     clear_all_cart(user_email)
     return sum
 
@@ -196,7 +197,7 @@ def stripe_webhook(request):
 
         if order_id:
             # Update the 'Status' field to 'Paid'
-            stripe_checkout(metadata.get('email'), metadata.get('full_name'), order_id, metadata.get('vat'), metadata.get('shippingPrice'), metadata.get('shippingAddress'), metadata.get('billingAddress'), "STRIPE")
+            stripe_checkout(metadata.get('email'), metadata.get('full_name'), order_id, metadata.get('vat'), metadata.get('shippingPrice'), metadata.get('shippingAddress'), metadata.get('billingAddress'), "STRIPE", metadata.get("lang_code", "gb"))
             # doc.update({"Status": "Paid"})
             print(f"Order {order_id} has been marked as paid.")
 
