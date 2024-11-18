@@ -106,7 +106,7 @@
                     <th class="td-outer">{{ document.order_id }}</th>
                     <td class="td-outer">{{ document.date }}</td>
                     <td class="td-outer">{{ document.currency|default:"€" }}{{ document.sum }}</td>
-                    <td class="td-outer">Bank transfer</td>
+                    <td class="td-outer">{{ document.payment_type|default:"BANK TRANSFER" }}</td>
                     <td class="td-outer">{{ document.Status }}</td>
                     <td class="td-outer">
                         <div>

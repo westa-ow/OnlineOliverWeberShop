@@ -1,5 +1,6 @@
 {% load static %}
 {% load widget_tweaks %}
+{% load i18n %}
 {% block content %}
 <!DOCTYPE html>
 <html>
@@ -14,8 +15,9 @@
   {% include 'widgets/navigation_bar.html' %}
   <section class="section" style="margin-top: 100px">
     <div class="container" style="display: flex; flex-direction: column; gap:30px; align-items: center; text-align: center">
-      <h1>Your payment succeeded!</h1>
-      <div><a href="{% url "home" %}" style="padding: 19px 32px;
+      <h1>{% trans "Your payment succeeded!" %}</h1>
+      <h4>{% trans "Within a few minutes you will receive a confirmation of payment via email." %}</h4>
+      <div><a href="{% url "profile" feature_name='orders' %}" style="padding: 19px 32px;
             color: white !important;
             background-color: #003665;
             font-size: 14px;
