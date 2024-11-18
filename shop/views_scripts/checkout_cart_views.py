@@ -118,8 +118,6 @@ def send_email(request):
         user_email = request.user.email
         category, currency = get_user_category(user_email) or ("Default", "Euro")
 
-        currency = '€' if currency == 'Euro' else '$'
-
         cart = get_cart(user_email)
 
         order_id = randint(1000000, 100000000)
@@ -173,7 +171,7 @@ def send_email(request):
             'shippingAddressId': shippingAddress,
             'price': round(float(sum) + float(shippingValue), 2),
             'receipt_id': get_check_id(),
-            'currency': 'Euro',
+            'currency': currency,
             'payment_type': "BANK TRANSFER",
         }
 
