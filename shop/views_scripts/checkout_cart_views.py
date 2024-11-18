@@ -406,12 +406,12 @@ def make_pdf(order, buffer, isWithImgs):
             image.drawHeight = 50  # Example height in points
             image.drawWidth = 50
             row = [item_order['name'], image, item_order['description'], item_order['quantity'],
-                   currency + f"{str(item_order['price']):.2f}",
-                   currency + f"{str(round(item_order['price'] * item_order['quantity'], 2)):.2f}"]
+                   currency + f"{(item_order['price']):.2f}",
+                   currency + f"{(round(item_order['price'] * item_order['quantity'], 2)):.2f}"]
         else:
             row = [item_order['name'], item_order['description'], item_order['quantity'],
-                   currency + f"{str(item_order['price']):.2f}",
-                   currency + f"{str(round(item_order['price'] * item_order['quantity'], 2)):.2f}"]
+                   currency + f"{item_order['price']:.2f}",
+                   currency + f"{(round(item_order['price'] * item_order['quantity'], 2)):.2f}"]
         product_data.append(row)
     product_table = Table(product_data)
     product_table.setStyle(TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#003765")),
