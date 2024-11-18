@@ -416,6 +416,7 @@ def get_address_info(addressId):
     for address in addresses:
         address_dict = address.to_dict()
         return address_dict
+    return {}
 
 
 def get_vat_info(address):

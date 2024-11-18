@@ -108,7 +108,7 @@ def send_email(request):
         # Создаю order
         language_code = request.path.split('/')[1]
         data = json.loads(request.body)
-        vat = int(data.get('vat', 0))/100
+        vat = data.get('vat', 0)
         shippingValue = data.get('shipping', 0)
         shippingAddress = data.get('shippingAddress', '')
         billingAddress = data.get('billingAddress', 0)
@@ -169,7 +169,9 @@ def send_email(request):
             'order-id': int(order_id),
             'billingAddressId': billingAddress,
             'shippingAddressId': shippingAddress,
-            'price': round(float(sum) + float(shippingValue), 2),
+            'price': round(float(sum), 2),
+            'shippingPrice': round(float(shippingValue), 2),
+            'VAT': vat,
             'receipt_id': get_check_id(),
             'currency': currency,
             'payment_type': "BANK TRANSFER",
@@ -257,14 +259,14 @@ def make_pdf(order, buffer, isWithImgs):
     if userEmail:
         info = get_user_info(userEmail) or {}
     currency = order.get('currency', "Euro")
-    currency = "€" if currency=="Euro" else "$"
+    currency = "€" if currency == "Euro" else "$"
 
-    shipping_address = get_address_info(order.get('shippingAddressId', {}))
-    billing_address = get_address_info(order.get('billingAddressId', {}))
+    shipping_address = get_address_info(order.get('shippingAddressId', dict()))
+    billing_address = get_address_info(order.get('billingAddressId', dict()))
 
-    vat = get_vat_info(billing_address) if info.get('customer_type', "Customer") == "Customer" else 0
+    vat = order.get('VAT', 0)
     vat = round(int(vat)/100, 3)
-    shippingValue = get_shipping_price(shipping_address)
+    shippingValue = order.get('shippingPrice', 0)
 
     date_str = str(order['date'])
     date_obj = datetime.fromisoformat(date_str)
@@ -308,10 +310,10 @@ def make_pdf(order, buffer, isWithImgs):
     # Таблицы
 
     order_data = [
-        [Paragraph('<b>' + _("Order Status") + '</b>', bold_style), "PROCESSING"],
+        [Paragraph('<b>' + _("Order Status") + '</b>', bold_style), f"{order.get('Status', 'Processing')}"],
         [Paragraph('<b>'+_("Order")+'</b>', bold_style), f"{order.get('order_id')}"],
         [Paragraph('<b>' + _("Shipping Date") + '</b>', bold_style), f""],
-        [Paragraph('<b>' + _("Receipt") + '</b>', bold_style), f"{order.get('receipt_id')}"],
+        [Paragraph('<b>' + _("Receipt") + '</b>', bold_style), f"{order.get('receipt_id', '')}"],
         ["", ""],
         [Paragraph('<b>' + _("Customer Code") + '</b>', bold_style), f"{order.get('payment_type', '')}"],
         [Paragraph('<b>' + _("Date") + '</b>', bold_style), f"{formatted_date}"]

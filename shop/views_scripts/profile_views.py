@@ -76,6 +76,7 @@ def get_orders_for_user(email):
             'list': order_info.get('list'),
             'order_id': order_id,
             'sum': order_info.get('price'),
+            'currency': "€" if order_info.get('currency') == "Euro" else "$",
             'payment_type': order_info.get('payment_type', "BANK TRANSFER"),
         })
     orders.sort(key=lambda x: x['date'], reverse=True)
