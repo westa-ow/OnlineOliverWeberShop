@@ -64,8 +64,8 @@ def download_csv_order(request, order_id):
 def download_pdf_no_img(request, order_id):
 
     buffer = BytesIO()
-
-    make_pdf(order_id, buffer, False)
+    order = get_order(order_id)
+    make_pdf(order, buffer, False)
 
     # Preparing response
     pdf = buffer.getvalue()
@@ -93,8 +93,8 @@ def get_optimized_image(url, output_size=(50, 50)):
 # @user_passes_test(is_admin)
 def download_pdf_w_img(request, order_id):
     buffer = BytesIO()
-
-    make_pdf(order_id, buffer, True)
+    order = get_order(order_id)
+    make_pdf(order, buffer, True)
 
     # Preparing response
     pdf = buffer.getvalue()

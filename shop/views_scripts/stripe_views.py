@@ -123,8 +123,8 @@ def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddr
             'image_url': image_url,
             'image-url': image_url,
             "name": name,
-            "order_id": order_id,
-            "order-id": order_id,
+            "order_id": int(order_id),
+            "order-id": int(order_id),
             "price": price,
             "quantity": quantity,
         }
@@ -144,8 +144,8 @@ def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddr
         'date': datetime.now(),  # Current date and time
         'email': user_email,
         'list': [ref.path for ref in item_refs],  # Using document paths as references
-        'order_id': order_id,
-        'order-id': order_id,
+        'order_id': int(order_id),
+        'order-id': int(order_id),
         'billingAddressId': billingAddress,
         'shippingAddressId': shippingAddress,
         'price': round(float(sum) + float(shippingPrice), 2),
