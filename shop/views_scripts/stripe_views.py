@@ -153,6 +153,7 @@ def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddr
         'currency': 'Euro',
         'payment_type': payment_type,
     }
+    order_id = int(order_id)
     orders_ref.add(new_order)
     new_order['date'] = new_order['date'].isoformat()
     email_process(new_order, user_email, order_id, csv_content, lang_code)
