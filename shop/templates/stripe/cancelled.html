@@ -1,6 +1,7 @@
 <!-- templates/cancelled.html -->
 {% load static %}
 {% load widget_tweaks %}
+{% load i18n %}
 {% block content %}
 <!DOCTYPE html>
 <html>
@@ -15,7 +16,7 @@
   {% include 'widgets/navigation_bar.html' %}
   <section class="section">
     <div class="container" style="display: flex; flex-direction: column; gap:30px; align-items: center; text-align: center;">
-      <h1>Your payment was cancelled.</h1>
+      <h1> {% trans "Your payment was cancelled." %}</h1>
       <div><a href="{% url "cart" %}" style="padding: 19px 32px;
             color: white !important;
             background-color: #003665;
@@ -24,7 +25,7 @@
             border-radius: 7px;
             cursor: pointer;
             border: none;
-            margin-left: 5px; "> Back to checkout </a></div>
+            margin-left: 5px; "> {% trans "Back to checkout" %} </a></div>
     </div>
   </section>
   </body>
