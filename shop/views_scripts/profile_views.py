@@ -75,7 +75,8 @@ def get_orders_for_user(email):
             'email': email,
             'list': order_info.get('list'),
             'order_id': order_id,
-            'sum': order_info.get('price')
+            'sum': order_info.get('price'),
+            'payment_type': order_info.get('payment_type', "BANK TRANSFER"),
         })
     orders.sort(key=lambda x: x['date'], reverse=True)
     return orders
