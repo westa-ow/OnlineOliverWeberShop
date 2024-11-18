@@ -90,13 +90,11 @@ def create_checkout_session(request):
 
 def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddress, billingAddress, payment_type, lang_code):
     # Создаю order
-    vat = round(int(vat) / 100, 3)
+    vat = int(vat)
     user_email = email
     category, currency = get_user_category(user_email) or ("Default", "Euro")
 
-
     cart = get_cart(user_email)
-
 
     item_refs = []
     all_orders_info = []
@@ -146,7 +144,9 @@ def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddr
         'order-id': int(order_id),
         'billingAddressId': billingAddress,
         'shippingAddressId': shippingAddress,
-        'price': round(float(sum) + float(shippingPrice), 2),
+        'price': round(float(sum), 2),
+        'shippingPrice': round(float(shippingPrice), 2),
+        'VAT': vat,
         'receipt_id': get_check_id(),
         'currency': currency,
         'payment_type': payment_type,
