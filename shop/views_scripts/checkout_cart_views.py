@@ -263,11 +263,11 @@ def make_pdf(order, buffer, isWithImgs):
     shipping_address = get_address_info(order.get('shippingAddressId', {}))
     billing_address = get_address_info(order.get('billingAddressId', {}))
 
-    vat = get_vat_info(billing_address)
+    vat = get_vat_info(billing_address) if info.get('customer_type', "Customer") == "Customer" else 0
     vat = round(int(vat)/100, 3)
     shippingValue = get_shipping_price(shipping_address)
 
-    date_str =  str(order['date'])
+    date_str = str(order['date'])
     date_obj = datetime.fromisoformat(date_str)
 
     # Теперь применяем форматирование
@@ -423,19 +423,22 @@ def make_pdf(order, buffer, isWithImgs):
     elements.append(product_table)
     elements.append(Spacer(1, 20))
 
+    # TODO: Добавить цену доставки
     # Итоговая сумма
     total_price = round(order.get('price', 0), 2)
     vat_price = round(order.get('price', 0) * vat, 2)
     total_price_without_shipping = round(total_price - shippingValue, 2)
-
+    formatted_total_price = f"{total_price:.2f}"
+    formatted_vat_price = f"{vat_price:.2f}"
+    formatted_total_price_without_shipping = f"{total_price_without_shipping:.2f}"
     bold_style1 = styles["Normal"].clone('bold_style1')  # Создаём копию стиля
     bold_style1.fontName = "Roboto-Bold"  # Указываем жирный шрифт
     bold_style1.fontSize = 10  # Размер шрифта
     bold_style1.textColor = colors.black
     summary_data = [
-        [Paragraph('<b>' + _('Subtotal') + '</b>', bold_style1), f"{currency}{total_price_without_shipping}"],
-        [Paragraph("<b>VAT</b>", bold_style1), f"{currency}{vat_price}"],
-        [Paragraph("<b>" + _("TOTAL") + "</b>", bold_style1), f"{currency}{total_price}"],
+        [Paragraph('<b>' + _('Subtotal') + '</b>', bold_style1), f"{currency}{formatted_total_price_without_shipping}"],
+        [Paragraph("<b>VAT</b>", bold_style1), f"{currency}{formatted_vat_price}"],
+        [Paragraph("<b>" + _("TOTAL") + "</b>", bold_style1), f"{currency}{formatted_total_price}"],
     ]
 
     # Создание таблицы

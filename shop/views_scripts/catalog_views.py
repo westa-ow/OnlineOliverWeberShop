@@ -198,7 +198,6 @@ def add_to_cart_from_catalog(request):
         email = get_user_session_type(request)
         category, currency = get_user_prices(request, email)
         currency = '€' if currency == 'Euro' else '$'
-        email = get_user_session_type(request)
         info = get_user_info(email) or {}
         sale = round((0 if "sale" not in info else info['sale'])/100, 3) or 0
         if not product_name or new_quantity is None:
@@ -209,7 +208,7 @@ def add_to_cart_from_catalog(request):
             document['price'] = document.get('priceVK3', 0)
         elif category == "GH":
             document['price'] = document.get('priceGH', 0)
-        elif category == "Default USD":
+        elif category == "Default_USD":
             document['price'] = round(document.get('priceUSD', 0) * (1-sale), 1) or 0
         elif category == "GH_USD":
             document['price'] = document.get('priceUSD_GH', 0)

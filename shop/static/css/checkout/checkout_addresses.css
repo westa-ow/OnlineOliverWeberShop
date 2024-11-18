@@ -73,6 +73,7 @@ button {
 }
 .address-radio{
     height: 2.5rem!important;
+    cursor: pointer;
 }
 .address-billing-address{
     font-size: 20px;

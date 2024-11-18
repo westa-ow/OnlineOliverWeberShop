@@ -44,7 +44,6 @@ def create_checkout_session(request):
 
         shippingAddress = data.get('shippingAddress', '')
         billingAddress = data.get('billingAddress', 0)
-        vat = data.get('vat', 0)
         shipping = data.get('shipping', 0)
         if billingAddress == 0:
             billingAddress = shippingAddress
@@ -91,7 +90,7 @@ def create_checkout_session(request):
 
 def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddress, billingAddress, payment_type, lang_code):
     # Создаю order
-    vat = int(vat) / 100
+    vat = round(int(vat) / 100, 3)
     user_email = email
     category, currency = get_user_category(user_email) or ("Default", "Euro")
 

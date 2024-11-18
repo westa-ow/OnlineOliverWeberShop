@@ -306,7 +306,7 @@ def upload_file(request):
                     document['price'] = document.get('priceVK3', 0)
                 elif category == "GH":
                     document['price'] = document.get('priceGH', 0)
-                elif category == "Default USD":
+                elif category == "Default_USD":
                     document['price'] = round(document.get('priceUSD', 0) * (1-sale), 1) or 0
                 elif category == "GH_USD":
                     document['price'] = document.get('priceUSD_GH', 0)
