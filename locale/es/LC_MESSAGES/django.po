@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-17 19:56+0100\n"
+"POT-Creation-Date: 2024-11-18 15:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -149,7 +149,7 @@ msgstr "Continuar comprando"
 
 #: .\shop\templates\cart.html:77
 #: .\shop\templates\checkout\checkout_widget.html:9 .\shop\views.py:357
-#: .\shop\views_scripts\checkout_cart_views.py:416
+#: .\shop\views_scripts\checkout_cart_views.py:439
 msgid "Subtotal"
 msgstr "Total parcial"
 
@@ -164,10 +164,10 @@ msgid "Have a promo code?"
 msgstr "¿Tienes un código de promoción?"
 
 #: .\shop\templates\cart.html:94
-#: .\shop\templates\checkout\Checkout_Addresses.html:313
 #: .\shop\templates\checkout\Checkout_Payment_Type.html:72
 #: .\shop\templates\checkout\checkout_widget.html:32
-#: .\shop\views_scripts\checkout_cart_views.py:390
+#: .\shop\views_scripts\checkout_cart_views.py:398
+#: .\shop\views_scripts\checkout_cart_views.py:400
 msgid "Total"
 msgstr "Total"
 
@@ -177,7 +177,6 @@ msgid "Included taxes"
 msgstr "Impuestos incluidos"
 
 #: .\shop\templates\cart.html:102
-#| msgid "Included taxes"
 msgid "Included shippinh"
 msgstr "incluir envío"
 
@@ -330,7 +329,6 @@ msgid "Hoops"
 msgstr "Aros"
 
 #: .\shop\templates\catalog.html:557
-#| msgid "Creole"
 msgid "Creoles"
 msgstr "Criollos"
 
@@ -343,7 +341,6 @@ msgid "Piercings"
 msgstr "Piercings"
 
 #: .\shop\templates\catalog.html:561
-#| msgid "Bangle"
 msgid "Bangles"
 msgstr "Brazaletes"
 
@@ -775,39 +772,38 @@ msgstr "Cancelar"
 msgid "Save"
 msgstr "Ahorrar"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:337
+#: .\shop\templates\checkout\Checkout_Addresses.html:372
 msgid "Please select a shipping address first"
 msgstr "Seleccione primero una dirección de envío"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:413
+#: .\shop\templates\checkout\Checkout_Addresses.html:485
 #: .\shop\templates\profile\profile_create_address.html:135
 msgid "The address has been successfully added!"
 msgstr "¡La dirección ha sido agregada exitosamente!"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:427
+#: .\shop\templates\checkout\Checkout_Addresses.html:499
 #: .\shop\templates\profile\profile_addresses.html:63
 msgid "Are you sure you want to delete this address?"
 msgstr "¿Estás seguro de que deseas eliminar esta dirección?"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:519
+#: .\shop\templates\checkout\Checkout_Addresses.html:590
 msgid "Order will be delivered to your email"
 msgstr "El pedido será entregado a su correo electrónico."
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:550
+#: .\shop\templates\checkout\Checkout_Addresses.html:621
 #: .\shop\templates\checkout\Checkout_Payment_Type.html:137
 msgid "You have to add at least 1 item to finish order"
 msgstr "Tienes que agregar al menos 1 artículo para finalizar el pedido."
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:554
+#: .\shop\templates\checkout\Checkout_Addresses.html:625
 msgid "You didn't provide billing address"
 msgstr "No proporcionaste la dirección de facturación"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:558
+#: .\shop\templates\checkout\Checkout_Addresses.html:629
 msgid "You didn't provide shipping address"
 msgstr "No proporcionaste la dirección de envío"
 
 #: .\shop\templates\checkout\Checkout_Payment_Type.html:28
-#| msgid "Payment"
 msgid "Payment type"
 msgstr "Tipo de pago"
 
@@ -816,12 +812,10 @@ msgid "Choose payment type"
 msgstr "Elige el tipo de pago"
 
 #: .\shop\templates\checkout\Checkout_Payment_Type.html:38
-#| msgid "Date (with time)"
 msgid "Pay with Stripe"
 msgstr "Paga con Stripe"
 
 #: .\shop\templates\checkout\checkout_widget.html:28
-#| msgid "Continue shopping"
 msgid "Included shipping"
 msgstr "Envío incluido"
 
@@ -902,10 +896,9 @@ msgid "Start typing here..."
 msgstr "Empieza a escribir aquí..."
 
 #: .\shop\templates\profile\profile_chat.html:15
-#: .\shop\views_scripts\checkout_cart_views.py:308
+#: .\shop\views_scripts\checkout_cart_views.py:311
 #: .\venv\Lib\site-packages\django\forms\formsets.py:484
 #: .\venv\Lib\site-packages\django\forms\formsets.py:491
-#| msgid "Orders"
 msgid "Order"
 msgstr "Pedido"
 
@@ -934,12 +927,10 @@ msgid "B2B"
 msgstr "B2B"
 
 #: .\shop\templates\profile\profile_chat.html:38
-#| msgid "Archive search"
 msgid "Archive B2C"
 msgstr "Archivo B2C"
 
 #: .\shop\templates\profile\profile_chat.html:39
-#| msgid "Archive search"
 msgid "Archive B2B"
 msgstr "Archivo B2B"
 
@@ -1048,7 +1039,6 @@ msgid "Upload xlsx"
 msgstr "Subir xlsx"
 
 #: .\shop\templates\profile\profile_order_import.html:24
-#| msgid "The address has been successfully added!"
 msgid "Items were successfully added!"
 msgstr "¡Los artículos se agregaron exitosamente!"
 
@@ -1069,7 +1059,7 @@ msgid "Order ID"
 msgstr "ID de pedido"
 
 #: .\shop\templates\profile\profile_orders.html:95
-#: .\shop\views_scripts\checkout_cart_views.py:313
+#: .\shop\views_scripts\checkout_cart_views.py:316
 msgid "Date"
 msgstr "Fecha"
 
@@ -1086,7 +1076,6 @@ msgid "Status"
 msgstr "Estado"
 
 #: .\shop\templates\profile\profile_orders.html:113
-#| msgid "Show details"
 msgid "Show Details"
 msgstr "Mostrar detalles"
 
@@ -1131,7 +1120,8 @@ msgstr "Descripción"
 
 #: .\shop\templates\profile\profile_orders.html:269
 #: .\shop\templates\widgets\mini_cart.html:115 .\shop\views.py:355
-#: .\shop\views_scripts\checkout_cart_views.py:389
+#: .\shop\views_scripts\checkout_cart_views.py:397
+#: .\shop\views_scripts\checkout_cart_views.py:399
 msgid "Quantity"
 msgstr "Cantidad"
 
@@ -1166,12 +1156,10 @@ msgid "Favorites"
 msgstr "Favoritos"
 
 #: .\shop\templates\profile\profile_side_menu.html:44
-#| msgid "Order ID"
 msgid "Order Import"
 msgstr "Importación de pedidos"
 
 #: .\shop\templates\profile\profile_side_menu.html:55
-#| msgid "Search"
 msgid "Archive Search"
 msgstr "Búsqueda de archivos"
 
@@ -1186,7 +1174,6 @@ msgid "Sign out"
 msgstr "desconectar"
 
 #: .\shop\templates\profile\profile_update_address.html:7
-#| msgid "Your addresses"
 msgid "Update your address"
 msgstr "Actualiza tu dirección"
 
@@ -1195,7 +1182,6 @@ msgid "The address has been successfully updated!"
 msgstr "¡La dirección se ha actualizado correctamente!"
 
 #: .\shop\templates\registration\login.html:40
-#| msgid "Your account"
 msgid "Log in to your account"
 msgstr "Inicia sesión en tu cuenta"
 
@@ -1208,7 +1194,6 @@ msgid "User type"
 msgstr "Tipo de usuario"
 
 #: .\shop\templates\registration\register.html:193
-#| msgid "Create an account"
 msgid "Already have an account?"
 msgstr "¿Ya tienes una cuenta?"
 
@@ -4497,7 +4482,6 @@ msgid "Plating"
 msgstr "Enchapado"
 
 #: .\shop\templates\shop_page.html:48
-#| msgid "Stone color"
 msgid "Stone"
 msgstr "Piedra"
 
@@ -4544,6 +4528,30 @@ msgstr "Los artículos máximos para pedidos anticipados son 20, el mínimo es 1
 #: .\shop\templates\shop_page.html:286
 msgid "Current quantity"
 msgstr "Cantidad actual"
+
+#: .\shop\templates\stripe\cancelled.html:19
+msgid "Your payment was cancelled."
+msgstr "Su pago fue cancelado."
+
+#: .\shop\templates\stripe\cancelled.html:28
+#| msgid "Proceed to checkout"
+msgid "Back to checkout"
+msgstr "Volver a pagar"
+
+#: .\shop\templates\stripe\success.html:18
+msgid "Your payment succeeded!"
+msgstr "¡Tu pago fue exitoso!"
+
+#: .\shop\templates\stripe\success.html:19
+msgid ""
+"Within a few minutes you will receive a confirmation of payment via email."
+msgstr ""
+"En unos minutos recibirás una confirmación del pago vía correo electrónico."
+
+#: .\shop\templates\stripe\success.html:28
+#| msgid "Orders"
+msgid "My Orders"
+msgstr "Mis pedidos"
 
 #: .\shop\templates\widgets\account_panel.html:9
 #: .\shop\templates\widgets\mobile_links_panel.html:9
@@ -4639,11 +4647,11 @@ msgstr "¡Este artículo solo está disponible para pedidos anticipados!"
 msgid "Welcome to my site."
 msgstr "Bienvenido a mi sitio."
 
-#: .\shop\views_scripts\checkout_cart_views.py:293
+#: .\shop\views_scripts\checkout_cart_views.py:294
 msgid "Thank you for shopping with Oliver Weber Shop."
 msgstr "Gracias por comprar en Oliver Weber Shop."
 
-#: .\shop\views_scripts\checkout_cart_views.py:295
+#: .\shop\views_scripts\checkout_cart_views.py:296
 msgid ""
 "You'll find your Order Summary below. If you have any questions regarding "
 "your order, please contact us."
@@ -4651,113 +4659,108 @@ msgstr ""
 "Encontrará el resumen de su pedido a continuación. Si tiene alguna pregunta "
 "con respecto a su pedido, contáctenos."
 
-#: .\shop\views_scripts\checkout_cart_views.py:307
-#| msgid "Status"
+#: .\shop\views_scripts\checkout_cart_views.py:310
 msgid "Order Status"
 msgstr "Estado del pedido"
 
-#: .\shop\views_scripts\checkout_cart_views.py:309
-#| msgid "Shopping cart"
+#: .\shop\views_scripts\checkout_cart_views.py:312
 msgid "Shipping Date"
 msgstr "Fecha de envío"
 
-#: .\shop\views_scripts\checkout_cart_views.py:310
+#: .\shop\views_scripts\checkout_cart_views.py:313
 msgid "Receipt"
 msgstr "Recibo"
 
-#: .\shop\views_scripts\checkout_cart_views.py:312
-#| msgid "Customer account"
+#: .\shop\views_scripts\checkout_cart_views.py:315
 msgid "Customer Code"
 msgstr "Código de cliente"
 
-#: .\shop\views_scripts\checkout_cart_views.py:320
-#| msgid "Phone"
+#: .\shop\views_scripts\checkout_cart_views.py:323
 msgid "Phone:"
 msgstr "Teléfono:"
 
-#: .\shop\views_scripts\checkout_cart_views.py:361
+#: .\shop\views_scripts\checkout_cart_views.py:367
 msgid "Customer Billing Details"
 msgstr "Detalles de facturación del cliente"
 
-#: .\shop\views_scripts\checkout_cart_views.py:361
-#| msgid "Delivery Time:"
+#: .\shop\views_scripts\checkout_cart_views.py:367
 msgid "Delivery Details"
 msgstr "Detalles de entrega"
 
-#: .\shop\views_scripts\checkout_cart_views.py:362
-#| msgid "Contact options"
+#: .\shop\views_scripts\checkout_cart_views.py:368
 msgid "Contact Phone"
 msgstr "Teléfono de contacto"
 
-#: .\shop\views_scripts\checkout_cart_views.py:363
+#: .\shop\views_scripts\checkout_cart_views.py:369
 msgid "Ship-To Code"
 msgstr "Código de envío"
 
-#: .\shop\views_scripts\checkout_cart_views.py:364
-#| msgid "Billing address"
+#: .\shop\views_scripts\checkout_cart_views.py:370
 msgid "Billing Address"
 msgstr "Dirección de Envio"
 
-#: .\shop\views_scripts\checkout_cart_views.py:365
+#: .\shop\views_scripts\checkout_cart_views.py:371
 msgid "Ship-To Name"
 msgstr "Nombre de destino"
 
-#: .\shop\views_scripts\checkout_cart_views.py:367
-#| msgid "Shipping address"
+#: .\shop\views_scripts\checkout_cart_views.py:373
 msgid "Shipping Address"
 msgstr "Dirección de envío"
 
-#: .\shop\views_scripts\checkout_cart_views.py:389
-#| msgid "Product width"
+#: .\shop\views_scripts\checkout_cart_views.py:396
+#: .\shop\views_scripts\checkout_cart_views.py:398
 msgid "Product"
 msgstr "Producto"
 
-#: .\shop\views_scripts\checkout_cart_views.py:389
+#: .\shop\views_scripts\checkout_cart_views.py:396
 msgid "Photo"
 msgstr "Foto"
 
-#: .\shop\views_scripts\checkout_cart_views.py:389
-#| msgid "Show details"
+#: .\shop\views_scripts\checkout_cart_views.py:397
+#: .\shop\views_scripts\checkout_cart_views.py:399
 msgid "Item Details"
 msgstr "Detalles del artículo"
 
-#: .\shop\views_scripts\checkout_cart_views.py:389
-#| msgid "Price"
+#: .\shop\views_scripts\checkout_cart_views.py:398
+#: .\shop\views_scripts\checkout_cart_views.py:400
 msgid "Unit Price"
 msgstr "Precio unitario"
 
-#: .\shop\views_scripts\checkout_cart_views.py:418
+#: .\shop\views_scripts\checkout_cart_views.py:440
+#| msgid "Shipping Date"
+msgid "Shipping price"
+msgstr "Precio de envío"
+
+#: .\shop\views_scripts\checkout_cart_views.py:442
 msgid "TOTAL"
 msgstr "TOTAL"
 
-#: .\shop\views_scripts\profile_views.py:264
+#: .\shop\views_scripts\profile_views.py:265
 msgid "Invalid file format. Only .xlsx or .xls are allowed"
 msgstr "Formato de archivo no válido. Sólo se permiten .xlsx o .xls"
 
-#: .\shop\views_scripts\profile_views.py:276
-#: .\shop\views_scripts\profile_views.py:290
+#: .\shop\views_scripts\profile_views.py:277
+#: .\shop\views_scripts\profile_views.py:291
 msgid "Invalid data in row"
 msgstr "Datos no válidos en la fila"
 
-#: .\shop\views_scripts\profile_views.py:293
+#: .\shop\views_scripts\profile_views.py:294
 msgid "Quantity can only be greater than 0)"
 msgstr "La cantidad sólo puede ser mayor que 0)"
 
-#: .\shop\views_scripts\profile_views.py:298
-#| msgid "Page not found."
+#: .\shop\views_scripts\profile_views.py:299
 msgid "Product not found"
 msgstr "Producto no encontrado"
 
-#: .\shop\views_scripts\profile_views.py:302
-#| msgid "Current quantity"
+#: .\shop\views_scripts\profile_views.py:303
 msgid "Requested quantity"
 msgstr "Cantidad solicitada"
 
-#: .\shop\views_scripts\profile_views.py:302
+#: .\shop\views_scripts\profile_views.py:303
 msgid "is less than number of products in storage for product"
 msgstr "es menor que el número de productos almacenados para el producto"
 
-#: .\shop\views_scripts\profile_views.py:320
+#: .\shop\views_scripts\profile_views.py:321
 msgid "Error updating cart for product"
 msgstr "Error al actualizar el carrito del producto"
 
@@ -4839,7 +4842,6 @@ msgid "default: {default}"
 msgstr "predeterminado: {predeterminado}"
 
 #: .\venv\Lib\site-packages\click\core.py:2834
-#| msgid "Email is required"
 msgid "required"
 msgstr "requerido"
 
@@ -4882,7 +4884,6 @@ msgid "Missing option"
 msgstr "Opción faltante"
 
 #: .\venv\Lib\site-packages\click\exceptions.py:183
-#| msgid "Ring diameter"
 msgid "Missing parameter"
 msgstr "Parámetro faltante"
 
@@ -4943,7 +4944,6 @@ msgstr ""
 "shell."
 
 #: .\venv\Lib\site-packages\click\termui.py:158
-#| msgid "General information"
 msgid "Repeat for confirmation"
 msgstr "Repita para confirmar"
 
@@ -5007,7 +5007,6 @@ msgid "{value!r} is not a valid UUID."
 msgstr "{value!r} no es un UUID válido."
 
 #: .\venv\Lib\site-packages\click\types.py:822
-#| msgid "Nailfile"
 msgid "file"
 msgstr "Lima de uñas"
 
@@ -5334,7 +5333,6 @@ msgstr ""
 "fecha no válida."
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1418
-#, fuzzy
 #| msgid "Download pdf without images"
 msgid "Date (without time)"
 msgstr "Fecha (sin hora)"
@@ -5380,7 +5378,6 @@ msgstr ""
 "[[HH:]MM:]ss[.uuuuuu]."
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1852
-#, fuzzy
 #| msgid "Information"
 msgid "Duration"
 msgstr "Duración"
