@@ -146,8 +146,8 @@ def send_email(request):
                 'image_url': image_url,
                 'image-url': image_url,
                 "name": name,
-                "order_id": order_id,
-                "order-id": order_id,
+                "order_id": int(order_id),
+                "order-id": int(order_id),
                 "price": price,
                 "quantity": quantity,
             }
@@ -167,8 +167,8 @@ def send_email(request):
             'date': datetime.now(),  # Current date and time
             'email': user_email,
             'list': [ref.path for ref in item_refs],  # Using document paths as references
-            'order_id': order_id,
-            'order-id': order_id,
+            'order_id': int(order_id),
+            'order-id': int(order_id),
             'billingAddressId': billingAddress,
             'shippingAddressId': shippingAddress,
             'price': round(float(sum) + float(shippingValue), 2),
