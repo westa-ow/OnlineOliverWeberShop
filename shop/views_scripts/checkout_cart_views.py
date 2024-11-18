@@ -429,11 +429,11 @@ def make_pdf(order, buffer, isWithImgs):
     total_price = round(order.get('price', 0), 2)
     shippingPrice = round(shippingValue, 2)
     shipping_vat = round(shippingPrice * vat, 2)
-    total_price_without_shipping = round(total_price - shippingValue, 2)
+    total_price_without_shipping = round(total_price, 2)
     vat_price = round(total_price_without_shipping * vat, 2)
 
 
-    formatted_total_price = f"{round(total_price + vat_price + shipping_vat, 2):.2f}"
+    formatted_total_price = f"{round(total_price + shippingPrice + vat_price + shipping_vat, 2):.2f}"
     formatted_shipping_price = f"{shippingPrice:.2f}"
     formatted_shipping_price_vat = f"{shipping_vat:.2f}"
     formatted_vat_price = f"{vat_price:.2f}"
