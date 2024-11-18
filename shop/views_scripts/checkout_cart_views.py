@@ -369,8 +369,8 @@ def make_pdf(order, buffer, isWithImgs):
          _("Ship-To Code") + f': {shipping_address.get("address_id", "")}'],
         [ _("Billing Address") + ':',
          _("Ship-To Name") + f': {shipping_address.get("first_name", "")} {shipping_address.get("last_name", "")}'],
-        [f"{billing_address.get('real_address', '')}",
-         _("Shipping Address") + f': {shipping_address.get("real_address", "")}'],
+        [f"{billing_address.get('real_address', '')} {billing_address.get('address_complement', '')}",
+         _("Shipping Address") + f': {shipping_address.get("real_address", "")} {shipping_address.get("address_complement", "")}'],
         [f'{billing_address.get("city", "")}', f'{shipping_address.get("city", "")}'],
         [f'{billing_address.get("postal_code", "")}', f"{shipping_address.get('postal_code', '')}"],
         # ["Ontario", "ON"],
@@ -424,9 +424,11 @@ def make_pdf(order, buffer, isWithImgs):
     # TODO: Добавить цену доставки
     # Итоговая сумма
     total_price = round(order.get('price', 0), 2)
-    vat_price = round(order.get('price', 0) * vat, 2)
+    vat_price = round((order.get('price', 0)) * vat, 2)
+    shippingPrice = round(shippingValue, 2)
     total_price_without_shipping = round(total_price - shippingValue, 2)
-    formatted_total_price = f"{total_price:.2f}"
+    formatted_total_price = f"{round(total_price + vat_price, 2):.2f}"
+    formatted_shipping_price = f"{shippingPrice:.2f}"
     formatted_vat_price = f"{vat_price:.2f}"
     formatted_total_price_without_shipping = f"{total_price_without_shipping:.2f}"
     bold_style1 = styles["Normal"].clone('bold_style1')  # Создаём копию стиля
@@ -435,6 +437,7 @@ def make_pdf(order, buffer, isWithImgs):
     bold_style1.textColor = colors.black
     summary_data = [
         [Paragraph('<b>' + _('Subtotal') + '</b>', bold_style1), f"{currency}{formatted_total_price_without_shipping}"],
+        [Paragraph("<b>" + _('Shipping price') + "</b>", bold_style1), f"{currency}{formatted_shipping_price}"],
         [Paragraph("<b>VAT</b>", bold_style1), f"{currency}{formatted_vat_price}"],
         [Paragraph("<b>" + _("TOTAL") + "</b>", bold_style1), f"{currency}{formatted_total_price}"],
     ]
@@ -448,8 +451,9 @@ def make_pdf(order, buffer, isWithImgs):
         ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),  # Шрифт текста
         ('FONTSIZE', (0, 0), (-1, -1), 10),  # Размер шрифта
         ('BOTTOMPADDING', (0, 0), (-1, -1), 5),  # Нижний отступ
-        ('LINEBELOW', (0, 1), (-1, 1), 1, colors.black),  # Линия под строкой VAT
-        ('LINEBELOW', (0, 2), (-1, 2), 1.5, colors.black),  # Линия под строкой TOTAL
+        ('LINEBELOW', (0, 1), (-1, 1), 1, colors.black),  # Линия под строкой SHIPPING price
+        ('LINEBELOW', (0, 2), (-1, 2), 1, colors.black),  # Линия под строкой VAT
+        ('LINEBELOW', (0, 3), (-1, 3), 1.5, colors.black),  # Линия под строкой TOTAL
     ]))
 
     # Добавление таблицы с отступом вправо

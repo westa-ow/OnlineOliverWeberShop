@@ -94,7 +94,6 @@ def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddr
     user_email = email
     category, currency = get_user_category(user_email) or ("Default", "Euro")
 
-    currency = '€' if currency == 'Euro' else '$'
 
     cart = get_cart(user_email)
 
@@ -149,7 +148,7 @@ def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddr
         'shippingAddressId': shippingAddress,
         'price': round(float(sum) + float(shippingPrice), 2),
         'receipt_id': get_check_id(),
-        'currency': 'Euro',
+        'currency': currency,
         'payment_type': payment_type,
     }
     order_id = int(order_id)
