@@ -256,7 +256,8 @@ def make_pdf(order, buffer, isWithImgs):
     info = {}
     if userEmail:
         info = get_user_info(userEmail) or {}
-    currency = "€" if info.get("currency", "Euro") == "Euro" else "$"
+    currency = order.get('currency', "Euro")
+    currency = "€" if currency=="Euro" else "$"
 
     shipping_address = get_address_info(order.get('shippingAddressId', {}))
     billing_address = get_address_info(order.get('billingAddressId', {}))
@@ -405,12 +406,12 @@ def make_pdf(order, buffer, isWithImgs):
             image.drawHeight = 50  # Example height in points
             image.drawWidth = 50
             row = [item_order['name'], image, item_order['description'], item_order['quantity'],
-                   currency + str(item_order['price']),
-                   currency + str(round(item_order['price'] * item_order['quantity'], 2))]
+                   currency + f"{str(item_order['price']):.2f}",
+                   currency + f"{str(round(item_order['price'] * item_order['quantity'], 2)):.2f}"]
         else:
             row = [item_order['name'], item_order['description'], item_order['quantity'],
-                   currency + str(item_order['price']),
-                   currency + str(round(item_order['price'] * item_order['quantity'], 2))]
+                   currency + f"{str(item_order['price']):.2f}",
+                   currency + f"{str(round(item_order['price'] * item_order['quantity'], 2)):.2f}"]
         product_data.append(row)
     product_table = Table(product_data)
     product_table.setStyle(TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#003765")),
@@ -451,7 +452,7 @@ def make_pdf(order, buffer, isWithImgs):
         ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),  # Шрифт текста
         ('FONTSIZE', (0, 0), (-1, -1), 10),  # Размер шрифта
         ('BOTTOMPADDING', (0, 0), (-1, -1), 5),  # Нижний отступ
-        ('LINEBELOW', (0, 1), (-1, 1), 1, colors.black),  # Линия под строкой SHIPPING price
+        # ('LINEBELOW', (0, 1), (-1, 1), 1, colors.black),  # Линия под строкой SHIPPING price
         ('LINEBELOW', (0, 2), (-1, 2), 1, colors.black),  # Линия под строкой VAT
         ('LINEBELOW', (0, 3), (-1, 3), 1.5, colors.black),  # Линия под строкой TOTAL
     ]))
