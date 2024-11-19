@@ -502,7 +502,7 @@ document.addEventListener("click", function(e) {
 
         // Construct the URL for deletion
         let url = "{% url 'delete_address' address_id="BIG"%}";
-        url.replace('BIG', addressId);
+        url = url.replace('BIG', addressId);
 
         fetch(url, {
             method: 'POST',

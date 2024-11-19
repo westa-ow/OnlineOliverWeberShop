@@ -1,4 +1,6 @@
 import random
+from datetime import datetime
+
 from django.shortcuts import render, redirect
 import json
 from django.views.decorators.csrf import csrf_exempt
@@ -14,14 +16,17 @@ def delete_address(request, address_id):
         return render(request, 'profile/profile_addresses.html', {'feature_name': 'new_address'})
 
     try:
+        # Найти адрес по ID
         address_to_delete = addresses_ref.where('address_id', '==', address_id).limit(1).get()
         if not address_to_delete:
             return JsonResponse({'status': 'error', 'message': 'Address not found.'}, status=404)
 
+        # Обновить поле is_deleted в найденном адресе
         for address in address_to_delete:
             address_ref = addresses_ref.document(address.id)
-            address_ref.delete()
-        return JsonResponse({'status': 'success', 'message': 'Address deleted successfully.'})
+            address_ref.update({'is_deleted': True})
+
+        return JsonResponse({'status': 'success', 'message': 'Address marked as deleted.'})
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
@@ -62,7 +67,8 @@ def create_address(request):
                 'country': country_dict[new_data['id_country']],
                 'phone': new_data['phone'],
                 'email': request.user.email,
-                'address_id': f"{unique_address_id}"
+                'address_id': f"{unique_address_id}",
+                'creation_date': datetime.now(),
             }
             addresses_ref.add(address_document)
             return JsonResponse({'status': 'success', 'message': 'Address updated successfully.'})

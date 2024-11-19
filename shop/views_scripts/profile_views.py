@@ -157,7 +157,10 @@ def get_user_addresses(email):
     if existing_addresses:
         for address in existing_addresses:
             address_doc = addresses_ref.document(address.id).get().to_dict()
-            addresses.append(address_doc)
+            if address_doc.get('is_deleted', False) != True:
+                addresses.append(address_doc)
+
+
     addresses_dict = json.dumps(addresses)
     return addresses, addresses_dict
 
@@ -308,6 +311,8 @@ def upload_file(request):
                     document['price'] = document.get('priceVK3', 0)
                 elif category == "GH":
                     document['price'] = document.get('priceGH', 0)
+                elif category == "Default_High":
+                    document['price'] = document.get('priceVK4', 0) * 1.3
                 elif category == "Default_USD":
                     document['price'] = round(document.get('priceUSD', 0) * (1-sale), 1) or 0
                 elif category == "GH_USD":

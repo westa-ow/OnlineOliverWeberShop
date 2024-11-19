@@ -64,7 +64,11 @@ def view_user(request, user_id):
 
         # Fetch addresses related to the user
         addresses_query = addresses_ref.where('email', '==', user_email).stream()
-        context['addresses'] = [address.to_dict() for address in addresses_query]
+        context['addresses'] = [
+            address.to_dict()
+            for address in addresses_query
+            if not address.to_dict().get('is_deleted', False)
+        ]
 
         # Fetch cart items related to the user
         # Assuming cart collection documents contain user email, adjust if your schema is different

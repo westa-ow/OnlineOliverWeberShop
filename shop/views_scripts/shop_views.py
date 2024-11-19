@@ -70,6 +70,8 @@ def form_page(request, product_id):
             obj['price'] = obj['priceVK3']
         elif category == "GH":
             obj['price'] = obj['priceGH']
+        elif category == "Default_High":
+            obj['price'] = obj['priceVK4'] * 1.3
         elif category == "USD_GH":
             obj['price'] = obj['priceUSD_GH']
         elif category == "Default_USD":

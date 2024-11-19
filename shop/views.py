@@ -326,6 +326,8 @@ def get_user_prices(request, email):
         print(country_code)
         if country_code in ['AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GR', 'HR', 'HU', 'IE', 'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK']:
             return "Default", 'Euro'
+        elif country_code in ['RU']:
+            return "Default_High", 'Euro'
     except geoip2.errors.AddressNotFoundError:
         pass
     return "Default_USD", 'Dollar'

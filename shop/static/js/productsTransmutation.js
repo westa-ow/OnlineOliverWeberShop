@@ -127,5 +127,6 @@ function calculatePrice(item, price_category, sale) {
              price_category === "GH" ? item.priceGH :
              price_category === "GH_USD" ? item.priceUSD_GH :
              price_category === "Default_USD" ? (item.priceUSD * (1 - sale)) :
+             price_category === "Default_High" ? (item.priceVK4 * 1.3) :
              (item.priceVK4 * (1 - sale)))).toFixed(1))).toFixed(2);
 }

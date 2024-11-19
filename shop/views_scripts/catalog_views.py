@@ -212,6 +212,8 @@ def add_to_cart_from_catalog(request):
             document['price'] = round(document.get('priceUSD', 0) * (1-sale), 1) or 0
         elif category == "GH_USD":
             document['price'] = document.get('priceUSD_GH', 0)
+        elif category == "Default_High":
+            document['price'] = document.get('priceVK4', 0) * 1.3
         else:
             document['price'] = round(document.get('priceVK4', 0) * (1-sale), 1) or 0
         if not document:

@@ -65,7 +65,8 @@ document.addEventListener("click", function(e) {
         }
 
         // Construct the URL for deletion
-        const url = `/profile/addresses/delete_address/${addressId}/`; // Adjust based on your URL pattern
+        let url = "{% url "delete_address" address_id="BIG" %}";
+        url = url.replace("BIG", addressId);
 
         fetch(url, {
             method: 'POST',
