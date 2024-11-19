@@ -36,6 +36,7 @@ if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)
 db = firestore.client()
 orders_ref = db.collection("Orders")
+stones_ref = db.collection("Stones")
 users_ref = db.collection('webUsers')
 itemsRef = db.collection('item')
 cart_ref = db.collection("Cart")
@@ -466,6 +467,17 @@ def get_cart(email):
 def getCart(request):
     return JsonResponse({'cart': get_cart(get_user_session_type(request))})
 
+def get_stones():
+    docs = stones_ref.stream()
+
+    # Преобразование данных в объект { "id": "name" }
+    stones = {}
+    for doc in docs:
+        data = doc.to_dict()
+        if 'id' in data and 'name' in data:
+            stones[data['id']] = data['name']
+
+    return stones
 
 def update_quantity_input(request):
     if request.method == 'POST':

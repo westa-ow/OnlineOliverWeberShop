@@ -445,7 +445,8 @@ let filters_dict = {
         let unfilteredItems = await fetchItemsWithQuantityGreaterThan30(); // Fetch all items on load
         let email = "{{ user.email }}"
         favouriteitems = await fetchFavouriteItems(email);
-        allItems = productsTransmutation(unfilteredItems, price_category, sale);
+        let stones = await fetchStones();
+        allItems = productsTransmutation(unfilteredItems, price_category, sale, stones);
         shuffleArray(allItems);
         allItems = allItems.slice(0, 15);
 
@@ -669,6 +670,21 @@ let filters_dict = {
         else{
             console.log("Null");
         }
+    }
+    async function fetchStones() {
+        const stonesQuery = query(collection(db, "Stones")); // Запрос к коллекции Stones
+        const querySnapshot = await getDocs(stonesQuery);
+
+        // Преобразуем документы в объект { "id": "name" }
+        const all_stones = {};
+        querySnapshot.docs.forEach(doc => {
+            const data = doc.data();
+            if (data.id && data.name) { // Убедимся, что данные существуют
+                all_stones[data.id] = data.name;
+            }
+        });
+
+        return all_stones;
     }
 document.getElementById('product-card').addEventListener('click', async (event) => {
     const heartIconContainer = event.target.closest('.mobile-heart-container');

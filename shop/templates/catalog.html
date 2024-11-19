@@ -373,7 +373,10 @@
 
         favouriteItems = await fetchFavouriteItems("{{ user.email }}");
 
-        allItems = productsTransmutation(unfilteredItems, price_category, sale);
+        stones = await fetchStones("{{ user.email }}");
+        console.log(stones);
+
+        allItems = productsTransmutation(unfilteredItems, price_category, sale, stones);
 
         total_pages = Math.ceil(allItems.length / itemsPerPage);
 
@@ -444,6 +447,7 @@ let allItems = [];
 let favouriteItems = [];
 let filteredItems = [];
 let filters = [];
+let stones = {};
 let platingFilters =  "{{ plating_catalog }}" ? ["{{ plating_catalog|safe }}"] : [];
 let baseFilters = "{{ base_catalog }}" ? ["{{ base_catalog|safe }}"] : [];
 let stoneFilters = [];
@@ -1171,6 +1175,21 @@ async function fetchFavouriteItems(userEmail) {
     const favouritesQuery = query(collection(db, "Favourites"), where("email", "==", userEmail));
     const querySnapshot = await getDocs(favouritesQuery);
     return querySnapshot.docs.map(doc => doc.data());
+}
+async function fetchStones() {
+    const stonesQuery = query(collection(db, "Stones")); // Запрос к коллекции Stones
+    const querySnapshot = await getDocs(stonesQuery);
+
+    // Преобразуем документы в объект { "id": "name" }
+    const all_stones = {};
+    querySnapshot.docs.forEach(doc => {
+        const data = doc.data();
+        if (data.id && data.name) { // Убедимся, что данные существуют
+            all_stones[data.id] = data.name;
+        }
+    });
+
+    return all_stones;
 }
 function paginateItems(items, pageNumber, pageSize) {
     const startIndex = (pageNumber - 1) * pageSize;

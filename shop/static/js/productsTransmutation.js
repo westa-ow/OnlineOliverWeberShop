@@ -1,4 +1,4 @@
-function productsTransmutation(items, price_category, sale){
+function productsTransmutation(items, price_category, sale, stones){
 
     let products = {};
     const regex = /^[a-zA-Z]{0,2}\d{5}[a-zA-Z]{0,5}$/;
@@ -7,7 +7,7 @@ function productsTransmutation(items, price_category, sale){
             return;
         }
         let itemName = item.name;
-
+        let stone = stones[item.stone];
         itemName = itemName.split(' ')[0];
          if (regex.test(itemName)) {
             let processedName = itemName.match(/^([a-zA-Z]{0,2})(\d{5})/);
@@ -53,10 +53,10 @@ function productsTransmutation(items, price_category, sale){
                 }
 
                 // Proceed only if stone is defined.
-                if (item.stone) {
+                if (stone) {
                     // Initialize the stone if it doesn't exist under the current plating.
-                    if (!products[itemName].platings[item.plating].stones[item.stone]) {
-                        products[itemName].platings[item.plating].stones[item.stone] = {
+                    if (!products[itemName].platings[item.plating].stones[stone]) {
+                        products[itemName].platings[item.plating].stones[stone] = {
                             sizes: {},
                             image: item.image_url,
                             real_name: item.name,
@@ -66,7 +66,7 @@ function productsTransmutation(items, price_category, sale){
 
                     // If size is present, add or update the size and quantity for the stone.
                     if (item.size) {
-                        let stoneSizes = products[itemName].platings[item.plating].stones[item.stone].sizes;
+                        let stoneSizes = products[itemName].platings[item.plating].stones[stone].sizes;
                         if (!stoneSizes[item.size]) {
                                 stoneSizes[item.size] = {
                                     'quantity': item.quantity,
@@ -82,11 +82,11 @@ function productsTransmutation(items, price_category, sale){
                         }
                     } else {
                         // If there's no size, add the quantity directly to the stone.
-                        if (!products[itemName].platings[item.plating].stones[item.stone].quantity) {
-                            products[itemName].platings[item.plating].stones[item.stone].quantity = item.quantity;
-                            products[itemName].platings[item.plating].stones[item.stone].real_name = item.name;
+                        if (!products[itemName].platings[item.plating].stones[stone].quantity) {
+                            products[itemName].platings[item.plating].stones[stone].quantity = item.quantity;
+                            products[itemName].platings[item.plating].stones[stone].real_name = item.name;
                         } else {
-                            products[itemName].platings[item.plating].stones[item.stone].quantity += item.quantity;
+                            products[itemName].platings[item.plating].stones[stone].quantity += item.quantity;
                         }
                     }
                 }
