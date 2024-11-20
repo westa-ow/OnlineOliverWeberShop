@@ -424,20 +424,18 @@ def make_pdf(order, buffer, isWithImgs):
     elements.append(product_table)
     elements.append(Spacer(1, 20))
 
-    # TODO: Добавить цену доставки
     # Итоговая сумма
     total_price = round(order.get('price', 0), 2)
     shippingPrice = round(shippingValue, 2)
     shipping_vat = round(shippingPrice * vat, 2)
-    total_price_without_shipping = round(total_price, 2)
-    vat_price = round(total_price_without_shipping * vat, 2)
+    vat_price = round(total_price * vat, 2)
 
 
-    formatted_total_price = f"{round(total_price + shippingPrice + vat_price + shipping_vat, 2):.2f}"
-    formatted_shipping_price = f"{shippingPrice:.2f}"
+    formatted_total_price = f"{round(total_price + shippingPrice, 2):.2f}"
+    formatted_shipping_price = f"{shippingPrice-shipping_vat:.2f}"
     formatted_shipping_price_vat = f"{shipping_vat:.2f}"
     formatted_vat_price = f"{vat_price:.2f}"
-    formatted_total_price_without_shipping = f"{total_price_without_shipping:.2f}"
+    formatted_total_price_without_shipping = f"{total_price-vat_price:.2f}"
     bold_style1 = styles["Normal"].clone('bold_style1')  # Создаём копию стиля
     bold_style1.fontName = "Roboto-Bold"  # Указываем жирный шрифт
     bold_style1.fontSize = 10  # Размер шрифта
