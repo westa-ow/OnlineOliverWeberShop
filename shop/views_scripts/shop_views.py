@@ -68,7 +68,7 @@ def form_page(request, product_id):
 
     # Adjust price based on user category
     for obj in products:
-        obj['stone'] = stones[obj['stone']]
+        obj['stone'] = stones.get(obj['stone'], obj['stone'])
         if category == "VK3":
             obj['price'] = obj['priceVK3']
         elif category == "GH":
