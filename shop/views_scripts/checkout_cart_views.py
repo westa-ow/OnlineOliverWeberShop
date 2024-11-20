@@ -426,26 +426,27 @@ def make_pdf(order, buffer, isWithImgs):
 
     # Итоговая сумма
     total_price = round(order.get('price', 0), 2)
-    shippingPrice = round(shippingValue, 2)
-    shipping_vat = round(shippingPrice * vat, 2)
-    vat_price = round(total_price * vat, 2)
+    product_price = round(total_price / (1 + vat), 2)
+    shippingPrice = round(shippingValue / (1+vat), 2)
+    shipping_vat = round(shippingValue - shippingPrice, 2)
+    vat_price = round(total_price - product_price, 2)
 
 
-    formatted_total_price = f"{round(total_price + shippingPrice, 2):.2f}"
-    formatted_shipping_price = f"{shippingPrice-shipping_vat:.2f}"
+    formatted_total_price = f"{product_price:.2f}"
+    formatted_shipping_price = f"{shippingPrice:.2f}"
     formatted_shipping_price_vat = f"{shipping_vat:.2f}"
     formatted_vat_price = f"{vat_price:.2f}"
-    formatted_total_price_without_shipping = f"{total_price-vat_price:.2f}"
+    formatted_full_price = f"{total_price+shippingValue:.2f}"
     bold_style1 = styles["Normal"].clone('bold_style1')  # Создаём копию стиля
     bold_style1.fontName = "Roboto-Bold"  # Указываем жирный шрифт
     bold_style1.fontSize = 10  # Размер шрифта
     bold_style1.textColor = colors.black
     summary_data = [
-        [Paragraph('<b>' + _('Subtotal') + '</b>', bold_style1), f"{currency}{formatted_total_price_without_shipping}"],
+        [Paragraph('<b>' + _('Subtotal') + '</b>', bold_style1), f"{currency}{formatted_total_price}"],
         [Paragraph("<b>" + _('Shipping price') + "</b>", bold_style1), f"{currency}{formatted_shipping_price}"],
         [Paragraph("<b>" + _('Shipping VAT') + "</b>", bold_style1), f"{currency}{formatted_shipping_price_vat}"],
         [Paragraph("<b>VAT</b>", bold_style1), f"{currency}{formatted_vat_price}"],
-        [Paragraph("<b>" + _("TOTAL") + "</b>", bold_style1), f"{currency}{formatted_total_price}"],
+        [Paragraph("<b>" + _("TOTAL") + "</b>", bold_style1), f"{currency}{formatted_full_price}"],
     ]
 
     # Создание таблицы
