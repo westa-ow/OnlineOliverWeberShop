@@ -7,7 +7,7 @@ function productsTransmutation(items, price_category, sale, stones){
             return;
         }
         let itemName = item.name;
-        let stone = stones[item.stone];
+        let stone = stones[item.stone] !== undefined ? stones[item.stone] : item.stone;
         itemName = itemName.split(' ')[0];
          if (regex.test(itemName)) {
             let processedName = itemName.match(/^([a-zA-Z]{0,2})(\d{5})/);

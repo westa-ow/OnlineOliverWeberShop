@@ -373,7 +373,7 @@
 
         favouriteItems = await fetchFavouriteItems("{{ user.email }}");
 
-        stones = await fetchStones("{{ user.email }}");
+        stones = await fetchStones();
         console.log(stones);
 
         allItems = productsTransmutation(unfilteredItems, price_category, sale, stones);
@@ -448,6 +448,7 @@ let favouriteItems = [];
 let filteredItems = [];
 let filters = [];
 let stones = {};
+let stones_reversed = {};
 let platingFilters =  "{{ plating_catalog }}" ? ["{{ plating_catalog|safe }}"] : [];
 let baseFilters = "{{ base_catalog }}" ? ["{{ base_catalog|safe }}"] : [];
 let stoneFilters = [];
@@ -865,15 +866,20 @@ function setupCategoryClickListener(span) {
 }
 function constructCrystals(items, filters_dict, static_folder) {
     let uniqueStones = new Set();
-    let stones = ['241', '327', '515', '260', '288', '501', '208', '227', '220', 'DAR', '276', '379', '205', '277', '922', '280', '243', '204', '291', '236', '215', '228', '502', '207', '203', '219', '206', '147', '0', '394', '266', '289', '539', '542', '920', '398', '142', '229', '214', '226', '209', 'GSHA', '390', '263', '391', '267', '292', '212', '257', '202', '371', '262', '283', '211', '319', '261', '238', '362', '265', '223', '508', 'CRE', '234', '395', '361', '285', '001', 'AB'];
-
+    let stones_all = ['241', '327', '515', '260', '288', '501', '208', '227', '220', 'DAR', '276', '379', '205', '277', '922', '280', '243', '204', '291', '236', '215', '228', '502', '207', '203', '219', '206', '147', '0', '394', '266', '289', '539', '542', '920', '398', '142', '229', '214', '226', '209', 'GSHA', '390', '263', '391', '267', '292', '212', '257', '202', '371', '262', '283', '211', '319', '261', '238', '362', '265', '223', '508', 'CRE', '234', '395', '361', '285', '001', 'AB'];
+    let stones_names = []
+    for (let i = 0; i < stones_all.length; i++) {
+      stones_names[i] = stones[stones_all[i]];
+    }
+    console.log("THI IS ");
+    console.log(stones_all);
     if (Array.isArray(items) && items.length > 0) {
         items.forEach(document => {
             if (document.platings) { // Проверка, что у document есть platings
                 Object.values(document.platings).forEach(plating => {
                     if (plating.stones) { // Проверка, что у plating есть stones
                         Object.keys(plating.stones).forEach(stoneCategory => {
-                            if (stones.includes(stoneCategory)) { // Проверяем, есть ли stoneCategory в stones
+                            if (stones_names.includes(stoneCategory)) { // Проверяем, есть ли stoneCategory в stones
                                 uniqueStones.add(stoneCategory);
                             }
                         });
@@ -894,13 +900,13 @@ function createCrystalElements(containerClass, itemsArray, prefix, filters_dict,
     // Create a div to hold the images in a grid
     const grid = document.createElement('div');
     grid.className = 'crystal-grid';
-let imagesLoaded = 0;
+    let imagesLoaded = 0;
     // Loop through images and create an img element within a div for each
     itemsArray.forEach((item, index) => {
                 const img = new Image();
                 img.width = 20;
                 img.height = 20;
-                img.src = `${static_folder}/${item}.png`;
+                img.src = `${static_folder}/${stones_reversed[item]}.png`;
                 img.alt = `Crystal ${index + 1}`;
                 img.className = 'crystal-image';
 
@@ -1186,6 +1192,12 @@ async function fetchStones() {
         const data = doc.data();
         if (data.id && data.name) { // Убедимся, что данные существуют
             all_stones[data.id] = data.name;
+        }
+    });
+    querySnapshot.docs.forEach(doc => {
+        const data = doc.data();
+        if (data.id && data.name) { // Убедимся, что данные существуют
+            stones_reversed[data.name] = data.id;
         }
     });
 

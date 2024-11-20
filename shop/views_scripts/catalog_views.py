@@ -205,7 +205,7 @@ def add_to_cart_from_catalog(request):
             return JsonResponse({'status': 'error', 'message': 'Missing product name or quantity'}, status=400)
 
         document = get_full_product(product_name)
-        document['stone'] = stones[document['stone']]
+        document['stone'] = stones.get(document['stone'], document['stone'])
         if category == "VK3":
             document['price'] = document.get('priceVK3', 0)
         elif category == "GH":
