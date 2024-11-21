@@ -10,7 +10,7 @@ User = get_user_model()
 class BannerForm(forms.ModelForm):
     class Meta:
         model = Banner
-        fields = ['image']
+        fields = ['image', 'withLink', 'link']
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField(
         label = ("Email"),

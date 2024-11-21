@@ -34,7 +34,7 @@
     <div class="cl">
         <div id="carousel" class="carousel">
             {% for banner in banners %}
-                <div class="carousel-item active" style="opacity: 0"><img src="{{ banner.image.url }}" alt="Image {{ banner.priority }}"  ></div>
+                <div class="carousel-item active" style="opacity: 0; display: none"><a {% if banner.withLink %}href="{% url "param_catalog" category_id="0" category_name="all" %}?collection={{ banner.link }}"{% endif %}><img src="{{ banner.image.url }}" alt="Image {{ banner.priority }}"  ></a></div>
             {% endfor %}
         </div>
     </div>
@@ -462,6 +462,7 @@ let filters_dict = {
         const itemAmount = items.length;
 
         // Initialize the first item's opacity directly for clarity
+        items[0].style.display = "block";
         items[0].style.opacity = 1;
 
         function cycleItems() {
@@ -471,9 +472,17 @@ let filters_dict = {
 
             // Fade out the current item by directly setting opacity to 0
             currentItem.style.opacity = 0;
+            requestAnimationFrame(() => {
+                // This slight delay ensures the browser has time to apply the above styles
+                setTimeout(() => {
+                    currentItem.style.display = "none";
+                }, 500);
+            });
+
 
             // Ensure the next item is positioned but invisible, ready to fade in
             nextItem.style.opacity = 0;
+            nextItem.style.display = "block";
             nextItem.classList.add('active');
 
             // Use requestAnimationFrame to ensure the next frame starts the fade-in

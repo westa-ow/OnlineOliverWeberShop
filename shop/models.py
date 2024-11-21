@@ -28,6 +28,8 @@ class Banner(models.Model):
     image = models.ImageField(upload_to='imgs/')
     priority = models.IntegerField(default=0)
     active = models.BooleanField(default=True)
+    withLink = models.BooleanField(default=False)
+    link = models.CharField(max_length=100, default='')
 
     class Meta:
         app_label = 'shop'
