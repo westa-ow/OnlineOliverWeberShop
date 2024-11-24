@@ -1,0 +1,234 @@
+{% load static %}
+{% load i18n %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="{% static "css/admin_tools/at_manage_promocodes.css" %}">
+<style>
+
+    form{
+        width: 250px;
+    }
+</style>
+<section id="content" class="page-content col-md-12 col-lg-9 myacc_content">
+    <h1 style="font-weight: 600">Manage Promo Codes</h1>
+
+    <!-- Таблица с промокодами -->
+    <table id="promocodes-table" class="styled-table">
+        <thead>
+            <tr>
+                <th>Promo Code</th>
+                <th>Type</th>
+                <th>Discount (%)</th>
+                <th>Expiration Date</th>
+                <th>Is Active</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Здесь динамически добавляются строки -->
+        </tbody>
+    </table>
+
+    <!-- Сообщение о результатах -->
+    <div id="response-message" style="color: red; margin-top: 10px;"></div>
+
+    <!-- Кнопка "Create Promo Code" -->
+    <div class="banners-footer">
+        <button class="add-new-promocode standart-blue-btn" id="create-promocode-btn">Create Promo Code</button>
+    </div>
+
+    <!-- Модальное окно -->
+    <div id="modal-overlay-promocode" class="overlay-promocode hidden"></div>
+    <div id="modal-promocode" class="modal-promocode hidden">
+        <form id="promocode-form" class="styled-form">
+            <h2 id="form-title">Create Promo Code</h2>
+            <label for="code">Promo Code:</label>
+            <input type="text" id="code" name="code" required><br>
+
+            <label for="type">Type:</label>
+            <select id="type" name="type" required>
+                <option value="Full">Full</option>
+                <option value="ProductsOnly">Products Only</option>
+            </select><br>
+
+            <label for="discount">Discount (%):</label>
+            <input type="number" id="discount" name="discount" required><br>
+
+            <label for="can_expire">Can Expire:</label>
+            <div>
+                <input type="checkbox" id="can_expire" name="can_expire"><br>
+            </div>
+            <div id="expiration-date-group" class="hidden">
+                <label for="expiration_date">Expiration Date:</label>
+                <input type="date" id="expiration_date" name="expiration_date"><br>
+            </div>
+
+            <label for="is_active">Is Active:</label>
+            <div>
+                <input type="checkbox" id="is_active" name="is_active" checked><br>
+            </div>
+            <button type="submit" id="submit-promocode">Submit</button>
+        </form>
+    </div>
+</section>
+
+<script>
+    const path = window.location.pathname; // Например, "/de/some-page/"
+
+    // Разбиваем путь на части, используя "/"
+    const pathSegments = path.split('/'); // ["", "de", "some-page", ""]
+
+    // Языковой код — это второй сегмент
+    const languageCode = pathSegments[1]; // "de"
+    // Показать форму
+    document.addEventListener('DOMContentLoaded', function () {
+        const tableBody = document.querySelector('#promocodes-table tbody');
+        const modalOverlay = document.getElementById('modal-overlay-promocode');
+        const modal = document.getElementById('modal-promocode');
+        const form = document.getElementById('promocode-form');
+        const createBtn = document.getElementById('create-promocode-btn');
+        const expirationDateGroup = document.getElementById('expiration-date-group');
+        const canExpireCheckbox = document.getElementById('can_expire');
+        let editingPromoCode = null;
+
+        // Показать модальное окно
+        function showModal(promoCode = null) {
+            modal.classList.remove('hidden');
+            modalOverlay.classList.remove('hidden');
+            form.reset();
+            editingPromoCode = promoCode;
+
+            if (promoCode) {
+                document.getElementById('form-title').innerText = 'Update Promo Code';
+                document.getElementById('code').value = promoCode.code;
+                document.getElementById('type').value = promoCode.type;
+                document.getElementById('discount').value = promoCode.discount;
+                document.getElementById('is_active').checked = promoCode.is_active;
+                if (promoCode.expiration_date) {
+                    canExpireCheckbox.checked = true;
+                    expirationDateGroup.classList.remove('hidden');
+                    document.getElementById('expiration_date').value = promoCode.expiration_date;
+                }
+            } else {
+                document.getElementById('form-title').innerText = 'Create Promo Code';
+            }
+        }
+
+        // Скрыть модальное окно
+        function hideModal() {
+            modal.classList.add('hidden');
+            modalOverlay.classList.add('hidden');
+            editingPromoCode = null;
+        }
+        modalOverlay.addEventListener('click', hideModal);
+
+        // Обработчик формы
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const data = {
+                code: document.getElementById('code').value,
+                type: document.getElementById('type').value,
+                discount: parseFloat(document.getElementById('discount').value),
+                is_active: document.getElementById('is_active').checked,
+                expiration_date: canExpireCheckbox.checked ? document.getElementById('expiration_date').value : null,
+            };
+
+            const url = editingPromoCode
+                ? `/${languageCode}/api/promocodes/${editingPromoCode.id}/`
+                : `/${languageCode}/api/promocodes/`;
+            const method = editingPromoCode ? 'PUT' : 'POST';
+
+            fetch(url, {
+                method: method,
+                headers: { 'Content-Type': 'application/json','X-CSRFToken': getCookie('csrftoken') },
+                body: JSON.stringify(data),
+            })
+                .then(response => response.json())
+                .then(() => {
+                    loadPromoCodes();
+                    hideModal();
+                })
+                .catch(console.error);
+        });
+
+        // Загрузить промокоды
+        function loadPromoCodes() {
+            fetch(`/${languageCode}/api/promocodes/`)
+                .then(response => response.json())
+                .then(data => {
+                    tableBody.innerHTML = '';
+                    data.forEach(promoCode => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${promoCode.code}</td>
+                            <td>${promoCode.type}</td>
+                            <td>${promoCode.discount}</td>
+                            <td>${promoCode.expiration_date || 'N/A'}</td>
+                            <td>${promoCode.is_active ? 'Yes' : 'No'}</td>
+                            <td>
+                                <button class="action-btn">⋮</button>
+                            </td>
+                        `;
+                        row.querySelector('.action-btn').addEventListener('click', function (event) {
+                        event.stopPropagation(); // Остановить всплытие, чтобы клик вне меню закрыл его
+
+                        const existingMenu = document.querySelector('.action-menu');
+                        if (existingMenu) existingMenu.remove(); // Удалить предыдущее меню, если оно есть
+
+                        const menu = document.createElement('div');
+                        menu.classList.add('action-menu');
+                        menu.innerHTML = `
+                            <button class="update-btn">Update</button>
+                            <button class="delete-btn">Delete</button>
+                        `;
+                        document.body.appendChild(menu);
+
+                        // Стилизация меню
+                        menu.style.position = 'absolute';
+                        menu.style.top = `${event.clientY}px`;
+                        menu.style.left = `${event.clientX}px`;
+                        menu.style.background = '#fff';
+                        menu.style.border = '1px solid #ddd';
+                        menu.style.padding = '10px';
+                        menu.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+                        menu.style.zIndex = '1000';
+
+                        // Закрытие меню при клике вне
+                        document.addEventListener('click', () => {
+                            if (menu.parentNode) menu.remove();
+                        }, { once: true });
+
+                        // Обработчики для Update и Delete
+                        menu.querySelector('.update-btn').addEventListener('click', () => {
+                            showModal(promoCode);
+                            menu.remove();
+                        });
+
+                        menu.querySelector('.delete-btn').addEventListener('click', () => {
+                            const confirmation = window.confirm("Are you sure you want to delete this promo code?");
+                            if (confirmation) {
+                                fetch(`/${languageCode}/api/promocodes/${promoCode.id}/`, { method: 'DELETE', headers: { 'Content-Type': 'application/json','X-CSRFToken': getCookie('csrftoken') } })
+                                    .then(() => loadPromoCodes())
+                                    .catch(console.error);
+                                menu.remove();
+                            } else {
+                                menu.remove();
+                            }
+                        });
+                    });
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(console.error);
+        }
+
+        // Показать форму для создания
+        createBtn.addEventListener('click', () => showModal());
+
+        // Показать/скрыть дату истечения
+        canExpireCheckbox.addEventListener('change', function () {
+            expirationDateGroup.classList.toggle('hidden', !this.checked);
+        });
+
+        loadPromoCodes();
+    });
+</script>

@@ -16,7 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+
 from shop import views
+from shop.views_scripts.router_viewsets import PromoCodeViewSet
 from shop.views_scripts import profile_views, paypal_views
 from shop.views_scripts.adresses_views import update_address, delete_address, create_address
 from shop.views_scripts.manage_banners.banners_managing import move_down, move_up, delete_banner
@@ -43,7 +45,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 
+router = DefaultRouter()
+router.register(r'promocodes', PromoCodeViewSet, basename='promocodes')
 urlpatterns = i18n_patterns(
     path('admin/', admin.site.urls),
     path('', views.home_page, name='home'),
@@ -56,7 +61,11 @@ urlpatterns = i18n_patterns(
     path('cart/', cart_page, name='cart'),
 
 
+    # Promo-codes
+    path('api/', include(router.urls)),
+
     #Checkout urls
+    # path('checkout/check-promocode/', anonym_cart_info, name='check_promocode'),
     path('order/anonymous/info', anonym_cart_info, name='cart_anonymous'),
     path('checkout/addresses', checkout_addresses, name='checkout_addresses'),
     path('anonymous/cart/login', login_anonym_cart_info, name='cart_anonymous_login'),

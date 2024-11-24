@@ -689,3 +689,6 @@ def checkout_payment_type(request):
     }
 
     return render(request, 'checkout/Checkout_Payment_Type.html', context=context)
+
+
+# def get

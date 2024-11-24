@@ -11,8 +11,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+
+import firebase_admin
 from django.utils.translation import gettext_lazy as _
 from dotenv import load_dotenv
+from firebase_admin import credentials, firestore
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,6 +36,19 @@ PAYPAL_MODE = os.getenv('PAYPAL_MODE', 'sandbox')  # По умолчанию 'sa
 PAYPAL_CLIENT_ID = os.getenv('PAYPAL_CLIENT_ID')
 PAYPAL_CLIENT_SECRET = os.getenv('PAYPAL_CLIENT_SECRET')
 # SECURITY WARNING: don't run with debug turned on in production!
+
+FIREBASE_CREDENTIALS_FILE = os.path.join(BASE_DIR, "shop", "static", "key2.json")
+
+# Инициализация Firebase (только один раз)
+if not firebase_admin._apps:
+    FIREBASE_CREDENTIALS = credentials.Certificate(FIREBASE_CREDENTIALS_FILE)
+    firebase_admin.initialize_app(FIREBASE_CREDENTIALS)
+
+# Firestore client (глобальный объект)
+FIRESTORE_CLIENT = firestore.client()
+
+GEOIP_config = os.path.join(BASE_DIR, "shop", "static", "GEOIP", "GeoLite2-Country.mmdb")
+
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
