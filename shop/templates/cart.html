@@ -83,14 +83,19 @@
             </div>
             {% if customer_type == "Customer" %}
                 <div class="promo-block">
-                    <div class="voucher">
+
                         {% if not active_coupon %}
-                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag"> <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path> <line x1="7" y1="7" x2="7" y2="7"></line> </svg>
-                            <span class="label-voucher" id="promocode-label">{% trans "Have a promo code?" %}</span>
+                            <div class="voucher">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag"> <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path> <line x1="7" y1="7" x2="7" y2="7"></line> </svg>
+                                <span class="label-voucher" id="promocode-label">{% trans "Have a promo code?" %}</span>
+                            </div>
                         {% else %}
-                            <span class="coupon">{% trans "Active promo code" %}: {{ active_coupon.coupon_code }}</span>
+                            <div>
+                                <div class="coupon">{% trans "Active promo code" %}: {{ active_coupon.coupon_code }} </div>
+                                <div class="coupon">({{ active_coupon.discount }}% {% trans "discount" %})</div>
+                            </div>
                         {% endif %}
-                    </div>
+
                 </div>
             {% endif %}
             <div class="card-block-totals" >

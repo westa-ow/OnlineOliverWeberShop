@@ -441,3 +441,10 @@ h4{
     width: 60% !important;
     align-items: center;
 }
+
+.promo-block{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 0;
+}
