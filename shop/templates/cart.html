@@ -327,9 +327,11 @@ document.getElementById('close-modal').addEventListener('click', closeModal);
 document.getElementById('overlay-cart').addEventListener('click', closeModal);
 
 document.getElementById('submit-promocode').addEventListener('click', function () {
+    const submitButton = document.getElementById('submit-promocode');
     const promocode = document.getElementById('promocode-input').value;
     const errorMessage = document.getElementById('error-message');
     console.log(promocode);
+    submitButton.setAttribute('disabled', 'true');
     fetch('{% url "check_promocode" %}', {
         method: 'POST',
         headers: {
@@ -345,10 +347,12 @@ document.getElementById('submit-promocode').addEventListener('click', function (
         } else {
             errorMessage.classList.remove('hidden'); // Показываем сообщение об ошибке
             errorMessage.textContent = data.message || 'Something went wrong'; // Отображаем сообщение об ошибке
+            submitButton.removeAttribute('disabled');
         }
     })
     .catch(error => {
         console.error('Error:', error);
+        submitButton.removeAttribute('disabled');
     });
 });
 
