@@ -693,7 +693,8 @@ def update_email_in_db(old_email, new_email):
                     original_price = doc_data['price']
                     # Восстанавливаем изначальную цену, если есть скидка старого купона
                     if old_discount > 0:
-                        original_price = original_price / (1 - old_discount)
+                        if new_discount > 0:
+                            original_price = original_price / (1 - old_discount)
 
                     # Применяем новую скидку, если есть новый купон
                     if new_discount > 0:
