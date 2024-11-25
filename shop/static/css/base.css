@@ -154,33 +154,7 @@ body{
 .link:hover {
     color: #ffffff !important;
 }
-.toolbar .dropdown-link {
-    font-family: 'Poppins', Verdana, sans-serif;
-    cursor: pointer;
-    color: black !important;
-    font-size: 14px;
-    text-decoration: none !important;
-    padding: 5px;
-    margin: 0 5px 0 0;
-    position: relative;
-}
-.dropdown-link::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 5px;
-    width: 0%;
-    height: 1.5px;
-    background-color: #000000;
-    transition: width 0.3s ease;
-}
-.dropdown-link:hover::after {
-    width: 100%;
-}
 
-.dropdown-link:hover {
-    color: #000000 !important;
-}
 
 .toolbar-icons-container{
     display: flex;
@@ -273,4 +247,83 @@ body{
 
 .standart-blue-btn:hover{
     background-color: #014680;
+}
+
+.dropdown-link {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-menu {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    width: 200px;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.toolbar .dropdown-link, .dropdown-links {
+    font-family: 'Poppins', Verdana, sans-serif;
+    cursor: pointer;
+    color: black !important;
+    font-size: 12px;
+    text-decoration: none !important;
+    padding: 5px;
+    margin: 0 5px 0 0;
+    position: relative;
+
+}
+.dropdown-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 5px;
+    width: 0%;
+    height: 1.5px;
+    transition: width 0.3s ease;
+}
+.dropdown-link:hover::after {
+    width: 100%;
+}
+
+.dropdown-link:hover {
+    color: #000000 !important;
+}
+.dropdown-link {
+    display: block;
+    padding: 10px;
+
+
+}
+.dropdown-links{
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid black;
+    padding: 7px;
+    font-size: 14px;
+}
+
+
+.dropdown-toggle {
+    cursor: pointer;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
