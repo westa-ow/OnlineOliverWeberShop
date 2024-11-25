@@ -671,7 +671,7 @@ def update_email_in_db(old_email, new_email):
     old_coupon = get_active_coupon(old_email)
     new_coupon = get_active_coupon(new_email)
 
-    if old_coupon:
+    if new_coupon:
         delete_user_coupons(old_email)
 
     old_discount = old_coupon.get('discount', 0) / 100.0 if old_coupon else 0
