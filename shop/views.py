@@ -45,6 +45,7 @@ metadata_ref = db.collection('metadata')
 favourites_ref = db.collection('Favourites')
 single_order_ref = db.collection("Order")
 promocodes_ref = db.collection('Promocodes')
+active_promocodes_ref = db.collection('ActivePromocodes')
 
 READER = geoip2.database.Reader(GEOIP_config)
 
@@ -893,3 +894,77 @@ def get_promo_codes():
 
     return promocodes_data
 
+
+def get_active_coupon(email):
+    query = active_promocodes_ref.where('email', '==', email).limit(1).stream()
+
+    # Получаем первый купон, если он существует
+    active_coupon = next(query, None)
+
+    if active_coupon:
+        coupon_data = active_coupon.to_dict()
+
+        # Удаляем поля, если они присутствуют
+        coupon_data.pop('created_at', None)
+        coupon_data.pop('expires_at', None)
+
+        return coupon_data
+    else:
+        return {}
+
+def active_cart_coupon(email):
+    try:
+        # Проверяем, есть ли активный купон для пользователя
+        active_coupons = list(active_promocodes_ref.where('email', '==', email).stream())
+
+        if not active_coupons:
+            return JsonResponse({'status': 'error', 'message': 'No active coupons for the user'})
+
+        # Предполагаем, что только один купон активен (берём первый)
+        active_coupon = active_coupons[0].to_dict()
+        discount = active_coupon.get('discount', 0)
+
+        if not isinstance(discount, (int, float)) or discount <= 0:
+            return JsonResponse({'status': 'error', 'message': 'Invalid active coupon'})
+
+        discount_rate = 1 - (discount / 100.0)
+
+        # Применяем скидку к товарам в корзине
+        docs = cart_ref.where('emailOwner', '==', email).stream()
+
+        updated_cart = []
+        for doc in docs:
+            doc_dict = doc.to_dict()
+
+            if 'price' in doc_dict and isinstance(doc_dict['price'], (int, float)):
+                # Применяем скидку к цене
+                new_price = doc_dict['price'] * discount_rate
+
+                # Обновляем документ в Firestore
+                cart_ref.document(doc.id).update({'price': new_price})
+                doc_dict['price'] = new_price  # Обновляем локально для возвращения данных
+
+            updated_cart.append(doc_dict)
+
+        return JsonResponse({
+            'status': 'success',
+            'message': 'Discount applied to cart items',
+            'updated_cart': updated_cart
+        })
+
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': f'Error applying coupon: {str(e)}'})
+
+def delete_user_coupons(email):
+    try:
+        # Ищем все активные купоны пользователя
+        user_coupons = active_promocodes_ref.where('email', '==', email).stream()
+
+        # Удаляем каждый купон
+        for coupon in user_coupons:
+            active_promocodes_ref.document(coupon.id).delete()
+
+        return {"status": "success", "message": "All active coupons for the user have been deleted"}
+
+    except Exception as e:
+        return {"status": "error", "message": f"An error occurred: {str(e)}"}

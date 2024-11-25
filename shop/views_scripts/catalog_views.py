@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 
 from shop.decorators import login_required_or_session
 from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, cart_ref, get_cart, favourites_ref, \
-    get_user_category, get_user_info, get_user_session_type, get_vocabulary_product_card, get_user_prices, get_stones
+    get_user_category, get_user_info, get_user_session_type, get_vocabulary_product_card, get_user_prices, get_stones, \
+    get_active_coupon
 import ast
 import random
 from datetime import datetime
@@ -194,9 +195,9 @@ def add_to_cart_from_catalog(request):
         data = json.loads(request.body)
         product_name = data.get('document')
         new_quantity = data.get('quantity')
-
         stones = get_stones()
         email = get_user_session_type(request)
+        coupon = get_active_coupon(email)
         category, currency = get_user_prices(request, email)
         currency = '€' if currency == 'Euro' else '$'
         info = get_user_info(email) or {}
@@ -220,6 +221,11 @@ def add_to_cart_from_catalog(request):
             document['price'] = round(document.get('priceVK4', 0) * (1-sale), 1) or 0
         if not document:
             return JsonResponse({'status': 'error', 'message': 'Product not found'}, status=404)
+
+        if coupon:
+            discount = coupon.get('discount', 0)
+            discount = round(discount/100, 3)
+            document['price'] = round(document['price'] * (1 - discount), 2)
 
         subtotal, cart_size = update_cart(email, product_name, new_quantity, document)
 

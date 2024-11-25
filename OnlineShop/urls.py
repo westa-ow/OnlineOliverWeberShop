@@ -34,7 +34,7 @@ from shop.views_scripts.users_control.at_uc_bulk_actions import disable_users, e
 from shop.views_scripts.auth_views import register, logout_view, login_view
 from shop.views_scripts.catalog_views import add_to_cart_from_catalog, catalog_view, change_favorite_state
 from shop.views_scripts.checkout_cart_views import sort_documents, send_email, cart_page, anonym_cart_info, \
-    register_anonym_cart_info, login_anonym_cart_info, checkout_addresses, checkout_payment_type
+    register_anonym_cart_info, login_anonym_cart_info, checkout_addresses, checkout_payment_type, check_promo_code
 from shop.views_scripts.profile_views import update_user_account, upload_file
 from shop.views_scripts.shop_views import fetch_numbers, form_page
 from shop.views_scripts.users_control.edit_user import edit_user
@@ -65,7 +65,7 @@ urlpatterns = i18n_patterns(
     path('api/', include(router.urls)),
 
     #Checkout urls
-    # path('checkout/check-promocode/', anonym_cart_info, name='check_promocode'),
+    path('checkout/check-promocode/', check_promo_code, name='check_promocode'),
     path('order/anonymous/info', anonym_cart_info, name='cart_anonymous'),
     path('checkout/addresses', checkout_addresses, name='checkout_addresses'),
     path('anonymous/cart/login', login_anonym_cart_info, name='cart_anonymous_login'),

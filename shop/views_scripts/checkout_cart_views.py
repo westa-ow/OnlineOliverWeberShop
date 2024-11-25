@@ -1,5 +1,6 @@
 import concurrent
 import csv
+import uuid
 
 from django.contrib.auth.decorators import login_required
 from reportlab.lib import colors
@@ -10,7 +11,8 @@ from reportlab.pdfbase.ttfonts import TTFont
 from shop.decorators import login_required_or_session, logout_required
 from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, get_cart, cart_ref, single_order_ref, \
     get_user_category, get_user_session_type, metadata_ref, users_ref, update_email_in_db, get_user_prices, \
-    get_user_info, get_address_info, get_vat_info, get_shipping_price, get_order, get_order_items
+    get_user_info, get_address_info, get_vat_info, get_shipping_price, get_order, get_order_items, \
+    active_promocodes_ref, active_cart_coupon, get_active_coupon
 import ast
 import random
 from datetime import datetime
@@ -70,7 +72,6 @@ from shop.views_scripts.profile_views import get_user_addresses
 
 vats = {'Afghanistan': 0, 'Åland Islands': 0, 'Albania': 0, 'Algeria': 0, 'American Samoa': 0, 'Andorra': 0, 'Angola': 0, 'Anguilla': 0, 'Antarctica': 0, 'Antigua and Barbuda': 0, 'Argentina': 0, 'Armenia': 0, 'Aruba': 0, 'Australia': 0, 'Austria': 20, 'Azerbaijan': 0, 'Bahamas': 0, 'Bahrain': 0, 'Bangladesh': 0, 'Barbados': 0, 'Belarus': 0, 'Belgium': 21, 'Belize': 0, 'Benin': 0, 'Bermuda': 0, 'Bhutan': 0, 'Bolivia': 0, 'Bosnia and Herzegovina': 0, 'Botswana': 0, 'Bouvet Island': 0, 'Brazil': 0, 'British Indian Ocean Territory': 0, 'Brunei': 0, 'Bulgaria': 20, 'Burkina Faso': 0, 'Burma (Myanmar)': 0, 'Burundi': 0, 'Cambodia': 0, 'Cameroon': 0, 'Canada': 0, 'Cape Verde': 0, 'Cayman Islands': 0, 'Central African Republic': 0, 'Chad': 0, 'Chile': 0, 'China': 0, 'Christmas Island': 0, 'Cocos (Keeling) Islands': 0, 'Colombia': 0, 'Comoros': 0, 'Congo, Dem. Republic': 0, 'Congo, Republic': 0, 'Cook Islands': 0, 'Costa Rica': 0, 'Croatia': 25, 'Cuba': 0, 'Cyprus': 19, 'Czech Republic': 21, 'Denmark': 25, 'Djibouti': 0, 'Dominica': 0, 'Dominican Republic': 0, 'East Timor': 0, 'Ecuador': 0, 'Egypt': 0, 'El Salvador': 0, 'Equatorial Guinea': 0, 'Eritrea': 0, 'Estonia': 22, 'Ethiopia': 0, 'Falkland Islands': 0, 'Faroe Islands': 0, 'Fiji': 0, 'Finland': 24, 'France': 20, 'French Guiana': 0, 'French Polynesia': 0, 'French Southern Territories': 0, 'Gabon': 0, 'Gambia': 0, 'Georgia': 0, 'Germany': 19, 'Ghana': 0, 'Gibraltar': 0, 'Greece': 24, 'Greenland': 0, 'Grenada': 0, 'Guadeloupe': 0, 'Guam': 0, 'Guatemala': 0, 'Guernsey': 0, 'Guinea': 0, 'Guinea-Bissau': 0, 'Guyana': 0, 'Haiti': 0, 'Heard Island and McDonald Islands': 0, 'Honduras': 0, 'HongKong': 0, 'Hungary': 27, 'Iceland': 0, 'India': 0, 'Indonesia': 0, 'Iran': 0, 'Iraq': 0, 'Ireland': 23, 'Israel': 0, 'Italy': 22, 'Ivory Coast': 0, 'Jamaica': 0, 'Japan': 0, 'Jersey': 0, 'Jordan': 0, 'Kazakhstan': 0, 'Kenya': 0, 'Kiribati': 0, 'Dem. Republic of Korea': 0, 'Kuwait': 0, 'Kyrgyzstan': 0, 'Laos': 0, 'Latvia': 21, 'Lebanon': 0, 'Lesotho': 0, 'Liberia': 0, 'Libya': 0, 'Liechtenstein': 8.1, 'Lithuania': 21, 'Luxemburg': 0, 'Macau': 0, 'Macedonia': 0, 'Madagascar': 0, 'Malawi': 0, 'Malaysia': 0, 'Maldives': 0, 'Mali': 0, 'Malta': 18, 'Man Island': 0, 'Marshall Islands': 0, 'Martinique': 0, 'Mauritania': 0, 'Mauritius': 0, 'Mayotte': 0, 'Mexico': 0, 'Micronesia': 0, 'Moldova': 0, 'Monaco': 20, 'Mongolia': 0, 'Montenegro': 0, 'Montserrat': 0, 'Morocco': 0, 'Mozambique': 0, 'Namibia': 0, 'Nauru': 0, 'Nepal': 0, 'Netherlands': 21, 'Netherlands Antilles': 0, 'New Caledonia': 0, 'New Zealand': 0, 'Nicaragua': 0, 'Niger': 0, 'Nigeria': 0, 'Niue': 0, 'Norfolk Island': 0, 'Northern Ireland': 0, 'Northern Mariana Islands': 0, 'Norway': 0, 'Oman': 0, 'Pakistan': 0, 'Palau': 0, 'Palestinian Territories': 0, 'Panama': 0, 'Papua New Guinea': 0, 'Paraguay': 0, 'Peru': 0, 'Philippines': 0, 'Pitcairn': 0, 'Poland': 23, 'Portugal': 23, 'Puerto Rico': 0, 'Qatar': 0, 'Reunion Island': 0, 'Romania': 19, 'Russian Federation': 0, 'Rwanda': 0, 'Saint Barthelemy': 0, 'Saint Kitts and Nevis': 0, 'Saint Lucia': 0, 'Saint Martin': 0, 'Saint Pierre and Miquelon': 0, 'Saint Vincent and the Grenadines': 0, 'Samoa': 0, 'San Marino': 0, 'São Tomé and Príncipe': 0, 'Saudi Arabia': 0, 'Senegal': 0, 'Serbia': 0, 'Seychelles': 0, 'Sierra Leone': 0, 'Singapore': 0, 'Slovakia': 20, 'Slovenia': 22, 'Solomon Islands': 0, 'Somalia': 0, 'South Africa': 0, 'South Georgia and the South Sandwich Islands': 0, 'South Korea': 0, 'Spain': 21, 'Sri Lanka': 0, 'Sudan': 0, 'Suriname': 0, 'Svalbard and Jan Mayen': 0, 'Swaziland': 0, 'Sweden': 25, 'Switzerland': 8.1, 'Syria': 0, 'Taiwan': 0, 'Tajikistan': 0, 'Tanzania': 0, 'Thailand': 0, 'Togo': 0, 'Tokelau': 0, 'Tonga': 0, 'Trinidad and Tobago': 0, 'Tunisia': 0, 'Turkey': 0, 'Turkmenistan': 0, 'Turks and Caicos Islands': 0, 'Tuvalu': 0, 'Uganda': 0, 'Ukraine': 0, 'United Arab Emirates': 0, 'United Kingdom': 20, 'United States': 0, 'Uruguay': 0, 'Uzbekistan': 0, 'Vanuatu': 0, 'Vatican City State': 0, 'Venezuela': 0, 'Vietnam': 0, 'Virgin Islands (British)': 0, 'Virgin Islands (U.S.)': 0, 'Wallis and Futuna': 0, 'Western Sahara': 0, 'Yemen': 0, 'Zambia': 0, 'Zimbabwe': 0}
 
-
 @login_required_or_session
 def cart_page(request):
     email = get_user_session_type(request)
@@ -79,9 +80,13 @@ def cart_page(request):
         currency = "€"
     elif currency == "Dollar":
         currency = "$"
+
+    active_coupon = get_active_coupon(email)
+
     context = {
         'documents': sorted(get_cart(email), key=lambda x: x['number']),
-        'currency': currency
+        'currency': currency,
+        'active_coupon': active_coupon if len(active_coupon.keys()) != 0 else False,
     }
     return render(request, 'cart.html', context=context)
 
@@ -667,7 +672,8 @@ def checkout_addresses(request):
         'my_addresses': addresses,
         'addresses_dict': addresses_dict,
         'customer_type': customer_type,
-        'STRIPE_PUBLISHABLE_KEY': settings.STRIPE_PUBLISHABLE_KEY
+        'STRIPE_PUBLISHABLE_KEY': settings.STRIPE_PUBLISHABLE_KEY,
+        'activeCoupon': get_active_coupon(email),
     }
     return render(request, 'checkout/Checkout_Addresses.html', context=context)
 
@@ -691,4 +697,60 @@ def checkout_payment_type(request):
     return render(request, 'checkout/Checkout_Payment_Type.html', context=context)
 
 
-# def get
+def check_promo_code(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        promo_code = data.get('promocode')
+        email = get_user_session_type(request)
+        if not promo_code or not email:
+            return JsonResponse({'status': 'error', 'message': 'Please enter a promo code'})
+
+        promo_code = promo_code.upper()  # Приводим к верхнему регистру для единообразия
+        try:
+            # Ищем промокод в коллекции Promocodes
+            promocodes_ref = db.collection('Promocodes')
+            query = promocodes_ref.where('code', '==', promo_code).limit(1).stream()
+            promo_data = next(query, None)
+
+            if promo_data is None:
+                return JsonResponse({'status': 'error', 'message': 'Invalid promo code'})
+
+            promo_dict = promo_data.to_dict()
+            discount = promo_dict.get('discount', 0)
+
+            # Проверяем, что скидка это число
+            if not isinstance(discount, (int, float)):
+                return JsonResponse({'status': 'error', 'message': 'Invalid discount value'})
+
+            old_coupons = list(active_promocodes_ref.where('email', '==', email).stream())
+
+            if old_coupons:
+                # Если у пользователя уже есть активный промокод, возвращаем сообщение об ошибке
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'You already have an active promo code. Please use or remove it before adding a new one.'
+                })
+            # Вычисляем скидку как дробное значение
+
+            new_coupon_id = str(uuid.uuid4())
+            active_promocodes_ref.document(new_coupon_id).set({
+                'email': email,
+                'coupon_code': promo_code,
+                'type': promo_dict.get('type'),
+                'discount': discount,
+                'expires_at': promo_dict.get('expires_at'),  # Если есть дата истечения
+                'created_at': datetime.now()
+            })
+            discount_rate = discount / 100.0
+
+            active_cart_coupon(email)
+
+            # Возвращаем успешный результат
+            return JsonResponse({'status': 'success', 'message': 'Promo code is valid', 'discount_rate': discount_rate})
+
+        except Exception as e:
+            # Обрабатываем возможные ошибки
+            return JsonResponse({'status': 'error', 'message': f'Error checking promo code: {str(e)}'})
+
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+

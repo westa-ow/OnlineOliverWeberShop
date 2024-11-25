@@ -81,14 +81,18 @@
                     <div class="final-sum" id="final-sum">{{ currency }}500.00</div>
                 </div>
             </div>
-            <div class="promo-block">
-                <div class="voucher">
-
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag"> <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path> <line x1="7" y1="7" x2="7" y2="7"></line> </svg>
-                    <span class="label-voucher" id="promocode-label">{% trans "Have a promo code?" %}</span>
-
+            {% if customer_type == "Customer" %}
+                <div class="promo-block">
+                    <div class="voucher">
+                        {% if not active_coupon %}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag"> <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path> <line x1="7" y1="7" x2="7" y2="7"></line> </svg>
+                            <span class="label-voucher" id="promocode-label">{% trans "Have a promo code?" %}</span>
+                        {% else %}
+                            <span class="coupon">{% trans "Active promo code" %}: {{ active_coupon.coupon_code }}</span>
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
+            {% endif %}
             <div class="card-block-totals" >
                 <div class="cart-total">
                     <span class="label-total">{% trans "Total"  %} (VAT Incl.)</span>
@@ -116,13 +120,13 @@
 <div id="overlay-cart" class="overlay-cart hidden"></div>
 <div id="promo-modal" class="modal-promocode hidden">
     <div class="modal-header">
-        <span>Введите промокод</span>
+        <span>{% trans "Enter promo code" %}</span>
         <button id="close-modal" class="close-button">×</button>
     </div>
     <div class="modal-body">
-        <input type="text" id="promocode-input" class="input-field" placeholder="Введите промокод">
-        <div id="error-message" class="error-message hidden">Промокод недействительный</div>
-        <button id="submit-promocode" class="submit-button">OK</button>
+        <input type="text" id="promocode-input" class="input-field" placeholder="{% trans "Enter promo code" %}">
+        <div id="error-message" class="error-message hidden">{% trans "Promo code is invalid" %}</div>
+        <button id="submit-promocode" class="submit-button">Ok</button>
     </div>
 </div>
 </body>
@@ -308,39 +312,40 @@ document.getElementById('finishOrderButton').addEventListener('click', function(
 
 });
 
-{#document.getElementById("promocode-label").addEventListener('click', function (){#}
-{#     console.log("CLICKED HERE");#}
-{#     document.getElementById('overlay-cart').classList.remove('hidden');#}
-{#     document.getElementById('promo-modal').classList.remove('hidden');#}
-{#);#}
+document.getElementById("promocode-label").addEventListener('click', function () {
+    console.log("CLICKED HERE");
+    document.getElementById('overlay-cart').classList.remove('hidden');
+    document.getElementById('promo-modal').classList.remove('hidden');
+});
 
 document.getElementById('close-modal').addEventListener('click', closeModal);
 document.getElementById('overlay-cart').addEventListener('click', closeModal);
 
-{#document.getElementById('submit-promocode').addEventListener('click', function () {#}
-{#    const promocode = document.getElementById('promocode-input').value;#}
-{#    const errorMessage = document.getElementById('error-message');#}
-{##}
-{#    fetch('{% url "check_promocode" %}', {#}
-{#        method: 'POST',#}
-{#        headers: {#}
-{#            'Content-Type': 'application/json',#}
-{#            'X-CSRFToken': getCookie('csrftoken') // Добавьте CSRF-токен, если используете Django#}
-{#        },#}
-{#        body: JSON.stringify({ promocode: promocode })#}
-{#    })#}
-{#    .then(response => response.json())#}
-{#    .then(data => {#}
-{#        if (data.valid) {#}
-{#            closeModal();#}
-{#        } else {#}
-{#            errorMessage.classList.remove('hidden');#}
-{#        }#}
-{#    })#}
-{#    .catch(error => {#}
-{#        console.error('Error:', error);#}
-{#    });#}
-{#);#}
+document.getElementById('submit-promocode').addEventListener('click', function () {
+    const promocode = document.getElementById('promocode-input').value;
+    const errorMessage = document.getElementById('error-message');
+    console.log(promocode);
+    fetch('{% url "check_promocode" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken') // Добавьте CSRF-токен, если используете Django
+        },
+        body: JSON.stringify({ promocode: promocode })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') { // Проверяем статус ответа
+            window.location.reload(); // Обновляем страницу
+        } else {
+            errorMessage.classList.remove('hidden'); // Показываем сообщение об ошибке
+            errorMessage.textContent = data.message || 'Something went wrong'; // Отображаем сообщение об ошибке
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
 
 function closeModal() {
     document.getElementById('overlay-cart').classList.add('hidden');
@@ -348,6 +353,7 @@ function closeModal() {
     document.getElementById('promocode-input').value = '';
     document.getElementById('error-message').classList.add('hidden');
 }
+
 
 function getCookie(name) {
     let cookieValue = null;
