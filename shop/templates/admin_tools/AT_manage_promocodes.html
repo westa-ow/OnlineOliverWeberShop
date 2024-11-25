@@ -41,12 +41,12 @@
     <div id="modal-promocode" class="modal-promocode hidden">
         <form id="promocode-form" class="styled-form">
             <h2 id="form-title">Create Promo Code</h2>
-            <label for="code">Promo Code:</label>
+            <label for="code">Promo Code: </label>
             <input type="text" id="code" name="code" required><br>
 
             <label for="type">Type:</label>
             <select id="type" name="type" required>
-                <option value="Full">Full</option>
+                <option value="Full">WithShipping</option>
                 <option value="ProductsOnly">Products Only</option>
             </select><br>
 
@@ -231,4 +231,17 @@
 
         loadPromoCodes();
     });
+    document.getElementById('code').addEventListener('input', function (event) {
+        // Преобразует текст в верхний регистр и обновляет поле ввода
+        this.value = this.value.toUpperCase();
+    });
+    document.getElementById('discount').addEventListener('input', function () {
+            const value = parseFloat(this.value); // Преобразуем значение в число
+
+            // Проверяем, чтобы значение было больше 0 и меньше или равно 100
+            if (isNaN(value) || value <= 0 || value > 100) {
+                this.value = ''; // Очищаем поле, если условие не выполнено
+                alert(`Number can't be less than 0 or greater than 100!`);
+            }
+        });
 </script>
