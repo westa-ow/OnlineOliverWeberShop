@@ -204,11 +204,23 @@ def email_process(new_order, user_email, order_id, csv_content, language_code):
             print("PDF generation failed")
         logger.info("PDF generated successfully")
         print("PDF generated successfully")
+        body_1 = _('''Dear Customer,
 
+            Thank you for your purchase at Oliver Weber! We’re thrilled to have you as our customer.
+
+            Your order has been successfully processed, and your receipt is attached to this email.
+            Your Order Id''')
+        body_2 = _('''Thank you for choosing Oliver Weber. We look forward to seeing you again!
+
+            Best regards,  
+            The Oliver Weber Team''')
         # Email creation
         email = EmailMessage(
-            subject='Your Order Receipt',
-            body='Thank you for your order! Here is your receipt!',
+            subject=_('Thank You for Your Order with Oliver Weber!'),
+            body=f"""
+            {body_1}: {order_id}.
+            {body_2}
+                """,
             from_email=settings.EMAIL_HOST_USER,
             to=[user_email],
         )
