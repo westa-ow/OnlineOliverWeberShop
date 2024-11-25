@@ -509,6 +509,7 @@ def get_user_info(email):
     for user_info in user:
         user_dict = user_info.to_dict()
         return user_dict
+    return {}
 
 
 def get_address_info(addressId):
@@ -663,6 +664,7 @@ def update_email_in_db(old_email, new_email):
         'Favourites': 'email',
         'Order': 'emailOwner',
         'Orders': 'email',
+        'ActivePromocodes': 'email',
         'Addresses': 'email',
     }
 

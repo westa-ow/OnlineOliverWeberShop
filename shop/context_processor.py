@@ -16,7 +16,7 @@ def user_is_special(request):
     return {'isSpecialCustomer': special}
 
 def customer_type(request):
-    type = None
+    type = "Customer"
     if request.user.is_authenticated:
         user_info = get_user_info(request.user.email)
         type = user_info['customer_type'] if user_info and 'customer_type' in user_info else "Customer"
