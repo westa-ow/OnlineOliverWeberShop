@@ -537,7 +537,6 @@ def login_anonym_cart_info(request):
                     return render(request, 'checkout/Checkout_Account_Auth.html', {'form': form})
                 else:
                     # Proceed to log the user in
-                    clear_all_cart(email2)
                     login(request, user)
                     update_email_in_db(email1, email2)
                     return redirect('checkout_addresses')

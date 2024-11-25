@@ -668,6 +668,15 @@ def update_email_in_db(old_email, new_email):
         'Addresses': 'email',
     }
 
+    old_coupon = get_active_coupon(old_email)
+    new_coupon = get_active_coupon(new_email)
+
+    if old_coupon:
+        delete_user_coupons(old_email)
+
+    old_discount = old_coupon.get('discount', 0) / 100.0 if old_coupon else 0
+    new_discount = new_coupon.get('discount', 0) / 100.0 if new_coupon else 0
+
     # Loop through the mapping
     for collection_name, email_field in collection_email_fields.items():
         try:
@@ -677,6 +686,27 @@ def update_email_in_db(old_email, new_email):
             docs_to_update = collection_ref.where(email_field, '==', old_email).get()
             # Update each document with the new email
             for doc in docs_to_update:
+                doc_data = doc.to_dict()
+
+                # Если коллекция — это Cart, пересчитаем цены
+                if collection_name == 'Cart' and 'price' in doc_data:
+                    original_price = doc_data['price']
+                    # Восстанавливаем изначальную цену, если есть скидка старого купона
+                    if old_discount > 0:
+                        original_price = original_price / (1 - old_discount)
+
+                    # Применяем новую скидку, если есть новый купон
+                    if new_discount > 0:
+                        updated_price = original_price * (1 - new_discount)
+                    else:
+                        updated_price = original_price
+
+                    # Обновляем цену в документе
+                    doc.reference.update({
+                        'price': updated_price
+                    })
+
+                # Обновляем email в документе
                 doc.reference.update({email_field: new_email})
         except Exception as e:
             # Log the error e, for example using logging library or print statement

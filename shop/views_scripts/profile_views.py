@@ -157,7 +157,8 @@ def get_user_addresses(email):
     if existing_addresses:
         for address in existing_addresses:
             address_doc = addresses_ref.document(address.id).get().to_dict()
-            address_doc['creation_date'] = address_doc['creation_date'].strftime('%Y-%m-%d')
+            if address_doc.get('creation_date', '') != '':
+                address_doc['creation_date'] = address_doc['creation_date'].strftime('%Y-%m-%d')
             if address_doc.get('is_deleted', False) != True:
                 addresses.append(address_doc)
 
