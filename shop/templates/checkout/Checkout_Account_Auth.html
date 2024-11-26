@@ -144,20 +144,20 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group row ">
-                                                    <div class="col-md-12 form-control-valign">
-                                                        <label>User type</label>
-                                                        {% for radio in form_register.type_of_user %}
-                                                            <label class="radio-inline">
-                                                                <span class="custom-radio">
-                                                                    {{ radio.tag }}
-                                                                    <span></span>
-                                                                </span> {{ radio.choice_label }}
-                                                            </label>
-                                                        {% endfor %}
-                                                    </div>
-                                                    <div class="col-md-12 form-control-comment"></div>
-                                                </div>
+{#                                                <div class="form-group row ">#}
+{#                                                    <div class="col-md-12 form-control-valign">#}
+{#                                                        <label>User type</label>#}
+{#                                                        {% for radio in form_register.type_of_user %}#}
+{#                                                            <label class="radio-inline">#}
+{#                                                                <span class="custom-radio">#}
+{#                                                                    {{ radio.tag }}#}
+{#                                                                    <span></span>#}
+{#                                                                </span> {{ radio.choice_label }}#}
+{#                                                            </label>#}
+{#                                                        {% endfor %}#}
+{#                                                    </div>#}
+{#                                                    <div class="col-md-12 form-control-comment"></div>#}
+{#                                                </div>#}
                                                 <div class="form-group row ">
                                                     <div class="col-md-12">
                                                         <label>{% trans "Birthdate"%}</label>
@@ -191,6 +191,15 @@
                                                                 {% trans "Sign up for our newsletter"%}<br><em>{% trans "You may unsubscribe at any moment. For that purpose, please find our contact info in the legal notice."%}</em>
                                                             </label>
                                                         </span>
+                                                    </div>
+                                                    <div class="col-md-12 form-control-comment"></div>
+                                                </div>
+                                                <div class="form-group row ">
+                                                    <div class="col-md-12">
+                                                        <label></label>
+                                                        <label class="help-msg-register">
+                                                                {% trans "If you want to register as a B2B customer, please contact us." %}
+                                                            </label>
                                                     </div>
                                                     <div class="col-md-12 form-control-comment"></div>
                                                 </div>

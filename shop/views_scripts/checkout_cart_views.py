@@ -595,7 +595,7 @@ def register_anonym_cart_info(request):
                 last_name = form.cleaned_data.get('last_name')
                 birthdate = form.cleaned_data.get('birthdate')
                 social_title = "Mr" if form.cleaned_data.get('social_title') == "1" else "Mrs"
-                customer_type = "Customer" if form.cleaned_data.get('type_of_user') == "1" else "B2B"
+                customer_type = "Customer"# if form.cleaned_data.get('type_of_user') == "1" else "B2B"
                 offers = form.cleaned_data.get('offers')
                 newsletter = form.cleaned_data.get('receive_newsletter')
                 category, currency = get_user_prices(request, email2)
