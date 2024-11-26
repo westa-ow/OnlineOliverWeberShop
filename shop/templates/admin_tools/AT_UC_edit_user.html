@@ -157,6 +157,26 @@
 
                     </div>
                 </div>
+                <div class="form-group row ">
+                    <div class="col-md-12">
+                        <label></label>
+                        <span class="custom-checkbox" style="display: flex;flex-direction: row">
+                        <div class="fl" style="display: flex; flex-direction: column; margin-right: 20px">
+                            <label class="switch">
+                               <input name="is-b2b" type="checkbox" value="1"  {% if user_info.customer_type == "B2B" %}checked{% endif %}>
+                                <span class="slider round"></span>
+                            </label>
+                            <label id="label-is-b2b" style="text-align: center">{% if user_info.customer_type == "B2B" %} Yes{% else %} No{% endif %}</label>
+                        </div>
+                        <label>Is user a B2B customer<br>
+                                <em></em>
+                            </label>
+                        </span>
+                    </div>
+                    <div class="col-md-12 form-control-comment">
+
+                    </div>
+                </div>
             {% endif %}
             <div class="form-group row ">
                 <div class="col-md-12">
@@ -337,6 +357,16 @@ document.getElementsByName('show-quantities')[0].addEventListener('change', func
     else{
         document.getElementsByName('show-quantities')[0].value = 2;
         document.getElementById('label-show-quantities').textContent = "No";
+    }
+});
+document.getElementsByName('is-b2b')[0].addEventListener('change', function(event) {
+    if (event.target.checked) {
+        document.getElementsByName('is-b2b')[0].value = 1;
+        document.getElementById('label-is-b2b').textContent = "Yes";
+    }
+    else{
+        document.getElementsByName('is-b2b')[0].value = 2;
+        document.getElementById('label-is-b2b').textContent = "No";
     }
 });
 

@@ -29,7 +29,6 @@ def edit_user(request, user_id):
             new_email = new_user_data['email']
             new_password = new_user_data.get('password')  # Получаем новый пароль
 
-            print(new_user_data)
 
             if new_email != old_email:
                 existing_user_with_new_email = users_ref.where('email', '==', new_email).limit(1).get()
@@ -79,6 +78,8 @@ def edit_user(request, user_id):
                                                                                                               'enable-user'] == "1" else False
             show_quantities = False if 'show-quantities' not in new_user_data else True if new_user_data[
                                                                                                               'show-quantities'] == "1" else False
+            customer_type = "Customer" if 'is-b2b' not in new_user_data else "B2B" if new_user_data[
+                                                                                               'is-b2b'] == "1" else "Customer"
 
             customer_currency = currency_dict[new_user_data['id_currency']]
             customer_group = groups_dict[new_user_data['id_group']]
@@ -99,7 +100,8 @@ def edit_user(request, user_id):
                         'receive_offers': receive_offers,
                         'sale': 0 if "sale" not in new_user_data else float(new_user_data['sale']),
                         'price_category': customer_group,
-                        'show_quantities': show_quantities
+                        'show_quantities': show_quantities,
+                        'customer_type': customer_type
                     })
             return JsonResponse({'status': 'success', 'message': 'Address updated successfully.'})
         except Exception as e:
@@ -117,5 +119,4 @@ def edit_user(request, user_id):
         information2 = json.loads(information)
         context['user_info'] = information2
         context['user_info_dict'] = information
-    print(context)
     return render(request, 'admin_tools.html', context)
