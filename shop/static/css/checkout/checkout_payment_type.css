@@ -119,6 +119,10 @@ button {
 }
 .payment-type label{
     font-size: 18px;
+    margin: 0!important;
+}
+.payment-type label img{
+    margin: 0!important;
 }
 
 @media only screen and (min-width: 769px){

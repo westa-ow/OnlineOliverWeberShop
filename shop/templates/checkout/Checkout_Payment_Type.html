@@ -35,7 +35,11 @@
                         <div class="container-pay-types">
                             <div class="payment-type">
                                 <input type="radio" id="stripe-payment" name="payment-method" value="stripe" checked>
-                                <label for="stripe-payment">{% trans "Pay with Credit Card via Stripe" %}</label>
+                                <label for="stripe-payment">
+                                     <img src="{% static 'images/general/Visa.jpg' %}" alt="Visa" class="payment-icon" width="40" height="24">
+                                     <img src="{% static 'images/general/Mastercard.png' %}" alt="MasterCard" class="payment-icon" width="40" height="24">
+                                    {% trans "Pay with Credit Card via Stripe" %}
+                               </label>
                             </div>
 {#                            <div class="payment-type">#}
 {#                                <input type="radio" id="paypal-payment" name="payment-method" value="paypal">#}

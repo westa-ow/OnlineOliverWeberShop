@@ -26,6 +26,10 @@
         padding: 8px;
         margin-top: 5px;
     }
+    input[type='radio']{
+        width: 130px;
+        height: 43px!important;
+    }
     .search{
         background-color: #0f790f;
         color: #fff;
