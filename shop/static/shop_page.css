@@ -185,7 +185,11 @@ text-align: center;
             flex-direction: column;
             height: 100%;
             margin-left: 10px;
-
+            .price-text{
+                font-size: 24px;
+                font-weight: 600;
+                margin: 8px 0;
+            }
             .label-name{
                 font-weight: 500;
                 font-size: 18px;
@@ -307,6 +311,12 @@ text-align: center;
             margin-left: 10px;
             align-items: center;
             text-align: center;
+
+            .price-text{
+                font-size: 24px;
+                font-weight: 600;
+                margin: 8px 0;
+            }
 
             .label-name{
                 font-weight: 500;
