@@ -76,6 +76,7 @@ def get_orders_for_user(email):
             'list': order_info.get('list'),
             'order_id': order_id,
             'sum': order_info.get('price'),
+            'shippingPrice': order_info.get('shippingPrice', 0),
             'currency': "€" if order_info.get('currency') == "Euro" else "$",
             'payment_type': order_info.get('payment_type', "BANK TRANSFER"),
         })
@@ -120,7 +121,7 @@ def fetch_order_detail(order_doc_path):
 def build_context(feature_name, email, orders, order_details):
     currencies_dict ={}
     for order in orders:
-        currencies_dict[order['order_id'] if 'order_id' in order.keys() else order['order-id']] = "€" if (order['currency'] if 'currency' in order else "Euro")=="Euro" else "$"
+        currencies_dict[order['order_id']] = order['currency']
 
     context = {
         'currencies': currencies_dict,

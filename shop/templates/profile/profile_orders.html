@@ -94,6 +94,7 @@
                 <th> {% trans "Order ID" %} </th>
                 <th> {% trans "Date" %} </th>
                 <th> {% trans "Total price" %} </th>
+                <th> {% trans "Shipping price" %} </th>
                 <th> {% trans "Payment" %} </th>
                 <th> {% trans "Status" %} </th>
                 <th>  </th>
@@ -106,6 +107,7 @@
                     <th class="td-outer">{{ document.order_id }}</th>
                     <td class="td-outer">{{ document.date }}</td>
                     <td class="td-outer">{{ document.currency|default:"€" }}{{ document.sum }}</td>
+                    <td class="td-outer">{{ document.currency|default:"€" }}{{ document.shippingPrice }}</td>
                     <td class="td-outer">{{ document.payment_type }}</td>
                     <td class="td-outer">{{ document.Status }}</td>
                     <td class="td-outer">
@@ -202,6 +204,7 @@ document.querySelectorAll('.show-content').forEach(button => {
          let rowIndex = orderRow.rowIndex;
          let nextRow = table.rows[rowIndex + 1];
          const order_currency = currencies[orderId];
+         console.log(currencies);
 
          if (nextRow && nextRow.classList.contains('nested-table-row')) {
 
@@ -285,12 +288,13 @@ document.querySelectorAll('.show-content').forEach(button => {
                 if(product.in_stock === false){
                     mark = `&#x2717`;
                 }
+                console.log(product)
                 nestedTableContent += `
                     <tr>
                         <td>${product.name}</td>
                         <td style="text-align: center"> <img alt="Product image" src="${product.image_url}" width="50" height="50"> </td>
                         <td>${product.description}</td>
-                        <td>${order_currency}${product.price}</td>
+                        <td>${order_currency}${(product.price).toFixed(2)}</td>
                         <td>${product.quantity}</td>
                         <td>${order_currency}${(product.quantity * product.price).toFixed(1)}</td>
                         <td style="width: 10%; text-align: center" ><span style="font-size: 20px">${mark};</span></td>
