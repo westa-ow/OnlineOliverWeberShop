@@ -523,7 +523,6 @@ def anonym_cart_info(request):
         'form_register':form_register,
         'form_login':form_login
     }
-    print(context['documents'])
 
     return render(request, 'checkout/Checkout_Account_Auth.html', context=context)
 
