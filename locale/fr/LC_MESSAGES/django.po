@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-25 17:04+0100\n"
+"POT-Creation-Date: 2024-11-26 11:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -131,7 +131,7 @@ msgstr "Supprimer un utilisateur"
 msgid "Shopping cart"
 msgstr "Panier"
 
-#: .\shop\templates\cart.html:42 .\shop\templates\cart.html:379
+#: .\shop\templates\cart.html:42 .\shop\templates\cart.html:383
 msgid "In cart"
 msgstr "Dans le panier"
 
@@ -163,17 +163,15 @@ msgid "Have a promo code?"
 msgstr "Vous avez un code promo ?"
 
 #: .\shop\templates\cart.html:94
-#| msgid "Have a promo code?"
 msgid "Active promo code"
 msgstr "Code promo actif"
 
 #: .\shop\templates\cart.html:95
-#| msgid "Account"
 msgid "discount"
 msgstr "rabais"
 
 #: .\shop\templates\cart.html:103
-#: .\shop\templates\checkout\Checkout_Payment_Type.html:72
+#: .\shop\templates\checkout\Checkout_Payment_Type.html:76
 #: .\shop\templates\checkout\checkout_widget.html:26
 #: .\shop\views_scripts\checkout_cart_views.py:418
 #: .\shop\views_scripts\checkout_cart_views.py:420
@@ -195,7 +193,6 @@ msgid "Proceed to checkout"
 msgstr "Passer à la caisse"
 
 #: .\shop\templates\cart.html:128 .\shop\templates\cart.html:132
-#| msgid "Have a promo code?"
 msgid "Enter promo code"
 msgstr "Entrez le code promotionnel"
 
@@ -241,7 +238,7 @@ msgstr "Contient dans le nom"
 
 #: .\shop\templates\catalog.html:192 .\shop\templates\catalog.html:314
 #: .\shop\templates\catalog.html:315
-#: .\shop\templates\profile\profile_orders.html:268
+#: .\shop\templates\profile\profile_orders.html:271
 msgid "Price"
 msgstr "Prix"
 
@@ -268,7 +265,7 @@ msgid "Order by"
 msgstr "Commander par"
 
 #: .\shop\templates\catalog.html:312 .\shop\templates\catalog.html:313
-#: .\shop\templates\profile\profile_orders.html:265
+#: .\shop\templates\profile\profile_orders.html:268
 msgid "Name"
 msgstr "Nom"
 
@@ -644,7 +641,7 @@ msgid "Last name"
 msgstr "Nom de famille"
 
 #: .\shop\templates\checkout\Checkout_Account_Auth.html:113
-#: .\shop\templates\checkout\Checkout_Account_Auth.html:244
+#: .\shop\templates\checkout\Checkout_Account_Auth.html:253
 #: .\shop\templates\profile\profile_information.html:62
 #: .\shop\templates\registration\login.html:63
 #: .\shop\templates\registration\register.html:117
@@ -682,14 +679,21 @@ msgstr ""
 "Vous pouvez vous désinscrire à tout moment. A cet effet, veuillez trouver "
 "nos coordonnées dans les mentions légales."
 
-#: .\shop\templates\checkout\Checkout_Account_Auth.html:199
-#: .\shop\templates\checkout\Checkout_Account_Auth.html:260
+#: .\shop\templates\checkout\Checkout_Account_Auth.html:201
+#: .\shop\templates\registration\register.html:191
+msgid "If you want to register as a B2B customer, please contact us."
+msgstr ""
+"Si vous souhaitez vous inscrire en tant que client B2B, veuillez nous "
+"contacter."
+
+#: .\shop\templates\checkout\Checkout_Account_Auth.html:208
+#: .\shop\templates\checkout\Checkout_Account_Auth.html:269
 #: .\shop\templates\checkout\Checkout_Addresses.html:259
-#: .\shop\templates\checkout\Checkout_Payment_Type.html:48
+#: .\shop\templates\checkout\Checkout_Payment_Type.html:52
 msgid "Continue"
 msgstr "Continuer"
 
-#: .\shop\templates\checkout\Checkout_Account_Auth.html:221
+#: .\shop\templates\checkout\Checkout_Account_Auth.html:230
 #: .\shop\templates\widgets\account_panel.html:86
 #: .\shop\templates\widgets\mobile_links_panel.html:37
 msgid "Login"
@@ -786,7 +790,7 @@ msgstr "Annuler"
 #: .\shop\templates\checkout\Checkout_Addresses.html:253
 #: .\shop\templates\profile\profile_information.html:139
 #: .\shop\templates\profile\profile_update_address.html:107
-#: .\shop\templates\registration\register.html:189
+#: .\shop\templates\registration\register.html:198
 msgid "Save"
 msgstr "Sauvegarder"
 
@@ -809,7 +813,7 @@ msgid "Order will be delivered to your email"
 msgstr "La commande sera livrée à votre email"
 
 #: .\shop\templates\checkout\Checkout_Addresses.html:623
-#: .\shop\templates\checkout\Checkout_Payment_Type.html:137
+#: .\shop\templates\checkout\Checkout_Payment_Type.html:141
 msgid "You have to add at least 1 item to finish order"
 msgstr "Vous devez ajouter au moins 1 article pour terminer la commande"
 
@@ -829,8 +833,7 @@ msgstr "Mode de paiement"
 msgid "Choose payment type"
 msgstr "Choisissez le type de paiement"
 
-#: .\shop\templates\checkout\Checkout_Payment_Type.html:38
-#| msgid "Pay with Stripe"
+#: .\shop\templates\checkout\Checkout_Payment_Type.html:41
 msgid "Pay with Credit Card via Stripe"
 msgstr "Payer par carte de crédit via Stripe"
 
@@ -1091,68 +1094,73 @@ msgid "Total price"
 msgstr "Prix ​​total"
 
 #: .\shop\templates\profile\profile_orders.html:97
+#: .\shop\views_scripts\checkout_cart_views.py:463
+msgid "Shipping price"
+msgstr "Prix d'expédition"
+
+#: .\shop\templates\profile\profile_orders.html:98
 msgid "Payment"
 msgstr "Paiement"
 
-#: .\shop\templates\profile\profile_orders.html:98
+#: .\shop\templates\profile\profile_orders.html:99
 msgid "Status"
 msgstr "Statut"
 
-#: .\shop\templates\profile\profile_orders.html:113
+#: .\shop\templates\profile\profile_orders.html:115
 msgid "Show Details"
 msgstr "Afficher les détails"
 
-#: .\shop\templates\profile\profile_orders.html:123
+#: .\shop\templates\profile\profile_orders.html:125
 msgid "Download csv"
 msgstr "Télécharger le fichier CSV"
 
-#: .\shop\templates\profile\profile_orders.html:124
+#: .\shop\templates\profile\profile_orders.html:126
 msgid "Download pdf with images"
 msgstr "Télécharger le pdf avec les images"
 
-#: .\shop\templates\profile\profile_orders.html:125
+#: .\shop\templates\profile\profile_orders.html:127
 msgid "Download pdf without images"
 msgstr "Télécharger le pdf sans images"
 
-#: .\shop\templates\profile\profile_orders.html:130
+#: .\shop\templates\profile\profile_orders.html:132
 msgid "File is downloading"
 msgstr "Le fichier est en cours de téléchargement"
 
-#: .\shop\templates\profile\profile_orders.html:131
+#: .\shop\templates\profile\profile_orders.html:133
 msgid "Don't close the page, please!"
 msgstr "Ne fermez pas la page, s'il vous plaît !"
 
-#: .\shop\templates\profile\profile_orders.html:212
+#: .\shop\templates\profile\profile_orders.html:215
 msgid "Show details"
 msgstr "Afficher les détails"
 
-#: .\shop\templates\profile\profile_orders.html:244
-#: .\shop\templates\profile\profile_orders.html:249
-#: .\shop\templates\profile\profile_orders.html:321
+#: .\shop\templates\profile\profile_orders.html:247
+#: .\shop\templates\profile\profile_orders.html:252
+#: .\shop\templates\profile\profile_orders.html:325
 msgid "Hide details"
 msgstr "Masquer les détails"
 
-#: .\shop\templates\profile\profile_orders.html:266
+#: .\shop\templates\profile\profile_orders.html:269
 #: .\venv\Lib\site-packages\django\db\models\fields\files.py:393
 msgid "Image"
 msgstr "Image"
 
-#: .\shop\templates\profile\profile_orders.html:267
+#: .\shop\templates\profile\profile_orders.html:270
 msgid "Description"
 msgstr "Description"
 
-#: .\shop\templates\profile\profile_orders.html:269
+#: .\shop\templates\profile\profile_orders.html:272
 #: .\shop\templates\widgets\mini_cart.html:115 .\shop\views.py:455
 #: .\shop\views_scripts\checkout_cart_views.py:417
 #: .\shop\views_scripts\checkout_cart_views.py:419
 msgid "Quantity"
 msgstr "Quantité"
 
-#: .\shop\templates\profile\profile_orders.html:270
+#: .\shop\templates\profile\profile_orders.html:273
 msgid "Summary"
 msgstr "Résumé"
 
-#: .\shop\templates\profile\profile_orders.html:271
+#: .\shop\templates\profile\profile_orders.html:274
 #: .\shop\templates\shop_page.html:109 .\shop\templates\shop_page.html:115
 #: .\shop\views.py:443
 msgid "In stock"
@@ -1212,15 +1220,11 @@ msgstr "Connectez-vous à votre compte"
 msgid "No account? Create one here"
 msgstr "Pas de compte ? Créez-en un ici"
 
-#: .\shop\templates\registration\register.html:99
-msgid "User type"
-msgstr "Type d'utilisateur"
-
-#: .\shop\templates\registration\register.html:193
+#: .\shop\templates\registration\register.html:202
 msgid "Already have an account?"
 msgstr "Vous avez déjà un compte ?"
 
-#: .\shop\templates\registration\register.html:193
+#: .\shop\templates\registration\register.html:202
 msgid "Log in instead!"
 msgstr "Connectez-vous plutôt !"
 
@@ -4749,7 +4753,6 @@ msgstr ""
 "            L'équipe Olivier Weber"
 
 #: .\shop\views_scripts\checkout_cart_views.py:219
-#| msgid "Thank you for shopping with Oliver Weber Shop."
 msgid "Thank You for Your Order with Oliver Weber!"
 msgstr "Merci pour votre commande auprès d'Oliver Weber !"
 
@@ -4832,10 +4835,6 @@ msgstr "Détails de l'article"
 msgid "Unit Price"
 msgstr "Prix unitaire"
 
-#: .\shop\views_scripts\checkout_cart_views.py:463
-msgid "Shipping price"
-msgstr "Prix d'expédition"
-
 #: .\shop\views_scripts\checkout_cart_views.py:464
 msgid "Shipping VAT"
 msgstr "Expédition VAT"
@@ -4844,33 +4843,33 @@ msgstr "Expédition VAT"
 msgid "TOTAL"
 msgstr "TOTAL"
 
-#: .\shop\views_scripts\profile_views.py:271
+#: .\shop\views_scripts\profile_views.py:272
 msgid "Invalid file format. Only .xlsx or .xls are allowed"
 msgstr ""
 "Format de fichier invalide. Seuls les fichiers .xlsx ou .xls sont autorisés"
 
-#: .\shop\views_scripts\profile_views.py:283
-#: .\shop\views_scripts\profile_views.py:297
+#: .\shop\views_scripts\profile_views.py:284
+#: .\shop\views_scripts\profile_views.py:298
 msgid "Invalid data in row"
 msgstr "Données invalides dans la ligne"
 
-#: .\shop\views_scripts\profile_views.py:300
+#: .\shop\views_scripts\profile_views.py:301
 msgid "Quantity can only be greater than 0)"
 msgstr "La quantité ne peut être que supérieure à 0)"
 
-#: .\shop\views_scripts\profile_views.py:305
+#: .\shop\views_scripts\profile_views.py:306
 msgid "Product not found"
 msgstr "Produit introuvable"
 
-#: .\shop\views_scripts\profile_views.py:309
+#: .\shop\views_scripts\profile_views.py:310
 msgid "Requested quantity"
 msgstr "Quantité demandée"
 
-#: .\shop\views_scripts\profile_views.py:309
+#: .\shop\views_scripts\profile_views.py:310
 msgid "is less than number of products in storage for product"
 msgstr "est inférieur au nombre de produits stockés pour le produit"
 
-#: .\shop\views_scripts\profile_views.py:329
+#: .\shop\views_scripts\profile_views.py:330
 msgid "Error updating cart for product"
 msgstr "Erreur lors de la mise à jour du panier pour le produit"
 
@@ -5530,12 +5529,10 @@ msgid "Small integer"
 msgstr "Petit entier"
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2172
-#| msgid "Address"
 msgid "IPv4 address"
 msgstr "Adresse IPv4"
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2203
-#| msgid "Address"
 msgid "IP address"
 msgstr "Adresse IP"
 
@@ -5656,7 +5653,6 @@ msgid ":?.!"
 msgstr ":?.!"
 
 #: .\venv\Lib\site-packages\django\forms\fields.py:95
-#| msgid "First name is required"
 msgid "This field is required."
 msgstr "Ce champ est obligatoire."
 
@@ -5842,7 +5838,6 @@ msgid "Clear"
 msgstr "Clair"
 
 #: .\venv\Lib\site-packages\django\forms\widgets.py:458
-#| msgid "Current page"
 msgid "Currently"
 msgstr "Actuellement"
 
@@ -5973,7 +5968,6 @@ msgid "Fri"
 msgstr "Ven"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:21
-#| msgid "Status"
 msgid "Sat"
 msgstr "Assis"
 
@@ -7937,6 +7931,9 @@ msgstr "Connecté à qpid avec le mécanisme SASL %s"
 #, python-format
 msgid "Unable to connect to qpid with SASL mechanism %s"
 msgstr "Impossible de se connecter à qpid avec le mécanisme SASL %s"
+
+#~ msgid "User type"
+#~ msgstr "Type d'utilisateur"
 
 #~ msgid "Search"
 #~ msgstr "Recherche"
