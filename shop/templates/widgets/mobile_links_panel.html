@@ -20,12 +20,23 @@
     </div>
     <div class="menu_ul menu_links">
         <a href="{% url "param_catalog" category_id="0" category_name="all"%}" class="link" title="ALL PRODUCTS">{% trans "All products" %}</a>
+        <div class="dropdown-link">
+            <a href="#" class="link" id="collections-toggle-mobile">COLLECTIONS</a>
+            <div class="dropdown-menu" id="collections-menu-mobile">
+                <a href="{% url "param_catalog" category_id="0" category_name="all"%}?collection=Gaudi" class="dropdown-links">Gaudi</a>
+                <a href="{% url "param_catalog" category_id="0" category_name="all"%}?collection=Freedom" class="dropdown-links">Freedom</a>
+                <a href="{% url "param_catalog" category_id="0" category_name="all"%}?collection=Peace_And_Love" class="dropdown-links">Peace and Love</a>
+                <a href="{% url "param_catalog" category_id="0" category_name="all"%}?collection=Coins_And_Monograms" class="dropdown-links">Coins and Monograms</a>
+                <a href="{% url "param_catalog" category_id="0" category_name="all"%}?collection=Winter_2025" class="dropdown-links">Winter 2025</a>
+            </div>
+        </div>
         <a href="{% url "param_catalog" category_id="3" category_name="necklaces"%}" class="link" title="{% trans "Necklaces"%}">{% trans "NECKLACES" %}</a>
         <a href="{% url "param_catalog" category_id="8" category_name="earrings"%}" class="link" title="{% trans "Earrings"%}">{% trans "EARRINGS"%}</a>
         <a href="{% url "param_catalog" category_id="7" category_name="rings"%}" class="link" title="{% trans "Rings"%}">{% trans "RINGS"%}</a>
         <a href="{% url "param_catalog" category_id="9" category_name="bracelets"%}" class="link" title="{% trans "Bracelets"%}">{% trans "BRACELETS"%}</a>
         <a href="{% url "param_catalog" category_id="79" category_name="anklets"%}" class="link" title="{% trans "Anklets"%}">{% trans "ANKLETS"%}</a>
         <a href="{% url "param_catalog" category_id="4" category_name="accessories"%}" class="link" title="{% trans "Accessories"%}" >{% trans "ACCESSORIES"%}</a>
+
         <a href="{% url "param_catalog" category_id="0" category_name="all"%}?collection=Winter_2025" class="link" title="Winter 2025" >Winter 2025</a>
         {% if user_role  == "Admin" %}
             <a href="{% url 'admin_tools' feature_name='dashboard' %}" class="link">Admin tools</a>
@@ -40,6 +51,22 @@
     </div>
 </div>
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggle = document.getElementById("collections-toggle-mobile");
+        const menu = document.getElementById("collections-menu-mobile");
+
+        toggle.addEventListener("click", function (e) {
+            e.preventDefault();
+            menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+        });
+
+        // Закрываем меню, если клик вне dropdown
+        document.addEventListener("click", function (e) {
+            if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+                menu.style.display = "none";
+            }
+        });
+    });
     document.getElementById('menuBtnMobile').addEventListener('click', menuPanelOpen);
     function menuPanelOpen() {
         let accPanel = document.getElementById('side_menu_wrap');

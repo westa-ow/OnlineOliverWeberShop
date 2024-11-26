@@ -81,3 +81,19 @@
     /* Other styles... */
     line-height: 22px; /* Set this to the height of your SVG icon */
 }
+.menu_ul.menu_links .dropdown-link .dropdown-menu a{
+    margin: 0 0 7px;
+}
+.menu_ul.menu_links .dropdown-link{
+    padding: 0;
+}
+.menu_ul.menu_links .dropdown-links{
+    text-align: left;
+}
+
+.menu_ul.menu_links link:hover::after{
+    width: 0!important;
+}
+.menu_ul.menu_links a:hover{
+    color: inherit;
+}
