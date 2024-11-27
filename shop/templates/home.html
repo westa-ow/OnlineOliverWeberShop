@@ -11,6 +11,7 @@
     <meta name="description" content="Fascinating rhinestone jewelry for women, find earrings, necklaces, bracelets, rings and chokers. Quality jewelry in Oliver Weber's online store.">
     <link rel="stylesheet" href="{% static 'css/profile/profile_information.css' %}">
     <link rel="stylesheet" href="{% static 'css/profile/profile_favourites.css' %}">
+    <link rel="stylesheet"  href="{% static 'css/SeparateWidgets/product_card.css' %}">
     <link rel="stylesheet" href="{% static 'css/homepage.css' %}">
     <link rel="icon" href="{% static "images/icons/web-icon.png" %}" type="image/x-icon">
     <script src="{% static "js/product_cards.js" %}"></script>
@@ -553,7 +554,7 @@ let filters_dict = {
                     const favouriteItem = favouriteitems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
 
                     let itemIsFavourite = Boolean(favouriteItem);
-                    generateDialogContent(`${item.name}`, allItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}", itemIsFavourite, "{{ user.is_authenticated|safe }}");
+                    generateDialogContent(`${item.name}`, allItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}", itemIsFavourite, "{{ user.is_authenticated|safe }}", "{{ shop_page_url }}");
                 });
 
                 // Create the image section

@@ -12,22 +12,28 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-function updatePlatings(selectedPlating, stoneSelect, sizeSelect, image, maxQuantity, show_quantities, vocabulary){
+function updatePlatings(selectedPlating, stoneSelect, sizeSelect, image, maxQuantity, show_quantities, vocabulary,single_product_address, address, copy_address){
     const firstStone = selectedPlating ? Object.values(selectedPlating.stones || {})[0] : null;
 
     while (stoneSelect.firstChild) {
         stoneSelect.removeChild(stoneSelect.firstChild);
     }
     fulfilDropdown(stoneSelect, selectedPlating.stones, vocabulary);
-    return updateStones(firstStone, sizeSelect, image, maxQuantity, show_quantities, vocabulary);
+    return updateStones(firstStone, sizeSelect, image, maxQuantity, show_quantities, vocabulary,single_product_address, address, copy_address);
 }
-function updateStones(selectedStone, sizeSelect, image, maxQuantity, show_quantities, vocabulary){
+function updateStones(selectedStone, sizeSelect, image, maxQuantity, show_quantities, vocabulary,single_product_address, address, copy_address){
 
     const firstSizeKey = selectedStone ? Object.keys(selectedStone.sizes || {})[0] : null;
     const withSizes = !!firstSizeKey;
     const firstSizeQuantity = withSizes ? selectedStone.sizes[firstSizeKey].quantity : selectedStone.quantity;
     if (selectedStone?.image) {
         image.src = selectedStone.image; // Update the image src
+    }
+
+    if(selectedStone?.real_name){
+        let adres = single_product_address.replace("REPLACE", selectedStone.real_name)
+        address.href = adres;
+        copy_address.setAttribute("data-link", adres);
     }
 
     while (sizeSelect.firstChild) {
@@ -38,7 +44,6 @@ function updateStones(selectedStone, sizeSelect, image, maxQuantity, show_quanti
         return updateSizes(firstSizeQuantity, maxQuantity, show_quantities, vocabulary);
     }
     else{
-        console.log(firstSizeQuantity);
          if(show_quantities) {
             maxQuantity.innerText = `${vocabulary['In stock']}: `+firstSizeQuantity;
         }
@@ -164,11 +169,11 @@ function showTooltip(event, message) {
 }
 
 
-function generateDialogContent(id, items_array, currency, show_quantities, add_to_cart_url, vocabulary, cookie, checkout_url, isFavourite, user_auth){
+function generateDialogContent(id, items_array, currency, show_quantities, add_to_cart_url, vocabulary, cookie, checkout_url, isFavourite, user_auth, single_product_url){
     let quantity_max = 1;
     document.body.style.overflow = 'hidden';
     const item = items_array.find(item => item.name === id);
-    console.log(item);
+
     if (!item) {
         console.error('Item not found');
         return;
@@ -195,9 +200,11 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     card_content.classList.add('card-content');
 
     let imagePath = '';
+    let single_product_address = "";
 
     if (firstStone) {
         imagePath = firstStone.image || '';
+        single_product_address = single_product_url.replace('REPLACE', firstStone.real_name);
         quantity_max = Object.keys(firstStone.sizes || {}).length === 0 ? firstStone.quantity : firstSizeQuantity;
     }
 
@@ -215,6 +222,51 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     nameSpan.textContent = vocabulary[full_phrase] ? vocabulary[full_phrase] + " " + last_word : item.product_name;
     secondColumn.appendChild(nameSpan);
 
+    const product_pages_container = document.createElement('div');
+    product_pages_container.classList.add('product-pages-container');
+
+    const address_page = document.createElement('a');
+    address_page.classList.add('address-page');
+    address_page.setAttribute('href', single_product_address);
+    address_page.textContent = "Info ";
+    const address_page_i = document.createElement('i');
+    address_page_i.classList.add('fa-solid', 'fa-circle-info')
+    address_page.appendChild(address_page_i);
+
+
+    const copy_address_page = document.createElement('span')
+    copy_address_page.classList.add('copy-address-page');
+    copy_address_page.setAttribute('data-link', single_product_address);
+    copy_address_page.textContent = `${vocabulary["Copy link"]} `; // Начальный текст кнопки
+    const copy_address_page_i = document.createElement('i');
+    copy_address_page_i.classList.add('fa-solid', 'fa-link')
+    copy_address_page.appendChild(copy_address_page_i);
+
+    copy_address_page.addEventListener('click', () => {
+        // Получаем ссылку из data-атрибута
+        const link = copy_address_page.getAttribute('data-link');
+        // Используем API для копирования в буфер обмена
+        navigator.clipboard.writeText(link)
+            .then(() => {
+                const originalText = copy_address_page.textContent; // Сохраняем оригинальный текст
+                copy_address_page.textContent = `${vocabulary["Copied!"]} `;
+                copy_address_page.appendChild(copy_address_page_i); // Восстанавливаем иконку
+
+                // Возвращаем исходный текст через 2 секунды
+                setTimeout(() => {
+                    copy_address_page.textContent = originalText;
+                    copy_address_page.appendChild(copy_address_page_i); // Восстанавливаем иконку
+                }, 2000);
+            })
+            .catch(err => {
+                console.error('Copying error: ', err);
+            });
+    });
+
+    product_pages_container.appendChild(address_page);
+    product_pages_container.appendChild(copy_address_page);
+    secondColumn.appendChild(product_pages_container);
+
     const numberSpan = document.createElement('h4');
     numberSpan.textContent = `${item.name}`;
     secondColumn.appendChild(numberSpan);
@@ -225,7 +277,6 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
         const heartIconContainer = document.createElement('div');
         heartIconContainer.className = 'mobile-heart-container';
         heartIconContainer.setAttribute('data-item-name', JSON.stringify(item));
-        console.log(vocabulary);
         heartIconContainer.innerHTML = isFavourite ?
         `<div class="favourites-mobile-container"><span class="mobile-favourites-btn"> ${vocabulary["RemoveFromFavourites"]} <i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:#000000;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i> </span></div>` :
         `<div class="favourites-mobile-container"><span class="mobile-favourites-btn"> ${vocabulary["AddToFavourites"]} <i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i> </span></div>`; // Example with FontAwesome
@@ -235,6 +286,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     }
 
     const priceSpan = document.createElement('div');
+    priceSpan.classList.add('price-element');
     priceSpan.textContent = currency+`${item.price}`;
     secondColumn.appendChild(priceSpan);
 
@@ -291,7 +343,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
         const selectedPlatingKey = event.target.value;
         const selectedPlating = item.platings[selectedPlatingKey];
         inputQuantity.value = '1';
-        quantity_max = updatePlatings(selectedPlating, stoneSelect, sizeSelect, image, quantitySpan, show_quantities, vocabulary);
+        quantity_max = updatePlatings(selectedPlating, stoneSelect, sizeSelect, image, quantitySpan, show_quantities, vocabulary,single_product_url, address_page, copy_address_page);
     });
 
     stoneSelect.addEventListener('change', (event) => {
@@ -300,7 +352,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
         const selectedPlating = item.platings[selectedPlatingKey];
         const selectedStone = selectedPlating && selectedPlating.stones ? selectedPlating.stones[selectedStoneKey] : null;
         inputQuantity.value = '1';
-        quantity_max = updateStones(selectedStone, sizeSelect, image, quantitySpan, show_quantities,vocabulary);
+        quantity_max = updateStones(selectedStone, sizeSelect, image, quantitySpan, show_quantities,vocabulary, single_product_url, address_page, copy_address_page);
 
     });
 
@@ -335,7 +387,6 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
         const product_height_div = document.createElement('div');
         const product_height_label = document.createElement('span');
         product_height_label.classList.add('card-dropdown-label');
-        console.log(vocabulary);
         product_height_label.innerText = `${vocabulary["Product height"]}`;
         const product_height_value = document.createElement('span');
         product_height_value.innerText = `${item.product_height} cm`;
@@ -495,7 +546,7 @@ function add_to_cart_func(item, plating, stone, size, quantity, add_button, dial
 
 function activate_success_card(item, quantity, cart_count, subtotalValue, currency, vocabulary, checkout_url){
     const dialog = document.getElementById('product-card-success');
-    console.log(item);
+
     bindGlobalClickEvent(dialog);
     dialog.innerHTML = '';
     const card_content = document.createElement('div');
@@ -582,7 +633,6 @@ function manageButtonsSuccessSetup(dialog, column, vocabulary, checkout_url){
     const proceed_to_checkout = document.createElement('a');
     proceed_to_checkout.textContent = `${vocabulary['Proceed to checkout']}`;
     proceed_to_checkout.classList.add('button-proceed-to-checkout');
-    console.log(checkout_url);
     proceed_to_checkout.href = `${checkout_url}`;
 
     container_for_success_buttons.appendChild(proceed_to_checkout);

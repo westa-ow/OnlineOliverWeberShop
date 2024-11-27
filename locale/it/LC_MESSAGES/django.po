@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-26 11:03+0100\n"
+"POT-Creation-Date: 2024-11-27 14:40+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\OnlineShop\settings.py:162
+#: .\OnlineShop\settings.py:163
 msgid "English"
 msgstr "Inglese"
 
-#: .\OnlineShop\settings.py:163
+#: .\OnlineShop\settings.py:164
 msgid "German"
 msgstr "tedesco"
 
-#: .\OnlineShop\settings.py:164
+#: .\OnlineShop\settings.py:165
 msgid "Italian"
 msgstr "Italiano"
 
-#: .\OnlineShop\settings.py:165
+#: .\OnlineShop\settings.py:166
 msgid "French"
 msgstr "francese"
 
-#: .\OnlineShop\settings.py:166
+#: .\OnlineShop\settings.py:167
 msgid "Spanish"
 msgstr "spagnolo"
 
-#: .\OnlineShop\settings.py:167
+#: .\OnlineShop\settings.py:168
 msgid "Russian"
 msgstr "russo"
 
@@ -115,7 +115,7 @@ msgid "Actions"
 msgstr "Azioni"
 
 #: .\shop\templates\admin_tools\AT_users_control.html:53
-#: .\shop\templates\catalog.html:302
+#: .\shop\templates\catalog.html:303
 msgid "Items per page"
 msgstr "Articoli per pagina"
 
@@ -216,383 +216,383 @@ msgstr "Vuoi davvero eliminare questo prodotto dal carrello?"
 msgid "Confirmed!"
 msgstr "Confermato!"
 
-#: .\shop\templates\catalog.html:167
+#: .\shop\templates\catalog.html:168
 msgid "Categories"
 msgstr "Categorie"
 
-#: .\shop\templates\catalog.html:176
+#: .\shop\templates\catalog.html:177
 msgid "Collections"
 msgstr "Collezioni"
 
-#: .\shop\templates\catalog.html:184
+#: .\shop\templates\catalog.html:185
 msgid "Filters"
 msgstr "Filtri"
 
-#: .\shop\templates\catalog.html:187
+#: .\shop\templates\catalog.html:188
 msgid "Name, Product Article"
 msgstr "Nome, articolo del prodotto"
 
-#: .\shop\templates\catalog.html:189
+#: .\shop\templates\catalog.html:190
 msgid "Contains in name"
 msgstr "Contiene nel nome"
 
-#: .\shop\templates\catalog.html:192 .\shop\templates\catalog.html:314
-#: .\shop\templates\catalog.html:315
+#: .\shop\templates\catalog.html:193 .\shop\templates\catalog.html:315
+#: .\shop\templates\catalog.html:316
 #: .\shop\templates\profile\profile_orders.html:271
 msgid "Price"
 msgstr "Prezzo"
 
-#: .\shop\templates\catalog.html:210
+#: .\shop\templates\catalog.html:211
 #: .\shop\templates\widgets\mini_cart.html:95 .\shop\views.py:453
 msgid "Crystal color"
 msgstr "Colore cristallo"
 
-#: .\shop\templates\catalog.html:232
+#: .\shop\templates\catalog.html:233
 msgid "Plating material"
 msgstr "Materiale di placcatura"
 
-#: .\shop\templates\catalog.html:255 .\shop\views.py:454
+#: .\shop\templates\catalog.html:256 .\shop\views.py:454
 msgid "Base material"
 msgstr "Materiale di base"
 
-#: .\shop\templates\catalog.html:271 .\shop\templates\shop_page.html:57
+#: .\shop\templates\catalog.html:272 .\shop\templates\shop_page.html:57
 #: .\shop\views.py:447
 msgid "Size"
 msgstr "Misurare"
 
-#: .\shop\templates\catalog.html:310
+#: .\shop\templates\catalog.html:311
 msgid "Order by"
 msgstr "Ordina per"
 
-#: .\shop\templates\catalog.html:312 .\shop\templates\catalog.html:313
+#: .\shop\templates\catalog.html:313 .\shop\templates\catalog.html:314
 #: .\shop\templates\profile\profile_orders.html:268
 msgid "Name"
 msgstr "Nome"
 
-#: .\shop\templates\catalog.html:337
+#: .\shop\templates\catalog.html:338
 msgid "Previous"
 msgstr "Precedente"
 
-#: .\shop\templates\catalog.html:339
+#: .\shop\templates\catalog.html:340
 msgid "Next"
 msgstr "Prossimo"
 
-#: .\shop\templates\catalog.html:344
+#: .\shop\templates\catalog.html:345
 msgid "Jump"
 msgstr "Salto"
 
-#: .\shop\templates\catalog.html:549 .\shop\templates\catalog.html:668
+#: .\shop\templates\catalog.html:550 .\shop\templates\catalog.html:669
 msgid "All"
 msgstr "Tutto"
 
-#: .\shop\templates\catalog.html:550 .\shop\templates\catalog.html:559
+#: .\shop\templates\catalog.html:551 .\shop\templates\catalog.html:560
 #: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:26
-#: .\shop\templates\widgets\mobile_links_panel.html:23
+#: .\shop\templates\widgets\mobile_links_panel.html:33
 #: .\shop\templates\widgets\navigation_bar.html:28
 msgid "Necklaces"
 msgstr "Collane"
 
-#: .\shop\templates\catalog.html:551 .\shop\templates\catalog.html:552
-#: .\shop\templates\catalog.html:676 .\shop\templates\home.html:355
+#: .\shop\templates\catalog.html:552 .\shop\templates\catalog.html:553
+#: .\shop\templates\catalog.html:677 .\shop\templates\home.html:356
 #: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:27
 #: .\shop\templates\profile\profile_favourites.html:33
 #: .\shop\templates\shop_page.html:160
-#: .\shop\templates\widgets\mobile_links_panel.html:24
+#: .\shop\templates\widgets\mobile_links_panel.html:34
 #: .\shop\templates\widgets\navigation_bar.html:29
 msgid "Earrings"
 msgstr "Orecchini"
 
-#: .\shop\templates\catalog.html:553 .\shop\templates\catalog.html:565
+#: .\shop\templates\catalog.html:554 .\shop\templates\catalog.html:566
 #: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:29
-#: .\shop\templates\widgets\mobile_links_panel.html:26
+#: .\shop\templates\widgets\mobile_links_panel.html:36
 #: .\shop\templates\widgets\navigation_bar.html:31
 msgid "Bracelets"
 msgstr "Bracciali"
 
-#: .\shop\templates\catalog.html:554
+#: .\shop\templates\catalog.html:555
 #: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:31
-#: .\shop\templates\widgets\mobile_links_panel.html:28
+#: .\shop\templates\widgets\mobile_links_panel.html:38
 #: .\shop\templates\widgets\navigation_bar.html:33
 msgid "Accessories"
 msgstr "Accessori"
 
-#: .\shop\templates\catalog.html:555
+#: .\shop\templates\catalog.html:556
 msgid "Pendants"
 msgstr "Ciondoli"
 
-#: .\shop\templates\catalog.html:556
+#: .\shop\templates\catalog.html:557
 msgid "Chains"
 msgstr "Catene"
 
-#: .\shop\templates\catalog.html:557
+#: .\shop\templates\catalog.html:558
 msgid "Colliers"
 msgstr "Collier"
 
-#: .\shop\templates\catalog.html:558
+#: .\shop\templates\catalog.html:559
 msgid "Pearlchains"
 msgstr "Catene di perle"
 
-#: .\shop\templates\catalog.html:560 .\shop\templates\catalog.html:682
-#: .\shop\templates\home.html:361
+#: .\shop\templates\catalog.html:561 .\shop\templates\catalog.html:683
+#: .\shop\templates\home.html:362
 #: .\shop\templates\profile\profile_favourites.html:39
 #: .\shop\templates\shop_page.html:166
 msgid "Post earrings"
 msgstr "Orecchini postali"
 
-#: .\shop\templates\catalog.html:561
+#: .\shop\templates\catalog.html:562
 msgid "Hoops"
 msgstr "Cerchi"
 
-#: .\shop\templates\catalog.html:562
+#: .\shop\templates\catalog.html:563
 msgid "Creoles"
 msgstr "Creoli"
 
-#: .\shop\templates\catalog.html:563
+#: .\shop\templates\catalog.html:564
 msgid "Clips"
 msgstr "Clip"
 
-#: .\shop\templates\catalog.html:564
+#: .\shop\templates\catalog.html:565
 msgid "Piercings"
 msgstr "piercing"
 
-#: .\shop\templates\catalog.html:566
+#: .\shop\templates\catalog.html:567
 msgid "Bangles"
 msgstr "Braccialetti"
 
-#: .\shop\templates\catalog.html:567
+#: .\shop\templates\catalog.html:568
 #: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:30
-#: .\shop\templates\widgets\mobile_links_panel.html:27
+#: .\shop\templates\widgets\mobile_links_panel.html:37
 #: .\shop\templates\widgets\navigation_bar.html:32
 msgid "Anklets"
 msgstr "Cavigliere"
 
-#: .\shop\templates\catalog.html:568
+#: .\shop\templates\catalog.html:569
 #: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:28
-#: .\shop\templates\widgets\mobile_links_panel.html:25
+#: .\shop\templates\widgets\mobile_links_panel.html:35
 #: .\shop\templates\widgets\navigation_bar.html:30
 msgid "Rings"
 msgstr "Anelli"
 
-#: .\shop\templates\catalog.html:569
+#: .\shop\templates\catalog.html:570
 msgid "Matches"
 msgstr "Partite"
 
-#: .\shop\templates\catalog.html:570
+#: .\shop\templates\catalog.html:571
 msgid "Pens"
 msgstr "Penne"
 
-#: .\shop\templates\catalog.html:571
+#: .\shop\templates\catalog.html:572
 msgid "Keys"
 msgstr "Chiavi"
 
-#: .\shop\templates\catalog.html:572
+#: .\shop\templates\catalog.html:573
 msgid "Brooches"
 msgstr "Spille"
 
-#: .\shop\templates\catalog.html:573
+#: .\shop\templates\catalog.html:574
 msgid "Nailfiles"
 msgstr "Lime per unghie"
 
-#: .\shop\templates\catalog.html:574
+#: .\shop\templates\catalog.html:575
 msgid "Extensions"
 msgstr "Estensioni"
 
-#: .\shop\templates\catalog.html:575 .\shop\templates\catalog.html:697
-#: .\shop\templates\home.html:376
+#: .\shop\templates\catalog.html:576 .\shop\templates\catalog.html:698
+#: .\shop\templates\home.html:377
 #: .\shop\templates\profile\profile_favourites.html:54
 #: .\shop\templates\shop_page.html:181
 msgid "UV"
 msgstr "UV"
 
-#: .\shop\templates\catalog.html:677 .\shop\templates\home.html:356
+#: .\shop\templates\catalog.html:678 .\shop\templates\home.html:357
 #: .\shop\templates\profile\profile_favourites.html:34
 #: .\shop\templates\shop_page.html:161
 msgid "Pendant"
 msgstr "Pendente"
 
-#: .\shop\templates\catalog.html:678 .\shop\templates\home.html:357
+#: .\shop\templates\catalog.html:679 .\shop\templates\home.html:358
 #: .\shop\templates\profile\profile_favourites.html:35
 #: .\shop\templates\shop_page.html:162
 msgid "Chain"
 msgstr "Catena"
 
-#: .\shop\templates\catalog.html:679 .\shop\templates\home.html:358
+#: .\shop\templates\catalog.html:680 .\shop\templates\home.html:359
 #: .\shop\templates\profile\profile_favourites.html:36
 #: .\shop\templates\shop_page.html:163
 msgid "Collier"
 msgstr "Collier"
 
-#: .\shop\templates\catalog.html:680 .\shop\templates\home.html:359
+#: .\shop\templates\catalog.html:681 .\shop\templates\home.html:360
 #: .\shop\templates\profile\profile_favourites.html:37
 #: .\shop\templates\shop_page.html:164
 msgid "Pearlchain"
 msgstr "Catena di perle"
 
-#: .\shop\templates\catalog.html:681 .\shop\templates\home.html:360
+#: .\shop\templates\catalog.html:682 .\shop\templates\home.html:361
 #: .\shop\templates\profile\profile_favourites.html:38
 #: .\shop\templates\shop_page.html:165
 msgid "Necklace"
 msgstr "Collana"
 
-#: .\shop\templates\catalog.html:683 .\shop\templates\home.html:362
+#: .\shop\templates\catalog.html:684 .\shop\templates\home.html:363
 #: .\shop\templates\profile\profile_favourites.html:40
 #: .\shop\templates\shop_page.html:167
 msgid "Hoop"
 msgstr "Cerchio"
 
-#: .\shop\templates\catalog.html:684 .\shop\templates\home.html:363
+#: .\shop\templates\catalog.html:685 .\shop\templates\home.html:364
 #: .\shop\templates\profile\profile_favourites.html:41
 #: .\shop\templates\shop_page.html:168
 msgid "Creole"
 msgstr "Creolo"
 
-#: .\shop\templates\catalog.html:685 .\shop\templates\home.html:364
+#: .\shop\templates\catalog.html:686 .\shop\templates\home.html:365
 #: .\shop\templates\profile\profile_favourites.html:42
 #: .\shop\templates\shop_page.html:169
 msgid "Clip"
 msgstr "Clip"
 
-#: .\shop\templates\catalog.html:686 .\shop\templates\home.html:365
+#: .\shop\templates\catalog.html:687 .\shop\templates\home.html:366
 #: .\shop\templates\profile\profile_favourites.html:43
 #: .\shop\templates\shop_page.html:170
 msgid "Piercing"
 msgstr "Penetrante"
 
-#: .\shop\templates\catalog.html:687 .\shop\templates\home.html:366
+#: .\shop\templates\catalog.html:688 .\shop\templates\home.html:367
 #: .\shop\templates\profile\profile_favourites.html:44
 #: .\shop\templates\shop_page.html:171
 msgid "Bracelet"
 msgstr "Braccialetto"
 
-#: .\shop\templates\catalog.html:688 .\shop\templates\home.html:367
+#: .\shop\templates\catalog.html:689 .\shop\templates\home.html:368
 #: .\shop\templates\profile\profile_favourites.html:45
 #: .\shop\templates\shop_page.html:172
 msgid "Bangle"
 msgstr "Braccialetto"
 
-#: .\shop\templates\catalog.html:689 .\shop\templates\home.html:368
+#: .\shop\templates\catalog.html:690 .\shop\templates\home.html:369
 #: .\shop\templates\profile\profile_favourites.html:46
 #: .\shop\templates\shop_page.html:173
 msgid "Anklet"
 msgstr "Cavigliera"
 
-#: .\shop\templates\catalog.html:690 .\shop\templates\home.html:369
+#: .\shop\templates\catalog.html:691 .\shop\templates\home.html:370
 #: .\shop\templates\profile\profile_favourites.html:47
 #: .\shop\templates\shop_page.html:174
 msgid "Ring"
 msgstr "Squillo"
 
-#: .\shop\templates\catalog.html:691 .\shop\templates\home.html:370
+#: .\shop\templates\catalog.html:692 .\shop\templates\home.html:371
 #: .\shop\templates\profile\profile_favourites.html:48
 #: .\shop\templates\shop_page.html:175
 msgid "Match"
 msgstr "Incontro"
 
-#: .\shop\templates\catalog.html:692 .\shop\templates\home.html:371
+#: .\shop\templates\catalog.html:693 .\shop\templates\home.html:372
 #: .\shop\templates\profile\profile_favourites.html:49
 #: .\shop\templates\shop_page.html:176
 msgid "Pen"
 msgstr "Penna"
 
-#: .\shop\templates\catalog.html:693 .\shop\templates\home.html:372
+#: .\shop\templates\catalog.html:694 .\shop\templates\home.html:373
 #: .\shop\templates\profile\profile_favourites.html:50
 #: .\shop\templates\shop_page.html:177
 msgid "Key"
 msgstr "Chiave"
 
-#: .\shop\templates\catalog.html:694 .\shop\templates\home.html:373
+#: .\shop\templates\catalog.html:695 .\shop\templates\home.html:374
 #: .\shop\templates\profile\profile_favourites.html:51
 #: .\shop\templates\shop_page.html:178
 msgid "Brooch"
 msgstr "Spilla"
 
-#: .\shop\templates\catalog.html:695 .\shop\templates\home.html:374
+#: .\shop\templates\catalog.html:696 .\shop\templates\home.html:375
 #: .\shop\templates\profile\profile_favourites.html:52
 #: .\shop\templates\shop_page.html:179
 msgid "Nailfile"
 msgstr "Lima per unghie"
 
-#: .\shop\templates\catalog.html:696 .\shop\templates\home.html:375
+#: .\shop\templates\catalog.html:697 .\shop\templates\home.html:376
 #: .\shop\templates\profile\profile_favourites.html:53
 #: .\shop\templates\shop_page.html:180
 msgid "Extension"
 msgstr "Estensione"
 
-#: .\shop\templates\catalog.html:701 .\shop\templates\home.html:380
+#: .\shop\templates\catalog.html:702 .\shop\templates\home.html:381
 #: .\shop\templates\profile\profile_favourites.html:58
 #: .\shop\templates\shop_page.html:185
 msgid "Default"
 msgstr "Predefinito"
 
-#: .\shop\templates\catalog.html:702 .\shop\templates\home.html:381
+#: .\shop\templates\catalog.html:703 .\shop\templates\home.html:382
 #: .\shop\templates\profile\profile_favourites.html:59
 #: .\shop\templates\shop_page.html:186
 msgid "Rhodium"
 msgstr "rodio"
 
-#: .\shop\templates\catalog.html:703 .\shop\templates\home.html:382
+#: .\shop\templates\catalog.html:704 .\shop\templates\home.html:383
 #: .\shop\templates\profile\profile_favourites.html:60
 #: .\shop\templates\shop_page.html:187
 msgid "Gold"
 msgstr "Oro"
 
-#: .\shop\templates\catalog.html:704 .\shop\templates\home.html:383
+#: .\shop\templates\catalog.html:705 .\shop\templates\home.html:384
 #: .\shop\templates\profile\profile_favourites.html:61
 #: .\shop\templates\shop_page.html:188
 msgid "Rosegold"
 msgstr "Oro rosa"
 
-#: .\shop\templates\catalog.html:705 .\shop\templates\home.html:384
+#: .\shop\templates\catalog.html:706 .\shop\templates\home.html:385
 #: .\shop\templates\profile\profile_favourites.html:62
 #: .\shop\templates\shop_page.html:189
 msgid "Without"
 msgstr "Senza"
 
-#: .\shop\templates\catalog.html:706 .\shop\templates\home.html:385
+#: .\shop\templates\catalog.html:707 .\shop\templates\home.html:386
 #: .\shop\templates\profile\profile_favourites.html:63
 #: .\shop\templates\shop_page.html:190
 msgid "Steel"
 msgstr "Acciaio"
 
-#: .\shop\templates\catalog.html:707 .\shop\templates\shop_page.html:191
+#: .\shop\templates\catalog.html:708 .\shop\templates\shop_page.html:191
 msgid "Brass"
 msgstr "Ottone"
 
-#: .\shop\templates\catalog.html:708 .\shop\templates\home.html:387
+#: .\shop\templates\catalog.html:709 .\shop\templates\home.html:388
 #: .\shop\templates\profile\profile_favourites.html:65
 #: .\shop\templates\shop_page.html:192
 msgid "Silver"
 msgstr "Argento"
 
-#: .\shop\templates\catalog.html:1298 .\shop\templates\catalog.html:1730
-#: .\shop\templates\home.html:594 .\shop\templates\home.html:746
+#: .\shop\templates\catalog.html:1299 .\shop\templates\catalog.html:1731
+#: .\shop\templates\home.html:595 .\shop\templates\home.html:747
 #: .\shop\templates\profile\profile_favourites.html:154
 #: .\shop\templates\profile\profile_favourites.html:351 .\shop\views.py:467
 msgid "Remove from favorites"
 msgstr "Rimuovi dai preferiti"
 
-#: .\shop\templates\catalog.html:1298 .\shop\templates\catalog.html:1731
-#: .\shop\templates\home.html:594 .\shop\templates\home.html:747
+#: .\shop\templates\catalog.html:1299 .\shop\templates\catalog.html:1732
+#: .\shop\templates\home.html:595 .\shop\templates\home.html:748
 #: .\shop\templates\profile\profile_favourites.html:154
 #: .\shop\templates\profile\profile_favourites.html:352 .\shop\views.py:466
 msgid "Add to favorites"
 msgstr "Aggiungi ai preferiti"
 
-#: .\shop\templates\catalog.html:1351 .\shop\templates\shop_page.html:126
+#: .\shop\templates\catalog.html:1352 .\shop\templates\shop_page.html:126
 #: .\shop\views.py:460
 msgid "Add to cart"
 msgstr "Aggiungi al carrello"
 
-#: .\shop\templates\catalog.html:1368
+#: .\shop\templates\catalog.html:1369
 #: .\shop\templates\profile\profile_favourites.html:228
 msgid "This item is only available for pre-order"
 msgstr "Questo articolo è disponibile solo per il preordine"
 
-#: .\shop\templates\catalog.html:1523 .\shop\templates\catalog.html:1611
+#: .\shop\templates\catalog.html:1524 .\shop\templates\catalog.html:1612
 msgid "No items found"
 msgstr "Nessun articolo trovato"
 
-#: .\shop\templates\catalog.html:1606
+#: .\shop\templates\catalog.html:1607
 msgid "Current page"
 msgstr "Pagina corrente"
 
@@ -693,7 +693,7 @@ msgstr "Continuare"
 
 #: .\shop\templates\checkout\Checkout_Account_Auth.html:230
 #: .\shop\templates\widgets\account_panel.html:86
-#: .\shop\templates\widgets\mobile_links_panel.html:37
+#: .\shop\templates\widgets\mobile_links_panel.html:48
 msgid "Login"
 msgstr "Login"
 
@@ -839,15 +839,15 @@ msgstr "Paga con carta di credito tramite Stripe"
 msgid "Included shipping"
 msgstr "Spedizione inclusa"
 
-#: .\shop\templates\home.html:49
+#: .\shop\templates\home.html:50
 msgid "ELEGANT JEWELRY AND ACCESSORIES"
 msgstr "GIOIELLI E ACCESSORI ELEGANTI"
 
-#: .\shop\templates\home.html:108
+#: .\shop\templates\home.html:109
 msgid "BEST SELLERS"
 msgstr "I PIÙ VENDUTI"
 
-#: .\shop\templates\home.html:386
+#: .\shop\templates\home.html:387
 #: .\shop\templates\profile\profile_favourites.html:64
 msgid "Steel Brass"
 msgstr "Acciaio Ottone"
@@ -859,37 +859,37 @@ msgid "All products"
 msgstr "Tutti i prodotti"
 
 #: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:26
-#: .\shop\templates\widgets\mobile_links_panel.html:23
+#: .\shop\templates\widgets\mobile_links_panel.html:33
 #: .\shop\templates\widgets\navigation_bar.html:28
 msgid "NECKLACES"
 msgstr "COLLANE"
 
 #: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:27
-#: .\shop\templates\widgets\mobile_links_panel.html:24
+#: .\shop\templates\widgets\mobile_links_panel.html:34
 #: .\shop\templates\widgets\navigation_bar.html:29
 msgid "EARRINGS"
 msgstr "ORECCHINI"
 
 #: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:28
-#: .\shop\templates\widgets\mobile_links_panel.html:25
+#: .\shop\templates\widgets\mobile_links_panel.html:35
 #: .\shop\templates\widgets\navigation_bar.html:30
 msgid "RINGS"
 msgstr "ANELLI"
 
 #: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:29
-#: .\shop\templates\widgets\mobile_links_panel.html:26
+#: .\shop\templates\widgets\mobile_links_panel.html:36
 #: .\shop\templates\widgets\navigation_bar.html:31
 msgid "BRACELETS"
 msgstr "BRACCIALETTI"
 
 #: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:30
-#: .\shop\templates\widgets\mobile_links_panel.html:27
+#: .\shop\templates\widgets\mobile_links_panel.html:37
 #: .\shop\templates\widgets\navigation_bar.html:32
 msgid "ANKLETS"
 msgstr "CAVIGLIERE"
 
 #: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:31
-#: .\shop\templates\widgets\mobile_links_panel.html:28
+#: .\shop\templates\widgets\mobile_links_panel.html:38
 #: .\shop\templates\widgets\navigation_bar.html:33
 msgid "ACCESSORIES"
 msgstr "ACCESSORI"
@@ -4574,7 +4574,7 @@ msgid "Account"
 msgstr "Account"
 
 #: .\shop\templates\widgets\account_panel.html:90
-#: .\shop\templates\widgets\mobile_links_panel.html:38
+#: .\shop\templates\widgets\mobile_links_panel.html:49
 msgid "Register"
 msgstr "Registro"
 
@@ -4658,7 +4658,15 @@ msgstr "Numero di articoli nel carrello:"
 msgid "This item is only available for pre-order!"
 msgstr "Questo articolo è disponibile solo per il preordine!"
 
-#: .\shop\views.py:478
+#: .\shop\views.py:468
+msgid "Copy link"
+msgstr "Copia collegamento"
+
+#: .\shop\views.py:469
+msgid "Copied!"
+msgstr "Copiato!"
+
+#: .\shop\views.py:480
 msgid "Welcome to my site."
 msgstr "Benvenuti nel mio sito."
 
@@ -6401,22 +6409,18 @@ msgid "Check the correct settings.CKEDITOR_5_CONFIGS "
 msgstr "Controlla le impostazioni corrette.CKEDITOR_5_CONFIGS"
 
 #: .\venv\Lib\site-packages\django_geoip\models.py:21
-#| msgid "Country"
 msgid "country code"
 msgstr "codice paese"
 
 #: .\venv\Lib\site-packages\django_geoip\models.py:22
-#| msgid "Country"
 msgid "country name"
 msgstr "nome del paese"
 
 #: .\venv\Lib\site-packages\django_geoip\models.py:28
-#| msgid "Country"
 msgid "country"
 msgstr "Paese"
 
 #: .\venv\Lib\site-packages\django_geoip\models.py:29
-#| msgid "Country"
 msgid "countries"
 msgstr "Paesi"
 
@@ -6433,7 +6437,6 @@ msgid "regions"
 msgstr "regioni"
 
 #: .\venv\Lib\site-packages\django_geoip\models.py:57
-#| msgid "First name"
 msgid "city name"
 msgstr "nome della città"
 
@@ -7117,17 +7120,14 @@ msgid "Processes commits in commit timestamp order."
 msgstr "Elabora i commit nell'ordine del timestamp del commit."
 
 #: .\venv\Lib\site-packages\git_filter_repo.py:1989
-#| msgid "Missing option"
 msgid "Miscellaneous options"
 msgstr "Opzioni varie"
 
 #: .\venv\Lib\site-packages\git_filter_repo.py:1991
-#| msgid "Show this message and exit."
 msgid "Show this help message and exit."
 msgstr "Mostra questo messaggio di aiuto ed esci."
 
 #: .\venv\Lib\site-packages\git_filter_repo.py:1993
-#| msgid "Show the version and exit."
 msgid "Display filter-repo's version and exit."
 msgstr "Visualizza la versione di filter-repo ed esce."
 
@@ -7268,7 +7268,6 @@ msgstr ""
 "vuoti e terminano con una barra, devono essere entrambi."
 
 #: .\venv\Lib\site-packages\git_filter_repo.py:2216
-#| msgid "No month specified"
 msgid "No arguments specified."
 msgstr "Nessun argomento specificato."
 
@@ -7308,7 +7307,6 @@ msgid "Number of filenames"
 msgstr "Numero di nomi di file"
 
 #: .\venv\Lib\site-packages\git_filter_repo.py:2491
-#| msgid "Index of %(directory)s"
 msgid "Number of directories"
 msgstr "Numero di directory"
 
@@ -7329,7 +7327,6 @@ msgid "Caveats"
 msgstr "Avvertenze"
 
 #: .\venv\Lib\site-packages\git_filter_repo.py:2504
-#| msgid "Size"
 msgid "Sizes"
 msgstr "Dimensioni"
 
@@ -7393,7 +7390,6 @@ msgstr ""
 "        anche se git lo memorizzerà solo una volta."
 
 #: .\venv\Lib\site-packages\git_filter_repo.py:2534
-#| msgid "Colliers"
 msgid "Deletions"
 msgstr "Eliminazioni"
 

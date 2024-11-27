@@ -148,6 +148,7 @@
     <meta charset="UTF-8">
     <title>Catalog</title>
     <link rel="stylesheet"  href="{% static 'css/catalog.css' %}">
+    <link rel="stylesheet"  href="{% static 'css/SeparateWidgets/product_card.css' %}">
     <!-- Add this script tag to your HTML to include Firebase SDK -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{% static "js/product_cards.js" %}"></script>
@@ -1239,15 +1240,15 @@ function displayCurrentPage(items) {
 
             let itemIsFavourite = Boolean(favouriteItem);
             if(filteredItems.length === 0){
-                generateDialogContent(`${item.name}`, allItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}", itemIsFavourite, "{{ user.is_authenticated|safe }}");
+                generateDialogContent(`${item.name}`, allItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}", itemIsFavourite, "{{ user.is_authenticated|safe }}", "{{ shop_page_url }}");
             }
             else{
                 if(filteredItems[0] === "No items found"){
-                    generateDialogContent(`${item.name}`, allItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}", itemIsFavourite, "{{ user.is_authenticated|safe }}");
+                    generateDialogContent(`${item.name}`, allItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}", itemIsFavourite, "{{ user.is_authenticated|safe }}", "{{ shop_page_url }}");
 
                 }
                 else {
-                     generateDialogContent(`${item.name}`, filteredItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}", itemIsFavourite,  "{{ user.is_authenticated|safe}}");
+                     generateDialogContent(`${item.name}`, filteredItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}", itemIsFavourite,  "{{ user.is_authenticated|safe}}", "{{ shop_page_url }}");
 
                 }
             }

@@ -465,6 +465,8 @@ def get_vocabulary_product_card():
         "Chain length": _("Chain length"),
         "AddToFavourites": _("Add to favorites"),
         "RemoveFromFavourites": _("Remove from favorites"),
+        "Copy link": _("Copy link"),
+        "Copied!": _("Copied!"),
 
     }
 

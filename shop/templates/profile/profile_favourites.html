@@ -2,7 +2,7 @@
 {% load i18n %}
 
 <link rel="stylesheet" href="{% static 'css/profile/profile_favourites.css' %}">
-
+<link rel="stylesheet"  href="{% static 'css/SeparateWidgets/product_card.css' %}">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{% static "js/product_cards.js" %}"></script>
 <section id="content" class="page-content col-md-12 col-lg-9 myacc_content">
@@ -105,7 +105,7 @@ let filters_dict = {
 
                 productContainer.addEventListener('click', () => {
 
-                    generateDialogContent(`${item.name}`, favouriteItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}", true, "{{ user.is_authenticated|safe }}");
+                    generateDialogContent(`${item.name}`, favouriteItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}", true, "{{ user.is_authenticated|safe }}", "{{ shop_page_url }}");
                 });
 
                 const container_card = document.createElement("div");
