@@ -109,6 +109,7 @@ TEMPLATES = [
                 'shop.context_processor.user_role',
                 'shop.context_processor.user_is_special',
                 'shop.context_processor.customer_type',
+                'shop.context_processor.shop_page_url',
             ],
         },
     },
