@@ -323,14 +323,7 @@ ul.sub-category-list.open {
     opacity: 80%;
 
 }
-.img-wrapper {
-    position: relative;
-    display: inline-block;
-    width: 115px; /* Match the image width */
-    height: 115px; /* Match the image height */
-    border-radius: 10px;
-    overflow: hidden;
-}
+
 
 .icon-container {
     position: absolute;

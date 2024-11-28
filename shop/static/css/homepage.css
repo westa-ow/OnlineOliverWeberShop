@@ -88,14 +88,14 @@
     height: 200px !important;
     margin-bottom: 20px;
 }
-.img-wrapper {
-    position: relative;
-    display: inline-block;
-    width: 200px !important; /* Match the image width */
-    height: 200px !important; /* Match the image height */
-    border-radius: 10px;
-    overflow: hidden;
-}
+/*.img-wrapper {*/
+/*    position: relative;*/
+/*    display: inline-block;*/
+/*    width: 200px !important; !* Match the image width *!*/
+/*    height: 200px !important; !* Match the image height *!*/
+/*    border-radius: 10px;*/
+/*    overflow: hidden;*/
+/*}*/
 
 
 html::-webkit-scrollbar{

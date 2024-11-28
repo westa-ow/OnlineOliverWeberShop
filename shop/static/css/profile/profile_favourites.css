@@ -143,14 +143,14 @@ article, aside, details, figcaption, figure, footer, header, main, menu, nav, se
 .info-price{
     font-size:16px
 }
-.img-wrapper {
-    position: relative;
-    display: inline-block;
-    width: 250px !important; /* Match the image width */
-    height: 250px !important; /* Match the image height */
-    border-radius: 10px;
-    overflow: hidden;
-}
+/*.img-wrapper {*/
+/*    position: relative;*/
+/*    display: inline-block;*/
+/*    width: 250px !important; !* Match the image width *!*/
+/*    height: 250px !important; !* Match the image height *!*/
+/*    border-radius: 10px;*/
+/*    overflow: hidden;*/
+/*}*/
 .icon-container {
     position: absolute;
     top: 60%; /* Adjust based on your design */

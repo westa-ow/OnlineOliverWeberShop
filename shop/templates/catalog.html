@@ -1268,8 +1268,8 @@ function displayCurrentPage(items) {
         imgWrapper.className = 'img-wrapper';
         const img = document.createElement('img');
         img.src = item.preview_image;
-        img.width = 115;
-        img.height = 115;
+        {#img.width = 115;#}
+        {#img.height = 115;#}
         img.style.borderRadius = '10px';
 
         const iconContainer = document.createElement('div');

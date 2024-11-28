@@ -1,3 +1,24 @@
+.img-wrapper {
+    position: relative;
+    display: flex; /* Flexbox для выравнивания */
+    justify-content: center; /* Центровка изображения по горизонтали */
+    align-items: center; /* Центровка изображения по вертикали */
+    /*width: 115px; !* Размер контейнера *!*/
+    /*height: 115px; !* Размер контейнера *!*/
+    border-radius: 10px; /* Скругленные углы */
+    overflow: hidden; /* Обрезка изображений, выходящих за пределы */
+    background-color: #f0f0f0; /* Фон для пустых частей */
+
+}
+.img-wrapper img{
+      width: 100%; /* Растягивает изображение по ширине контейнера */
+      height: 100%; /* Растягивает изображение по высоте контейнера */
+      object-fit: contain; /* Указывает, что изображение должно вписываться внутрь с сохранением пропорций */
+      margin: 0; /* Убирает лишние отступы */
+      vertical-align: middle; /* Устраняет влияние линий базового текста */
+      border-style: none; /* Убирает возможную границу */
+}
+
 .product-pages-container{
     display: flex;
     gap: 10px;
