@@ -407,8 +407,15 @@ text-align: center;
         align-items: center;
         margin-bottom: 5px;
     }
-}
 
+}
+@media only screen and (max-width: 462px)  {
+    .input-container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
