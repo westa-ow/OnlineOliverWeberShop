@@ -1193,7 +1193,7 @@ msgstr "Поиск в архиве"
 #: .\shop\templates\profile\profile_side_menu.html:62
 #: .\shop\templates\widgets\account_panel.html:74
 msgid "Support"
-msgstr "Поддерживать"
+msgstr "Поддержка"
 
 #: .\shop\templates\profile\profile_side_menu.html:67
 #: .\shop\templates\widgets\account_panel.html:80
