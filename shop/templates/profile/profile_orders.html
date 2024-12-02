@@ -88,38 +88,40 @@
 <section class="section-orders">
 <header class="page-header"><h1> {% trans "Order history" %}</h1> </header>
 <h6>{% trans "Here are the orders you've placed since your account was created" %}.</h6>
-    <table class="outer-table table table-striped table-bordered table-labeled hidden-sm-down" id="table-{{ user.email }}" style="border:1px solid" >
-        <thead>
-            <tr>
-                <th> {% trans "Order ID" %} </th>
-                <th> {% trans "Date" %} </th>
-                <th> {% trans "Total price" %} </th>
-                <th> {% trans "Shipping price" %} </th>
-                <th> {% trans "Payment" %} </th>
-                <th> {% trans "Status" %} </th>
-                <th>  </th>
-            </tr>
-        </thead>
-
-        <tbody>
-            {% for document in orders %}
-                <tr class="tr-outer" id="content-{{ document.order_id }}">
-                    <th class="td-outer">{{ document.order_id }}</th>
-                    <td class="td-outer">{{ document.date }}</td>
-                    <td class="td-outer">{{ document.currency|default:"€" }}{{ document.sum }}</td>
-                    <td class="td-outer">{{ document.currency|default:"€" }}{{ document.shippingPrice }}</td>
-                    <td class="td-outer">{{ document.payment_type }}</td>
-                    <td class="td-outer">{{ document.Status }}</td>
-                    <td class="td-outer">
-                        <div>
-                            <span> <a data-order-id="{{ document.order_id }}" class="show-content" id="show-button-{{ document.order_id }}">{% trans "Show Details" %}</a></span>
-                            <a style="transition: none" class="menus-link"><i data-order-id="{{ document.order_id }}" class="material-symbols-outlined i-menu-points" style="cursor: pointer">more_vert</i></a>
-                        </div>
-                    </td>
+    <div class="table-container">
+        <table class="outer-table table table-striped table-bordered table-labeled hidden-sm-down" id="table-{{ user.email }}" style="border:1px solid" >
+            <thead>
+                <tr>
+                    <th> {% trans "Order ID" %} </th>
+                    <th> {% trans "Date" %} </th>
+                    <th> {% trans "Total price" %} </th>
+                    <th> {% trans "Shipping price" %} </th>
+                    <th> {% trans "Payment" %} </th>
+                    <th> {% trans "Status" %} </th>
+                    <th>  </th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+
+            <tbody>
+                {% for document in orders %}
+                    <tr class="tr-outer" id="content-{{ document.order_id }}">
+                        <th class="td-outer">{{ document.order_id }}</th>
+                        <td class="td-outer">{{ document.date }}</td>
+                        <td class="td-outer">{{ document.currency|default:"€" }}{{ document.sum }}</td>
+                        <td class="td-outer">{{ document.currency|default:"€" }}{{ document.shippingPrice }}</td>
+                        <td class="td-outer">{{ document.payment_type }}</td>
+                        <td class="td-outer">{{ document.Status }}</td>
+                        <td class="td-outer">
+                            <div>
+                                <span> <a data-order-id="{{ document.order_id }}" class="show-content" id="show-button-{{ document.order_id }}">{% trans "Show Details" %}</a></span>
+                                <a style="transition: none" class="menus-link"><i data-order-id="{{ document.order_id }}" class="material-symbols-outlined i-menu-points" style="cursor: pointer">more_vert</i></a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 <div id="contextMenu" class="context-menu" style="display: none;">
     <ul>
         <li id="downloadCsv">{% trans "Download csv" %}</li>
