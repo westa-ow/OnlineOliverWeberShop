@@ -80,6 +80,8 @@ def edit_user(request, user_id):
                                                                                                               'show-quantities'] == "1" else False
             customer_type = "Customer" if 'is-b2b' not in new_user_data else "B2B" if new_user_data[
                                                                                                'is-b2b'] == "1" else "Customer"
+            can_b2b_pay = False if 'can-b2b' not in new_user_data else True if new_user_data[
+                                                                                          'is-b2b'] == "1" else False
 
             customer_currency = currency_dict[new_user_data['id_currency']]
             customer_group = groups_dict[new_user_data['id_group']]
@@ -101,7 +103,8 @@ def edit_user(request, user_id):
                         'sale': 0 if "sale" not in new_user_data else float(new_user_data['sale']),
                         'price_category': customer_group,
                         'show_quantities': show_quantities,
-                        'customer_type': customer_type
+                        'customer_type': customer_type,
+                        'b2b_can_pay': can_b2b_pay,
                     })
             return JsonResponse({'status': 'success', 'message': 'Address updated successfully.'})
         except Exception as e:

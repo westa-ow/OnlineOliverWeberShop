@@ -163,12 +163,32 @@
                         <span class="custom-checkbox" style="display: flex;flex-direction: row">
                         <div class="fl" style="display: flex; flex-direction: column; margin-right: 20px">
                             <label class="switch">
-                               <input name="is-b2b" type="checkbox" value="1"  {% if user_info.customer_type == "B2B" %}checked{% endif %}>
+                               <input name="is-b2b" id="is-b2b-id" type="checkbox" value="1"  {% if user_info.customer_type == "B2B" %}checked{% endif %}>
                                 <span class="slider round"></span>
                             </label>
                             <label id="label-is-b2b" style="text-align: center">{% if user_info.customer_type == "B2B" %} Yes{% else %} No{% endif %}</label>
                         </div>
                         <label>Is user a B2B customer<br>
+                                <em></em>
+                            </label>
+                        </span>
+                    </div>
+                    <div class="col-md-12 form-control-comment">
+
+                    </div>
+                </div>
+                <div class="form-group row" id="container-can-b2b-pay" style="display: none;">
+                    <div class="col-md-12">
+                        <label></label>
+                        <span class="custom-checkbox" style="display: flex;flex-direction: row">
+                        <div class="fl" style="display: flex; flex-direction: column; margin-right: 20px">
+                            <label class="switch">
+                               <input name="can-b2b" id="check-can-b2b-pay" type="checkbox" value="1" {% if user_info.b2b_can_pay %}checked{% endif %}>
+                                <span class="slider round"></span>
+                            </label>
+                            <label id="label-can-b2b" style="text-align: center">{% if user_info.b2b_can_pay %} Yes{% else %} No{% endif %}</label>
+                        </div>
+                        <label>Can a B2B customer pay with a card?<br>
                                 <em></em>
                             </label>
                         </span>
@@ -249,15 +269,34 @@
                 groupSelect.find('option[value="5"]').show(); // Dollar_GH
             }
         });
+        
+        $('#is-b2b-id').change(function() {
+            let isB2BChecked = $(this).is(':checked'); // Проверяем, выбрана ли галочка
 
+            // Показываем или скрываем блок can-b2b-pay на основе выбора
+            if (isB2BChecked) {
+                $('#container-can-b2b-pay').show(); // Показываем блок
+            } else {
+                $('#container-can-b2b-pay').hide(); // Скрываем блок
+                $('#check-can-b2b-pay').prop('checked', false); // Сбрасываем значение
+            }
+        });
+
+        let isB2BChecked = $('#is-b2b-id').is(':checked');
+            // Устанавливаем видимость блока на основе начального состояния
+        if (isB2BChecked) {
+            $('#container-can-b2b-pay').show(); // Показываем, если выбрано
+        } else {
+            $('#container-can-b2b-pay').hide(); // Скрываем, если не выбрано
+        }
         // Initially trigger the change event to apply the correct state
         $('#select-currency').change();
         setCurrentSelects();
     });
     document.addEventListener("DOMContentLoaded", function() {
-    // Select the button by its data-action attribute
-    const togglePasswordButtons = document.querySelectorAll('button[data-action="show-password"]');
-    // Listen for a click event on the button
+        // Select the button by its data-action attribute
+        const togglePasswordButtons = document.querySelectorAll('button[data-action="show-password"]');
+        // Listen for a click event on the button
         togglePasswordButtons.forEach(togglePasswordButton =>
             togglePasswordButton.addEventListener('click', function() {
                 // Select the password input
@@ -278,27 +317,27 @@
         setCurrentSelects();
     });
 
-     function setCurrentSelects(){
-         let currency = "{{user_info.currency}}";  // From your Django template
-         let group = "{{user_info.price_category}}";  // From your Django template
-         let selectCurr = document.getElementById('select-currency');
-         let selectGroup = document.getElementById('select-group');
-         for (let i = 0; i < selectCurr.length; i++) {
-             if (selectCurr.options[i].text === currency) {
-                 selectCurr.selectedIndex = i;
-                 break;
-             }
-         }
-         for (let j = 0; j < selectGroup.length; j++) {
-             if (selectGroup.options[j].text === group) {
-                 selectGroup.selectedIndex = j;
-                 break;
-             }
-         }
-         controlSelectedGroup(group);
-     }
+    function setCurrentSelects(){
+        let currency = "{{user_info.currency}}";  // From your Django template
+        let group = "{{user_info.price_category}}";  // From your Django template
+        let selectCurr = document.getElementById('select-currency');
+        let selectGroup = document.getElementById('select-group');
+        for (let i = 0; i < selectCurr.length; i++) {
+            if (selectCurr.options[i].text === currency) {
+                selectCurr.selectedIndex = i;
+                break;
+            }
+        }
+        for (let j = 0; j < selectGroup.length; j++) {
+            if (selectGroup.options[j].text === group) {
+                selectGroup.selectedIndex = j;
+                break;
+            }
+        }
+        controlSelectedGroup(group);
+    }
 
- document.getElementById('select-group').addEventListener('change',function (){
+document.getElementById('select-group').addEventListener('change',function (){
      console.log(this.value);
      let select_index = this.value;
      if(select_index ==="1"){
@@ -316,9 +355,9 @@
      if(select_index ==="5"){
          controlSelectedGroup("GH_USD");
      }
- });
+});
 
- function controlSelectedGroup(group){
+function controlSelectedGroup(group){
      const saleInput = document.getElementById('sale-input').parentElement.parentElement;
      if(group==="Default" || group==="Default_USD"){
          saleInput.style.display = "block";
@@ -326,9 +365,9 @@
      else{
          saleInput.style.display = "none";
      }
- }
+}
 
- document.getElementsByName('receive-partners-offers')[0].addEventListener('change', function(event) {
+document.getElementsByName('receive-partners-offers')[0].addEventListener('change', function(event) {
      if (event.target.checked) {
          document.getElementsByName('receive-partners-offers')[0].value = 1;
          document.getElementById('label-offers').textContent = "Yes";
@@ -337,7 +376,7 @@
          document.getElementsByName('receive-partners-offers')[0].value = 2;
          document.getElementById('label-offers').textContent = "No";
      }
- });
+});
 
 document.getElementsByName('enable-user')[0].addEventListener('change', function(event) {
     if (event.target.checked) {
@@ -369,7 +408,16 @@ document.getElementsByName('is-b2b')[0].addEventListener('change', function(even
         document.getElementById('label-is-b2b').textContent = "No";
     }
 });
-
+document.getElementsByName('can-b2b')[0].addEventListener('change', function(event) {
+    if (event.target.checked) {
+        document.getElementsByName('can-b2b')[0].value = 1;
+        document.getElementById('label-can-b2b').textContent = "Yes";
+    }
+    else{
+        document.getElementsByName('can-b2b')[0].value = 2;
+        document.getElementById('label-can-b2b').textContent = "No";
+    }
+});
 function isValidBirthday(birthday) {
     const regex = /^\d{4}-\d{2}-\d{2}$/;
     if (!birthday.match(regex)) return false; // Checks format
