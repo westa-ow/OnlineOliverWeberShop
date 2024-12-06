@@ -146,10 +146,10 @@
         <span class="close-btn" id="close-modal">&times;</span>
     </div>
     <div class="modal-body">
-        <p>Enter the amount you want to pay</p>
-        <p class="small-text">Maximum you can pay is <span id="order-price"></span></p>
-        <input type="text" id="amount-input" placeholder="Enter amount" step="0.01" />
-        <button id="pay-button" class="standart-blue-btn">Pay for order</button>
+        <p>{% trans "Enter the amount you want to pay" %}</p>
+        <p class="small-text">{% trans "Maximum you can pay is" %} <span id="order-price"></span></p>
+        <input type="text" id="amount-input" placeholder="{% trans "Enter amount" %}"  />
+        <button id="pay-button" class="standart-blue-btn">{% trans "Pay for order" %}</button>
     </div>
 </div>
 <script>
@@ -248,7 +248,7 @@ document.querySelectorAll('.i-menu-points').forEach(button => {
                 const amount = parseFloat(document.getElementById('amount-input').value.toString().replace(',', '.'));
                 console.log(amount);
                 if (isNaN(amount) || amount <= 0) {
-                    alert('Please enter a valid amount.');
+                    alert("{{ _("Please enter a valid amount.")|escapejs }}");
                     return;
                 }
                 // Вызов функции оплаты

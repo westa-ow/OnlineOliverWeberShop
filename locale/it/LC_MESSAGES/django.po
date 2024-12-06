@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-27 14:40+0100\n"
+"POT-Creation-Date: 2024-12-06 23:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\OnlineShop\settings.py:163
+#: .\OnlineShop\settings.py:164
 msgid "English"
 msgstr "Inglese"
 
-#: .\OnlineShop\settings.py:164
+#: .\OnlineShop\settings.py:165
 msgid "German"
 msgstr "tedesco"
 
-#: .\OnlineShop\settings.py:165
+#: .\OnlineShop\settings.py:166
 msgid "Italian"
 msgstr "Italiano"
 
-#: .\OnlineShop\settings.py:166
+#: .\OnlineShop\settings.py:167
 msgid "French"
 msgstr "francese"
 
-#: .\OnlineShop\settings.py:167
+#: .\OnlineShop\settings.py:168
 msgid "Spanish"
 msgstr "spagnolo"
 
-#: .\OnlineShop\settings.py:168
+#: .\OnlineShop\settings.py:169
 msgid "Russian"
 msgstr "russo"
 
@@ -238,7 +238,7 @@ msgstr "Contiene nel nome"
 
 #: .\shop\templates\catalog.html:193 .\shop\templates\catalog.html:315
 #: .\shop\templates\catalog.html:316
-#: .\shop\templates\profile\profile_orders.html:271
+#: .\shop\templates\profile\profile_orders.html:336
 msgid "Price"
 msgstr "Prezzo"
 
@@ -265,7 +265,7 @@ msgid "Order by"
 msgstr "Ordina per"
 
 #: .\shop\templates\catalog.html:313 .\shop\templates\catalog.html:314
-#: .\shop\templates\profile\profile_orders.html:268
+#: .\shop\templates\profile\profile_orders.html:333
 msgid "Name"
 msgstr "Nome"
 
@@ -1066,100 +1066,131 @@ msgstr "Gli articoli sono stati aggiunti con successo!"
 msgid "Errors occurred during file processing:"
 msgstr "Si sono verificati errori durante l'elaborazione del file:"
 
-#: .\shop\templates\profile\profile_orders.html:89
+#: .\shop\templates\profile\profile_orders.html:90
 msgid "Order history"
 msgstr "Cronologia degli ordini"
 
-#: .\shop\templates\profile\profile_orders.html:90
+#: .\shop\templates\profile\profile_orders.html:91
 msgid "Here are the orders you've placed since your account was created"
 msgstr ""
 "Ecco gli ordini che hai effettuato da quando è stato creato il tuo account"
 
-#: .\shop\templates\profile\profile_orders.html:94
+#: .\shop\templates\profile\profile_orders.html:96
 msgid "Order ID"
 msgstr "ID dell'ordine"
 
-#: .\shop\templates\profile\profile_orders.html:95
+#: .\shop\templates\profile\profile_orders.html:97
 #: .\shop\views_scripts\checkout_cart_views.py:336
 msgid "Date"
 msgstr "Data"
 
-#: .\shop\templates\profile\profile_orders.html:96
+#: .\shop\templates\profile\profile_orders.html:98
 msgid "Total price"
 msgstr "Prezzo totale"
 
-#: .\shop\templates\profile\profile_orders.html:97
+#: .\shop\templates\profile\profile_orders.html:99
 #: .\shop\views_scripts\checkout_cart_views.py:463
 msgid "Shipping price"
 msgstr "Prezzo di spedizione"
 
-#: .\shop\templates\profile\profile_orders.html:98
+#: .\shop\templates\profile\profile_orders.html:100
 msgid "Payment"
 msgstr "Pagamento"
 
-#: .\shop\templates\profile\profile_orders.html:99
+#: .\shop\templates\profile\profile_orders.html:101
 msgid "Status"
 msgstr "Stato"
 
-#: .\shop\templates\profile\profile_orders.html:115
+#: .\shop\templates\profile\profile_orders.html:117
 msgid "Show Details"
 msgstr "Mostra dettagli"
 
-#: .\shop\templates\profile\profile_orders.html:125
+#: .\shop\templates\profile\profile_orders.html:128
 msgid "Download csv"
 msgstr "Scarica CSV"
 
-#: .\shop\templates\profile\profile_orders.html:126
+#: .\shop\templates\profile\profile_orders.html:129
 msgid "Download pdf with images"
 msgstr "Scarica il pdf con le immagini"
 
-#: .\shop\templates\profile\profile_orders.html:127
+#: .\shop\templates\profile\profile_orders.html:130
 msgid "Download pdf without images"
 msgstr "Scarica pdf senza immagini"
 
 #: .\shop\templates\profile\profile_orders.html:132
+msgid "Pay for the order"
+msgstr "Paga l'ordine"
+
+#: .\shop\templates\profile\profile_orders.html:138
 msgid "File is downloading"
 msgstr "Il file è in fase di download"
 
-#: .\shop\templates\profile\profile_orders.html:133
+#: .\shop\templates\profile\profile_orders.html:139
 msgid "Don't close the page, please!"
 msgstr "Non chiudere la pagina, per favore!"
 
-#: .\shop\templates\profile\profile_orders.html:215
+#: .\shop\templates\profile\profile_orders.html:149
+msgid "Enter the amount you want to pay"
+msgstr "Inserisci l'importo che desideri pagare"
+
+#: .\shop\templates\profile\profile_orders.html:150
+msgid "Maximum you can pay is"
+msgstr "Il massimo che puoi pagare è"
+
+#: .\shop\templates\profile\profile_orders.html:151
+#| msgid "Customer account"
+msgid "Enter amount"
+msgstr "Inserisci l'importo"
+
+#: .\shop\templates\profile\profile_orders.html:152
+msgid "Pay for order"
+msgstr "Paga per l'ordine"
+
+#: .\shop\templates\profile\profile_orders.html:251
+#| msgid "Enter a valid date."
+msgid "Please enter a valid amount."
+msgstr "Inserisci un importo valido."
+
+#: .\shop\templates\profile\profile_orders.html:280
 msgid "Show details"
 msgstr "Mostra dettagli"
 
-#: .\shop\templates\profile\profile_orders.html:247
-#: .\shop\templates\profile\profile_orders.html:252
-#: .\shop\templates\profile\profile_orders.html:325
+#: .\shop\templates\profile\profile_orders.html:312
+#: .\shop\templates\profile\profile_orders.html:317
+#: .\shop\templates\profile\profile_orders.html:390
 msgid "Hide details"
 msgstr "Nascondi dettagli"
 
-#: .\shop\templates\profile\profile_orders.html:269
+#: .\shop\templates\profile\profile_orders.html:334
 #: .\venv\Lib\site-packages\django\db\models\fields\files.py:393
 msgid "Image"
 msgstr "Immagine"
 
-#: .\shop\templates\profile\profile_orders.html:270
+#: .\shop\templates\profile\profile_orders.html:335
 msgid "Description"
 msgstr "Descrizione"
 
-#: .\shop\templates\profile\profile_orders.html:272
+#: .\shop\templates\profile\profile_orders.html:337
 #: .\shop\templates\widgets\mini_cart.html:115 .\shop\views.py:455
 #: .\shop\views_scripts\checkout_cart_views.py:417
 #: .\shop\views_scripts\checkout_cart_views.py:419
 msgid "Quantity"
 msgstr "Quantità"
 
-#: .\shop\templates\profile\profile_orders.html:273
+#: .\shop\templates\profile\profile_orders.html:338
 msgid "Summary"
 msgstr "Riepilogo"
 
-#: .\shop\templates\profile\profile_orders.html:274
+#: .\shop\templates\profile\profile_orders.html:339
 #: .\shop\templates\shop_page.html:109 .\shop\templates\shop_page.html:115
 #: .\shop\views.py:443
 msgid "In stock"
 msgstr "In magazzino"
+
+#: .\shop\templates\profile\profile_orders.html:421
+#| msgid "Invalid data in row"
+msgid "Invalid amount"
+msgstr "Importo non valido"
 
 #: .\shop\templates\profile\profile_side_menu.html:15
 #: .\shop\templates\widgets\account_panel.html:27
@@ -4687,6 +4718,7 @@ msgstr ""
 "            Il tuo numero d'ordine"
 
 #: .\shop\views_scripts\checkout_cart_views.py:213
+#: .\shop\views_scripts\profile_orders_pay.py:130
 msgid ""
 "Thank you for choosing Oliver Weber. We look forward to seeing you again!\n"
 "\n"
@@ -4789,32 +4821,48 @@ msgstr "Spedizione VAT"
 msgid "TOTAL"
 msgstr "TOTALE"
 
-#: .\shop\views_scripts\profile_views.py:272
+#: .\shop\views_scripts\profile_orders_pay.py:126
+msgid ""
+"Dear Customer,\n"
+"\n"
+"            Your payment has been successfully processed.\n"
+"            Your Order Id"
+msgstr ""
+"Gentile Cliente,\n"
+"\n"
+"            Il tuo pagamento è stato elaborato con successo.\n"
+"            Il tuo ID ordine"
+
+#: .\shop\views_scripts\profile_orders_pay.py:136
+msgid "Your Payment Confirmation from Oliver Weber"
+msgstr "La tua conferma di pagamento da parte di Oliver Weber"
+
+#: .\shop\views_scripts\profile_views.py:275
 msgid "Invalid file format. Only .xlsx or .xls are allowed"
 msgstr "Formato file non valido. Sono consentiti solo i file .xlsx o .xls"
 
-#: .\shop\views_scripts\profile_views.py:284
-#: .\shop\views_scripts\profile_views.py:298
+#: .\shop\views_scripts\profile_views.py:287
+#: .\shop\views_scripts\profile_views.py:301
 msgid "Invalid data in row"
 msgstr "Dati non validi nella riga"
 
-#: .\shop\views_scripts\profile_views.py:301
+#: .\shop\views_scripts\profile_views.py:304
 msgid "Quantity can only be greater than 0)"
 msgstr "La quantità può essere solo maggiore di 0)"
 
-#: .\shop\views_scripts\profile_views.py:306
+#: .\shop\views_scripts\profile_views.py:309
 msgid "Product not found"
 msgstr "Prodotto non trovato"
 
-#: .\shop\views_scripts\profile_views.py:310
+#: .\shop\views_scripts\profile_views.py:313
 msgid "Requested quantity"
 msgstr "Quantità richiesta"
 
-#: .\shop\views_scripts\profile_views.py:310
+#: .\shop\views_scripts\profile_views.py:313
 msgid "is less than number of products in storage for product"
 msgstr "è inferiore al numero di prodotti in magazzino per prodotto"
 
-#: .\shop\views_scripts\profile_views.py:330
+#: .\shop\views_scripts\profile_views.py:333
 msgid "Error updating cart for product"
 msgstr "Errore durante l'aggiornamento del carrello per il prodotto"
 
@@ -7501,7 +7549,6 @@ msgstr ""
 
 #: .\venv\Lib\site-packages\git_filter_repo.py:2622
 #: .\venv\Lib\site-packages\git_filter_repo.py:2633
-#, fuzzy
 #| msgid "Extension"
 msgid "<no extension>"
 msgstr "<nessuna estensione>"
@@ -7621,7 +7668,6 @@ msgid "expected at most one entry in the reflog for %s"
 msgstr "prevista al massimo una voce nel reflog per %s"
 
 #: .\venv\Lib\site-packages\git_filter_repo.py:2988
-#, fuzzy
 #| msgid "Returns and exchanges"
 msgid "has stashed changes"
 msgstr "ha nascosto le modifiche"
@@ -7631,7 +7677,6 @@ msgid "you have uncommitted changes"
 msgstr "hai modifiche non confermate"
 
 #: .\venv\Lib\site-packages\git_filter_repo.py:2996
-#, fuzzy
 #| msgid "Returns and exchanges"
 msgid "you have unstaged changes"
 msgstr "hai modifiche non graduali"
@@ -7690,7 +7735,6 @@ msgstr "git update-ref non riuscito; vedere sopra"
 
 #: .\venv\Lib\site-packages\git_filter_repo.py:3834
 #: .\venv\Lib\site-packages\git_filter_repo.py:3844
-#, fuzzy
 #| msgid "Gold"
 msgid "old"
 msgstr "vecchio"

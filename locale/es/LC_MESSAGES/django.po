@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-27 14:40+0100\n"
+"POT-Creation-Date: 2024-12-06 23:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\OnlineShop\settings.py:163
+#: .\OnlineShop\settings.py:164
 msgid "English"
 msgstr "Inglés"
 
-#: .\OnlineShop\settings.py:164
+#: .\OnlineShop\settings.py:165
 msgid "German"
 msgstr "Alemán"
 
-#: .\OnlineShop\settings.py:165
+#: .\OnlineShop\settings.py:166
 msgid "Italian"
 msgstr "italiano"
 
-#: .\OnlineShop\settings.py:166
+#: .\OnlineShop\settings.py:167
 msgid "French"
 msgstr "Francés"
 
-#: .\OnlineShop\settings.py:167
+#: .\OnlineShop\settings.py:168
 msgid "Spanish"
 msgstr "Español"
 
-#: .\OnlineShop\settings.py:168
+#: .\OnlineShop\settings.py:169
 msgid "Russian"
 msgstr "ruso"
 
@@ -238,7 +238,7 @@ msgstr "Contiene en el nombre"
 
 #: .\shop\templates\catalog.html:193 .\shop\templates\catalog.html:315
 #: .\shop\templates\catalog.html:316
-#: .\shop\templates\profile\profile_orders.html:271
+#: .\shop\templates\profile\profile_orders.html:336
 msgid "Price"
 msgstr "Precio"
 
@@ -265,7 +265,7 @@ msgid "Order by"
 msgstr "Ordenar por"
 
 #: .\shop\templates\catalog.html:313 .\shop\templates\catalog.html:314
-#: .\shop\templates\profile\profile_orders.html:268
+#: .\shop\templates\profile\profile_orders.html:333
 msgid "Name"
 msgstr "Nombre"
 
@@ -1067,99 +1067,130 @@ msgstr "¡Los artículos se agregaron exitosamente!"
 msgid "Errors occurred during file processing:"
 msgstr "Se produjeron errores durante el procesamiento del archivo:"
 
-#: .\shop\templates\profile\profile_orders.html:89
+#: .\shop\templates\profile\profile_orders.html:90
 msgid "Order history"
 msgstr "Historial de pedidos"
 
-#: .\shop\templates\profile\profile_orders.html:90
+#: .\shop\templates\profile\profile_orders.html:91
 msgid "Here are the orders you've placed since your account was created"
 msgstr "Estos son los pedidos que ha realizado desde que se creó su cuenta"
 
-#: .\shop\templates\profile\profile_orders.html:94
+#: .\shop\templates\profile\profile_orders.html:96
 msgid "Order ID"
 msgstr "ID de pedido"
 
-#: .\shop\templates\profile\profile_orders.html:95
+#: .\shop\templates\profile\profile_orders.html:97
 #: .\shop\views_scripts\checkout_cart_views.py:336
 msgid "Date"
 msgstr "Fecha"
 
-#: .\shop\templates\profile\profile_orders.html:96
+#: .\shop\templates\profile\profile_orders.html:98
 msgid "Total price"
 msgstr "Precio total"
 
-#: .\shop\templates\profile\profile_orders.html:97
+#: .\shop\templates\profile\profile_orders.html:99
 #: .\shop\views_scripts\checkout_cart_views.py:463
 msgid "Shipping price"
 msgstr "Precio de envío"
 
-#: .\shop\templates\profile\profile_orders.html:98
+#: .\shop\templates\profile\profile_orders.html:100
 msgid "Payment"
 msgstr "Pago"
 
-#: .\shop\templates\profile\profile_orders.html:99
+#: .\shop\templates\profile\profile_orders.html:101
 msgid "Status"
 msgstr "Estado"
 
-#: .\shop\templates\profile\profile_orders.html:115
+#: .\shop\templates\profile\profile_orders.html:117
 msgid "Show Details"
 msgstr "Mostrar detalles"
 
-#: .\shop\templates\profile\profile_orders.html:125
+#: .\shop\templates\profile\profile_orders.html:128
 msgid "Download csv"
 msgstr "Descargar archivo csv"
 
-#: .\shop\templates\profile\profile_orders.html:126
+#: .\shop\templates\profile\profile_orders.html:129
 msgid "Download pdf with images"
 msgstr "Descargar pdf con imágenes"
 
-#: .\shop\templates\profile\profile_orders.html:127
+#: .\shop\templates\profile\profile_orders.html:130
 msgid "Download pdf without images"
 msgstr "Descargar pdf sin imagenes"
 
 #: .\shop\templates\profile\profile_orders.html:132
+msgid "Pay for the order"
+msgstr "pagar el pedido"
+
+#: .\shop\templates\profile\profile_orders.html:138
 msgid "File is downloading"
 msgstr "El archivo se está descargando"
 
-#: .\shop\templates\profile\profile_orders.html:133
+#: .\shop\templates\profile\profile_orders.html:139
 msgid "Don't close the page, please!"
 msgstr "¡No cierres la página, por favor!"
 
-#: .\shop\templates\profile\profile_orders.html:215
+#: .\shop\templates\profile\profile_orders.html:149
+msgid "Enter the amount you want to pay"
+msgstr "Ingresa el monto que deseas pagar"
+
+#: .\shop\templates\profile\profile_orders.html:150
+msgid "Maximum you can pay is"
+msgstr "Lo máximo que puedes pagar es"
+
+#: .\shop\templates\profile\profile_orders.html:151
+#| msgid "Customer account"
+msgid "Enter amount"
+msgstr "Ingrese la cantidad"
+
+#: .\shop\templates\profile\profile_orders.html:152
+msgid "Pay for order"
+msgstr "pagar el pedido"
+
+#: .\shop\templates\profile\profile_orders.html:251
+#| msgid "Enter a valid date."
+msgid "Please enter a valid amount."
+msgstr "Por favor ingrese una cantidad válida."
+
+#: .\shop\templates\profile\profile_orders.html:280
 msgid "Show details"
 msgstr "Mostrar detalles"
 
-#: .\shop\templates\profile\profile_orders.html:247
-#: .\shop\templates\profile\profile_orders.html:252
-#: .\shop\templates\profile\profile_orders.html:325
+#: .\shop\templates\profile\profile_orders.html:312
+#: .\shop\templates\profile\profile_orders.html:317
+#: .\shop\templates\profile\profile_orders.html:390
 msgid "Hide details"
 msgstr "Ocultar detalles"
 
-#: .\shop\templates\profile\profile_orders.html:269
+#: .\shop\templates\profile\profile_orders.html:334
 #: .\venv\Lib\site-packages\django\db\models\fields\files.py:393
 msgid "Image"
 msgstr "Imagen"
 
-#: .\shop\templates\profile\profile_orders.html:270
+#: .\shop\templates\profile\profile_orders.html:335
 msgid "Description"
 msgstr "Descripción"
 
-#: .\shop\templates\profile\profile_orders.html:272
+#: .\shop\templates\profile\profile_orders.html:337
 #: .\shop\templates\widgets\mini_cart.html:115 .\shop\views.py:455
 #: .\shop\views_scripts\checkout_cart_views.py:417
 #: .\shop\views_scripts\checkout_cart_views.py:419
 msgid "Quantity"
 msgstr "Cantidad"
 
-#: .\shop\templates\profile\profile_orders.html:273
+#: .\shop\templates\profile\profile_orders.html:338
 msgid "Summary"
 msgstr "Resumen"
 
-#: .\shop\templates\profile\profile_orders.html:274
+#: .\shop\templates\profile\profile_orders.html:339
 #: .\shop\templates\shop_page.html:109 .\shop\templates\shop_page.html:115
 #: .\shop\views.py:443
 msgid "In stock"
 msgstr "En stock"
+
+#: .\shop\templates\profile\profile_orders.html:421
+#| msgid "Invalid data in row"
+msgid "Invalid amount"
+msgstr "Cantidad no válida"
 
 #: .\shop\templates\profile\profile_side_menu.html:15
 #: .\shop\templates\widgets\account_panel.html:27
@@ -4692,6 +4723,7 @@ msgstr ""
 "            Número de pedido"
 
 #: .\shop\views_scripts\checkout_cart_views.py:213
+#: .\shop\views_scripts\profile_orders_pay.py:130
 msgid ""
 "Thank you for choosing Oliver Weber. We look forward to seeing you again!\n"
 "\n"
@@ -4794,32 +4826,48 @@ msgstr "Envío VAT"
 msgid "TOTAL"
 msgstr "TOTAL"
 
-#: .\shop\views_scripts\profile_views.py:272
+#: .\shop\views_scripts\profile_orders_pay.py:126
+msgid ""
+"Dear Customer,\n"
+"\n"
+"            Your payment has been successfully processed.\n"
+"            Your Order Id"
+msgstr ""
+"Estimado cliente,\n"
+"\n"
+"            Su pago ha sido procesado exitosamente.\n"
+"            Su número de pedido"
+
+#: .\shop\views_scripts\profile_orders_pay.py:136
+msgid "Your Payment Confirmation from Oliver Weber"
+msgstr "Su confirmación de pago de Oliver Weber"
+
+#: .\shop\views_scripts\profile_views.py:275
 msgid "Invalid file format. Only .xlsx or .xls are allowed"
 msgstr "Formato de archivo no válido. Sólo se permiten .xlsx o .xls"
 
-#: .\shop\views_scripts\profile_views.py:284
-#: .\shop\views_scripts\profile_views.py:298
+#: .\shop\views_scripts\profile_views.py:287
+#: .\shop\views_scripts\profile_views.py:301
 msgid "Invalid data in row"
 msgstr "Datos no válidos en la fila"
 
-#: .\shop\views_scripts\profile_views.py:301
+#: .\shop\views_scripts\profile_views.py:304
 msgid "Quantity can only be greater than 0)"
 msgstr "La cantidad sólo puede ser mayor que 0)"
 
-#: .\shop\views_scripts\profile_views.py:306
+#: .\shop\views_scripts\profile_views.py:309
 msgid "Product not found"
 msgstr "Producto no encontrado"
 
-#: .\shop\views_scripts\profile_views.py:310
+#: .\shop\views_scripts\profile_views.py:313
 msgid "Requested quantity"
 msgstr "Cantidad solicitada"
 
-#: .\shop\views_scripts\profile_views.py:310
+#: .\shop\views_scripts\profile_views.py:313
 msgid "is less than number of products in storage for product"
 msgstr "es menor que el número de productos almacenados para el producto"
 
-#: .\shop\views_scripts\profile_views.py:330
+#: .\shop\views_scripts\profile_views.py:333
 msgid "Error updating cart for product"
 msgstr "Error al actualizar el carrito del producto"
 
@@ -5598,7 +5646,6 @@ msgid ":?.!"
 msgstr ":?.!"
 
 #: .\venv\Lib\site-packages\django\forms\fields.py:95
-#, fuzzy
 #| msgid "First name is required"
 msgid "This field is required."
 msgstr "Este campo es obligatorio."
@@ -5783,7 +5830,6 @@ msgid "Clear"
 msgstr "Claro"
 
 #: .\venv\Lib\site-packages\django\forms\widgets.py:458
-#, fuzzy
 #| msgid "Current page"
 msgid "Currently"
 msgstr "Actualmente"
@@ -5915,7 +5961,6 @@ msgid "Fri"
 msgstr "Vie"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:21
-#, fuzzy
 #| msgid "Status"
 msgid "Sat"
 msgstr "Se sentó"
@@ -5933,7 +5978,6 @@ msgid "February"
 msgstr "Febrero"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:27
-#, fuzzy
 #| msgid "Search"
 msgid "March"
 msgstr "Marzo"
@@ -5975,7 +6019,6 @@ msgid "December"
 msgstr "Diciembre"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:39
-#, fuzzy
 #| msgid "and"
 msgid "jan"
 msgstr "ene"
@@ -5985,7 +6028,6 @@ msgid "feb"
 msgstr "feb"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:41
-#, fuzzy
 #| msgid "Summary"
 msgid "mar"
 msgstr "mar"
@@ -5995,7 +6037,6 @@ msgid "apr"
 msgstr "abr"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:43
-#, fuzzy
 #| msgid "Company"
 msgid "may"
 msgstr "puede"
@@ -6039,7 +6080,6 @@ msgid "Feb."
 msgstr "Feb."
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:55
-#, fuzzy
 #| msgid "Search"
 msgctxt "abbrev. month"
 msgid "March"
@@ -6101,7 +6141,6 @@ msgid "February"
 msgstr "Febrero"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:69
-#, fuzzy
 #| msgid "Search"
 msgctxt "alt. month"
 msgid "March"

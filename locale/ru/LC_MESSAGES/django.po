@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-27 14:40+0100\n"
+"POT-Creation-Date: 2024-12-06 23:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,27 +17,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: .\OnlineShop\settings.py:163
+#: .\OnlineShop\settings.py:164
 msgid "English"
 msgstr "Английский"
 
-#: .\OnlineShop\settings.py:164
+#: .\OnlineShop\settings.py:165
 msgid "German"
 msgstr "немецкий"
 
-#: .\OnlineShop\settings.py:165
+#: .\OnlineShop\settings.py:166
 msgid "Italian"
 msgstr "итальянский"
 
-#: .\OnlineShop\settings.py:166
+#: .\OnlineShop\settings.py:167
 msgid "French"
 msgstr "Французский"
 
-#: .\OnlineShop\settings.py:167
+#: .\OnlineShop\settings.py:168
 msgid "Spanish"
 msgstr "испанский"
 
-#: .\OnlineShop\settings.py:168
+#: .\OnlineShop\settings.py:169
 msgid "Russian"
 msgstr "Русский"
 
@@ -237,7 +237,7 @@ msgstr "Содержится в названии"
 
 #: .\shop\templates\catalog.html:193 .\shop\templates\catalog.html:315
 #: .\shop\templates\catalog.html:316
-#: .\shop\templates\profile\profile_orders.html:271
+#: .\shop\templates\profile\profile_orders.html:336
 msgid "Price"
 msgstr "Цена"
 
@@ -264,7 +264,7 @@ msgid "Order by"
 msgstr "Отсортировать по"
 
 #: .\shop\templates\catalog.html:313 .\shop\templates\catalog.html:314
-#: .\shop\templates\profile\profile_orders.html:268
+#: .\shop\templates\profile\profile_orders.html:333
 msgid "Name"
 msgstr "Название"
 
@@ -1067,100 +1067,131 @@ msgstr "Товары успешно добавлены!"
 msgid "Errors occurred during file processing:"
 msgstr "При обработке файла возникли ошибки:"
 
-#: .\shop\templates\profile\profile_orders.html:89
+#: .\shop\templates\profile\profile_orders.html:90
 msgid "Order history"
 msgstr "История заказов"
 
-#: .\shop\templates\profile\profile_orders.html:90
+#: .\shop\templates\profile\profile_orders.html:91
 msgid "Here are the orders you've placed since your account was created"
 msgstr ""
 "Вот заказы, которые вы разместили с момента создания вашей учетной записи."
 
-#: .\shop\templates\profile\profile_orders.html:94
+#: .\shop\templates\profile\profile_orders.html:96
 msgid "Order ID"
 msgstr "Идентификатор заказа"
 
-#: .\shop\templates\profile\profile_orders.html:95
+#: .\shop\templates\profile\profile_orders.html:97
 #: .\shop\views_scripts\checkout_cart_views.py:336
 msgid "Date"
 msgstr "Дата"
 
-#: .\shop\templates\profile\profile_orders.html:96
+#: .\shop\templates\profile\profile_orders.html:98
 msgid "Total price"
 msgstr "Общая стоимость"
 
-#: .\shop\templates\profile\profile_orders.html:97
+#: .\shop\templates\profile\profile_orders.html:99
 #: .\shop\views_scripts\checkout_cart_views.py:463
 msgid "Shipping price"
 msgstr "Цена доставки"
 
-#: .\shop\templates\profile\profile_orders.html:98
+#: .\shop\templates\profile\profile_orders.html:100
 msgid "Payment"
 msgstr "Оплата"
 
-#: .\shop\templates\profile\profile_orders.html:99
+#: .\shop\templates\profile\profile_orders.html:101
 msgid "Status"
 msgstr "Статус"
 
-#: .\shop\templates\profile\profile_orders.html:115
+#: .\shop\templates\profile\profile_orders.html:117
 msgid "Show Details"
 msgstr "Показать детали"
 
-#: .\shop\templates\profile\profile_orders.html:125
+#: .\shop\templates\profile\profile_orders.html:128
 msgid "Download csv"
 msgstr "Скачать CSV"
 
-#: .\shop\templates\profile\profile_orders.html:126
+#: .\shop\templates\profile\profile_orders.html:129
 msgid "Download pdf with images"
 msgstr "Скачать pdf с изображениями"
 
-#: .\shop\templates\profile\profile_orders.html:127
+#: .\shop\templates\profile\profile_orders.html:130
 msgid "Download pdf without images"
 msgstr "Скачать PDF без изображений"
 
 #: .\shop\templates\profile\profile_orders.html:132
+msgid "Pay for the order"
+msgstr "Оплатить заказ"
+
+#: .\shop\templates\profile\profile_orders.html:138
 msgid "File is downloading"
 msgstr "Файл загружается"
 
-#: .\shop\templates\profile\profile_orders.html:133
+#: .\shop\templates\profile\profile_orders.html:139
 msgid "Don't close the page, please!"
 msgstr "Не закрывайте страницу, пожалуйста!"
 
-#: .\shop\templates\profile\profile_orders.html:215
+#: .\shop\templates\profile\profile_orders.html:149
+msgid "Enter the amount you want to pay"
+msgstr "Введите сумму, которую вы хотите заплатить"
+
+#: .\shop\templates\profile\profile_orders.html:150
+msgid "Maximum you can pay is"
+msgstr "Максимум, что вы можете заплатить, это"
+
+#: .\shop\templates\profile\profile_orders.html:151
+#| msgid "Customer account"
+msgid "Enter amount"
+msgstr "Введите сумму"
+
+#: .\shop\templates\profile\profile_orders.html:152
+msgid "Pay for order"
+msgstr "Оплатить заказ"
+
+#: .\shop\templates\profile\profile_orders.html:251
+#| msgid "Enter a valid date."
+msgid "Please enter a valid amount."
+msgstr "Пожалуйста, введите действительную сумму."
+
+#: .\shop\templates\profile\profile_orders.html:280
 msgid "Show details"
 msgstr "Показать детали"
 
-#: .\shop\templates\profile\profile_orders.html:247
-#: .\shop\templates\profile\profile_orders.html:252
-#: .\shop\templates\profile\profile_orders.html:325
+#: .\shop\templates\profile\profile_orders.html:312
+#: .\shop\templates\profile\profile_orders.html:317
+#: .\shop\templates\profile\profile_orders.html:390
 msgid "Hide details"
 msgstr "Скрыть детали"
 
-#: .\shop\templates\profile\profile_orders.html:269
+#: .\shop\templates\profile\profile_orders.html:334
 #: .\venv\Lib\site-packages\django\db\models\fields\files.py:393
 msgid "Image"
 msgstr "Изображение"
 
-#: .\shop\templates\profile\profile_orders.html:270
+#: .\shop\templates\profile\profile_orders.html:335
 msgid "Description"
 msgstr "Описание"
 
-#: .\shop\templates\profile\profile_orders.html:272
+#: .\shop\templates\profile\profile_orders.html:337
 #: .\shop\templates\widgets\mini_cart.html:115 .\shop\views.py:455
 #: .\shop\views_scripts\checkout_cart_views.py:417
 #: .\shop\views_scripts\checkout_cart_views.py:419
 msgid "Quantity"
 msgstr "Количество"
 
-#: .\shop\templates\profile\profile_orders.html:273
+#: .\shop\templates\profile\profile_orders.html:338
 msgid "Summary"
 msgstr "Краткое содержание"
 
-#: .\shop\templates\profile\profile_orders.html:274
+#: .\shop\templates\profile\profile_orders.html:339
 #: .\shop\templates\shop_page.html:109 .\shop\templates\shop_page.html:115
 #: .\shop\views.py:443
 msgid "In stock"
 msgstr "В наличии"
+
+#: .\shop\templates\profile\profile_orders.html:421
+#| msgid "Invalid data in row"
+msgid "Invalid amount"
+msgstr "Неверная сумма"
 
 #: .\shop\templates\profile\profile_side_menu.html:15
 #: .\shop\templates\widgets\account_panel.html:27
@@ -4638,6 +4669,7 @@ msgstr ""
 "            Номер вашего заказа"
 
 #: .\shop\views_scripts\checkout_cart_views.py:213
+#: .\shop\views_scripts\profile_orders_pay.py:130
 msgid ""
 "Thank you for choosing Oliver Weber. We look forward to seeing you again!\n"
 "\n"
@@ -4740,32 +4772,48 @@ msgstr "VAT доставки"
 msgid "TOTAL"
 msgstr "ВСЕГО"
 
-#: .\shop\views_scripts\profile_views.py:272
+#: .\shop\views_scripts\profile_orders_pay.py:126
+msgid ""
+"Dear Customer,\n"
+"\n"
+"            Your payment has been successfully processed.\n"
+"            Your Order Id"
+msgstr ""
+"Уважаемый клиент,\n"
+"\n"
+"            Ваш платеж успешно обработан.\n"
+"            Ваш идентификатор заказа"
+
+#: .\shop\views_scripts\profile_orders_pay.py:136
+msgid "Your Payment Confirmation from Oliver Weber"
+msgstr "Подтверждение вашего платежа от Оливера Вебера"
+
+#: .\shop\views_scripts\profile_views.py:275
 msgid "Invalid file format. Only .xlsx or .xls are allowed"
 msgstr "Неверный формат файла. Разрешены только .xlsx или .xls."
 
-#: .\shop\views_scripts\profile_views.py:284
-#: .\shop\views_scripts\profile_views.py:298
+#: .\shop\views_scripts\profile_views.py:287
+#: .\shop\views_scripts\profile_views.py:301
 msgid "Invalid data in row"
 msgstr "Неверные данные в строке"
 
-#: .\shop\views_scripts\profile_views.py:301
+#: .\shop\views_scripts\profile_views.py:304
 msgid "Quantity can only be greater than 0)"
 msgstr "Количество может быть только больше 0)"
 
-#: .\shop\views_scripts\profile_views.py:306
+#: .\shop\views_scripts\profile_views.py:309
 msgid "Product not found"
 msgstr "Товар не найден"
 
-#: .\shop\views_scripts\profile_views.py:310
+#: .\shop\views_scripts\profile_views.py:313
 msgid "Requested quantity"
 msgstr "Запрошенное количество"
 
-#: .\shop\views_scripts\profile_views.py:310
+#: .\shop\views_scripts\profile_views.py:313
 msgid "is less than number of products in storage for product"
 msgstr "меньше количества продуктов на складе для продукта"
 
-#: .\shop\views_scripts\profile_views.py:330
+#: .\shop\views_scripts\profile_views.py:333
 msgid "Error updating cart for product"
 msgstr "Ошибка обновления корзины для товара."
 
