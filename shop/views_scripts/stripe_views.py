@@ -16,6 +16,7 @@ from OnlineShop import settings
 from shop.views import addresses_ref, country_dict, users_ref, get_user_category, get_user_prices, \
     get_user_session_type, get_cart, orders_ref, single_order_ref, delete_user_coupons
 from shop.views_scripts.checkout_cart_views import clear_all_cart, email_process, get_check_id
+from shop.views_scripts.profile_orders_pay import stripe_partial_checkout
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -58,8 +59,9 @@ def create_checkout_session(request):
             order_id = random.randint(1000000, 100000000)
             cart = get_cart(email)
             full_price = round(sum(float(item["sum"]) for item in cart), 2)
+            paid_sum = 0 + full_price
             full_price += shipping
-            metadata = {"Id": order_id, "email": email, "full_name": request.user.first_name + " " + request.user.last_name, "vat": data.get('vat', 0), "shippingPrice": shipping, "shippingAddress": shippingAddress, 'billingAddress': billingAddress, 'lang_code': language_code}
+            metadata = {"payment_type": "Stripe", "paid_sum": paid_sum, "Id": order_id, "email": email, "full_name": request.user.first_name + " " + request.user.last_name, "vat": data.get('vat', 0), "shippingPrice": shipping, "shippingAddress": shippingAddress, 'billingAddress': billingAddress, 'lang_code': language_code}
 
             checkout_session = stripe.checkout.Session.create(
                 success_url=domain_url + 'success/',
@@ -197,7 +199,10 @@ def stripe_webhook(request):
 
         if order_id:
             # Update the 'Status' field to 'Paid'
-            stripe_checkout(metadata.get('email'), metadata.get('full_name'), order_id, metadata.get('vat'), metadata.get('shippingPrice'), metadata.get('shippingAddress'), metadata.get('billingAddress'), "STRIPE", metadata.get("lang_code", "gb"))
+            if metadata.get('payment_type') == "Stripe":
+                stripe_checkout(metadata.get('email'), metadata.get('full_name'), order_id, metadata.get('vat'), metadata.get('shippingPrice'), metadata.get('shippingAddress'), metadata.get('billingAddress'), "STRIPE", metadata.get("lang_code", "gb"))
+            elif metadata.get('payment_type') == "PARTIALLY PAID":
+                stripe_partial_checkout(metadata.get('email'), metadata.get('paid_sum'), metadata.get('full_name'), order_id, metadata.get('shippingAddress'), metadata.get('billingAddress'), "PARTIALLY STRIPE", metadata.get("lang_code", "gb"))
             # doc.update({"Status": "Paid"})
             print(f"Order {order_id} has been marked as paid.")
 

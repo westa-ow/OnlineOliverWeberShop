@@ -57,7 +57,7 @@ def profile(request, feature_name):
     context['userId'] = info['userId']
     context['username'] = info['first_name'] + " " + info['last_name']
     context['show_quantities'] = show_quantities
-
+    context['STRIPE_PUBLISHABLE_KEY'] = settings.STRIPE_PUBLISHABLE_KEY
 
     return render(request, 'profile.html', context=context)
 
@@ -79,6 +79,9 @@ def get_orders_for_user(email):
             'shippingPrice': order_info.get('shippingPrice', 0),
             'currency': "€" if order_info.get('currency') == "Euro" else "$",
             'payment_type': order_info.get('payment_type', "BANK TRANSFER"),
+            'paid_sum': order_info.get('paid_sum', 0),
+            'shippingAddressId': order_info.get('shippingAddressId', ""),
+            'billingAddressId': order_info.get('billingAddressId', ""),
         })
     orders.sort(key=lambda x: x['date'], reverse=True)
     return orders

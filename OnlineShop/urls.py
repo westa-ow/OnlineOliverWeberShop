@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 
 from shop import views
+from shop.views_scripts.profile_orders_pay import create_partial_checkout_session
 from shop.views_scripts.router_viewsets import PromoCodeViewSet
 from shop.views_scripts import profile_views, paypal_views
 from shop.views_scripts.adresses_views import update_address, delete_address, create_address
@@ -125,6 +126,8 @@ urlpatterns = i18n_patterns(
     path('success/', SuccessView.as_view(), name='success'),  # Страница успеха
     path('cancelled/', CancelledView.as_view(), name='cancelled'),  # Страница отмены
     path('webhook/', stripe_webhook, name='stripe_webhook'),
+
+    path('create-partial-checkout-session/', create_partial_checkout_session, name='create_partial_checkout_session'),  # Создание сессии оплаты
 
 
     #PAYPAL

@@ -25,6 +25,16 @@ def customer_type(request):
     return {'customer_type': type}
 
 
+def b2b_can_pay(request):
+    can_b2b_pay = False
+    if request.user.is_authenticated:
+        user_info = get_user_info(request.user.email)
+        if user_info and 'customer_type' in user_info:
+            if user_info['customer_type'] == 'B2B':
+                can_b2b_pay = user_info['b2b_can_pay'] if 'b2b_can_pay' in user_info else False
+    return {'b2b_can_pay': can_b2b_pay}
+
+
 def shop_page_url(request):
     """
     Контекстный процессор для добавления полного URL для shop_page.

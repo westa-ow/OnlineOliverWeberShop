@@ -110,6 +110,7 @@ TEMPLATES = [
                 'shop.context_processor.user_is_special',
                 'shop.context_processor.customer_type',
                 'shop.context_processor.shop_page_url',
+                'shop.context_processor.b2b_can_pay',
             ],
         },
     },

@@ -3,6 +3,7 @@
 
 <link rel="stylesheet" href="{% static 'css/profile/profile_orders.css' %}">
 <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Symbols+Outlined" rel="stylesheet">
+<script src="https://js.stripe.com/v3/"></script>  <!-- new -->
 <style>
 #wait-please-dialog {
     border: 1px solid #f2f2f2; /* Light grey border */
@@ -109,7 +110,7 @@
                         <td class="td-outer">{{ document.date }}</td>
                         <td class="td-outer">{{ document.currency|default:"€" }}{{ document.sum }}</td>
                         <td class="td-outer">{{ document.currency|default:"€" }}{{ document.shippingPrice }}</td>
-                        <td class="td-outer">{{ document.payment_type }}</td>
+                        <td class="td-outer">{{ document.payment_type }} {% if document.payment_type == "BANK TRANSFER" and document.paid_sum > 0 and b2b_can_pay %} <br><br> Paid {{ document.currency }}{{ document.paid_sum }}/{{ document.currency }}{{ document.sum }} {% endif %} </td>
                         <td class="td-outer">{{ document.Status }}</td>
                         <td class="td-outer">
                             <div>
@@ -127,6 +128,9 @@
         <li id="downloadCsv">{% trans "Download csv" %}</li>
         <li id="downloadPdfWImg">{% trans "Download pdf with images" %}</li>
         <li id="downloadPdfWithoutImg">{% trans "Download pdf without images" %}</li>
+        {% if b2b_can_pay %}
+            <li id="payForOrder">{% trans "Pay for the order" %}</li>
+        {% endif %}
     </ul>
 </div>
 </section>
@@ -135,19 +139,33 @@
     <h3>{% trans "Don't close the page, please!" %}</h3>
     <button id="closeDialog">Ok</button>
 </dialog>
+
+<div id="custom-modal-overlay" style="display: none;"></div>
+<div id="custom-modal" style="display: none;">
+    <div class="modal-header">
+        <span class="close-btn" id="close-modal">&times;</span>
+    </div>
+    <div class="modal-body">
+        <p>Enter the amount you want to pay</p>
+        <p class="small-text">Maximum you can pay is <span id="order-price"></span></p>
+        <input type="text" id="amount-input" placeholder="Enter amount" step="0.01" />
+        <button id="pay-button" class="standart-blue-btn">Pay for order</button>
+    </div>
+</div>
 <script>
 
 let products = [];
+let orders = {{ orders|safe }};
 let currencies =  {{ currencies|safe }};
 document.addEventListener("DOMContentLoaded", function() {
-    var product = "{{ products|safe }}";
+    let product = "{{ products|safe }}";
     product = product.replaceAll("True", "true").replaceAll("False", "false");
     product = product.replaceAll("'", '"');
     product = product.replace(/(\w+)(?=: )/g, '"$1"');  // Enclose keys in double quotes
     product = product.replace(/,(\s*})/g, '$1');
-    console.log(product);
+    console.log(orders);
     products = JSON.parse(product);
-    console.log(products)
+    console.log(products);
 });
 
 document.querySelectorAll('.i-menu-points').forEach(button => {
@@ -158,6 +176,14 @@ document.querySelectorAll('.i-menu-points').forEach(button => {
         contextMenu.style.left = `${event.pageX - 100}px`;
         contextMenu.style.top = `${event.pageY}px`;
         let orderId = button.getAttribute('data-order-id');
+        let current_order = orders.filter(item => item.order_id === parseInt(orderId))[0];
+
+        if (current_order.payment_type === 'BANK TRANSFER' && current_order.paid_sum !== current_order.sum ){
+            document.getElementById('payForOrder').style.display = 'block';
+        } else {
+            document.getElementById('payForOrder').style.display = 'none';
+        }
+
         // Function to hide the context menu
         function hideContextMenu() {
             contextMenu.style.display = 'none';
@@ -172,9 +198,9 @@ document.querySelectorAll('.i-menu-points').forEach(button => {
             window.location.href = `/admin_tools/orders_control/download_csv/${orderId}/`;
         };
         document.getElementById('downloadPdfWImg').addEventListener('click', function() {
-                  // get the order ID somehow, maybe from an element or variable
+              // get the order ID somehow, maybe from an element or variable
               // Стартовое сообщение
-              var dialog = document.getElementById('wait-please-dialog');
+              let dialog = document.getElementById('wait-please-dialog');
               dialog.style.display="block";
               // Show the dialog
               dialog.showModal();
@@ -189,12 +215,49 @@ document.querySelectorAll('.i-menu-points').forEach(button => {
 
         });
         document.getElementById('downloadPdfWithoutImg').onclick = function() {
-                // Replace with the actual function or navigation action
+            // Replace with the actual function or navigation action
             let address = "{% url "at_download_pdf_no_img" order_id="BIG" %}";
             address = address.replace('BIG', orderId);
             window.location.href = address;
             window.location.href = `/admin_tools/orders_control/download_pdf_no_img/${orderId}/`;
         };
+
+        document.getElementById('payForOrder').onclick = function() {
+            const modal = document.getElementById('custom-modal');
+            const overlay = document.getElementById('custom-modal-overlay');
+            let orderPaidSum = current_order.paid_sum ? current_order.paid_sum.toString() : 0;
+            const orderPrice = current_order.sum; // Пример цены, можно заменить на динамическое значение
+            console.log(orderPaidSum);
+            let max_sum_to_pay = orderPrice - orderPaidSum;
+
+            // Устанавливаем цену в текстовое поле
+            document.getElementById('order-price').innerText =  `${current_order.currency === "Euro" ? "€" : "$"}${max_sum_to_pay.toFixed(2)}`;
+
+            document.getElementById('amount-input').max = max_sum_to_pay;
+
+            document.getElementById('amount-input').max = max_sum_to_pay;
+
+            // Показываем модальное окно и оверлей
+            modal.style.display = 'block';
+            overlay.style.display = 'block';
+
+            // Отключаем прокрутку страницы
+            document.body.style.overflow = 'hidden';
+
+            document.getElementById('pay-button').onclick = function() {
+                const amount = parseFloat(document.getElementById('amount-input').value);
+
+                if (isNaN(amount) || amount <= 0) {
+                    alert('Please enter a valid amount.');
+                    return;
+                }
+                // Вызов функции оплаты
+                pay_for_order(amount, current_order);   // ДОБАВИТЬ СЮДА ПАРС ADDRESS_DICT КОТОРЫЙ НУЖНО САМОМУ СОЗДАВАТЬ
+            };
+
+        };
+
+
     });
 });
 
@@ -328,5 +391,85 @@ document.querySelectorAll('.show-content').forEach(button => {
         }
     });
 });
+
+document.getElementById('close-modal').onclick = function() {
+    closeModal();
+};
+
+// Закрытие окна при клике на оверлей
+document.getElementById('custom-modal-overlay').onclick = function() {
+    closeModal();
+};
+
+function closeModal() {
+    const modal = document.getElementById('custom-modal');
+    const overlay = document.getElementById('custom-modal-overlay');
+
+    // Скрываем модальное окно и оверлей
+    modal.style.display = 'none';
+    overlay.style.display = 'none';
+
+    // Включаем прокрутку страницы
+    document.body.style.overflow = '';
+}
+
+
+// Пример функции оплаты
+function pay_for_order(amount, current_order) {
+
+    if (amount < 0 || amount > current_order['sum'] || amount > (current_order['sum']-current_order['paid_sum']) ){
+        alert("{{ _('Invalid amount') }}");
+        return;
+    }
+    console.log(amount);
+
+    current_order['sum'] = amount
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = "{% url 'create_partial_checkout_session' %}";
+
+    // Добавляем CSRF-токен
+    const csrfToken = getCookie('csrftoken');  // Предположим, у вас есть функция для получения CSRF токена
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = 'csrfmiddlewaretoken';
+    csrfInput.value = csrfToken;
+    form.appendChild(csrfInput);
+
+    // Добавляем форму на страницу и отправляем
+    document.body.appendChild(form);
+
+    // Отправляем форму и получаем session ID от сервера
+    fetch(form.action, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrfToken,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(current_order)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.id) {
+            // Инициализируем Stripe с вашим publishable ключом
+            const stripe = Stripe('{{ STRIPE_PUBLISHABLE_KEY }}');  // Подставьте ваш publishable key
+
+            // Перенаправляем пользователя на страницу оплаты Stripe
+            stripe.redirectToCheckout({ sessionId: data.id })
+                .then(function (result) {
+                    if (result.error) {
+                        // Обрабатываем ошибки, если они возникнут
+                        console.error('Error redirecting to Stripe checkout:', result.error.message);
+                    }
+                });
+        } else {
+            console.error('Error creating checkout session:', data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    })
+    .finally(() => closeModal()); // Закрываем окно после оплаты
+}
 
 </script>
