@@ -202,7 +202,7 @@ def stripe_webhook(request):
             if metadata.get('payment_type') == "Stripe":
                 stripe_checkout(metadata.get('email'), metadata.get('full_name'), order_id, metadata.get('vat'), metadata.get('shippingPrice'), metadata.get('shippingAddress'), metadata.get('billingAddress'), "STRIPE", metadata.get("lang_code", "gb"))
             elif metadata.get('payment_type') == "BANK TRANSFER":
-                stripe_partial_checkout(metadata.get('email'), metadata.get('paid_sum'), metadata.get('full_name'), order_id, metadata.get('shippingAddress'), metadata.get('billingAddress'), "PARTIALLY STRIPE", metadata.get("lang_code", "gb"))
+                stripe_partial_checkout(metadata.get('email'), metadata.get('paid_sum'), metadata.get('full_name'), order_id, metadata.get('shippingAddress'), metadata.get('billingAddress'), "BANK TRANSFER", metadata.get("lang_code", "gb"))
             # doc.update({"Status": "Paid"})
             print(f"Order {order_id} has been marked as paid.")
 

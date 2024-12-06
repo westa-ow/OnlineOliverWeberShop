@@ -111,7 +111,6 @@ def stripe_partial_checkout(email, paid_price, user_name, order_id, shippingAddr
     new_paid_sum = current_paid_sum + paid_price
     updates = {
         "paid_sum": new_paid_sum,
-        "Status": payment_type,
         "updated_at": datetime.now()  # Optional: Add a timestamp for tracking updates
     }
 
