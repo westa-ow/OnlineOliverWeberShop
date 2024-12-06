@@ -147,7 +147,9 @@ def sent_email_confirmation(user_email, order_id, language_code):
         # Server-side email
         email_server = EmailMessage(
             subject=f'{user_email} just paid',
-            body=f'Updated order info for {user_email}',
+            body=f'''Updated order info for {user_email}
+                Order id: {order_id}   
+            ''',
             from_email=settings.EMAIL_HOST_USER,
             to=['westadatabase@gmail.com'],
         )

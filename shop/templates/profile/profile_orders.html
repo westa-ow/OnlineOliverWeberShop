@@ -245,8 +245,8 @@ document.querySelectorAll('.i-menu-points').forEach(button => {
             document.body.style.overflow = 'hidden';
 
             document.getElementById('pay-button').onclick = function() {
-                const amount = parseFloat(document.getElementById('amount-input').value);
-
+                const amount = parseFloat(document.getElementById('amount-input').value.toString().replace(',', '.'));
+                console.log(amount);
                 if (isNaN(amount) || amount <= 0) {
                     alert('Please enter a valid amount.');
                     return;
