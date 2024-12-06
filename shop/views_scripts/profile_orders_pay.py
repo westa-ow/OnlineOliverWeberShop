@@ -103,6 +103,7 @@ def stripe_partial_checkout(email, paid_price, user_name, order_id, shippingAddr
         order = doc
         break
 
+    print(order)
 
     order_doc_ref = order.reference
     order_data = order.to_dict()
@@ -115,10 +116,10 @@ def stripe_partial_checkout(email, paid_price, user_name, order_id, shippingAddr
     }
 
     order_doc_ref.update(updates)
-    # email_process(new_order, user_email, order_id,  lang_code)
+    sent_email_confirmation(user_email, order_id, lang_code)
     return new_paid_sum
 
-def sent_email_confirmation(user_email, order_id, csv_content, language_code):
+def sent_email_confirmation(user_email, order_id, language_code):
     try:
         activate(language_code)
         print("Starting email process")
