@@ -59,7 +59,7 @@ def create_partial_checkout_session(request):
                 currency = "usd"
             full_price = round(data.get('sum', 0), 2)
             order_id = int(data.get('order_id', 0))
-            metadata = {"payment_type": "BANK TRANSFER", "Id": order_id, "email": email, "paid_price": full_price, "full_name": request.user.first_name + " " + request.user.last_name, "shippingPrice": shipping, "shippingAddress": shippingAddress, 'billingAddress': billingAddress, 'lang_code': language_code}
+            metadata = {"payment_type": "BANK TRANSFER", "Id": order_id, "email": email, "paid_sum": full_price, "full_name": request.user.first_name + " " + request.user.last_name, "shippingPrice": shipping, "shippingAddress": shippingAddress, 'billingAddress': billingAddress, 'lang_code': language_code}
 
             checkout_session = stripe.checkout.Session.create(
                 success_url=domain_url + 'success/',
