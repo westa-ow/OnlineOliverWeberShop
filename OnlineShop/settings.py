@@ -72,6 +72,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'shop.middleware.RedirectMainDomain.WWWRedirectMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -82,7 +83,6 @@ MIDDLEWARE = [
 
     'shop.middleware.ensure_anon_session_middleware.EnsureAnonymousSessionMiddleware',
     'shop.middleware.redirect_en_to_gb_middleware.RedirectENtoGBMiddleware',
-    'shop.middleware.RedirectMainDomain.WWWRedirectMiddleware',
     # 'shop.middleware.DefaultLanguageMiddlware.DefaultLanguageMiddleware',
     # 'django.middleware.cache.UpdateCacheMiddleware',
     # 'django.middleware.common.CommonMiddleware',
