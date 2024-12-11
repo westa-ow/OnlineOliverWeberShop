@@ -417,6 +417,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     bottom_part.classList.add('bottom-card-part');
 
     const counter = document.createElement('div');
+    counter.classList.add('counter-container');
 
     const button_minus = document.createElement('button');
     button_minus.innerText = '-';

@@ -46,6 +46,33 @@
 .address-page:focus {
     outline: none;
 }
+@media only screen and (min-width: 765px) and (max-width: 936px) {
+    .counter-container{
+        display: flex;
+        gap: 10px;
+    }
+    .quantity-input-dialog{
+        width: 0;
+        flex: 6;
+    }
+    .plus-button-dialog, .minus-button-dialog{
+        flex: auto;
+    }
+}
+@media only screen and (max-width: 764px) {
+    .counter-container{
+        display: flex;
+        gap: 10px;
+    }
+    .quantity-input-dialog{
+        width: 0;
+        flex: 8;
+    }
+    .plus-button-dialog, .minus-button-dialog{
+        flex: auto;
+    }
+}
+
 @media only screen and (min-width: 769px)  {
     .card-content, .success-card-content {
         display: grid;
