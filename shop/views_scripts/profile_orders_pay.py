@@ -39,6 +39,10 @@ def stripe_config(request):
 def create_partial_checkout_session(request):
     if request.method == 'POST':
         domain_url = 'https://www.oliverweber.online/'  # Замените на ваш домен
+        if settings.CURRENT_DOMAIN == "oliverweber.com":
+            domain_url = 'https://www.oliverweber.com/'
+        elif settings.CURRENT_DOMAIN == "oliverweber.online":
+            domain_url = 'https://www.oliverweber.online/'
         language_code = request.path.split('/')[1]
         stripe.api_key = settings.STRIPE_SECRET_KEY
         print(f"Stripe API Key: {settings.STRIPE_SECRET_KEY}")
