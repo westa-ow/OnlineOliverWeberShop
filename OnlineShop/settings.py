@@ -51,7 +51,7 @@ GEOIP_config = os.path.join(BASE_DIR, "shop", "static", "GEOIP", "GeoLite2-Count
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['oliverweber.com', 'www.oliverweber.com', 'oliverweber.online', 'www.oliverweber.online']
 
 GEOIP_PATH = os.path.join(BASE_DIR, 'shop/static/GEOIP'),
 
