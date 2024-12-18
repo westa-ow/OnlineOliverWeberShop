@@ -37,7 +37,8 @@ def stripe_config(request):
 @login_required
 def create_checkout_session(request):
     if request.method == 'POST':
-        domain_url = 'https://www.oliverweber.online/'  # Замените на ваш домен
+        # domain_url = 'https://www.oliverweber.online/'  # Замените на ваш домен
+        domain_url = request.scheme + "://" + request.get_host()
         language_code = request.path.split('/')[1]
         stripe.api_key = settings.STRIPE_SECRET_KEY
         print(f"Stripe API Key: {settings.STRIPE_SECRET_KEY}")
