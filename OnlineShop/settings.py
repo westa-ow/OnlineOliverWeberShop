@@ -28,9 +28,21 @@ dotenv_path = BASE_DIR / 'OnlineShop/.env'
 load_dotenv(dotenv_path)
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-av+bzqy62h9m=9%^%c11v16=7h(aq(e*j2zn9-vk6r20wpn%_n'
+CURRENT_DOMAIN = os.getenv('DJANGO_ALLOWED_HOSTS', '')
+
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
 STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
 STRIPE_ENDPOINT_SECRET = os.getenv('STRIPE_ENDPOINT_SECRET')
+if CURRENT_DOMAIN == 'oliverweber.com':
+    STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY_MIRROR')
+    STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY_MIRROR')
+    STRIPE_ENDPOINT_SECRET = os.getenv('STRIPE_ENDPOINT_SECRET_MIRROR')
+elif CURRENT_DOMAIN == 'oliverweber.online':
+    STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
+    STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
+    STRIPE_ENDPOINT_SECRET = os.getenv('STRIPE_ENDPOINT_SECRET')
+else:
+    raise ValueError("Unknown domain configuration")
 
 PAYPAL_MODE = os.getenv('PAYPAL_MODE', 'sandbox')  # По умолчанию 'sandbox' для тестирования
 PAYPAL_CLIENT_ID = os.getenv('PAYPAL_CLIENT_ID')
