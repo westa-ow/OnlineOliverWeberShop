@@ -126,6 +126,7 @@ def send_email(request):
 
         active_coupon = get_active_coupon(user_email)
         print(active_coupon)
+        checkout_admins_message = ""
         if active_coupon:
             checkout_admins_message = f"A customer with price category {category} ordered with promo code {active_coupon['coupon_code']} and discount {active_coupon['discount']}%"
         delete_user_coupons(user_email)

@@ -103,6 +103,7 @@ def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddr
     category, currency = get_user_category(user_email) or ("Default", "Euro")
 
     active_coupon = get_active_coupon(email)
+    checkout_admins_message = ""
     if active_coupon:
         checkout_admins_message = f"A customer with price category {category} ordered with promo code {active_coupon['coupon_code']} and discount {active_coupon['discount']}%"
     delete_user_coupons(email)
