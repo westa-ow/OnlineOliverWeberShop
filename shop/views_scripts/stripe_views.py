@@ -14,7 +14,7 @@ from django.views.generic import TemplateView
 
 from OnlineShop import settings
 from shop.views import addresses_ref, country_dict, users_ref, get_user_category, get_user_prices, \
-    get_user_session_type, get_cart, orders_ref, single_order_ref, delete_user_coupons
+    get_user_session_type, get_cart, orders_ref, single_order_ref, delete_user_coupons, get_active_coupon
 from shop.views_scripts.checkout_cart_views import clear_all_cart, email_process, get_check_id
 from shop.views_scripts.profile_orders_pay import stripe_partial_checkout
 
@@ -97,10 +97,14 @@ def create_checkout_session(request):
 
 def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddress, billingAddress, payment_type, lang_code):
     # Создаю order
-    delete_user_coupons(email)
+
     vat = int(vat)
     user_email = email
     category, currency = get_user_category(user_email) or ("Default", "Euro")
+
+    active_coupon = get_active_coupon(email)
+    checkout_admins_message = f"A customer with price category {category} ordered with promo code {active_coupon.coupon_code} and discount {active_coupon.discount}%"
+    delete_user_coupons(email)
 
     cart = get_cart(user_email)
 
@@ -162,7 +166,7 @@ def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddr
     order_id = int(order_id)
     orders_ref.add(new_order)
     new_order['date'] = new_order['date'].isoformat()
-    email_process(new_order, user_email, order_id, csv_content, lang_code)
+    email_process(new_order, user_email, order_id, csv_content, lang_code, checkout_admins_message)
     clear_all_cart(user_email)
     return sum
 

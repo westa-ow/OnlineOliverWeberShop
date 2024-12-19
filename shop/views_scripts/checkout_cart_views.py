@@ -1,7 +1,6 @@
 import concurrent
 import csv
 import uuid
-
 from django.contrib.auth.decorators import login_required
 from reportlab.lib import colors
 from background_task import background
@@ -12,7 +11,7 @@ from shop.decorators import login_required_or_session, logout_required
 from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, get_cart, cart_ref, single_order_ref, \
     get_user_category, get_user_session_type, metadata_ref, users_ref, update_email_in_db, get_user_prices, \
     get_user_info, get_address_info, get_vat_info, get_shipping_price, get_order, get_order_items, \
-    active_promocodes_ref, active_cart_coupon, get_active_coupon
+    active_promocodes_ref, active_cart_coupon, get_active_coupon, delete_user_coupons
 import ast
 import random
 from datetime import datetime
@@ -111,6 +110,7 @@ def sort_documents(request):
 def send_email(request):
     if request.method == 'POST':
         # Создаю order
+
         language_code = request.path.split('/')[1]
         data = json.loads(request.body)
         vat = data.get('vat', 0)
@@ -121,7 +121,12 @@ def send_email(request):
             billingAddress = shippingAddress
 
         user_email = request.user.email
+
         category, currency = get_user_category(user_email) or ("Default", "Euro")
+
+        active_coupon = get_active_coupon(user_email)
+        checkout_admins_message = f"A customer with price category {category} ordered with promo code {active_coupon.coupon_code} and discount {active_coupon.discount}%"
+        delete_user_coupons(user_email)
 
         cart = get_cart(user_email)
 
@@ -184,17 +189,17 @@ def send_email(request):
 
         orders_ref.add(new_order)
         new_order['date'] = (new_order["date"]).isoformat()
-        email_process(new_order, user_email, order_id, csv_content, language_code)
+        email_process(new_order, user_email, order_id, csv_content, language_code, checkout_admins_message)
         clear_all_cart(user_email)
         return JsonResponse({'status': 'success', 'redirect_name': 'home'})
     return JsonResponse({'status': 'error'}, status=400)
 
 
-import logging
+
 logger = logging.getLogger(__name__)
 
 @background(schedule=60)
-def email_process(new_order, user_email, order_id, csv_content, language_code):
+def email_process(new_order, user_email, order_id, csv_content, language_code, checkout_admins_message):
     try:
         activate(language_code)
         logger.info("Starting email_process")
@@ -231,10 +236,11 @@ def email_process(new_order, user_email, order_id, csv_content, language_code):
         # Server-side email
         email_server = EmailMessage(
             subject=f'{user_email} just ordered',
-            body=f'Order info for {user_email}',
+            body=f'Order info for {user_email}. {checkout_admins_message}',
             from_email=settings.EMAIL_HOST_USER,
             to=['westadatabase@gmail.com'],
         )
+
         email_server.attach(f'order_{order_id}.csv', csv_content, 'text/csv')
         email_server.attach(f'order_receipt_{order_id}.pdf', pdf_response, 'application/pdf')
         email_server.send()
@@ -726,6 +732,11 @@ def check_promo_code(request):
                 return JsonResponse({'status': 'error', 'message': 'Invalid promo code'})
 
             promo_dict = promo_data.to_dict()
+
+            b2b_only = promo_dict.get('b2b_only', False)
+            customer_type = get_user_info(email).get('customer_type', 'Customer')
+            if (b2b_only and customer_type == 'Customer') or (not b2b_only and customer_type == 'B2B'):
+                return JsonResponse({'status': 'error', 'message': 'This promo code is not available.'})
             discount = promo_dict.get('discount', 0)
 
             # Проверяем, что скидка это число

@@ -18,6 +18,7 @@
                 <th>Promo Code</th>
                 <th>Type</th>
                 <th>Discount (%)</th>
+                <th>Accessibility</th>
                 <th>Expiration Date</th>
                 <th>Is Active</th>
                 <th>Actions</th>
@@ -52,6 +53,11 @@
 
             <label for="discount">Discount (%):</label>
             <input type="number" id="discount" name="discount" required><br>
+
+            <label for="can_expire">B2B only</label>
+            <div>
+                <input type="checkbox" id="b2b_only" name="b2b_only"><br>
+            </div>
 
             <label for="can_expire">Can Expire:</label>
             <div>
@@ -88,6 +94,7 @@
         const createBtn = document.getElementById('create-promocode-btn');
         const expirationDateGroup = document.getElementById('expiration-date-group');
         const canExpireCheckbox = document.getElementById('can_expire');
+        const b2bOnlyCheckbox = document.getElementById('b2b_only');
         let editingPromoCode = null;
 
         // Показать модальное окно
@@ -107,6 +114,9 @@
                     canExpireCheckbox.checked = true;
                     expirationDateGroup.classList.remove('hidden');
                     document.getElementById('expiration_date').value = promoCode.expiration_date;
+                }
+                if(promoCode.b2b_only){
+                    b2bOnlyCheckbox.checked = true;
                 }
             } else {
                 document.getElementById('form-title').innerText = 'Create Promo Code';
@@ -130,6 +140,7 @@
                 discount: parseFloat(document.getElementById('discount').value),
                 is_active: document.getElementById('is_active').checked,
                 expiration_date: canExpireCheckbox.checked ? document.getElementById('expiration_date').value : null,
+                b2b_only: b2bOnlyCheckbox.checked,
             };
 
             const url = editingPromoCode
@@ -162,6 +173,7 @@
                             <td>${promoCode.code}</td>
                             <td>${promoCode.type}</td>
                             <td>${promoCode.discount}</td>
+                            <td>${promoCode.b2b_only ? "B2B Only" : "B2C only"}</td>
                             <td>${promoCode.expiration_date || 'N/A'}</td>
                             <td>${promoCode.is_active ? 'Yes' : 'No'}</td>
                             <td>
@@ -236,12 +248,12 @@
         this.value = this.value.toUpperCase();
     });
     document.getElementById('discount').addEventListener('input', function () {
-            const value = parseFloat(this.value); // Преобразуем значение в число
+        const value = parseFloat(this.value); // Преобразуем значение в число
 
-            // Проверяем, чтобы значение было больше 0 и меньше или равно 100
-            if (isNaN(value) || value <= 0 || value > 100) {
-                this.value = ''; // Очищаем поле, если условие не выполнено
-                alert(`Number can't be less than 0 or greater than 100!`);
-            }
-        });
+        // Проверяем, чтобы значение было больше 0 и меньше или равно 100
+        if (isNaN(value) || value <= 0 || value > 100) {
+            this.value = ''; // Очищаем поле, если условие не выполнено
+            alert(`Number can't be less than 0 or greater than 100!`);
+        }
+    });
 </script>

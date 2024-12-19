@@ -81,7 +81,7 @@
                     <div class="final-sum" id="final-sum">{{ currency }}500.00</div>
                 </div>
             </div>
-            {% if customer_type == "Customer" %}
+{#            {% if customer_type == "Customer" %}#}
                 <div class="promo-block">
 
                         {% if not active_coupon %}
@@ -97,7 +97,7 @@
                         {% endif %}
 
                 </div>
-            {% endif %}
+{#            {% endif %}#}
             <div class="card-block-totals" >
                 <div class="cart-total">
                     <span class="label-total">{% trans "Total"  %} (VAT Incl.)</span>
@@ -237,17 +237,7 @@ document.getElementById('documents-list').addEventListener('click', function(eve
         }
     }
 });
-{#$(document).ready(function() {#}
-{#    $('#documents-list').on('input change', '.slider', function () {#}
-{#        let product_id = $(this).attr('id').split('-')[1];#}
-{#        let quantity_new = $(this).val();#}
-{#        const quantityElement = document.getElementById('quantity-input-inp-' + product_id);#}
-{#        quantityElement.value = quantity_new;#}
-{#        const button = document.getElementById("quantity-input-apply-"+ product_id);#}
-{#        button.innerText = "{{ _("Confirm")|escapejs }}";#}
-{#        button.style.background = "#003665"#}
-{#    });#}
-{#);#}
+
 
 function updateQuantityInput(product_id, quantity_new, doc) {
     fetch('{% url "update_input" %}', {
