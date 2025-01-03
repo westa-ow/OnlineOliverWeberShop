@@ -29,7 +29,7 @@
             <a href="{% url "param_catalog" category_id="9" category_name="bracelets"%}" class="link" title="{% trans "Bracelets"%}" style="font-size: 12px;font-weight: 600;">{% trans "BRACELETS"%}</a>
             <a href="{% url "param_catalog" category_id="79" category_name="anklets"%}" class="link" title="{% trans "Anklets"%}" style="font-size: 12px;font-weight: 600;">{% trans "ANKLETS"%}</a>
             <a href="{% url "param_catalog" category_id="4" category_name="accessories"%}" class="link" title="{% trans "Accessories"%}" style="font-size: 12px;font-weight: 600;">{% trans "ACCESSORIES"%}</a>
-            <a href="{% url "param_catalog" category_id="0" category_name="all"%}?collection=Winter_2025" class="link" title="Winter 2025" style="font-size: 12px;font-weight: 600;">Winter 2025</a>
+            <a href="{% url "param_catalog" category_id="0" category_name="all"%}?collection=Winter_2025" class="link" title="New Collection" style="font-size: 12px;font-weight: 600;">New Collection</a>
 
             {% if user_role  == "Admin" %}
                 <a href="{% url 'admin_tools' feature_name='dashboard' %}" class="link">Admin tools</a>

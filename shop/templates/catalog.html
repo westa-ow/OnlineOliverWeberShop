@@ -876,8 +876,8 @@ function constructCrystals(items, filters_dict, static_folder) {
     for (let i = 0; i < stones_all.length; i++) {
       stones_names[i] = stones[stones_all[i]];
     }
-    console.log("THI IS ");
-    console.log(stones_all);
+    {#console.log("THI IS ");#}
+    {#console.log(stones_all);#}
     if (Array.isArray(items) && items.length > 0) {
         items.forEach(document => {
             if (document.platings) { // Проверка, что у document есть platings
@@ -936,6 +936,11 @@ function createCrystalElements(containerClass, itemsArray, prefix, filters_dict,
                     //     handleCrystalClick(item, filters_dict);
                     // });
                 };
+
+                img.addEventListener('mouseenter', (event) => {
+
+                    showTooltip(event, item);
+        }       );
             });
 
             // Append the grid to the container
