@@ -64,6 +64,10 @@
       grid-template-columns: auto auto;
       column-gap: 20px;
   }
+    .footer-social-links{
+        display: flex;
+        flex-direction: column;
+    }
 }
 @media only screen and (max-width: 768px) {
     .container-columns{
