@@ -40,7 +40,7 @@
                         <a href="{% url "param_catalog" category_id="0" category_name="all"%}?collection=Winter_2025" class="dropdown-links">New Collection</a>
                     </div>
                 </div>
-                <a href="{% url "param_catalog" category_id="0" category_name="all"%}?collection=Winter_2025" class="link" title="New Collection" >New Collections</a>
+                <a href="{% url "param_catalog" category_id="0" category_name="all"%}?collection=Winter_2025" class="link" title="New Collection" >New Collection</a>
 
                 {% if user_role  == "Admin" %}
                     <a href="{% url 'admin_tools' feature_name='dashboard' %}" class="link">Admin tools</a>
