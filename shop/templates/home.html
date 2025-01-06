@@ -39,72 +39,72 @@
             {% endfor %}
         </div>
     </div>
-    <div id="roycontent_home" class="roycontent">
-            <div class="container">
-                <ul class="clearfix">
-                    <li class="htmlcontent-item-1 col-md-12 bview сbview-first ">
-                        <div class="li-cont">
-                            <div class="html_inside ">
-                                <div class="home-title">
-                                    <div class="home-title">
-                                        <h1>{% trans "ELEGANT JEWELRY AND ACCESSORIES" %}</h1>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="htmlcontent-item-2 col-md-3 bview bview-first ">
-                        <div class="li-cont">
-                            <a href="{% url "param_catalog" category_id="8" category_name="earrings" %}" class="item-link" title="Earrings">
-                                <img src="{% static "images/home/banners/earrings_banner.jpg" %}" class="item-img href" title="Earrings" alt="Earrings" width="100%" height="100%">
-                            </a>
-                        </div>
-                    </li>
-                    <li class="htmlcontent-item-3 col-md-3 bview bview-first ">
-                        <div class="li-cont">
-                            <a href="{% url "param_catalog" category_id="28" category_name="pearls" %}" class="item-link" title="Pearls">
-                                <img src="{% static "images/home/banners/pearls_banner.jpg" %}" class="item-img href" title="Pearls" alt="Pearls" width="100%" height="100%">
-                            </a>
-                        </div>
-                    </li>
-                    <li class="htmlcontent-item-4 col-md-3 bview bview-first ">
-                        <div class="li-cont">
-                            <a href="{% url "param_catalog" category_id="9" category_name="bracelets" %}" class="item-link" title="Bracelets">
-                                <img src="{% static "images/home/banners/bracelets_banner.jpg" %}" class="item-img href" title="Bracelets" alt="Bracelets" width="100%" height="100%">
-                            </a>
-                        </div>
-                    </li>
-                    <li class="htmlcontent-item-5 col-md-3 bview bview-first ">
-                        <div class="li-cont">
-                            <a href="{% url "param_catalog" category_id="7" category_name="rings" %}" class="item-link" title="Rings">
-                                <img src="{% static "images/home/banners/rings_banner.jpg" %}" class="item-img href" title="Rings" alt="Rings" width="100%" height="100%">
-                            </a>
-                        </div>
-                    </li>
-                    <li class="htmlcontent-item-6 col-md-3 bview bview-first ">
-                        <div class="li-cont">
-                            <a href="{% url "param_catalog" category_id="0" category_name="all" %}?base=Silver" class="item-link" title="Silver">
-                                <img src="{% static "images/home/banners/silver_banner.jpg" %}" class="item-img href" title="Silver" alt="Silver" width="100%" height="100%">
-                            </a>
-                        </div>
-                    </li>
-                    <li class="htmlcontent-item-7 col-md-3 bview bview-first ">
-                        <div class="li-cont">
-                            <a href="{% url "param_catalog" category_id="3" category_name="necklaces" %}" class="item-link" title="Necklaces">
-                                <img src="{% static "images/home/banners/necklaces_banner.jpg" %}" class="item-img href" title="Necklaces" alt="Necklaces" width="100%" height="100%">
-                            </a>
-                        </div>
-                    </li>
-                    <li class="htmlcontent-item-8 col-md-3 bview bview-first ">
-                        <div class="li-cont">
-                            <a href="{% url "param_catalog" category_id="0" category_name="all"%}" class="item-link" title="Sets">
-                                <img src="{% static "images/home/banners/sets_banner.jpg" %}" class="item-img href" title="Sets" alt="Sets" width="100%" height="100%">
-                            </a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-    </div>
+{#    <div id="roycontent_home" class="roycontent">#}
+{#            <div class="container">#}
+{#                <ul class="clearfix">#}
+{#                    <li class="htmlcontent-item-1 col-md-12 bview сbview-first ">#}
+{#                        <div class="li-cont">#}
+{#                            <div class="html_inside ">#}
+{#                                <div class="home-title">#}
+{#                                    <div class="home-title">#}
+{#                                        <h1>{% trans "ELEGANT JEWELRY AND ACCESSORIES" %}</h1>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </li>#}
+{#                    <li class="htmlcontent-item-2 col-md-3 bview bview-first ">#}
+{#                        <div class="li-cont">#}
+{#                            <a href="{% url "param_catalog" category_id="8" category_name="earrings" %}" class="item-link" title="Earrings">#}
+{#                                <img src="{% static "images/home/banners/earrings_banner.jpg" %}" class="item-img href" title="Earrings" alt="Earrings" width="100%" height="100%">#}
+{#                            </a>#}
+{#                        </div>#}
+{#                    </li>#}
+{#                    <li class="htmlcontent-item-3 col-md-3 bview bview-first ">#}
+{#                        <div class="li-cont">#}
+{#                            <a href="{% url "param_catalog" category_id="28" category_name="pearls" %}" class="item-link" title="Pearls">#}
+{#                                <img src="{% static "images/home/banners/pearls_banner.jpg" %}" class="item-img href" title="Pearls" alt="Pearls" width="100%" height="100%">#}
+{#                            </a>#}
+{#                        </div>#}
+{#                    </li>#}
+{#                    <li class="htmlcontent-item-4 col-md-3 bview bview-first ">#}
+{#                        <div class="li-cont">#}
+{#                            <a href="{% url "param_catalog" category_id="9" category_name="bracelets" %}" class="item-link" title="Bracelets">#}
+{#                                <img src="{% static "images/home/banners/bracelets_banner.jpg" %}" class="item-img href" title="Bracelets" alt="Bracelets" width="100%" height="100%">#}
+{#                            </a>#}
+{#                        </div>#}
+{#                    </li>#}
+{#                    <li class="htmlcontent-item-5 col-md-3 bview bview-first ">#}
+{#                        <div class="li-cont">#}
+{#                            <a href="{% url "param_catalog" category_id="7" category_name="rings" %}" class="item-link" title="Rings">#}
+{#                                <img src="{% static "images/home/banners/rings_banner.jpg" %}" class="item-img href" title="Rings" alt="Rings" width="100%" height="100%">#}
+{#                            </a>#}
+{#                        </div>#}
+{#                    </li>#}
+{#                    <li class="htmlcontent-item-6 col-md-3 bview bview-first ">#}
+{#                        <div class="li-cont">#}
+{#                            <a href="{% url "param_catalog" category_id="0" category_name="all" %}?base=Silver" class="item-link" title="Silver">#}
+{#                                <img src="{% static "images/home/banners/silver_banner.jpg" %}" class="item-img href" title="Silver" alt="Silver" width="100%" height="100%">#}
+{#                            </a>#}
+{#                        </div>#}
+{#                    </li>#}
+{#                    <li class="htmlcontent-item-7 col-md-3 bview bview-first ">#}
+{#                        <div class="li-cont">#}
+{#                            <a href="{% url "param_catalog" category_id="3" category_name="necklaces" %}" class="item-link" title="Necklaces">#}
+{#                                <img src="{% static "images/home/banners/necklaces_banner.jpg" %}" class="item-img href" title="Necklaces" alt="Necklaces" width="100%" height="100%">#}
+{#                            </a>#}
+{#                        </div>#}
+{#                    </li>#}
+{#                    <li class="htmlcontent-item-8 col-md-3 bview bview-first ">#}
+{#                        <div class="li-cont">#}
+{#                            <a href="{% url "param_catalog" category_id="0" category_name="all"%}" class="item-link" title="Sets">#}
+{#                                <img src="{% static "images/home/banners/sets_banner.jpg" %}" class="item-img href" title="Sets" alt="Sets" width="100%" height="100%">#}
+{#                            </a>#}
+{#                        </div>#}
+{#                    </li>#}
+{#                </ul>#}
+{#            </div>#}
+{#    </div>#}
     <div class="containerr">
         <h3>{% trans "BEST SELLERS" %}</h3>
     </div>
