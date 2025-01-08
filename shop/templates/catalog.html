@@ -225,7 +225,7 @@
                             <label class="checkbox-label" for="checkbox3">Blue</label>
                         </div>
                     </div>
-                    <div class="remove-filters-container" id="crystals">  <span class="remove-filters"><i class="fa-solid fa-close"></i> Reset this group</span></div>
+                    <div class="remove-filters-container" id="crystals">  <span class="remove-filters"><i class="fa-solid fa-close"></i> {% trans "Reset this group" %}</span></div>
 
                 </div>
                 <br>
@@ -250,7 +250,7 @@
                             <label class="checkbox-label" for="checkboxPL4">Without</label>
                         </div>
                     </div>
-                   <div class="remove-filters-container" id="platings">  <span class="remove-filters"><i class="fa-solid fa-close"></i> Reset this group</span></div>
+                   <div class="remove-filters-container" id="platings">  <span class="remove-filters"><i class="fa-solid fa-close"></i> {% trans "Reset this group" %}</span></div>
                 </div><br>
                 <div class="filter-base">
                     {% trans "Base material" %}
@@ -266,7 +266,7 @@
                         </div>
                     </div>
 
-                    <div class="remove-filters-container" id="bases">  <span class="remove-filters"><i class="fa-solid fa-close"></i> Reset this group</span></div>
+                    <div class="remove-filters-container" id="bases">  <span class="remove-filters"><i class="fa-solid fa-close"></i> {% trans "Reset this group" %}</span></div>
                 </div><br>
                 <div class="filter-size">
                     {% trans "Size" %}
@@ -290,7 +290,7 @@
                         </div>
                     </div>
 
-                    <div class="remove-filters-container" id="sizes">  <span class="remove-filters"><i class="fa-solid fa-close"></i> Reset this group</span></div>
+                    <div class="remove-filters-container" id="sizes">  <span class="remove-filters"><i class="fa-solid fa-close"></i> {% trans "Reset this group" %}</span></div>
                 </div>
             </div>
 {#            <button id="submit-button">Submit filters</button>#}
@@ -356,7 +356,7 @@
 
     import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
 
-    var firebaseConfig = {
+    let firebaseConfig = {
         apiKey: "AIzaSyAM0wDc_WO0wP3-_TPRPLENZDIHbezH7U4",
         authDomain: "flutterapp-fd5c3.firebaseapp.com",
         projectId: "flutterapp-fd5c3"
@@ -375,7 +375,6 @@
         favouriteItems = await fetchFavouriteItems("{{ user.email }}");
 
         stones = await fetchStones();
-        console.log(stones);
 
         allItems = productsTransmutation(unfilteredItems, price_category, sale, stones);
 
@@ -461,6 +460,49 @@ let categories = [""];
 let all_crystals = [];
 let all_platings = [];
 let all_bases = [];
+
+
+document.addEventListener('click', (event) => {
+    const clickedElement = event.target.closest('.card-carousel-item'); // Ищем ближайший родитель с этим классом
+
+    if (clickedElement) {
+        console.log("Clicked element has class card-carousel-item");
+        let id = clickedElement.getAttribute('data-item-id');
+        let dialog = document.getElementById('product-card');
+
+        // Закрываем диалог с анимацией
+        closeDialogWithAnimation(dialog);
+
+        // Дожидаемся завершения анимации, затем открываем новое окно
+        dialog.addEventListener(
+            'transitionend',
+            () => {
+                const favouriteItem = favouriteItems.find(item_fav => item_fav.name === id);
+                let itemIsFavourite = Boolean(favouriteItem);
+                generateDialogContent(
+                    id,
+                    allItems,
+                    currency,
+                    show_quantities,
+                    "{% url 'add_from_catalog' %}",
+                    getVocabulary(),
+                    getCookie('csrftoken'),
+                    "{% url 'cart' %}",
+                    itemIsFavourite,
+                    "{{ user.is_authenticated|safe }}",
+                    "{{ shop_page_url }}",
+                    allItems,
+                    favouriteItems,
+                    "{% static "icons/pre-order-icon.webp" %}",
+                    "{% url "change_favorite_state" %}",
+                    translations_categories
+                );
+            },
+            { once: true } // Убираем обработчик после первого выполнения
+        );
+    }
+});
+
 
 function buildUpPages() {
     const pagesContainer = document.getElementById('current-page');
@@ -709,6 +751,7 @@ let filters_dict = {
     "Silver": "{{ _("Silver")|escapejs }}",
 }
 
+
 function constructCategories(){
     const categories_div = document.querySelector('.categories');
     const categoriesList = document.querySelector('.categories-list');
@@ -755,6 +798,7 @@ function constructCategories(){
     categories_div.style.display = 'block';
 }
 
+
 function constructCollections(){
     const collections_div = document.querySelector('.collections');
     const collectionsList = document.querySelector('.collections-list');
@@ -788,6 +832,8 @@ function constructCollections(){
 
     collections_div.style.display = 'block';
 }
+
+
 function createCollectionSpan(currentCollection) {
     const span = document.createElement('span');
     span.textContent = synonyms_collections[currentCollection];
@@ -797,6 +843,8 @@ function createCollectionSpan(currentCollection) {
     if (currentCollection === collection_catalog) span.style.fontWeight = "600";
     return span;
 }
+
+
 function setupCollectionClickListener(span) {
     span.addEventListener('click', () => {
         document.querySelectorAll('.collections-list li span').forEach(li => li.style.fontWeight = "");
@@ -809,6 +857,8 @@ function setupCollectionClickListener(span) {
         updateURL();
     });
 }
+
+
 function createCategorySpan(currentCategory) {
     const span = document.createElement('span');
     span.textContent = synonyms[currentCategory];
@@ -821,12 +871,14 @@ function createCategorySpan(currentCategory) {
     return span;
 }
 
+
 function createChevron() {
     const chevron = document.createElement('i');
     chevron.className = 'fa-solid fa-chevron-down';
     chevron.style.cursor = "pointer";
     return chevron;
 }
+
 
 function createSubCategoryList(subCategories) {
 
@@ -844,6 +896,7 @@ function createSubCategoryList(subCategories) {
     return ul;
 }
 
+
 function setupChevronToggle(chevron, ul) {
     chevron.addEventListener('click', () => {
         const isOpen = ul.style.height !== '0px' && ul.style.height !== '';
@@ -857,18 +910,19 @@ function setupChevronToggle(chevron, ul) {
     });
 }
 
+
 function setupCategoryClickListener(span) {
     span.addEventListener('click', () => {
         document.querySelectorAll('.categories-list li span').forEach(li => li.style.fontWeight = "");
         category = span.getAttribute("data-category-name"); // Assuming 'category' is a global variable
         span.style.fontWeight = "600";
-        {#const newUrl = `?category=${encodeURIComponent(category)}`;#}
-        {#history.pushState({path: newUrl}, '', newUrl);#}
 
         applyFilters(); // Call the applyFilters function
         updateURL();
     });
 }
+
+
 function constructCrystals(items, filters_dict, static_folder) {
     let uniqueStones = new Set();
     let stones_all = ['241', '327', '515', '260', '288', '501', '208', '227', '220', 'DAR', '276', '379', '205', '277', '922', '280', '243', '204', '291', '236', '215', '228', '502', '207', '203', '219', '206', '147', '0', '394', '266', '289', '539', '542', '920', '398', '142', '229', '214', '226', '209', 'GSHA', '390', '263', '391', '267', '292', '212', '257', '202', '371', '262', '283', '211', '319', '261', '238', '362', '265', '223', '508', 'CRE', '234', '395', '361', '285', '001', 'AB'];
@@ -876,7 +930,6 @@ function constructCrystals(items, filters_dict, static_folder) {
     for (let i = 0; i < stones_all.length; i++) {
       stones_names[i] = stones[stones_all[i]];
     }
-    {#console.log("THI IS ");#}
     {#console.log(stones_all);#}
     if (Array.isArray(items) && items.length > 0) {
         items.forEach(document => {
@@ -898,6 +951,8 @@ function constructCrystals(items, filters_dict, static_folder) {
 
     createCrystalElements('crystals',Array.from(uniqueStones), 'crystal', filters_dict, static_folder);
 }
+
+
 function createCrystalElements(containerClass, itemsArray, prefix, filters_dict, static_folder) {
     const container = document.querySelector(`.${containerClass}`);
     container.innerHTML = ''; // Clear existing content
@@ -908,47 +963,48 @@ function createCrystalElements(containerClass, itemsArray, prefix, filters_dict,
     let imagesLoaded = 0;
     // Loop through images and create an img element within a div for each
     itemsArray.forEach((item, index) => {
-                const img = new Image();
-                img.width = 20;
-                img.height = 20;
-                img.src = `${static_folder}/${stones_reversed[item]}.png`;
-                img.alt = `Crystal ${index + 1}`;
-                img.className = 'crystal-image';
+        const img = new Image();
+        img.width = 20;
+        img.height = 20;
+        img.src = `${static_folder}/${stones_reversed[item]}.png`;
+        img.alt = `Crystal ${index + 1}`;
+        img.className = 'crystal-image';
 
-                img.onload = () => {
-                    const imgDiv = document.createElement('div');
-                    imgDiv.className = 'crystal-container';
-                    imgDiv.setAttribute('data-value', item); // Set the crystal number
+        img.onload = () => {
+            const imgDiv = document.createElement('div');
+            imgDiv.className = 'crystal-container';
+            imgDiv.setAttribute('data-value', item); // Set the crystal number
 
-                    imgDiv.appendChild(img);
-                    grid.appendChild(imgDiv);
-                    imagesLoaded++;
+            imgDiv.appendChild(img);
+            grid.appendChild(imgDiv);
+            imagesLoaded++;
 
-                    // Check if all images are loaded
-                    if (imagesLoaded === itemsArray.length) {
-                        // Apply the honeycomb layout
+            // Check if all images are loaded
+            if (imagesLoaded === itemsArray.length) {
+                // Apply the honeycomb layout
 
-                        // Set up click event listeners for the crystals
-                        setupCrystalClickListeners(stoneFilters);
-                    }
-                    // Add event listener to each image
-                    // imgDiv.addEventListener('click', function() {
-                    //     handleCrystalClick(item, filters_dict);
-                    // });
-                };
+                // Set up click event listeners for the crystals
+                setupCrystalClickListeners(stoneFilters);
+            }
+            // Add event listener to each image
+            // imgDiv.addEventListener('click', function() {
+            //     handleCrystalClick(item, filters_dict);
+            // });
+        };
 
-                img.addEventListener('mouseenter', (event) => {
+        img.addEventListener('mouseenter', (event) => {
 
-                    showTooltip(event, item);
-        }       );
-            });
+            showTooltip(event, item);
+        });
+    });
 
-            // Append the grid to the container
-            container.appendChild(grid);
+    // Append the grid to the container
+    container.appendChild(grid);
 
-            // Apply the honeycomb layout
-            applyHoneycombLayout(grid);
-        }
+    // Apply the honeycomb layout
+    applyHoneycombLayout(grid);
+}
+
 
 // Function to apply honeycomb layout
 function applyHoneycombLayout(grid) {
@@ -961,12 +1017,16 @@ function applyHoneycombLayout(grid) {
         }
     });
 }
+
+
 // Function to simulate changing the page (you might have your actual logic to fetch/update content here)
 function setupCrystalClickListeners(filtersArray) {
     const containers = document.querySelectorAll('.crystal-container');
 
+
     containers.forEach(container => {
         container.addEventListener('click', function() {
+            removeTooltip();
             const remove_button = this.parentElement.parentElement.parentElement.querySelector('.remove-filters-container');
             let selectedValue = this.getAttribute('data-value');
             // Remove 'selected' class from all containers
@@ -988,6 +1048,7 @@ function setupCrystalClickListeners(filtersArray) {
         });
     });
 }
+
 
 function setupFiltersEventListeners(checkboxClassName, filtersArray) {
     document.querySelectorAll(checkboxClassName).forEach(checkbox => {
@@ -1029,6 +1090,8 @@ function setupFiltersEventListeners(checkboxClassName, filtersArray) {
         }
     });
 }
+
+
 function updateURL() {
     const currentUrl = new URL(window.location.href);
 
@@ -1081,6 +1144,8 @@ function updateURL() {
     const newUrl = queryParams.toString() ? `${baseUrl}?${queryParams.toString()}` : baseUrl;
     history.pushState({}, '', newUrl);
 }
+
+
 function toggleOffUnnecessaryCheckboxes(checkboxes, currentValue ){
     checkboxes.forEach(checkbox => {
         if (checkbox.value !== currentValue) {
@@ -1089,6 +1154,8 @@ function toggleOffUnnecessaryCheckboxes(checkboxes, currentValue ){
         }
     });
 }
+
+
 document.querySelectorAll('.remove-filters-container').forEach(container=> {
     container.addEventListener('click', function (){
        if(container.id === "platings"){
@@ -1167,6 +1234,7 @@ toSlider.oninput = () => controlToSlider(fromSlider, toSlider, toInputText, curr
 fromSlider.addEventListener('change', applyFilters);
 toSlider.addEventListener('change', applyFilters);
 
+
 async function fetchAllItems() {
     const itemsQuery1 = query(collection(db, "item"), where("quantity", ">", 0));
 
@@ -1187,11 +1255,15 @@ async function fetchAllItems() {
     // Optionally, you can filter out duplicates if there are overlapping items
     return [...items1, ...items2];
 }
+
+
 async function fetchFavouriteItems(userEmail) {
     const favouritesQuery = query(collection(db, "Favourites"), where("email", "==", userEmail));
     const querySnapshot = await getDocs(favouritesQuery);
     return querySnapshot.docs.map(doc => doc.data());
 }
+
+
 async function fetchStones() {
     const stonesQuery = query(collection(db, "Stones")); // Запрос к коллекции Stones
     const querySnapshot = await getDocs(stonesQuery);
@@ -1213,196 +1285,32 @@ async function fetchStones() {
 
     return all_stones;
 }
+
+
 function paginateItems(items, pageNumber, pageSize) {
     const startIndex = (pageNumber - 1) * pageSize;
     return items.slice(startIndex, startIndex + pageSize);
 }
+
 
 function filterItems(items, pageNumber, pageSize) {
     const startIndex = (pageNumber - 1) * pageSize;
     return items.slice(startIndex, startIndex + pageSize);
 }
 
+
 function displayCurrentPage(items) {
     const productsGrid = document.querySelector('.products-grid');
     productsGrid.innerHTML = '';
 
-    let vocabulary_base =  {{ vocabulary|safe }};
-    console.log(vocabulary_base);
-    let vocabulary = Object.assign(vocabulary_base, translations_categories, filters_dict);
-
-    let itemId= 0;
+    let itemCounter= 0;
     items.forEach((item) => {
-        const productContainer = document.createElement('div');
-        productContainer.className = 'product-container';
-        productContainer.id = `product-${item.name}`;
-        productContainer.setAttribute('data-id', itemId);
-
-        productContainer.addEventListener('click', () => {
-            const favouriteItem = favouriteItems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
-
-// Check if the item was found in the favourites
-
-            let itemIsFavourite = Boolean(favouriteItem);
-            if(filteredItems.length === 0){
-                generateDialogContent(`${item.name}`, allItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}", itemIsFavourite, "{{ user.is_authenticated|safe }}", "{{ shop_page_url }}");
-            }
-            else{
-                if(filteredItems[0] === "No items found"){
-                    generateDialogContent(`${item.name}`, allItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}", itemIsFavourite, "{{ user.is_authenticated|safe }}", "{{ shop_page_url }}");
-
-                }
-                else {
-                     generateDialogContent(`${item.name}`, filteredItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}", itemIsFavourite,  "{{ user.is_authenticated|safe}}", "{{ shop_page_url }}");
-
-                }
-            }
-            });
-
-        // Create the image section
-        const imgSection = document.createElement('div');
-        imgSection.className = 'img-section';
-
-        const div_pre_order_icon = document.createElement('div');
-        const pre_order_icon = document.createElement('img');
-        pre_order_icon.className = 'icon-pre-order';
-        pre_order_icon.src = "{% static "icons/pre-order-icon.webp" %}";
-        div_pre_order_icon.appendChild(pre_order_icon);
-
-        const imgWrapper = document.createElement('div');
-        imgWrapper.className = 'img-wrapper';
-        const img = document.createElement('img');
-        img.src = item.preview_image;
-        {#img.width = 115;#}
-        {#img.height = 115;#}
-        img.style.borderRadius = '10px';
-
-        const iconContainer = document.createElement('div');
-        iconContainer.className = 'icon-container';
-
-        const heartIconContainer = document.createElement('div');
-        heartIconContainer.className = 'heart-icon-container';
-        const favouriteItem = favouriteItems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
-
-// Check if the item was found in the favourites
-
-        const itemIsFavourite = Boolean(favouriteItem); // Converts the result to a boolean
-
-        heartIconContainer.innerHTML = itemIsFavourite ?
-        `<i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:#000000;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i>` :
-        `<i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i>`; // Example with FontAwesome
-
-        // Adding your new icon
-        const newIconContainer = document.createElement('div');
-        newIconContainer.className = 'new-icon-container';
-        newIconContainer.innerHTML = `<i class="rts" data-size="24" data-color="#000000" style="width: 26px; height: 26px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M21.46,26H6.54C4,26,4,23.86,4,22.46V2H24V22.46C24,23.86,24,26,21.46,26Z" style="fill:none;stroke:#000000;stroke-miterlimit:10;stroke-width:2px"></path><path d="M10,8v.78c0,2.68,1.8,4.88,4,4.88s4-2.19,4-4.88V8" style="fill:none;stroke:#000000;stroke-miterlimit:10;stroke-width:2px"></path></svg></i>`;
-
-
-        heartIconContainer.addEventListener('mouseenter', (event) => {
-            const favouriteItem = favouriteItems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
-            const isFavBefore = Boolean(favouriteItem); // Converts the result to a boolean
-            let message_fav = isFavBefore ? "{{ _("Remove from favorites")|escapejs }}" : "{{ _("Add to favorites")|escapejs }}";
-
-            showTooltip(event, message_fav);
-        });
-        heartIconContainer.addEventListener('click', async (event) => {
-            const favouriteItem = favouriteItems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
-            const isFavBefore = Boolean(favouriteItem); // Converts the result to a boolean
-
-            // Stop the event from propagating to other elements
-            event.stopPropagation();
-            try {
-                // Replace `yourItemId` with the actual item ID or any identifier you use
-                const response = await fetch('{% url "change_favorite_state" %}', {
-                    method: 'POST', // or 'DELETE' if removing from favorites
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': getCookie('csrftoken'),
-
-                        // Include other headers as needed, like authorization tokens
-                    },
-                    body: JSON.stringify({item: JSON.stringify(item), "alreadyFavourite": isFavBefore ? "true":"false"}),
-                });
-
-                if (!response.ok) throw new Error('Network response was not ok.');
-
-                // Assuming the backend responds with the updated favorite status
-                const data = await response.json();
-                const isFavourite = data.isFavourite === "true";
-                const itemToAddOrRemove = JSON.parse(data.item); // Assuming this is an object {name_id: "someId", ...}
-                const existingTooltip = document.querySelector('.custom-tooltip');
-                if (existingTooltip) {
-                    existingTooltip.remove();
-                }
-                if (isFavourite) {
-                    // Add to favoriteItems if not already present
-                    const exists = favouriteItems.some(item => item.name === itemToAddOrRemove.name);
-                    if (!exists) {
-                        favouriteItems.push(itemToAddOrRemove);
-                    }
-                } else {
-                    // Remove from favoriteItems
-                    favouriteItems = favouriteItems.filter(item => item.name !== itemToAddOrRemove.name);
-                }
-
-                // Update the heart icon based on `isFavourite`
-                heartIconContainer.innerHTML = isFavourite ?
-                    `<i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:#000000;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i>` :
-                    `<i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i>`;
-            } catch (error) {
-                console.error('Error updating favorites:', error);
-            }
-        });
-        // Add event listeners for the new icon
-        newIconContainer.addEventListener('mouseenter', (event) => showTooltip(event, "{{ _("Add to cart")|escapejs }}"));
-        // Append both icon containers to the iconContainer
-        iconContainer.appendChild(newIconContainer);
-        iconContainer.appendChild(heartIconContainer);
-        // Finally, append the iconContainer to the imgWrapper or imgSection
-
-        imgWrapper.appendChild(img);
-        imgWrapper.appendChild(iconContainer);
-        // Append the imgWrapper to the imgSection
-
-
-
-        imgSection.appendChild(imgWrapper);
-
-        if (item.pre_order){
-            imgSection.appendChild(div_pre_order_icon);
-            div_pre_order_icon.addEventListener('mouseenter', (event) => {
-                showTooltip(event, "{{ _("This item is only available for pre-order")|escapejs }}");
-            });
-        }
-        // Create the info section
-        const infoSection = document.createElement('div');
-        infoSection.className = 'info-section';
-        const nameSpan = document.createElement('span');
-        nameSpan.className = 'info-name';
-
-        var parts = item.product_name.split(" ");
-        // Remove the last word
-        let last_word = parts.pop();
-        // Join the remaining parts to form the full phrase
-        var full_phrase = parts.join(" ");
-        nameSpan.textContent = translations_categories[full_phrase] ? translations_categories[full_phrase]+ " " + last_word : item.product_name;
-        const priceSpan = document.createElement('span');
-        priceSpan.className = 'info-price';
-        priceSpan.textContent = currency + `${item.price}`;
-        infoSection.appendChild(nameSpan);
-        infoSection.appendChild(document.createElement('br'));
-        infoSection.appendChild(priceSpan);
-
-        // Assemble the product container
-        productContainer.appendChild(imgSection);
-        productContainer.appendChild(infoSection);
-
+        let vocabulary = getVocabulary();
         // Append the product container to the products grid
-        productsGrid.appendChild(productContainer);
-        itemId+=1;
+        productsGrid.appendChild(createProductCard(false, item, itemCounter, allItems, filteredItems, favouriteItems, "{% static "icons/pre-order-icon.webp" %}", vocabulary, translations_categories, currency, "{% url "change_favorite_state" %}", show_quantities, "{% url 'add_from_catalog' %}", getCookie('csrftoken'), "{% url 'cart' %}", "{{ user.is_authenticated|safe }}", "{{ shop_page_url }}"));
+        itemCounter+=1;
     });
 }
-
 
 
 function applyFilters() {
@@ -1449,9 +1357,7 @@ function applyFilters() {
         let finalPlatings = {};
         Object.keys(orderedPlatings).forEach(plating => {
             let stones = orderedPlatings[plating].stones;
-            if(item.name==="57141") {
-                console.log(item);
-            }
+
             let orderedStones = {};
             let matchedStones = {};
             let allStones = {};
@@ -1590,6 +1496,8 @@ function order(array){
         });
     }
 }
+
+
 function updatePage() {
     let paginatedItems;
     let found = true;
@@ -1631,6 +1539,7 @@ document.getElementById('previous-button').addEventListener('click', function (e
     }
 });
 
+
 document.getElementById('next-button').addEventListener('click', function (event){
     event.preventDefault();
     if(currentPage<total_pages){
@@ -1638,6 +1547,7 @@ document.getElementById('next-button').addEventListener('click', function (event
         changePage(currentPage);
     }
 });
+
 
 document.getElementById('button-jump-to').addEventListener('click', function (event) {
     event.preventDefault();
@@ -1647,6 +1557,7 @@ document.getElementById('button-jump-to').addEventListener('click', function (ev
         changePage(currentPage);
     }
 });
+
 
 document.getElementById('select-items-per-page').addEventListener('change', function (event) {
     itemsPerPage = Number(event.target.value);
@@ -1659,6 +1570,8 @@ document.getElementById('select-items-per-page').addEventListener('change', func
     currentPage = 1;
     changePage(1);
 });
+
+
 document.getElementById('select-order').addEventListener('change', function (event) {
     let order = (event.target.value).split(', ');
 
@@ -1667,7 +1580,8 @@ document.getElementById('select-order').addEventListener('change', function (eve
     changePage(1);
 });
 
- $(document).ready(function(){
+
+$(document).ready(function(){
     $('.slider').on('input change', function() {
         const container_shows = document.getElementById('value-of-slider-price');
         container_shows.innerText = $(this).val();
@@ -1679,11 +1593,14 @@ document.querySelectorAll('.quantity-input-dialog').forEach(input => {
         console.log(this.value);
     })
 });
+
+
 document.querySelectorAll('.quantity-input-dialog').forEach(input => {
     input.addEventListener('change', function() {
         console.log(this.value);
     })
 });
+
 
 document.getElementById('product-card').addEventListener('click', async (event) => {
     const heartIconContainer = event.target.closest('.mobile-heart-container');
@@ -1716,10 +1633,7 @@ document.getElementById('product-card').addEventListener('click', async (event) 
         const data = await response.json();
         const isFavourite = data.isFavourite === "true";
         const itemToAddOrRemove = JSON.parse(data.item); // Assuming this is an object {name_id: "someId", ...}
-        const existingTooltip = document.querySelector('.custom-tooltip');
-        if (existingTooltip) {
-            existingTooltip.remove();
-        }
+        removeTooltip();
         if (isFavourite) {
             // Add to favoriteItems if not already present
             const exists = favouriteItems.some(item => item.name === itemToAddOrRemove.name);
@@ -1739,6 +1653,17 @@ document.getElementById('product-card').addEventListener('click', async (event) 
         console.error('Error updating favorites:', error);
     }
 });
+
+
+
+
+
+
+function getVocabulary(){
+    let vocabulary_base =  {{ vocabulary|safe }};
+    return Object.assign(vocabulary_base, translations_categories, filters_dict);
+}
+
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {

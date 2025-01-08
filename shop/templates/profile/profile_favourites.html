@@ -64,7 +64,7 @@ let filters_dict = {
     "Steel Brass": "{{ _("Steel Brass")|escapejs }}",
     "Silver": "{{ _("Silver")|escapejs }}",
 }
-    var firebaseConfig = {
+    let firebaseConfig = {
         apiKey: "AIzaSyAM0wDc_WO0wP3-_TPRPLENZDIHbezH7U4",
         authDomain: "flutterapp-fd5c3.firebaseapp.com",
         projectId: "flutterapp-fd5c3"
@@ -75,13 +75,14 @@ let filters_dict = {
 
     const show_quantities = "{{ show_quantities|safe }}" !== "False";
     let favouriteItems = [];
+    let allItems = [];
     document.addEventListener("DOMContentLoaded", async function () {
         showOverlay();
         favouriteItems = await fetchFavouriteItems("{{user.email}}");
-        {#console.log(favouriteItems);#}
         buildPageFavourites(favouriteItems);
         hideOverlay();
     });
+
 
     async function fetchFavouriteItems(userEmail) {
         const favouritesQuery = query(collection(db, "Favourites"), where("email", "==", userEmail));
@@ -104,8 +105,24 @@ let filters_dict = {
                 productContainer.setAttribute('data-id', itemId);
 
                 productContainer.addEventListener('click', () => {
-
-                    generateDialogContent(`${item.name}`, favouriteItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}", true, "{{ user.is_authenticated|safe }}", "{{ shop_page_url }}");
+                    generateDialogContent(
+                    `${item.name}`,
+                    favouriteItems,
+                    currency,
+                    show_quantities,
+                    "{% url 'add_from_catalog' %}",
+                    vocabulary,
+                    getCookie('csrftoken'),
+                    "{% url 'cart' %}",
+                    true,
+                    "{{ user.is_authenticated|safe }}",
+                    "{{ shop_page_url }}",
+                    allItems,
+                    favouriteItems,
+                    "{% static "icons/pre-order-icon.webp" %}",
+                    "{% url "change_favorite_state" %}",
+                    translations_categories
+                );
                 });
 
                 const container_card = document.createElement("div");

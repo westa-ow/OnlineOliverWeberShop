@@ -20,6 +20,7 @@ function productsTransmutation(items, price_category, sale, stones){
         if (!products[itemName] ) { //&& item.plating && item.stone
                 products[itemName] = {
                     name: itemName,
+                    groupName: item.product_name,
                     product_name: item.category + " "+ item.product_name,
                     description: item.description,
                     price:calculatePrice(item, price_category, sale),
@@ -102,6 +103,7 @@ function productsTransmutation(items, price_category, sale, stones){
             }
         }
     }
+    console.log(products);
     return Object.values(products);
 }
 

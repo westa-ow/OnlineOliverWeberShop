@@ -542,139 +542,13 @@ let filters_dict = {
         if (allItems.length > 0){
             const productsGrid = document.querySelector('.item-list');
             productsGrid.innerHTML = '';
-            let itemId= 0;
-            let vocabulary = Object.assign(vocabulary_dialog, translations_categories, filters_dict);
+            let itemCounter= 0;
+            let vocabulary = getVocabulary();
             items.forEach((item) => {
-                const productContainer = document.createElement('div');
-                productContainer.className = 'product-container';
-                productContainer.id = `product-${item.name}`;
-                productContainer.setAttribute('data-id', itemId);
-
-                productContainer.addEventListener('click', () => {
-                    const favouriteItem = favouriteitems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
-
-                    let itemIsFavourite = Boolean(favouriteItem);
-                    generateDialogContent(`${item.name}`, allItems, currency, show_quantities, "{% url "add_from_catalog" %}", vocabulary, getCookie('csrftoken'), "{% url "cart" %}", itemIsFavourite, "{{ user.is_authenticated|safe }}", "{{ shop_page_url }}");
-                });
-
-                // Create the image section
-                const imgSection = document.createElement('div');
-                imgSection.className = 'img-section';
-                const imgWrapper = document.createElement('div');
-                imgWrapper.className = 'img-wrapper';
-                const img = document.createElement('img');
-                img.src = item.preview_image;
-                img.width = 150;
-                img.height = 150;
-                img.style.borderRadius = '10px';
-
-                const iconContainer = document.createElement('div');
-                iconContainer.className = 'icon-container';
-
-                const heartIconContainer = document.createElement('div');
-                heartIconContainer.className = 'heart-icon-container';
-                const favouriteItem = favouriteitems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
-
-        // Check if the item was found in the favourites
-
-                const itemIsFavourite = Boolean(favouriteItem); // Converts the result to a boolean
-
-                heartIconContainer.innerHTML = itemIsFavourite ?
-                `<i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:#000000;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i>` :
-                `<i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i>`; // Example with FontAwesome
-
-                // Adding your new icon
-                const newIconContainer = document.createElement('div');
-                newIconContainer.className = 'new-icon-container';
-                newIconContainer.innerHTML = `<i class="rts" data-size="24" data-color="#000000" style="width: 26px; height: 26px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M21.46,26H6.54C4,26,4,23.86,4,22.46V2H24V22.46C24,23.86,24,26,21.46,26Z" style="fill:none;stroke:#000000;stroke-miterlimit:10;stroke-width:2px"></path><path d="M10,8v.78c0,2.68,1.8,4.88,4,4.88s4-2.19,4-4.88V8" style="fill:none;stroke:#000000;stroke-miterlimit:10;stroke-width:2px"></path></svg></i>`;
-
-
-                heartIconContainer.addEventListener('mouseenter', (event) => {
-                    const favouriteItem = favouriteitems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
-                    const isFavBefore = Boolean(favouriteItem); // Converts the result to a boolean
-                    let message_fav = isFavBefore ? "{{ _("Remove from favorites")|escapejs }}" : "{{ _("Add to favorites")|escapejs }}";
-
-                    showTooltip(event, message_fav)
-                });
-                heartIconContainer.addEventListener('click', async (event) => {
-                    const favouriteItem = favouriteitems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
-                    const isFavBefore = Boolean(favouriteItem); // Converts the result to a boolean
-
-                    // Stop the event from propagating to other elements
-                    event.stopPropagation();
-                    try {
-                        // Replace `yourItemId` with the actual item ID or any identifier you use
-                        const response = await fetch('{% url "change_favorite_state" %}', {
-                            method: 'POST', // or 'DELETE' if removing from favorites
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRFToken': getCookie('csrftoken'),
-
-                                // Include other headers as needed, like authorization tokens
-                            },
-                            body: JSON.stringify({item: JSON.stringify(item), "alreadyFavourite": isFavBefore ? "true":"false"}),
-                        });
-
-                        if (!response.ok) throw new Error('Network response was not ok.');
-
-                        // Assuming the backend responds with the updated favorite status
-                        const data = await response.json();
-                        const isFavourite = data.isFavourite === "true";
-                        const itemToAddOrRemove = JSON.parse(data.item); // Assuming this is an object {name_id: "someId", ...}
-                        const existingTooltip = document.querySelector('.custom-tooltip');
-                        if (existingTooltip) {
-                            existingTooltip.remove();
-                        }
-                        if (isFavourite) {
-                            // Add to favoriteItems if not already present
-                            const exists = favouriteitems.some(item => item.name === itemToAddOrRemove.name);
-                            if (!exists) {
-                                favouriteitems.push(itemToAddOrRemove);
-                            }
-                        } else {
-                            // Remove from favoriteItems
-                            favouriteitems = favouriteitems.filter(item => item.name !== itemToAddOrRemove.name);
-                        }
-
-                        // Update the heart icon based on `isFavourite`
-                        heartIconContainer.innerHTML = isFavourite ?
-                            `<i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:#000000;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i>` :
-                            `<i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i>`;
-                    } catch (error) {
-                        console.error('Error updating favorites:', error);
-                    }
-                });
-                // Add event listeners for the new icon
-                newIconContainer.addEventListener('mouseenter', (event) => showTooltip(event, 'Add to cart'));
-                // Append both icon containers to the iconContainer
-                iconContainer.appendChild(newIconContainer);
-                iconContainer.appendChild(heartIconContainer);
-                // Finally, append the iconContainer to the imgWrapper or imgSection
-
-                imgWrapper.appendChild(img);
-                imgWrapper.appendChild(iconContainer);
-                // Append the imgWrapper to the imgSection
-                imgSection.appendChild(imgWrapper);
-                // Create the info section
-                const infoSection = document.createElement('div');
-                infoSection.className = 'info-section';
-                const nameSpan = document.createElement('span');
-                nameSpan.className = 'info-name';
-                nameSpan.textContent = item.product_name;
-                const priceSpan = document.createElement('span');
-                priceSpan.className = 'info-price';
-                priceSpan.textContent = currency + `${item.price}`;
-                infoSection.appendChild(nameSpan);
-                infoSection.appendChild(document.createElement('br'));
-                infoSection.appendChild(priceSpan);
-
-                // Assemble the product container
-                productContainer.appendChild(imgSection);
-                productContainer.appendChild(infoSection);
 
                 // Append the product container to the products grid
-                productsGrid.appendChild(productContainer);
-                itemId+=1;
+                productsGrid.appendChild(createProductCard(false, item, itemCounter, allItems, allItems, favouriteitems, "{% static "icons/pre-order-icon.webp" %}", vocabulary, translations_categories, currency, "{% url "change_favorite_state" %}", show_quantities, "{% url 'add_from_catalog' %}", getCookie('csrftoken'), "{% url 'cart' %}", "{{ user.is_authenticated|safe }}", "{{ shop_page_url }}"));
+                itemCounter+=1;
             });
         }
         else{
@@ -751,7 +625,50 @@ document.getElementById('product-card').addEventListener('click', async (event) 
         console.error('Error updating favorites:', error);
     }
 });
+document.addEventListener('click', (event) => {
+    const clickedElement = event.target.closest('.card-carousel-item'); // Ищем ближайший родитель с этим классом
 
+    if (clickedElement) {
+        console.log("Clicked element has class card-carousel-item");
+        let id = clickedElement.getAttribute('data-item-id');
+        let dialog = document.getElementById('product-card');
+
+        // Закрываем диалог с анимацией
+        closeDialogWithAnimation(dialog);
+
+        // Дожидаемся завершения анимации, затем открываем новое окно
+        dialog.addEventListener(
+            'transitionend',
+            () => {
+                const favouriteItem = favouriteitems.find(item_fav => item_fav.name === id);
+                let itemIsFavourite = Boolean(favouriteItem);
+                generateDialogContent(
+                    id,
+                    allItems,
+                    currency,
+                    show_quantities,
+                    "{% url 'add_from_catalog' %}",
+                    getVocabulary(),
+                    getCookie('csrftoken'),
+                    "{% url 'cart' %}",
+                    itemIsFavourite,
+                    "{{ user.is_authenticated|safe }}",
+                    "{{ shop_page_url }}",
+                    allItems,
+                    favouriteitems,
+                    "{% static "icons/pre-order-icon.webp" %}",
+                    "{% url "change_favorite_state" %}",
+                    translations_categories
+                );
+            },
+            { once: true } // Убираем обработчик после первого выполнения
+        );
+    }
+});
+
+function getVocabulary(){
+    return Object.assign(vocabulary_dialog, translations_categories, filters_dict);
+}
 </script>
 </html>
 {%endblock%}

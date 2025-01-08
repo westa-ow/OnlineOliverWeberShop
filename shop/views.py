@@ -463,10 +463,12 @@ def get_vocabulary_product_card():
         "Product width": _("Product width"),
         "Product height": _("Product height"),
         "Chain length": _("Chain length"),
-        "AddToFavourites": _("Add to favorites"),
-        "RemoveFromFavourites": _("Remove from favorites"),
+        "Add to favorites": _("Add to favorites"),
+        "Remove from favorites": _("Remove from favorites"),
         "Copy link": _("Copy link"),
         "Copied!": _("Copied!"),
+        "Reset ": _("Reset this group"),
+        "Similar products": _("Similar products"),
 
     }
 
