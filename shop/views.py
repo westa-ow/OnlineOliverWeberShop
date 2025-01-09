@@ -469,6 +469,8 @@ def get_vocabulary_product_card():
         "Copied!": _("Copied!"),
         "Reset ": _("Reset this group"),
         "Similar products": _("Similar products"),
+        "Turn off the magnifying glass": _("Turn off the magnifying glass"),
+        "Turn on the magnifying glass": _("Turn on the magnifying glass"),
 
     }
 
