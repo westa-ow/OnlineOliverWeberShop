@@ -134,13 +134,7 @@ function bindGlobalClickEvent(dialog) {
     );
 }
 
-function dialogCommonSetup(dialog, image_url, card_content, image){
-
-    image.src = image_url;
-    image.width = `400`;
-    image.height = `400`;
-    image.classList.add('img-card');
-    card_content.appendChild(image);
+function dialogCommonSetup(dialog, image_url, card_content){
 
     const close_dialog = document.createElement('div');
     const icon_close = document.createElement('i');
@@ -235,6 +229,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
 
     const dialog = document.getElementById('product-card');
     const image = document.createElement('img');
+    image.classList.add('zoom-image');
     bindGlobalClickEvent(dialog);
     dialog.innerHTML = '';
 
@@ -253,7 +248,24 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
         quantity_max = Object.keys(firstStone.sizes || {}).length === 0 ? firstStone.quantity : firstSizeQuantity;
     }
 
-    dialogCommonSetup(dialog, imagePath, card_content, image);
+    image.src = imagePath;
+    image.width = `400`;
+    image.height = `400`;
+    image.classList.add('img-card');
+    const image_container = document.createElement('div');
+    image_container.classList.add('image-container');
+    image_container.appendChild(image);
+
+    const div_container = document.createElement('div');
+    if (window.matchMedia("(min-width: 769px)").matches) {
+        setupZoom(image_container, image);
+    }
+
+    div_container.appendChild(image_container);
+    card_content.appendChild(div_container);
+
+    dialogCommonSetup(dialog, imagePath, card_content);
+
 
     const secondColumn = document.createElement('div');
     secondColumn.classList.add('second-column');
@@ -723,7 +735,14 @@ function activate_success_card(item, quantity, cart_count, subtotalValue, curren
     const card_content = document.createElement('div');
     card_content.classList.add('success-card-content');
     const image = document.createElement('img');
-    dialogCommonSetup(dialog, item.image_url, card_content, image);
+
+    image.src = item.image_url;
+    image.width = `400`;
+    image.height = `400`;
+    image.classList.add('img-card');
+    card_content.appendChild(image);
+
+    dialogCommonSetup(dialog, item.image_url, card_content);
 
     //Column with text information and everything about added to cart product
     const secondColumn = document.createElement('div');
@@ -817,6 +836,132 @@ function manageButtonsSuccessSetup(dialog, column, vocabulary, checkout_url){
 
     container_for_success_buttons.appendChild(proceed_to_checkout);
     column.appendChild(container_for_success_buttons);
+}
+
+
+function setupZoom(image_container, image){
+    const magnifier = document.createElement('div');
+    magnifier.classList.add('magnifier');
+
+    const buttonMagnifier = document.createElement('button');
+    buttonMagnifier.classList.add('toggle-zoom-button');
+
+    const magnifier_icon = document.createElement('i');
+    magnifier_icon.classList.add('fa-solid', 'fa-magnifying-glass')
+
+    const zoomSettings = document.createElement('div');
+    zoomSettings.classList.add('zoom-settings');
+    zoomSettings.style.display = 'none'; // Скрываем настройки по умолчанию
+
+    // Добавляем ползунок для изменения уровня зума
+    const zoom_container = document.createElement('div');
+    zoom_container.classList.add('zoom-slider-container');
+    const zoomLabel = document.createElement('span');
+    zoomLabel.innerText = 'Zoom 2x ';
+    zoomLabel.id = "zoom-multiplier";
+
+    const zoomSlider = document.createElement('input');
+    zoomSlider.type = 'range';
+    zoomSlider.min = '1'; // Минимальный масштаб
+    zoomSlider.max = '4'; // Максимальный масштаб
+    zoomSlider.step = '0.1'; // Шаг изменения
+    zoomSlider.value = '2'; // Значение по умолчанию
+
+    zoom_container.appendChild(zoomSlider);
+    zoom_container.appendChild(zoomLabel);
+
+    zoomSettings.appendChild(zoom_container);
+
+    // Добавляем настройки в общий контейнер
+
+
+    // Обновить видимость настроек зума
+    const updateZoomSettingsVisibility = () => {
+        zoomSettings.style.display = isZoomEnabled ? 'block' : 'none';
+    };
+
+    // Добавляем событие на изменение значения ползунка
+    zoomSlider.addEventListener('input', () => {
+        const zoomLevel = parseFloat(zoomSlider.value);
+        document.getElementById('zoom-multiplier').innerText = `Zoom ${zoomLevel}x`;
+    // Обновляем масштаб увеличительного стекла
+        magnifier.style.backgroundSize = `${image.width * zoomLevel}px ${image.height * zoomLevel}px`;
+
+    });
+
+
+    buttonMagnifier.appendChild(magnifier_icon);
+
+
+    image_container.appendChild(magnifier);
+    const magnifier_settings_container = document.createElement('div');
+    magnifier_settings_container.classList.add('magnifier-settings');
+
+
+    magnifier_settings_container.appendChild(zoomSettings);
+    magnifier_settings_container.appendChild(buttonMagnifier);
+
+    image_container.appendChild(magnifier_settings_container);
+
+    let isZoomEnabled = true;
+
+    // Обновить состояние кнопки
+    const updateButtonState = () => {
+        if (isZoomEnabled) {
+            buttonMagnifier.classList.add('active');
+        } else {
+            buttonMagnifier.classList.remove('active');
+        }
+    };
+
+    // Обработчик переключения состояния увеличительного стекла
+    buttonMagnifier.addEventListener('click', () => {
+        isZoomEnabled = !isZoomEnabled;
+        updateButtonState();
+        magnifier.style.display = 'none';
+        updateZoomSettingsVisibility();
+    });
+
+    // Показать увеличительное стекло при наведении
+    image_container.addEventListener('mousemove', (e) => {
+        let zoomLevel = parseFloat(zoomSlider.value);
+        if (!isZoomEnabled) return;
+
+        // Получаем размеры контейнера изображения
+        const rect = image.getBoundingClientRect();
+
+        // Вычисляем координаты мыши относительно изображения
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        // Убедимся, что координаты мыши остаются в пределах изображения
+        if (x < 0 || y < 0 || x > rect.width || y > rect.height) {
+            magnifier.style.display = 'none';
+            return;
+        }
+
+        // Показываем лупу
+        magnifier.style.display = 'block';
+
+        // Вычисляем позицию лупы относительно изображения
+        magnifier.style.left = `${x - magnifier.offsetWidth / 2}px`;
+        magnifier.style.top = `${y - magnifier.offsetHeight / 2}px`;
+
+        // Устанавливаем фон (увеличенную область изображения) и позицию
+        magnifier.style.backgroundImage = `url(${image.src})`;
+        magnifier.style.backgroundSize = `${rect.width * zoomLevel}px ${rect.height * zoomLevel}px`;
+        magnifier.style.backgroundPosition = `-${(x * zoomLevel - magnifier.offsetWidth / 2)}px -${(y * zoomLevel - magnifier.offsetHeight / 2)}px`;
+    });
+
+    // Скрыть увеличительное стекло, если мышь выходит из изображения
+    image_container.addEventListener('mouseleave', () => {
+        magnifier.style.display = 'none';
+    });
+
+
+    // Установить начальное состояние кнопки
+    updateButtonState();
+    updateZoomSettingsVisibility();
 }
 
 
