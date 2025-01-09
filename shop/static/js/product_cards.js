@@ -258,7 +258,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
 
     const div_container = document.createElement('div');
     if (window.matchMedia("(min-width: 769px)").matches) {
-        setupZoom(image_container, image);
+        setupZoom(image_container, image, vocabulary);
     }
 
     div_container.appendChild(image_container);
@@ -839,7 +839,7 @@ function manageButtonsSuccessSetup(dialog, column, vocabulary, checkout_url){
 }
 
 
-function setupZoom(image_container, image){
+function setupZoom(image_container, image, vocabulary){
     const magnifier = document.createElement('div');
     magnifier.classList.add('magnifier');
 
@@ -872,9 +872,12 @@ function setupZoom(image_container, image){
 
     zoomSettings.appendChild(zoom_container);
 
-    // Добавляем настройки в общий контейнер
-
-
+    buttonMagnifier.addEventListener('mouseenter', (event) =>{
+        showTooltip(event, isZoomEnabled ?  vocabulary['Turn off the magnifying glass'] : vocabulary['Turn on the magnifying glass'])
+    });
+    buttonMagnifier.addEventListener('click', () => {
+       removeTooltip();
+    });
     // Обновить видимость настроек зума
     const updateZoomSettingsVisibility = () => {
         zoomSettings.style.display = isZoomEnabled ? 'block' : 'none';
