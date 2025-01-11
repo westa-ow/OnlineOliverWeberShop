@@ -466,6 +466,7 @@ document.addEventListener('click', (event) => {
     const clickedElement = event.target.closest('.card-carousel-item'); // Ищем ближайший родитель с этим классом
 
     if (clickedElement) {
+        console.log("Clicked element has class card-carousel-item");
         let id = clickedElement.getAttribute('data-item-id');
         let dialog = document.getElementById('product-card');
 
@@ -1419,29 +1420,47 @@ function applyFilters() {
 
         return true;
    });
-   if (platingFilters.length === 0) {
-       const defaultPlatingOrder = ["Rhodium", "Gold", "Rosegold"];
+  if (platingFilters.length === 0) {
+    const defaultPlatingOrder = ["Rhodium", "Gold", "Rosegold"];
 
-       // Сортируем покрытия внутри каждого элемента
-       filteredItems.forEach(item => {
-           const platingKeys = Object.keys(item.platings);
+    // Сортируем элементы по приоритету покрытий
+    filteredItems.sort((a, b) => {
+        // Определяем наивысший приоритет покрытия для каждого элемента
+        const priorityA = defaultPlatingOrder.findIndex(plating =>
+            Object.keys(a.platings).includes(plating));
+        const priorityB = defaultPlatingOrder.findIndex(plating =>
+            Object.keys(b.platings).includes(plating));
 
-           // Сортируем покрытия на основе приоритета
-           const sortedPlatings = platingKeys.sort((a, b) => {
-               const indexA = defaultPlatingOrder.indexOf(a);
-               const indexB = defaultPlatingOrder.indexOf(b);
-               return (indexA === -1 ? Infinity : indexA) - (indexB === -1 ? Infinity : indexB);
-           });
+        // Если приоритеты равны, сохраняем исходный порядок
+        if (priorityA === priorityB) {
+            return 0;
+        }
 
-           // Пересобираем объект покрытий
-           const sortedPlatingObject = {};
-           sortedPlatings.forEach(key => {
-               sortedPlatingObject[key] = item.platings[key];
-           });
-           item.platings = sortedPlatingObject;
-       });
+        // Сравниваем приоритеты
+        return (priorityA === -1 ? Infinity : priorityA) - (priorityB === -1 ? Infinity : priorityB);
+    });
 
-   }
+    // Сортируем покрытия внутри каждого элемента
+    filteredItems.forEach(item => {
+        const platingKeys = Object.keys(item.platings);
+
+        // Сортируем покрытия на основе приоритета
+        const sortedPlatings = platingKeys.sort((a, b) => {
+            const indexA = defaultPlatingOrder.indexOf(a);
+            const indexB = defaultPlatingOrder.indexOf(b);
+            return (indexA === -1 ? Infinity : indexA) - (indexB === -1 ? Infinity : indexB);
+        });
+
+        // Пересобираем объект покрытий
+        const sortedPlatingObject = {};
+        sortedPlatings.forEach(key => {
+            sortedPlatingObject[key] = item.platings[key];
+        });
+        item.platings = sortedPlatingObject;
+    });
+
+    console.log("Sorted Items with Sorted Platings:", filteredItems);
+}
    if(sizeFilters.length === 0){
        for (let productName in filteredItems) {
         for (let platingName in filteredItems[productName].platings) {
