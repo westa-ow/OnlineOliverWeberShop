@@ -489,6 +489,9 @@
     cursor: pointer;
     position: inherit;
 }
+.zoom-settings input[type="range"]:focus {
+    outline: none;
+}
 
 .zoom-slider-container{
     display: flex;
