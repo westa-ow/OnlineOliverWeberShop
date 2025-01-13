@@ -79,7 +79,7 @@ def register(request):
                     'birthday': birthdate,
                     'country': "",
                     "agent_number": "",
-                    'price_category': 'Default',
+                    'price_category': category,
                     'currency': currency,
                     'receive_offers': offers,
                     'receive_newsletter': newsletter,
