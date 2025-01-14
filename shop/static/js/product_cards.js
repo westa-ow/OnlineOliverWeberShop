@@ -1085,8 +1085,9 @@ function createProductCard(isCarousel, item, itemCounter, allItems, filteredItem
 
     // Finally, append the iconContainer to the imgWrapper or imgSection
     imgWrapper.appendChild(img);
-    imgWrapper.appendChild(iconContainer);
-
+    if (window.matchMedia("(max-width: 769px)").matches && user_auth === "True") {
+        imgWrapper.appendChild(iconContainer);
+    }
     // Append the imgWrapper to the imgSection
     imgSection.appendChild(imgWrapper);
 
