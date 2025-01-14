@@ -157,6 +157,7 @@
 let products = [];
 let orders = {{ orders|safe }};
 let currencies =  {{ currencies|safe }};
+let b2b_can_pay = "{{ b2b_can_pay|safe  }}" === "True";
 document.addEventListener("DOMContentLoaded", function() {
     let product = "{{ products|safe }}";
     product = product.replaceAll("True", "true").replaceAll("False", "false");
@@ -178,11 +179,12 @@ document.querySelectorAll('.i-menu-points').forEach(button => {
         let orderId = button.getAttribute('data-order-id');
         let current_order = orders.filter(item => item.order_id === parseInt(orderId))[0];
 
+        if(b2b_can_pay){
         if (current_order.payment_type === 'BANK TRANSFER' && current_order.paid_sum !== current_order.sum ){
             document.getElementById('payForOrder').style.display = 'block';
         } else {
             document.getElementById('payForOrder').style.display = 'none';
-        }
+        }}
 
         // Function to hide the context menu
         function hideContextMenu() {
@@ -221,41 +223,42 @@ document.querySelectorAll('.i-menu-points').forEach(button => {
             window.location.href = address;
             window.location.href = `/admin_tools/orders_control/download_pdf_no_img/${orderId}/`;
         };
+        if (b2b_can_pay) {
+            document.getElementById('payForOrder').onclick = function () {
+                const modal = document.getElementById('custom-modal');
+                const overlay = document.getElementById('custom-modal-overlay');
+                let orderPaidSum = current_order.paid_sum ? current_order.paid_sum.toString() : 0;
+                const orderPrice = current_order.sum; // Пример цены, можно заменить на динамическое значение
+                console.log(orderPaidSum);
+                let max_sum_to_pay = orderPrice - orderPaidSum;
 
-        document.getElementById('payForOrder').onclick = function() {
-            const modal = document.getElementById('custom-modal');
-            const overlay = document.getElementById('custom-modal-overlay');
-            let orderPaidSum = current_order.paid_sum ? current_order.paid_sum.toString() : 0;
-            const orderPrice = current_order.sum; // Пример цены, можно заменить на динамическое значение
-            console.log(orderPaidSum);
-            let max_sum_to_pay = orderPrice - orderPaidSum;
+                // Устанавливаем цену в текстовое поле
+                document.getElementById('order-price').innerText = `${current_order.currency === "Euro" ? "€" : "$"}${max_sum_to_pay.toFixed(2)}`;
 
-            // Устанавливаем цену в текстовое поле
-            document.getElementById('order-price').innerText =  `${current_order.currency === "Euro" ? "€" : "$"}${max_sum_to_pay.toFixed(2)}`;
+                document.getElementById('amount-input').max = max_sum_to_pay;
 
-            document.getElementById('amount-input').max = max_sum_to_pay;
+                document.getElementById('amount-input').max = max_sum_to_pay;
 
-            document.getElementById('amount-input').max = max_sum_to_pay;
+                // Показываем модальное окно и оверлей
+                modal.style.display = 'block';
+                overlay.style.display = 'block';
 
-            // Показываем модальное окно и оверлей
-            modal.style.display = 'block';
-            overlay.style.display = 'block';
+                // Отключаем прокрутку страницы
+                document.body.style.overflow = 'hidden';
 
-            // Отключаем прокрутку страницы
-            document.body.style.overflow = 'hidden';
+                document.getElementById('pay-button').onclick = function () {
+                    const amount = parseFloat(document.getElementById('amount-input').value.toString().replace(',', '.'));
+                    console.log(amount);
+                    if (isNaN(amount) || amount <= 0) {
+                        alert("{{ _("Please enter a valid amount.")|escapejs }}");
+                        return;
+                    }
+                    // Вызов функции оплаты
+                    pay_for_order(amount, current_order);   // ДОБАВИТЬ СЮДА ПАРС ADDRESS_DICT КОТОРЫЙ НУЖНО САМОМУ СОЗДАВАТЬ
+                };
 
-            document.getElementById('pay-button').onclick = function() {
-                const amount = parseFloat(document.getElementById('amount-input').value.toString().replace(',', '.'));
-                console.log(amount);
-                if (isNaN(amount) || amount <= 0) {
-                    alert("{{ _("Please enter a valid amount.")|escapejs }}");
-                    return;
-                }
-                // Вызов функции оплаты
-                pay_for_order(amount, current_order);   // ДОБАВИТЬ СЮДА ПАРС ADDRESS_DICT КОТОРЫЙ НУЖНО САМОМУ СОЗДАВАТЬ
             };
-
-        };
+        }
 
 
     });
