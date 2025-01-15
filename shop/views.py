@@ -724,12 +724,20 @@ def update_email_in_db(old_email, new_email):
 
 
 def serialize_firestore_document(doc):
-    # Convert a Firestore document to a dictionary, handling DatetimeWithNanoseconds
+    """
+    Convert a Firestore document to a dictionary, handling DatetimeWithNanoseconds.
+
+    Args:
+        doc: Firestore document snapshot.
+
+    Returns:
+        dict: Serialized dictionary with ISO-formatted datetime strings.
+    """
     doc_dict = doc.to_dict()
     for key, value in doc_dict.items():
         if isinstance(value, datetime):
-            # Convert datetime to string (ISO format)
-            doc_dict[key] = value.isoformat()
+            # Convert datetime to ISO format (compatible with JavaScript/JSON)
+            doc_dict[key] = value.strftime('%Y-%m-%d %H:%M:%S')
     return doc_dict
 
 

@@ -528,7 +528,7 @@
             row.appendChild(totalCell);
 
             let paymentMethodCell = document.createElement('td');
-            paymentMethodCell.textContent = "Bank transfer";
+            paymentMethodCell.textContent = order.payment_type || "Bank transfer";
             row.appendChild(paymentMethodCell);
 
             let statusCell = document.createElement('td');

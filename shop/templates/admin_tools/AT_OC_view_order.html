@@ -50,14 +50,26 @@
                         <strong>Account registered:</strong>
                     </p>
                     <p>{{ user_info.registrationDate}}</p>
+
+                    <p class="mb-1">
+                        <strong class="order-tracker" >Order tracker </strong>
+                        <strong class="edit-tracker" ><a><i class="material-icons">edit</i></a></strong>
+                    </p>
+
+                    <p>
+                        {% if Order.tracker %}
+
+                            <a class="tracker-icon" href="{{ Order.tracker }}"> Tracker <i class="fa-solid fa-location-crosshairs"></i> </a>
+                        {% else %}
+                            Tracker is missing
+                        {% endif %}</p>
                 </div>
                 <div id="customerEmail" class="col-xxl-6">
                     <p class="mb-1">
                         <strong>Order date:</strong>
                     </p>
                     <p>
-                            {{ Order.date }}
-
+                        {{ Order.date }}
                     </p>
                     <p class="mb-1">
                         <strong class="current-order" >Current order №{{ order.order_id }}</strong>
@@ -77,16 +89,16 @@
     {% endif %}
         <div class="order-table">
            <div class="card-header table-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-    <h3 style="margin-right: auto;">Products ({{ user_orders|length }})</h3>
-    <div class="card-header table-header" style="display: flex; justify-content: space-between;">
+                <h3 style="margin-right: auto;">Products ({{ user_orders|length }})</h3>
+                <div class="card-header table-header" style="display: flex; justify-content: space-between;">
 
-        <form id="uploadForm" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="file" class="" name="xlsx_file" accept=".xlsx" required>
-            <button type="submit" class="uploadBtn">Upload</button>
-        </form>
-    </div>
-</div>
+                    <form id="uploadForm" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="file" class="" name="xlsx_file" accept=".xlsx" required>
+                        <button type="submit" class="uploadBtn">Upload</button>
+                    </form>
+                </div>
+            </div>
             <div class="table-body">
                 <table>
                     <thead>
@@ -139,6 +151,17 @@
     </div>
   </div>
 </div>
+<div id="modal-edit-tracker" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <label for="statusSelect">Update the order tracker link here:</label>
+    <input id="trackerInput" type="text" value="{{ Order.tracker|default:"" }}" placeholder="Enter tracking number">
+    <div class="modal-footer">
+      <button id="cancelBtnTracker">Cancel</button>
+      <button id="confirmBtnTracker">Confirm</button>
+    </div>
+  </div>
+</div>
 <script>
     let change_order = {{ Order|safe }};
 
@@ -153,6 +176,11 @@
             edit_status.addEventListener('click', addEventToEdit)
         }
 
+        const edit_tracker = document.querySelector('.edit-tracker');
+        if(edit_tracker){
+            edit_tracker.addEventListener('click', addEventToAddTracker)
+        }
+
         const checkboxes = document.querySelectorAll('.checkbox-product');
         if(checkboxes){
             checkboxes.forEach(checkbox => {
@@ -165,7 +193,6 @@
 
     function addEventToEdit(){
         document.getElementById('myModal').style.display = 'block';
-
 
        // Handle the cancel button: close the modal
         document.getElementById('cancelButton').addEventListener('click', function() {
@@ -207,7 +234,49 @@
             }
         };
     }
+    function addEventToAddTracker(){
+        document.getElementById('modal-edit-tracker').style.display = 'block';
 
+       // Handle the cancel button: close the modal
+        document.getElementById('cancelBtnTracker').addEventListener('click', function() {
+            document.getElementById('modal-edit-tracker').style.display = 'none';
+        });
+
+        document.getElementById('confirmBtnTracker').onclick = async () => {
+            const tracker_link = document.getElementById('trackerInput').value;
+            // Ensure a status is selected
+            if (tracker_link === '' ) {
+                alert('Please add correct tracker link.');
+                return;
+            }
+            const csrftoken = getCookie('csrftoken'); // Get the CSRF token
+
+            try {
+                const response = await fetch('{% url 'change_tracker_link' %}', { // Use the correct path to your Django view
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken, // Include CSRF token in request headers
+                        // Add any required headers here, like CSRF tokens
+                    },
+                    body: JSON.stringify({ orderId: change_order.orderId || change_order['order-id'], tracker: tracker_link}),
+                });
+
+                if (response.ok) {
+                    alert('Information was successfully updated');
+                    window.location.reload();
+                } else {
+                    throw new Error('Failed to update order statuses');
+                }
+            } catch (error) {
+                alert(error.message);
+            } finally {
+                // Hide the modal and reset the dropdown regardless of success or failure
+                document.getElementById('modal-edit-tracker').style.display = 'none';
+
+            }
+        };
+    }
     async function addChangeInStockListener(checkbox){
         let jsonString = checkbox.getAttribute('data-order');
         let correctedJsonString = jsonString.replaceAll("'", '"').replace('False', 'false').replace('True', 'true');

@@ -97,3 +97,180 @@ input[type="file"]::file-selector-button:hover {
 input[type="file"]::file-selector-button:active {
   background-color: #e5e7eb;
 }
+
+
+/* General styles for the modal */
+#modal-edit-tracker {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1000; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+}
+
+/* Modal content box */
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto; /* 10% from the top and centered */
+  padding: 20px;
+  border: 1px solid #ccc;
+  width: 50%; /* Could be adjusted based on your needs */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s;
+}
+
+/* Label and input styling */
+.modal-content label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #333;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* Footer styles */
+.modal-footer {
+  text-align: right;
+}
+
+.modal-footer button {
+  padding: 10px 20px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+#cancelBtnTracker {
+  background-color: #CC0034; /* Red */
+  color: white;
+  transition: all 0.3s;
+}
+
+#cancelBtnTracker:hover {
+  background-color: #e33232;
+}
+
+#confirmBtnTracker {
+  background-color: #077a07; /* Green */
+  color: white;
+  transition: all 0.3s;
+}
+
+#confirmBtnTracker:hover {
+  background-color: #388E3C;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+.tracker-icon{
+    padding: 8px;
+    font-size: 15px;
+    color: #ffffff !important;
+    background-color: #45c74a;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+.tracker-icon:hover{
+    background-color: #389f3c;
+}
+
+/* General styles for the modal */
+#myModal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1000; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+}
+
+/* Modal content box */
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto; /* 10% from the top and centered */
+  padding: 20px;
+  border: 1px solid #ccc;
+  width: 50%; /* Could be adjusted based on your needs */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s;
+}
+
+/* Label and select styling */
+.modal-content label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #333;
+}
+
+.modal-content select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* Footer styles */
+.modal-footer {
+  text-align: right;
+}
+
+.modal-footer button {
+  padding: 10px 20px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+#cancelButton {
+  background-color: #f44336; /* Red */
+  color: white;
+}
+
+#cancelButton:hover {
+  background-color: #d32f2f;
+}
+
+#confirmButton {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
+
+#confirmButton:hover {
+  background-color: #388E3C;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}

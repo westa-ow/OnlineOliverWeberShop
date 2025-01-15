@@ -27,7 +27,8 @@ from shop.views_scripts.orders_control.bulk_change_statuses import change_status
 from shop.views_scripts import catalog_views
 from shop.views_scripts.orders_control.download_order import download_csv_order, download_pdf_w_img, \
     download_pdf_no_img, at_delete_order
-from shop.views_scripts.orders_control.view_order import view_order, change_in_stock, upload_in_stock
+from shop.views_scripts.orders_control.view_order import view_order, change_in_stock, upload_in_stock, \
+    change_tracker_link
 from shop.views_scripts.service_views import service_pages_view
 from shop.views_scripts.stripe_views import stripe_config, create_checkout_session, CancelledView, SuccessView, \
     stripe_webhook
@@ -104,6 +105,7 @@ urlpatterns = i18n_patterns(
     path('admin_tools/users_control/edit_user/<str:user_id>/', edit_user, name='at_edit_user'),
     path('admin_tools/users_control/view_user/<str:user_id>/', view_user, name='at_view_user'),
     path('change_statuses/', change_statuses, name='change_few_statuses'),
+    path('change_tracker_link/', change_tracker_link, name='change_tracker_link'),
     path('admin_tools/orders_control/view_order/<str:order_id>/', view_order, name='at_view_order'),
     path('admin_tools/orders_control/download_csv/<str:order_id>/', download_csv_order, name='at_download_csv'),
     path('admin_tools/orders_control/download_pdf_no_img/<str:order_id>/', download_pdf_no_img, name='at_download_pdf_no_img'),

@@ -108,6 +108,34 @@ def change_in_stock(request):
     else:
         return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
 
+
+@login_required
+def change_tracker_link(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            orderId = data.get('orderId')
+            tracker_link = data.get('tracker')
+
+            query = orders_ref.where("`order-id`", '==', int(orderId)).limit(1).stream()
+            found = False
+            for item in query:
+                document_ref = item.reference
+                document_ref.update({'tracker': tracker_link})
+                found = True
+            if not found:
+                fallbackOrderRef = orders_ref.where("order_id", '==', int(orderId)).limit(1).stream()
+                for item in fallbackOrderRef:
+                    document_ref = item.reference
+                    document_ref.update({'tracker': tracker_link})
+                    break
+            return JsonResponse({"success": True, "message": "Order tracker updated successfully."})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
+
+
 @login_required
 @user_passes_test(is_admin)
 def upload_in_stock(request, order_id):
