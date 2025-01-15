@@ -221,7 +221,6 @@ document.querySelectorAll('.i-menu-points').forEach(button => {
             let address = "{% url "at_download_pdf_no_img" order_id="BIG" %}";
             address = address.replace('BIG', orderId);
             window.location.href = address;
-            window.location.href = `/admin_tools/orders_control/download_pdf_no_img/${orderId}/`;
         };
         if (b2b_can_pay) {
             document.getElementById('payForOrder').onclick = function () {
