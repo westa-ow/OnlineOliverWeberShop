@@ -391,26 +391,44 @@ def make_pdf(order, buffer, isWithImgs):
     white_style.fontName = 'Roboto'  # Укажите ваш шрифт
     white_style.fontSize = 10
     white_style.textColor = colors.white
+
+    paragraph_style = ParagraphStyle(
+        name='Normal',
+        fontName='Roboto',
+        fontSize=10,
+        leading=12,  # Межстрочный интервал
+        wordWrap='CJK',  # Перенос по словам
+    )
+
     # Адреса
     address_data = [
         [Paragraph(_("Customer Billing Details"), white_style), Paragraph(_("Delivery Details"), white_style)],
-        [_("Contact Phone")+f': {billing_address.get("phone", "")}',
+        [_("Contact Phone") + f': {billing_address.get("phone", "")}',
          _("Ship-To Code") + f': {shipping_address.get("address_id", "")}'],
-        [ _("Billing Address") + ':',
-         _("Ship-To Name") + f': {shipping_address.get("first_name", "")} {shipping_address.get("last_name", "")}'],
-        [f"{billing_address.get('real_address', '')} {billing_address.get('address_complement', '')}",
-         _("Shipping Address") + f': {shipping_address.get("real_address", "")} {shipping_address.get("address_complement", "")}'],
-        [f'{billing_address.get("city", "")}', f'{shipping_address.get("city", "")}'],
-        [f'{billing_address.get("postal_code", "")}', f"{shipping_address.get('postal_code', '')}"],
-        # ["Ontario", "ON"],
-        [f"{billing_address.get('country', '')}", f"{shipping_address.get('country', '')}"],
+        [Paragraph(_("Billing Address") + ':', paragraph_style),
+         Paragraph(
+             _("Ship-To Name") + f': {shipping_address.get("first_name", "")} {shipping_address.get("last_name", "")}',
+             paragraph_style)],
+        [Paragraph(f"{billing_address.get('real_address', '')} {billing_address.get('address_complement', '')}",
+                   paragraph_style),
+        Paragraph(
+             _("Shipping Address") + f": {shipping_address.get('real_address', '')} {shipping_address.get('address_complement', '')}",
+             paragraph_style)],
+        [Paragraph(f'{billing_address.get("city", "")}', paragraph_style),
+         Paragraph(f'{shipping_address.get("city", "")}', paragraph_style)],
+        [Paragraph(f'{billing_address.get("postal_code", "")}', paragraph_style),
+         Paragraph(f"{shipping_address.get('postal_code', '')}", paragraph_style)],
+        [Paragraph(f"{billing_address.get('country', '')}", paragraph_style),
+         Paragraph(f"{shipping_address.get('country', '')}", paragraph_style)],
     ]
 
     address_table = Table(address_data, colWidths=[250, 250])
-    address_table.setStyle(TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#003765")),
-                                       ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-                                       ('FONTNAME', (0, 0), (-1, -1), 'Roboto'),  # Задаём шрифт для всей таблицы
-                                       ]))
+    address_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#003765")),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+        ('FONTNAME', (0, 0), (-1, -1), 'Roboto'),  # Задаём шрифт для всей таблицы
+        ('VALIGN', (0, 0), (-1, -1), 'TOP'),  # Выравниваем содержимое по верхнему краю
+    ]))
 
     elements.append(address_table)
     elements.append(Spacer(1, 20))
