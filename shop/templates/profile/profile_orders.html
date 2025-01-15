@@ -97,6 +97,7 @@
                     <th> {% trans "Date" %} </th>
                     <th> {% trans "Total price" %} </th>
                     <th> {% trans "Shipping price" %} </th>
+                    <th> {% trans "Tracker" %} </th>
                     <th> {% trans "Payment" %} </th>
                     <th> {% trans "Status" %} </th>
                     <th>  </th>
@@ -110,6 +111,7 @@
                         <td class="td-outer">{{ document.date }}</td>
                         <td class="td-outer">{{ document.currency|default:"€" }}{{ document.sum }}</td>
                         <td class="td-outer">{{ document.currency|default:"€" }}{{ document.shippingPrice }}</td>
+                        <td class="td-outer">{% if document.tracker != "None" %}<a class="tracker-icon" href="{{ document.tracker }}"> Tracker <i class="fa-solid fa-location-crosshairs"></i> </a>{% endif %}</td>
                         <td class="td-outer">{{ document.payment_type }} {% if document.payment_type == "BANK TRANSFER" and document.paid_sum > 0 and b2b_can_pay %} <br><br> Paid {{ document.currency }}{{ document.paid_sum }}/{{ document.currency }}{{ document.sum }} {% endif %} </td>
                         <td class="td-outer">{{ document.Status }}</td>
                         <td class="td-outer">

@@ -91,14 +91,14 @@ table tbody tr:nth-of-type(2n+1) {
     cursor: pointer;
 }
 
-section a {
+section .show-content {
   position: relative; /* Required for absolute positioning of pseudo-elements */
   display: inline-block; /* Ensures the container fits the content, allowing the underline to match link width */
   text-decoration: none; /* Optional: Removes the default underline */
 }
 
 /* Initial state of the pseudo-element used for the underline */
-section a::before {
+section .show-content::before {
   content: ''; /* Required for the pseudo-element to be generated */
   position: absolute;
   left: 0;
@@ -111,7 +111,7 @@ section a::before {
 }
 
 /* State of the pseudo-element when the link is hovered */
- section a:hover::before, section a:focus::before {
+section .show-content:hover::before, section .show-content:focus::before {
   width: 100%;
   opacity: 1; /* Make the underline fully visible on hover/focus */
 }
@@ -182,7 +182,18 @@ section a::before {
 #pay-button {
     width: 100%;
 }
-
+.tracker-icon{
+    padding: 8px;
+    font-size: 15px;
+    color: #ffffff !important;
+    background-color: #45c74a;
+    border-radius: 5px;
+    text-decoration: none!important;
+    transition: all 0.3s;
+}
+.tracker-icon:hover{
+    background-color: #389f3c;
+}
 /*#pay-button:hover {*/
 /*    background-color: #0056b3;*/
 /*}*/

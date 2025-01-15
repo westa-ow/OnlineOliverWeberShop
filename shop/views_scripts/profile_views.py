@@ -79,6 +79,7 @@ def get_orders_for_user(email):
             'shippingPrice': order_info.get('shippingPrice', 0),
             'currency': "€" if order_info.get('currency') == "Euro" else "$",
             'payment_type': order_info.get('payment_type', "BANK TRANSFER"),
+            'tracker': order_info.get('tracker', 'None'),
             'paid_sum': order_info.get('paid_sum', 0),
             'shippingAddressId': order_info.get('shippingAddressId', ""),
             'billingAddressId': order_info.get('billingAddressId', ""),
