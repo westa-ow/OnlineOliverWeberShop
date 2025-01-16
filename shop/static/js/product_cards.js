@@ -573,16 +573,12 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
         card.appendChild(card_bottom_content);
     }
     dialog.appendChild(card);
-    // Устанавливаем начальное состояние перед показом
 
     // Принудительный reflow перед анимацией
     dialog.classList.add('show');
     dialog.offsetHeight;
     // Показываем модальное окно
     dialog.showModal();
-
-    // Запускаем анимацию с задержкой
-
 
 }
 
@@ -857,7 +853,7 @@ function setupZoom(image_container, image, vocabulary){
     const zoom_container = document.createElement('div');
     zoom_container.classList.add('zoom-slider-container');
     const zoomLabel = document.createElement('span');
-    zoomLabel.innerText = 'Zoom 2x ';
+    zoomLabel.innerText = 'Zoom 1x ';
     zoomLabel.id = "zoom-multiplier";
 
     const zoomSlider = document.createElement('input');
@@ -865,7 +861,7 @@ function setupZoom(image_container, image, vocabulary){
     zoomSlider.min = '1'; // Минимальный масштаб
     zoomSlider.max = '4'; // Максимальный масштаб
     zoomSlider.step = '0.1'; // Шаг изменения
-    zoomSlider.value = '2'; // Значение по умолчанию
+    zoomSlider.value = '1'; // Значение по умолчанию
 
     zoom_container.appendChild(zoomSlider);
     zoom_container.appendChild(zoomLabel);
