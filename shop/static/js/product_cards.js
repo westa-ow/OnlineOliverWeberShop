@@ -89,7 +89,7 @@ function fulfilDropdown(dropdown, array, vocabulary){
     }
 }
 
-function closeDialogWithAnimation(dialog) {
+function closeDialogWithAnimation(dialog, isCarousel) {
     dialog.classList.remove('show');
     dialog.offsetHeight;
     // Ждём завершения анимации
@@ -102,6 +102,9 @@ function closeDialogWithAnimation(dialog) {
         },
         { once: true } // Убедимся, что слушатель удаляется после срабатывания
     );
+    if(!isCarousel) {
+        currentPlating = "";
+    }
 }
 function bindGlobalClickEvent(dialog) {
     document.addEventListener(
@@ -127,7 +130,7 @@ function bindGlobalClickEvent(dialog) {
 
             if (dialog.open) {
                 document.body.style.overflow = ''; // Разрешаем прокрутку страницы
-                closeDialogWithAnimation(dialog); // Закрываем диалог
+                closeDialogWithAnimation(dialog, false); // Закрываем диалог
             }
         },
         true // Используем захват, чтобы обработать событие перед всплытием
@@ -142,7 +145,7 @@ function dialogCommonSetup(dialog, image_url, card_content){
     close_dialog.appendChild(icon_close);
     close_dialog.addEventListener('click',()=>{
        document.body.style.overflow = '';
-       closeDialogWithAnimation(dialog);
+       closeDialogWithAnimation(dialog, false);
     });
 
     close_dialog.classList.add('close-card');
@@ -205,6 +208,7 @@ function removeTooltip(){
 }
 
 let currentPlating = "";
+currentPlating = "";
 function generateDialogContent(id, items_array, currency, show_quantities, add_to_cart_url, vocabulary, cookie, checkout_url, isFavourite, user_auth, single_product_url, allItems, favouriteItems, pre_order_img_src, change_fav_state_url, translations_categories){
     let quantity_max = 1;
 
@@ -579,10 +583,13 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
         card.appendChild(card_bottom_content);
     }
     dialog.appendChild(card);
-if (!currentPlating) {
+    if (!currentPlating) {
         console.log(`FIRST TIME? ${firstPlatingKey}`);
         currentPlating = firstPlatingKey || "Rhodium"; // Покрытие по умолчанию
 
+        updateCarouselImages(currentPlating, allItems);
+    }
+    else{
         updateCarouselImages(currentPlating, allItems);
     }
     // Принудительный reflow перед анимацией
@@ -740,14 +747,14 @@ function add_to_cart_func(item, plating, stone, size, quantity, add_button, dial
     .then(data => {
         if (data.status === 'success') {
 
-            closeDialogWithAnimation(dialog);
+            closeDialogWithAnimation(dialog, false);
             setTimeout(() => {
                 activate_success_card(data.product, data.quantity, data.cart_size, data.subtotal, currency, vocabulary, checkout_url);
             }, 0);
 
         } else {
             alert(`${vocabulary['An error occured']}: ` + data.error);
-            closeDialogWithAnimation(dialog);
+            closeDialogWithAnimation(dialog, false);
         }
     });
 }
@@ -850,8 +857,8 @@ function manageButtonsSuccessSetup(dialog, column, vocabulary, checkout_url){
     container_for_success_buttons.appendChild(continue_shopping);
 
     continue_shopping.addEventListener('click', ()=>{
-         document.body.style.overflow = '';
-        closeDialogWithAnimation(dialog);
+        document.body.style.overflow = '';
+        closeDialogWithAnimation(dialog, false);
     });
 
     const proceed_to_checkout = document.createElement('a');
@@ -1028,21 +1035,27 @@ function createProductCard(isCarousel, item, itemCounter, allItems, filteredItem
             change_fav_state_url,
             translations_categories
         );
-        if(isCarousel) {
-            // Автоматически выбираем текущее покрытие в новой карточке
-            const observer = new MutationObserver((mutations, obs) => {
-            const platingDropdown = document.querySelector('.card-dropdown');
-            if (platingDropdown) {
-                platingDropdown.value = currentPlating;
-                platingDropdown.dispatchEvent(new Event('change'));
-                obs.disconnect(); // Останавливаем наблюдение
+        if (isCarousel) {
+    // Автоматически выбираем текущее покрытие в новой карточке
+    const observer = new MutationObserver((mutations, obs) => {
+        const platingDropdown = document.querySelector('.card-dropdown');
+        if (platingDropdown) {
+            // Проверяем, есть ли у товара текущее покрытие
+            if (!item.platings[currentPlating]) {
+                console.warn(`Покрытие ${currentPlating} не найдено у товара ${item.name}, выбираем первое доступное.`);
+                currentPlating = Object.keys(item.platings)[0] || "Gold"; // Если нет доступных покрытий, берём Gold
             }
-        });
 
-        // Наблюдаем за изменениями внутри карточки
-        const dialog = document.getElementById('product-card');
-        observer.observe(dialog, { childList: true, subtree: true });
+            platingDropdown.value = currentPlating;
+            platingDropdown.dispatchEvent(new Event('change'));
+
+            obs.disconnect(); // Останавливаем наблюдение
         }
+    });
+
+    const dialog = document.getElementById('product-card');
+    observer.observe(dialog, { childList: true, subtree: true });
+}
     });
 
     // Create the image section
