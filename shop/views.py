@@ -1,5 +1,6 @@
 import ast
 import random
+import uuid
 from datetime import datetime
 from random import randint
 import geoip2.database
@@ -45,6 +46,7 @@ metadata_ref = db.collection('metadata')
 favourites_ref = db.collection('Favourites')
 single_order_ref = db.collection("Order")
 promocodes_ref = db.collection('Promocodes')
+used_promocodes_ref = db.collection('UsedPromocodes')
 active_promocodes_ref = db.collection('ActivePromocodes')
 
 READER = geoip2.database.Reader(GEOIP_config)
@@ -671,6 +673,7 @@ def update_email_in_db(old_email, new_email):
         'Order': 'emailOwner',
         'Orders': 'email',
         'ActivePromocodes': 'email',
+        'UsedPromocodes': 'email',
         'Addresses': 'email',
     }
 
@@ -682,6 +685,13 @@ def update_email_in_db(old_email, new_email):
 
     old_discount = old_coupon.get('discount', 0) / 100.0 if old_coupon else 0
     new_discount = new_coupon.get('discount', 0) / 100.0 if new_coupon else 0
+
+    used_coupon_docs = list(
+        used_promocodes_ref
+        .where('email', '==', new_email)
+        .where('coupon_code', '==', old_coupon.get('coupon_code', ''))
+        .stream()
+    )
 
     # Loop through the mapping
     for collection_name, email_field in collection_email_fields.items():
@@ -699,7 +709,7 @@ def update_email_in_db(old_email, new_email):
                     original_price = doc_data['price']
                     # Восстанавливаем изначальную цену, если есть скидка старого купона
                     if old_discount > 0:
-                        if new_discount > 0:
+                        if new_discount > 0 or used_coupon_docs:
                             original_price = original_price / (1 - old_discount)
 
                     # Применяем новую скидку, если есть новый купон
@@ -1002,6 +1012,7 @@ def active_cart_coupon(email):
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': f'Error applying coupon: {str(e)}'})
 
+
 def delete_user_coupons(email):
     try:
         # Ищем все активные купоны пользователя
@@ -1015,3 +1026,33 @@ def delete_user_coupons(email):
 
     except Exception as e:
         return {"status": "error", "message": f"An error occurred: {str(e)}"}
+
+
+def mark_user_coupons_as_used(email):
+    try:
+        # Ищем все активные купоны пользователя
+        user_coupons = list(active_promocodes_ref.where('email', '==', email).stream())
+
+        if not user_coupons:
+            print(f"Нет активных купонов для пользователя {email}")
+            return
+
+        for coupon in user_coupons:
+            coupon_data = coupon.to_dict()
+
+            # Создаём новый UUID для UsedPromocodes
+            new_used_coupon_id = str(uuid.uuid4())
+
+            # Переносим купон в UsedPromocodes
+            used_promocodes_ref.document(new_used_coupon_id).set({
+                'email': email,
+                'coupon_code': coupon_data.get('coupon_code'),  # Берём код купона из активного
+                'discount': coupon_data.get('discount'),  # Берём размер скидки
+                'created_at': datetime.now()
+            })
+
+
+        print(f"Все купоны пользователя {email} помечены как использованные.")
+
+    except Exception as e:
+        print(f"Ошибка при переносе купонов в UsedPromocodes: {e}")

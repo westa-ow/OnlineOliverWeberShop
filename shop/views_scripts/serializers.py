@@ -10,3 +10,4 @@ class PromoCodeSerializer(serializers.Serializer):
     creation_date = serializers.DateTimeField(read_only=True)
     is_active = serializers.BooleanField(default=True)
     b2b_only = serializers.BooleanField(default=False)
+    single_use = serializers.BooleanField(default=False)

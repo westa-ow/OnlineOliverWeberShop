@@ -11,7 +11,8 @@ from shop.decorators import login_required_or_session, logout_required
 from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, get_cart, cart_ref, single_order_ref, \
     get_user_category, get_user_session_type, metadata_ref, users_ref, update_email_in_db, get_user_prices, \
     get_user_info, get_address_info, get_vat_info, get_shipping_price, get_order, get_order_items, \
-    active_promocodes_ref, active_cart_coupon, get_active_coupon, delete_user_coupons
+    active_promocodes_ref, active_cart_coupon, get_active_coupon, delete_user_coupons, used_promocodes_ref, \
+    mark_user_coupons_as_used
 import ast
 import random
 from datetime import datetime
@@ -71,6 +72,7 @@ from shop.views_scripts.profile_views import get_user_addresses
 
 vats = {'Afghanistan': 0, 'Åland Islands': 0, 'Albania': 0, 'Algeria': 0, 'American Samoa': 0, 'Andorra': 0, 'Angola': 0, 'Anguilla': 0, 'Antarctica': 0, 'Antigua and Barbuda': 0, 'Argentina': 0, 'Armenia': 0, 'Aruba': 0, 'Australia': 0, 'Austria': 20, 'Azerbaijan': 0, 'Bahamas': 0, 'Bahrain': 0, 'Bangladesh': 0, 'Barbados': 0, 'Belarus': 0, 'Belgium': 21, 'Belize': 0, 'Benin': 0, 'Bermuda': 0, 'Bhutan': 0, 'Bolivia': 0, 'Bosnia and Herzegovina': 0, 'Botswana': 0, 'Bouvet Island': 0, 'Brazil': 0, 'British Indian Ocean Territory': 0, 'Brunei': 0, 'Bulgaria': 20, 'Burkina Faso': 0, 'Burma (Myanmar)': 0, 'Burundi': 0, 'Cambodia': 0, 'Cameroon': 0, 'Canada': 0, 'Cape Verde': 0, 'Cayman Islands': 0, 'Central African Republic': 0, 'Chad': 0, 'Chile': 0, 'China': 0, 'Christmas Island': 0, 'Cocos (Keeling) Islands': 0, 'Colombia': 0, 'Comoros': 0, 'Congo, Dem. Republic': 0, 'Congo, Republic': 0, 'Cook Islands': 0, 'Costa Rica': 0, 'Croatia': 25, 'Cuba': 0, 'Cyprus': 19, 'Czech Republic': 21, 'Denmark': 25, 'Djibouti': 0, 'Dominica': 0, 'Dominican Republic': 0, 'East Timor': 0, 'Ecuador': 0, 'Egypt': 0, 'El Salvador': 0, 'Equatorial Guinea': 0, 'Eritrea': 0, 'Estonia': 22, 'Ethiopia': 0, 'Falkland Islands': 0, 'Faroe Islands': 0, 'Fiji': 0, 'Finland': 24, 'France': 20, 'French Guiana': 0, 'French Polynesia': 0, 'French Southern Territories': 0, 'Gabon': 0, 'Gambia': 0, 'Georgia': 0, 'Germany': 19, 'Ghana': 0, 'Gibraltar': 0, 'Greece': 24, 'Greenland': 0, 'Grenada': 0, 'Guadeloupe': 0, 'Guam': 0, 'Guatemala': 0, 'Guernsey': 0, 'Guinea': 0, 'Guinea-Bissau': 0, 'Guyana': 0, 'Haiti': 0, 'Heard Island and McDonald Islands': 0, 'Honduras': 0, 'HongKong': 0, 'Hungary': 27, 'Iceland': 0, 'India': 0, 'Indonesia': 0, 'Iran': 0, 'Iraq': 0, 'Ireland': 23, 'Israel': 0, 'Italy': 22, 'Ivory Coast': 0, 'Jamaica': 0, 'Japan': 0, 'Jersey': 0, 'Jordan': 0, 'Kazakhstan': 0, 'Kenya': 0, 'Kiribati': 0, 'Dem. Republic of Korea': 0, 'Kuwait': 0, 'Kyrgyzstan': 0, 'Laos': 0, 'Latvia': 21, 'Lebanon': 0, 'Lesotho': 0, 'Liberia': 0, 'Libya': 0, 'Liechtenstein': 8.1, 'Lithuania': 21, 'Luxemburg': 0, 'Macau': 0, 'Macedonia': 0, 'Madagascar': 0, 'Malawi': 0, 'Malaysia': 0, 'Maldives': 0, 'Mali': 0, 'Malta': 18, 'Man Island': 0, 'Marshall Islands': 0, 'Martinique': 0, 'Mauritania': 0, 'Mauritius': 0, 'Mayotte': 0, 'Mexico': 0, 'Micronesia': 0, 'Moldova': 0, 'Monaco': 20, 'Mongolia': 0, 'Montenegro': 0, 'Montserrat': 0, 'Morocco': 0, 'Mozambique': 0, 'Namibia': 0, 'Nauru': 0, 'Nepal': 0, 'Netherlands': 21, 'Netherlands Antilles': 0, 'New Caledonia': 0, 'New Zealand': 0, 'Nicaragua': 0, 'Niger': 0, 'Nigeria': 0, 'Niue': 0, 'Norfolk Island': 0, 'Northern Ireland': 0, 'Northern Mariana Islands': 0, 'Norway': 0, 'Oman': 0, 'Pakistan': 0, 'Palau': 0, 'Palestinian Territories': 0, 'Panama': 0, 'Papua New Guinea': 0, 'Paraguay': 0, 'Peru': 0, 'Philippines': 0, 'Pitcairn': 0, 'Poland': 23, 'Portugal': 23, 'Puerto Rico': 0, 'Qatar': 0, 'Reunion Island': 0, 'Romania': 19, 'Russian Federation': 0, 'Rwanda': 0, 'Saint Barthelemy': 0, 'Saint Kitts and Nevis': 0, 'Saint Lucia': 0, 'Saint Martin': 0, 'Saint Pierre and Miquelon': 0, 'Saint Vincent and the Grenadines': 0, 'Samoa': 0, 'San Marino': 0, 'São Tomé and Príncipe': 0, 'Saudi Arabia': 0, 'Senegal': 0, 'Serbia': 0, 'Seychelles': 0, 'Sierra Leone': 0, 'Singapore': 0, 'Slovakia': 20, 'Slovenia': 22, 'Solomon Islands': 0, 'Somalia': 0, 'South Africa': 0, 'South Georgia and the South Sandwich Islands': 0, 'South Korea': 0, 'Spain': 21, 'Sri Lanka': 0, 'Sudan': 0, 'Suriname': 0, 'Svalbard and Jan Mayen': 0, 'Swaziland': 0, 'Sweden': 25, 'Switzerland': 8.1, 'Syria': 0, 'Taiwan': 0, 'Tajikistan': 0, 'Tanzania': 0, 'Thailand': 0, 'Togo': 0, 'Tokelau': 0, 'Tonga': 0, 'Trinidad and Tobago': 0, 'Tunisia': 0, 'Turkey': 0, 'Turkmenistan': 0, 'Turks and Caicos Islands': 0, 'Tuvalu': 0, 'Uganda': 0, 'Ukraine': 0, 'United Arab Emirates': 0, 'United Kingdom': 20, 'United States': 0, 'Uruguay': 0, 'Uzbekistan': 0, 'Vanuatu': 0, 'Vatican City State': 0, 'Venezuela': 0, 'Vietnam': 0, 'Virgin Islands (British)': 0, 'Virgin Islands (U.S.)': 0, 'Wallis and Futuna': 0, 'Western Sahara': 0, 'Yemen': 0, 'Zambia': 0, 'Zimbabwe': 0}
 
+
 @login_required_or_session
 def cart_page(request):
     email = get_user_session_type(request)
@@ -106,6 +108,7 @@ def sort_documents(request):
 
     return JsonResponse({'documents': sorted_documents})
 
+
 @login_required
 def send_email(request):
     if request.method == 'POST':
@@ -129,6 +132,10 @@ def send_email(request):
         checkout_admins_message = ""
         if active_coupon:
             checkout_admins_message = f"A customer with price category {category} ordered with promo code {active_coupon['coupon_code']} and discount {active_coupon['discount']}%"
+
+        if active_coupon.get('single_use', False):
+            mark_user_coupons_as_used(user_email)
+
         delete_user_coupons(user_email)
 
         cart = get_cart(user_email)
@@ -201,6 +208,7 @@ def send_email(request):
 
 logger = logging.getLogger(__name__)
 
+
 @background(schedule=60)
 def email_process(new_order, user_email, order_id, csv_content, language_code, checkout_admins_message):
     try:
@@ -251,6 +259,7 @@ def email_process(new_order, user_email, order_id, csv_content, language_code, c
     except Exception as e:
         logger.error(f"Error in email_process: {e}")
         print(f"Error in email_process: {e}")
+
 
 def clear_all_cart(email):
     # Assuming `cart_ref` is defined and accessible within this scope
@@ -519,6 +528,7 @@ def make_pdf(order, buffer, isWithImgs):
 
     return buffer
 
+
 def get_check_id():
     @firestore.transactional
     def increment_check_id(transaction, check_counter_ref):
@@ -532,6 +542,7 @@ def get_check_id():
     transaction = db.transaction()
     new_check_id = increment_check_id(transaction, check_counter_ref)
     return new_check_id
+
 
 @logout_required
 def anonym_cart_info(request):
@@ -552,7 +563,6 @@ def anonym_cart_info(request):
     }
 
     return render(request, 'checkout/Checkout_Account_Auth.html', context=context)
-
 
 
 def login_anonym_cart_info(request):
@@ -596,7 +606,6 @@ def login_anonym_cart_info(request):
         'error_form': form
     }
     return render(request, 'checkout/Checkout_Account_Auth.html', context)
-
 
 
 def register_anonym_cart_info(request):
@@ -687,7 +696,6 @@ def register_anonym_cart_info(request):
     return render(request, 'checkout/Checkout_Account_Auth.html', context)
 
 
-
 def checkout_addresses(request):
     email = get_user_session_type(request)
     addresses, addresses_dict = get_user_addresses(email)
@@ -701,6 +709,8 @@ def checkout_addresses(request):
     customer_type = info['customer_type'] if 'customer_type' in info else "Customer"
     form_register = UserRegisterForm()
     form_login = AuthenticationForm()
+    active_coupon_data = get_active_coupon(email)
+    active_coupon_data.pop('single_use')
     context = {
         'documents': sorted(get_cart(email), key=lambda x: x['number']),
         'currency': currency,
@@ -710,9 +720,10 @@ def checkout_addresses(request):
         'addresses_dict': addresses_dict,
         'customer_type': customer_type,
         'STRIPE_PUBLISHABLE_KEY': settings.STRIPE_PUBLISHABLE_KEY,
-        'activeCoupon': get_active_coupon(email),
+        'activeCoupon': active_coupon_data,
     }
     return render(request, 'checkout/Checkout_Addresses.html', context=context)
+
 
 def checkout_payment_type(request):
     email = get_user_session_type(request)
@@ -764,15 +775,29 @@ def check_promo_code(request):
             if not isinstance(discount, (int, float)):
                 return JsonResponse({'status': 'error', 'message': 'Invalid discount value'})
 
+            # Если у пользователя уже есть активный промокод, возвращаем сообщение об ошибке
             old_coupons = list(active_promocodes_ref.where('email', '==', email).stream())
 
             if old_coupons:
-                # Если у пользователя уже есть активный промокод, возвращаем сообщение об ошибке
                 return JsonResponse({
                     'status': 'error',
                     'message': 'You already have an active promo code. Please use or remove it before adding a new one.'
                 })
-            # Вычисляем скидку как дробное значение
+
+            # Если промокод одноразовый, проверяем использовал ли его пользователь до этого
+            if promo_dict.get('single_use', False):
+                used_promocodes = list(
+                    used_promocodes_ref
+                    .where('coupon_code', '==', promo_code)
+                    .where('email', '==', email)
+                    .stream()
+                )
+
+                if used_promocodes:  # Если записи есть, значит пользователь уже использовал промокод
+                    return JsonResponse({
+                        'status': 'error',
+                        'message': 'You have already used this promo code.'
+                    })
 
             new_coupon_id = str(uuid.uuid4())
             active_promocodes_ref.document(new_coupon_id).set({
@@ -780,9 +805,12 @@ def check_promo_code(request):
                 'coupon_code': promo_code,
                 'type': promo_dict.get('type'),
                 'discount': discount,
+                'single_use': promo_dict.get('single_use', False),
                 'expires_at': promo_dict.get('expires_at'),  # Если есть дата истечения
                 'created_at': datetime.now()
             })
+
+            # Вычисляем скидку как дробное значение
             discount_rate = discount / 100.0
 
             active_cart_coupon(email)

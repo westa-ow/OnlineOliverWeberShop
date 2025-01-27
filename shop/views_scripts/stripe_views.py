@@ -14,7 +14,8 @@ from django.views.generic import TemplateView
 
 from OnlineShop import settings
 from shop.views import addresses_ref, country_dict, users_ref, get_user_category, get_user_prices, \
-    get_user_session_type, get_cart, orders_ref, single_order_ref, delete_user_coupons, get_active_coupon
+    get_user_session_type, get_cart, orders_ref, single_order_ref, delete_user_coupons, get_active_coupon, \
+    mark_user_coupons_as_used
 from shop.views_scripts.checkout_cart_views import clear_all_cart, email_process, get_check_id
 from shop.views_scripts.profile_orders_pay import stripe_partial_checkout
 
@@ -106,6 +107,10 @@ def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddr
     checkout_admins_message = ""
     if active_coupon:
         checkout_admins_message = f"A customer with price category {category} ordered with promo code {active_coupon['coupon_code']} and discount {active_coupon['discount']}%"
+
+    if active_coupon.get('single_use', False):
+        mark_user_coupons_as_used(email)
+
     delete_user_coupons(email)
 
     cart = get_cart(user_email)

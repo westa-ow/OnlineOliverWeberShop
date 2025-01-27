@@ -54,9 +54,14 @@
             <label for="discount">Discount (%):</label>
             <input type="number" id="discount" name="discount" required><br>
 
-            <label for="can_expire">B2B only</label>
+            <label for="b2b_only">B2B only</label>
             <div>
                 <input type="checkbox" id="b2b_only" name="b2b_only"><br>
+            </div>
+
+            <label for="single_use">Single-use</label>
+            <div>
+                <input type="checkbox" id="single_use" name="single_use"><br>
             </div>
 
             <label for="can_expire">Can Expire:</label>
@@ -95,6 +100,7 @@
         const expirationDateGroup = document.getElementById('expiration-date-group');
         const canExpireCheckbox = document.getElementById('can_expire');
         const b2bOnlyCheckbox = document.getElementById('b2b_only');
+        const singleUseCheckbox = document.getElementById('single_use');
         let editingPromoCode = null;
 
         // Показать модальное окно
@@ -117,6 +123,9 @@
                 }
                 if(promoCode.b2b_only){
                     b2bOnlyCheckbox.checked = true;
+                }
+                if(promoCode.single_use){
+                    singleUseCheckbox.checked = true;
                 }
             } else {
                 document.getElementById('form-title').innerText = 'Create Promo Code';
@@ -141,6 +150,7 @@
                 is_active: document.getElementById('is_active').checked,
                 expiration_date: canExpireCheckbox.checked ? document.getElementById('expiration_date').value : null,
                 b2b_only: b2bOnlyCheckbox.checked,
+                single_use: singleUseCheckbox.checked,
             };
 
             const url = editingPromoCode
