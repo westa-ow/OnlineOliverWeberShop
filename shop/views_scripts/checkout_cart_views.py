@@ -710,7 +710,7 @@ def checkout_addresses(request):
     form_register = UserRegisterForm()
     form_login = AuthenticationForm()
     active_coupon_data = get_active_coupon(email)
-    active_coupon_data.pop('single_use')
+    active_coupon_data.pop('single_use', None)
     context = {
         'documents': sorted(get_cart(email), key=lambda x: x['number']),
         'currency': currency,

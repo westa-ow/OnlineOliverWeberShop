@@ -704,6 +704,8 @@ def update_email_in_db(old_email, new_email):
             for doc in docs_to_update:
                 doc_data = doc.to_dict()
 
+
+
                 # Если коллекция — это Cart, пересчитаем цены
                 if collection_name == 'Cart' and 'price' in doc_data:
                     original_price = doc_data['price']
@@ -723,6 +725,8 @@ def update_email_in_db(old_email, new_email):
                         'price': updated_price
                     })
 
+                if collection_name == 'ActivePromocodes' and used_coupon_docs:
+                    continue
                 # Обновляем email в документе
                 doc.reference.update({email_field: new_email})
         except Exception as e:
