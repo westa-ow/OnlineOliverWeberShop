@@ -16,6 +16,7 @@ class EnsureAnonymousSessionMiddleware:
         # Проверка: если это вебхук Stripe, мы не выполняем перенаправление
         webhook_paths = [
             reverse('stripe_webhook'),  # Убедитесь, что путь совпадает с вашим маршрутом вебхука
+            reverse('product_feed'),
         ]
 
         if request.path in webhook_paths:
