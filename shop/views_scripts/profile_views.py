@@ -4,8 +4,10 @@ from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
 from openpyxl import load_workbook
 
+import xml.etree.ElementTree as ET
+
 from shop.views import db, orders_ref, serialize_firestore_document, users_ref, addresses_ref, update_email_in_db, \
-    get_user_category, get_user_info, get_vocabulary_product_card, get_user_prices, get_user_session_type
+    get_user_category, get_user_info, get_vocabulary_product_card, get_user_prices, get_user_session_type, itemsRef
 import ast
 import random
 from datetime import datetime
@@ -24,7 +26,7 @@ from django.views.decorators.csrf import csrf_exempt
 from firebase_admin import credentials, firestore
 from django.conf import settings
 from django.contrib import messages
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.mail import send_mail
 
@@ -340,3 +342,55 @@ def upload_file(request):
             return JsonResponse({'status': 'error', 'message': f'Error processing file: {str(e)}', 'errors': errors}, status=500)
     else:
         return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
+
+
+def generate_product_feed(request):
+
+    email = get_user_session_type(request)
+    category, currency = get_user_prices(request, email)
+    info = get_user_info(email) or {}
+    sale = round((0 if "sale" not in info else info['sale']) / 100, 3) or 0
+
+    products = itemsRef.stream()
+
+    root = ET.Element("products")
+
+    for product in products:
+        data = product.to_dict()
+        if not data.get("Visible", False) or int(data.get('quantity', 0)) <= 0:
+            continue
+
+        product_element = ET.SubElement(root, "product")
+        ET.SubElement(product_element, "name").text = f"{data.get('category', '')} {data.get('product_name', '')}"
+        ET.SubElement(product_element, "ean").text = data.get("name", "")
+        # ET.SubElement(product_element, "PriceVK4").text = str(data.get("priceVK4", 0))
+        #
+        # if category == "VK3":
+        #     ET.SubElement(product_element, "ClientPrice").text = str(data.get('priceVK3', 0))
+        # elif category == "GH":
+        #     ET.SubElement(product_element, "ClientPrice").text = str(data.get('priceGH', 0))
+        # elif category == "Default_USD":
+        #     ET.SubElement(product_element, "ClientPrice").text = str(round(data.get('priceUSD', 0) * (1-sale), 1) or 0)
+        # elif category == "GH_USD":
+        #     ET.SubElement(product_element, "ClientPrice").text = str(data.get('priceUSD_GH', 0))
+        # elif category == "Default_High":
+        #     ET.SubElement(product_element, "ClientPrice").text = str(data.get('priceVK4', 0) * 1.3)
+        # else:
+        #     ET.SubElement(product_element, "ClientPrice").text = str(round(data.get('priceVK4', 0) * (1-sale), 1) or 0)
+
+        ET.SubElement(product_element, "availability").text = "in stock" if data.get("quantity", 0) > 0 else "Out of stock"
+        ET.SubElement(product_element, "image").text = data.get("image_url", "https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/wall%2Fno_image.jpg?alt=media&token=22a7b907-01f6-45b6-8fb1-f1f884ab21d4")
+        ET.SubElement(product_element, "quantity").text = str(data.get("quantity", 0))
+        if data.get("product_width"):
+            ET.SubElement(product_element, "width").text = str(data.get("product_width", "")) + " cm"
+        if data.get("product_height"):
+            ET.SubElement(product_element, "height").text = str(data.get("product_height", "")) + " cm"
+        if data.get("chain_length"):
+            ET.SubElement(product_element, "length").text = str(data.get("chain_length", "")) + " cm"
+
+        # ET.SubElement(product_element, "url").text = data.get("image_url", "")
+        # ET.SubElement(product_element, "image").text = data.get("image_url", "")
+
+    xml_data = ET.tostring(root, encoding="utf-8")
+
+    return HttpResponse(xml_data, content_type="application/xml")
