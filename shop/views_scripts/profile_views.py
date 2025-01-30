@@ -362,7 +362,8 @@ def generate_product_feed(request):
 
         product_element = ET.SubElement(root, "product")
         ET.SubElement(product_element, "name").text = f"{data.get('category', '')} {data.get('product_name', '')}"
-        ET.SubElement(product_element, "ean").text = data.get("name", "")
+        ET.SubElement(product_element, "article_number").text = data.get("name", "")
+        ET.SubElement(product_element, "ean_13").text = data.get("ean_13", "")
         # ET.SubElement(product_element, "PriceVK4").text = str(data.get("priceVK4", 0))
         #
         # if category == "VK3":
