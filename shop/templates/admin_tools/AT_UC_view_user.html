@@ -90,7 +90,7 @@
                     Status
                 </div>
                 <div class="col-8">
-                    {% if user_info.Enabled %}
+                    {% if user_info.Enabled or user_info.Enabled == "True" %}
                         <span class="customer-status badge badge-success rounded">
                             <i class="material-icons">check</i>
                             Active

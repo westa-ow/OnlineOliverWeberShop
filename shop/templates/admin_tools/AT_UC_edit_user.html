@@ -104,7 +104,7 @@
                     <span class="custom-checkbox" style="display: flex;flex-direction: row">
                         <div class="fl" style="display: flex; flex-direction: column; margin-right: 20px">
                              <label class="switch">
-                                <input name="enable-user" type="checkbox" value="1"  {%  if user_info.Enabled == True %} checked {% endif %} >
+                                <input name="enable-user" type="checkbox" value="1"  {%  if user_info.Enabled or user_info.Enabled == "True"%} checked {% endif %} >
                                 <span class="slider round"></span>
                              </label>
                              <label id="label-enabled" style="text-align: center">{% if user_info.Enabled %} Yes{% else %} No{% endif %}</label>
@@ -281,6 +281,8 @@
                 $('#check-can-b2b-pay').prop('checked', false); // Сбрасываем значение
             }
         });
+
+        let isB2BChecked = $('#is-b2b-id').is(':checked');
 
         let isB2BChecked = $('#is-b2b-id').is(':checked');
             // Устанавливаем видимость блока на основе начального состояния

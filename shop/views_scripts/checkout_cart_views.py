@@ -636,7 +636,7 @@ def register_anonym_cart_info(request):
                 newsletter = form.cleaned_data.get('receive_newsletter')
                 category, currency = get_user_prices(request, email2)
                 new_user = {
-                    'Enabled': 'True',
+                    'Enabled': True,
                     "display_name": "undefined",
                     'social_title': social_title,
                     'first_name': first_name,

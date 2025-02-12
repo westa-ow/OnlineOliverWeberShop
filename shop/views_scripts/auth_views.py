@@ -70,7 +70,7 @@ def register(request):
                 newsletter = form.cleaned_data.get('receive_newsletter')
                 category, currency = get_user_prices(request, email)
                 new_user = {
-                    'Enabled': 'True',
+                    'Enabled': True,
                     "display_name": "undefined",
                     'social_title': social_title,
                     'first_name': first_name,
