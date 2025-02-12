@@ -41,6 +41,7 @@ def edit_user(request, user_id):
 
                 # Обновляем email, если он изменился
                 if new_email != old_email:
+                    user_instance.username = new_email
                     user_instance.email = new_email
                     try:
                         update_email_in_db(old_email, new_email)
