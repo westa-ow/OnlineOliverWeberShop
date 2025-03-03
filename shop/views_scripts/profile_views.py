@@ -61,6 +61,54 @@ def profile(request, feature_name):
     context['show_quantities'] = show_quantities
     context['STRIPE_PUBLISHABLE_KEY'] = settings.STRIPE_PUBLISHABLE_KEY
 
+    if feature_name == "catalogs":
+        pdf_files = [
+            {
+                'name': 'Main Catalog',
+                'preview_img_url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs_previews%2FHaupkatalog_preview.png?alt=media&token=8cc7aff5-4610-4c12-8595-61c51280c6e8',
+                'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FHauptkatalog%202025_without%20price_compressed.pdf?alt=media&token=7a6a350d-34fd-466f-847f-391f021c1480'
+            },
+            {
+                'name': 'Winter Catalog',
+                'preview_img_url':'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs_previews%2Fwinterkatalog_preview.png?alt=media&token=303a06e2-4c97-4304-af77-570136dfe56a',
+                'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FCatalog%20NEW%20COLLECTION2025_WITHOUT%20PRICE_compressed.pdf?alt=media&token=2b2ea167-9dfa-40e1-94f4-bcecac36970c'
+             },
+            {
+                'name': 'Spring Catalog',
+                'preview_img_url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs_previews%2Fspringkatalog_preview.png?alt=media&token=59911f52-4d82-417d-bd62-495e12c10d8c',
+                'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FCatalog%20Spring%202025_WITHOUT%20price_singlepages.pdf?alt=media&token=9651627f-2039-41c8-8013-16ab56a45142'
+            },{
+                'name': 'Main Catalog',
+                'preview_img_url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs_previews%2FHaupkatalog_preview.png?alt=media&token=8cc7aff5-4610-4c12-8595-61c51280c6e8',
+                'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FHauptkatalog%202025_without%20price_compressed.pdf?alt=media&token=7a6a350d-34fd-466f-847f-391f021c1480'
+            },
+            {
+                'name': 'Winter Catalog',
+                'preview_img_url':'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs_previews%2Fwinterkatalog_preview.png?alt=media&token=303a06e2-4c97-4304-af77-570136dfe56a',
+                'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FCatalog%20NEW%20COLLECTION2025_WITHOUT%20PRICE_compressed.pdf?alt=media&token=2b2ea167-9dfa-40e1-94f4-bcecac36970c'
+             },
+            {
+                'name': 'Spring Catalog',
+                'preview_img_url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs_previews%2Fspringkatalog_preview.png?alt=media&token=59911f52-4d82-417d-bd62-495e12c10d8c',
+                'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FCatalog%20Spring%202025_WITHOUT%20price_singlepages.pdf?alt=media&token=9651627f-2039-41c8-8013-16ab56a45142'
+            },{
+                'name': 'Main Catalog',
+                'preview_img_url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs_previews%2FHaupkatalog_preview.png?alt=media&token=8cc7aff5-4610-4c12-8595-61c51280c6e8',
+                'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FHauptkatalog%202025_without%20price_compressed.pdf?alt=media&token=7a6a350d-34fd-466f-847f-391f021c1480'
+            },
+            {
+                'name': 'Winter Catalog',
+                'preview_img_url':'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs_previews%2Fwinterkatalog_preview.png?alt=media&token=303a06e2-4c97-4304-af77-570136dfe56a',
+                'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FCatalog%20NEW%20COLLECTION2025_WITHOUT%20PRICE_compressed.pdf?alt=media&token=2b2ea167-9dfa-40e1-94f4-bcecac36970c'
+             },
+            {
+                'name': 'Spring Catalog',
+                'preview_img_url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs_previews%2Fspringkatalog_preview.png?alt=media&token=59911f52-4d82-417d-bd62-495e12c10d8c',
+                'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FCatalog%20Spring%202025_WITHOUT%20price_singlepages.pdf?alt=media&token=9651627f-2039-41c8-8013-16ab56a45142'
+            },
+        ]
+        context['pdf_files'] = pdf_files
+
     return render(request, 'profile.html', context=context)
 
 def get_orders_for_user(email):

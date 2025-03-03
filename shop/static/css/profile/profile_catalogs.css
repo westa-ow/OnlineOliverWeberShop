@@ -1,0 +1,120 @@
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.catalog-card {
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.catalog-card:hover {
+  transform: scale(1.02);
+}
+
+.catalog-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+#pdf-viewer-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* полупрозрачный фон */
+  display: none;
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Контейнер модального содержимого */
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  max-width: 90%;
+  max-height: 90%;
+  overflow: auto;
+  border-radius: 8px;
+  position: relative;
+}
+
+/* Индикатор загрузки */
+#pdf-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.2em;
+  background: rgba(255,255,255,0.8);
+  padding: 10px 20px;
+  border-radius: 4px;
+  z-index: 1100;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 2em;
+  cursor: pointer;
+  color: #000;
+  z-index: 1200;
+}
+
+#pdf-nav-left,
+#pdf-nav-right {
+  position: fixed; /* фиксированные по сторонам окна */
+  top: 0;
+  bottom: 0;
+  width: 80px; /* увеличенная зона для касания */
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 2.5em;
+  cursor: pointer;
+  z-index: 1200; /* выше, чем модальное содержимое */
+  user-select: none;
+}
+
+/* Расположение кнопок по краям */
+#pdf-nav-left {
+  left: 0;
+}
+
+#pdf-nav-right {
+  right: 0;
+}
+
+/* При наведении можно увеличить непрозрачность */
+#pdf-nav-left:hover,
+#pdf-nav-right:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+.file-name{
+  padding: 5px 0;
+}
+.download-btn{
+  font-size: 16px;
+  background-color: #00962a;;
+  color: #fff;
+  border-radius: 8px;
+  padding: 4px 5px;
+  transition: all 0.3s ;
+}
+.download-btn:hover{
+  background-color: #008011;
+  color: #fff;
+}
+.download-btn:visited{
+  color: #fff;
+}
