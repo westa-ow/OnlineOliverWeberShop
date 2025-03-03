@@ -37,11 +37,13 @@
 }
 
 /* Контейнер модального содержимого */
-.modal-content {
+.modal-content-pdf {
   background: #fff;
   padding: 20px;
-  max-width: 90%;
-  max-height: 90%;
+  width: auto;
+  height: auto;
+  max-width: 90vw;
+  max-height: 90vh;
   overflow: auto;
   border-radius: 8px;
   position: relative;
@@ -118,4 +120,21 @@
 }
 .download-btn:visited{
   color: #fff;
+}
+
+.minus-button, .plus-button{
+  background-color: #003665;
+  border-radius: 8px;
+  padding: 8px 13px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.minus-button:hover, .plus-button:hover{
+  background-color: #013d72;
+}
+
+
+#pdf-navigation{
+  text-align: center;
 }

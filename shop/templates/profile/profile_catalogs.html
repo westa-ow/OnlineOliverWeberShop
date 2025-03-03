@@ -25,13 +25,15 @@
 
 </section>
 <div id="pdf-viewer-modal">
-  <div class="modal-content">
+  <div class="modal-content-pdf">
     <!-- Индикатор загрузки -->
     <div id="pdf-loading" class="loading">{% trans "Loading..."%}</div>
 
     <div id="pdf-container"></div>
     <div id="pdf-navigation">
       <span id="pageNum"></span>
+      <button class="plus-button" onclick="zoomOut()">-</button>
+      <button class="minus-button" onclick="zoomIn()">+</button>
     </div>
     <span class="modal-close" onclick="closeModal()">&times;</span>
   </div>
@@ -42,7 +44,7 @@
     const pdfCache = {};
   // Импортируем только legacy-версию и не загружаем другую
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@2.16.105/legacy/build/pdf.worker.js';
-    const scale = 0.7;
+    let scale = 0.7;
     let currentPage = 1;
     function getCookie(name) {
         let cookieValue = null;
@@ -68,6 +70,8 @@
 
    // Функция открытия модального окна и загрузки PDF
 function openPDFViewer(url) {
+  document.body.style.overflow = 'hidden';
+
   const modal = document.getElementById('pdf-viewer-modal');
   modal.style.display = 'flex';
 
@@ -156,6 +160,7 @@ function prevPage() {
 // Функция закрытия модального окна
 function closeModal() {
   document.getElementById('pdf-viewer-modal').style.display = 'none';
+  document.body.style.overflow = '';
   pdfDoc = null;
 }
 
@@ -165,4 +170,15 @@ document.getElementById('pdf-viewer-modal').addEventListener('click', function(e
     closeModal();
   }
 });
+function zoomIn() {
+    scale += 0.2; // увеличиваем масштаб
+    renderPage(currentPage);
+  }
+
+  function zoomOut() {
+    if (scale > 0.4) { // минимальное значение масштаба
+      scale -= 0.2; // уменьшаем масштаб
+      renderPage(currentPage);
+    }
+  }
 </script>
