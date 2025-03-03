@@ -9,6 +9,7 @@
   border: 1px solid #ccc;
   padding: 10px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  border-radius: 8px;
   transition: transform 0.2s;
   cursor: pointer;
 }
@@ -108,7 +109,7 @@
   background-color: #00962a;;
   color: #fff;
   border-radius: 8px;
-  padding: 4px 5px;
+  padding: 4px 8px;
   transition: all 0.3s ;
 }
 .download-btn:hover{
