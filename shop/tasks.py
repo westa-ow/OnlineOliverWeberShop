@@ -103,6 +103,7 @@ def process_file_task(xlsx_file_path):
         log(f"Ошибка при обновлении Firestore: {e}")
     print("Database was successfully updated!")
     log("Database was successfully updated!")
+    send_email_with_logs(logs)
 
 
 def send_email_with_logs(logs):
