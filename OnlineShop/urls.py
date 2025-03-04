@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 
 from shop import views
+from shop.views_scripts.admin_views import upload_view
 from shop.views_scripts.profile_orders_pay import create_partial_checkout_session
 from shop.views_scripts.router_viewsets import PromoCodeViewSet
 from shop.views_scripts import profile_views, paypal_views
@@ -115,6 +116,8 @@ urlpatterns = i18n_patterns(
     path('admin_tools/orders_control/delete_order/<str:order_id>/', at_delete_order, name='at_delete_order'),
     path('admin_tools/orders_control/edit_product_in_stock/', change_in_stock, name='change_in_stock'),
     path('admin_tools/orders_control/upload_in_stock/<str:order_id>/', upload_in_stock, name='upload_in_stock'),
+
+    path('upload-db-update/', upload_view, name='upload_db_update'),
     # path('finish_order/', )
 
     #Service urls
@@ -139,6 +142,7 @@ urlpatterns = i18n_patterns(
     path('paypal/cancelled/', paypal_views.PayPalCancelledView.as_view(), name='paypal-cancelled'),
     path('paypal/create-payment/', paypal_views.create_paypal_payment, name='create-paypal-payment'),
     path('paypal/webhook/', paypal_views.paypal_webhook, name='paypal-webhook'),
+
 
 )
 

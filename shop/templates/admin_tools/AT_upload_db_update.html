@@ -1,0 +1,31 @@
+
+{% extends 'widgets/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>File upload</title>
+    <link rel="stylesheet"  href="{% static 'css/admin_tools/upload_db_update.css' %}">
+  </head>
+  <body>
+  {% include 'widgets/navigation_bar.html' %}
+  <section class="main-section">
+     <h1>Upload XLSX file</h1>
+     <form method="post" enctype="multipart/form-data">
+       {% csrf_token %}
+       <label for="id_file">Choose file:</label>
+       <input type="file" name="file" id="id_file" accept=".xlsx">
+       <br><br>
+       <input type="submit" value="Upload">
+     </form>
+     {% if message %}
+       <p>{{ message }}</p>
+     {% endif %}
+  </section>
+  </body>
+</html>
+{% endblock %}

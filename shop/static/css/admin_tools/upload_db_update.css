@@ -1,0 +1,68 @@
+
+/* Общие стили для страницы */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #f0f4f8, #ffffff);
+  color: #333;
+}
+
+/* Стили для основного контейнера */
+.main-section {
+  max-width: 500px;
+  margin: 150px auto;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Заголовок */
+.main-section h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 24px;
+}
+
+/* Стили для формы */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Стили для меток */
+form label {
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+/* Стили для поля выбора файла */
+form input[type="file"] {
+  margin-bottom: 20px;
+  padding: 5px;
+}
+
+/* Стили для кнопки отправки */
+form input[type="submit"] {
+  background-color: #00962a;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form input[type="submit"]:hover {
+  background-color: #008011;
+}
+
+/* Стили для сообщений */
+.main-section p {
+  text-align: center;
+  font-size: 16px;
+  margin-top: 20px;
+  color: #28a745;
+}
