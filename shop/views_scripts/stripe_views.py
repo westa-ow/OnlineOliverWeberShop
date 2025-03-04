@@ -96,9 +96,16 @@ def create_checkout_session(request):
     return HttpResponse(status=405)
 
 
-def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddress, billingAddress, payment_type, lang_code):
-    # Создаю order
+def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddress, billingAddress, payment_type,
+                    lang_code):
+    order_id = int(order_id)
+    # Проверка, существует ли заказ с таким order_id
+    existing_orders = orders_ref.where('order_id', '==', order_id).stream()
+    if any(existing_orders):
+        logging.info(f"Order {order_id} already exists. Skipping duplicate creation.")
+        return 0  # Или вернуть текущую сумму/статус, если нужно
 
+    # Далее код создания заказа (расчет суммы, создание записи в БД и т.д.)
     vat = int(vat)
     user_email = email
     category, currency = get_user_category(user_email) or ("Default", "Euro")
@@ -112,13 +119,12 @@ def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddr
         mark_user_coupons_as_used(email)
 
     delete_user_coupons(email)
-
     cart = get_cart(user_email)
 
     item_refs = []
     all_orders_info = []
     names = []
-    sum = 0
+    total_sum = 0
 
     csv_output = StringIO()
     csv_writer = csv.writer(csv_output)
@@ -131,15 +137,13 @@ def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddr
         name = order_item.get('name')
         names.append(name)
         image_url = order_item.get('image_url')
-        sum += round(price * quantity, 1)
+        total_sum += round(price * quantity, 1)
         new_order_item = {
             'description': description,
             "emailOwner": user_email,
             'image_url': image_url,
-            'image-url': image_url,
             "name": name,
-            "order_id": int(order_id),
-            "order-id": int(order_id),
+            "order_id": order_id,
             "price": price,
             "quantity": quantity,
         }
@@ -156,26 +160,24 @@ def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddr
 
     new_order = {
         'Status': 'Paid',
-        'date': datetime.now(),  # Current date and time
+        'date': datetime.now(),
         'email': user_email,
-        'list': [ref.path for ref in item_refs],  # Using document paths as references
-        'order_id': int(order_id),
-        'order-id': int(order_id),
+        'list': [ref.path for ref in item_refs],
+        'order_id': order_id,
         'billingAddressId': billingAddress,
         'shippingAddressId': shippingAddress,
-        'price': round(float(sum), 2),
+        'price': round(float(total_sum), 2),
         'shippingPrice': round(float(shippingPrice), 2),
         'VAT': vat,
         'receipt_id': get_check_id(),
         'currency': currency,
         'payment_type': payment_type,
     }
-    order_id = int(order_id)
     orders_ref.add(new_order)
     new_order['date'] = new_order['date'].isoformat()
     email_process(new_order, user_email, order_id, csv_content, lang_code, checkout_admins_message)
     clear_all_cart(user_email)
-    return sum
+    return total_sum
 
 @csrf_exempt
 def stripe_webhook(request):
