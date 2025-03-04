@@ -55,7 +55,7 @@ def process_file_task(xlsx_file_path):
             log(f"Found 'Artikelnummer' at column index {col_index}.")
 
     if columnQuantity is None or columnNumber is None:
-        log("Не найдены нужные заголовки колонок.")
+        log("Required column headers not found.")
         send_email_with_logs(logs)
         return
 
@@ -98,9 +98,9 @@ def process_file_task(xlsx_file_path):
                 batch.update(doc_snapshot.reference, {"quantity": new_value})
     try:
         batch.commit()
-        log("Пакетное обновление Firestore завершено.")
+        log("Firestore update was successful.")
     except Exception as e:
-        log(f"Ошибка при обновлении Firestore: {e}")
+        log(f"Error occurred during Firestore update: {e}")
     print("Database was successfully updated!")
     log("Database was successfully updated!")
     send_email_with_logs(logs)
@@ -126,9 +126,9 @@ def send_email_with_logs(logs):
 
     # Формируем email
     subject = "Db update report"
-    body = "Attached is the log of the database update task execution."
+    body = "Attached file is the log of the database update task execution."
     from_email = settings.EMAIL_HOST_USER  # убедитесь, что этот параметр настроен
-    recipient_list = ["eramcheg@gmail.com"]  # замените на нужный адрес
+    recipient_list = ["eramcheg@gmail.com", "westadatabase@gmail.com"]  # замените на нужный адрес
 
     email = EmailMessage(subject, body, from_email, recipient_list)
     email.attach(filename, log_text, "text/plain")
