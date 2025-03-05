@@ -30,6 +30,12 @@ from shop.forms import UserRegisterForm, User
 
 
 def service_pages_view(request, service_page):
+    """
+    View page for service pages. This view is used to render the service pages. It takes in the service page as a parameter and renders the corresponding template.
+    :param request:
+    :param service_page:
+    :return:
+    """
     context = {"service_page":service_page}
     return render(request, 'service_pages/main_service_template.html', context)
 

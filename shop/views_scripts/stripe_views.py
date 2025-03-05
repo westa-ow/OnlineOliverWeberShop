@@ -22,14 +22,23 @@ from shop.views_scripts.profile_orders_pay import stripe_partial_checkout
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class SuccessView(TemplateView):
+    """
+    Stripe success page
+    """
     template_name = 'stripe/success.html'
 
-# Страница отмены
+
 class CancelledView(TemplateView):
+    """
+    Stripe cancelled page
+    """
     template_name = 'stripe/cancelled.html'
 
 @csrf_exempt
 def stripe_config(request):
+    """
+    Getting Stripe configuration
+    """
     if request.method == 'GET':
         stripe_config = {'publicKey': settings.STRIPE_PUBLISHABLE_KEY}
         return JsonResponse(stripe_config, safe=False)
@@ -37,6 +46,9 @@ def stripe_config(request):
 @csrf_exempt
 @login_required
 def create_checkout_session(request):
+    """
+    Creating payment checkout session for Stripe
+    """
     if request.method == 'POST':
         domain_url = 'https://www.oliverweber.online/'  # Замените на ваш домен
         if settings.CURRENT_DOMAIN == "oliverweber.com":
@@ -98,6 +110,10 @@ def create_checkout_session(request):
 
 def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddress, billingAddress, payment_type,
                     lang_code):
+    """
+    Stripe checkout function for creating orders document in database and sending email to user.
+    """
+
     order_id = int(order_id)
     # Проверка, существует ли заказ с таким order_id
     existing_orders = orders_ref.where('order_id', '==', order_id).stream()
@@ -142,8 +158,10 @@ def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddr
             'description': description,
             "emailOwner": user_email,
             'image_url': image_url,
+            'image-url': image_url,
             "name": name,
             "order_id": order_id,
+            "order-id": order_id,
             "price": price,
             "quantity": quantity,
         }
@@ -164,6 +182,7 @@ def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddr
         'email': user_email,
         'list': [ref.path for ref in item_refs],
         'order_id': order_id,
+        'order-id': order_id,
         'billingAddressId': billingAddress,
         'shippingAddressId': shippingAddress,
         'price': round(float(total_sum), 2),
@@ -181,6 +200,9 @@ def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddr
 
 @csrf_exempt
 def stripe_webhook(request):
+    """
+    Stripe webhook to handle checkout.session.completed events
+    """
     stripe.api_key = settings.STRIPE_SECRET_KEY
     endpoint_secret = settings.STRIPE_ENDPOINT_SECRET
     payload = request.body.decode('utf-8')

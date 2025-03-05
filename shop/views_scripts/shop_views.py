@@ -32,7 +32,9 @@ from shop.forms import UserRegisterForm, User
 
 @login_required_or_session
 def form_page(request, product_id):
-
+    """
+    This function renders the form page for a specific product.
+    """
     search_term = ''
     search_type = request.POST.get('search_type', 'default')
     email = get_user_session_type(request)
@@ -65,7 +67,6 @@ def form_page(request, product_id):
             "is_available": False
         })
 
-
     # Adjust price based on user category
     for obj in products:
         obj['stone'] = stones.get(obj['stone'], obj['stone'])
@@ -96,6 +97,10 @@ def form_page(request, product_id):
 
 
 def fetch_numbers(request):
+    """
+    This function fetches the numbers for the given search parameter which supposed to be product ID.
+    """
+
     search_term = request.GET.get('term', '')
     search_type = request.GET.get('search_type', 'default')
     results = []
@@ -122,13 +127,10 @@ def fetch_numbers(request):
                (
                        search_term.lower() in doc.to_dict().get('name', '').lower() or
                        search_term.lower() in doc.to_dict().get('product_name', '').lower()
-               )
-               and doc.to_dict().get('Visible', True)  # Assumes default is True if 'Visible' is not present
-               and
-               (
-                       search_type != 'archived' or doc.to_dict().get('quantity', 0) > 0
+               ) 
+               and doc.to_dict().get('Visible', True) and (  # Assumes default is True if 'Visible' is not present
+                    search_type != 'archived' or doc.to_dict().get('quantity', 0) > 0
                )
         ]
 
     return JsonResponse(results, safe=False)
-

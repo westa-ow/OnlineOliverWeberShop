@@ -38,6 +38,12 @@ from shop.views_scripts.catalog_views import update_cart, get_full_product
 
 @login_required
 def profile(request, feature_name):
+    """
+    This function is used to render the main profile page for the user. It takes feature_name parameter and renders corresponding template.
+    :param request:
+    :param feature_name:
+    :return:
+    """
     email = request.user.email
     orders = get_orders_for_user(email)
     print(orders)
@@ -113,7 +119,13 @@ def profile(request, feature_name):
 
     return render(request, 'profile.html', context=context)
 
+
 def get_orders_for_user(email):
+    """
+    Get all orders for a specific user by email.
+    :param email:
+    :return:
+    """
     orders = []
     docs_orders = orders_ref.where('email', '==', email).stream()
 
@@ -139,10 +151,22 @@ def get_orders_for_user(email):
     orders.sort(key=lambda x: x['date'], reverse=True)
     return orders
 
+
 def format_date(date_obj):
+    """
+    Format date object to string in specific format.
+    :param date_obj:
+    :return:
+    """
     return date_obj.strftime("%Y-%m-%d") if date_obj else None
 
+
 def get_order_details(orders):
+    """
+    Fetch order details for each order in the list of orders.
+    :param orders:
+    :return:
+    """
     order_details = {order['order_id']: [] for order in orders}
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
@@ -155,7 +179,15 @@ def get_order_details(orders):
 
     return order_details
 
+
 def schedule_order_detail_fetching(executor, orders, order_details):
+    """
+    Schedule fetching of order details for each order in the list of orders.
+    :param executor:
+    :param orders:
+    :param order_details:
+    :return:
+    """
     future_to_order = {}
     for order in orders:
         for order_doc_ref in order['list']:
@@ -164,7 +196,13 @@ def schedule_order_detail_fetching(executor, orders, order_details):
             future_to_order[future] = order['order_id']
     return future_to_order
 
+
 def fetch_order_detail(order_doc_path):
+    """
+    Fetch order detail for a specific order path.
+    :param order_doc_path:
+    :return:
+    """
     path_parts = order_doc_path.split('/')
     if len(path_parts) == 2:
         collection_name, document_id = path_parts
@@ -174,7 +212,16 @@ def fetch_order_detail(order_doc_path):
             return order_doc.to_dict()
     return None
 
+
 def build_context(feature_name, email, orders, order_details):
+    """
+    Build context for the profile page for the specific profile page.
+    :param feature_name:
+    :param email:
+    :param orders:
+    :param order_details:
+    :return:
+    """
     currencies_dict ={}
     for order in orders:
         currencies_dict[order['order_id']] = order['currency']
@@ -197,7 +244,13 @@ def build_context(feature_name, email, orders, order_details):
 
     return context
 
+
 def get_user_info_dicts(email):
+    """
+    Fetch user information from Firestore and convert it to dictionaries.
+    :param email:
+    :return:
+    """
     existing_users = users_ref.where('email', '==', email).limit(1).get()
     if existing_users:
         for user in existing_users:
@@ -208,7 +261,13 @@ def get_user_info_dicts(email):
             return information2, information
     return None, None
 
+
 def get_user_addresses(email):
+    """
+    Fetch user addresses from Firestore and convert it to dictionaries.
+    :param email:
+    :return:
+    """
     addresses = []
     existing_addresses = addresses_ref.where('email', '==', email).get()
     if existing_addresses:
@@ -227,6 +286,11 @@ def get_user_addresses(email):
 @csrf_exempt
 @login_required
 def update_user_account(request):
+    """
+    Update user account information. This function is called when the user updates their account information.
+    :param request:
+    :return:
+    """
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
@@ -318,6 +382,11 @@ def update_user_account(request):
 
 
 def upload_file(request):
+    """
+    Uploads a file with products that will be added to user's cart.
+    :param request:
+    :return:
+    """
     if request.method == 'POST' and 'file' in request.FILES:
         uploaded_file = request.FILES['file']
 
@@ -395,7 +464,11 @@ def upload_file(request):
 
 
 def generate_product_feed(request):
-
+    """
+    This function generates xml product feed.
+    :param request:
+    :return:
+    """
     email = get_user_session_type(request)
     category, currency = get_user_prices(request, email)
     info = get_user_info(email) or {}
