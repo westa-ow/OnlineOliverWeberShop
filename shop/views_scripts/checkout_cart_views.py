@@ -789,14 +789,14 @@ def check_promo_code(request):
                 used_promocodes = list(
                     used_promocodes_ref
                     .where('coupon_code', '==', promo_code)
-                    .where('email', '==', email)
+                    # .where('email', '==', email)
                     .stream()
                 )
 
                 if used_promocodes:  # Если записи есть, значит пользователь уже использовал промокод
                     return JsonResponse({
                         'status': 'error',
-                        'message': 'You have already used this promo code.'
+                        'message': 'This promo code has already been used.'
                     })
 
             new_coupon_id = str(uuid.uuid4())

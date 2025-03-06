@@ -884,7 +884,7 @@ def update_email_in_db(old_email, new_email):
 
     used_coupon_docs = list(
         used_promocodes_ref
-        .where('email', '==', new_email)
+        # .where('email', '==', new_email)
         .where('coupon_code', '==', old_coupon.get('coupon_code', ''))
         .stream()
     )
