@@ -94,20 +94,6 @@
                                     </div>
 
                                 </div>
-{#                                <div class="form-group row ">#}
-{#                                    <div class="col-md-12 form-control-valign">#}
-{#                                        <label>{% trans "User type" %}</label>#}
-{#                                        {% for radio in form.type_of_user %}#}
-{#                                            <label class="radio-inline">#}
-{#                                                <span class="custom-radio">#}
-{#                                                    {{ radio.tag }}#}
-{#                                                    <span></span>#}
-{#                                                </span> {{ radio.choice_label }}#}
-{#                                            </label>#}
-{#                                        {% endfor %}#}
-{#                                    </div>#}
-{#                                    <div class="col-md-12 form-control-comment"></div>#}
-{#                                </div>#}
                                 <div class="form-group row ">
 
                                     <div class="col-md-12 form-control-comment">
@@ -116,8 +102,7 @@
                                     <div class="col-md-12">
                                         <label>{% trans "Password" %}</label>
                                         <div class="input-group js-parent-focus">
-                                             {{ form.password1 | add_class:"form-control js-child-focus js-visible-password" | attr:""|attr:"autocomplete:new-password" }}
-{#                                            <input class="form-control js-child-focus js-visible-password" name="password" type="password" value="" pattern=".{5,}" required="">#}
+                                            {{ form.password1 | add_class:"form-control js-child-focus js-visible-password" | attr:""|attr:"autocomplete:new-password" }}
                                             <span class="input-group-btn" style="position: initial!important; ">
                                                 <button class="btn material-icons" type="button" data-action="show-password" data-text-show="" data-text-hide="">
                                                     <i>
@@ -136,8 +121,7 @@
                                     <div class="col-md-12">
                                         <label>{% trans "Confirm you password" %}</label>
                                         <div class="input-group js-parent-focus">
-                                             {{ form.password2 | add_class:"form-control js-child-focus js-visible-password" | attr:""|attr:"autocomplete:new-password" }}
-{#                                            <input class="form-control js-child-focus js-visible-password" name="password" type="password" value="" pattern=".{5,}" required="">#}
+                                            {{ form.password2 | add_class:"form-control js-child-focus js-visible-password" | attr:""|attr:"autocomplete:new-password" }}
                                             <span class="input-group-btn" style="position: initial!important; ">
                                                 <button class="btn material-icons" type="button" data-action="show-password" data-text-show="" data-text-hide="">
                                                     <i>
@@ -231,14 +215,14 @@
                 }
             }
         ));
-        var formErrors = {% if form.errors %}true{% else %}false{% endif %};
-        var errorModal = document.getElementById("errorModal");
-        var errorText = document.getElementById("errorText");
-        var okButton = document.getElementById("okButton");
-        var closeButton = document.querySelector(".close-button");
+        let formErrors = {% if form.errors %}true{% else %}false{% endif %};
+        let errorModal = document.getElementById("errorModal");
+        let errorText = document.getElementById("errorText");
+        let okButton = document.getElementById("okButton");
+        let closeButton = document.querySelector(".close-button");
 
         if (formErrors) {
-            var errorMessage = "";
+            let errorMessage = "";
             {% for field in form %}
                 {% for error in field.errors %}
                     errorMessage += "{{ error }}\n";

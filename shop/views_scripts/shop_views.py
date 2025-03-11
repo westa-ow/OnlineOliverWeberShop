@@ -106,7 +106,8 @@ def fetch_numbers(request):
     results = []
 
     if search_term != '':
-        # Perform two separate queries to search by 'name' and 'product_name' (case-insensitive search is applied in Python)
+        # Perform two separate queries to search by 'name' and 'product_name'
+        # (case-insensitive search is applied in Python)
         name_query = itemsRef.where('name', '>=', search_term).where('name', '<=', search_term + '\uf8ff').stream()
         product_name_query = itemsRef.where('product_name', '>=', search_term).where('product_name', '<=',
                                                                                      search_term + '\uf8ff').stream()

@@ -61,30 +61,3 @@ function createFilterElements(containerClass, itemsArray, prefix, filters_dict) 
         container.appendChild(itemDiv);
     });
 }
-
-// function createCrystalElements(containerClass, itemsArray, prefix, filters_dict) {
-//     const container = document.querySelector(`.${containerClass}`);
-//     container.innerHTML = ''; // Clear existing content
-//
-//     // Create select element
-//     const select = document.createElement('select');
-//     select.className = `${prefix}-select`;
-//     select.id = `${prefix}-select`;
-//
-//     // Add a default option
-//     const defaultOption = document.createElement('option');
-//     defaultOption.textContent = 'All';
-//     defaultOption.value = '';
-//     select.appendChild(defaultOption);
-//
-//     // Create option for each item
-//     itemsArray.forEach((item, index) => {
-//         const option = document.createElement('option');
-//         option.value = item;
-//         option.textContent = item;
-//         select.appendChild(option);
-//     });
-//
-//     // Append select to container
-//     container.appendChild(select);
-// }

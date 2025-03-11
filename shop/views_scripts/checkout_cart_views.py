@@ -112,7 +112,7 @@ def sort_documents(request):
 @login_required
 def send_email(request):
     if request.method == 'POST':
-        # Создаю order
+        # Create order
 
         language_code = request.path.split('/')[1]
         data = json.loads(request.body)
@@ -289,10 +289,6 @@ def receipt_generator(order):
 def make_pdf(order, buffer, isWithImgs):
 
     orders = get_order_items(order.get('order_id'))
-    userEmail = order.get('emailOwner', "")
-    info = {}
-    if userEmail:
-        info = get_user_info(userEmail) or {}
     currency = order.get('currency', "Euro")
     currency = "€" if currency == "Euro" else "$"
 
@@ -306,7 +302,7 @@ def make_pdf(order, buffer, isWithImgs):
     date_str = str(order['date'])
     date_obj = datetime.fromisoformat(date_str)
 
-    # Теперь применяем форматирование
+    # Apply the formatting
     formatted_date = date_obj.strftime('%Y-%m-%d %H:%M:%S')
     roboto_font_path = os.path.join(settings.BASE_DIR, "shop", "static", "fonts", "Roboto-Regular.ttf")
     pdfmetrics.registerFont(TTFont('Roboto', roboto_font_path))
@@ -315,12 +311,12 @@ def make_pdf(order, buffer, isWithImgs):
     doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=30, leftMargin=30, topMargin=30, bottomMargin=18)
     elements = []
 
-    # Логотип
+    # Logo
     logo_path = os.path.join(settings.BASE_DIR, "shop", "static", "images", "general", "main_logo_receipt.jpg")
     elements.append(Image(logo_path, width=180, height=60))
     elements.append(Spacer(1, 20))
 
-    # Заголовок
+    # Header
     styles = getSampleStyleSheet()
     title_style = styles["Heading1"]
     title_style.fontName = "Roboto"
@@ -334,16 +330,16 @@ def make_pdf(order, buffer, isWithImgs):
         "You'll find your Order Summary below. If you have any questions regarding your order, please contact us.")
     elements.append(Paragraph(subtitle, normal_style))
     elements.append(Spacer(1, 20))
-    bold_style = styles["Normal"].clone('bold_style')  # Создаём новый стиль на основе "Normal"
-    bold_style.fontName = "Roboto-Bold"  # Указываем зарегистрированный жирный шрифт
-    bold_style.fontSize = 10  # Опционально, можно указать размер шрифта
+    bold_style = styles["Normal"].clone('bold_style')  # Create a new style based on “Normal”
+    bold_style.fontName = "Roboto-Bold"  # Specify the registered bold font
+    bold_style.fontSize = 10  # Optionally, you can specify the font size
     bold_style.textColor = colors.black
 
     white_style = styles["Normal"]
     white_style.fontColor = colors.white
     white_style.fontName = "Roboto"
-    # Таблицы
 
+    # Tables
     order_data = [
         [Paragraph('<b>' + _("Order Status") + '</b>', bold_style), f"{order.get('Status', 'Processing')}"],
         [Paragraph('<b>'+_("Order")+'</b>', bold_style), f"{order.get('order_id')}"],
@@ -354,7 +350,7 @@ def make_pdf(order, buffer, isWithImgs):
         [Paragraph('<b>' + _("Date") + '</b>', bold_style), f"{formatted_date}"]
     ]
 
-    # Данные для второй таблицы
+    # Data for second table
     contact_data = [
         [Paragraph("<b>Oliver Weber Collection</b>", bold_style), ""],
         ["", ""],
@@ -362,11 +358,11 @@ def make_pdf(order, buffer, isWithImgs):
         [Paragraph("Email:", bold_style), "office@oliverweber.at"]
     ]
 
-    # Создание таблиц
-    order_table = Table(order_data, colWidths=[120, 180])  # Ширина столбцов
+    # Table creation
+    order_table = Table(order_data, colWidths=[120, 180])  # Column width
     contact_table = Table(contact_data, colWidths=[80, 220])
 
-    # Стили таблиц
+    # Table styles
     order_table.setStyle(TableStyle([
         ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
         ('VALIGN', (0, 0), (-1, -1), 'TOP'),
@@ -381,15 +377,15 @@ def make_pdf(order, buffer, isWithImgs):
         ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
         ('FONTSIZE', (0, 0), (-1, -1), 10),
         ('BOTTOMPADDING', (0, 0), (-1, -1), 5),
-        ('SPAN', (0, 0), (1, 0)),  # Объединение ячейки для заголовка
+        ('SPAN', (0, 0), (1, 0)),  # Merging a cell for a header
     ]))
 
-    # Компоновка таблиц на одной строке
+    # Composition of tables on a single line
     composite_table_data = [[order_table, contact_table]]
 
-    composite_table = Table(composite_table_data, colWidths=[250, 250])  # Общая ширина
+    composite_table = Table(composite_table_data, colWidths=[250, 250])  # Total width
 
-    # Установка общего стиля для компоновки
+    # Setting a common style for the layout
     composite_table.setStyle(TableStyle([
         ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
         ('VALIGN', (0, 0), (-1, -1), 'TOP'),
@@ -397,7 +393,7 @@ def make_pdf(order, buffer, isWithImgs):
     elements.append(composite_table)
     elements.append(Spacer(1, 20))
     white_style = styles["Normal"]
-    white_style.fontName = 'Roboto'  # Укажите ваш шрифт
+    white_style.fontName = 'Roboto'  # Specify your font
     white_style.fontSize = 10
     white_style.textColor = colors.white
 
@@ -405,11 +401,11 @@ def make_pdf(order, buffer, isWithImgs):
         name='Normal',
         fontName='Roboto',
         fontSize=10,
-        leading=12,  # Межстрочный интервал
-        wordWrap='CJK',  # Перенос по словам
+        leading=12,  # Line spacing
+        wordWrap='CJK',  # Word transfer
     )
 
-    # Адреса
+    # Adress
     address_data = [
         [Paragraph(_("Customer Billing Details"), white_style), Paragraph(_("Delivery Details"), white_style)],
         [_("Contact Phone") + f': {billing_address.get("phone", "")}',
@@ -435,20 +431,17 @@ def make_pdf(order, buffer, isWithImgs):
     address_table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#003765")),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-        ('FONTNAME', (0, 0), (-1, -1), 'Roboto'),  # Задаём шрифт для всей таблицы
-        ('VALIGN', (0, 0), (-1, -1), 'TOP'),  # Выравниваем содержимое по верхнему краю
+        ('FONTNAME', (0, 0), (-1, -1), 'Roboto'),  # Set the font for the whole table
+        ('VALIGN', (0, 0), (-1, -1), 'TOP'),  # Align the content to the top edge
     ]))
 
     elements.append(address_table)
     elements.append(Spacer(1, 20))
 
-    # Примечания
-    # comments = "Comments:<br/>Test order by commercebuild - Do not process!<br/>Shipping Via: 10PKUP - Store Pickup - Bayview - Orders placed before 3pm can be picked up same day"
-    # elements.append(Paragraph(comments, styles["Normal"]))
+    # Appendix
     elements.append(Spacer(1, 20))
 
-    # Таблица товаров
-
+    # Table of products
     product_data = [ [Paragraph(_("Product"), white_style), Paragraph(_("Photo"), white_style),
          Paragraph(_("Item Details"), white_style), Paragraph(_("Quantity"), white_style),
          Paragraph(_("Unit Price"), white_style), Paragraph(_("Total"), white_style)]] if isWithImgs else [ [Paragraph(_("Product"), white_style),
@@ -477,22 +470,21 @@ def make_pdf(order, buffer, isWithImgs):
     elements.append(product_table)
     elements.append(Spacer(1, 20))
 
-    # Итоговая сумма
+    # Total amount
     total_price = round(order.get('price', 0), 2)
     product_price = round(total_price / (1 + vat), 2)
     shippingPrice = round(shippingValue / (1+vat), 2)
     shipping_vat = round(shippingValue - shippingPrice, 2)
     vat_price = round(total_price - product_price, 2)
 
-
     formatted_total_price = f"{product_price:.2f}"
     formatted_shipping_price = f"{shippingPrice:.2f}"
     formatted_shipping_price_vat = f"{shipping_vat:.2f}"
     formatted_vat_price = f"{vat_price:.2f}"
     formatted_full_price = f"{total_price+shippingValue:.2f}"
-    bold_style1 = styles["Normal"].clone('bold_style1')  # Создаём копию стиля
-    bold_style1.fontName = "Roboto-Bold"  # Указываем жирный шрифт
-    bold_style1.fontSize = 10  # Размер шрифта
+    bold_style1 = styles["Normal"].clone('bold_style1')  # Create a copy of the style
+    bold_style1.fontName = "Roboto-Bold"  # Specify a bold font
+    bold_style1.fontSize = 10  # Font size
     bold_style1.textColor = colors.black
     summary_data = [
         [Paragraph('<b>' + _('Subtotal') + '</b>', bold_style1), f"{currency}{formatted_total_price}"],
@@ -502,27 +494,27 @@ def make_pdf(order, buffer, isWithImgs):
         [Paragraph("<b>" + _("TOTAL") + "</b>", bold_style1), f"{currency}{formatted_full_price}"],
     ]
 
-    # Создание таблицы
-    summary_table = Table(summary_data, colWidths=[100, 100])  # Ширина столбцов
+    # Create a table
+    summary_table = Table(summary_data, colWidths=[100, 100])  # Column width
 
-    # Стилизация таблицы
+    # Table styles
     summary_table.setStyle(TableStyle([
-        ('ALIGN', (0, 0), (-1, -1), 'RIGHT'),  # Выравнивание текста в ячейках
-        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),  # Шрифт текста
-        ('FONTSIZE', (0, 0), (-1, -1), 10),  # Размер шрифта
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 5),  # Нижний отступ
-        # ('LINEBELOW', (0, 1), (-1, 1), 1, colors.black),  # Линия под строкой SHIPPING price
-        ('LINEBELOW', (0, 3), (-1, 3), 1, colors.black),  # Линия под строкой VAT
-        ('LINEBELOW', (0, 4), (-1, 4), 1.5, colors.black),  # Линия под строкой TOTAL
+        ('ALIGN', (0, 0), (-1, -1), 'RIGHT'),  # Aligning text in cells
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),  # Text font
+        ('FONTSIZE', (0, 0), (-1, -1), 10),  # Font size
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 5),  # Bottom indent
+        # ('LINEBELOW', (0, 1), (-1, 1), 1, colors.black),  # Line under the SHIPPING price line
+        ('LINEBELOW', (0, 3), (-1, 3), 1, colors.black),  # The line under the VAT line
+        ('LINEBELOW', (0, 4), (-1, 4), 1.5, colors.black),  # Line under the TOTAL line
     ]))
 
-    # Добавление таблицы с отступом вправо
-    table_wrapper = Table([[summary_table]], colWidths=[doc.width])  # Внешняя таблица для отступа
+    # Adding a table indented to the right
+    table_wrapper = Table([[summary_table]], colWidths=[doc.width])  # External table for indentation
     table_wrapper.setStyle(TableStyle([
-        ('ALIGN', (0, 0), (-1, -1), 'RIGHT'),  # Выравнивание всей таблицы по правому краю
+        ('ALIGN', (0, 0), (-1, -1), 'RIGHT'),  # Aligning the entire table to the right edge
     ]))
 
-    # Добавление таблицы в элементы
+    # Adding a table to elements
     elements.append(table_wrapper)
     doc.build(elements)
 
@@ -631,7 +623,7 @@ def register_anonym_cart_info(request):
                 last_name = form.cleaned_data.get('last_name')
                 birthdate = form.cleaned_data.get('birthdate')
                 social_title = "Mr" if form.cleaned_data.get('social_title') == "1" else "Mrs"
-                customer_type = "Customer"# if form.cleaned_data.get('type_of_user') == "1" else "B2B"
+                customer_type = "Customer"
                 offers = form.cleaned_data.get('offers')
                 newsletter = form.cleaned_data.get('receive_newsletter')
                 category, currency = get_user_prices(request, email2)
@@ -753,9 +745,8 @@ def check_promo_code(request):
         if not promo_code or not email:
             return JsonResponse({'status': 'error', 'message': 'Please enter a promo code'})
 
-        promo_code = promo_code.upper()  # Приводим к верхнему регистру для единообразия
+        promo_code = promo_code.upper()  # Lowercase for consistency
         try:
-            # Ищем промокод в коллекции Promocodes
             promocodes_ref = db.collection('Promocodes')
             query = promocodes_ref.where('code', '==', promo_code).limit(1).stream()
             promo_data = next(query, None)
@@ -771,11 +762,11 @@ def check_promo_code(request):
                 return JsonResponse({'status': 'error', 'message': 'This promo code is not available.'})
             discount = promo_dict.get('discount', 0)
 
-            # Проверяем, что скидка это число
+            # Checking that the discount is a number
             if not isinstance(discount, (int, float)):
                 return JsonResponse({'status': 'error', 'message': 'Invalid discount value'})
 
-            # Если у пользователя уже есть активный промокод, возвращаем сообщение об ошибке
+            # If the user already has an active promo code, return an error message
             old_coupons = list(active_promocodes_ref.where('email', '==', email).stream())
 
             if old_coupons:
@@ -784,16 +775,15 @@ def check_promo_code(request):
                     'message': 'You already have an active promo code. Please use or remove it before adding a new one.'
                 })
 
-            # Если промокод одноразовый, проверяем использовал ли его пользователь до этого
+            # If the promo code is disposable, check whether any user has used it before
             if promo_dict.get('single_use', False):
                 used_promocodes = list(
                     used_promocodes_ref
                     .where('coupon_code', '==', promo_code)
-                    # .where('email', '==', email)
                     .stream()
                 )
 
-                if used_promocodes:  # Если записи есть, значит пользователь уже использовал промокод
+                if used_promocodes:  # If there are entries, it means that some user has already used the promo code
                     return JsonResponse({
                         'status': 'error',
                         'message': 'This promo code has already been used.'
@@ -806,20 +796,20 @@ def check_promo_code(request):
                 'type': promo_dict.get('type'),
                 'discount': discount,
                 'single_use': promo_dict.get('single_use', False),
-                'expires_at': promo_dict.get('expires_at'),  # Если есть дата истечения
+                'expires_at': promo_dict.get('expires_at'),  # If there's an expiration date
                 'created_at': datetime.now()
             })
 
-            # Вычисляем скидку как дробное значение
+            # Calculate the discount as a fractional value
             discount_rate = discount / 100.0
 
             active_cart_coupon(email)
 
-            # Возвращаем успешный результат
+            # Returning a successful result
             return JsonResponse({'status': 'success', 'message': 'Promo code is valid', 'discount_rate': discount_rate})
 
         except Exception as e:
-            # Обрабатываем возможные ошибки
+            # Handling possible errors
             return JsonResponse({'status': 'error', 'message': f'Error checking promo code: {str(e)}'})
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'})

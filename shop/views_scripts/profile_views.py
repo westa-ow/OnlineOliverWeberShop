@@ -30,7 +30,6 @@ from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.mail import send_mail
 
-from shop.forms import UserRegisterForm, User
 from django.utils.translation import gettext as _
 
 from shop.views_scripts.catalog_views import update_cart, get_full_product
@@ -392,49 +391,48 @@ def upload_file(request):
 
         errors = []
 
-        # Проверка на корректное расширение файла
+        # Checking for correct file extension
         if not (uploaded_file.name.endswith('.xlsx') or uploaded_file.name.endswith('.xls')):
             errors.append(_('Invalid file format. Only .xlsx or .xls are allowed'))
             return JsonResponse({'status': 'error', 'message': 'Invalid file format. Only .xlsx or .xls are allowed', 'errors': errors}, status=400)
 
         try:
-            # Открываем загруженный файл с помощью openpyxl
+            # Open the downloaded file with openpyxl
             workbook = load_workbook(uploaded_file)
             sheet = workbook.active
 
-            # Проходим по строкам файла и вызываем нужную функцию
-            for row in sheet.iter_rows(min_row=2, values_only=True):  # min_row=2 пропускает заголовок
+            # Go through the lines of the file and call the required function
+            for row in sheet.iter_rows(min_row=2, values_only=True):
                 product_name, new_quantity = row
                 if not product_name or new_quantity is None:
                     errors.append(_('Invalid data in row') + f': {row}')
-                    continue  # Пропускаем строки с отсутствующими данными
+                    continue  # Skip rows with missing data
 
                 product_name = str(product_name)
                 new_quantity = int(new_quantity)
-                # Получаем данные из пользовательской сессии и вызываем нужные функции
+                # Get data from the user session and call the necessary functions
                 email = get_user_session_type(request)
                 category, currency = get_user_prices(request, email)
-                currency = '€' if currency == 'Euro' else '$'
                 info = get_user_info(email) or {}
                 sale = round((0 if "sale" not in info else info['sale'])/100, 3) or 0
 
-                # Проверяем наличие имени товара и количества
+                # Check for product name and quantity
                 if not product_name or new_quantity is None:
                     errors.append(_('Invalid data in row') + f': {row}')
-                    continue  # Пропускаем строки без продукта или количества
+                    continue  # Skip rows without product or quantity
                 if new_quantity <= 0:
                     errors.append(_("Quantity can only be greater than 0)") + f": {row}")
                     continue
-                # Ищем информацию о продукте
+                # Looking for product information
                 document = get_full_product(product_name)
                 if not document:
                     errors.append(_('Product not found') + f': {product_name}')
-                    continue  # Если продукт не найден, продолжаем обработку следующей строки
+                    continue  # If no product is found, continue processing the next line
 
                 if document['quantity'] < new_quantity:
                     errors.append(_('Requested quantity') + f'({new_quantity})' + _('is less than number of products in storage for product')+ f': {product_name}')
                     continue
-                # Определяем цену товара в зависимости от категории
+                # Determine the price of the product depending on the category
                 if category == "VK3":
                     document['price'] = document.get('priceVK3', 0)
                 elif category == "GH":
@@ -448,7 +446,7 @@ def upload_file(request):
                 else:
                     document['price'] = round(document.get('priceVK4', 0) * (1-sale), 1) or 0
 
-                # Обновляем корзину
+                # Update the cart
                 subtotal, cart_size = update_cart(email, product_name, new_quantity, document)
 
                 if subtotal is None:
@@ -469,11 +467,6 @@ def generate_product_feed(request):
     :param request:
     :return:
     """
-    email = get_user_session_type(request)
-    category, currency = get_user_prices(request, email)
-    info = get_user_info(email) or {}
-    sale = round((0 if "sale" not in info else info['sale']) / 100, 3) or 0
-
     products = itemsRef.stream()
 
     root = ET.Element("products")
@@ -487,20 +480,6 @@ def generate_product_feed(request):
         ET.SubElement(product_element, "name").text = f"{data.get('category', '')} {data.get('product_name', '')}"
         ET.SubElement(product_element, "article_number").text = data.get("name", "")
         ET.SubElement(product_element, "ean_13").text = data.get("ean_13", "")
-        # ET.SubElement(product_element, "PriceVK4").text = str(data.get("priceVK4", 0))
-        #
-        # if category == "VK3":
-        #     ET.SubElement(product_element, "ClientPrice").text = str(data.get('priceVK3', 0))
-        # elif category == "GH":
-        #     ET.SubElement(product_element, "ClientPrice").text = str(data.get('priceGH', 0))
-        # elif category == "Default_USD":
-        #     ET.SubElement(product_element, "ClientPrice").text = str(round(data.get('priceUSD', 0) * (1-sale), 1) or 0)
-        # elif category == "GH_USD":
-        #     ET.SubElement(product_element, "ClientPrice").text = str(data.get('priceUSD_GH', 0))
-        # elif category == "Default_High":
-        #     ET.SubElement(product_element, "ClientPrice").text = str(data.get('priceVK4', 0) * 1.3)
-        # else:
-        #     ET.SubElement(product_element, "ClientPrice").text = str(round(data.get('priceVK4', 0) * (1-sale), 1) or 0)
 
         ET.SubElement(product_element, "availability").text = "in stock" if data.get("quantity", 0) > 0 else "Out of stock"
         ET.SubElement(product_element, "image").text = data.get("image_url", "https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/wall%2Fno_image.jpg?alt=media&token=22a7b907-01f6-45b6-8fb1-f1f884ab21d4")
@@ -512,8 +491,6 @@ def generate_product_feed(request):
         if data.get("chain_length"):
             ET.SubElement(product_element, "length").text = str(data.get("chain_length", "")) + " cm"
 
-        # ET.SubElement(product_element, "url").text = data.get("image_url", "")
-        # ET.SubElement(product_element, "image").text = data.get("image_url", "")
 
     xml_data = ET.tostring(root, encoding="utf-8")
 

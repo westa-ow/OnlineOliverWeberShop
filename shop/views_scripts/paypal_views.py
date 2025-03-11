@@ -31,7 +31,7 @@ import logging
 from shop.views_scripts.stripe_views import stripe_checkout
 
 paypalrestsdk.configure({
-    "mode": settings.PAYPAL_MODE,  # "sandbox" или "live"
+    "mode": settings.PAYPAL_MODE,  # "sandbox" or "live"
     "client_id": settings.PAYPAL_CLIENT_ID,
     "client_secret": settings.PAYPAL_CLIENT_SECRET,
 })
@@ -39,13 +39,13 @@ paypalrestsdk.configure({
 class PayPalSuccessView(TemplateView):
     template_name = 'stripe/success.html'
 
-# Страница отмены
+# Cancelled view
 class PayPalCancelledView(TemplateView):
     template_name = 'stripe/cancelled.html'
 @csrf_exempt
 def create_paypal_payment(request):
     if request.method == 'POST':
-        domain_url = 'https://www.oliverweber.online/'  # Замените на ваш домен
+        domain_url = 'https://www.oliverweber.online/'
         language_code = request.path.split('/')[1]
         try:
             data = json.loads(request.body.decode('utf-8'))
@@ -115,12 +115,12 @@ def paypal_webhook(request):
         event_type = payload.get('event_type')
 
         if event_type == 'PAYMENT.SALE.COMPLETED':
-            # Получение данных о завершенном платеже
+            # Receiving data on completed payment
             sale = payload['resource']
             order_id = sale['invoice_number']
             metadata = sale.get('custom', {})
 
-            # Обработка завершенного платежа
+            # Processing a completed payment
             if order_id:
                 email = metadata.get('email')
                 user_name = metadata.get('full_name')

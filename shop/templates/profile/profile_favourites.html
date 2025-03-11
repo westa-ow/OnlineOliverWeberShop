@@ -179,9 +179,8 @@ let filters_dict = {
                     // Stop the event from propagating to other elements
                     event.stopPropagation();
                     try {
-                        // Replace `yourItemId` with the actual item ID or any identifier you use
                         const response = await fetch('{% url "change_favorite_state" %}', {
-                            method: 'POST', // or 'DELETE' if removing from favorites
+                            method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
                                 'X-CSRFToken': getCookie('csrftoken'),
@@ -213,10 +212,8 @@ let filters_dict = {
                             }
                         } else {
                             // Remove from favoriteItems
-
                             favouriteItems = favouriteItems.filter(item => item.name !== itemToAddOrRemove.name);
                             console.log("Removed from favorites", itemToAddOrRemove);
-                            {#heartIconContainer.parentElement.parentElement.parentElement.parentElement.remove();#}
                         }
 
                         // Update the heart icon based on `isFavourite`
@@ -258,7 +255,6 @@ let filters_dict = {
                 infoSection.appendChild(document.createElement('br'));
                 infoSection.appendChild(priceSpan);
 
-
                 const removeButtonContainer = document.createElement('div');
                 removeButtonContainer.classList.add("remove-fav", "btn");
                 removeButtonContainer.style.position = "absolute";
@@ -271,7 +267,6 @@ let filters_dict = {
 
                 removeButtonContainer.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
 
-
                 removeButtonContainer.addEventListener('click', async (event) => {
 
                     const favouriteItem = favouriteItems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
@@ -279,10 +274,9 @@ let filters_dict = {
 
                     event.stopPropagation();
                     try {
-                        // Replace `yourItemId` with the actual item ID or any identifier you use
                         if(isFavBefore){
                             const response = await fetch('{% url "change_favorite_state" %}', {
-                                method: 'POST', // or 'DELETE' if removing from favorites
+                                method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
                                     'X-CSRFToken': getCookie('csrftoken'),
@@ -300,7 +294,6 @@ let filters_dict = {
                     }
 
                 });
-
 
                 // Assemble the product container
                 container_card.appendChild(imgSection);
@@ -326,13 +319,11 @@ document.getElementById('product-card').addEventListener('click', async (event) 
     const favouriteItem = favouriteItems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
     const isFavBefore = Boolean(favouriteItem); // Converts the result to a boolean
 
-
     // Stop the event from propagating to other elements
     event.stopPropagation();
     try {
-        // Replace `yourItemId` with the actual item ID or any identifier you use
         const response = await fetch('{% url "change_favorite_state" %}', {
-            method: 'POST', // or 'DELETE' if removing from favorites
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': getCookie('csrftoken'),

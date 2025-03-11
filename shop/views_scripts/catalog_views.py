@@ -30,50 +30,6 @@ from django.core.mail import send_mail
 
 from shop.forms import UserRegisterForm, User
 
-# categories = {
-#     "3": "necklaces",
-#     "74": "colliers",
-#    "275": "pendants",
-#     "76": "pearls",
-#     "61": "rosegold-necklaces",
-#     "62": "gold-necklaces",
-#     "63": "rhodium-necklaces",
-#     "64": "sterling-silver-necklaces",
-#     "65": "zircon-necklaces",
-#     "80": "stainless-steel-necklaces",
-#     "4": "accessories",
-#     "66": "pen",
-#     "67": "brooch",
-#     "7": "rings",
-#     "20": "rosegold-rings",
-#     "21": "gold-rings",
-#     "22": "rhodium-rings",
-#     "23": "sterling-silver-rings",
-#     "24": "zircon-rings",
-#     "81": "stainless-steel-rings",
-#     "8": "earrings",
-#     "208": "earrings",
-#     "25": "studs",
-#     "26": "drops",
-#     "27": "hoops",
-#     "28": "pearl",
-#     "34": "rosegold-earrings",
-#     "35": "gold-earrings",
-#     "36": "rhodium-earrings",
-#     "37": "sterling-silver-earrings",
-#     "38": "zircon-earrings",
-#     "82": "stainless-steel-earrings",
-#     "9": "bracelets",
-#     "39": "bangle",
-#     "40": "chain",
-#     "48": "rosegold-bracelets",
-#     "50": "rhodium-bracelets",
-#     "51": "sterling-silver-bracelets",
-#     "52": "zircon-bracelets",
-#     "83": "stainless-steel-bracelets",
-#     "79": "anklets",
-#     "84": "stainless-steel-anklets",
-# }
 categories = {
     "0": "All",
     "3": "Necklaces",
@@ -163,7 +119,7 @@ def catalog_view(request):
 @login_required_or_session
 def param_catalog(request, category_id, category_name):
     if "-" in category_id:
-        category_id, category_name = category_id.split("-", 1)  # Разделяет только по первому дефису
+        category_id, category_name = category_id.split("-", 1)  # Separates only by the first hyphen
 
     collection_catalog = request.GET.get('collection') or ""
     plating_catalog = request.GET.get('plating') or ""
@@ -199,7 +155,6 @@ def add_to_cart_from_catalog(request):
         email = get_user_session_type(request)
         coupon = get_active_coupon(email)
         category, currency = get_user_prices(request, email)
-        currency = '€' if currency == 'Euro' else '$'
         info = get_user_info(email) or {}
         sale = round((0 if "sale" not in info else info['sale'])/100, 3) or 0
         if not product_name or new_quantity is None:
@@ -258,7 +213,6 @@ def update_cart(email, product_name, new_quantity, document):
     cart_items = get_cart(email)  # This function needs to be defined or adjusted
     subtotal = sum(float(item['sum']) for item in cart_items)
 
-    quantity_max = 0
     if 'pre_order' in document:
         quantity_max = 20 if document['pre_order'] else document['quantity']
     else:

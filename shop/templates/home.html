@@ -95,13 +95,6 @@
                             </a>
                         </div>
                     </li>
-{#                    <li class="htmlcontent-item-8 col-md-3 bview bview-first ">#}
-{#                        <div class="li-cont">#}
-{#                            <a href="{% url "param_catalog" category_id="0" category_name="all"%}" class="item-link" title="Sets">#}
-{#                                <img src="{% static "images/home/banners/sets_banner.jpg" %}" class="item-img href" title="Sets" alt="Sets" width="100%" height="100%">#}
-{#                            </a>#}
-{#                        </div>#}
-{#                    </li>#}
                 </ul>
             </div>
     </div>
@@ -451,10 +444,7 @@ let filters_dict = {
         shuffleArray(allItems);
         allItems = allItems.slice(0, 15);
 
-
         buildPageFavourites(allItems);
-
-
     });
 
     function setupImageCarousel() {
@@ -479,7 +469,6 @@ let filters_dict = {
                     currentItem.style.display = "none";
                 }, 500);
             });
-
 
             // Ensure the next item is positioned but invisible, ready to fade in
             nextItem.style.opacity = 0;
@@ -556,14 +545,14 @@ let filters_dict = {
         }
     }
     async function fetchStones() {
-        const stonesQuery = query(collection(db, "Stones")); // Запрос к коллекции Stones
+        const stonesQuery = query(collection(db, "Stones")); // Request for the Stones collection
         const querySnapshot = await getDocs(stonesQuery);
 
-        // Преобразуем документы в объект { "id": "name" }
+        // Convert documents into an object { “id”: “name” }
         const all_stones = {};
         querySnapshot.docs.forEach(doc => {
             const data = doc.data();
-            if (data.id && data.name) { // Убедимся, что данные существуют
+            if (data.id && data.name) { // Let's make sure the data exists
                 all_stones[data.id] = data.name;
             }
         });
@@ -583,14 +572,11 @@ document.getElementById('product-card').addEventListener('click', async (event) 
     // Stop the event from propagating to other elements
     event.stopPropagation();
     try {
-        // Replace `yourItemId` with the actual item ID or any identifier you use
         const response = await fetch('{% url "change_favorite_state" %}', {
-            method: 'POST', // or 'DELETE' if removing from favorites
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': getCookie('csrftoken'),
-
-                // Include other headers as needed, like authorization tokens
             },
             body: JSON.stringify({item: JSON.stringify(item), "alreadyFavourite": isFavBefore ? "true":"false"}),
         });
@@ -633,10 +619,10 @@ document.addEventListener('click', (event) => {
         let id = clickedElement.getAttribute('data-item-id');
         let dialog = document.getElementById('product-card');
 
-        // Закрываем диалог с анимацией
+        // Closing the dialog with animation
         closeDialogWithAnimation(dialog, true);
 
-        // Дожидаемся завершения анимации, затем открываем новое окно
+        // Wait for the animation to complete, then open a new window
         dialog.addEventListener(
             'transitionend',
             () => {
@@ -661,7 +647,7 @@ document.addEventListener('click', (event) => {
                     translations_categories
                 );
             },
-            { once: true } // Убираем обработчик после первого выполнения
+            { once: true } // Remove the handler after the first execution
         );
     }
 });

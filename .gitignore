@@ -4,8 +4,6 @@ shop/static/key2.json
 
 venv/
 
-shop/static/key4_Terminal.json
-
 OnlineShop/.env
 
 db.sqlite3

@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="{% static 'css/SeparateWidgets/addressesWidget.css' %}">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 {% if user_role != "Admin" %}
-    <!-- Интерфейс для пользователя -->
+    <!-- User's interface -->
     <div class="user-chat-widget">
         <div class="chat-list">
             <ul>
@@ -39,13 +39,13 @@
             <span id="ArchivedB2B" class="type-selector-value" data-chat-type="archivedB2B">{% trans "Archive B2B" %}</span>
         </div>
 
-        <!-- Интерфейс для админа -->
+        <!-- Admin's interface -->
         <div class="admin-chat-widget">
 
             <div class="chat-list">
-                <!-- Здесь можно отобразить список всех пользователей и их чатов -->
+                <!-- Here we display a list of all users and their chats -->
                 <ul>
-                    <!-- И так далее -->
+
                 </ul>
             </div>
             <div class="chat-window">
@@ -72,8 +72,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
 import { getFirestore, collection, query, onSnapshot, doc, getDoc, setDoc, serverTimestamp, addDoc, deleteDoc,updateDoc, where, orderBy } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-storage.js";
-
-
 
 const firebaseConfig = {
     apiKey: "AIzaSyAM0wDc_WO0wP3-_TPRPLENZDIHbezH7U4",
@@ -130,13 +128,8 @@ function setTypesCorrectly(deleteChat){
         }
     }
 
-
-
 }
 document.addEventListener("DOMContentLoaded", async function () {
-    {#if(role !== "Student" && "{{ rights }}"!=="Chat_Admin"){#}
-    {#     window.location.href = "{% url "profile" feature_name="account" %}";#}
-    {##}
     if(role === "Admin"){
         setUpChats();
         setTypesCorrectly(true);
@@ -198,7 +191,7 @@ onSnapshot(q, (querySnapshot) => {
         messagesSnapshots.push(doc);
     });
 
-    // Обновление интерфейса только если это текущий чат
+    // Update the interface only if it is the current chat
     if (currentChatId === querySnapshot.query._query.path.segments[1] ) {
         updateChatUI(messagesSnapshots);
     }});
@@ -255,12 +248,12 @@ async function selectChat(task) {
         unsubscribeChatMessages();
     }
 
-    // Проверяем, существует ли чат в Firestore
+    // Check if the chat exists in Firestore
     const chatRef = doc(db, "chats", currentChatId);
     const chatDoc = await getDoc(chatRef);
 
     if (!chatDoc.exists()) {
-        // Если чат не существует, создаем его
+        // If the chat does not exist, create it
         await setDoc(chatRef, {
             chat_id: currentChatId,
             order_id: task,
@@ -273,7 +266,7 @@ async function selectChat(task) {
         });
     }
     if (role !== "Customer") {
-        // Обновляем поле viewed, если чат открыт админом
+        // Update the viewed field if the chat is opened by admin
         const chatState = chatDoc.data().chat_state;
 
         // Update to "viewed" only if the current state is "sent"
@@ -308,7 +301,6 @@ async function selectChat(task) {
             button_viewed_icon.classList.remove('fa-check');
         }
 
-
         const button_archived = document.getElementById('chat-message-archive');
         button_archived.disabled = false;
         button_archived.style.backgroundColor = "#003665";
@@ -325,9 +317,7 @@ async function selectChat(task) {
 
     }
 
-
-
-    // Загружаем сообщения для выбранного чата
+    // Download messages for the selected chat
     const chatMessagesRef = collection(db, "chat_messages");
     const q = query(chatMessagesRef, where("chat_id", "==", currentChatId), orderBy("timestamp"));
 
@@ -344,7 +334,7 @@ async function selectChat(task) {
             messages.push(doc.data());
             messagesSnapshots.push(doc);
         });
-        // Обновляем интерфейс только если это текущий чат
+        // Update the interface only if it is the current chat room
         if (currentChatId === messages[0].chat_id) {
             updateChatUI(messagesSnapshots);
 
@@ -370,7 +360,7 @@ async function selectChat(task) {
         }
     });
 
-    // Обновляем интерфейс для выбора чата
+    // Updating the interface for chat selection
     document.querySelectorAll('.chat-list li').forEach(item => {
         item.classList.remove('selected');
     });
@@ -382,20 +372,20 @@ async function selectChat(task) {
     }
 }
 async function change_status() {
-    const chatRef = doc(db, "chats", currentChatId); // Получаем ссылку на документ чата
+    const chatRef = doc(db, "chats", currentChatId); // Getting a link to the chat document
     await updateDoc(chatRef, {
-        chat_state: "answered" // Если сообщение отправляет студент, флаг viewed становится false
+        chat_state: "answered" // If the message is sent by a user, the viewed flag becomes false
     });
     updateChatBorderColor('answered');
 }
 async function sendMessage(senderId, senderName, messageText) {
     if(messageText==="") return;
-    const chatRef = doc(db, "chats", currentChatId); // Получаем ссылку на документ чата
+    const chatRef = doc(db, "chats", currentChatId); // Getting a link to the chat document
     const chatDoc = await getDoc(chatRef);
     if (role === "Customer") {
         await updateDoc(chatRef, {
             activity: serverTimestamp(),
-            chat_state: "sent" // Если сообщение отправляет студент, флаг viewed становится false
+            chat_state: "sent" // If the message is sent by a user, the viewed flag becomes sent
         });
         if(chatDoc.data().chat_started === false){
             await updateDoc(chatRef, {
@@ -405,7 +395,7 @@ async function sendMessage(senderId, senderName, messageText) {
     } else {
         await updateDoc(chatRef, {
             activity: serverTimestamp(),
-            chat_state: "answered" // Если сообщение отправляет админ, статус чата меняется на "answered"
+            chat_state: "answered" //If the message is sent by a admin, the viewed flag becomes answered
         });
     }
 
@@ -511,7 +501,6 @@ function updateChatUI(messagesSnapshots) {
 
             // Attach deleteMessage functionality
             menu.querySelector('.deleteMessage').addEventListener('click', () => {
-                {#console.log(messageSnapshot.id);#}
                 deleteMessage(messageSnapshot.id); // Pass the current message as context
                 menu.style.display = 'none'; // Hide the menu after selecting an option
             });
@@ -625,8 +614,6 @@ function updateChatBorderColor(state, type="viewed") {
             button_viewed_icon.classList.remove('fa-check');
         }
     }
-
-
 }
 
 document.querySelector('#chat-message-submit').onclick = function(e) {
@@ -637,7 +624,7 @@ document.querySelector('#chat-message-submit').onclick = function(e) {
         messageInputDom.value = '';
     }
     else{
-        console.log("Виберіть чат");
+        console.log("Choose a chat");
     }};
 
 document.querySelector('#chat-message-view').onclick = function(e) {
@@ -649,7 +636,7 @@ document.querySelector('#chat-message-view').onclick = function(e) {
         change_status();
     }
     else{
-        console.log("Виберіть чат");
+        console.log("Choose a chat");
     }};
 document.querySelector('#chat-message-archive').onclick = function(e) {
     if(currentChatId !== null){
@@ -667,14 +654,14 @@ document.querySelector('#chat-message-archive').onclick = function(e) {
         setTypesCorrectly(false);
     }
     else{
-        console.log("Виберіть чат");
+        console.log("Choose a chat");
     }};
 async function change_status_archive() {
 
-    const chatRef = doc(db, "chats", currentChatId); // Получаем ссылку на документ чата
+    const chatRef = doc(db, "chats", currentChatId); // Getting a link to the chat document
     if(selectedChatType.length>3) {
         await updateDoc(chatRef, {
-            chat_state: "archived" // Если сообщение отправляет студент, флаг viewed становится false
+            chat_state: "archived" // Change chat status to archive
         });
         const button_archived_icon = document.querySelector('#chat-message-archive i');
         button_archived_icon.classList.remove('fa-remove');
@@ -684,7 +671,7 @@ async function change_status_archive() {
     }
     else{
         await updateDoc(chatRef, {
-            chat_state: "answered" // Если сообщение отправляет студент, флаг viewed становится false
+            chat_state: "answered"
         });
         const button_archived_icon = document.querySelector('#chat-message-archive i');
         button_archived_icon.classList.add('fa-remove');
@@ -718,7 +705,7 @@ document.getElementById('chat-file-input').onchange = async function(e) {
         }
     }
     else{
-        console.log("Виберіть чат");
+        console.log("Choose a chat");
     }};
 
 async function sendFileMessage(senderId, senderName, fileName, fileURL) {
@@ -729,7 +716,7 @@ async function sendFileMessage(senderId, senderName, fileName, fileURL) {
     if (role === "Customer") {
         await updateDoc(chatRef, {
             activity: serverTimestamp(),
-            chat_state: "sent" // Если сообщение отправляет студент, флаг viewed становится false
+            chat_state: "sent" // If the message is sent by a user, the viewed flag becomes sent
         });
         if(chatDoc.data().chat_started === false){
             await updateDoc(chatRef, {
@@ -739,7 +726,7 @@ async function sendFileMessage(senderId, senderName, fileName, fileURL) {
     } else {
         await updateDoc(chatRef, {
             activity: serverTimestamp(),
-            chat_state: "answered" // Если сообщение отправляет админ, статус чата меняется на "answered"
+            chat_state: "answered" // If the message is sent by a admin, the viewed flag becomes answered
         });
     }
     const messageData = {
@@ -776,13 +763,12 @@ async function deleteMessage(messageId) {
 }
 
 function formatTimestamp(seconds, nanoseconds) {
-    // Преобразуем секунды в миллисекунды
     const timestampInMillis = (seconds * 1000) + (nanoseconds / 1000000);
 
-    // Создаем объект даты на основе миллисекунд
+    // Convert miliiseconds to Date object
     const date = new Date(timestampInMillis);
 
-    // Форматируем дату в нужный формат: HH:mm:ss dd:MM:YY
+    // Format the date as "HH:mm:ss dd.MM.yy"
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
     const secondsStr = String(date.getSeconds()).padStart(2, '0');

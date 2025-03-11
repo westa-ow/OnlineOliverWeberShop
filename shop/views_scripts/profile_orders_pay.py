@@ -21,10 +21,11 @@ from django.core.mail import send_mail, EmailMessage
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
+# Success Page
 class SuccessView(TemplateView):
     template_name = 'stripe/success.html'
 
-# Страница отмены
+# Cancellation Page
 class CancelledView(TemplateView):
     template_name = 'stripe/cancelled.html'
 
@@ -38,7 +39,7 @@ def stripe_config(request):
 @login_required
 def create_partial_checkout_session(request):
     if request.method == 'POST':
-        domain_url = 'https://www.oliverweber.online/'  # Замените на ваш домен
+        domain_url = 'https://www.oliverweber.online/'
         if settings.CURRENT_DOMAIN == "oliverweber.com":
             domain_url = 'https://www.oliverweber.com/'
         elif settings.CURRENT_DOMAIN == "oliverweber.online":
@@ -54,7 +55,7 @@ def create_partial_checkout_session(request):
         if billingAddress == 0:
             billingAddress = shippingAddress
         try:
-            # Создаем сессию оплаты
+            # Create a payment session
             email = get_user_session_type(request)
             category, currency = get_user_prices(request, email)
             if currency == "Euro":
@@ -75,9 +76,9 @@ def create_partial_checkout_session(request):
                         'price_data': {
                             'currency': currency,
                             'product_data': {
-                                'name': f'{order_id}',  # Название товара
+                                'name': f'{order_id}',  # Order ID
                             },
-                            'unit_amount': int(full_price * 100),  # Стоимость товара в центах (2000 = $20.00)
+                            'unit_amount': int(full_price * 100),
                         },
                         'quantity': 1,
                     },
@@ -88,17 +89,14 @@ def create_partial_checkout_session(request):
         except Exception as e:
             return JsonResponse({'error': str(e)})
 
-    # Обработка для GET-запроса или других методов
+    # Http response for GET methods
     return HttpResponse(status=405)
 
 
-def stripe_partial_checkout(email, paid_price, user_name, order_id, shippingAddress, billingAddress, payment_type, lang_code):
+def stripe_partial_checkout(email, paid_price, order_id, lang_code):
     # Создаю order
     user_email = email
-    category, currency = get_user_category(user_email) or ("Default", "Euro")
 
-    item_refs = []
-    sum = 0
     order_id = int(order_id)
     order_query = orders_ref.where('order_id', '==', order_id).limit(1)
     order = None
@@ -107,20 +105,19 @@ def stripe_partial_checkout(email, paid_price, user_name, order_id, shippingAddr
         order = doc
         break
 
-    print(order)
-
     order_doc_ref = order.reference
     order_data = order.to_dict()
     current_paid_sum = order_data.get("paid_sum", 0)
     new_paid_sum = round(current_paid_sum + float(paid_price), 2)
     updates = {
         "paid_sum": new_paid_sum,
-        "updated_at": datetime.now()  # Optional: Add a timestamp for tracking updates
+        "updated_at": datetime.now()
     }
 
     order_doc_ref.update(updates)
     sent_email_confirmation(user_email, order_id, lang_code)
     return new_paid_sum
+
 
 def sent_email_confirmation(user_email, order_id, language_code):
     try:

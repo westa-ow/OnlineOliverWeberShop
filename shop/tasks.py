@@ -14,9 +14,8 @@ from django.core.mail import send_mail, EmailMessage
 
 @background(schedule=30)
 def process_file_task(xlsx_file_path):
-    # Инициализация Firebase (если ещё не инициализировано)
 
-    logs = []  # список для хранения логов
+    logs = []  # log storage list
 
     def log(message):
         logs.append(f"{datetime.datetime.now().isoformat()} - {message}")
@@ -31,7 +30,7 @@ def process_file_task(xlsx_file_path):
 
     collection_ref = firestore.client().collection("item")
 
-    # Загружаем Excel-файл
+    # Download the Excel file
     try:
         workbook = openpyxl.load_workbook(xlsx_file_path)
         log(f"Workbook '{xlsx_file_path}' loaded successfully.")
@@ -41,8 +40,7 @@ def process_file_task(xlsx_file_path):
         return
     sheet = workbook.active
 
-    # Определяем номера нужных колонок
-    # Определяем номера нужных колонок
+    # Determine the numbers of the required columns
     columnQuantity = None
     columnNumber = None
     for col_index, col in enumerate(sheet.iter_cols()):
@@ -59,13 +57,13 @@ def process_file_task(xlsx_file_path):
         send_email_with_logs(logs)
         return
 
-    # Создаем in-memory CSV
+    # Create in-memory CSV
     output = io.StringIO()
     csv_writer = csv.writer(output, delimiter=';')
     csv_writer.writerow(['name', 'quantity'])
     log("CSV header written.")
 
-    # Обрабатываем строки файла
+    # Processing file lines
     for row in sheet.iter_rows(min_row=2, values_only=True):
         name = row[columnNumber]
         quantity = row[columnQuantity] if row[columnQuantity] is not None else 0
@@ -79,10 +77,10 @@ def process_file_task(xlsx_file_path):
 
     output.seek(0)
 
-    # Пакетное обновление Firestore
+    # Batch update Firestore
     batch = firestore.client().batch()
     csv_reader = csv.reader(output, delimiter=';')
-    next(csv_reader)  # Пропускаем заголовок
+    next(csv_reader)  # Skip the header
     for row in csv_reader:
         query_value = row[0]
         try:
@@ -108,7 +106,7 @@ def process_file_task(xlsx_file_path):
 
 def send_email_with_logs(logs):
     """
-    Записывает логи в текстовый файл и отправляет email с вложением.
+    Writes logs to a text file and sends an email with an attachment.
     """
     log_text = "\n".join(logs)
     # Определяем имя файла с логами
@@ -127,8 +125,8 @@ def send_email_with_logs(logs):
     # Формируем email
     subject = "Db update report"
     body = "Attached file is the log of the database update task execution."
-    from_email = settings.EMAIL_HOST_USER  # убедитесь, что этот параметр настроен
-    recipient_list = ["eramcheg@gmail.com", "westadatabase@gmail.com"]  # замените на нужный адрес
+    from_email = settings.EMAIL_HOST_USER
+    recipient_list = ["eramcheg@gmail.com", "westadatabase@gmail.com"]
 
     email = EmailMessage(subject, body, from_email, recipient_list)
     email.attach(filename, log_text, "text/plain")

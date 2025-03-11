@@ -35,19 +35,19 @@ from shop.views_scripts.serializers import PromoCodeSerializer
 
 class PromoCodeViewSet(viewsets.ViewSet):
     def list(self, request):
-        # Получить список всех промокодов
+        # Get a list of all promo codes
         promocodes = PromoCode.get_all()
         return Response(promocodes)
 
     def retrieve(self, request, pk=None):
-        # Получить один промокод по ID
+        # Get one promo code by ID
         promocode = PromoCode.get_by_id(pk)
         if not promocode:
             return Response({'error': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
         return Response(promocode)
 
     def create(self, request):
-        # Создать новый промокод
+        # Create new promo code
         serializer = PromoCodeSerializer(data=request.data)
         if serializer.is_valid():
             doc_id = PromoCode.create(serializer.validated_data)
@@ -57,7 +57,7 @@ class PromoCodeViewSet(viewsets.ViewSet):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk=None):
-        # Обновить промокод
+        # Update promo code
         serializer = PromoCodeSerializer(data=request.data)
         if serializer.is_valid():
             PromoCode.update(pk, serializer.validated_data)
@@ -65,6 +65,6 @@ class PromoCodeViewSet(viewsets.ViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, pk=None):
-        # Удалить промокод
+        # Delete promo code
         PromoCode.delete(pk)
         return Response({'status': 'deleted'}, status=status.HTTP_204_NO_CONTENT)

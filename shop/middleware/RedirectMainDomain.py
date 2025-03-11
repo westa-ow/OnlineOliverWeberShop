@@ -7,9 +7,9 @@ class WWWRedirectMiddleware:
     def __call__(self, request):
         host = request.get_host()
 
-        # Перенаправление с oliverweber.com на www.oliverweber.com
+        # Redirects from oliverweber.com to www.oliverweber.com
         if host == 'oliverweber.com':
             return HttpResponsePermanentRedirect(f'https://www.oliverweber.com{request.get_full_path()}')
 
-        # Продолжаем обработку запроса
+        # Continue processing the request
         return self.get_response(request)

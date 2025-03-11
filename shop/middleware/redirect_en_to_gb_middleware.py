@@ -5,9 +5,9 @@ class RedirectENtoGBMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        # Проверяем, начинается ли URL с /en/
+        # Check if the URL starts with /en/
         if request.path.startswith('/en/'):
-            # Формируем новый URL
+            # Forming a new URL
             new_path = request.path.replace('/en/', '/gb/', 1)
             return redirect(new_path)
         return self.get_response(request)

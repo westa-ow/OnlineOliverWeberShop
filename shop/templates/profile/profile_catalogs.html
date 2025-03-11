@@ -26,7 +26,7 @@
 </section>
 <div id="pdf-viewer-modal">
   <div class="modal-content-pdf">
-    <!-- Индикатор загрузки -->
+    <!-- Loading indicator -->
     <div id="pdf-loading" class="loading">{% trans "Loading..."%}</div>
 
     <div id="pdf-container"></div>
@@ -42,7 +42,7 @@
 </div>
 <script >
     const pdfCache = {};
-  // Импортируем только legacy-версию и не загружаем другую
+    // Import only legacy-version and do not load another one
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@2.16.105/legacy/build/pdf.worker.js';
     let scale = 0.7;
     let currentPage = 1;
@@ -68,20 +68,20 @@
        });
    });
 
-   // Функция открытия модального окна и загрузки PDF
+   // Function for opening a modal window and downloading PDF
 function openPDFViewer(url) {
   document.body.style.overflow = 'hidden';
 
   const modal = document.getElementById('pdf-viewer-modal');
   modal.style.display = 'flex';
 
-  // Отобразим индикатор загрузки, если он у вас есть
+  // Display the load indicator
   const loadingIndicator = document.getElementById('pdf-loading');
   if (loadingIndicator) {
     loadingIndicator.style.display = 'block';
   }
 
-  // Проверяем, если PDF уже загружен
+  // Check if PDF has already been downloaded
   if (pdfCache[url]) {
     pdfDoc = pdfCache[url];
     currentPage = 1;
@@ -91,9 +91,9 @@ function openPDFViewer(url) {
     renderPage(currentPage);
     updateNavigation();
   } else {
-    // Если не найден в кэше, загружаем PDF через PDF.js
+    // If not found in cache, load PDF via PDF.js
     pdfjsLib.getDocument(url).promise.then(pdf => {
-      // Сохраняем в кэш
+      // Save to cache
       pdfCache[url] = pdf;
       pdfDoc = pdf;
       currentPage = 1;
@@ -111,7 +111,7 @@ function openPDFViewer(url) {
   }
 }
 
-// Функция отрисовки указанной страницы
+// Function for rendering the specified page
 function renderPage(pageNum) {
   pdfDoc.getPage(pageNum).then(page => {
     const viewport = page.getViewport({ scale: scale });
@@ -132,14 +132,14 @@ function renderPage(pageNum) {
   });
 }
 
-// Функция обновления навигационных элементов
+// Function for updating navigation elements
 function updateNavigation() {
   document.getElementById('pageNum').textContent = `Page ${currentPage} / ${pdfDoc.numPages}`;
   document.getElementById('prevPage').disabled = (currentPage <= 1);
   document.getElementById('nextPage').disabled = (currentPage >= pdfDoc.numPages);
 }
 
-// Переход к следующей странице
+// Go to the next page
 function nextPage() {
   if (currentPage < pdfDoc.numPages) {
     currentPage++;
@@ -148,7 +148,7 @@ function nextPage() {
   }
 }
 
-// Переход к предыдущей странице
+// Go to the previous page
 function prevPage() {
   if (currentPage > 1) {
     currentPage--;
@@ -157,27 +157,27 @@ function prevPage() {
   }
 }
 
-// Функция закрытия модального окна
+// Function for closing a modal window
 function closeModal() {
   document.getElementById('pdf-viewer-modal').style.display = 'none';
   document.body.style.overflow = '';
   pdfDoc = null;
 }
 
-// Закрытие модального окна при клике вне содержимого
+// Closing a modal window when clicking outside the content
 document.getElementById('pdf-viewer-modal').addEventListener('click', function(e) {
   if (e.target === this) {
     closeModal();
   }
 });
 function zoomIn() {
-    scale += 0.2; // увеличиваем масштаб
+    scale += 0.2; // zoom in
     renderPage(currentPage);
   }
 
   function zoomOut() {
-    if (scale > 0.4) { // минимальное значение масштаба
-      scale -= 0.2; // уменьшаем масштаб
+    if (scale > 0.4) { // minimum zoon value
+      scale -= 0.2; // zoom out
       renderPage(currentPage);
     }
   }
