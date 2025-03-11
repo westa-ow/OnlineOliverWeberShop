@@ -31,18 +31,18 @@ from django.core.files.storage import default_storage
 @login_required
 @user_passes_test(is_admin)
 def delete_banner(request, banner_id):
-    # Получаем объект баннера, чтобы иметь доступ к связанному файлу изображения
+    # Get the banner object to access the associated image file
     banner = Banner.objects.filter(id=banner_id).first()
     if banner:
-        # Удаление файла изображения
+        # Deleting an image file
         if banner.image:
-            # Удаление файла, если он существует
+            # Deleting a file if it exists
             image_path = banner.image.path
             if default_storage.exists(image_path):
                 default_storage.delete(image_path)
-        # Удаление объекта баннера
+        # Deleting a banner object
         banner.delete()
-        # Перенумерация приоритетов оставшихся баннеров
+        # Re-prioritization of the remaining banners
         banners = Banner.objects.all().order_by('priority')
         for index, remaining_banner in enumerate(banners):
             remaining_banner.priority = index
