@@ -27,7 +27,7 @@ def edit_user(request, user_id):
 
             old_email = old_user_data['email']
             new_email = new_user_data['email']
-            new_password = new_user_data.get('password')  # Получаем новый пароль
+            new_password = new_user_data.get('password')  # Getting a new password
 
 
             if new_email != old_email:
@@ -39,34 +39,33 @@ def edit_user(request, user_id):
             try:
                 user_instance = User.objects.get(email=old_email)
 
-                # Обновляем email, если он изменился
+                # Update email if it has changed
                 if new_email != old_email:
                     user_instance.username = new_email
                     user_instance.email = new_email
                     try:
                         update_email_in_db(old_email, new_email)
-                        # Optionally use update_email_in_db_result for further logic
                     except Exception as e:
                         # Log the exception e
                         return JsonResponse(
                             {'status': 'error', 'message': 'An error occurred while updating documents in Firestore.'},
                             status=500)
 
-                # Обновляем пароль, если он предоставлен
+                # Update the password, if provided
                 if new_password:  # This checks if the new_password string is not empty
                     try:
-                        # Проверяем новый пароль перед его установкой
+                        # Check the new password before setting it
                         validate_password(new_password, user_instance)
                         user_instance.set_password(new_password)
                         user_instance.save()  # Don't forget to save the user object after setting the new password
 
                     except ValidationError as e:
-                        # Возвращаем ошибку, если пароль не прошел валидацию
+                        # Return an error if the password failed validation
                         return JsonResponse({'status': 'error', 'message': list(e.messages)}, status=400)
 
 
 
-                user_instance.save()  # Сохраняем изменения в базе данных
+                user_instance.save()  # Save the changes in the database
 
             except User.DoesNotExist:
                 return JsonResponse({'status': 'error', 'message': 'User not found.'}, status=404)
@@ -119,7 +118,6 @@ def edit_user(request, user_id):
         user_ref = users_ref.document(user.id)
         user_data = serialize_firestore_document(user_ref.get())
         information = json.dumps(user_data)
-        # information = json.dumps(user_data)  # Now it should work without errors
         information2 = json.loads(information)
         context['user_info'] = information2
         context['user_info_dict'] = information

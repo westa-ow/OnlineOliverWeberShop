@@ -83,10 +83,6 @@
 </body>
 <script>
 
-
-// Инициализация фона с начальным выбором
-{#document.getElementById('languageSelect').dispatchEvent(new Event('change'));#}
-
     let isCheckout = false;
     let key = "{{ session.session_key }}";
     const currency="{{ currency|safe }}";
@@ -107,63 +103,62 @@
     });
 
 
-// Additionally, you'll need to manage closing the panel.
-// If you have a close button similar to the cartPanel's close button, you can add an event listener to it:
-document.querySelectorAll('.close_cross').forEach(button => button.addEventListener('click', function() {
-    let accPanel = document.getElementById('side_acc_wrap');
-    let overlay = document.getElementById('overlay');
-    let searchPanel = document.getElementById('side_search_wrap');
+    // If you have a close button similar to the cartPanel's close button, you can add an event listener to it:
+    document.querySelectorAll('.close_cross').forEach(button => button.addEventListener('click', function() {
+        let accPanel = document.getElementById('side_acc_wrap');
+        let overlay = document.getElementById('overlay');
+        let searchPanel = document.getElementById('side_search_wrap');
 
 
-    accPanel.classList.remove('open');
-    searchPanel.classList.remove('open');
-    overlay.style.display = 'none'; // Hide the overlay when the account panel is closed
-    closeDropdownSearch();
-}));
-
-
-document.getElementById('searchBtn').addEventListener('click', function (){
-    let searchPanel = document.getElementById('side_search_wrap');
-    let overlay = document.getElementById('overlay');
-    if (searchPanel.classList.contains('open')) {
+        accPanel.classList.remove('open');
         searchPanel.classList.remove('open');
-        overlay.style.display = 'none'; // Hide the overlay when the cart is closed
+        overlay.style.display = 'none'; // Hide the overlay when the account panel is closed
+        closeDropdownSearch();
+    }));
 
+
+    document.getElementById('searchBtn').addEventListener('click', function (){
+        let searchPanel = document.getElementById('side_search_wrap');
+        let overlay = document.getElementById('overlay');
+        if (searchPanel.classList.contains('open')) {
+            searchPanel.classList.remove('open');
+            overlay.style.display = 'none'; // Hide the overlay when the cart is closed
+
+        }
+        else {
+            searchPanel.classList.add('open');
+            overlay.style.display = 'block';
+        }
+    });
+
+    document.getElementById('overlay').addEventListener('click', function() {
+        document.getElementById('cartPanel').classList.remove('open');
+        document.getElementById('side_acc_wrap').classList.remove('open');
+        document.getElementById('side_search_wrap').classList.remove('open');
+        closeDropdownSearch();
+        this.style.display = 'none'; // Hide the overlay
+    });
+
+
+    function closeDropdownSearch(){
+        document.getElementById('input-search').value = "";
+        document.getElementById('dropdown').innerHTML = '';
     }
-    else {
-        searchPanel.classList.add('open');
-        overlay.style.display = 'block';
-    }
-});
 
-document.getElementById('overlay').addEventListener('click', function() {
-    document.getElementById('cartPanel').classList.remove('open');
-    document.getElementById('side_acc_wrap').classList.remove('open');
-    document.getElementById('side_search_wrap').classList.remove('open');
-    closeDropdownSearch();
-    this.style.display = 'none'; // Hide the overlay
-});
-
-
-function closeDropdownSearch(){
-    document.getElementById('input-search').value = "";
-    document.getElementById('dropdown').innerHTML = '';
-}
-
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
             }
         }
+        return cookieValue;
     }
-    return cookieValue;
-}
 </script>
 </html>
 {% endblock %}

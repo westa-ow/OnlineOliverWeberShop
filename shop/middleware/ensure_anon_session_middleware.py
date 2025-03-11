@@ -7,27 +7,27 @@ class EnsureAnonymousSessionMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        # Код, выполняемый на каждый запрос перед view
+        # The code executed on each request before the view
         response = self.get_response(request)
-        # Код, выполняемый на каждый ответ после view
+        # Code executed on each response after the view
         return response
 
     def process_view(self, request, view_func, view_args, view_kwargs):
-        # Проверка: если это вебхук Stripe, мы не выполняем перенаправление
+        # Check: if it's a Stripe webhook, we don't perform the redirection
         webhook_paths = [
-            reverse('stripe_webhook'),  # Убедитесь, что путь совпадает с вашим маршрутом вебхука
+            reverse('stripe_webhook'),  # Make sure the path matches your webhook route
             reverse('product_feed'),
         ]
 
         if request.path in webhook_paths:
-            # Если это запрос на вебхук, не делаем перенаправление
+            # If it's a webhook request, don't do a redirect
             return None
 
-        # Проверяем, есть ли у пользователя сессионный ключ
+        # Check if the user has a session key
         if not request.user.is_authenticated and not request.session.session_key:
-            # Генерируем сессионный ключ
+            # Generate session key
             request.session.save()
-            # Проверяем, не находимся ли мы уже на главной странице, чтобы избежать бесконечного редиректа
+            # Check if we are already on the home page to avoid endless redirects
             if request.path != reverse('home'):
                 return redirect('home')
 

@@ -92,15 +92,15 @@ function fulfilDropdown(dropdown, array, vocabulary){
 function closeDialogWithAnimation(dialog, isCarousel) {
     dialog.classList.remove('show');
     dialog.offsetHeight;
-    // Ждём завершения анимации
+    // Waiting for the animation to complete
     dialog.addEventListener(
         'transitionend',
         () => {
             if (dialog.open) {
-                dialog.close(); // Закрываем только если всё ещё открыто
+                dialog.close(); // We only close it if it's still open
             }
         },
-        { once: true } // Убедимся, что слушатель удаляется после срабатывания
+        { once: true } // Let's make sure that the listener is removed after triggering
     );
     if(!isCarousel) {
         currentPlating = "";
@@ -110,7 +110,7 @@ function bindGlobalClickEvent(dialog) {
     document.addEventListener(
         'click',
         (event) => {
-            // Проверяем, находится ли клик внутри диалога
+            // Check if the click is inside the dialog box
             const rect = dialog.getBoundingClientRect();
             const isInDialog =
                 rect.top <= event.clientY &&
@@ -118,22 +118,22 @@ function bindGlobalClickEvent(dialog) {
                 rect.left <= event.clientX &&
                 event.clientX <= rect.left + rect.width;
 
-            // Исключаем клики по SELECT или другим интерактивным элементам внутри диалога
+            // Exclude clicks on SELECT or other interactive elements inside the dialog box
             if (
                 isInDialog ||
-                event.target.closest('select') || // Для select и option
-                event.target.closest('input') || // Для input
-                event.target.closest('textarea') // Для textarea
+                event.target.closest('select') || // For select and option
+                event.target.closest('input') || // For input
+                event.target.closest('textarea') // For textarea
             ) {
                 return;
             }
 
             if (dialog.open) {
-                document.body.style.overflow = ''; // Разрешаем прокрутку страницы
-                closeDialogWithAnimation(dialog, false); // Закрываем диалог
+                document.body.style.overflow = ''; // Allow page scrolling
+                closeDialogWithAnimation(dialog, false); // Closing the dialog
             }
         },
-        true // Используем захват, чтобы обработать событие перед всплытием
+        true // Use capture to handle the event before surfacing
     );
 }
 
@@ -159,7 +159,7 @@ function showTooltip(event, message) {
         existingTooltip.remove();
     }
 
-    // Проверяем, есть ли открытый dialog
+    // Checking to see if there is an open dialog
     const dialog = document.querySelector('dialog[open]');
     const container = dialog || document.body;
 
@@ -169,24 +169,24 @@ function showTooltip(event, message) {
     tooltip.style.position = 'absolute';
 
     if (dialog) {
-        // Вычисляем координаты относительно диалога
+        // Calculate coordinates relative to the dialog
         const rect = dialog.getBoundingClientRect();
-        const offsetY = dialog.scrollTop || 0; // Учитываем возможную прокрутку внутри диалога
+        const offsetY = dialog.scrollTop || 0; // Take into account possible scrolling inside the dialog box
         tooltip.style.left = `${event.clientX - rect.left + 10}px`;
-        tooltip.style.top = `${event.clientY - rect.top + 10 + offsetY}px`; // Учитываем смещение и прокрутку
+        tooltip.style.top = `${event.clientY - rect.top + 10 + offsetY}px`; // Account for offset and scrolling
     } else {
-        // Если тултип добавляется в document.body
+        // If the tooltip is added to document.body
         tooltip.style.left = `${event.pageX + 10}px`;
         tooltip.style.top = `${event.pageY + 10}px`;
     }
 
     container.appendChild(tooltip);
 
-    // Перемещаем тултип с курсором
+    // Moving the tooltip with the cursor
     event.target.addEventListener('mousemove', (e) => {
         if (dialog) {
             const rect = dialog.getBoundingClientRect();
-            const offsetY = dialog.scrollTop || 0; // Учитываем прокрутку внутри диалога
+            const offsetY = dialog.scrollTop || 0; // Consider scrolling inside the dialog
             tooltip.style.left = `${e.clientX - rect.left + 10}px`;
             tooltip.style.top = `${e.clientY - rect.top + 10 + offsetY}px`;
         } else {
@@ -195,7 +195,7 @@ function showTooltip(event, message) {
         }
     });
 
-    // Удаляем тултип при выходе мыши
+    // Remove the tooltip when the mouse exits
     event.target.addEventListener('mouseleave', () => {
         tooltip.remove();
     });
@@ -305,19 +305,19 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     copy_address_page.appendChild(copy_address_page_i);
 
     copy_address_page.addEventListener('click', () => {
-        // Получаем ссылку из data-атрибута
+        // Get the reference from the data-attribute
         const link = copy_address_page.getAttribute('data-link');
-        // Используем API для копирования в буфер обмена
+        // Using API for copying to clipboard
         navigator.clipboard.writeText(link)
             .then(() => {
-                const originalText = copy_address_page.textContent; // Сохраняем оригинальный текст
+                const originalText = copy_address_page.textContent; // Keeping the original text
                 copy_address_page.textContent = `${vocabulary["Copied!"]} `;
-                copy_address_page.appendChild(copy_address_page_i); // Восстанавливаем иконку
+                copy_address_page.appendChild(copy_address_page_i); // Restore the icon
 
-                // Возвращаем исходный текст через 2 секунды
+                // Return the original text after 2 seconds
                 setTimeout(() => {
                     copy_address_page.textContent = originalText;
-                    copy_address_page.appendChild(copy_address_page_i); // Восстанавливаем иконку
+                    copy_address_page.appendChild(copy_address_page_i); // Restore the icon
                 }, 2000);
             })
             .catch(err => {
@@ -564,7 +564,6 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     card_content.appendChild(secondColumn);
     card.appendChild(card_content);
 
-
     const product_name = item.groupName;
     const groupIds = productGroups[product_name] || [];
     if (!groupIds || !Array.isArray(groupIds)) {
@@ -572,7 +571,6 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     }
     const groupItems = groupIds.filter(groupId => groupId !== id);
 
-    console.log("NOW IT IS " + currentPlating);
     if (groupItems.length !== 0) {
 
         const card_bottom_content = document.createElement('div');
@@ -584,36 +582,34 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     }
     dialog.appendChild(card);
     if (!currentPlating) {
-        console.log(`FIRST TIME? ${firstPlatingKey}`);
-        currentPlating = firstPlatingKey || "Rhodium"; // Покрытие по умолчанию
+        currentPlating = firstPlatingKey || "Rhodium"; // Default plating
 
         updateCarouselImages(currentPlating, allItems);
     }
     else{
         updateCarouselImages(currentPlating, allItems);
     }
-    // Принудительный reflow перед анимацией
+    // Force reflow before animation
     dialog.classList.add('show');
     dialog.offsetHeight;
-    // updateCarouselImages(currentPlating, allItems);
-    // Показываем модальное окно
+    // Show modal
     dialog.showModal();
 
 }
 
 function updateCarouselImages(selectedPlatingKey, allItems) {
-    // Получаем все товары в ленте
+    // Get all products in the feed
     const carouselItems = document.querySelectorAll('.card-carousel-item');
 
     carouselItems.forEach((carouselItem) => {
-        const itemId = carouselItem.getAttribute('data-item-id'); // ID товара
-        const item = allItems.find(product => product.name === itemId); // Ищем товар
+        const itemId = carouselItem.getAttribute('data-item-id'); // product ID
+        const item = allItems.find(product => product.name === itemId); // Search for product
 
-        if (item && item.platings[selectedPlatingKey]) { // Если у товара есть это покрытие
-            const firstStone = Object.values(item.platings[selectedPlatingKey].stones)[0]; // Берём первый камень
+        if (item && item.platings[selectedPlatingKey]) { // If the item has this coverage
+            const firstStone = Object.values(item.platings[selectedPlatingKey].stones)[0]; // Take the first stone
             if (firstStone) {
-                const imageElement = carouselItem.querySelector('img'); // Находим картинку в карточке
-                imageElement.src = firstStone.image; // Меняем изображение
+                const imageElement = carouselItem.querySelector('img'); // Find the picture in the card
+                imageElement.src = firstStone.image; // Changing the image
             }
         }
     });
@@ -649,18 +645,18 @@ function generateBottomPart(card_bottom_content, groupItems, items_array, curren
                 single_product_url
             );
         })
-        .filter(Boolean); // Убираем элементы, равные null
+        .filter(Boolean); // Remove elements equal to null
 
-    // Если массив пустой, выходим из функции
+    // If the array is empty, exit the function
     if (itemListElements.length === 0) {
         return;
     }
 
-    // Создаём контейнер для карусели
+    // Create a container for the carousel
     const card_carousel = document.createElement('div');
     card_carousel.classList.add('card-carousel-view');
 
-    // Создаём кнопки навигации
+    // Create navigation buttons
     const prevButton = document.createElement('button');
     prevButton.id = 'prev-btn-card';
     prevButton.className = 'prev-btn-card';
@@ -679,48 +675,48 @@ function generateBottomPart(card_bottom_content, groupItems, items_array, curren
         </svg>
     `;
 
-    // Создаём контейнер для элементов карусели
+    // Create a container for carousel elements
     const itemListContainer = document.createElement('div');
     itemListContainer.id = 'item-list-card';
     itemListContainer.className = 'item-list-card';
 
-    // Добавляем элементы карусели в контейнер
+    // Add carousel elements to the container
     itemListElements.forEach(element => {
         itemListContainer.appendChild(element);
     });
 
-    // Собираем карусель
+    // Assembling the carousel
     card_carousel.appendChild(prevButton);
     card_carousel.appendChild(itemListContainer);
     card_carousel.appendChild(nextButton);
 
-    // Добавляем карусель в DOM (например, в определённый контейнер)
+    // Add the carousel to the DOM (for example, to a specific container)
 
     card_bottom_content.appendChild(bottom_title);
     card_bottom_content.appendChild(card_carousel);
 
     setTimeout(() => {
-        const list_card = document.getElementById('item-list-card'); // Контейнер для элементов
-        const prev = document.getElementById('prev-btn-card'); // Кнопка "Назад"
-        const next = document.getElementById('next-btn-card'); // Кнопка "Вперёд"
+        const list_card = document.getElementById('item-list-card'); // Elements container
+        const prev = document.getElementById('prev-btn-card'); // Button "Previous"
+        const next = document.getElementById('next-btn-card'); // Button "Next"
 
 
         if (list_card && list_card.firstElementChild) {
 
-            // Рассчитываем ширину одного элемента
-            const itemWidth = 115; // Берём ширину первого элемента
-            // Обработчики для кнопок
+            // Calculate the width of one element
+            const itemWidth = 115; // Take the width of the first element
+            // Handlers for buttons
             prev.addEventListener('click', () => {
-                list_card.scrollLeft -= itemWidth; // Прокрутка влево
+                list_card.scrollLeft -= itemWidth; // Scroll left
             });
 
             next.addEventListener('click', () => {
-                list_card.scrollLeft += itemWidth; // Прокрутка вправо
+                list_card.scrollLeft += itemWidth; // Right scroll
             });
         } else {
             console.error("List card or its children are not ready!");
         }
-    }, 100); // Задержка для ожидания завершения анимации
+    }, 100); // Delay for waiting for the animation to complete
 }
 
 function add_to_cart_func(item, plating, stone, size, quantity, add_button, dialog, currency, add_to_cart_url, vocabulary, cookie, checkout_url){
@@ -800,7 +796,7 @@ function activate_success_card(item, quantity, cart_count, subtotalValue, curren
                 dialog.showModal();
             }
         },
-        { once: true } // Убедимся, что слушатель удаляется после срабатывания
+        { once: true } // Let's make sure that the listener is removed after triggering
     );
 
 
@@ -894,10 +890,10 @@ function setupZoom(image_container, image, vocabulary){
 
     const zoomSlider = document.createElement('input');
     zoomSlider.type = 'range';
-    zoomSlider.min = '1'; // Минимальный масштаб
-    zoomSlider.max = '4'; // Максимальный масштаб
-    zoomSlider.step = '0.1'; // Шаг изменения
-    zoomSlider.value = '1'; // Значение по умолчанию
+    zoomSlider.min = '1'; // Minimal scale
+    zoomSlider.max = '4'; // Maximum scale
+    zoomSlider.step = '0.1'; // Step change
+    zoomSlider.value = '1'; // Default value
 
     zoom_container.appendChild(zoomSlider);
     zoom_container.appendChild(zoomLabel);
@@ -910,16 +906,16 @@ function setupZoom(image_container, image, vocabulary){
     buttonMagnifier.addEventListener('click', () => {
        removeTooltip();
     });
-    // Обновить видимость настроек зума
+    // Update the visibility of the zoom settings
     const updateZoomSettingsVisibility = () => {
         zoomSettings.style.display = isZoomEnabled ? 'block' : 'none';
     };
 
-    // Добавляем событие на изменение значения ползунка
+    // Add an event for changing the slider value
     zoomSlider.addEventListener('input', () => {
         const zoomLevel = parseFloat(zoomSlider.value);
         document.getElementById('zoom-multiplier').innerText = `Zoom ${zoomLevel}x`;
-    // Обновляем масштаб увеличительного стекла
+    // Updating the magnifying glass scale
         magnifier.style.backgroundSize = `${image.width * zoomLevel}px ${image.height * zoomLevel}px`;
 
     });
@@ -940,7 +936,7 @@ function setupZoom(image_container, image, vocabulary){
 
     let isZoomEnabled = true;
 
-    // Обновить состояние кнопки
+    // Update button status
     const updateButtonState = () => {
         if (isZoomEnabled) {
             buttonMagnifier.classList.add('active');
@@ -949,7 +945,7 @@ function setupZoom(image_container, image, vocabulary){
         }
     };
 
-    // Обработчик переключения состояния увеличительного стекла
+    // Handler for switching the status of the magnifying glass
     buttonMagnifier.addEventListener('click', () => {
         isZoomEnabled = !isZoomEnabled;
         updateButtonState();
@@ -957,44 +953,44 @@ function setupZoom(image_container, image, vocabulary){
         updateZoomSettingsVisibility();
     });
 
-    // Показать увеличительное стекло при наведении
+    // Show magnifying glass when pointing
     image_container.addEventListener('mousemove', (e) => {
         let zoomLevel = parseFloat(zoomSlider.value);
         if (!isZoomEnabled) return;
 
-        // Получаем размеры контейнера изображения
+        // Get the dimensions of the image container
         const rect = image.getBoundingClientRect();
 
-        // Вычисляем координаты мыши относительно изображения
+        // Calculate mouse coordinates relative to the image
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
 
-        // Убедимся, что координаты мыши остаются в пределах изображения
+        // Let's make sure that the mouse coordinates stay within the limits of the image
         if (x < 0 || y < 0 || x > rect.width || y > rect.height) {
             magnifier.style.display = 'none';
             return;
         }
 
-        // Показываем лупу
+        // Showing the magnifying glass
         magnifier.style.display = 'block';
 
-        // Вычисляем позицию лупы относительно изображения
+        // Calculate the position of the magnifying glass relative to the image
         magnifier.style.left = `${x - magnifier.offsetWidth / 2}px`;
         magnifier.style.top = `${y - magnifier.offsetHeight / 2}px`;
 
-        // Устанавливаем фон (увеличенную область изображения) и позицию
+        // Set the background (enlarged area of the image) and position
         magnifier.style.backgroundImage = `url(${image.src})`;
         magnifier.style.backgroundSize = `${rect.width * zoomLevel}px ${rect.height * zoomLevel}px`;
         magnifier.style.backgroundPosition = `-${(x * zoomLevel - magnifier.offsetWidth / 2)}px -${(y * zoomLevel - magnifier.offsetHeight / 2)}px`;
     });
 
-    // Скрыть увеличительное стекло, если мышь выходит из изображения
+    // Hide the magnifying glass if the mouse is out of the image
     image_container.addEventListener('mouseleave', () => {
         magnifier.style.display = 'none';
     });
 
 
-    // Установить начальное состояние кнопки
+    // Set the initial state of the button
     updateButtonState();
     updateZoomSettingsVisibility();
 }
@@ -1036,20 +1032,20 @@ function createProductCard(isCarousel, item, itemCounter, allItems, filteredItem
             translations_categories
         );
         if (isCarousel) {
-    // Автоматически выбираем текущее покрытие в новой карточке
+    // Automatically select the current coverage in a new card
     const observer = new MutationObserver((mutations, obs) => {
         const platingDropdown = document.querySelector('.card-dropdown');
         if (platingDropdown) {
-            // Проверяем, есть ли у товара текущее покрытие
+            // Checking if the item has current coverage
             if (!item.platings[currentPlating]) {
-                console.warn(`Покрытие ${currentPlating} не найдено у товара ${item.name}, выбираем первое доступное.`);
-                currentPlating = Object.keys(item.platings)[0] || "Gold"; // Если нет доступных покрытий, берём Gold
+                console.warn(`Coverage ${currentPlating} was not found for item ${item.name}, select the first available one.`);
+                currentPlating = Object.keys(item.platings)[0] || "Gold"; // If there are no platings available, take Gold
             }
 
             platingDropdown.value = currentPlating;
             platingDropdown.dispatchEvent(new Event('change'));
 
-            obs.disconnect(); // Останавливаем наблюдение
+            obs.disconnect(); // Stopping the observation
         }
     });
 
@@ -1108,14 +1104,11 @@ function createProductCard(isCarousel, item, itemCounter, allItems, filteredItem
         // Stop the event from propagating to other elements
         event.stopPropagation();
         try {
-            // Replace `yourItemId` with the actual item ID or any identifier you use
             const response = await fetch(change_fav_state_url, {
-                method: 'POST', // or 'DELETE' if removing from favorites
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': getCookie('csrftoken'),
-
-                    // Include other headers as needed, like authorization tokens
                 },
                 body: JSON.stringify({item: JSON.stringify(item), "alreadyFavourite": isFavBefore ? "true":"false"}),
             });

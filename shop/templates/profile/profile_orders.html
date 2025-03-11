@@ -202,8 +202,6 @@ document.querySelectorAll('.i-menu-points').forEach(button => {
             window.location.href = `/admin_tools/orders_control/download_csv/${orderId}/`;
         };
         document.getElementById('downloadPdfWImg').addEventListener('click', function() {
-              // get the order ID somehow, maybe from an element or variable
-              // Стартовое сообщение
               let dialog = document.getElementById('wait-please-dialog');
               dialog.style.display="block";
               // Show the dialog
@@ -229,22 +227,22 @@ document.querySelectorAll('.i-menu-points').forEach(button => {
                 const modal = document.getElementById('custom-modal');
                 const overlay = document.getElementById('custom-modal-overlay');
                 let orderPaidSum = current_order.paid_sum ? current_order.paid_sum.toString() : 0;
-                const orderPrice = current_order.sum; // Пример цены, можно заменить на динамическое значение
+                const orderPrice = current_order.sum;
                 console.log(orderPaidSum);
                 let max_sum_to_pay = orderPrice - orderPaidSum;
 
-                // Устанавливаем цену в текстовое поле
+                // Set the price in the text field
                 document.getElementById('order-price').innerText = `${current_order.currency === "Euro" ? "€" : "$"}${max_sum_to_pay.toFixed(2)}`;
 
                 document.getElementById('amount-input').max = max_sum_to_pay;
 
                 document.getElementById('amount-input').max = max_sum_to_pay;
 
-                // Показываем модальное окно и оверлей
+                // Show modal window and overlay
                 modal.style.display = 'block';
                 overlay.style.display = 'block';
 
-                // Отключаем прокрутку страницы
+                // Disable page scrolling
                 document.body.style.overflow = 'hidden';
 
                 document.getElementById('pay-button').onclick = function () {
@@ -255,13 +253,10 @@ document.querySelectorAll('.i-menu-points').forEach(button => {
                         return;
                     }
                     // Вызов функции оплаты
-                    pay_for_order(amount, current_order);   // ДОБАВИТЬ СЮДА ПАРС ADDRESS_DICT КОТОРЫЙ НУЖНО САМОМУ СОЗДАВАТЬ
+                    pay_for_order(amount, current_order);   // ADD HERE THE ADDRESS_DICT PARSER, WHICH SHOULD BE CREATED BY YOURSELF
                 };
-
             };
         }
-
-
     });
 });
 
@@ -400,7 +395,7 @@ document.getElementById('close-modal').onclick = function() {
     closeModal();
 };
 
-// Закрытие окна при клике на оверлей
+// Closing a window when clicking on an overlay
 document.getElementById('custom-modal-overlay').onclick = function() {
     closeModal();
 };
@@ -409,16 +404,15 @@ function closeModal() {
     const modal = document.getElementById('custom-modal');
     const overlay = document.getElementById('custom-modal-overlay');
 
-    // Скрываем модальное окно и оверлей
+    // Hiding modal window and overlay
     modal.style.display = 'none';
     overlay.style.display = 'none';
 
-    // Включаем прокрутку страницы
+    // Enable page scrolling
     document.body.style.overflow = '';
 }
 
 
-// Пример функции оплаты
 function pay_for_order(amount, current_order) {
 
     if (amount < 0 || amount > current_order['sum'] || amount > (current_order['sum']-current_order['paid_sum']) ){
@@ -432,18 +426,17 @@ function pay_for_order(amount, current_order) {
     form.method = 'POST';
     form.action = "{% url 'create_partial_checkout_session' %}";
 
-    // Добавляем CSRF-токен
-    const csrfToken = getCookie('csrftoken');  // Предположим, у вас есть функция для получения CSRF токена
+    const csrfToken = getCookie('csrftoken');
     const csrfInput = document.createElement('input');
     csrfInput.type = 'hidden';
     csrfInput.name = 'csrfmiddlewaretoken';
     csrfInput.value = csrfToken;
     form.appendChild(csrfInput);
 
-    // Добавляем форму на страницу и отправляем
+    // Add the form to the page and submit
     document.body.appendChild(form);
 
-    // Отправляем форму и получаем session ID от сервера
+    // Submit the form and get the session ID from the server
     fetch(form.action, {
         method: 'POST',
         headers: {
@@ -455,14 +448,14 @@ function pay_for_order(amount, current_order) {
     .then(response => response.json())
     .then(data => {
         if (data.id) {
-            // Инициализируем Stripe с вашим publishable ключом
-            const stripe = Stripe('{{ STRIPE_PUBLISHABLE_KEY }}');  // Подставьте ваш publishable key
+            // Initialize Stripe with publishable key
+            const stripe = Stripe('{{ STRIPE_PUBLISHABLE_KEY }}');
 
-            // Перенаправляем пользователя на страницу оплаты Stripe
+            // Redirect the user to the Stripe payment page
             stripe.redirectToCheckout({ sessionId: data.id })
                 .then(function (result) {
                     if (result.error) {
-                        // Обрабатываем ошибки, если они возникнут
+                        // Handle errors if they occur
                         console.error('Error redirecting to Stripe checkout:', result.error.message);
                     }
                 });
@@ -473,7 +466,7 @@ function pay_for_order(amount, current_order) {
     .catch(error => {
         console.error('Error:', error);
     })
-    .finally(() => closeModal()); // Закрываем окно после оплаты
+    .finally(() => closeModal()); // Closing the window after payment
 }
 
 </script>

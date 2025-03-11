@@ -293,7 +293,7 @@
                     <div class="remove-filters-container" id="sizes">  <span class="remove-filters"><i class="fa-solid fa-close"></i> {% trans "Reset this group" %}</span></div>
                 </div>
             </div>
-{#            <button id="submit-button">Submit filters</button>#}
+
         </div>
     </div>
     <div class="products-section">
@@ -463,17 +463,17 @@ let all_bases = [];
 
 
 document.addEventListener('click', (event) => {
-    const clickedElement = event.target.closest('.card-carousel-item'); // Ищем ближайший родитель с этим классом
+    const clickedElement = event.target.closest('.card-carousel-item');
 
     if (clickedElement) {
         console.log("Clicked element has class card-carousel-item");
         let id = clickedElement.getAttribute('data-item-id');
         let dialog = document.getElementById('product-card');
 
-        // Закрываем диалог с анимацией
+        // Closing the dialog with animation
         closeDialogWithAnimation(dialog, true);
 
-        // Дожидаемся завершения анимации, затем открываем новое окно
+        // Wait for the animation to complete, then open a new window
         dialog.addEventListener(
             'transitionend',
             () => {
@@ -498,7 +498,7 @@ document.addEventListener('click', (event) => {
                     translations_categories
                 );
             },
-            { once: true } // Убираем обработчик после первого выполнения
+            { once: true } // Remove the handler after the first execution
         );
     }
 });
@@ -804,8 +804,6 @@ function constructCollections(){
     const collectionsList = document.querySelector('.collections-list');
     collectionsList.innerHTML = ''; // Clear existing list items
 
-    // Assuming 'subcat' is defined globally
-
     let collections = allItems.reduce((acc, item) => {
         if (!acc.includes(item.collection)) {
             acc.push(item.collection);
@@ -844,7 +842,7 @@ function createCollectionSpan(currentCollection) {
     return span;
 }
 
-
+// This function is used to set up a click listener for a category span element
 function setupCollectionClickListener(span) {
     span.addEventListener('click', () => {
         document.querySelectorAll('.collections-list li span').forEach(li => li.style.fontWeight = "");
@@ -858,7 +856,7 @@ function setupCollectionClickListener(span) {
     });
 }
 
-
+// This function is used to create a span element for a category
 function createCategorySpan(currentCategory) {
     const span = document.createElement('span');
     span.textContent = synonyms[currentCategory];
@@ -871,7 +869,7 @@ function createCategorySpan(currentCategory) {
     return span;
 }
 
-
+// This function creates a chevron element for categories
 function createChevron() {
     const chevron = document.createElement('i');
     chevron.className = 'fa-solid fa-chevron-down';
@@ -879,11 +877,10 @@ function createChevron() {
     return chevron;
 }
 
-
+//This function creates a list of subcategories
 function createSubCategoryList(subCategories) {
-
     const ul = document.createElement('ul');
-    ul.className = 'sub-category-list'; // Assign class for styling
+    ul.className = 'sub-category-list';
     subCategories.forEach(sub => {
         const subLi = document.createElement('li');
         const subSpan = document.createElement('span');
@@ -896,7 +893,7 @@ function createSubCategoryList(subCategories) {
     return ul;
 }
 
-
+//This function adds click listener to list chevron
 function setupChevronToggle(chevron, ul) {
     chevron.addEventListener('click', () => {
         const isOpen = ul.style.height !== '0px' && ul.style.height !== '';
@@ -910,7 +907,7 @@ function setupChevronToggle(chevron, ul) {
     });
 }
 
-
+// This function adds click listener to category's span
 function setupCategoryClickListener(span) {
     span.addEventListener('click', () => {
         document.querySelectorAll('.categories-list li span').forEach(li => li.style.fontWeight = "");
@@ -922,7 +919,7 @@ function setupCategoryClickListener(span) {
     });
 }
 
-
+//This function is used to add corresponding category to crystal span
 function constructCrystals(items, filters_dict, static_folder) {
     let uniqueStones = new Set();
     let stones_all = ['241', '327', '515', '260', '288', '501', '208', '227', '220', 'DAR', '276', '379', '205', '277', '922', '280', '243', '204', '291', '236', '215', '228', '502', '207', '203', '219', '206', '147', '0', '394', '266', '289', '539', '542', '920', '398', '142', '229', '214', '226', '209', 'GSHA', '390', '263', '391', '267', '292', '212', '257', '202', '371', '262', '283', '211', '319', '261', '238', '362', '265', '223', '508', 'CRE', '234', '395', '361', '285', '001', 'AB'];
@@ -930,14 +927,14 @@ function constructCrystals(items, filters_dict, static_folder) {
     for (let i = 0; i < stones_all.length; i++) {
       stones_names[i] = stones[stones_all[i]];
     }
-    {#console.log(stones_all);#}
+
     if (Array.isArray(items) && items.length > 0) {
         items.forEach(document => {
-            if (document.platings) { // Проверка, что у document есть platings
+            if (document.platings) { // Check if there is a platings in document
                 Object.values(document.platings).forEach(plating => {
-                    if (plating.stones) { // Проверка, что у plating есть stones
+                    if (plating.stones) { //  Check if there is a stones in plating
                         Object.keys(plating.stones).forEach(stoneCategory => {
-                            if (stones_names.includes(stoneCategory)) { // Проверяем, есть ли stoneCategory в stones
+                            if (stones_names.includes(stoneCategory)) { // Check if there is a stoneCategory in stones
                                 uniqueStones.add(stoneCategory);
                             }
                         });
@@ -952,7 +949,7 @@ function constructCrystals(items, filters_dict, static_folder) {
     createCrystalElements('crystals',Array.from(uniqueStones), 'crystal', filters_dict, static_folder);
 }
 
-
+//This function creates the crystal elements and applies the honeycomb layout
 function createCrystalElements(containerClass, itemsArray, prefix, filters_dict, static_folder) {
     const container = document.querySelector(`.${containerClass}`);
     container.innerHTML = ''; // Clear existing content
@@ -982,14 +979,9 @@ function createCrystalElements(containerClass, itemsArray, prefix, filters_dict,
             // Check if all images are loaded
             if (imagesLoaded === itemsArray.length) {
                 // Apply the honeycomb layout
-
                 // Set up click event listeners for the crystals
                 setupCrystalClickListeners(stoneFilters);
             }
-            // Add event listener to each image
-            // imgDiv.addEventListener('click', function() {
-            //     handleCrystalClick(item, filters_dict);
-            // });
         };
 
         img.addEventListener('mouseenter', (event) => {
@@ -1011,7 +1003,7 @@ function applyHoneycombLayout(grid) {
     const containers = grid.querySelectorAll('.crystal-container');
     containers.forEach((container, index) => {
         if (Math.floor(index / 4) % 3 === 1) {
-            container.style.marginLeft = '30px'; // Adjust as needed for your layout
+            container.style.marginLeft = '30px'; // Adjust as needed for our layout
         } else {
             container.style.marginLeft = '0';
         }
@@ -1019,10 +1011,9 @@ function applyHoneycombLayout(grid) {
 }
 
 
-// Function to simulate changing the page (you might have your actual logic to fetch/update content here)
+// Function to simulate changing the page (I might have my actual logic to fetch/update content here)
 function setupCrystalClickListeners(filtersArray) {
     const containers = document.querySelectorAll('.crystal-container');
-
 
     containers.forEach(container => {
         container.addEventListener('click', function() {
@@ -1049,7 +1040,7 @@ function setupCrystalClickListeners(filtersArray) {
     });
 }
 
-
+// This function adds click listeners to filter, so after clicking them some specific actions will be performed
 function setupFiltersEventListeners(checkboxClassName, filtersArray) {
     document.querySelectorAll(checkboxClassName).forEach(checkbox => {
         checkbox.addEventListener('change', function() {
@@ -1091,38 +1082,37 @@ function setupFiltersEventListeners(checkboxClassName, filtersArray) {
     });
 }
 
-
+//This function is responsible for updating the URL based on the selected filters
 function updateURL() {
     const currentUrl = new URL(window.location.href);
 
-    // Извлекаем языковой код из текущего пути
-    const pathSegments = currentUrl.pathname.split('/').filter(segment => segment); // Убираем пустые сегменты
-    const languageCode = pathSegments[0]; // Считаем, что первый сегмент пути — это языковой код
+    // Extract the language code from the current path
+    const pathSegments = currentUrl.pathname.split('/').filter(segment => segment); // Remove the empty segments
     let categoryPath = '';
 
-    // Проверяем, если указан category, добавляем его к пути
+    // Check if category is specified, add it to the path
     if (category) {
 
         let code = categories_codes[category.toString()];
         if(!code) code="404";
         let cat_name_url = code + "-" + categories_code_to_name[code];
-        // Если в URL уже есть категория, заменяем её
+        // If there is already a category in the URL, replace it with
         if (pathSegments[1]) {
             pathSegments[1] = cat_name_url;
         } else {
-            // Если категории нет, добавляем новую
+            // If there is no category, add a new one
             pathSegments.push(cat_name_url);
         }
         categoryPath = pathSegments.slice(0, 2).join('/');
     } else {
-        // Если category не указан, оставляем текущий путь
+        // If no category is specified, leave the current path
         categoryPath = pathSegments.join('/');
     }
 
-    // Формируем базовый URL с текущим языковым кодом и категорией
+    // Generate a base URL with the current language code and category
     const baseUrl = `${window.location.protocol}//${window.location.host}/${categoryPath}`;
 
-    // Создаем и заполняем queryParams параметрами фильтров
+    // Create and fill queryParams with filter parameters
     const queryParams = new URLSearchParams();
     if (collection_catalog) {
         queryParams.set('collection', collection_catalog);
@@ -1140,7 +1130,7 @@ function updateURL() {
         queryParams.set('size', sizeFilters.join(','));
     }
 
-    // Обновляем URL с использованием history.pushState
+    // Update URL using history.pushState
     const newUrl = queryParams.toString() ? `${baseUrl}?${queryParams.toString()}` : baseUrl;
     history.pushState({}, '', newUrl);
 }
@@ -1218,7 +1208,6 @@ function removeQueryParam(param) {
 }
 
 
-
 document.getElementById('contains-in-name').addEventListener('input', applyFilters);
 
 const fromSlider = document.querySelector('#fromSlider');
@@ -1268,7 +1257,7 @@ async function fetchStones() {
     const stonesQuery = query(collection(db, "Stones")); // Запрос к коллекции Stones
     const querySnapshot = await getDocs(stonesQuery);
 
-    // Преобразуем документы в объект { "id": "name" }
+    // Convert documents into an object { “id”: “name” }
     const all_stones = {};
     querySnapshot.docs.forEach(doc => {
         const data = doc.data();
@@ -1423,35 +1412,35 @@ function applyFilters() {
   if (platingFilters.length === 0) {
     const defaultPlatingOrder = ["Rhodium", "Gold", "Rosegold"];
 
-    // Сортируем элементы по приоритету покрытий
+    // Sorting items by priority of coatings
     filteredItems.sort((a, b) => {
-        // Определяем наивысший приоритет покрытия для каждого элемента
+        // Determine the highest coverage priority for each item
         const priorityA = defaultPlatingOrder.findIndex(plating =>
             Object.keys(a.platings).includes(plating));
         const priorityB = defaultPlatingOrder.findIndex(plating =>
             Object.keys(b.platings).includes(plating));
 
-        // Если приоритеты равны, сохраняем исходный порядок
+        // If the priorities are equal, we keep the original order
         if (priorityA === priorityB) {
             return 0;
         }
 
-        // Сравниваем приоритеты
+        // Comparing priorities
         return (priorityA === -1 ? Infinity : priorityA) - (priorityB === -1 ? Infinity : priorityB);
     });
 
-    // Сортируем покрытия внутри каждого элемента
+    // Sort the coverages within each element
     filteredItems.forEach(item => {
         const platingKeys = Object.keys(item.platings);
 
-        // Сортируем покрытия на основе приоритета
+        // Sorting coverages based on priority
         const sortedPlatings = platingKeys.sort((a, b) => {
             const indexA = defaultPlatingOrder.indexOf(a);
             const indexB = defaultPlatingOrder.indexOf(b);
             return (indexA === -1 ? Infinity : indexA) - (indexB === -1 ? Infinity : indexB);
         });
 
-        // Пересобираем объект покрытий
+        // Rebuild the coverage object
         const sortedPlatingObject = {};
         sortedPlatings.forEach(key => {
             sortedPlatingObject[key] = item.platings[key];
@@ -1493,15 +1482,15 @@ function applyFilters() {
 
 
 function order(array) {
-    // Устанавливаем порядок покрытий
+    // Establishing the order of platings
     const defaultPlatingOrder = ["Rhodium", "Gold", "Rosegold"];
 
-    // Группируем элементы по покрытию
+    // Grouping elements by coverage
     const grouped = defaultPlatingOrder.map(plating =>
         array.filter(item => Object.keys(item.platings).includes(plating))
     );
 
-    // Функция для сортировки внутри группы
+    // Function for sorting within a group
     function sortGroup(group) {
         if (order_name === "Name") {
             group.sort((a, b) => {
@@ -1522,10 +1511,10 @@ function order(array) {
         }
     }
 
-    // Сортируем каждую группу
+    // Sort each group
     grouped.forEach(group => sortGroup(group));
 
-    // Объединяем группы в один массив
+    // Combining groups into one array
     return grouped.flat();
 }
 
@@ -1643,13 +1632,12 @@ document.getElementById('product-card').addEventListener('click', async (event) 
     const favouriteItem = favouriteItems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
     const isFavBefore = Boolean(favouriteItem); // Converts the result to a boolean
 
-
     // Stop the event from propagating to other elements
     event.stopPropagation();
     try {
         // Replace `yourItemId` with the actual item ID or any identifier you use
         const response = await fetch('{% url "change_favorite_state" %}', {
-            method: 'POST', // or 'DELETE' if removing from favorites
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': getCookie('csrftoken'),
@@ -1685,10 +1673,6 @@ document.getElementById('product-card').addEventListener('click', async (event) 
         console.error('Error updating favorites:', error);
     }
 });
-
-
-
-
 
 
 function getVocabulary(){

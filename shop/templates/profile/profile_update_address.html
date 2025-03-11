@@ -120,9 +120,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function setCurrentCountry(){
-    var addressCountry = "{{address.country}}";  // From your Django template
-    var selectElement = document.querySelector('.form-control-select');
-    for (var i = 0; i < selectElement.length; i++) {
+    let addressCountry = "{{address.country}}";  // From your Django template
+    let selectElement = document.querySelector('.form-control-select');
+    for (let i = 0; i < selectElement.length; i++) {
         if (selectElement.options[i].text === addressCountry) {
             selectElement.selectedIndex = i;
             break;
@@ -138,7 +138,7 @@ document.getElementById('form-address-form').addEventListener('submit', function
         new: Object.fromEntries(formData.entries())
     };
     const csrftoken = getCookie('csrftoken');
-    fetch('{% url "update_address" address_id=address.address_id %}', { // Ensure the URL is correct
+    fetch('{% url "update_address" address_id=address.address_id %}', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

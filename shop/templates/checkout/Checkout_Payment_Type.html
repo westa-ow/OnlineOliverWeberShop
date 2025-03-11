@@ -336,18 +336,16 @@ document.getElementById('continueCheckoutBtn').addEventListener('click', functio
         form.method = 'POST';
         form.action = "{% url 'create_checkout_session' %}";
 
-        // Добавляем CSRF-токен
-        const csrfToken = getCookie('csrftoken');  // Предположим, у вас есть функция для получения CSRF токена
+        const csrfToken = getCookie('csrftoken');
         const csrfInput = document.createElement('input');
         csrfInput.type = 'hidden';
         csrfInput.name = 'csrfmiddlewaretoken';
         csrfInput.value = csrfToken;
         form.appendChild(csrfInput);
 
-        // Добавляем форму на страницу и отправляем
+        // Add the form to the page and submit
         document.body.appendChild(form);
 
-        // Отправляем форму и получаем session ID от сервера
         fetch(form.action, {
             method: 'POST',
             headers: {
@@ -359,14 +357,14 @@ document.getElementById('continueCheckoutBtn').addEventListener('click', functio
         .then(response => response.json())
         .then(data => {
             if (data.id) {
-                // Инициализируем Stripe с вашим publishable ключом
-                const stripe = Stripe('{{ STRIPE_PUBLISHABLE_KEY }}');  // Подставьте ваш publishable key
+                // Initialize Stripe with our publishable key
+                const stripe = Stripe('{{ STRIPE_PUBLISHABLE_KEY }}');
 
-                // Перенаправляем пользователя на страницу оплаты Stripe
+                // Redirect the user to the Stripe payment page
                 stripe.redirectToCheckout({ sessionId: data.id })
                     .then(function (result) {
                         if (result.error) {
-                            // Обрабатываем ошибки, если они возникнут
+                            // Handle errors if they occur
                             console.error('Error redirecting to Stripe checkout:', result.error.message);
                         }
                     });
@@ -377,16 +375,11 @@ document.getElementById('continueCheckoutBtn').addEventListener('click', functio
         .catch(error => {
             console.error('Error:', error);
         });
-
-
-
      }
     else
      {
          window.alert("{{ _("You have to add at least 1 item to finish order")|escapejs }}");
      }
-
-
 });
 function getCookie(name) {
     let cookieValue = null;

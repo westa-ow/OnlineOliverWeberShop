@@ -488,7 +488,7 @@ document.getElementById('customer-form').addEventListener('submit', function(e) 
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken': csrftoken, // Ensure you have csrftoken available
+            'X-CSRFToken': csrftoken,
         },
         body: JSON.stringify(jsonObject),
     })

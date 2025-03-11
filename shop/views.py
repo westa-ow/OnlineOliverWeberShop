@@ -62,7 +62,7 @@ countrys_shipping = {
     'Anguilla': 8.4,
     'Antarctica': 8.4,
     'Antigua and Barbuda': 8.4,
-    'Argentina': 35,  # Южная Америка
+    'Argentina': 35,  # South America
     'Armenia': 8.4,
     'Aruba': 8.4,
     'Australia': 8.4,
@@ -74,15 +74,15 @@ countrys_shipping = {
     'Barbados': 8.4,
     'Belarus': 8.4,
     'Belgium': 8.4,
-    'Belize': 35,  # Центральная Америка
+    'Belize': 35,  # Central America
     'Benin': 8.4,
     'Bermuda': 8.4,
     'Bhutan': 8.4,
-    'Bolivia': 35,  # Южная Америка
+    'Bolivia': 35,  # South America
     'Bosnia and Herzegovina': 8.4,
     'Botswana': 8.4,
     'Bouvet Island': 8.4,
-    'Brazil': 35,  # Южная Америка
+    'Brazil': 35,  # South America
     'British Indian Ocean Territory': 8.4,
     'Brunei': 8.4,
     'Bulgaria': 8.4,
@@ -96,28 +96,28 @@ countrys_shipping = {
     'Cayman Islands': 8.4,
     'Central African Republic': 8.4,
     'Chad': 8.4,
-    'Chile': 35,  # Южная Америка
+    'Chile': 35,  # South America
     'China': 8.4,
     'Christmas Island': 8.4,
     'Cocos (Keeling) Islands': 8.4,
-    'Colombia': 35,  # Южная Америка
+    'Colombia': 35,  # South America
     'Comoros': 8.4,
     'Congo, Dem. Republic': 8.4,
     'Congo, Republic': 8.4,
     'Cook Islands': 8.4,
-    'Costa Rica': 35,  # Центральная Америка
+    'Costa Rica': 35,  # Central America
     'Croatia': 8.4,
-    'Cuba': 35,  # Южная Америка (Карибский регион)
+    'Cuba': 35,  # South America (Carib region)
     'Cyprus': 8.4,
     'Czech Republic': 8.4,
     'Denmark': 8.4,
     'Djibouti': 8.4,
     'Dominica': 8.4,
-    'Dominican Republic': 35,  # Карибский регион
+    'Dominican Republic': 35,  # Carib region
     'East Timor': 8.4,
-    'Ecuador': 35,  # Южная Америка
+    'Ecuador': 35,  # South America
     'Egypt': 8.4,
-    'El Salvador': 35,  # Центральная Америка
+    'El Salvador': 35,  # Central America
     'Equatorial Guinea': 8.4,
     'Eritrea': 8.4,
     'Estonia': 8.4,
@@ -141,14 +141,14 @@ countrys_shipping = {
     'Grenada': 8.4,
     'Guadeloupe': 8.4,
     'Guam': 8.4,
-    'Guatemala': 35,  # Центральная Америка
+    'Guatemala': 35,  # Central America
     'Guernsey': 8.4,
     'Guinea': 8.4,
     'Guinea-Bissau': 8.4,
-    'Guyana': 35,  # Южная Америка
+    'Guyana': 35,  # South America
     'Haiti': 8.4,
     'Heard Island and McDonald Islands': 8.4,
-    'Honduras': 35,  # Центральная Америка
+    'Honduras': 35,  # Central America
     'HongKong': 8.4,
     'Hungary': 8.4,
     'Iceland': 8.4,
@@ -209,7 +209,7 @@ countrys_shipping = {
     'Netherlands Antilles': 8.4,
     'New Caledonia': 8.4,
     'New Zealand': 8.4,
-    'Nicaragua': 35,  # Центральная Америка
+    'Nicaragua': 35,  # Central America
     'Niger': 8.4,
     'Nigeria': 8.4,
     'Niue': 8.4,
@@ -221,15 +221,15 @@ countrys_shipping = {
     'Pakistan': 8.4,
     'Palau': 8.4,
     'Palestinian Territories': 8.4,
-    'Panama': 35,  # Центральная Америка
+    'Panama': 35,  # Central America
     'Papua New Guinea': 8.4,
-    'Paraguay': 35,  # Южная Америка
-    'Peru': 35,  # Южная Америка
+    'Paraguay': 35,  # South America
+    'Peru': 35,  # South America
     'Philippines': 8.4,
     'Pitcairn': 8.4,
     'Poland': 8.4,
     'Portugal': 8.4,
-    'Puerto Rico': 35,  # Южная Америка (Карибский регион)
+    'Puerto Rico': 35,  # South America (Carib region)
     'Qatar': 8.4,
     'Reunion Island': 8.4,
     'Romania': 8.4,
@@ -260,7 +260,7 @@ countrys_shipping = {
     'Spain': 8.4,
     'Sri Lanka': 8.4,
     'Sudan': 8.4,
-    'Suriname': 35,  # Южная Америка
+    'Suriname': 35,  # South America
     'Svalbard and Jan Mayen': 8.4,
     'Swaziland': 8.4,
     'Sweden': 8.4,
@@ -283,12 +283,12 @@ countrys_shipping = {
     'Ukraine': 8.4,
     'United Arab Emirates': 8.4,
     'United Kingdom': 8.4,
-    'United States': 32,  # Изменённое значение для США
-    'Uruguay': 35,  # Южная Америка
+    'United States': 32,  # USA
+    'Uruguay': 35,  # South America
     'Uzbekistan': 8.4,
     'Vanuatu': 8.4,
     'Vatican City State': 8.4,
-    'Venezuela': 35,  # Южная Америка
+    'Venezuela': 35,  # South America
     'Vietnam': 8.4,
     'Virgin Islands (British)': 8.4,
     'Virgin Islands (U.S.)': 8.4,
@@ -607,12 +607,17 @@ country_dict = {
 
 
 def get_user_prices(request, email):
+    """
+    This function returns the user prices category
+    :param request:
+    :return:
+    """
     if request.user.is_authenticated:
         return get_user_category(email) or ("Default", "Euro")
 
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]  # В случае нескольких прокси, берем первый IP
+        ip = x_forwarded_for.split(',')[0]  # In case of multiple proxies, take the first IP
     else:
         ip = request.META.get('REMOTE_ADDR')
     try:
@@ -630,6 +635,11 @@ def get_user_prices(request, email):
 
 
 def get_user_session_type(request):
+    """
+    This function returns the user session type
+    :param request:
+    :return:
+    """
     if request.user.is_authenticated:
         return request.user.email
     else:
@@ -637,6 +647,11 @@ def get_user_session_type(request):
 
 
 def get_vocabulary_product_card():
+    """
+    This function returns the vocabulary of translated phrases
+    :param request:
+    :return:
+    """
     return {
         "In stock": _("In stock"),
         "Less than 5 pieces left!": _("Less than 5 pieces left!"),
@@ -674,6 +689,11 @@ def get_vocabulary_product_card():
 
 
 def home_page(request):
+    """
+    This function returns the home page of the website
+    :param request:
+    :return:
+    """
     context = {
         'address': request.META.get('REMOTE_ADDR'),
         'banners': Banner.objects.all().order_by('priority')
@@ -682,7 +702,7 @@ def home_page(request):
     test_text = _("Welcome to my site.")
     email = get_user_session_type(request)
 
-    category, currency = get_user_prices(request, email)  # Для пользователей валюта определяется по IP
+    category, currency = get_user_prices(request, email)  # For users, the currency is determined by IP
 
     currency = '€' if currency == 'Euro' else '$'
     info = get_user_info(email) or {}
@@ -773,8 +793,6 @@ def getCart(request):
 
 def get_stones():
     docs = stones_ref.stream()
-
-    # Преобразование данных в объект { "id": "name" }
     stones = {}
     for doc in docs:
         data = doc.to_dict()
@@ -838,6 +856,11 @@ def update_quantity_input(request):
 
 
 def deleteProduct(request):
+    """
+    This function deletes a product from the cart
+    :param request:
+    :return:
+    """
     if request.method == 'POST':
         data = json.loads(request.body)
         name = data.get('document_id')
@@ -862,6 +885,13 @@ def deleteProduct(request):
 
 
 def update_email_in_db(old_email, new_email):
+    """
+    This function updates the email in the database
+    :param old_email:
+    :param new_email:
+    :return:
+    """
+
     # Define a mapping of collections to their respective email fields
     collection_email_fields = {
         'Cart': 'emailOwner',
@@ -884,7 +914,6 @@ def update_email_in_db(old_email, new_email):
 
     used_coupon_docs = list(
         used_promocodes_ref
-        # .where('email', '==', new_email)
         .where('coupon_code', '==', old_coupon.get('coupon_code', ''))
         .stream()
     )
@@ -900,35 +929,32 @@ def update_email_in_db(old_email, new_email):
             for doc in docs_to_update:
                 doc_data = doc.to_dict()
 
-
-
-                # Если коллекция — это Cart, пересчитаем цены
+                # If the collection is Cart, let's recalculate the prices
                 if collection_name == 'Cart' and 'price' in doc_data:
                     original_price = doc_data['price']
-                    # Восстанавливаем изначальную цену, если есть скидка старого купона
+                    # Restore the original price if the old coupon is discounted
                     if old_discount > 0:
                         if new_discount > 0 or used_coupon_docs:
                             original_price = original_price / (1 - old_discount)
 
-                    # Применяем новую скидку, если есть новый купон
+                    # Apply the new discount if a new coupon is available
                     if new_discount > 0:
                         updated_price = original_price * (1 - new_discount)
                     else:
                         updated_price = original_price
 
-                    # Обновляем цену в документе
+                    # Updating the price in the document
                     doc.reference.update({
                         'price': updated_price
                     })
 
                 if collection_name == 'ActivePromocodes' and used_coupon_docs:
                     continue
-                # Обновляем email в документе
+                # Updating email in a document
                 doc.reference.update({email_field: new_email})
         except Exception as e:
-            # Log the error e, for example using logging library or print statement
+            # Log the error e
             print(f"Error updating {collection_name}: {str(e)}")
-            # Optionally, handle the error based on your application's requirements
 
     return "Updated"
 
@@ -951,8 +977,13 @@ def serialize_firestore_document(doc):
     return doc_dict
 
 
-# Test on is user an admin
+
 def is_admin(user):
+    """
+    Test on is user an admin
+    :param user:
+    :return:
+    """
     return user.is_authenticated and user.is_staff
 
 
@@ -967,11 +998,10 @@ def admin_tools(request, feature_name):
                 new_banner.priority = Banner.objects.count()
                 new_banner.save()
                 return redirect('admin_tools', feature_name='manage_banners')
-    # Banner.objects.all().delete()
     email = request.user.email
     form = BannerForm()
     special = False
-    if email == "specialAdmin@oliverweber.at":  # TODO: HERE I HAVE TO PASTE EMAIL OF SPECIAL ADMIN
+    if email == "specialAdmin@oliverweber.at":  # HINT: HERE I HAVE TO PASTE EMAIL OF SPECIAL ADMIN
         special = True
     banners = Banner.objects.all().order_by('priority')
     print(Banner.objects.all())
@@ -989,6 +1019,11 @@ def admin_tools(request, feature_name):
 @login_required
 @user_passes_test(is_admin)
 def delete_users(request):
+    """
+    Delete users from the database
+    :param request:
+    :return:
+    """
     if request.method == 'POST':
         try:
             # Load the user IDs from the request body
@@ -1038,6 +1073,11 @@ def delete_users(request):
 
 
 def get_acc_data(email):
+    """
+    Fetch account data for a given email from Firestore
+    :param email:
+    :return:
+    """
     existing_user = users_ref.where('email', '==', email).limit(1).stream()
     if existing_user:
         for user in existing_user:
@@ -1050,6 +1090,11 @@ def get_acc_data(email):
 
 
 def fetch_document_name(item):
+    """
+    Fetch the document name for a given item
+    :param item:
+    :return:
+    """
     if isinstance(item, str):
         item_ref = db.document(item)
     else:
@@ -1059,6 +1104,11 @@ def fetch_document_name(item):
 
 
 def parallel_fetch_names(item_list):
+    """
+    Fetch document names in parallel for a list of items
+    :param item_list:
+    :return:
+    """
     with concurrent.futures.ThreadPoolExecutor() as executor:
         order_items_dict = list(executor.map(fetch_document_name, item_list))
 
@@ -1104,20 +1154,24 @@ def fetch_items_by_names(names):
 
 
 def get_order(order_id):
-    # Ищем по ключу `order_id`
+    """
+    Get order data for a given order_id
+    :param order_id:
+    :return:
+    """
     chosenOrderRef = orders_ref.where("order_id", '==', int(order_id)).limit(1).stream()
     order = {}
 
     for chosenReference in chosenOrderRef:
         order = chosenReference.to_dict()
-        break  # Если найден хотя бы один результат, выходим из цикла
+        break  # If at least one result is found, exit the loop
 
-    # Если ничего не найдено, ищем по ключу `order-id`
+    # If nothing is found, search by the key `order-id`
     if not order:
         chosenOrderRef = orders_ref.where("`order-id`", '==', int(order_id)).limit(1).stream()
         for chosenReference in chosenOrderRef:
             order = chosenReference.to_dict()
-            break  # Если найден хотя бы один результат, выходим из цикла
+            break  # If at least one result is found, exit the loop
 
     return order
 
@@ -1155,13 +1209,13 @@ def get_promo_codes():
 def get_active_coupon(email):
     query = active_promocodes_ref.where('email', '==', email).limit(1).stream()
 
-    # Получаем первый купон, если он существует
+    # Receive the first coupon, if it exists
     active_coupon = next(query, None)
 
     if active_coupon:
         coupon_data = active_coupon.to_dict()
 
-        # Удаляем поля, если они присутствуют
+        # Delete fields if they are present
         coupon_data.pop('created_at', None)
         coupon_data.pop('expires_at', None)
 
@@ -1169,15 +1223,21 @@ def get_active_coupon(email):
     else:
         return {}
 
+
 def active_cart_coupon(email):
+    """
+    Apply discount to cart items for a user with a specific email
+    :param email:
+    :return:
+    """
     try:
-        # Проверяем, есть ли активный купон для пользователя
+        # Check if there is an active coupon for the user
         active_coupons = list(active_promocodes_ref.where('email', '==', email).stream())
 
         if not active_coupons:
             return JsonResponse({'status': 'error', 'message': 'No active coupons for the user'})
 
-        # Предполагаем, что только один купон активен (берём первый)
+        # Assume that only one coupon is active (take the first one)
         active_coupon = active_coupons[0].to_dict()
         discount = active_coupon.get('discount', 0)
 
@@ -1186,7 +1246,7 @@ def active_cart_coupon(email):
 
         discount_rate = 1 - (discount / 100.0)
 
-        # Применяем скидку к товарам в корзине
+        # Apply discount to items in cart
         docs = cart_ref.where('emailOwner', '==', email).stream()
 
         updated_cart = []
@@ -1194,12 +1254,12 @@ def active_cart_coupon(email):
             doc_dict = doc.to_dict()
 
             if 'price' in doc_dict and isinstance(doc_dict['price'], (int, float)):
-                # Применяем скидку к цене
+                # Apply the discount to the price
                 new_price = doc_dict['price'] * discount_rate
 
-                # Обновляем документ в Firestore
+                # Updating the document in Firestore
                 cart_ref.document(doc.id).update({'price': new_price})
-                doc_dict['price'] = new_price  # Обновляем локально для возвращения данных
+                doc_dict['price'] = new_price  # Update locally to return the data
 
             updated_cart.append(doc_dict)
 
@@ -1215,10 +1275,10 @@ def active_cart_coupon(email):
 
 def delete_user_coupons(email):
     try:
-        # Ищем все активные купоны пользователя
+        # Looking for all active coupons of the user
         user_coupons = active_promocodes_ref.where('email', '==', email).stream()
 
-        # Удаляем каждый купон
+        # Deleting each coupon
         for coupon in user_coupons:
             active_promocodes_ref.document(coupon.id).delete()
 
@@ -1230,29 +1290,27 @@ def delete_user_coupons(email):
 
 def mark_user_coupons_as_used(email):
     try:
-        # Ищем все активные купоны пользователя
+        # Looking for all active coupons of the user
         user_coupons = list(active_promocodes_ref.where('email', '==', email).stream())
 
         if not user_coupons:
-            print(f"Нет активных купонов для пользователя {email}")
+            print(f"There are no active coupons for the user {email}")
             return
 
         for coupon in user_coupons:
             coupon_data = coupon.to_dict()
 
-            # Создаём новый UUID для UsedPromocodes
+            # Create a new UUID for UsedPromocodes
             new_used_coupon_id = str(uuid.uuid4())
 
-            # Переносим купон в UsedPromocodes
+            # Transferring the coupon to UsedPromocodes
             used_promocodes_ref.document(new_used_coupon_id).set({
                 'email': email,
-                'coupon_code': coupon_data.get('coupon_code'),  # Берём код купона из активного
-                'discount': coupon_data.get('discount'),  # Берём размер скидки
+                'coupon_code': coupon_data.get('coupon_code'),  # Take the coupon code from the active
+                'discount': coupon_data.get('discount'),  # Take the size of the discount
                 'created_at': datetime.now()
             })
 
 
-        print(f"Все купоны пользователя {email} помечены как использованные.")
-
     except Exception as e:
-        print(f"Ошибка при переносе купонов в UsedPromocodes: {e}")
+        print(f"Error when transferring coupons to UsedPromocodes: {e}")

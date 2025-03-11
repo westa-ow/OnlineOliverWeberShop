@@ -8,9 +8,9 @@ class DefaultLanguageMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        # Если язык не установлен, принудительно установить 'gb'
+        # If the language is not set, force set 'gb'
         if not re.match(r'^/(gb|de|it|fr|es|ru)/', request.path):
-            # Перенаправляем на gb только если язык не установлен в URL
+            # Redirect to gb only if the language is not set in the URL
             return redirect(f'/gb{request.path}')
         response = self.get_response(request)
         return response

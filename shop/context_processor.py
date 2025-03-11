@@ -37,9 +37,9 @@ def b2b_can_pay(request):
 
 def shop_page_url(request):
     """
-    Контекстный процессор для добавления полного URL для shop_page.
+    Context processor to add the full URL for shop_page.
     """
-    if request.resolver_match:  # Убедимся, что request содержит информацию о маршруте
+    if request.resolver_match:  # Let's make sure that the request contains route information
         full_url = request.build_absolute_uri(
             reverse('shop_page', kwargs={'product_id': 'REPLACE'})
         )

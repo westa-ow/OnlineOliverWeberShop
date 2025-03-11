@@ -55,19 +55,25 @@ router.register(r'promocodes', PromoCodeViewSet, basename='promocodes')
 urlpatterns = i18n_patterns(
     path('admin/', admin.site.urls),
     path('', views.home_page, name='home'),
+
+    # Auth urls
     path('login', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
     path('register', register, name='register'),
+
+    # Product search urls
     path('shop/<str:product_id>', form_page, name='shop_page'),
+    path('fetch-numbers/', fetch_numbers, name='fetch_numbers'),
+
+    # Catalog urls
     path('catalog/', catalog_view, name='catalog'),
     path('<str:category_id>-<str:category_name>', catalog_views.param_catalog, name='param_catalog'),
-    path('cart/', cart_page, name='cart'),
-
 
     # Promo-codes
     path('api/', include(router.urls)),
 
     #Checkout urls
+    path('cart/', cart_page, name='cart'),
     path('checkout/check-promocode/', check_promo_code, name='check_promocode'),
     path('order/anonymous/info', anonym_cart_info, name='cart_anonymous'),
     path('checkout/addresses', checkout_addresses, name='checkout_addresses'),
@@ -75,20 +81,16 @@ urlpatterns = i18n_patterns(
     path('anonymous/cart/register', register_anonym_cart_info, name='cart_anonymous_register'),
     path('checkout/payment-type/', checkout_payment_type, name='checkout_payment_type'),
 
-
     # Addresses urls
     path('profile/addresses/update_address/<str:address_id>/', update_address, name='update_address'),
     path('profile/addresses/delete_address/<str:address_id>/', delete_address, name='delete_address'),
     path('profile/addresses/create_new/', create_address, name='create_address'),
 
+    # Profile urls
     path('profile/<str:feature_name>/', profile_views.profile, name='profile'),
     path('update_user_account/', update_user_account, name='update_user_account'),
     path('upload-file-cart/', upload_file, name='upload_cart'),
-
     path('product_feed.xml', generate_product_feed, name='product_feed'),
-
-
-    path('fetch-numbers/', fetch_numbers, name='fetch_numbers'),
 
     path('delete-document/', views.deleteProduct, name='delete_document'),
     path('update_quantity_input/', views.update_quantity_input, name='update_input'),
@@ -100,6 +102,7 @@ urlpatterns = i18n_patterns(
     path('changeFavoriteState/', change_favorite_state, name='change_favorite_state'),
     path('get_cart/', views.getCart, name='get_cart'),
 
+    # Admin tools urls
     path('admin_tools/<str:feature_name>/', views.admin_tools, name='admin_tools'),
     path('at/enable_users/', enable_users, name='at_enable_users'),
     path('at/disable_users/', disable_users, name='at_disable_users'),
@@ -118,7 +121,6 @@ urlpatterns = i18n_patterns(
     path('admin_tools/orders_control/upload_in_stock/<str:order_id>/', upload_in_stock, name='upload_in_stock'),
 
     path('upload-db-update/', upload_view, name='upload_db_update'),
-    # path('finish_order/', )
 
     #Service urls
     path('content/<str:service_page>', service_pages_view, name='services'),
@@ -129,12 +131,11 @@ urlpatterns = i18n_patterns(
 
     #STRIPE
     path('config/', stripe_config, name='stripe_config'),
-    path('create-checkout-session/', create_checkout_session, name='create_checkout_session'),  # Создание сессии оплаты
-    path('success/', SuccessView.as_view(), name='success'),  # Страница успеха
-    path('cancelled/', CancelledView.as_view(), name='cancelled'),  # Страница отмены
+    path('create-checkout-session/', create_checkout_session, name='create_checkout_session'),  # Creating a payment session
+    path('success/', SuccessView.as_view(), name='success'),  # Success Page
+    path('cancelled/', CancelledView.as_view(), name='cancelled'),  # Cancellation Page
     path('webhook/', stripe_webhook, name='stripe_webhook'),
-
-    path('create-partial-checkout-session/', create_partial_checkout_session, name='create_partial_checkout_session'),  # Создание сессии оплаты
+    path('create-partial-checkout-session/', create_partial_checkout_session, name='create_partial_checkout_session'),  # Creating a payment session for partial payment
 
 
     #PAYPAL

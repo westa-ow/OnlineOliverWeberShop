@@ -248,7 +248,6 @@
                             </div>
                         </section>
                         <footer class="form-footer clearfix" style="display: flex;">
-{#                            <input type="hidden" name="submitAddress" value="1">#}
                             <button class="btn btn-primary float-xs-right" id="cancelBtn" style="margin-right: 40px"> {% trans "Cancel"%} </button>
                             <button class="btn btn-primary float-xs-right" type="submit"> {% trans "Save" %} </button>
                         </footer>
@@ -811,27 +810,22 @@ document.getElementById('continueCheckoutBtn').addEventListener('click', functio
                     form.method = 'POST';
                     form.action = "{% url 'checkout_payment_type' %}";
 
-                    // Добавляем CSRF-токен
-                    const csrfToken = getCookie('csrftoken');  // Предположим, у вас есть функция для получения CSRF токена
+                    const csrfToken = getCookie('csrftoken');
                     const csrfInput = document.createElement('input');
                     csrfInput.type = 'hidden';
                     csrfInput.name = 'csrfmiddlewaretoken';
                     csrfInput.value = csrfToken;
                     form.appendChild(csrfInput);
 
-                    // Добавляем форму на страницу и отправляем
                     const addressesInput = document.createElement('input');
                     addressesInput.type = 'hidden';
                     addressesInput.name = 'addresses_properties';
                     addressesInput.value = JSON.stringify(addresses_properties);
                     form.appendChild(addressesInput);
 
-                    // Добавляем форму на страницу и отправляем
+                    // Add the form to the page and submit
                     document.body.appendChild(form);
                     form.submit();
-
-                    // Отправляем форму и получаем session ID от сервера
-
                  }
                  else{
                      window.alert("{{ _("Order will be delivered to your email")|escapejs }}");

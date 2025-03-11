@@ -199,7 +199,6 @@ function miniCartPanel() {
                 });
 
                 // Update subtotal
-
                 document.getElementById('subtotalValue').textContent = currency+`${sum.toFixed(2)}`;
                 const emptyCartContainer = document.querySelector('.empty-cart-container');
                 if (emptyCartContainer) {
@@ -254,8 +253,6 @@ function showCartIsEmpty(cartItemsContainer){
         noItemsSvg.appendChild(path2);
 
         // Append SVG to the empty cart container
-
-
         const emptyMessage = document.createElement('div');
         emptyMessage.textContent = "{{ _("Cart is empty")|escapejs }}";
         emptyMessage.classList.add("empty-message");

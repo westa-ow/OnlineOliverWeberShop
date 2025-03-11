@@ -50,7 +50,7 @@ def create_checkout_session(request):
     Creating payment checkout session for Stripe
     """
     if request.method == 'POST':
-        domain_url = 'https://www.oliverweber.online/'  # Замените на ваш домен
+        domain_url = 'https://www.oliverweber.online/'
         if settings.CURRENT_DOMAIN == "oliverweber.com":
             domain_url = 'https://www.oliverweber.com/'
         elif settings.CURRENT_DOMAIN == "oliverweber.online":
@@ -67,7 +67,7 @@ def create_checkout_session(request):
         if billingAddress == 0:
             billingAddress = shippingAddress
         try:
-            # Создаем сессию оплаты
+            # Create a payment session
             email = get_user_session_type(request)
             category, currency = get_user_prices(request, email)
             if currency == "Euro":
@@ -91,9 +91,9 @@ def create_checkout_session(request):
                         'price_data': {
                             'currency': currency,
                             'product_data': {
-                                'name': f'{order_id}',  # Название товара
+                                'name': f'{order_id}',  # Order id as a product name
                             },
-                            'unit_amount': int(full_price * 100),  # Стоимость товара в центах (2000 = $20.00)
+                            'unit_amount': int(full_price * 100),  # Cost of goods in cents (2000 = $20.00)
                         },
                         'quantity': 1,
                     },
@@ -104,7 +104,7 @@ def create_checkout_session(request):
         except Exception as e:
             return JsonResponse({'error': str(e)})
 
-    # Обработка для GET-запроса или других методов
+    # Processing for GET request or other methods
     return HttpResponse(status=405)
 
 
@@ -115,13 +115,13 @@ def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddr
     """
 
     order_id = int(order_id)
-    # Проверка, существует ли заказ с таким order_id
+    # Check if there is an order with this order_id
     existing_orders = orders_ref.where('order_id', '==', order_id).stream()
     if any(existing_orders):
         logging.info(f"Order {order_id} already exists. Skipping duplicate creation.")
-        return 0  # Или вернуть текущую сумму/статус, если нужно
+        return 0  # Or return the current amount/status if needed
 
-    # Далее код создания заказа (расчет суммы, создание записи в БД и т.д.)
+    # Next, the code for creating an order (calculating the amount, creating a record in the database, etc.)
     vat = int(vat)
     user_email = email
     category, currency = get_user_category(user_email) or ("Default", "Euro")
@@ -242,8 +242,7 @@ def stripe_webhook(request):
             if metadata.get('payment_type') == "Stripe":
                 stripe_checkout(metadata.get('email'), metadata.get('full_name'), order_id, metadata.get('vat'), metadata.get('shippingPrice'), metadata.get('shippingAddress'), metadata.get('billingAddress'), "STRIPE", metadata.get("lang_code", "gb"))
             elif metadata.get('payment_type') == "BANK TRANSFER":
-                stripe_partial_checkout(metadata.get('email'), metadata.get('paid_sum'), metadata.get('full_name'), order_id, metadata.get('shippingAddress'), metadata.get('billingAddress'), "BANK TRANSFER", metadata.get("lang_code", "gb"))
-            # doc.update({"Status": "Paid"})
+                stripe_partial_checkout(metadata.get('email'), metadata.get('paid_sum'),  order_id, metadata.get("lang_code", "gb"))
             print(f"Order {order_id} has been marked as paid.")
 
     return HttpResponse(status=200)

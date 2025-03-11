@@ -133,6 +133,5 @@ def update_address(request, address_id):
             'currency':currency,
             'address_dict': json.dumps(address_dict),
         }
-        # print(address_dict)
         return render(request, 'profile.html', context=context)
     return JsonResponse({'status': 'error'}, status=400)

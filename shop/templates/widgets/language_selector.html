@@ -18,44 +18,44 @@
         console.log(selectElement.value);
         switch (selectElement.value) {
             case 'gb':
-                imageUrl = '{% static "images/flags/uk.gif" %}'; // Путь к флагу Великобритании
+                imageUrl = '{% static "images/flags/uk.gif" %}'; // UK flag
                 break;
             case 'de':
-                imageUrl = '{% static "images/flags/gm-flag.gif" %}'; // Путь к флагу Германии
+                imageUrl = '{% static "images/flags/gm-flag.gif" %}'; // DE flag
                 break;
             case 'it':
-                imageUrl = '{% static "images/flags/it-flag.gif" %}'; // Путь к флагу Великобритании
+                imageUrl = '{% static "images/flags/it-flag.gif" %}'; // IT flag
                 break;
             case 'es':
-                imageUrl = '{% static "images/flags/sp-flag.gif" %}'; // Путь к флагу Германии
+                imageUrl = '{% static "images/flags/sp-flag.gif" %}'; // SP flag
                 break;
             case 'ru':
-                imageUrl = '{% static "images/flags/ru-flag.gif" %}'; // Путь к флагу Германии
+                imageUrl = '{% static "images/flags/ru-flag.gif" %}'; // Ru flag
                 break;
             default:
-                imageUrl = '{% static "images/flags/uk.gif" %}'; // Путь к флагу Германии
+                imageUrl = '{% static "images/flags/uk.gif" %}'; // UK flag by default
                 break;
         }
         selectElement.style.backgroundImage = `url('${imageUrl}')`;
     }
 
-    // Функция для изменения URL
+    // Function for changing URLs based on selected language
     function changeLanguageURL(selectedLang) {
         const newPathname = window.location.pathname.replace(/^\/[a-z]{2}/, '');
         window.location.href = window.location.origin + '/' + selectedLang + newPathname + window.location.search;
     }
 
-    // Функция для установки начального языка на основе URL
+    // Function for setting the initial language based on URL
     function setCurrentLanguage() {
         const path = window.location.pathname;
         const langMatch = path.match(/^\/(gb|de|it|es|ru)/);
-        const currentLang = langMatch ? langMatch[1] : 'gb'; // По умолчанию 'en'
+        const currentLang = langMatch ? langMatch[1] : 'gb'; // By default 'gb'
         const selectElement = document.getElementById('languageSelect');
-        selectElement.value = currentLang; // Установка текущего языка в select
-        updateBackgroundImage(selectElement); // Обновление фона
+        selectElement.value = currentLang; // Set the current language in select
+        updateBackgroundImage(selectElement); // Background image update
     }
 
-    // Инициализация при загрузке страницы
+    // Initialization on page load
     document.addEventListener("DOMContentLoaded", (event) => {
       console.log("DOM fully loaded and parsed");
       setCurrentLanguage();
