@@ -12,9 +12,44 @@
 
     <link rel="icon" href="{% static 'images/icons/web-icon.png' %}" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google tag (gtag.js) -->
+    {% if request.get_host == "oliverweber.com" %}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-S1MCG16BMH"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-S1MCG16BMH');
+        </script>
+    {% elif request.get_host == "oliverweber.online" %}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-S1MCG16BMH"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-S1MCG16BMH');
+        </script>
+    {% else %}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-S1MCG16BMH"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-S1MCG16BMH');
+        </script>
+    {% endif %}
+
+
 </head>
 
 <body class="this-page">
+<script>
+    console.log(`{{ request.get_host }} FEWFWEFWFWE`);
+</script>
     <div class="pc-view">
         <div class="toolbar large">
             <div class="logo" >
