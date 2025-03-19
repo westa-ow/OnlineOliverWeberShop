@@ -800,8 +800,48 @@ function activate_success_card(item, quantity, cart_count, subtotalValue, curren
         { once: true } // Let's make sure that the listener is removed after triggering
     );
 
-
 }
+
+function activate_success_card_shop(item, quantity, cart_count, subtotalValue, currency, vocabulary, checkout_url){
+    const dialog = document.getElementById('product-card-success');
+
+    bindGlobalClickEvent(dialog);
+    dialog.innerHTML = '';
+    const card_content = document.createElement('div');
+    card_content.classList.add('success-card-content');
+    const image = document.createElement('img');
+
+    image.src = item.image_url;
+    image.width = `400`;
+    image.height = `400`;
+    image.classList.add('img-card');
+    card_content.appendChild(image);
+
+    dialogCommonSetup(dialog, item.image_url, card_content);
+
+    //Column with text information and everything about added to cart product
+    const secondColumn = document.createElement('div');
+    secondColumn.classList.add('second-column');
+
+    //Add information about added the product and about the cart
+    informationSuccessSetup(secondColumn, item, quantity, cart_count, subtotalValue, currency, vocabulary);
+
+    //Add buttons to continue shopping or to procceed to checkout
+    manageButtonsSuccessSetup(dialog, secondColumn, vocabulary, checkout_url);
+
+    card_content.appendChild(secondColumn);
+    dialog.appendChild(card_content);
+
+    if (!dialog.open) {
+        dialog.classList.add('show');
+        dialog.offsetHeight;
+        // Показываем модальное окно
+        dialog.showModal();
+    }
+
+    console.log("IT WORKDS FINE here2");
+}
+
 
 function informationSuccessSetup(column, item, actual_quantity, cart_count, cartSubtotal, currency, vocabulary){
     const addedText = document.createElement('h4');
