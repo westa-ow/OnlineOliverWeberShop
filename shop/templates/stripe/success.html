@@ -1,3 +1,4 @@
+{% extends 'widgets/base.html' %}
 {% load static %}
 {% load widget_tweaks %}
 {% load i18n %}
@@ -28,6 +29,15 @@
             margin-left: 5px; "> {% trans "My Orders" %} </a></div>
     </div>
   </section>
+      <script>
+      let orderTotal = parseFloat("{{ order_total|default:'0' }}");
+      let currency = "{{ currency }}";
+
+      cbq('track', 'Purchase', {
+          value: orderTotal,
+          currency: currency,
+      });
+    </script>
   </body>
 </html>
 {% endblock %}

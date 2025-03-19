@@ -27,6 +27,13 @@ class SuccessView(TemplateView):
     """
     template_name = 'stripe/success.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['order_total'] = self.request.session.get('order_total', 0)
+        context['currency'] = self.request.session.get('currency', 'USD')
+        context['order_id'] = self.request.session.get('order_id', '')
+        return context
+
 
 class CancelledView(TemplateView):
     """
@@ -81,6 +88,9 @@ def create_checkout_session(request):
             full_price += shipping
             metadata = {"payment_type": "Stripe", "paid_sum": paid_sum, "Id": order_id, "email": email, "full_name": request.user.first_name + " " + request.user.last_name, "vat": data.get('vat', 0), "shippingPrice": shipping, "shippingAddress": shippingAddress, 'billingAddress': billingAddress, 'lang_code': language_code}
 
+            request.session['order_total'] = full_price
+            request.session['currency'] = "USD" if currency == "usd" else "EUR"
+            request.session['order_id'] = order_id
             checkout_session = stripe.checkout.Session.create(
                 success_url=domain_url + 'success/',
                 cancel_url=domain_url + 'cancelled/',
