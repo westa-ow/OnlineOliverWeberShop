@@ -729,6 +729,11 @@ document.getElementById('form-address-form').addEventListener('submit', function
     .then(response => response.json())
     .then(data => {
         console.log(data);
+        let addressId = data.address_id;
+
+        cbq('track', 'AddPaymentInfo', {
+            content_ids: [addressId]
+        });
         alert("{{ _("The address has been successfully added!")|escapejs }}");
         window.location.reload(true);
     }).catch(error => console.error('Error:', error));

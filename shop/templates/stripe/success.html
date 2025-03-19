@@ -32,10 +32,12 @@
       <script>
       let orderTotal = parseFloat("{{ order_total|default:'0' }}");
       let currency = "{{ currency }}";
+      let order_id = "{{ order_id }}";
 
       cbq('track', 'Purchase', {
           value: orderTotal,
           currency: currency,
+          content_ids: [order_id]
       });
     </script>
   </body>

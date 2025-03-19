@@ -71,7 +71,7 @@ def create_address(request):
                 'creation_date': datetime.now(),
             }
             addresses_ref.add(address_document)
-            return JsonResponse({'status': 'success', 'message': 'Address updated successfully.'})
+            return JsonResponse({'status': 'success', 'message': 'Address updated successfully.', 'secret_address_id': unique_address_id})
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
     email = request.user.email
