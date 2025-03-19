@@ -1,4 +1,4 @@
-{#{% extends 'widgets/base.html' %}#}
+{% extends 'widgets/base.html' %}
 {% block content %}
 {% load static %}
 {% load i18n %}
@@ -12,7 +12,6 @@
 
     <link rel="stylesheet" href="{% static "shop_page.css" %}">
     <link rel="stylesheet"  href="{% static 'css/catalog.css' %}">
-{#    <link rel="stylesheet"  href="{% static 'css/SeparateWidgets/product_card.css' %}">#}
     <link rel="icon" href="{% static "images/icons/web-icon.png" %}" type="image/x-icon">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{% static "js/product_cards.js" %}"></script>
@@ -214,8 +213,8 @@
         .then(data => {
             console.log(data.status);
             if (data.status === 'success') {
-                {#trackAddToCart(data.product.name, data.product.product_name, data.sum, currency==="$"? "USD":"EUR");#}
 
+                trackAddToCart(data.product.name, data.product.product_name, data.sum, currency==="$"? "USD":"EUR");
                 setTimeout(() => {
                     activate_success_card_shop(data.product, data.quantity, data.cart_size, data.subtotal, currency, vocabulary, "{% url "cart" %}");
                 }, 0);
