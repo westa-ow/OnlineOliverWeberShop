@@ -742,11 +742,12 @@ function add_to_cart_func(item, plating, stone, size, quantity, add_button, dial
     .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
-
+            trackAddToCart(data.product.name, data.product.product_name, data.sum, currency==="$"? "USD":"EUR");
             closeDialogWithAnimation(dialog, false);
             setTimeout(() => {
                 activate_success_card(data.product, data.quantity, data.cart_size, data.subtotal, currency, vocabulary, checkout_url);
             }, 0);
+
 
         } else {
             alert(`${vocabulary['An error occured']}: ` + data.error);
@@ -1184,6 +1185,15 @@ function createProductCard(isCarousel, item, itemCounter, allItems, filteredItem
     productContainer.appendChild(infoSection);
 
     return productContainer;
+}
+
+function trackAddToCart(productId, productName, productPrice, currency) {
+  cbq('track', 'AddToCart', {
+    content_ids: [productId],
+    content_name: productName,
+    value: productPrice,
+    currency: currency
+  });
 }
 
 let productGroups = {

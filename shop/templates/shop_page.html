@@ -1,3 +1,4 @@
+{% extends 'widgets/base.html' %}
 {% block content %}
 {% load static %}
 {% load i18n %}
@@ -209,7 +210,7 @@
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                console.log(data);
+                trackAddToCart(data.product.name, data.product.product_name, data.sum, currency==="$"? "USD":"EUR");
                 setTimeout(() => {
                     activate_success_card(data.product, data.quantity, data.cart_size, data.subtotal, currency, vocabulary, "{% url "cart" %}");
                 }, 0);
@@ -292,6 +293,15 @@ $.ajaxSetup({
         }
     }
 });
+
+function trackAddToCart(productId, productName, productPrice, currency) {
+  cbq('track', 'AddToCart', {
+    content_ids: [productId],
+    content_name: productName,
+    value: productPrice,
+    currency: currency
+  });
+}
 
 </script>
 {%endblock%}
