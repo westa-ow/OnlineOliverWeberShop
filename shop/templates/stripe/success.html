@@ -33,6 +33,8 @@
       let orderTotal = parseFloat("{{ order_total|default:'0' }}");
       let currency = "{{ currency }}";
       let order_id = "{{ order_id }}";
+      console.log(currency + " AND " + typeof(currency));
+      console.log(orderTotal + " AND " + typeof(orderTotal));
 
       cbq('track', 'Purchase', {
           value: orderTotal,
