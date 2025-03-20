@@ -30,16 +30,16 @@
     </div>
   </section>
       <script>
-      let orderTotal = parseFloat("{{ order_total|default:'0' }}");
-      let currency = "{{ currency }}";
-      let order_id = "{{ order_id }}";
-      console.log(currency + " AND " + typeof(currency));
-      console.log(orderTotal + " AND " + typeof(orderTotal));
+      let orderTotal_final = parseFloat("{{ order_total|default:'0' }}");
+      let currency_final = "{{ currency }}";
+      let order_id_final = "{{ order_id }}";
+      console.log(currency_final + " AND " + typeof(currency_final));
+      console.log(orderTotal_final + " AND " + typeof(orderTotal_final));
 
       cbq('track', 'Purchase', {
-          value: orderTotal,
-          currency: currency,
-          {#content_ids: [order_id]#}
+          value: orderTotal_final,
+          currency: currency_final,
+          {#content_ids: [order_id_final]#}
       });
     </script>
   </body>
