@@ -1,9 +1,9 @@
-function productsTransmutation(items, price_category, sale, stones){
+function productsTransmutation(items, price_category, sale, stones, isB2B){
 
     let products = {};
     const regex = /^[a-zA-Z]{0,2}\d{5}[a-zA-Z]{0,5}$/;
     items.forEach(item => {
-        if(item.Visible === false){
+        if(item.Visible === false || item.b2b_only === true && !isB2B){
             return;
         }
         let itemName = item.name;

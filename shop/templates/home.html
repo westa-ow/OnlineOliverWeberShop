@@ -441,7 +441,7 @@ let filters_dict = {
         let email = "{{ user.email }}"
         favouriteitems = await fetchFavouriteItems(email);
         let stones = await fetchStones();
-        allItems = productsTransmutation(unfilteredItems, price_category, sale, stones);
+        allItems = productsTransmutation(unfilteredItems, price_category, sale, stones, "{{ customer_type }}"==="B2B");
         shuffleArray(allItems);
         allItems = allItems.slice(0, 15);
 
