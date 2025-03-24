@@ -999,29 +999,32 @@ function setupZoom(image_container, image, vocabulary){
         let zoomLevel = parseFloat(zoomSlider.value);
         if (!isZoomEnabled) return;
 
-        // Get the dimensions of the image container
-        const rect = image.getBoundingClientRect();
+        // Get bounding rectangles for container and image
+        const containerRect = image_container.getBoundingClientRect();
+        const imageRect = image.getBoundingClientRect();
 
-        // Calculate mouse coordinates relative to the image
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        // Let's make sure that the mouse coordinates stay within the limits of the image
-        if (x < 0 || y < 0 || x > rect.width || y > rect.height) {
+        // Check if the cursor is over the image
+        if (e.clientX < imageRect.left || e.clientX > imageRect.right ||
+            e.clientY < imageRect.top  || e.clientY > imageRect.bottom) {
             magnifier.style.display = 'none';
             return;
         }
 
-        // Showing the magnifying glass
+        // Calculate relative coordinates within the image
+        const x = e.clientX - imageRect.left;
+        const y = e.clientY - imageRect.top;
+
+        // Show the magnifier
         magnifier.style.display = 'block';
 
-        // Calculate the position of the magnifying glass relative to the image
-        magnifier.style.left = `${x - magnifier.offsetWidth / 2}px`;
-        magnifier.style.top = `${y - magnifier.offsetHeight / 2}px`;
+        // Position the magnifier relative to the container
+        // (CSS transform centers it automatically)
+        magnifier.style.left = `${e.clientX - containerRect.left}px`;
+        magnifier.style.top = `${e.clientY - containerRect.top}px`;
 
-        // Set the background (enlarged area of the image) and position
+        // Set the background image and its size/position
         magnifier.style.backgroundImage = `url(${image.src})`;
-        magnifier.style.backgroundSize = `${rect.width * zoomLevel}px ${rect.height * zoomLevel}px`;
+        magnifier.style.backgroundSize = `${imageRect.width * zoomLevel}px ${imageRect.height * zoomLevel}px`;
         magnifier.style.backgroundPosition = `-${(x * zoomLevel - magnifier.offsetWidth / 2)}px -${(y * zoomLevel - magnifier.offsetHeight / 2)}px`;
     });
 

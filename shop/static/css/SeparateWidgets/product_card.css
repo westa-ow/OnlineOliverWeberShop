@@ -393,7 +393,8 @@
     overflow: hidden;
     pointer-events: none;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    transform: scale(2);
+    transform: translate(-50%, -50%) scale(2);
+    transform-origin: center center;
     z-index: 2000;
 }
 
@@ -501,7 +502,7 @@
 }
 .magnifier-settings{
     display: flex;
-    justify-content: end;
+    justify-content: center;
     gap: 50px;
     align-items: center;
 }
