@@ -319,7 +319,7 @@ function init() {
     documentss = {{ documents|safe }};
 
     document.getElementById("cart-shipping").style.display = "block";
-    document.getElementById('cart-total').querySelector('.label-total').textContent = "{% trans "Total"  %}" + "(VAT incl.)"
+    document.getElementById('cart-total').querySelector('.label-total').textContent = "{% trans "Total"  %}" + "{% trans "VAT Incl." %}"
     document.getElementById("cart-taxes").style.display = "block";
     calculate_final(addressProperties['vat'], addressProperties['shipping'], currency, documentss);
 }

@@ -96,7 +96,7 @@
                 </div>
             <div class="card-block-totals" >
                 <div class="cart-total">
-                    <span class="label-total">{% trans "Total"  %} (VAT Incl.)</span>
+                    <span class="label-total">{% trans "Total"  %} ({% trans "VAT Incl." %})</span>
                     <span class="value-total">{{ currency }}500.00</span>
                 </div>
                 <div class="cart-taxes" style="display: none">
@@ -134,11 +134,11 @@
 
 <script>
 
-    let documentss = [];
-    function init() {
-        documentss = {{ documents|safe }};
-        calculate_final(0, 0, currency, documentss);
-    }
+let documentss = [];
+function init() {
+    documentss = {{ documents|safe }};
+    calculate_final(0, 0, currency, documentss);
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     isCheckout = true;
