@@ -72,15 +72,16 @@
             </div>
 
             <div class="toolbar-icons-container">
-                <a href="{% url "param_catalog" category_id="0" category_name="all"%}" class="link" title="ALL PRODUCTS">{% trans "All products" %}</a>
+                <a href="{% url "param_catalog" category_id="0" category_name="all"%}" class="link" title="{% trans "ALL PRODUCTS" %}">{% trans "ALL PRODUCTS" %}</a>
                 <a href="{% url "param_catalog" category_id="3" category_name="necklaces"%}" class="link" title="{% trans "Necklaces"%}">{% trans "NECKLACES" %}</a>
                 <a href="{% url "param_catalog" category_id="8" category_name="earrings"%}" class="link" title="{% trans "Earrings"%}">{% trans "EARRINGS"%}</a>
                 <a href="{% url "param_catalog" category_id="7" category_name="rings"%}" class="link" title="{% trans "Rings"%}">{% trans "RINGS"%}</a>
                 <a href="{% url "param_catalog" category_id="9" category_name="bracelets"%}" class="link" title="{% trans "Bracelets"%}">{% trans "BRACELETS"%}</a>
                 <a href="{% url "param_catalog" category_id="4" category_name="accessories"%}" class="link" title="{% trans "Accessories"%}" >{% trans "ACCESSORIES"%}</a>
                 <div class="dropdown-link">
-                    <a href="#" class="link" id="collections-toggle">COLLECTIONS</a>
+                    <a href="#" class="link" id="collections-toggle">{% trans "COLLECTIONS" %}</a>
                     <div class="dropdown-menu" id="collections-menu">
+                        <a href="{% url "param_catalog" category_id="0" category_name="all"%}?collection=All" class="dropdown-links">{% trans "All" %}</a>
                         <a href="{% url "param_catalog" category_id="0" category_name="all"%}?collection=Gaudi" class="dropdown-links">Gaudi</a>
                         <a href="{% url "param_catalog" category_id="0" category_name="all"%}?collection=Freedom" class="dropdown-links">Freedom</a>
                         <a href="{% url "param_catalog" category_id="0" category_name="all"%}?collection=Peace_And_Love" class="dropdown-links">Peace and Love</a>
@@ -96,8 +97,8 @@
                 {% endif %}
                 {% if user.is_authenticated %}
                 {% else %}
-                    <a href="{% url 'login'%}" class="link">Login</a>
-                    <a href="{% url 'register'%}" class="link">Register</a>
+                    <a href="{% url 'login'%}" class="link">{% trans "Login" %}</a>
+                    <a href="{% url 'register'%}" class="link">{% trans "Register" %}</a>
                 {% endif %}
             </div>
             <span class="icons-container">
