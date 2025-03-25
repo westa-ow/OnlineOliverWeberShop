@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-06 23:03+0100\n"
+"POT-Creation-Date: 2025-03-25 14:25+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\OnlineShop\settings.py:164
+#: .\OnlineShop\settings.py:170
 msgid "English"
 msgstr "Englisch"
 
-#: .\OnlineShop\settings.py:165
+#: .\OnlineShop\settings.py:171
 msgid "German"
 msgstr "Deutsch"
 
-#: .\OnlineShop\settings.py:166
+#: .\OnlineShop\settings.py:172
 msgid "Italian"
 msgstr "Italienisch"
 
-#: .\OnlineShop\settings.py:167
+#: .\OnlineShop\settings.py:173
 msgid "French"
 msgstr "Französisch"
 
-#: .\OnlineShop\settings.py:168
+#: .\OnlineShop\settings.py:174
 msgid "Spanish"
 msgstr "Spanisch"
 
-#: .\OnlineShop\settings.py:169
+#: .\OnlineShop\settings.py:175
 msgid "Russian"
 msgstr "Russisch"
 
@@ -115,7 +115,7 @@ msgid "Actions"
 msgstr "Aktionen"
 
 #: .\shop\templates\admin_tools\AT_users_control.html:53
-#: .\shop\templates\catalog.html:303
+#: .\shop\templates\catalog.html:296
 msgid "Items per page"
 msgstr "Artikel pro Seite"
 
@@ -127,92 +127,99 @@ msgstr "Benutzer anzeigen"
 msgid "Delete User"
 msgstr "Benutzer löschen"
 
-#: .\shop\templates\cart.html:25
+#: .\shop\templates\cart.html:26
 msgid "Shopping cart"
 msgstr "Warenkorb"
 
-#: .\shop\templates\cart.html:42 .\shop\templates\cart.html:383
+#: .\shop\templates\cart.html:43 .\shop\templates\cart.html:360
 msgid "In cart"
 msgstr "Im Warenkorb"
 
-#: .\shop\templates\cart.html:51
+#: .\shop\templates\cart.html:50
 msgid "Less than 5 items left"
 msgstr "Weniger als 5 Artikel übrig"
 
-#: .\shop\templates\cart.html:52 .\shop\templates\cart.html:183
+#: .\shop\templates\cart.html:51 .\shop\templates\cart.html:178
 msgid "Confirm"
 msgstr "Bestätigen"
 
-#: .\shop\templates\cart.html:70 .\shop\views.py:458
+#: .\shop\templates\cart.html:68 .\shop\views.py:671
 msgid "Continue shopping"
 msgstr "Weiter einkaufen"
 
-#: .\shop\templates\cart.html:77
-#: .\shop\templates\checkout\checkout_widget.html:9 .\shop\views.py:457
-#: .\shop\views_scripts\checkout_cart_views.py:462
+#: .\shop\templates\cart.html:75
+#: .\shop\templates\checkout\checkout_widget.html:9 .\shop\views.py:670
+#: .\shop\views_scripts\checkout_cart_views.py:490
 msgid "Subtotal"
 msgstr "Zwischensumme"
 
-#: .\shop\templates\cart.html:80
+#: .\shop\templates\cart.html:78
 #: .\shop\templates\checkout\checkout_widget.html:12
 msgid "items"
 msgstr "Artikel"
 
-#: .\shop\templates\cart.html:90
+#: .\shop\templates\cart.html:87
 msgid "Have a promo code?"
 msgstr "Haben Sie einen Promo-Code?"
 
-#: .\shop\templates\cart.html:94
+#: .\shop\templates\cart.html:91
 msgid "Active promo code"
 msgstr "Aktiver Promo-Code"
 
-#: .\shop\templates\cart.html:95
+#: .\shop\templates\cart.html:92
 msgid "discount"
 msgstr "Rabatt"
 
-#: .\shop\templates\cart.html:103
-#: .\shop\templates\checkout\Checkout_Payment_Type.html:76
+#: .\shop\templates\cart.html:99
+#: .\shop\templates\checkout\Checkout_Payment_Type.html:322
 #: .\shop\templates\checkout\checkout_widget.html:26
-#: .\shop\views_scripts\checkout_cart_views.py:418
-#: .\shop\views_scripts\checkout_cart_views.py:420
+#: .\shop\views_scripts\checkout_cart_views.py:447
+#: .\shop\views_scripts\checkout_cart_views.py:449
 msgid "Total"
 msgstr "Gesamt"
 
-#: .\shop\templates\cart.html:107
+#: .\shop\templates\cart.html:99
+#: .\shop\templates\checkout\Checkout_Payment_Type.html:322
+#: .\shop\templates\checkout\checkout_widget.html:26
+#| msgid "VAT excl."
+msgid "VAT Incl."
+msgstr "inkl. MwSt."
+
+#: .\shop\templates\cart.html:103
 #: .\shop\templates\checkout\checkout_widget.html:18
 msgid "Included taxes"
 msgstr "Inklusive Steuern"
 
-#: .\shop\templates\cart.html:111
+#: .\shop\templates\cart.html:107
 msgid "Included shippinh"
 msgstr "Inklusive Versand"
 
-#: .\shop\templates\cart.html:117 .\shop\templates\widgets\mini_cart.html:63
-#: .\shop\views.py:459
+#: .\shop\templates\cart.html:113 .\shop\templates\widgets\mini_cart.html:63
+#: .\shop\views.py:672
 msgid "Proceed to checkout"
 msgstr "Gehen Sie zur Kasse"
 
-#: .\shop\templates\cart.html:128 .\shop\templates\cart.html:132
+#: .\shop\templates\cart.html:124 .\shop\templates\cart.html:128
 msgid "Enter promo code"
 msgstr "Geben Sie den Aktionscode ein"
 
-#: .\shop\templates\cart.html:133
+#: .\shop\templates\cart.html:129
 msgid "Promo code is invalid"
 msgstr "Der Aktionscode ist ungültig"
 
-#: .\shop\templates\cart.html:192 .\shop\templates\cart.html:230
+#: .\shop\templates\cart.html:185 .\shop\templates\cart.html:218
 msgid "Type of written quantity has to be numeric and greater than 0"
 msgstr "Die Art der geschriebenen Menge muss numerisch und größer als 0 sein"
 
-#: .\shop\templates\cart.html:196 .\shop\templates\cart.html:233
+#: .\shop\templates\cart.html:188 .\shop\templates\cart.html:221
 msgid "Quantity has to be less than maximum on storage"
 msgstr "Die Menge muss bei der Lagerung unter dem Maximalwert liegen"
 
-#: .\shop\templates\cart.html:211
+#: .\shop\templates\cart.html:201
 msgid "Do you really want to delete this product from your cart?"
 msgstr "Möchten Sie dieses Produkt wirklich aus Ihrem Warenkorb löschen?"
 
-#: .\shop\templates\cart.html:268
+#: .\shop\templates\cart.html:246
 msgid "Confirmed!"
 msgstr "Bestätigt!"
 
@@ -220,410 +227,399 @@ msgstr "Bestätigt!"
 msgid "Categories"
 msgstr "Kategorien"
 
-#: .\shop\templates\catalog.html:177
-msgid "Collections"
-msgstr "Sammlungen"
-
-#: .\shop\templates\catalog.html:185
+#: .\shop\templates\catalog.html:176
 msgid "Filters"
 msgstr "Filter"
 
-#: .\shop\templates\catalog.html:188
+#: .\shop\templates\catalog.html:179
 msgid "Name, Product Article"
 msgstr "Name, Produktartikel"
 
-#: .\shop\templates\catalog.html:190
+#: .\shop\templates\catalog.html:181
 msgid "Contains in name"
 msgstr "Enthält im Namen"
 
-#: .\shop\templates\catalog.html:193 .\shop\templates\catalog.html:315
-#: .\shop\templates\catalog.html:316
-#: .\shop\templates\profile\profile_orders.html:336
+#: .\shop\templates\catalog.html:184 .\shop\templates\catalog.html:308
+#: .\shop\templates\catalog.html:309
+#: .\shop\templates\profile\profile_orders.html:335
 msgid "Price"
 msgstr "Preis"
 
-#: .\shop\templates\catalog.html:211
-#: .\shop\templates\widgets\mini_cart.html:95 .\shop\views.py:453
-msgid "Crystal color"
-msgstr "Kristallfarbe"
-
-#: .\shop\templates\catalog.html:233
+#: .\shop\templates\catalog.html:203
 msgid "Plating material"
 msgstr "Beschichtungsmaterial"
 
-#: .\shop\templates\catalog.html:256 .\shop\views.py:454
+#: .\shop\templates\catalog.html:223 .\shop\templates\catalog.html:240
+#: .\shop\templates\catalog.html:260 .\shop\templates\catalog.html:286
+#: .\shop\views.py:683
+msgid "Reset this group"
+msgstr "Setzen Sie diese Gruppe zurück"
+
+#: .\shop\templates\catalog.html:227 .\shop\views.py:667
 msgid "Base material"
 msgstr "Grundmaterial"
 
-#: .\shop\templates\catalog.html:272 .\shop\templates\shop_page.html:57
-#: .\shop\views.py:447
+#: .\shop\templates\catalog.html:243
+#: .\shop\templates\widgets\mini_cart.html:95 .\shop\views.py:666
+msgid "Crystal color"
+msgstr "Kristallfarbe"
+
+#: .\shop\templates\catalog.html:265 .\shop\templates\shop_page.html:60
+#: .\shop\views.py:660
 msgid "Size"
 msgstr "Größe"
 
-#: .\shop\templates\catalog.html:311
+#: .\shop\templates\catalog.html:304
 msgid "Order by"
 msgstr "Bestellen nach"
 
-#: .\shop\templates\catalog.html:313 .\shop\templates\catalog.html:314
-#: .\shop\templates\profile\profile_orders.html:333
+#: .\shop\templates\catalog.html:306 .\shop\templates\catalog.html:307
+#: .\shop\templates\profile\profile_orders.html:332
 msgid "Name"
 msgstr "Name"
 
-#: .\shop\templates\catalog.html:338
+#: .\shop\templates\catalog.html:331
 msgid "Previous"
 msgstr "Vorherige"
 
-#: .\shop\templates\catalog.html:340
+#: .\shop\templates\catalog.html:333
 msgid "Next"
 msgstr "Nächste"
 
-#: .\shop\templates\catalog.html:345
+#: .\shop\templates\catalog.html:338
 msgid "Jump"
 msgstr "Springen"
 
-#: .\shop\templates\catalog.html:550 .\shop\templates\catalog.html:669
+#: .\shop\templates\catalog.html:585 .\shop\templates\catalog.html:704
+#: .\shop\templates\widgets\navigation_bar.html:84
 msgid "All"
 msgstr "Alle"
 
-#: .\shop\templates\catalog.html:551 .\shop\templates\catalog.html:560
-#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:26
+#: .\shop\templates\catalog.html:586 .\shop\templates\catalog.html:595
+#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:36
 #: .\shop\templates\widgets\mobile_links_panel.html:33
-#: .\shop\templates\widgets\navigation_bar.html:28
+#: .\shop\templates\widgets\navigation_bar.html:76
 msgid "Necklaces"
 msgstr "Halsketten"
 
-#: .\shop\templates\catalog.html:552 .\shop\templates\catalog.html:553
-#: .\shop\templates\catalog.html:677 .\shop\templates\home.html:356
-#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:27
+#: .\shop\templates\catalog.html:587 .\shop\templates\catalog.html:588
+#: .\shop\templates\catalog.html:712 .\shop\templates\home.html:350
+#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:37
 #: .\shop\templates\profile\profile_favourites.html:33
-#: .\shop\templates\shop_page.html:160
+#: .\shop\templates\shop_page.html:163
 #: .\shop\templates\widgets\mobile_links_panel.html:34
-#: .\shop\templates\widgets\navigation_bar.html:29
+#: .\shop\templates\widgets\navigation_bar.html:77
 msgid "Earrings"
 msgstr "Ohrringe"
 
-#: .\shop\templates\catalog.html:554 .\shop\templates\catalog.html:566
-#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:29
+#: .\shop\templates\catalog.html:589 .\shop\templates\catalog.html:601
+#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:39
 #: .\shop\templates\widgets\mobile_links_panel.html:36
-#: .\shop\templates\widgets\navigation_bar.html:31
+#: .\shop\templates\widgets\navigation_bar.html:79
 msgid "Bracelets"
 msgstr "Armbänder"
 
-#: .\shop\templates\catalog.html:555
-#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:31
-#: .\shop\templates\widgets\mobile_links_panel.html:38
-#: .\shop\templates\widgets\navigation_bar.html:33
+#: .\shop\templates\catalog.html:590
+#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:41
+#: .\shop\templates\widgets\mobile_links_panel.html:37
+#: .\shop\templates\widgets\navigation_bar.html:80
 msgid "Accessories"
 msgstr "Zubehör"
 
-#: .\shop\templates\catalog.html:556
+#: .\shop\templates\catalog.html:591
 msgid "Pendants"
 msgstr "Anhänger"
 
-#: .\shop\templates\catalog.html:557
+#: .\shop\templates\catalog.html:592
 msgid "Chains"
 msgstr "Ketten"
 
-#: .\shop\templates\catalog.html:558
+#: .\shop\templates\catalog.html:593
 msgid "Colliers"
 msgstr "Colliers"
 
-#: .\shop\templates\catalog.html:559
+#: .\shop\templates\catalog.html:594
 msgid "Pearlchains"
 msgstr "Perlenketten"
 
-#: .\shop\templates\catalog.html:561 .\shop\templates\catalog.html:683
-#: .\shop\templates\home.html:362
+#: .\shop\templates\catalog.html:596 .\shop\templates\catalog.html:718
+#: .\shop\templates\home.html:356
 #: .\shop\templates\profile\profile_favourites.html:39
-#: .\shop\templates\shop_page.html:166
+#: .\shop\templates\shop_page.html:169
 msgid "Post earrings"
 msgstr "Post-Ohrringe"
 
-#: .\shop\templates\catalog.html:562
+#: .\shop\templates\catalog.html:597
 msgid "Hoops"
 msgstr "Reifen"
 
-#: .\shop\templates\catalog.html:563
+#: .\shop\templates\catalog.html:598
 msgid "Creoles"
 msgstr "Kreolen"
 
-#: .\shop\templates\catalog.html:564
+#: .\shop\templates\catalog.html:599
 msgid "Clips"
 msgstr "Clips"
 
-#: .\shop\templates\catalog.html:565
+#: .\shop\templates\catalog.html:600
 msgid "Piercings"
 msgstr "Piercings"
 
-#: .\shop\templates\catalog.html:567
+#: .\shop\templates\catalog.html:602
 msgid "Bangles"
 msgstr "Armreifen"
 
-#: .\shop\templates\catalog.html:568
-#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:30
-#: .\shop\templates\widgets\mobile_links_panel.html:37
-#: .\shop\templates\widgets\navigation_bar.html:32
+#: .\shop\templates\catalog.html:603
+#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:40
 msgid "Anklets"
 msgstr "Fußkettchen"
 
-#: .\shop\templates\catalog.html:569
-#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:28
+#: .\shop\templates\catalog.html:604
+#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:38
 #: .\shop\templates\widgets\mobile_links_panel.html:35
-#: .\shop\templates\widgets\navigation_bar.html:30
+#: .\shop\templates\widgets\navigation_bar.html:78
 msgid "Rings"
 msgstr "Ringe"
 
-#: .\shop\templates\catalog.html:570
+#: .\shop\templates\catalog.html:605
 msgid "Matches"
 msgstr "Streichhölzer"
 
-#: .\shop\templates\catalog.html:571
+#: .\shop\templates\catalog.html:606
 msgid "Pens"
 msgstr "Stifte"
 
-#: .\shop\templates\catalog.html:572
+#: .\shop\templates\catalog.html:607
 msgid "Keys"
 msgstr "Schlüssel"
 
-#: .\shop\templates\catalog.html:573
+#: .\shop\templates\catalog.html:608
 msgid "Brooches"
 msgstr "Broschen"
 
-#: .\shop\templates\catalog.html:574
+#: .\shop\templates\catalog.html:609
 msgid "Nailfiles"
 msgstr "Nagelfeilen"
 
-#: .\shop\templates\catalog.html:575
+#: .\shop\templates\catalog.html:610
 msgid "Extensions"
 msgstr "Erweiterungen"
 
-#: .\shop\templates\catalog.html:576 .\shop\templates\catalog.html:698
-#: .\shop\templates\home.html:377
+#: .\shop\templates\catalog.html:611 .\shop\templates\catalog.html:733
+#: .\shop\templates\home.html:371
 #: .\shop\templates\profile\profile_favourites.html:54
-#: .\shop\templates\shop_page.html:181
+#: .\shop\templates\shop_page.html:184
 msgid "UV"
 msgstr "UV"
 
-#: .\shop\templates\catalog.html:678 .\shop\templates\home.html:357
+#: .\shop\templates\catalog.html:713 .\shop\templates\home.html:351
 #: .\shop\templates\profile\profile_favourites.html:34
-#: .\shop\templates\shop_page.html:161
+#: .\shop\templates\shop_page.html:164
 msgid "Pendant"
 msgstr "Anhänger"
 
-#: .\shop\templates\catalog.html:679 .\shop\templates\home.html:358
+#: .\shop\templates\catalog.html:714 .\shop\templates\home.html:352
 #: .\shop\templates\profile\profile_favourites.html:35
-#: .\shop\templates\shop_page.html:162
+#: .\shop\templates\shop_page.html:165
 msgid "Chain"
 msgstr "Kette"
 
-#: .\shop\templates\catalog.html:680 .\shop\templates\home.html:359
+#: .\shop\templates\catalog.html:715 .\shop\templates\home.html:353
 #: .\shop\templates\profile\profile_favourites.html:36
-#: .\shop\templates\shop_page.html:163
+#: .\shop\templates\shop_page.html:166
 msgid "Collier"
 msgstr "Collier"
 
-#: .\shop\templates\catalog.html:681 .\shop\templates\home.html:360
+#: .\shop\templates\catalog.html:716 .\shop\templates\home.html:354
 #: .\shop\templates\profile\profile_favourites.html:37
-#: .\shop\templates\shop_page.html:164
+#: .\shop\templates\shop_page.html:167
 msgid "Pearlchain"
 msgstr "Perlenkette"
 
-#: .\shop\templates\catalog.html:682 .\shop\templates\home.html:361
+#: .\shop\templates\catalog.html:717 .\shop\templates\home.html:355
 #: .\shop\templates\profile\profile_favourites.html:38
-#: .\shop\templates\shop_page.html:165
+#: .\shop\templates\shop_page.html:168
 msgid "Necklace"
 msgstr "Halskette"
 
-#: .\shop\templates\catalog.html:684 .\shop\templates\home.html:363
+#: .\shop\templates\catalog.html:719 .\shop\templates\home.html:357
 #: .\shop\templates\profile\profile_favourites.html:40
-#: .\shop\templates\shop_page.html:167
+#: .\shop\templates\shop_page.html:170
 msgid "Hoop"
 msgstr "Band"
 
-#: .\shop\templates\catalog.html:685 .\shop\templates\home.html:364
+#: .\shop\templates\catalog.html:720 .\shop\templates\home.html:358
 #: .\shop\templates\profile\profile_favourites.html:41
-#: .\shop\templates\shop_page.html:168
+#: .\shop\templates\shop_page.html:171
 msgid "Creole"
 msgstr "Kreolisch"
 
-#: .\shop\templates\catalog.html:686 .\shop\templates\home.html:365
+#: .\shop\templates\catalog.html:721 .\shop\templates\home.html:359
 #: .\shop\templates\profile\profile_favourites.html:42
-#: .\shop\templates\shop_page.html:169
+#: .\shop\templates\shop_page.html:172
 msgid "Clip"
 msgstr "Clip"
 
-#: .\shop\templates\catalog.html:687 .\shop\templates\home.html:366
+#: .\shop\templates\catalog.html:722 .\shop\templates\home.html:360
 #: .\shop\templates\profile\profile_favourites.html:43
-#: .\shop\templates\shop_page.html:170
+#: .\shop\templates\shop_page.html:173
 msgid "Piercing"
 msgstr "Piercing"
 
-#: .\shop\templates\catalog.html:688 .\shop\templates\home.html:367
+#: .\shop\templates\catalog.html:723 .\shop\templates\home.html:361
 #: .\shop\templates\profile\profile_favourites.html:44
-#: .\shop\templates\shop_page.html:171
+#: .\shop\templates\shop_page.html:174
 msgid "Bracelet"
 msgstr "Armband"
 
-#: .\shop\templates\catalog.html:689 .\shop\templates\home.html:368
+#: .\shop\templates\catalog.html:724 .\shop\templates\home.html:362
 #: .\shop\templates\profile\profile_favourites.html:45
-#: .\shop\templates\shop_page.html:172
+#: .\shop\templates\shop_page.html:175
 msgid "Bangle"
 msgstr "Armreif"
 
-#: .\shop\templates\catalog.html:690 .\shop\templates\home.html:369
+#: .\shop\templates\catalog.html:725 .\shop\templates\home.html:363
 #: .\shop\templates\profile\profile_favourites.html:46
-#: .\shop\templates\shop_page.html:173
+#: .\shop\templates\shop_page.html:176
 msgid "Anklet"
 msgstr "Fußkettchen"
 
-#: .\shop\templates\catalog.html:691 .\shop\templates\home.html:370
+#: .\shop\templates\catalog.html:726 .\shop\templates\home.html:364
 #: .\shop\templates\profile\profile_favourites.html:47
-#: .\shop\templates\shop_page.html:174
+#: .\shop\templates\shop_page.html:177
 msgid "Ring"
 msgstr "Ring"
 
-#: .\shop\templates\catalog.html:692 .\shop\templates\home.html:371
+#: .\shop\templates\catalog.html:727 .\shop\templates\home.html:365
 #: .\shop\templates\profile\profile_favourites.html:48
-#: .\shop\templates\shop_page.html:175
+#: .\shop\templates\shop_page.html:178
 msgid "Match"
 msgstr "Übereinstimmen"
 
-#: .\shop\templates\catalog.html:693 .\shop\templates\home.html:372
+#: .\shop\templates\catalog.html:728 .\shop\templates\home.html:366
 #: .\shop\templates\profile\profile_favourites.html:49
-#: .\shop\templates\shop_page.html:176
+#: .\shop\templates\shop_page.html:179
 msgid "Pen"
 msgstr "Stift"
 
-#: .\shop\templates\catalog.html:694 .\shop\templates\home.html:373
+#: .\shop\templates\catalog.html:729 .\shop\templates\home.html:367
 #: .\shop\templates\profile\profile_favourites.html:50
-#: .\shop\templates\shop_page.html:177
+#: .\shop\templates\shop_page.html:180
 msgid "Key"
 msgstr "Schlüssel"
 
-#: .\shop\templates\catalog.html:695 .\shop\templates\home.html:374
+#: .\shop\templates\catalog.html:730 .\shop\templates\home.html:368
 #: .\shop\templates\profile\profile_favourites.html:51
-#: .\shop\templates\shop_page.html:178
+#: .\shop\templates\shop_page.html:181
 msgid "Brooch"
 msgstr "Brosche"
 
-#: .\shop\templates\catalog.html:696 .\shop\templates\home.html:375
+#: .\shop\templates\catalog.html:731 .\shop\templates\home.html:369
 #: .\shop\templates\profile\profile_favourites.html:52
-#: .\shop\templates\shop_page.html:179
+#: .\shop\templates\shop_page.html:182
 msgid "Nailfile"
 msgstr "Nagelfeile"
 
-#: .\shop\templates\catalog.html:697 .\shop\templates\home.html:376
+#: .\shop\templates\catalog.html:732 .\shop\templates\home.html:370
 #: .\shop\templates\profile\profile_favourites.html:53
-#: .\shop\templates\shop_page.html:180
+#: .\shop\templates\shop_page.html:183
 msgid "Extension"
 msgstr "Verlängerung"
 
-#: .\shop\templates\catalog.html:702 .\shop\templates\home.html:381
+#: .\shop\templates\catalog.html:737 .\shop\templates\home.html:375
 #: .\shop\templates\profile\profile_favourites.html:58
-#: .\shop\templates\shop_page.html:185
+#: .\shop\templates\shop_page.html:188
 msgid "Default"
 msgstr "Standard"
 
-#: .\shop\templates\catalog.html:703 .\shop\templates\home.html:382
+#: .\shop\templates\catalog.html:738 .\shop\templates\home.html:376
 #: .\shop\templates\profile\profile_favourites.html:59
-#: .\shop\templates\shop_page.html:186
+#: .\shop\templates\shop_page.html:189
 msgid "Rhodium"
 msgstr "Rhodium"
 
-#: .\shop\templates\catalog.html:704 .\shop\templates\home.html:383
+#: .\shop\templates\catalog.html:739 .\shop\templates\home.html:377
 #: .\shop\templates\profile\profile_favourites.html:60
-#: .\shop\templates\shop_page.html:187
+#: .\shop\templates\shop_page.html:190
 msgid "Gold"
 msgstr "Gold"
 
-#: .\shop\templates\catalog.html:705 .\shop\templates\home.html:384
+#: .\shop\templates\catalog.html:740 .\shop\templates\home.html:378
 #: .\shop\templates\profile\profile_favourites.html:61
-#: .\shop\templates\shop_page.html:188
+#: .\shop\templates\shop_page.html:191
 msgid "Rosegold"
 msgstr "Roségold"
 
-#: .\shop\templates\catalog.html:706 .\shop\templates\home.html:385
+#: .\shop\templates\catalog.html:741 .\shop\templates\home.html:379
 #: .\shop\templates\profile\profile_favourites.html:62
-#: .\shop\templates\shop_page.html:189
+#: .\shop\templates\shop_page.html:192
 msgid "Without"
 msgstr "Ohne"
 
-#: .\shop\templates\catalog.html:707 .\shop\templates\home.html:386
+#: .\shop\templates\catalog.html:742 .\shop\templates\home.html:380
 #: .\shop\templates\profile\profile_favourites.html:63
-#: .\shop\templates\shop_page.html:190
+#: .\shop\templates\shop_page.html:193
 msgid "Steel"
 msgstr "Stahl"
 
-#: .\shop\templates\catalog.html:708 .\shop\templates\shop_page.html:191
+#: .\shop\templates\catalog.html:743 .\shop\templates\shop_page.html:194
 msgid "Brass"
 msgstr "Messing"
 
-#: .\shop\templates\catalog.html:709 .\shop\templates\home.html:388
+#: .\shop\templates\catalog.html:744 .\shop\templates\home.html:382
 #: .\shop\templates\profile\profile_favourites.html:65
-#: .\shop\templates\shop_page.html:192
+#: .\shop\templates\shop_page.html:195
 msgid "Silver"
 msgstr "Silber"
 
-#: .\shop\templates\catalog.html:1299 .\shop\templates\catalog.html:1731
-#: .\shop\templates\home.html:595 .\shop\templates\home.html:747
-#: .\shop\templates\profile\profile_favourites.html:154
-#: .\shop\templates\profile\profile_favourites.html:351 .\shop\views.py:467
-msgid "Remove from favorites"
-msgstr "Aus Favoriten entfernen"
-
-#: .\shop\templates\catalog.html:1299 .\shop\templates\catalog.html:1732
-#: .\shop\templates\home.html:595 .\shop\templates\home.html:748
-#: .\shop\templates\profile\profile_favourites.html:154
-#: .\shop\templates\profile\profile_favourites.html:352 .\shop\views.py:466
-msgid "Add to favorites"
-msgstr "Zu Favoriten hinzufügen"
-
-#: .\shop\templates\catalog.html:1352 .\shop\templates\shop_page.html:126
-#: .\shop\views.py:460
-msgid "Add to cart"
-msgstr "In den Warenkorb legen"
-
-#: .\shop\templates\catalog.html:1369
-#: .\shop\templates\profile\profile_favourites.html:228
-msgid "This item is only available for pre-order"
-msgstr "Dieser Artikel ist nur vorbestellbar"
-
-#: .\shop\templates\catalog.html:1524 .\shop\templates\catalog.html:1612
+#: .\shop\templates\catalog.html:1470 .\shop\templates\catalog.html:1550
 msgid "No items found"
 msgstr "Keine Artikel gefunden"
 
-#: .\shop\templates\catalog.html:1607
+#: .\shop\templates\catalog.html:1545
 msgid "Current page"
 msgstr "Aktuelle Seite"
 
-#: .\shop\templates\checkout\Checkout_Account_Auth.html:29
-#: .\shop\templates\checkout\Checkout_Addresses.html:26
-#: .\shop\templates\checkout\Checkout_Payment_Type.html:26
+#: .\shop\templates\catalog.html:1674 .\shop\templates\home.html:608
+#: .\shop\templates\profile\profile_favourites.html:171
+#: .\shop\templates\profile\profile_favourites.html:359 .\shop\views.py:680
+msgid "Remove from favorites"
+msgstr "Aus Favoriten entfernen"
+
+#: .\shop\templates\catalog.html:1675 .\shop\templates\home.html:609
+#: .\shop\templates\profile\profile_favourites.html:171
+#: .\shop\templates\profile\profile_favourites.html:360 .\shop\views.py:679
+msgid "Add to favorites"
+msgstr "Zu Favoriten hinzufügen"
+
+#: .\shop\templates\checkout\Checkout_Account_Auth.html:30
+#: .\shop\templates\checkout\Checkout_Addresses.html:27
+#: .\shop\templates\checkout\Checkout_Payment_Type.html:27
 msgid "Personal Information"
 msgstr "Persönliche Informationen"
 
-#: .\shop\templates\checkout\Checkout_Account_Auth.html:32
+#: .\shop\templates\checkout\Checkout_Account_Auth.html:33
 msgid "Order as a guest"
 msgstr "Als Gast bestellen"
 
-#: .\shop\templates\checkout\Checkout_Account_Auth.html:34
+#: .\shop\templates\checkout\Checkout_Account_Auth.html:35
 #: .\shop\templates\registration\login.html:84
 msgid "Sign in"
 msgstr "anmelden"
 
-#: .\shop\templates\checkout\Checkout_Account_Auth.html:50
+#: .\shop\templates\checkout\Checkout_Account_Auth.html:51
 #: .\shop\templates\registration\register.html:40
 msgid "Create an account"
 msgstr "Ein Konto erstellen"
 
-#: .\shop\templates\checkout\Checkout_Account_Auth.html:63
+#: .\shop\templates\checkout\Checkout_Account_Auth.html:64
 #: .\shop\templates\profile\profile_information.html:14
 #: .\shop\templates\registration\register.html:53
 msgid "Social title"
 msgstr "Sozialer Titel"
 
-#: .\shop\templates\checkout\Checkout_Account_Auth.html:82
-#: .\shop\templates\checkout\Checkout_Addresses.html:165
+#: .\shop\templates\checkout\Checkout_Account_Auth.html:83
+#: .\shop\templates\checkout\Checkout_Addresses.html:166
 #: .\shop\templates\profile\profile_create_address.html:23
 #: .\shop\templates\profile\profile_information.html:36
 #: .\shop\templates\profile\profile_update_address.html:24
@@ -631,8 +627,8 @@ msgstr "Sozialer Titel"
 msgid "First name"
 msgstr "Vorname"
 
-#: .\shop\templates\checkout\Checkout_Account_Auth.html:93
-#: .\shop\templates\checkout\Checkout_Addresses.html:175
+#: .\shop\templates\checkout\Checkout_Account_Auth.html:94
+#: .\shop\templates\checkout\Checkout_Addresses.html:176
 #: .\shop\templates\profile\profile_create_address.html:32
 #: .\shop\templates\profile\profile_information.html:45
 #: .\shop\templates\profile\profile_update_address.html:33
@@ -640,38 +636,38 @@ msgstr "Vorname"
 msgid "Last name"
 msgstr "Nachname"
 
-#: .\shop\templates\checkout\Checkout_Account_Auth.html:113
-#: .\shop\templates\checkout\Checkout_Account_Auth.html:253
+#: .\shop\templates\checkout\Checkout_Account_Auth.html:114
+#: .\shop\templates\checkout\Checkout_Account_Auth.html:238
 #: .\shop\templates\profile\profile_information.html:62
 #: .\shop\templates\registration\login.html:63
-#: .\shop\templates\registration\register.html:117
+#: .\shop\templates\registration\register.html:103
 msgid "Password"
 msgstr "Passwort"
 
 #: .\shop\templates\checkout\Checkout_Account_Auth.html:133
-#: .\shop\templates\registration\register.html:137
+#: .\shop\templates\registration\register.html:122
 msgid "Confirm you password"
 msgstr "Bestätigen Sie Ihr Passwort"
 
-#: .\shop\templates\checkout\Checkout_Account_Auth.html:163
+#: .\shop\templates\checkout\Checkout_Account_Auth.html:148
 #: .\shop\templates\profile\profile_information.html:98
-#: .\shop\templates\registration\register.html:153
+#: .\shop\templates\registration\register.html:137
 msgid "Birthdate"
 msgstr "Geburtsdatum"
 
-#: .\shop\templates\checkout\Checkout_Account_Auth.html:177
+#: .\shop\templates\checkout\Checkout_Account_Auth.html:162
 #: .\shop\templates\profile\profile_information.html:114
-#: .\shop\templates\registration\register.html:167
+#: .\shop\templates\registration\register.html:151
 msgid "Receive offers from our partners"
 msgstr "Erhalten Sie Angebote von unseren Partnern"
 
-#: .\shop\templates\checkout\Checkout_Account_Auth.html:191
+#: .\shop\templates\checkout\Checkout_Account_Auth.html:176
 #: .\shop\templates\profile\profile_information.html:129
-#: .\shop\templates\registration\register.html:181
+#: .\shop\templates\registration\register.html:165
 msgid "Sign up for our newsletter"
 msgstr "Melden Sie sich für unseren Newsletter an"
 
-#: .\shop\templates\checkout\Checkout_Account_Auth.html:191
+#: .\shop\templates\checkout\Checkout_Account_Auth.html:176
 msgid ""
 "You may unsubscribe at any moment. For that purpose, please find our contact"
 " info in the legal notice."
@@ -679,104 +675,105 @@ msgstr ""
 "Sie können sich jederzeit abmelden. Unsere Kontaktdaten finden Sie hierzu "
 "bitte im Impressum."
 
-#: .\shop\templates\checkout\Checkout_Account_Auth.html:201
-#: .\shop\templates\registration\register.html:191
+#: .\shop\templates\checkout\Checkout_Account_Auth.html:186
+#: .\shop\templates\registration\register.html:175
 msgid "If you want to register as a B2B customer, please contact us."
 msgstr ""
 "Wenn Sie sich als B2B-Kunde registrieren möchten, kontaktieren Sie uns "
 "bitte."
 
-#: .\shop\templates\checkout\Checkout_Account_Auth.html:208
-#: .\shop\templates\checkout\Checkout_Account_Auth.html:269
+#: .\shop\templates\checkout\Checkout_Account_Auth.html:193
+#: .\shop\templates\checkout\Checkout_Account_Auth.html:254
 #: .\shop\templates\checkout\Checkout_Addresses.html:259
-#: .\shop\templates\checkout\Checkout_Payment_Type.html:52
+#: .\shop\templates\checkout\Checkout_Payment_Type.html:53
 msgid "Continue"
 msgstr "Weitermachen"
 
-#: .\shop\templates\checkout\Checkout_Account_Auth.html:230
-#: .\shop\templates\widgets\account_panel.html:86
-#: .\shop\templates\widgets\mobile_links_panel.html:48
+#: .\shop\templates\checkout\Checkout_Account_Auth.html:215
+#: .\shop\templates\widgets\account_panel.html:94
+#: .\shop\templates\widgets\mobile_links_panel.html:46
+#: .\shop\templates\widgets\navigation_bar.html:100
 msgid "Login"
 msgstr "Login"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:27
-#: .\shop\templates\checkout\Checkout_Payment_Type.html:27
+#: .\shop\templates\checkout\Checkout_Addresses.html:28
+#: .\shop\templates\checkout\Checkout_Payment_Type.html:28
 #: .\shop\templates\profile\profile_side_menu.html:30
 #: .\shop\templates\widgets\account_panel.html:51
 msgid "Addresses"
 msgstr "Adressen"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:32
+#: .\shop\templates\checkout\Checkout_Addresses.html:33
 msgid "Shipping address"
 msgstr "Lieferadresse"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:60
-#: .\shop\templates\checkout\Checkout_Addresses.html:119
+#: .\shop\templates\checkout\Checkout_Addresses.html:61
+#: .\shop\templates\checkout\Checkout_Addresses.html:120
 #: .\shop\templates\profile\profile_addresses.html:33
 msgid "Update"
 msgstr "Aktualisieren"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:66
-#: .\shop\templates\checkout\Checkout_Addresses.html:125
+#: .\shop\templates\checkout\Checkout_Addresses.html:67
+#: .\shop\templates\checkout\Checkout_Addresses.html:126
 #: .\shop\templates\profile\profile_addresses.html:39
 #: .\venv\Lib\site-packages\django\forms\formsets.py:499
 msgid "Delete"
 msgstr "Löschen"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:77
-#: .\shop\templates\checkout\Checkout_Addresses.html:136
+#: .\shop\templates\checkout\Checkout_Addresses.html:78
+#: .\shop\templates\checkout\Checkout_Addresses.html:137
 msgid "Add new address"
 msgstr "Neue Adresse hinzufügen"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:81
+#: .\shop\templates\checkout\Checkout_Addresses.html:82
 msgid "Billing address differs from shipping address"
 msgstr "Rechnungsadresse weicht von Lieferadresse ab"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:91
+#: .\shop\templates\checkout\Checkout_Addresses.html:92
 msgid "Billing address"
 msgstr "Rechnungsadresse"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:140
+#: .\shop\templates\checkout\Checkout_Addresses.html:141
 msgid "Billing address is the same as shipping address"
 msgstr "Die Rechnungsadresse ist dieselbe wie die Lieferadresse"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:182
+#: .\shop\templates\checkout\Checkout_Addresses.html:183
 #: .\shop\templates\profile\profile_create_address.html:41
 #: .\shop\templates\profile\profile_update_address.html:42
 msgid "Company"
 msgstr "Unternehmen"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:193
+#: .\shop\templates\checkout\Checkout_Addresses.html:194
 #: .\shop\templates\profile\profile_create_address.html:49
 #: .\shop\templates\profile\profile_update_address.html:50
 msgid "Address"
 msgstr "Adresse"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:200
+#: .\shop\templates\checkout\Checkout_Addresses.html:201
 #: .\shop\templates\profile\profile_create_address.html:58
 #: .\shop\templates\profile\profile_update_address.html:59
 msgid "Address Complement"
 msgstr "Adressergänzung"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:210
+#: .\shop\templates\checkout\Checkout_Addresses.html:211
 #: .\shop\templates\profile\profile_create_address.html:65
 #: .\shop\templates\profile\profile_update_address.html:66
 msgid "Postal Code"
 msgstr "Postleitzahl"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:220
+#: .\shop\templates\checkout\Checkout_Addresses.html:221
 #: .\shop\templates\profile\profile_create_address.html:74
 #: .\shop\templates\profile\profile_update_address.html:75
 msgid "City"
 msgstr "Stadt"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:230
+#: .\shop\templates\checkout\Checkout_Addresses.html:231
 #: .\shop\templates\profile\profile_create_address.html:83
 #: .\shop\templates\profile\profile_update_address.html:84
 msgid "Country"
 msgstr "Land"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:244
+#: .\shop\templates\checkout\Checkout_Addresses.html:245
 #: .\shop\templates\profile\profile_create_address.html:96
 #: .\shop\templates\profile\profile_update_address.html:97
 #: .\shop\templates\service_pages\Privacy_policy.html:58
@@ -790,51 +787,51 @@ msgstr "Stornieren"
 #: .\shop\templates\checkout\Checkout_Addresses.html:253
 #: .\shop\templates\profile\profile_information.html:139
 #: .\shop\templates\profile\profile_update_address.html:107
-#: .\shop\templates\registration\register.html:198
+#: .\shop\templates\registration\register.html:182
 msgid "Save"
 msgstr "Speichern"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:374
+#: .\shop\templates\checkout\Checkout_Addresses.html:619
 msgid "Please select a shipping address first"
 msgstr "Bitte wählen Sie zunächst eine Lieferadresse aus"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:487
+#: .\shop\templates\checkout\Checkout_Addresses.html:737
 #: .\shop\templates\profile\profile_create_address.html:135
 msgid "The address has been successfully added!"
 msgstr "Die Adresse wurde erfolgreich hinzugefügt!"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:501
+#: .\shop\templates\checkout\Checkout_Addresses.html:751
 #: .\shop\templates\profile\profile_addresses.html:63
 msgid "Are you sure you want to delete this address?"
 msgstr "Sind Sie sicher, dass Sie diese Adresse löschen möchten?"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:592
+#: .\shop\templates\checkout\Checkout_Addresses.html:837
 msgid "Order will be delivered to your email"
 msgstr "Die Bestellung wird an Ihre E-Mail-Adresse gesendet"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:623
-#: .\shop\templates\checkout\Checkout_Payment_Type.html:141
+#: .\shop\templates\checkout\Checkout_Addresses.html:868
+#: .\shop\templates\checkout\Checkout_Payment_Type.html:382
 msgid "You have to add at least 1 item to finish order"
 msgstr ""
 "Sie müssen mindestens 1 Artikel hinzufügen, um die Bestellung abzuschließen"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:627
+#: .\shop\templates\checkout\Checkout_Addresses.html:872
 msgid "You didn't provide billing address"
 msgstr "Sie haben keine Rechnungsadresse angegeben"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:631
+#: .\shop\templates\checkout\Checkout_Addresses.html:876
 msgid "You didn't provide shipping address"
 msgstr "Sie haben keine Lieferadresse angegeben"
 
-#: .\shop\templates\checkout\Checkout_Payment_Type.html:28
+#: .\shop\templates\checkout\Checkout_Payment_Type.html:29
 msgid "Payment type"
 msgstr "Zahlungsart"
 
-#: .\shop\templates\checkout\Checkout_Payment_Type.html:34
+#: .\shop\templates\checkout\Checkout_Payment_Type.html:35
 msgid "Choose payment type"
 msgstr "Wählen Sie die Zahlungsart"
 
-#: .\shop\templates\checkout\Checkout_Payment_Type.html:41
+#: .\shop\templates\checkout\Checkout_Payment_Type.html:42
 msgid "Pay with Credit Card via Stripe"
 msgstr "Bezahlen Sie mit Kreditkarte über Stripe"
 
@@ -842,58 +839,55 @@ msgstr "Bezahlen Sie mit Kreditkarte über Stripe"
 msgid "Included shipping"
 msgstr "Inklusive Versand"
 
-#: .\shop\templates\home.html:50
+#: .\shop\templates\home.html:51
 msgid "ELEGANT JEWELRY AND ACCESSORIES"
 msgstr "ELEGANTER SCHMUCK UND ACCESSOIRES"
 
-#: .\shop\templates\home.html:109
+#: .\shop\templates\home.html:103
 msgid "BEST SELLERS"
 msgstr "Bestseller"
 
-#: .\shop\templates\home.html:387
+#: .\shop\templates\home.html:381
 #: .\shop\templates\profile\profile_favourites.html:64
 msgid "Steel Brass"
 msgstr "Stahl Messing"
 
-#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:25
+#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:35
 #: .\shop\templates\widgets\mobile_links_panel.html:22
-#: .\shop\templates\widgets\navigation_bar.html:27
 msgid "All products"
 msgstr "Alle Produkte"
 
-#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:26
+#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:36
 #: .\shop\templates\widgets\mobile_links_panel.html:33
-#: .\shop\templates\widgets\navigation_bar.html:28
+#: .\shop\templates\widgets\navigation_bar.html:76
 msgid "NECKLACES"
 msgstr "HALSKETTEN"
 
-#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:27
+#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:37
 #: .\shop\templates\widgets\mobile_links_panel.html:34
-#: .\shop\templates\widgets\navigation_bar.html:29
+#: .\shop\templates\widgets\navigation_bar.html:77
 msgid "EARRINGS"
 msgstr "OHRRINGE"
 
-#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:28
+#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:38
 #: .\shop\templates\widgets\mobile_links_panel.html:35
-#: .\shop\templates\widgets\navigation_bar.html:30
+#: .\shop\templates\widgets\navigation_bar.html:78
 msgid "RINGS"
 msgstr "RINGE"
 
-#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:29
+#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:39
 #: .\shop\templates\widgets\mobile_links_panel.html:36
-#: .\shop\templates\widgets\navigation_bar.html:31
+#: .\shop\templates\widgets\navigation_bar.html:79
 msgid "BRACELETS"
 msgstr "ARMBÄNDER"
 
-#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:30
-#: .\shop\templates\widgets\mobile_links_panel.html:37
-#: .\shop\templates\widgets\navigation_bar.html:32
+#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:40
 msgid "ANKLETS"
 msgstr "Fußkettchen"
 
-#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:31
-#: .\shop\templates\widgets\mobile_links_panel.html:38
-#: .\shop\templates\widgets\navigation_bar.html:33
+#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:41
+#: .\shop\templates\widgets\mobile_links_panel.html:37
+#: .\shop\templates\widgets\navigation_bar.html:80
 msgid "ACCESSORIES"
 msgstr "ZUBEHÖR"
 
@@ -906,7 +900,7 @@ msgid "Create new address"
 msgstr "Neue Adresse erstellen"
 
 #: .\shop\templates\profile\profile_archive_search.html:8
-#: .\shop\templates\widgets\account_panel.html:66
+#: .\shop\templates\widgets\account_panel.html:74
 msgid "Archive search"
 msgstr "Archivsuche"
 
@@ -919,8 +913,17 @@ msgstr ""
 msgid "Start typing here..."
 msgstr "Beginnen Sie hier mit der Eingabe..."
 
+#: .\shop\templates\profile\profile_catalogs.html:10
+#: .\shop\templates\widgets\account_panel.html:59
+msgid "Catalogs"
+msgstr "Kataloge"
+
+#: .\shop\templates\profile\profile_catalogs.html:30
+msgid "Loading..."
+msgstr "Laden..."
+
 #: .\shop\templates\profile\profile_chat.html:15
-#: .\shop\views_scripts\checkout_cart_views.py:331
+#: .\shop\views_scripts\checkout_cart_views.py:345
 #: .\venv\Lib\site-packages\django\forms\formsets.py:484
 #: .\venv\Lib\site-packages\django\forms\formsets.py:491
 msgid "Order"
@@ -928,7 +931,7 @@ msgstr "Befehl"
 
 #: .\shop\templates\profile\profile_chat.html:21
 #: .\shop\templates\profile\profile_chat.html:53
-#: .\shop\templates\profile\profile_chat.html:129
+#: .\shop\templates\profile\profile_chat.html:127
 msgid "Select chat"
 msgstr "Wählen Sie Chat aus"
 
@@ -958,7 +961,7 @@ msgstr "Archiv B2C"
 msgid "Archive B2B"
 msgstr "Archiv B2B"
 
-#: .\shop\templates\profile\profile_chat.html:466
+#: .\shop\templates\profile\profile_chat.html:456
 msgid "uploaded a file"
 msgstr "eine Datei hochgeladen"
 
@@ -996,6 +999,10 @@ msgstr "Bearbeiten Sie Ihr Passwort und Ihre Kontodaten"
 msgid "Favorite products"
 msgstr "Lieblingsprodukte"
 
+#: .\shop\templates\profile\profile_favourites.html:242
+msgid "This item is only available for pre-order"
+msgstr "Dieser Artikel ist nur vorbestellbar"
+
 #: .\shop\templates\profile\profile_information.html:8
 msgid "Your personal information"
 msgstr "Ihre persönlichen Daten"
@@ -1005,7 +1012,7 @@ msgid "New password"
 msgstr "Neues Passwort"
 
 #: .\shop\templates\profile\profile_information.html:130
-#: .\shop\templates\registration\register.html:181
+#: .\shop\templates\registration\register.html:165
 msgid ""
 "You may unsubscribe at any moment. For that purpose, please find our contact"
 " info in the legal notice"
@@ -1029,7 +1036,7 @@ msgstr "E-Mail ist erforderlich"
 msgid "Password is required"
 msgstr "Passwort ist erforderlich"
 
-#: .\shop\templates\profile\profile_information.html:226
+#: .\shop\templates\profile\profile_information.html:225
 msgid ""
 "Invalid birthday. Ensure the date is valid, in YYYY-MM-DD format, and not in"
 " the future"
@@ -1037,12 +1044,12 @@ msgstr ""
 "Ungültiger Geburtstag. Stellen Sie sicher, dass das Datum im Format JJJJ-MM-"
 "TT gültig ist und nicht in der Zukunft liegt"
 
-#: .\shop\templates\profile\profile_information.html:263
+#: .\shop\templates\profile\profile_information.html:262
 msgid "The information has been successfully updated!"
 msgstr "Die Informationen wurden erfolgreich aktualisiert!"
 
 #: .\shop\templates\profile\profile_order_import.html:8
-#: .\shop\templates\widgets\account_panel.html:58
+#: .\shop\templates\widgets\account_panel.html:66
 msgid "Order import"
 msgstr "Import bestellen"
 
@@ -1085,7 +1092,7 @@ msgid "Order ID"
 msgstr "Bestell-ID"
 
 #: .\shop\templates\profile\profile_orders.html:97
-#: .\shop\views_scripts\checkout_cart_views.py:336
+#: .\shop\views_scripts\checkout_cart_views.py:350
 msgid "Date"
 msgstr "Datum"
 
@@ -1094,106 +1101,107 @@ msgid "Total price"
 msgstr "Gesamtpreis"
 
 #: .\shop\templates\profile\profile_orders.html:99
-#: .\shop\views_scripts\checkout_cart_views.py:463
+#: .\shop\views_scripts\checkout_cart_views.py:491
 msgid "Shipping price"
 msgstr "Versandpreis"
 
 #: .\shop\templates\profile\profile_orders.html:100
+msgid "Tracker"
+msgstr "Tracker"
+
+#: .\shop\templates\profile\profile_orders.html:101
 msgid "Payment"
 msgstr "Zahlung"
 
-#: .\shop\templates\profile\profile_orders.html:101
+#: .\shop\templates\profile\profile_orders.html:102
 msgid "Status"
 msgstr "Status"
 
-#: .\shop\templates\profile\profile_orders.html:117
+#: .\shop\templates\profile\profile_orders.html:119
 msgid "Show Details"
 msgstr "Details anzeigen"
 
-#: .\shop\templates\profile\profile_orders.html:128
+#: .\shop\templates\profile\profile_orders.html:130
 msgid "Download csv"
 msgstr "CSV herunterladen"
 
-#: .\shop\templates\profile\profile_orders.html:129
+#: .\shop\templates\profile\profile_orders.html:131
 msgid "Download pdf with images"
 msgstr "PDF mit Bildern herunterladen"
 
-#: .\shop\templates\profile\profile_orders.html:130
+#: .\shop\templates\profile\profile_orders.html:132
 msgid "Download pdf without images"
 msgstr "PDF ohne Bilder herunterladen"
 
-#: .\shop\templates\profile\profile_orders.html:132
+#: .\shop\templates\profile\profile_orders.html:134
 msgid "Pay for the order"
 msgstr "Bezahlen Sie die Bestellung"
 
-#: .\shop\templates\profile\profile_orders.html:138
+#: .\shop\templates\profile\profile_orders.html:140
 msgid "File is downloading"
 msgstr "Datei wird heruntergeladen"
 
-#: .\shop\templates\profile\profile_orders.html:139
+#: .\shop\templates\profile\profile_orders.html:141
 msgid "Don't close the page, please!"
 msgstr "Bitte schließen Sie die Seite nicht!"
 
-#: .\shop\templates\profile\profile_orders.html:149
+#: .\shop\templates\profile\profile_orders.html:151
 msgid "Enter the amount you want to pay"
 msgstr "Geben Sie den Betrag ein, den Sie zahlen möchten"
 
-#: .\shop\templates\profile\profile_orders.html:150
+#: .\shop\templates\profile\profile_orders.html:152
 msgid "Maximum you can pay is"
 msgstr "Der Höchstbetrag, den Sie bezahlen können, beträgt"
 
-#: .\shop\templates\profile\profile_orders.html:151
-#| msgid "Customer account"
+#: .\shop\templates\profile\profile_orders.html:153
 msgid "Enter amount"
 msgstr "Betrag eingeben"
 
-#: .\shop\templates\profile\profile_orders.html:152
+#: .\shop\templates\profile\profile_orders.html:154
 msgid "Pay for order"
 msgstr "Bezahlen Sie die Bestellung"
 
-#: .\shop\templates\profile\profile_orders.html:251
-#| msgid "Enter a valid date."
+#: .\shop\templates\profile\profile_orders.html:252
 msgid "Please enter a valid amount."
 msgstr "Bitte geben Sie einen gültigen Betrag ein."
 
-#: .\shop\templates\profile\profile_orders.html:280
+#: .\shop\templates\profile\profile_orders.html:279
 msgid "Show details"
 msgstr "Details anzeigen"
 
-#: .\shop\templates\profile\profile_orders.html:312
-#: .\shop\templates\profile\profile_orders.html:317
-#: .\shop\templates\profile\profile_orders.html:390
+#: .\shop\templates\profile\profile_orders.html:311
+#: .\shop\templates\profile\profile_orders.html:316
+#: .\shop\templates\profile\profile_orders.html:389
 msgid "Hide details"
 msgstr "Details ausblenden"
 
-#: .\shop\templates\profile\profile_orders.html:334
+#: .\shop\templates\profile\profile_orders.html:333
 #: .\venv\Lib\site-packages\django\db\models\fields\files.py:393
 msgid "Image"
 msgstr "Bild"
 
-#: .\shop\templates\profile\profile_orders.html:335
+#: .\shop\templates\profile\profile_orders.html:334
 msgid "Description"
 msgstr "Beschreibung"
 
-#: .\shop\templates\profile\profile_orders.html:337
-#: .\shop\templates\widgets\mini_cart.html:115 .\shop\views.py:455
-#: .\shop\views_scripts\checkout_cart_views.py:417
-#: .\shop\views_scripts\checkout_cart_views.py:419
+#: .\shop\templates\profile\profile_orders.html:336
+#: .\shop\templates\widgets\mini_cart.html:115 .\shop\views.py:668
+#: .\shop\views_scripts\checkout_cart_views.py:446
+#: .\shop\views_scripts\checkout_cart_views.py:448
 msgid "Quantity"
 msgstr "Menge"
 
-#: .\shop\templates\profile\profile_orders.html:338
+#: .\shop\templates\profile\profile_orders.html:337
 msgid "Summary"
 msgstr "Zusammenfassung"
 
-#: .\shop\templates\profile\profile_orders.html:339
-#: .\shop\templates\shop_page.html:109 .\shop\templates\shop_page.html:115
-#: .\shop\views.py:443
+#: .\shop\templates\profile\profile_orders.html:338
+#: .\shop\templates\shop_page.html:112 .\shop\templates\shop_page.html:118
+#: .\shop\views.py:656
 msgid "In stock"
 msgstr "Auf Lager"
 
-#: .\shop\templates\profile\profile_orders.html:421
-#| msgid "Invalid data in row"
+#: .\shop\templates\profile\profile_orders.html:419
 msgid "Invalid amount"
 msgstr "Ungültiger Betrag"
 
@@ -1226,12 +1234,12 @@ msgid "Archive Search"
 msgstr "Archivsuche"
 
 #: .\shop\templates\profile\profile_side_menu.html:62
-#: .\shop\templates\widgets\account_panel.html:74
+#: .\shop\templates\widgets\account_panel.html:82
 msgid "Support"
 msgstr "Unterstützung"
 
 #: .\shop\templates\profile\profile_side_menu.html:67
-#: .\shop\templates\widgets\account_panel.html:80
+#: .\shop\templates\widgets\account_panel.html:88
 msgid "Sign out"
 msgstr "Abmelden"
 
@@ -1251,11 +1259,11 @@ msgstr "Melden Sie sich an"
 msgid "No account? Create one here"
 msgstr "Kein Konto? Erstellen Sie hier eines"
 
-#: .\shop\templates\registration\register.html:202
+#: .\shop\templates\registration\register.html:186
 msgid "Already have an account?"
 msgstr "Sie haben bereits ein Konto?"
 
-#: .\shop\templates\registration\register.html:202
+#: .\shop\templates\registration\register.html:186
 msgid "Log in instead!"
 msgstr "Loggen Sie sich stattdessen ein!"
 
@@ -1321,7 +1329,7 @@ msgstr ""
 "13:00 Uhr, außer an Feiertagen."
 
 #: .\shop\templates\service_pages\Oliver_Weber_for_Press.html:31
-#: .\shop\templates\widgets\footer.html:102
+#: .\shop\templates\widgets\footer.html:100
 msgid "Oliver Weber for Press"
 msgstr "Oliver Weber für Presse"
 
@@ -1470,7 +1478,7 @@ msgstr ""
 " sich jedem Anlass und den unterschiedlichsten Geschmäckern anpasst."
 
 #: .\shop\templates\service_pages\Privacy_policy.html:41
-#: .\shop\templates\widgets\footer.html:105
+#: .\shop\templates\widgets\footer.html:103
 msgid "Website Privacy Policy"
 msgstr "Website-Datenschutzrichtlinie"
 
@@ -2602,183 +2610,14 @@ msgstr ""
 " mit Facebook."
 
 #: .\shop\templates\service_pages\Privacy_policy.html:149
-msgid "Integration of the Trusted Shops Trustbadge / other widgets"
-msgstr "Einbindung des Trusted Shops Trustbadge / weiterer Widgets"
-
-#: .\shop\templates\service_pages\Privacy_policy.html:150
-msgid ""
-"Trusted Shops widgets (e.g. Trusted Shops Trustbadge) are integrated in this"
-" website to display Trusted Shops services (e.g. Trustmark, collected "
-"reviews) and to offer Trusted Shops products to buyers after they have "
-"placed an order."
-msgstr ""
-"Auf dieser Website sind Trusted Shops-Widgets (z. B. Trusted Shops "
-"Trustbadge) integriert, um Trusted Shops-Dienste (z. B. Trustmark, "
-"gesammelte Bewertungen) anzuzeigen und Käufern nach einer Bestellung Trusted"
-" Shops-Produkte anzubieten."
-
-#: .\shop\templates\service_pages\Privacy_policy.html:151
-msgid ""
-"This serves to protect our legitimate interests in optimized marketing by "
-"enabling secure shopping in accordance with Art. 6 (1) (f) GDPR, which "
-"prevail in the context of a balancing of interests. The trust badge and the "
-"services advertised with it are an offer of Trusted Shops GmbH, Subbelrather"
-" Str. 15C, 50823 Cologne (Trusted Shops). We and Trusted Shops are joint "
-"controllers in data protection terms pursuant to Art. 26 GDPR. In the "
-"following section, we inform you about the essential contents of the joint "
-"controllership agreement according to Art. 26 (2) GDPR."
-msgstr ""
-"Dies dient der Wahrung unserer berechtigten Interessen an einem optimierten "
-"Marketing durch Ermöglichung eines sicheren Einkaufs gemäß Art. 6 Abs. 1 "
-"lit. f DSGVO. Art. 6 Abs. 1 lit. f DSGVO, die im Rahmen einer "
-"Interessenabwägung vorrangig sind. Das Vertrauenssiegel und die damit "
-"beworbenen Leistungen sind ein Angebot der Trusted Shops GmbH, Subbelrather "
-"Str. 15C, 50823 Köln (Trusted Shops). Wir und Trusted Shops sind gemeinsam "
-"Verantwortliche im Sinne des Art. 28 DSGVO. 26 DSGVO. Im Folgenden "
-"informieren wir Sie über die wesentlichen Inhalte der Vereinbarung zur "
-"gemeinsamen Verantwortlichkeit gemäß Art. Art. 26 Abs. 2 DSGVO."
-
-#: .\shop\templates\service_pages\Privacy_policy.html:152
-msgid ""
-"The trust badge is provided as part of a joint controllership by a US CDN "
-"provider (content delivery network). An adequate level of data protection is"
-" ensured by standard data protection clauses and other contractual measures."
-" Further information on the privacy policy of Trusted Shops GmbH can be "
-"found&nbsp;"
-msgstr ""
-"Das Vertrauensabzeichen wird im Rahmen einer gemeinsamen Verantwortlichkeit "
-"durch einen US-amerikanischen CDN-Anbieter (Content Delivery Network) "
-"bereitgestellt. Ein angemessenes Datenschutzniveau wird durch "
-"Standarddatenschutzklauseln und andere vertragliche Maßnahmen "
-"sichergestellt. Weitere Informationen zum Datenschutz der Trusted Shops GmbH"
-" finden Sie hier "
-
-#: .\shop\templates\service_pages\Privacy_policy.html:152
-#: .\shop\templates\service_pages\Privacy_policy.html:156
-#: .\shop\templates\service_pages\Privacy_policy.html:162
-#: .\shop\templates\service_pages\Privacy_policy.html:163
-msgid "here"
-msgstr "Hier"
-
-#: .\shop\templates\service_pages\Privacy_policy.html:153
-msgid ""
-"When the Trustbadge is viewed, the web server automatically saves a so-"
-"called server log file, which also contains your IP address, the date and "
-"time of access, the amount of data transferred and the requesting provider "
-"(access data) and documents the access. The IP address is anonymized "
-"immediately after collection, so that the stored data cannot be assigned to "
-"your person. The server log file is stored in a security database for the "
-"analysis of security anomalies and automatically deleted or anonymized not "
-"later than 90 days after creation. According to Art. 6 (1) (f) GDPR, this "
-"serves the our and Trusted Shops' legitimate interests to prevent cases of "
-"misuse and fraud, to optimize our offers and websites, and to ensure "
-"trouble-free operation of the website, the Trustbadge and other Trusted "
-"Shops widgets."
-msgstr ""
-"Bei dem Aufruf des Trustbadge speichert der Webserver automatisch ein "
-"sogenanntes Server-Logfile, das auch Ihre IP-Adresse, Datum und Uhrzeit des "
-"Abrufs, übertragene Datenmenge und den anfragenden Provider (Zugriffsdaten) "
-"enthält und den Abruf dokumentiert . Die IP-Adresse wird unmittelbar nach "
-"Erhebung anonymisiert, so dass eine Zuordnung der gespeicherten Daten zu "
-"Ihrer Person nicht möglich ist. Die Server-Logdatei wird zur Analyse von "
-"Sicherheitsauffälligkeiten in einer Sicherheitsdatenbank gespeichert und "
-"spätestens 90 Tage nach Erstellung automatisch gelöscht bzw. anonymisiert. "
-"Gemäß Art. Dies dient gemäß Art. 6 Abs. 1 lit. f DSGVO unserem und dem "
-"berechtigten Interesse von Trusted Shops, Missbrauchs- und Betrugsfälle zu "
-"verhindern, unsere Angebote und Websites zu optimieren und einen "
-"störungsfreien Betrieb der Website, des Trustbadge und anderer Trusted Shops"
-" sicherzustellen Shops-Widgets."
-
-#: .\shop\templates\service_pages\Privacy_policy.html:154
-msgid ""
-"Further personal data is transferred to Trusted Shops GmbH if you decide to "
-"use Trusted Shops products after completing an order or if you have already "
-"registered to use them. For this purpose, personal data is automatically "
-"collected from the order data. To check automatically whether you as a buyer"
-" are already registered for product use, a neutral parameter, e.g. the "
-"e-mail address hashed by cryptological one-way function, is used. The e-mail"
-" address is converted into this hash value, which cannot be decrypted by "
-"Trusted Shops, before it is transmitted. After checking for a match, the "
-"parameter is automatically deleted."
-msgstr ""
-"Weitere personenbezogene Daten werden an die Trusted Shops GmbH übermittelt,"
-" wenn Sie sich nach Abschluss einer Bestellung für die Nutzung von Trusted "
-"Shops Produkten entscheiden oder sich bereits für die Nutzung registriert "
-"haben. Zu diesem Zweck werden automatisch personenbezogene Daten aus den "
-"Bestelldaten erhoben. Um automatisch zu prüfen, ob Sie als Käufer bereits "
-"für die Produktnutzung registriert sind, wird ein neutraler Parameter, z.B. "
-"Dabei wird die per kryptologischer Einwegfunktion gehashte E-Mail-Adresse "
-"verwendet. Die E-Mail-Adresse wird vor der Übermittlung in diesen für "
-"Trusted Shops nicht entschlüsselbaren Hash-Wert umgerechnet. Nach der "
-"Prüfung auf Übereinstimmung wird der Parameter automatisch gelöscht."
-
-#: .\shop\templates\service_pages\Privacy_policy.html:155
-msgid ""
-"This serves to check whether you are already registered for services with "
-"Trusted Shops GmbH and is therefore necessary to safeguard our and Trusted "
-"Shops' prevailing legitimate interests in the fulfillment of the buyer "
-"protection linked to the specific order and the transactional review "
-"services pursuant to Art. 6 (1) (f) GDPR. If this is the case, further "
-"processing will be carried out in accordance with the contractual agreement "
-"between you and Trusted Shops. If you have not yet registered for the "
-"services, you will be given the opportunity to do so for the first time. "
-"Further processing after registration also depends on the contractual "
-"agreement with Trusted Shops. If you do not register, all transmitted data "
-"is automatically deleted by Trusted Shops and a personal reference is then "
-"no longer possible."
-msgstr ""
-"Dies dient der Überprüfung, ob Sie bereits für Dienste der Trusted Shops "
-"GmbH registriert sind und ist daher zur Wahrung unserer und der Trusted "
-"Shops überwiegenden berechtigten Interessen an der Erfüllung des mit der "
-"konkreten Bestellung verbundenen Käuferschutzes und der transaktionalen "
-"Prüfungsleistungen gemäß Art. 6 Abs. 1 lit. f DSGVO erforderlich. Art. 6 "
-"Abs. 1 lit. f DSGVO. Ist dies der Fall, erfolgt die weitere Verarbeitung "
-"gemäß der vertraglichen Vereinbarung zwischen Ihnen und Trusted Shops. "
-"Sofern Sie sich noch nicht für die Dienste registriert haben, wird Ihnen "
-"erstmals die Möglichkeit dazu gegeben. Die weitere Abwicklung nach der "
-"Registrierung richtet sich ebenfalls nach der vertraglichen Vereinbarung mit"
-" Trusted Shops. Wenn Sie sich nicht registrieren, werden alle übermittelten "
-"Daten von Trusted Shops automatisch gelöscht und ein Personenbezug ist dann "
-"nicht mehr möglich."
-
-#: .\shop\templates\service_pages\Privacy_policy.html:156
-msgid ""
-"Within the framework of the joint controllership between us and Trusted "
-"Shops GmbH, please contact Trusted Shops GmbH if you have any data "
-"protection questions or wish to assert your rights. You can find their "
-"contact details&nbsp;"
-msgstr ""
-"Im Rahmen der gemeinsamen Verantwortlichkeit zwischen uns und der Trusted "
-"Shops GmbH wenden Sie sich bitte an die Trusted Shops GmbH, wenn Sie Fragen "
-"zum Datenschutz haben oder Ihre Rechte geltend machen möchten. Ihre "
-"Kontaktdaten finden Sie hier "
-
-#: .\shop\templates\service_pages\Privacy_policy.html:156
-msgid ""
-"Further information on data protection can be found in the following "
-"link&nbsp;"
-msgstr "Weitere Informationen zum Datenschutz finden Sie im folgenden Link "
-
-#: .\shop\templates\service_pages\Privacy_policy.html:156
-msgid ""
-"Regardless of this, you can also always contact us using the contact option "
-"described in this privacy policy. Your request will then, if necessary, be "
-"forwarded to the other party responsible for responding."
-msgstr ""
-"Unabhängig davon können Sie jederzeit auch über die in dieser "
-"Datenschutzerklärung beschriebene Kontaktmöglichkeit mit uns in Kontakt "
-"treten. Ihre Anfrage wird dann ggf. an die für die Beantwortung zuständige "
-"Stelle weitergeleitet."
-
-#: .\shop\templates\service_pages\Privacy_policy.html:157
 msgid "Social Media"
 msgstr "Soziale Medien"
 
-#: .\shop\templates\service_pages\Privacy_policy.html:158
+#: .\shop\templates\service_pages\Privacy_policy.html:150
 msgid "Social Plugins by Facebook, Instagram, Pinterest"
 msgstr "Soziale Plugins von Facebook, Instagram, Pinterest"
 
-#: .\shop\templates\service_pages\Privacy_policy.html:159
+#: .\shop\templates\service_pages\Privacy_policy.html:151
 msgid ""
 "Social buttons by social networks are used on our website. These are only "
 "integrated into the page as HTML links, so that no connection to the servers"
@@ -2795,7 +2634,7 @@ msgstr ""
 "Ihres Browsers. Dort können Sie z.B. klicken. die Schaltfläche „Gefällt mir“"
 " oder „Teilen“."
 
-#: .\shop\templates\service_pages\Privacy_policy.html:160
+#: .\shop\templates\service_pages\Privacy_policy.html:152
 msgid ""
 "Our online presence on Facebook, Youtube, Instagram, Pinterest, Xing, "
 "LinkedIn"
@@ -2803,7 +2642,7 @@ msgstr ""
 "Unsere Online-Präsenz auf Facebook, Youtube, Instagram, Pinterest, Xing, "
 "LinkedIn"
 
-#: .\shop\templates\service_pages\Privacy_policy.html:161
+#: .\shop\templates\service_pages\Privacy_policy.html:153
 msgid ""
 "If you have given your consent to the respective social media provider in "
 "accordance with Art. 6 (1) (a) GDPR, when you visit our online presence on "
@@ -2832,7 +2671,7 @@ msgstr ""
 "den unten verlinkten Datenschutzhinweisen des Anbieters. Sollten Sie "
 "diesbezüglich dennoch Unterstützung benötigen, kontaktieren Sie uns bitte."
 
-#: .\shop\templates\service_pages\Privacy_policy.html:162
+#: .\shop\templates\service_pages\Privacy_policy.html:154
 msgid ""
 "The information automatically collected by Facebook Ireland about your use "
 "of our online presence on Facebook is usually transferred to a server of "
@@ -2856,7 +2695,12 @@ msgstr ""
 "DSGVO. Weitere Informationen (Informationen zu Insights-Daten) finden Sie "
 "hier "
 
-#: .\shop\templates\service_pages\Privacy_policy.html:163
+#: .\shop\templates\service_pages\Privacy_policy.html:154
+#: .\shop\templates\service_pages\Privacy_policy.html:155
+msgid "here"
+msgstr "Hier"
+
+#: .\shop\templates\service_pages\Privacy_policy.html:155
 msgid ""
 "The information automatically collected by Facebook Ireland about your use "
 "of our online presence on Instagram is typically transferred to and stored "
@@ -2880,7 +2724,7 @@ msgstr ""
 "DSGVO. 26 DSGVO. Weitere Informationen (Informationen zu Insights-Daten) "
 "finden Sie hier "
 
-#: .\shop\templates\service_pages\Privacy_policy.html:164
+#: .\shop\templates\service_pages\Privacy_policy.html:156
 msgid ""
 "The information automatically collected by Google about your use of our "
 "online presence on YouTube is generally transferred to a server of Google "
@@ -2896,7 +2740,7 @@ msgstr ""
 "Europäischen Kommission vor. Unsere Zusammenarbeit basiert auf den von der "
 "Europäischen Kommission verabschiedeten Standarddatenschutzklauseln."
 
-#: .\shop\templates\service_pages\Privacy_policy.html:165
+#: .\shop\templates\service_pages\Privacy_policy.html:157
 msgid ""
 "The information automatically collected by Pinterest about your use of our "
 "online presence on Pinterest is usually transferred to and stored on a "
@@ -2912,7 +2756,7 @@ msgstr ""
 "Europäischen Kommission vor. Unsere Zusammenarbeit basiert auf den von der "
 "Europäischen Kommission verabschiedeten Standarddatenschutzklauseln."
 
-#: .\shop\templates\service_pages\Privacy_policy.html:166
+#: .\shop\templates\service_pages\Privacy_policy.html:158
 msgid ""
 "The information LinkedIn automatically collects about your use of our online"
 " presence on LinkedIn is generally sent to a server at LinkedIn Corporation,"
@@ -2929,19 +2773,19 @@ msgstr ""
 "Zusammenarbeit basiert auf den von der Europäischen Kommission "
 "verabschiedeten Standarddatenschutzklauseln."
 
-#: .\shop\templates\service_pages\Privacy_policy.html:168
+#: .\shop\templates\service_pages\Privacy_policy.html:160
 msgid "Contact options and your rights"
 msgstr "Kontaktmöglichkeiten und Ihre Rechte"
 
-#: .\shop\templates\service_pages\Privacy_policy.html:169
+#: .\shop\templates\service_pages\Privacy_policy.html:161
 msgid "Your rights"
 msgstr "Ihre Rechte"
 
-#: .\shop\templates\service_pages\Privacy_policy.html:170
+#: .\shop\templates\service_pages\Privacy_policy.html:162
 msgid "Being the data subject, you have the following rights according to:"
 msgstr "Als betroffene Person stehen Ihnen folgende Rechte zu:"
 
-#: .\shop\templates\service_pages\Privacy_policy.html:172
+#: .\shop\templates\service_pages\Privacy_policy.html:164
 msgid ""
 "the right to obtain information about your personal data which we process, "
 "within the scope described therein;"
@@ -2949,7 +2793,7 @@ msgstr ""
 "das Recht, in dem dort beschriebenen Umfang Auskunft über Ihre von uns "
 "verarbeiteten personenbezogenen Daten zu erhalten;"
 
-#: .\shop\templates\service_pages\Privacy_policy.html:173
+#: .\shop\templates\service_pages\Privacy_policy.html:165
 msgid ""
 "the right to immediately demand rectification of incorrect or completion of "
 "your personal data stored by us;"
@@ -2957,7 +2801,7 @@ msgstr ""
 "das Recht, unverzüglich die Berichtigung unrichtiger oder Vervollständigung "
 "Ihrer bei uns gespeicherten personenbezogenen Daten zu verlangen;"
 
-#: .\shop\templates\service_pages\Privacy_policy.html:175
+#: .\shop\templates\service_pages\Privacy_policy.html:167
 msgid ""
 "the right to request erasure of your personal data stored with us, unless "
 "further processing is required"
@@ -2965,23 +2809,23 @@ msgstr ""
 "das Recht, die Löschung Ihrer bei uns gespeicherten personenbezogenen Daten "
 "zu verlangen, sofern keine weitere Verarbeitung erforderlich ist"
 
-#: .\shop\templates\service_pages\Privacy_policy.html:177
+#: .\shop\templates\service_pages\Privacy_policy.html:169
 msgid "to exercise the right of freedom of expression and information;"
 msgstr "das Recht auf freie Meinungsäußerung und Information auszuüben;"
 
-#: .\shop\templates\service_pages\Privacy_policy.html:178
+#: .\shop\templates\service_pages\Privacy_policy.html:170
 msgid "for compliance with a legal obligation;"
 msgstr "zur Einhaltung einer gesetzlichen Verpflichtung;"
 
-#: .\shop\templates\service_pages\Privacy_policy.html:179
+#: .\shop\templates\service_pages\Privacy_policy.html:171
 msgid "for reasons of public interest or"
 msgstr "aus Gründen des öffentlichen Interesses oder"
 
-#: .\shop\templates\service_pages\Privacy_policy.html:180
+#: .\shop\templates\service_pages\Privacy_policy.html:172
 msgid "for establishing, exercising or defending legal claims;"
 msgstr "zur Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen;"
 
-#: .\shop\templates\service_pages\Privacy_policy.html:184
+#: .\shop\templates\service_pages\Privacy_policy.html:176
 msgid ""
 "the right to request restriction of processing of your personal data, "
 "insofar as"
@@ -2989,15 +2833,15 @@ msgstr ""
 "das Recht, insoweit eine Einschränkung der Verarbeitung Ihrer "
 "personenbezogenen Daten zu verlangen"
 
-#: .\shop\templates\service_pages\Privacy_policy.html:186
+#: .\shop\templates\service_pages\Privacy_policy.html:178
 msgid "the accuracy of the data is contested by you;"
 msgstr "die Richtigkeit der Daten wird von Ihnen bestritten;"
 
-#: .\shop\templates\service_pages\Privacy_policy.html:187
+#: .\shop\templates\service_pages\Privacy_policy.html:179
 msgid "the processing is unlawful, but you refuse their erasure;"
 msgstr "die Verarbeitung unrechtmäßig ist, Sie aber deren Löschung ablehnen;"
 
-#: .\shop\templates\service_pages\Privacy_policy.html:188
+#: .\shop\templates\service_pages\Privacy_policy.html:180
 msgid ""
 "we no longer need the data, but you need it to establish, exercise or defend"
 " legal claims, or"
@@ -3005,13 +2849,13 @@ msgstr ""
 "wir die Daten nicht länger benötigen, Sie diese jedoch zur Geltendmachung, "
 "Ausübung oder Verteidigung von Rechtsansprüchen benötigen, oder"
 
-#: .\shop\templates\service_pages\Privacy_policy.html:189
+#: .\shop\templates\service_pages\Privacy_policy.html:181
 msgid ""
 "you have lodged an objection to the processing in accordance with art. 21 "
 "GDPR;"
 msgstr "Sie haben Widerspruch gegen die Verarbeitung gemäß Art. 21 DSGVO;"
 
-#: .\shop\templates\service_pages\Privacy_policy.html:192
+#: .\shop\templates\service_pages\Privacy_policy.html:184
 msgid ""
 "the right to receive your personal data that you have provided to us in a "
 "structured, commonly used and machine-readable format or to request its "
@@ -3021,7 +2865,7 @@ msgstr ""
 "in einem strukturierten, gängigen und maschinenlesbaren Format zu erhalten "
 "oder deren Übermittlung an einen anderen Verantwortlichen zu verlangen;"
 
-#: .\shop\templates\service_pages\Privacy_policy.html:193
+#: .\shop\templates\service_pages\Privacy_policy.html:185
 msgid ""
 "the right to complain to a supervisory authority . As a rule, you can "
 "contact the supervisory authority at your habitual place of residence or "
@@ -3031,7 +2875,7 @@ msgstr ""
 "können Sie sich hierfür an die Aufsichtsbehörde Ihres üblichen "
 "Aufenthaltsortes oder Arbeitsplatzes oder unseres Firmensitzes wenden."
 
-#: .\shop\templates\service_pages\Privacy_policy.html:195
+#: .\shop\templates\service_pages\Privacy_policy.html:187
 msgid ""
 "Right to object<br>If we process personal data as described above to protect"
 " our legitimate interests that are overriding in the process of balancing of"
@@ -3050,7 +2894,7 @@ msgstr ""
 "steht Ihnen ein Widerspruchsrecht nur aus Gründen zu, die sich aus Ihrer "
 "besonderen Situation ergeben."
 
-#: .\shop\templates\service_pages\Privacy_policy.html:196
+#: .\shop\templates\service_pages\Privacy_policy.html:188
 msgid ""
 "After you have exercised your right to object, we will no longer process "
 "your personal data for such purposes unless we can demonstrate compelling "
@@ -3063,7 +2907,7 @@ msgstr ""
 "Interessen, Rechte und Freiheiten überwiegen, oder die Verarbeitung dient "
 "der Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen."
 
-#: .\shop\templates\service_pages\Privacy_policy.html:197
+#: .\shop\templates\service_pages\Privacy_policy.html:189
 msgid ""
 "This does not apply to the processing of personal data for direct marketing "
 "purposes. In such a case we will no longer process your personal data for "
@@ -3073,11 +2917,11 @@ msgstr ""
 "Direktwerbung. In einem solchen Fall werden wir Ihre personenbezogenen Daten"
 " nicht mehr für diese Zwecke verarbeiten."
 
-#: .\shop\templates\service_pages\Privacy_policy.html:198
+#: .\shop\templates\service_pages\Privacy_policy.html:190
 msgid "Contact options"
 msgstr "Kontaktmöglichkeiten"
 
-#: .\shop\templates\service_pages\Privacy_policy.html:199
+#: .\shop\templates\service_pages\Privacy_policy.html:191
 msgid ""
 "If you have any questions about how we collect, process or use your personal"
 " data, want to enquire about, correct, restrict or delete your data, or "
@@ -3093,7 +2937,7 @@ msgstr ""
 "Kontaktdaten."
 
 #: .\shop\templates\service_pages\Terms_and_conditions.html:31
-#: .\shop\templates\widgets\footer.html:103
+#: .\shop\templates\widgets\footer.html:101
 msgid "Terms and Conditions"
 msgstr "Geschäftsbedingungen"
 
@@ -4534,44 +4378,48 @@ msgstr ""
 "Kundenservice. Bitte halten Sie Ihre Bestell- und Sendungsverfolgungsnummer "
 "bereit."
 
-#: .\shop\templates\shop_page.html:40
+#: .\shop\templates\shop_page.html:43
 #: .\shop\templates\widgets\mini_cart.html:97
 msgid "Plating"
 msgstr "Überzug"
 
-#: .\shop\templates\shop_page.html:48
+#: .\shop\templates\shop_page.html:51
 msgid "Stone"
 msgstr "Stein"
 
-#: .\shop\templates\shop_page.html:68 .\shop\views.py:463
+#: .\shop\templates\shop_page.html:71 .\shop\views.py:676
 msgid "Product width"
 msgstr "Produktbreite"
 
-#: .\shop\templates\shop_page.html:78 .\shop\views.py:464
+#: .\shop\templates\shop_page.html:81 .\shop\views.py:677
 msgid "Product height"
 msgstr "Produkthöhe"
 
-#: .\shop\templates\shop_page.html:89 .\shop\views.py:465
+#: .\shop\templates\shop_page.html:92 .\shop\views.py:678
 msgid "Chain length"
 msgstr "Kettenlänge"
 
-#: .\shop\templates\shop_page.html:111 .\shop\templates\shop_page.html:119
+#: .\shop\templates\shop_page.html:114 .\shop\templates\shop_page.html:122
 msgid "Out of stock"
 msgstr "Ausverkauft"
 
-#: .\shop\templates\shop_page.html:117 .\shop\views.py:444
+#: .\shop\templates\shop_page.html:120 .\shop\views.py:657
 msgid "Less than 5 pieces left!"
 msgstr "Weniger als 5 Stück übrig!"
 
-#: .\shop\templates\shop_page.html:134
+#: .\shop\templates\shop_page.html:129 .\shop\views.py:673
+msgid "Add to cart"
+msgstr "In den Warenkorb legen"
+
+#: .\shop\templates\shop_page.html:137
 msgid "Oops... searched product is not available"
 msgstr "Ups... das gesuchte Produkt ist nicht verfügbar"
 
-#: .\shop\templates\shop_page.html:218 .\shop\views.py:451
+#: .\shop\templates\shop_page.html:223 .\shop\views.py:664
 msgid "An error occured"
 msgstr "Es ist ein Fehler aufgetreten"
 
-#: .\shop\templates\shop_page.html:231 .\shop\views.py:449
+#: .\shop\templates\shop_page.html:236 .\shop\views.py:662
 msgid ""
 "Quantity number has to be less than or equal to quantity number in stock or "
 "and be greater than 0"
@@ -4579,11 +4427,11 @@ msgstr ""
 "Die Mengennummer muss kleiner oder gleich der Mengennummer im Lager sein "
 "oder größer als 0 sein"
 
-#: .\shop\templates\shop_page.html:241 .\shop\views.py:462
+#: .\shop\templates\shop_page.html:246 .\shop\views.py:675
 msgid "Maximum items for pre-order is 20, minimum is 1"
 msgstr "Es können maximal 20 Artikel vorbestellt werden, mindestens 1"
 
-#: .\shop\templates\shop_page.html:286
+#: .\shop\templates\shop_page.html:291
 msgid "Current quantity"
 msgstr "Aktuelle Menge"
 
@@ -4595,17 +4443,17 @@ msgstr "Ihre Zahlung wurde storniert."
 msgid "Back to checkout"
 msgstr "Zurück zur Kasse"
 
-#: .\shop\templates\stripe\success.html:18
+#: .\shop\templates\stripe\success.html:19
 msgid "Your payment succeeded!"
 msgstr "Ihre Zahlung war erfolgreich!"
 
-#: .\shop\templates\stripe\success.html:19
+#: .\shop\templates\stripe\success.html:20
 msgid ""
 "Within a few minutes you will receive a confirmation of payment via email."
 msgstr ""
 "Innerhalb weniger Minuten erhalten Sie eine Zahlungsbestätigung per E-Mail."
 
-#: .\shop\templates\stripe\success.html:28
+#: .\shop\templates\stripe\success.html:29
 msgid "My Orders"
 msgstr "Meine Bestellungen"
 
@@ -4614,8 +4462,9 @@ msgstr "Meine Bestellungen"
 msgid "Account"
 msgstr "Konto"
 
-#: .\shop\templates\widgets\account_panel.html:90
-#: .\shop\templates\widgets\mobile_links_panel.html:49
+#: .\shop\templates\widgets\account_panel.html:98
+#: .\shop\templates\widgets\mobile_links_panel.html:47
+#: .\shop\templates\widgets\navigation_bar.html:101
 msgid "Register"
 msgstr "Registrieren"
 
@@ -4623,19 +4472,19 @@ msgstr "Registrieren"
 msgid "Customer Service"
 msgstr "Kundendienst"
 
-#: .\shop\templates\widgets\footer.html:97
+#: .\shop\templates\widgets\footer.html:95
 msgid "Our company"
 msgstr "Unser Unternehmen"
 
-#: .\shop\templates\widgets\footer.html:101
+#: .\shop\templates\widgets\footer.html:99
 msgid "Oliver Weber's World"
 msgstr "Oliver Webers Welt"
 
-#: .\shop\templates\widgets\footer.html:104
+#: .\shop\templates\widgets\footer.html:102
 msgid "Impressum"
 msgstr "Impressum"
 
-#: .\shop\templates\widgets\footer.html:114
+#: .\shop\templates\widgets\footer.html:111
 msgid "Follow us"
 msgstr "Folgen Sie uns"
 
@@ -4667,51 +4516,72 @@ msgstr ""
 "Sie können Artikel während des Bezahlvorgangs nicht löschen. Gehen Sie "
 "zurück zu den Shop-Seiten, um Ihren Warenkorb zu ändern"
 
-#: .\shop\templates\widgets\mini_cart.html:260
+#: .\shop\templates\widgets\mini_cart.html:257
 msgid "Cart is empty"
 msgstr "Der Warenkorb ist leer"
 
-#: .\shop\templates\widgets\mini_cart.html:277
+#: .\shop\templates\widgets\mini_cart.html:274
 msgid "Back to shop"
 msgstr "Zurück zum Shop"
 
-#: .\shop\views.py:445
+#: .\shop\templates\widgets\navigation_bar.html:75
+msgid "ALL PRODUCTS"
+msgstr "Alle Produkte"
+
+#: .\shop\templates\widgets\navigation_bar.html:82
+msgid "COLLECTIONS"
+msgstr "Sammlungen"
+
+#: .\shop\views.py:658
 msgid "Plating Material"
 msgstr "Beschichtungsmaterial"
 
-#: .\shop\views.py:446
+#: .\shop\views.py:659
 msgid "Stone color"
 msgstr "Steinfarbe"
 
-#: .\shop\views.py:450
+#: .\shop\views.py:663
 msgid "Processing"
 msgstr "Verarbeitung"
 
-#: .\shop\views.py:452
+#: .\shop\views.py:665
 msgid "Product successfully added to your shopping cart"
 msgstr "Das Produkt wurde erfolgreich in Ihren Warenkorb gelegt"
 
-#: .\shop\views.py:456
+#: .\shop\views.py:669
 msgid "Number of items in your cart:"
 msgstr "Anzahl der Artikel in Ihrem Warenkorb:"
 
-#: .\shop\views.py:461
+#: .\shop\views.py:674
 msgid "This item is only available for pre-order!"
 msgstr "Dieser Artikel ist nur vorbestellbar!"
 
-#: .\shop\views.py:468
+#: .\shop\views.py:681
 msgid "Copy link"
 msgstr "Link kopieren"
 
-#: .\shop\views.py:469
+#: .\shop\views.py:682
 msgid "Copied!"
 msgstr "Kopiert!"
 
-#: .\shop\views.py:480
+#: .\shop\views.py:684
+#| msgid "All products"
+msgid "Similar products"
+msgstr "Ähnliche Produkte"
+
+#: .\shop\views.py:685
+msgid "Turn off the magnifying glass"
+msgstr "Schalten Sie das Lupenglas aus"
+
+#: .\shop\views.py:686
+msgid "Turn on the magnifying glass"
+msgstr "Schalten Sie das Lupenglas ein"
+
+#: .\shop\views.py:702
 msgid "Welcome to my site."
 msgstr "Willkommen auf meiner Seite."
 
-#: .\shop\views_scripts\checkout_cart_views.py:207
+#: .\shop\views_scripts\checkout_cart_views.py:223
 msgid ""
 "Dear Customer,\n"
 "\n"
@@ -4727,8 +4597,8 @@ msgstr ""
 "            Ihre Bestellung wurde erfolgreich bearbeitet, und Ihre Quittung ist als Anhang dieser E-Mail beigefügt.\n"
 "            Ihre Bestellnummer"
 
-#: .\shop\views_scripts\checkout_cart_views.py:213
-#: .\shop\views_scripts\profile_orders_pay.py:130
+#: .\shop\views_scripts\checkout_cart_views.py:229
+#: .\shop\views_scripts\profile_orders_pay.py:131
 msgid ""
 "Thank you for choosing Oliver Weber. We look forward to seeing you again!\n"
 "\n"
@@ -4740,15 +4610,15 @@ msgstr ""
 "            Mit freundlichen Grüßen,  \n"
 "            Das Oliver Weber Team"
 
-#: .\shop\views_scripts\checkout_cart_views.py:219
+#: .\shop\views_scripts\checkout_cart_views.py:235
 msgid "Thank You for Your Order with Oliver Weber!"
 msgstr "Vielen Dank für Ihre Bestellung bei Oliver Weber!"
 
-#: .\shop\views_scripts\checkout_cart_views.py:314
+#: .\shop\views_scripts\checkout_cart_views.py:328
 msgid "Thank you for shopping with Oliver Weber Shop."
 msgstr "Vielen Dank für Ihren Einkauf im Oliver Weber Shop."
 
-#: .\shop\views_scripts\checkout_cart_views.py:316
+#: .\shop\views_scripts\checkout_cart_views.py:330
 msgid ""
 "You'll find your Order Summary below. If you have any questions regarding "
 "your order, please contact us."
@@ -4756,82 +4626,82 @@ msgstr ""
 "Nachfolgend finden Sie Ihre Bestellübersicht. Wenn Sie Fragen zu Ihrer "
 "Bestellung haben, kontaktieren Sie uns bitte."
 
-#: .\shop\views_scripts\checkout_cart_views.py:330
+#: .\shop\views_scripts\checkout_cart_views.py:344
 msgid "Order Status"
 msgstr "Bestellstatus"
 
-#: .\shop\views_scripts\checkout_cart_views.py:332
+#: .\shop\views_scripts\checkout_cart_views.py:346
 msgid "Shipping Date"
 msgstr "Versanddatum"
 
-#: .\shop\views_scripts\checkout_cart_views.py:333
+#: .\shop\views_scripts\checkout_cart_views.py:347
 msgid "Receipt"
 msgstr "Quittung"
 
-#: .\shop\views_scripts\checkout_cart_views.py:335
+#: .\shop\views_scripts\checkout_cart_views.py:349
 msgid "Customer Code"
 msgstr "Kundennummer"
 
-#: .\shop\views_scripts\checkout_cart_views.py:343
+#: .\shop\views_scripts\checkout_cart_views.py:357
 msgid "Phone:"
 msgstr "Telefon:"
 
-#: .\shop\views_scripts\checkout_cart_views.py:387
+#: .\shop\views_scripts\checkout_cart_views.py:410
 msgid "Customer Billing Details"
 msgstr "Kundendaten für die Rechnung"
 
-#: .\shop\views_scripts\checkout_cart_views.py:387
+#: .\shop\views_scripts\checkout_cart_views.py:410
 msgid "Delivery Details"
 msgstr "Lieferdetails"
 
-#: .\shop\views_scripts\checkout_cart_views.py:388
+#: .\shop\views_scripts\checkout_cart_views.py:411
 msgid "Contact Phone"
 msgstr "Kontakttelefon"
 
-#: .\shop\views_scripts\checkout_cart_views.py:389
+#: .\shop\views_scripts\checkout_cart_views.py:412
 msgid "Ship-To Code"
 msgstr "Versandcode"
 
-#: .\shop\views_scripts\checkout_cart_views.py:390
+#: .\shop\views_scripts\checkout_cart_views.py:413
 msgid "Billing Address"
 msgstr "Rechnungsadresse"
 
-#: .\shop\views_scripts\checkout_cart_views.py:391
+#: .\shop\views_scripts\checkout_cart_views.py:415
 msgid "Ship-To Name"
 msgstr "Empfängername"
 
-#: .\shop\views_scripts\checkout_cart_views.py:393
+#: .\shop\views_scripts\checkout_cart_views.py:420
 msgid "Shipping Address"
 msgstr "Lieferadresse"
 
-#: .\shop\views_scripts\checkout_cart_views.py:416
-#: .\shop\views_scripts\checkout_cart_views.py:418
+#: .\shop\views_scripts\checkout_cart_views.py:445
+#: .\shop\views_scripts\checkout_cart_views.py:447
 msgid "Product"
 msgstr "Produkt"
 
-#: .\shop\views_scripts\checkout_cart_views.py:416
+#: .\shop\views_scripts\checkout_cart_views.py:445
 msgid "Photo"
 msgstr "Foto"
 
-#: .\shop\views_scripts\checkout_cart_views.py:417
-#: .\shop\views_scripts\checkout_cart_views.py:419
+#: .\shop\views_scripts\checkout_cart_views.py:446
+#: .\shop\views_scripts\checkout_cart_views.py:448
 msgid "Item Details"
 msgstr "Artikeldetails"
 
-#: .\shop\views_scripts\checkout_cart_views.py:418
-#: .\shop\views_scripts\checkout_cart_views.py:420
+#: .\shop\views_scripts\checkout_cart_views.py:447
+#: .\shop\views_scripts\checkout_cart_views.py:449
 msgid "Unit Price"
 msgstr "Stückpreis"
 
-#: .\shop\views_scripts\checkout_cart_views.py:464
+#: .\shop\views_scripts\checkout_cart_views.py:492
 msgid "Shipping VAT"
 msgstr "Versand VAT"
 
-#: .\shop\views_scripts\checkout_cart_views.py:466
+#: .\shop\views_scripts\checkout_cart_views.py:494
 msgid "TOTAL"
 msgstr "GESAMT"
 
-#: .\shop\views_scripts\profile_orders_pay.py:126
+#: .\shop\views_scripts\profile_orders_pay.py:127
 msgid ""
 "Dear Customer,\n"
 "\n"
@@ -4843,36 +4713,36 @@ msgstr ""
 "            Ihre Zahlung wurde erfolgreich verarbeitet.\n"
 "            Ihre Bestellnummer"
 
-#: .\shop\views_scripts\profile_orders_pay.py:136
+#: .\shop\views_scripts\profile_orders_pay.py:137
 msgid "Your Payment Confirmation from Oliver Weber"
 msgstr "Ihre Zahlungsbestätigung von Oliver Weber"
 
-#: .\shop\views_scripts\profile_views.py:275
+#: .\shop\views_scripts\profile_views.py:396
 msgid "Invalid file format. Only .xlsx or .xls are allowed"
 msgstr "Ungültiges Dateiformat. Es sind nur .xlsx oder .xls zulässig"
 
-#: .\shop\views_scripts\profile_views.py:287
-#: .\shop\views_scripts\profile_views.py:301
+#: .\shop\views_scripts\profile_views.py:408
+#: .\shop\views_scripts\profile_views.py:421
 msgid "Invalid data in row"
 msgstr "Ungültige Daten in Zeile"
 
-#: .\shop\views_scripts\profile_views.py:304
+#: .\shop\views_scripts\profile_views.py:424
 msgid "Quantity can only be greater than 0)"
 msgstr "Menge kann nur größer als 0 sein)"
 
-#: .\shop\views_scripts\profile_views.py:309
+#: .\shop\views_scripts\profile_views.py:429
 msgid "Product not found"
 msgstr "Produkt nicht gefunden"
 
-#: .\shop\views_scripts\profile_views.py:313
+#: .\shop\views_scripts\profile_views.py:433
 msgid "Requested quantity"
 msgstr "Gewünschte Menge"
 
-#: .\shop\views_scripts\profile_views.py:313
+#: .\shop\views_scripts\profile_views.py:433
 msgid "is less than number of products in storage for product"
 msgstr "ist kleiner als die Anzahl der für das Produkt gelagerten Produkte"
 
-#: .\shop\views_scripts\profile_views.py:333
+#: .\shop\views_scripts\profile_views.py:453
 msgid "Error updating cart for product"
 msgstr "Fehler beim Aktualisieren des Warenkorbs für das Produkt"
 
@@ -5999,7 +5869,6 @@ msgid "February"
 msgstr "Februar"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:27
-#| msgid "Search"
 msgid "March"
 msgstr "Marsch"
 
@@ -6040,7 +5909,6 @@ msgid "December"
 msgstr "Dezember"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:39
-#| msgid "and"
 msgid "jan"
 msgstr "Jan"
 
@@ -6049,7 +5917,6 @@ msgid "feb"
 msgstr "Feb"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:41
-#, fuzzy
 #| msgid "Summary"
 msgid "mar"
 msgstr "beschädigen"
@@ -6059,7 +5926,6 @@ msgid "apr"
 msgstr "Apr"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:43
-#, fuzzy
 #| msgid "Company"
 msgid "may"
 msgstr "Mai"
@@ -6103,7 +5969,6 @@ msgid "Feb."
 msgstr "Febr."
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:55
-#, fuzzy
 #| msgid "Search"
 msgctxt "abbrev. month"
 msgid "March"
@@ -6165,7 +6030,6 @@ msgid "February"
 msgstr "Februar"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:69
-#, fuzzy
 #| msgid "Search"
 msgctxt "alt. month"
 msgid "March"
@@ -6443,9 +6307,9 @@ msgid ""
 "View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
 "target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
 msgstr ""
-"<a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
-"target=\"_blank\" rel=\"noopener\">Versionshinweise</a> für Django "
-"%(version)sanzeigen"
+"Anzeigen <a href = "
+"\"https://docs.djangoproject.com/en/%(version)s/releases/\" target = \"_ "
+"leer\" rel = \"noopener\"> Versionshinweise </a> Für Django %(version)s"
 
 #: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:221
 #, fuzzy, python-format
@@ -6460,10 +6324,10 @@ msgid ""
 "target=\"_blank\" rel=\"noopener\">DEBUG=True</a> is in your settings file "
 "and you have not configured any URLs."
 msgstr ""
-"Sie sehen diese Seite, weil <a "
-"href=\"https://docs.djangoproject.com/en/%(version)s/ref/settings/#debug\" "
-"target=\"_blank\" rel=\"noopener\">DEBUG=True</a> befindet sich in Ihrer "
-"Einstellungsdatei und Sie haben keine URLs konfiguriert."
+"Sie sehen diese Seite, weil <a href = "
+"\"https://docs.djangoproject.com/en/%(version)s/ref/setings/#debug\" target "
+"= \"_ leer\" rel = \"noopener\"> debug = true </a> ist in Ihrer "
+"Einstellungsdatei und Sie haben keine Urls konfiguriert."
 
 #: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:229
 msgid "Django Documentation"
@@ -6499,25 +6363,21 @@ msgid "Check the correct settings.CKEDITOR_5_CONFIGS "
 msgstr "Überprüfen Sie die korrekten Einstellungen.CKEDITOR_5_CONFIGS"
 
 #: .\venv\Lib\site-packages\django_geoip\models.py:21
-#, fuzzy
 #| msgid "Country"
 msgid "country code"
 msgstr "Landesvorwahl"
 
 #: .\venv\Lib\site-packages\django_geoip\models.py:22
-#, fuzzy
 #| msgid "Country"
 msgid "country name"
-msgstr "Ländername"
+msgstr "Landname"
 
 #: .\venv\Lib\site-packages\django_geoip\models.py:28
-#, fuzzy
 #| msgid "Country"
 msgid "country"
 msgstr "Land"
 
 #: .\venv\Lib\site-packages\django_geoip\models.py:29
-#, fuzzy
 #| msgid "Country"
 msgid "countries"
 msgstr "Länder"
@@ -7232,16 +7092,15 @@ msgid "Miscellaneous options"
 msgstr "Verschiedene Optionen"
 
 #: .\venv\Lib\site-packages\git_filter_repo.py:1991
-#, fuzzy
 #| msgid "Show this message and exit."
 msgid "Show this help message and exit."
-msgstr "Zeigen Sie diese Hilfemeldung an und beenden Sie den Vorgang."
+msgstr "Zeigen Sie diese Hilfsnachricht und Beenden Sie."
 
 #: .\venv\Lib\site-packages\git_filter_repo.py:1993
 #, fuzzy
 #| msgid "Show the version and exit."
 msgid "Display filter-repo's version and exit."
-msgstr "Version des Filter-Repos anzeigen und beenden."
+msgstr "Die Version und Beenden von Filter-Repo anzeigen."
 
 #: .\venv\Lib\site-packages\git_filter_repo.py:1995
 msgid ""
@@ -7397,7 +7256,7 @@ msgstr ""
 #, fuzzy, python-format
 #| msgid "Proceed to checkout"
 msgid "Processed %d commits"
-msgstr " %d Commits verarbeitet"
+msgstr "Verarbeitet %d Commits"
 
 #: .\venv\Lib\site-packages\git_filter_repo.py:2372
 msgid "Nothing to analyze; repository is empty."
@@ -7623,7 +7482,7 @@ msgstr "Format: entpackte Größe, gepackte Größe, Löschdatum, Erweiterungsna
 #, fuzzy
 #| msgid "Extension"
 msgid "<no extension>"
-msgstr "<keine Erweiterung>"
+msgstr "<Keine Erweiterung>"
 
 #: .\venv\Lib\site-packages\git_filter_repo.py:2625
 msgid "All extensions by reverse size"
@@ -7741,7 +7600,7 @@ msgstr "erwartet höchstens einen Eintrag im Reflog für %s"
 #, fuzzy
 #| msgid "Returns and exchanges"
 msgid "has stashed changes"
-msgstr "hat Änderungen versteckt"
+msgstr "hat Veränderungen versteckt"
 
 #: .\venv\Lib\site-packages\git_filter_repo.py:2994
 msgid "you have uncommitted changes"
@@ -7751,7 +7610,7 @@ msgstr "Sie haben nicht festgeschriebene Änderungen"
 #, fuzzy
 #| msgid "Returns and exchanges"
 msgid "you have unstaged changes"
-msgstr "Sie haben nicht bereitgestellte Änderungen"
+msgstr "Sie haben nicht gestrichene Änderungen"
 
 #: .\venv\Lib\site-packages\git_filter_repo.py:2998
 msgid "you have untracked changes"
@@ -7936,6 +7795,161 @@ msgstr "Verbunden mit qpid mit SASL-Mechanismus %s"
 #, python-format
 msgid "Unable to connect to qpid with SASL mechanism %s"
 msgstr "Verbindung zu qpid mit SASL-Mechanismus %snicht möglich"
+
+#~ msgid "Collections"
+#~ msgstr "Sammlungen"
+
+#~ msgid "Integration of the Trusted Shops Trustbadge / other widgets"
+#~ msgstr "Einbindung des Trusted Shops Trustbadge / weiterer Widgets"
+
+#~ msgid ""
+#~ "Trusted Shops widgets (e.g. Trusted Shops Trustbadge) are integrated in this"
+#~ " website to display Trusted Shops services (e.g. Trustmark, collected "
+#~ "reviews) and to offer Trusted Shops products to buyers after they have "
+#~ "placed an order."
+#~ msgstr ""
+#~ "Auf dieser Website sind Trusted Shops-Widgets (z. B. Trusted Shops "
+#~ "Trustbadge) integriert, um Trusted Shops-Dienste (z. B. Trustmark, "
+#~ "gesammelte Bewertungen) anzuzeigen und Käufern nach einer Bestellung Trusted"
+#~ " Shops-Produkte anzubieten."
+
+#~ msgid ""
+#~ "This serves to protect our legitimate interests in optimized marketing by "
+#~ "enabling secure shopping in accordance with Art. 6 (1) (f) GDPR, which "
+#~ "prevail in the context of a balancing of interests. The trust badge and the "
+#~ "services advertised with it are an offer of Trusted Shops GmbH, Subbelrather"
+#~ " Str. 15C, 50823 Cologne (Trusted Shops). We and Trusted Shops are joint "
+#~ "controllers in data protection terms pursuant to Art. 26 GDPR. In the "
+#~ "following section, we inform you about the essential contents of the joint "
+#~ "controllership agreement according to Art. 26 (2) GDPR."
+#~ msgstr ""
+#~ "Dies dient der Wahrung unserer berechtigten Interessen an einem optimierten "
+#~ "Marketing durch Ermöglichung eines sicheren Einkaufs gemäß Art. 6 Abs. 1 "
+#~ "lit. f DSGVO. Art. 6 Abs. 1 lit. f DSGVO, die im Rahmen einer "
+#~ "Interessenabwägung vorrangig sind. Das Vertrauenssiegel und die damit "
+#~ "beworbenen Leistungen sind ein Angebot der Trusted Shops GmbH, Subbelrather "
+#~ "Str. 15C, 50823 Köln (Trusted Shops). Wir und Trusted Shops sind gemeinsam "
+#~ "Verantwortliche im Sinne des Art. 28 DSGVO. 26 DSGVO. Im Folgenden "
+#~ "informieren wir Sie über die wesentlichen Inhalte der Vereinbarung zur "
+#~ "gemeinsamen Verantwortlichkeit gemäß Art. Art. 26 Abs. 2 DSGVO."
+
+#~ msgid ""
+#~ "The trust badge is provided as part of a joint controllership by a US CDN "
+#~ "provider (content delivery network). An adequate level of data protection is"
+#~ " ensured by standard data protection clauses and other contractual measures."
+#~ " Further information on the privacy policy of Trusted Shops GmbH can be "
+#~ "found&nbsp;"
+#~ msgstr ""
+#~ "Das Vertrauensabzeichen wird im Rahmen einer gemeinsamen Verantwortlichkeit "
+#~ "durch einen US-amerikanischen CDN-Anbieter (Content Delivery Network) "
+#~ "bereitgestellt. Ein angemessenes Datenschutzniveau wird durch "
+#~ "Standarddatenschutzklauseln und andere vertragliche Maßnahmen "
+#~ "sichergestellt. Weitere Informationen zum Datenschutz der Trusted Shops GmbH"
+#~ " finden Sie hier "
+
+#~ msgid ""
+#~ "When the Trustbadge is viewed, the web server automatically saves a so-"
+#~ "called server log file, which also contains your IP address, the date and "
+#~ "time of access, the amount of data transferred and the requesting provider "
+#~ "(access data) and documents the access. The IP address is anonymized "
+#~ "immediately after collection, so that the stored data cannot be assigned to "
+#~ "your person. The server log file is stored in a security database for the "
+#~ "analysis of security anomalies and automatically deleted or anonymized not "
+#~ "later than 90 days after creation. According to Art. 6 (1) (f) GDPR, this "
+#~ "serves the our and Trusted Shops' legitimate interests to prevent cases of "
+#~ "misuse and fraud, to optimize our offers and websites, and to ensure "
+#~ "trouble-free operation of the website, the Trustbadge and other Trusted "
+#~ "Shops widgets."
+#~ msgstr ""
+#~ "Bei dem Aufruf des Trustbadge speichert der Webserver automatisch ein "
+#~ "sogenanntes Server-Logfile, das auch Ihre IP-Adresse, Datum und Uhrzeit des "
+#~ "Abrufs, übertragene Datenmenge und den anfragenden Provider (Zugriffsdaten) "
+#~ "enthält und den Abruf dokumentiert . Die IP-Adresse wird unmittelbar nach "
+#~ "Erhebung anonymisiert, so dass eine Zuordnung der gespeicherten Daten zu "
+#~ "Ihrer Person nicht möglich ist. Die Server-Logdatei wird zur Analyse von "
+#~ "Sicherheitsauffälligkeiten in einer Sicherheitsdatenbank gespeichert und "
+#~ "spätestens 90 Tage nach Erstellung automatisch gelöscht bzw. anonymisiert. "
+#~ "Gemäß Art. Dies dient gemäß Art. 6 Abs. 1 lit. f DSGVO unserem und dem "
+#~ "berechtigten Interesse von Trusted Shops, Missbrauchs- und Betrugsfälle zu "
+#~ "verhindern, unsere Angebote und Websites zu optimieren und einen "
+#~ "störungsfreien Betrieb der Website, des Trustbadge und anderer Trusted Shops"
+#~ " sicherzustellen Shops-Widgets."
+
+#~ msgid ""
+#~ "Further personal data is transferred to Trusted Shops GmbH if you decide to "
+#~ "use Trusted Shops products after completing an order or if you have already "
+#~ "registered to use them. For this purpose, personal data is automatically "
+#~ "collected from the order data. To check automatically whether you as a buyer"
+#~ " are already registered for product use, a neutral parameter, e.g. the "
+#~ "e-mail address hashed by cryptological one-way function, is used. The e-mail"
+#~ " address is converted into this hash value, which cannot be decrypted by "
+#~ "Trusted Shops, before it is transmitted. After checking for a match, the "
+#~ "parameter is automatically deleted."
+#~ msgstr ""
+#~ "Weitere personenbezogene Daten werden an die Trusted Shops GmbH übermittelt,"
+#~ " wenn Sie sich nach Abschluss einer Bestellung für die Nutzung von Trusted "
+#~ "Shops Produkten entscheiden oder sich bereits für die Nutzung registriert "
+#~ "haben. Zu diesem Zweck werden automatisch personenbezogene Daten aus den "
+#~ "Bestelldaten erhoben. Um automatisch zu prüfen, ob Sie als Käufer bereits "
+#~ "für die Produktnutzung registriert sind, wird ein neutraler Parameter, z.B. "
+#~ "Dabei wird die per kryptologischer Einwegfunktion gehashte E-Mail-Adresse "
+#~ "verwendet. Die E-Mail-Adresse wird vor der Übermittlung in diesen für "
+#~ "Trusted Shops nicht entschlüsselbaren Hash-Wert umgerechnet. Nach der "
+#~ "Prüfung auf Übereinstimmung wird der Parameter automatisch gelöscht."
+
+#~ msgid ""
+#~ "This serves to check whether you are already registered for services with "
+#~ "Trusted Shops GmbH and is therefore necessary to safeguard our and Trusted "
+#~ "Shops' prevailing legitimate interests in the fulfillment of the buyer "
+#~ "protection linked to the specific order and the transactional review "
+#~ "services pursuant to Art. 6 (1) (f) GDPR. If this is the case, further "
+#~ "processing will be carried out in accordance with the contractual agreement "
+#~ "between you and Trusted Shops. If you have not yet registered for the "
+#~ "services, you will be given the opportunity to do so for the first time. "
+#~ "Further processing after registration also depends on the contractual "
+#~ "agreement with Trusted Shops. If you do not register, all transmitted data "
+#~ "is automatically deleted by Trusted Shops and a personal reference is then "
+#~ "no longer possible."
+#~ msgstr ""
+#~ "Dies dient der Überprüfung, ob Sie bereits für Dienste der Trusted Shops "
+#~ "GmbH registriert sind und ist daher zur Wahrung unserer und der Trusted "
+#~ "Shops überwiegenden berechtigten Interessen an der Erfüllung des mit der "
+#~ "konkreten Bestellung verbundenen Käuferschutzes und der transaktionalen "
+#~ "Prüfungsleistungen gemäß Art. 6 Abs. 1 lit. f DSGVO erforderlich. Art. 6 "
+#~ "Abs. 1 lit. f DSGVO. Ist dies der Fall, erfolgt die weitere Verarbeitung "
+#~ "gemäß der vertraglichen Vereinbarung zwischen Ihnen und Trusted Shops. "
+#~ "Sofern Sie sich noch nicht für die Dienste registriert haben, wird Ihnen "
+#~ "erstmals die Möglichkeit dazu gegeben. Die weitere Abwicklung nach der "
+#~ "Registrierung richtet sich ebenfalls nach der vertraglichen Vereinbarung mit"
+#~ " Trusted Shops. Wenn Sie sich nicht registrieren, werden alle übermittelten "
+#~ "Daten von Trusted Shops automatisch gelöscht und ein Personenbezug ist dann "
+#~ "nicht mehr möglich."
+
+#~ msgid ""
+#~ "Within the framework of the joint controllership between us and Trusted "
+#~ "Shops GmbH, please contact Trusted Shops GmbH if you have any data "
+#~ "protection questions or wish to assert your rights. You can find their "
+#~ "contact details&nbsp;"
+#~ msgstr ""
+#~ "Im Rahmen der gemeinsamen Verantwortlichkeit zwischen uns und der Trusted "
+#~ "Shops GmbH wenden Sie sich bitte an die Trusted Shops GmbH, wenn Sie Fragen "
+#~ "zum Datenschutz haben oder Ihre Rechte geltend machen möchten. Ihre "
+#~ "Kontaktdaten finden Sie hier "
+
+#~ msgid ""
+#~ "Further information on data protection can be found in the following "
+#~ "link&nbsp;"
+#~ msgstr "Weitere Informationen zum Datenschutz finden Sie im folgenden Link "
+
+#~ msgid ""
+#~ "Regardless of this, you can also always contact us using the contact option "
+#~ "described in this privacy policy. Your request will then, if necessary, be "
+#~ "forwarded to the other party responsible for responding."
+#~ msgstr ""
+#~ "Unabhängig davon können Sie jederzeit auch über die in dieser "
+#~ "Datenschutzerklärung beschriebene Kontaktmöglichkeit mit uns in Kontakt "
+#~ "treten. Ihre Anfrage wird dann ggf. an die für die Beantwortung zuständige "
+#~ "Stelle weitergeleitet."
 
 #~ msgid "User type"
 #~ msgstr "Benutzertyp"
