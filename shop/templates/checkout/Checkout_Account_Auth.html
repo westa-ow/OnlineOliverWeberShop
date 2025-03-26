@@ -271,10 +271,10 @@
 </body>
 {{ form.errors|json_script:"form_errors" }}
 <script>
-let documentss = [];
+let product_documents = [];
 function init() {
-    documentss = {{ documents|safe }};
-    calculate_final(0,0, currency, documentss);
+    product_documents = {{ documents|safe }};
+    calculate_final(0,0, currency, product_documents);
 }
 document.addEventListener("DOMContentLoaded", function() {
 

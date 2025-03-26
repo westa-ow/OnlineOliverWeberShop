@@ -314,14 +314,14 @@ let billingAddressId = "{{ billing_address }}";
 let customer_type = "{{ customer_type }}";
 let addressProperties = {{ addresses_properties|safe }};
 
-let documentss = [];
+let product_documents = [];
 function init() {
-    documentss = {{ documents|safe }};
+    product_documents = {{ documents|safe }};
 
     document.getElementById("cart-shipping").style.display = "block";
     document.getElementById('cart-total').querySelector('.label-total').textContent = "{% trans "Total"  %}" + "{% trans "VAT Incl." %}"
     document.getElementById("cart-taxes").style.display = "block";
-    calculate_final(addressProperties['vat'], addressProperties['shipping'], currency, documentss);
+    calculate_final(addressProperties['vat'], addressProperties['shipping'], currency, product_documents);
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -332,7 +332,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 document.getElementById('continueCheckoutBtn').addEventListener('click', function (){
 
-     if (documentss.length !== 0){
+     if (product_documents.length !== 0){
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = "{% url 'create_checkout_session' %}";

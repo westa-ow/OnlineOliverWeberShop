@@ -533,7 +533,7 @@ document.getElementById('addBillingAddressBtn').addEventListener('click', functi
 document.getElementById('toggleBillingAddress').addEventListener('click', function() {
     isBillingAddressShowed = false;
     const currentShippingRadio = document.getElementById(selectedShippingAddressId);
-    calculate_final( customer_type==="Customer" ? countrys_vat[currentShippingRadio.getAttribute('data-country')] : 0, customer_type==="Customer" ? getShipping(currentShippingRadio) : 0, currency, documentss);
+    calculate_final( customer_type==="Customer" ? countrys_vat[currentShippingRadio.getAttribute('data-country')] : 0, customer_type==="Customer" ? getShipping(currentShippingRadio) : 0, currency, product_documents);
     let billingSection = document.getElementById('billingAddresses');
     this.style.display = "none";
     displayBillingAddresses(selectedShippingAddressId);
@@ -591,12 +591,12 @@ function inputShippingChangeEvent() {
     const currentShippingRadio = document.getElementById(selectedShippingAddressId);
 
     if (!isBillingAddressShowed) {
-        calculate_final(customer_type === "Customer" ? countrys_vat[currentShippingRadio.getAttribute('data-country')] : 0, customer_type === "Customer" ? getShipping(currentShippingRadio) : 0, currency, documentss);
+        calculate_final(customer_type === "Customer" ? countrys_vat[currentShippingRadio.getAttribute('data-country')] : 0, customer_type === "Customer" ? getShipping(currentShippingRadio) : 0, currency, product_documents);
     }
     else{
         displayBillingAddresses(selectedShippingAddressId);
         const currentBillingRadio = document.getElementById(selectedBillingAddressId);
-        calculate_final(customer_type === "Customer" ? countrys_vat[currentBillingRadio.getAttribute('data-country')] : 0, customer_type === "Customer" ? getShipping(currentShippingRadio) : 0, currency, documentss);
+        calculate_final(customer_type === "Customer" ? countrys_vat[currentBillingRadio.getAttribute('data-country')] : 0, customer_type === "Customer" ? getShipping(currentShippingRadio) : 0, currency, product_documents);
 
     }
 }
@@ -604,7 +604,7 @@ function inputBillingChangeEvent(){
     document.getElementById("cart-taxes").style.display = "block";
     const currentShippingRadio = document.getElementById(selectedShippingAddressId);
     const currentBillingRadio = document.getElementById(selectedBillingAddressId);
-    calculate_final( customer_type==="Customer" ? countrys_vat[currentBillingRadio.getAttribute('data-country')] : 0, customer_type==="Customer" ? getShipping(currentShippingRadio) : 0, currency, documentss);
+    calculate_final( customer_type==="Customer" ? countrys_vat[currentBillingRadio.getAttribute('data-country')] : 0, customer_type==="Customer" ? getShipping(currentShippingRadio) : 0, currency, product_documents);
 
 }
 
@@ -623,7 +623,7 @@ document.getElementById('toggleAddress').addEventListener('click', function() {
 
         const currentShippingRadio = document.getElementById(selectedShippingAddressId);
         const currentBillingRadio = document.getElementById(selectedShippingAddressId);
-        calculate_final(customer_type==="Customer" ? countrys_vat[currentBillingRadio.getAttribute('data-country')] : 0, customer_type==="Customer" ? getShipping(currentShippingRadio) : 0, currency, documentss);
+        calculate_final(customer_type==="Customer" ? countrys_vat[currentBillingRadio.getAttribute('data-country')] : 0, customer_type==="Customer" ? getShipping(currentShippingRadio) : 0, currency, product_documents);
 
         this.style.display = "none";
         displayBillingAddresses(selectedShippingAddressId);
@@ -680,10 +680,12 @@ document.getElementById('cancelBtn').addEventListener('click', function() {
     }
 
 });
-let documentss = [];
+
+// This variable stores all product documents from user cart
+let product_documents = [];
 function init() {
-    documentss = {{ documents|safe }};
-    calculate_final(0,0, currency, documentss);
+    product_documents = {{ documents|safe }};
+    calculate_final(0,0, currency, product_documents);
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -807,7 +809,7 @@ document.getElementById('continueCheckoutBtn').addEventListener('click', functio
                 const currentBillingRadio = document.getElementById(selectedBillingAddressId) ;
                 vat = customer_type==="Customer" ? countrys_vat[currentBillingRadio.getAttribute('data-country')] : 0;
              }
-             if (documentss.length !== 0){
+             if (product_documents.length !== 0){
                  let addresses_properties = { vat: vat, shipping:shipping, shippingAddress: selectedShippingAddressId };
                  addresses_properties['billingAddress'] = isBillingAddressShowed ? selectedBillingAddressId : selectedShippingAddressId ;
 
