@@ -706,7 +706,7 @@ def home_page(request):
 
     currency = '€' if currency == 'Euro' else '$'
     info = get_user_info(email) or {}
-    sale = round((0 if "sale" not in info else info['sale']) / 100, 3) or 0
+    sale = get_user_sale(info)
     show_quantities = info['show_quantities'] if 'show_quantities' in info else False
     context['currency'] = currency
     context['category'] = category
@@ -716,6 +716,15 @@ def home_page(request):
     context['vocabulary_dialog'] = get_vocabulary_product_card()
     print(context['hello'])
     return render(request, 'home.html', context)
+
+
+def get_user_sale(user_info):
+    """
+    This function returns the sale of the user after sale transformation.
+    :param user_info: user info dictionary
+    :return: transformed user sale
+    """
+    return round((0 if "sale" not in user_info else user_info['sale']) / 100, 3) or 0
 
 
 def get_user_category(email):

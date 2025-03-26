@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from shop.decorators import login_required_or_session
 from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, cart_ref, get_cart, favourites_ref, \
     get_user_category, get_user_info, get_user_session_type, get_vocabulary_product_card, get_user_prices, get_stones, \
-    get_active_coupon
+    get_active_coupon, get_user_sale
 import ast
 import random
 from datetime import datetime
@@ -99,7 +99,7 @@ def catalog_view(request):
     email = get_user_session_type(request)
     category, currency = get_user_prices(request,email)
     info = get_user_info(email) or {}
-    sale = round((0 if "sale" not in info else info['sale'])/100, 3) or 0
+    sale = get_user_sale(info)
 
     show_quantities = info['show_quantities'] if 'show_quantities' in info else False
     context = {
@@ -127,7 +127,7 @@ def param_catalog(request, category_id, category_name):
     email = get_user_session_type(request)
     category, currency = get_user_prices(request,email)
     info = get_user_info(email) or {}
-    sale = round((0 if "sale" not in info else info['sale'])/100, 3) or 0
+    sale = get_user_sale(info)
 
     show_quantities = info['show_quantities'] if 'show_quantities' in info else False
     context = {
@@ -156,7 +156,7 @@ def add_to_cart_from_catalog(request):
         coupon = get_active_coupon(email)
         category, currency = get_user_prices(request, email)
         info = get_user_info(email) or {}
-        sale = round((0 if "sale" not in info else info['sale'])/100, 3) or 0
+        sale = get_user_sale(info)
         if not product_name or new_quantity is None:
             return JsonResponse({'status': 'error', 'message': 'Missing product name or quantity'}, status=400)
 

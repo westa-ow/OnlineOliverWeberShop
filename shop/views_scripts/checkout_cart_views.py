@@ -82,9 +82,12 @@ def cart_page(request):
     elif currency == "Dollar":
         currency = "$"
 
+    info = get_user_info(email) or {}
     active_coupon = get_active_coupon(email)
 
     context = {
+        'sale': info['sale'],
+        'price_category': category,
         'documents': sorted(get_cart(email), key=lambda x: x['number']),
         'currency': currency,
         'active_coupon': active_coupon if len(active_coupon.keys()) != 0 else False,

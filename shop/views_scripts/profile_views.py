@@ -7,7 +7,8 @@ from openpyxl import load_workbook
 import xml.etree.ElementTree as ET
 
 from shop.views import db, orders_ref, serialize_firestore_document, users_ref, addresses_ref, update_email_in_db, \
-    get_user_category, get_user_info, get_vocabulary_product_card, get_user_prices, get_user_session_type, itemsRef
+    get_user_category, get_user_info, get_vocabulary_product_card, get_user_prices, get_user_session_type, itemsRef, \
+    get_user_sale
 import ast
 import random
 from datetime import datetime
@@ -414,7 +415,7 @@ def upload_file(request):
                 email = get_user_session_type(request)
                 category, currency = get_user_prices(request, email)
                 info = get_user_info(email) or {}
-                sale = round((0 if "sale" not in info else info['sale'])/100, 3) or 0
+                sale = get_user_sale(info)
 
                 # Check for product name and quantity
                 if not product_name or new_quantity is None:
