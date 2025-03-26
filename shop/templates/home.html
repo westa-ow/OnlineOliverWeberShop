@@ -17,6 +17,7 @@
     <link rel="icon" href="{% static "images/icons/web-icon.png" %}" type="image/x-icon">
     <script src="{% static "js/product_cards.js" %}"></script>
     <script src="{% static "js/productsTransmutation.js" %}"></script>
+    <script src="{% static "js/firebaseFunctions.js" %}"></script>
     {% include 'widgets/navigation_bar.html' %}
 </head>
 <body>
@@ -130,22 +131,12 @@
 {% include "widgets/footer.html" %}
 </body>
 <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
-
-    import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
-
-    var firebaseConfig = {
-        apiKey: "AIzaSyAM0wDc_WO0wP3-_TPRPLENZDIHbezH7U4",
-        authDomain: "flutterapp-fd5c3.firebaseapp.com",
-        projectId: "flutterapp-fd5c3"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    import { fetchItemsWithQuantityGreaterThan30, fetchFavouriteItems, fetchStones } from '{% static "js/firebaseFunctions.js" %}';
     console.log("{{ address|safe }}");
     const show_quantities = "{{ show_quantities|safe }}" !== "False";
     let favouriteitems = [ ];
-    let allItems = [{
+    let allItems = [
+        {
     "name": "22697",
     "product_name": "Post Earrings earring",
     "description": "Earrings ArtTwo RH multi",
@@ -400,30 +391,7 @@ let filters_dict = {
         "22778G", "11740 AB", "32186G", "11512G", "32184", "22329R", "12077", "11337", "12285", "11974 202",
         "32228G", "32257", "32326 001"
     ]
-    async function fetchFavouriteItems(userEmail) {
-        const favouritesQuery = query(collection(db, "Favourites"), where("email", "==", userEmail));
-        const querySnapshot = await getDocs(favouritesQuery);
-        return querySnapshot.docs.map(doc => doc.data());
-    }
-    async function fetchItemsWithQuantityGreaterThan30() {
-        const maxElementsPerQuery = 10;
-        let items = [];
 
-        for (let i = 0; i < elements.length; i += maxElementsPerQuery) {
-            const chunk = elements.slice(i, i + maxElementsPerQuery);
-            const itemsQuery = query(collection(db, "item"),
-                where("quantity", ">", 30),
-                where("name", "in", chunk)
-            );
-            const querySnapshot = await getDocs(itemsQuery);
-
-            querySnapshot.forEach(doc => {
-                items.push(doc.data());
-            });
-        }
-
-        return items;
-    }
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -440,7 +408,8 @@ let filters_dict = {
         let unfilteredItems = await fetchItemsWithQuantityGreaterThan30(); // Fetch all items on load
         let email = "{{ user.email }}"
         favouriteitems = await fetchFavouriteItems(email);
-        let stones = await fetchStones();
+        let result = await fetchStones();
+        let stones = result.all;
         allItems = productsTransmutation(unfilteredItems, price_category, sale, stones, "{{ customer_type }}"==="B2B");
         shuffleArray(allItems);
         allItems = allItems.slice(0, 15);
@@ -545,21 +514,7 @@ let filters_dict = {
             console.log("Null");
         }
     }
-    async function fetchStones() {
-        const stonesQuery = query(collection(db, "Stones")); // Request for the Stones collection
-        const querySnapshot = await getDocs(stonesQuery);
 
-        // Convert documents into an object { “id”: “name” }
-        const all_stones = {};
-        querySnapshot.docs.forEach(doc => {
-            const data = doc.data();
-            if (data.id && data.name) { // Let's make sure the data exists
-                all_stones[data.id] = data.name;
-            }
-        });
-
-        return all_stones;
-    }
 document.getElementById('product-card').addEventListener('click', async (event) => {
     const heartIconContainer = event.target.closest('.mobile-heart-container');
     if (!heartIconContainer) return;
