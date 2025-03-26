@@ -546,7 +546,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     add_to_cart.type = 'submit';
     add_to_cart.classList.add('add-to-cart-dialog');
     add_to_cart.addEventListener('click', function() {
-        add_to_cart_func(item, platingsSelect.value, stoneSelect.value, sizeSelect.value, Number(inputQuantity.value), add_to_cart, dialog, currency, add_to_cart_url, vocabulary, cookie, checkout_url);
+        add_to_cart_func(item, platingsSelect.value, stoneSelect.value, sizeSelect.value, Number(inputQuantity.value), add_to_cart, dialog, currency, add_to_cart_url, vocabulary, cookie, checkout_url, isCheckout);
     });
     const icon_cart = document.createElement('i');
     icon_cart.classList.add('fa-solid', 'fa-cart-shopping');
@@ -719,7 +719,7 @@ function generateBottomPart(card_bottom_content, groupItems, items_array, curren
     }, 100); // Delay for waiting for the animation to complete
 }
 
-function add_to_cart_func(item, plating, stone, size, quantity, add_button, dialog, currency, add_to_cart_url, vocabulary, cookie, checkout_url){
+function add_to_cart_func(item, plating, stone, size, quantity, add_button, dialog, currency, add_to_cart_url, vocabulary, cookie, checkout_url, isCheckout){
     let doc;
     if( size === "" ){
          doc = item.platings[plating].stones[stone].real_name;
@@ -744,9 +744,15 @@ function add_to_cart_func(item, plating, stone, size, quantity, add_button, dial
         if (data.status === 'success') {
             trackAddToCart(data.product.name, data.product.product_name, data.sum, currency==="$"? "USD":"EUR");
             closeDialogWithAnimation(dialog, false);
-            setTimeout(() => {
-                activate_success_card(data.product, data.quantity, data.cart_size, data.subtotal, currency, vocabulary, checkout_url);
-            }, 0);
+            if(!isCheckout) {
+                setTimeout(() => {
+
+                    activate_success_card(data.product, data.quantity, data.cart_size, data.subtotal, currency, vocabulary, checkout_url);
+                }, 0);
+            }
+            else{
+                window.location.reload();
+            }
 
 
         } else {
@@ -1076,26 +1082,26 @@ function createProductCard(isCarousel, item, itemCounter, allItems, filteredItem
             isCheckout
         );
         if (isCarousel) {
-    // Automatically select the current coverage in a new card
-    const observer = new MutationObserver((mutations, obs) => {
-        const platingDropdown = document.querySelector('.card-dropdown');
-        if (platingDropdown) {
-            // Checking if the item has current coverage
-            if (!item.platings[currentPlating]) {
-                console.warn(`Coverage ${currentPlating} was not found for item ${item.name}, select the first available one.`);
-                currentPlating = Object.keys(item.platings)[0] || "Gold"; // If there are no platings available, take Gold
-            }
+            // Automatically select the current coverage in a new card
+            const observer = new MutationObserver((mutations, obs) => {
+                const platingDropdown = document.querySelector('.card-dropdown');
+                if (platingDropdown) {
+                    // Checking if the item has current coverage
+                    if (!item.platings[currentPlating]) {
+                        console.warn(`Coverage ${currentPlating} was not found for item ${item.name}, select the first available one.`);
+                        currentPlating = Object.keys(item.platings)[0] || "Gold"; // If there are no platings available, take Gold
+                    }
 
-            platingDropdown.value = currentPlating;
-            platingDropdown.dispatchEvent(new Event('change'));
+                    platingDropdown.value = currentPlating;
+                    platingDropdown.dispatchEvent(new Event('change'));
 
-            obs.disconnect(); // Stopping the observation
+                    obs.disconnect(); // Stopping the observation
+                }
+            });
+
+            const dialog = document.getElementById('product-card');
+            observer.observe(dialog, { childList: true, subtree: true });
         }
-    });
-
-    const dialog = document.getElementById('product-card');
-    observer.observe(dialog, { childList: true, subtree: true });
-}
     });
 
     // Create the image section
@@ -1192,7 +1198,7 @@ function createProductCard(isCarousel, item, itemCounter, allItems, filteredItem
 
     // Finally, append the iconContainer to the imgWrapper or imgSection
     imgWrapper.appendChild(img);
-    if (window.matchMedia("(max-width: 769px)").matches && user_auth === "True") {
+    if (window.matchMedia("(min-width: 769px)").matches && user_auth === "True") {
         imgWrapper.appendChild(iconContainer);
     }
     // Append the imgWrapper to the imgSection
