@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-25 14:25+0100\n"
+"POT-Creation-Date: 2025-03-26 19:08+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -114,7 +114,7 @@ msgid "Actions"
 msgstr "Действия"
 
 #: .\shop\templates\admin_tools\AT_users_control.html:53
-#: .\shop\templates\catalog.html:296
+#: .\shop\templates\catalog.html:297
 msgid "Items per page"
 msgstr "Элементов на странице"
 
@@ -126,468 +126,198 @@ msgstr "Просмотр пользователя"
 msgid "Delete User"
 msgstr "Удалить пользователя"
 
-#: .\shop\templates\cart.html:26
+#: .\shop\templates\cart.html:31
 msgid "Shopping cart"
 msgstr "Корзина"
 
-#: .\shop\templates\cart.html:43 .\shop\templates\cart.html:360
+#: .\shop\templates\cart.html:48 .\shop\templates\cart.html:472
 msgid "In cart"
 msgstr "В корзине"
 
-#: .\shop\templates\cart.html:50
+#: .\shop\templates\cart.html:55
 msgid "Less than 5 items left"
 msgstr "Осталось менее 5 позиций"
 
-#: .\shop\templates\cart.html:51 .\shop\templates\cart.html:178
+#: .\shop\templates\cart.html:56 .\shop\templates\cart.html:286
 msgid "Confirm"
 msgstr "Обновить"
 
-#: .\shop\templates\cart.html:68 .\shop\views.py:671
+#: .\shop\templates\cart.html:73 .\shop\views.py:674
 msgid "Continue shopping"
 msgstr "Продолжить покупки"
 
-#: .\shop\templates\cart.html:75
-#: .\shop\templates\checkout\checkout_widget.html:9 .\shop\views.py:670
-#: .\shop\views_scripts\checkout_cart_views.py:490
+#: .\shop\templates\cart.html:78
+#, fuzzy
+#| msgid "Number of items in your cart:"
+msgid "Recommended based on items in your cart"
+msgstr "Рекомендуется на основе предметов в вашей корзине"
+
+#: .\shop\templates\cart.html:99
+#: .\shop\templates\checkout\checkout_widget.html:9 .\shop\views.py:673
+#: .\shop\views_scripts\checkout_cart_views.py:497
 msgid "Subtotal"
 msgstr "Итого"
 
-#: .\shop\templates\cart.html:78
+#: .\shop\templates\cart.html:102
 #: .\shop\templates\checkout\checkout_widget.html:12
 msgid "items"
 msgstr "элементов"
 
-#: .\shop\templates\cart.html:87
+#: .\shop\templates\cart.html:111
 msgid "Have a promo code?"
 msgstr "У Вас есть промокод?"
 
-#: .\shop\templates\cart.html:91
+#: .\shop\templates\cart.html:115
 msgid "Active promo code"
 msgstr "Активный промокод"
 
-#: .\shop\templates\cart.html:92
+#: .\shop\templates\cart.html:116
 msgid "discount"
 msgstr "скидка"
 
-#: .\shop\templates\cart.html:99
+#: .\shop\templates\cart.html:123
 #: .\shop\templates\checkout\Checkout_Payment_Type.html:322
 #: .\shop\templates\checkout\checkout_widget.html:26
-#: .\shop\views_scripts\checkout_cart_views.py:447
-#: .\shop\views_scripts\checkout_cart_views.py:449
+#: .\shop\views_scripts\checkout_cart_views.py:454
+#: .\shop\views_scripts\checkout_cart_views.py:456
 msgid "Total"
 msgstr "Всего"
 
-#: .\shop\templates\cart.html:99
+#: .\shop\templates\cart.html:123
 #: .\shop\templates\checkout\Checkout_Payment_Type.html:322
 #: .\shop\templates\checkout\checkout_widget.html:26
-#| msgid "VAT excl."
 msgid "VAT Incl."
 msgstr "НДС Вкл."
 
-#: .\shop\templates\cart.html:103
+#: .\shop\templates\cart.html:127
 #: .\shop\templates\checkout\checkout_widget.html:18
 msgid "Included taxes"
 msgstr "Включенный налог"
 
-#: .\shop\templates\cart.html:107
-msgid "Included shippinh"
+#: .\shop\templates\cart.html:131
+#: .\shop\templates\checkout\checkout_widget.html:22
+msgid "Included shipping"
 msgstr "Включенная доставка"
 
-#: .\shop\templates\cart.html:113 .\shop\templates\widgets\mini_cart.html:63
-#: .\shop\views.py:672
+#: .\shop\templates\cart.html:137 .\shop\templates\widgets\mini_cart.html:63
+#: .\shop\views.py:675
 msgid "Proceed to checkout"
 msgstr "Перейти к оформлению заказа"
 
-#: .\shop\templates\cart.html:124 .\shop\templates\cart.html:128
+#: .\shop\templates\cart.html:151 .\shop\templates\cart.html:155
 msgid "Enter promo code"
 msgstr "Введите промокод"
 
-#: .\shop\templates\cart.html:129
+#: .\shop\templates\cart.html:156
 msgid "Promo code is invalid"
 msgstr "Промокод недействителен"
 
-#: .\shop\templates\cart.html:185 .\shop\templates\cart.html:218
+#: .\shop\templates\cart.html:293 .\shop\templates\cart.html:326
 msgid "Type of written quantity has to be numeric and greater than 0"
 msgstr "Тип записываемого количества должен быть числовым и больше 0."
 
-#: .\shop\templates\cart.html:188 .\shop\templates\cart.html:221
+#: .\shop\templates\cart.html:296 .\shop\templates\cart.html:329
 msgid "Quantity has to be less than maximum on storage"
 msgstr "Количество должно быть меньше максимального на складе."
 
-#: .\shop\templates\cart.html:201
+#: .\shop\templates\cart.html:309
 msgid "Do you really want to delete this product from your cart?"
 msgstr "Вы действительно хотите удалить этот товар из корзины?"
 
-#: .\shop\templates\cart.html:246
+#: .\shop\templates\cart.html:354
 msgid "Confirmed!"
 msgstr "Обновлено!"
 
-#: .\shop\templates\catalog.html:168
+#: .\shop\templates\cart.html:405
+msgid "You must add at least 1 order to your cart to proceed to checkout"
+msgstr ""
+"Вы должны добавить как минимум 1 заказ в свою корзину, чтобы продолжить "
+"оформление заказа"
+
+#: .\shop\templates\catalog.html:169
 msgid "Categories"
 msgstr "Категории"
 
-#: .\shop\templates\catalog.html:176
+#: .\shop\templates\catalog.html:177
 msgid "Filters"
 msgstr "Фильтры"
 
-#: .\shop\templates\catalog.html:179
+#: .\shop\templates\catalog.html:180
 msgid "Name, Product Article"
 msgstr "Название, артикул продукта"
 
-#: .\shop\templates\catalog.html:181
+#: .\shop\templates\catalog.html:182
 msgid "Contains in name"
 msgstr "Содержится в названии"
 
-#: .\shop\templates\catalog.html:184 .\shop\templates\catalog.html:308
-#: .\shop\templates\catalog.html:309
+#: .\shop\templates\catalog.html:185 .\shop\templates\catalog.html:309
+#: .\shop\templates\catalog.html:310
 #: .\shop\templates\profile\profile_orders.html:335
 msgid "Price"
 msgstr "Цена"
 
-#: .\shop\templates\catalog.html:203
+#: .\shop\templates\catalog.html:204
 msgid "Plating material"
 msgstr "Материал покрытия"
 
-#: .\shop\templates\catalog.html:223 .\shop\templates\catalog.html:240
-#: .\shop\templates\catalog.html:260 .\shop\templates\catalog.html:286
-#: .\shop\views.py:683
+#: .\shop\templates\catalog.html:224 .\shop\templates\catalog.html:241
+#: .\shop\templates\catalog.html:261 .\shop\templates\catalog.html:287
+#: .\shop\views.py:686
 msgid "Reset this group"
 msgstr "Сбросить эту группу"
 
-#: .\shop\templates\catalog.html:227 .\shop\views.py:667
+#: .\shop\templates\catalog.html:228 .\shop\views.py:670
 msgid "Base material"
 msgstr "Базовый материал"
 
-#: .\shop\templates\catalog.html:243
-#: .\shop\templates\widgets\mini_cart.html:95 .\shop\views.py:666
+#: .\shop\templates\catalog.html:244
+#: .\shop\templates\widgets\mini_cart.html:95 .\shop\views.py:669
 msgid "Crystal color"
 msgstr "Кристал"
 
-#: .\shop\templates\catalog.html:265 .\shop\templates\shop_page.html:60
-#: .\shop\views.py:660
+#: .\shop\templates\catalog.html:266 .\shop\templates\shop_page.html:60
+#: .\shop\views.py:663
 msgid "Size"
 msgstr "Размер"
 
-#: .\shop\templates\catalog.html:304
+#: .\shop\templates\catalog.html:305
 msgid "Order by"
 msgstr "Отсортировать по"
 
-#: .\shop\templates\catalog.html:306 .\shop\templates\catalog.html:307
+#: .\shop\templates\catalog.html:307 .\shop\templates\catalog.html:308
 #: .\shop\templates\profile\profile_orders.html:332
 msgid "Name"
 msgstr "Название"
 
-#: .\shop\templates\catalog.html:331
+#: .\shop\templates\catalog.html:332
 msgid "Previous"
 msgstr "Предыдущая"
 
-#: .\shop\templates\catalog.html:333
+#: .\shop\templates\catalog.html:334
 msgid "Next"
 msgstr "Следующая"
 
-#: .\shop\templates\catalog.html:338
+#: .\shop\templates\catalog.html:339
 msgid "Jump"
 msgstr "Перейти"
 
-#: .\shop\templates\catalog.html:585 .\shop\templates\catalog.html:704
-#: .\shop\templates\widgets\navigation_bar.html:84
-msgid "All"
-msgstr "Все"
-
-#: .\shop\templates\catalog.html:586 .\shop\templates\catalog.html:595
-#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:36
-#: .\shop\templates\widgets\mobile_links_panel.html:33
-#: .\shop\templates\widgets\navigation_bar.html:76
-msgid "Necklaces"
-msgstr "Ожерелья"
-
-#: .\shop\templates\catalog.html:587 .\shop\templates\catalog.html:588
-#: .\shop\templates\catalog.html:712 .\shop\templates\home.html:350
-#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:37
-#: .\shop\templates\profile\profile_favourites.html:33
-#: .\shop\templates\shop_page.html:163
-#: .\shop\templates\widgets\mobile_links_panel.html:34
-#: .\shop\templates\widgets\navigation_bar.html:77
-msgid "Earrings"
-msgstr "Серьги"
-
-#: .\shop\templates\catalog.html:589 .\shop\templates\catalog.html:601
-#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:39
-#: .\shop\templates\widgets\mobile_links_panel.html:36
-#: .\shop\templates\widgets\navigation_bar.html:79
-msgid "Bracelets"
-msgstr "Браслеты"
-
-#: .\shop\templates\catalog.html:590
-#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:41
-#: .\shop\templates\widgets\mobile_links_panel.html:37
-#: .\shop\templates\widgets\navigation_bar.html:80
-msgid "Accessories"
-msgstr "Аксессуары"
-
-#: .\shop\templates\catalog.html:591
-msgid "Pendants"
-msgstr "Кулоны"
-
-#: .\shop\templates\catalog.html:592
-msgid "Chains"
-msgstr "Цепи"
-
-#: .\shop\templates\catalog.html:593
-msgid "Colliers"
-msgstr "Колье"
-
-#: .\shop\templates\catalog.html:594
-msgid "Pearlchains"
-msgstr "Жемчужные цепочки"
-
-#: .\shop\templates\catalog.html:596 .\shop\templates\catalog.html:718
-#: .\shop\templates\home.html:356
-#: .\shop\templates\profile\profile_favourites.html:39
-#: .\shop\templates\shop_page.html:169
-msgid "Post earrings"
-msgstr "Серьги-гвоздики"
-
-#: .\shop\templates\catalog.html:597
-msgid "Hoops"
-msgstr "Серьги-кольца"
-
-#: .\shop\templates\catalog.html:598
-msgid "Creoles"
-msgstr "Креолы"
-
-#: .\shop\templates\catalog.html:599
-msgid "Clips"
-msgstr "Клипсы"
-
-#: .\shop\templates\catalog.html:600
-msgid "Piercings"
-msgstr "Пирсинг"
-
-#: .\shop\templates\catalog.html:602
-msgid "Bangles"
-msgstr "Бенглы"
-
-#: .\shop\templates\catalog.html:603
-#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:40
-msgid "Anklets"
-msgstr "Анклеты"
-
-#: .\shop\templates\catalog.html:604
-#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:38
-#: .\shop\templates\widgets\mobile_links_panel.html:35
-#: .\shop\templates\widgets\navigation_bar.html:78
-msgid "Rings"
-msgstr "Кольца"
-
-#: .\shop\templates\catalog.html:605
-msgid "Matches"
-msgstr "Гарнитуры"
-
-#: .\shop\templates\catalog.html:606
-msgid "Pens"
-msgstr "Ручки"
-
-#: .\shop\templates\catalog.html:607
-msgid "Keys"
-msgstr "Ключи"
-
-#: .\shop\templates\catalog.html:608
-msgid "Brooches"
-msgstr "Броши"
-
-#: .\shop\templates\catalog.html:609
-msgid "Nailfiles"
-msgstr "Пилочки для ногтей"
-
-#: .\shop\templates\catalog.html:610
-msgid "Extensions"
-msgstr "Расширения"
-
-#: .\shop\templates\catalog.html:611 .\shop\templates\catalog.html:733
-#: .\shop\templates\home.html:371
-#: .\shop\templates\profile\profile_favourites.html:54
-#: .\shop\templates\shop_page.html:184
-msgid "UV"
-msgstr "UV"
-
-#: .\shop\templates\catalog.html:713 .\shop\templates\home.html:351
-#: .\shop\templates\profile\profile_favourites.html:34
-#: .\shop\templates\shop_page.html:164
-msgid "Pendant"
-msgstr "Кулон"
-
-#: .\shop\templates\catalog.html:714 .\shop\templates\home.html:352
-#: .\shop\templates\profile\profile_favourites.html:35
-#: .\shop\templates\shop_page.html:165
-msgid "Chain"
-msgstr "Цепь"
-
-#: .\shop\templates\catalog.html:715 .\shop\templates\home.html:353
-#: .\shop\templates\profile\profile_favourites.html:36
-#: .\shop\templates\shop_page.html:166
-msgid "Collier"
-msgstr "Колье"
-
-#: .\shop\templates\catalog.html:716 .\shop\templates\home.html:354
-#: .\shop\templates\profile\profile_favourites.html:37
-#: .\shop\templates\shop_page.html:167
-msgid "Pearlchain"
-msgstr "Жемчужная цепочка"
-
-#: .\shop\templates\catalog.html:717 .\shop\templates\home.html:355
-#: .\shop\templates\profile\profile_favourites.html:38
-#: .\shop\templates\shop_page.html:168
-msgid "Necklace"
-msgstr "Ожерелье"
-
-#: .\shop\templates\catalog.html:719 .\shop\templates\home.html:357
-#: .\shop\templates\profile\profile_favourites.html:40
-#: .\shop\templates\shop_page.html:170
-msgid "Hoop"
-msgstr "Серьги-обручи"
-
-#: .\shop\templates\catalog.html:720 .\shop\templates\home.html:358
-#: .\shop\templates\profile\profile_favourites.html:41
-#: .\shop\templates\shop_page.html:171
-msgid "Creole"
-msgstr "Креолы"
-
-#: .\shop\templates\catalog.html:721 .\shop\templates\home.html:359
-#: .\shop\templates\profile\profile_favourites.html:42
-#: .\shop\templates\shop_page.html:172
-msgid "Clip"
-msgstr "Клипы"
-
-#: .\shop\templates\catalog.html:722 .\shop\templates\home.html:360
-#: .\shop\templates\profile\profile_favourites.html:43
-#: .\shop\templates\shop_page.html:173
-msgid "Piercing"
-msgstr "Пирсинг"
-
-#: .\shop\templates\catalog.html:723 .\shop\templates\home.html:361
-#: .\shop\templates\profile\profile_favourites.html:44
-#: .\shop\templates\shop_page.html:174
-msgid "Bracelet"
-msgstr "Браслет"
-
-#: .\shop\templates\catalog.html:724 .\shop\templates\home.html:362
-#: .\shop\templates\profile\profile_favourites.html:45
-#: .\shop\templates\shop_page.html:175
-msgid "Bangle"
-msgstr "Бенгл"
-
-#: .\shop\templates\catalog.html:725 .\shop\templates\home.html:363
-#: .\shop\templates\profile\profile_favourites.html:46
-#: .\shop\templates\shop_page.html:176
-msgid "Anklet"
-msgstr "Анклет"
-
-#: .\shop\templates\catalog.html:726 .\shop\templates\home.html:364
-#: .\shop\templates\profile\profile_favourites.html:47
-#: .\shop\templates\shop_page.html:177
-msgid "Ring"
-msgstr "Кольцо"
-
-#: .\shop\templates\catalog.html:727 .\shop\templates\home.html:365
-#: .\shop\templates\profile\profile_favourites.html:48
-#: .\shop\templates\shop_page.html:178
-msgid "Match"
-msgstr "Гарнитура"
-
-#: .\shop\templates\catalog.html:728 .\shop\templates\home.html:366
-#: .\shop\templates\profile\profile_favourites.html:49
-#: .\shop\templates\shop_page.html:179
-msgid "Pen"
-msgstr "Ручка"
-
-#: .\shop\templates\catalog.html:729 .\shop\templates\home.html:367
-#: .\shop\templates\profile\profile_favourites.html:50
-#: .\shop\templates\shop_page.html:180
-msgid "Key"
-msgstr "Ключ"
-
-#: .\shop\templates\catalog.html:730 .\shop\templates\home.html:368
-#: .\shop\templates\profile\profile_favourites.html:51
-#: .\shop\templates\shop_page.html:181
-msgid "Brooch"
-msgstr "Брошь"
-
-#: .\shop\templates\catalog.html:731 .\shop\templates\home.html:369
-#: .\shop\templates\profile\profile_favourites.html:52
-#: .\shop\templates\shop_page.html:182
-msgid "Nailfile"
-msgstr "Пилочка для ногтей"
-
-#: .\shop\templates\catalog.html:732 .\shop\templates\home.html:370
-#: .\shop\templates\profile\profile_favourites.html:53
-#: .\shop\templates\shop_page.html:183
-msgid "Extension"
-msgstr "Расширение"
-
-#: .\shop\templates\catalog.html:737 .\shop\templates\home.html:375
-#: .\shop\templates\profile\profile_favourites.html:58
-#: .\shop\templates\shop_page.html:188
-msgid "Default"
-msgstr "По умолчанию"
-
-#: .\shop\templates\catalog.html:738 .\shop\templates\home.html:376
-#: .\shop\templates\profile\profile_favourites.html:59
-#: .\shop\templates\shop_page.html:189
-msgid "Rhodium"
-msgstr "Родий"
-
-#: .\shop\templates\catalog.html:739 .\shop\templates\home.html:377
-#: .\shop\templates\profile\profile_favourites.html:60
-#: .\shop\templates\shop_page.html:190
-msgid "Gold"
-msgstr "Золото"
-
-#: .\shop\templates\catalog.html:740 .\shop\templates\home.html:378
-#: .\shop\templates\profile\profile_favourites.html:61
-#: .\shop\templates\shop_page.html:191
-msgid "Rosegold"
-msgstr "Розовое золото"
-
-#: .\shop\templates\catalog.html:741 .\shop\templates\home.html:379
-#: .\shop\templates\profile\profile_favourites.html:62
-#: .\shop\templates\shop_page.html:192
-msgid "Without"
-msgstr "Без"
-
-#: .\shop\templates\catalog.html:742 .\shop\templates\home.html:380
-#: .\shop\templates\profile\profile_favourites.html:63
-#: .\shop\templates\shop_page.html:193
-msgid "Steel"
-msgstr "Сталь"
-
-#: .\shop\templates\catalog.html:743 .\shop\templates\shop_page.html:194
-msgid "Brass"
-msgstr "Латунь"
-
-#: .\shop\templates\catalog.html:744 .\shop\templates\home.html:382
-#: .\shop\templates\profile\profile_favourites.html:65
-#: .\shop\templates\shop_page.html:195
-msgid "Silver"
-msgstr "Серебро"
-
-#: .\shop\templates\catalog.html:1470 .\shop\templates\catalog.html:1550
+#: .\shop\templates\catalog.html:1241 .\shop\templates\catalog.html:1321
 msgid "No items found"
 msgstr "Элементы не найдены"
 
-#: .\shop\templates\catalog.html:1545
+#: .\shop\templates\catalog.html:1316
 msgid "Current page"
 msgstr "Текущая страница"
 
-#: .\shop\templates\catalog.html:1674 .\shop\templates\home.html:608
-#: .\shop\templates\profile\profile_favourites.html:171
-#: .\shop\templates\profile\profile_favourites.html:359 .\shop\views.py:680
+#: .\shop\templates\catalog.html:1445 .\shop\templates\home.html:527
+#: .\shop\templates\profile\profile_favourites.html:125
+#: .\shop\templates\profile\profile_favourites.html:313 .\shop\views.py:683
 msgid "Remove from favorites"
 msgstr "Удалить из избранного"
 
-#: .\shop\templates\catalog.html:1675 .\shop\templates\home.html:609
-#: .\shop\templates\profile\profile_favourites.html:171
-#: .\shop\templates\profile\profile_favourites.html:360 .\shop\views.py:679
+#: .\shop\templates\catalog.html:1446 .\shop\templates\home.html:528
+#: .\shop\templates\profile\profile_favourites.html:125
+#: .\shop\templates\profile\profile_favourites.html:314 .\shop\views.py:682
 msgid "Add to favorites"
 msgstr "Добавить в избранное"
 
@@ -793,30 +523,30 @@ msgstr "Сохранить"
 msgid "Please select a shipping address first"
 msgstr "Пожалуйста, сначала выберите адрес доставки"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:737
+#: .\shop\templates\checkout\Checkout_Addresses.html:739
 #: .\shop\templates\profile\profile_create_address.html:135
 msgid "The address has been successfully added!"
 msgstr "Адрес успешно добавлен!"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:751
+#: .\shop\templates\checkout\Checkout_Addresses.html:753
 #: .\shop\templates\profile\profile_addresses.html:63
 msgid "Are you sure you want to delete this address?"
 msgstr "Вы уверены, что хотите удалить этот адрес?"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:837
+#: .\shop\templates\checkout\Checkout_Addresses.html:839
 msgid "Order will be delivered to your email"
 msgstr "Заказ будет доставлен на вашу электронную почту"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:868
+#: .\shop\templates\checkout\Checkout_Addresses.html:870
 #: .\shop\templates\checkout\Checkout_Payment_Type.html:382
 msgid "You have to add at least 1 item to finish order"
 msgstr "Чтобы завершить заказ, вам необходимо добавить хотя бы 1 товар."
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:872
+#: .\shop\templates\checkout\Checkout_Addresses.html:874
 msgid "You didn't provide billing address"
 msgstr "Вы не указали платежный адрес"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:876
+#: .\shop\templates\checkout\Checkout_Addresses.html:878
 msgid "You didn't provide shipping address"
 msgstr "Вы не указали адрес доставки"
 
@@ -832,22 +562,241 @@ msgstr "Выберите тип оплаты"
 msgid "Pay with Credit Card via Stripe"
 msgstr "Оплата кредитной картой через Stripe"
 
-#: .\shop\templates\checkout\checkout_widget.html:22
-msgid "Included shipping"
-msgstr "Включенная доставка"
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:6
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:43
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:44
+#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:37
+#: .\shop\templates\widgets\mobile_links_panel.html:34
+#: .\shop\templates\widgets\navigation_bar.html:77
+msgid "Earrings"
+msgstr "Серьги"
 
-#: .\shop\templates\home.html:51
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:7
+msgid "Pendant"
+msgstr "Кулон"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:8
+msgid "Chain"
+msgstr "Цепь"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:9
+msgid "Collier"
+msgstr "Колье"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:10
+msgid "Pearlchain"
+msgstr "Жемчужная цепочка"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:11
+msgid "Necklace"
+msgstr "Ожерелье"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:12
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:52
+msgid "Post earrings"
+msgstr "Серьги-гвоздики"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:13
+msgid "Hoop"
+msgstr "Серьги-обручи"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:14
+msgid "Creole"
+msgstr "Креолы"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:15
+msgid "Clip"
+msgstr "Клипы"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:16
+msgid "Piercing"
+msgstr "Пирсинг"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:17
+msgid "Bracelet"
+msgstr "Браслет"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:18
+msgid "Bangle"
+msgstr "Бенгл"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:19
+msgid "Anklet"
+msgstr "Анклет"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:20
+msgid "Ring"
+msgstr "Кольцо"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:21
+msgid "Match"
+msgstr "Гарнитура"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:22
+msgid "Pen"
+msgstr "Ручка"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:23
+msgid "Key"
+msgstr "Ключ"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:24
+msgid "Brooch"
+msgstr "Брошь"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:25
+msgid "Nailfile"
+msgstr "Пилочка для ногтей"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:26
+msgid "Extension"
+msgstr "Расширение"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:27
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:67
+msgid "UV"
+msgstr "UV"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:31
+msgid "Default"
+msgstr "По умолчанию"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:32
+msgid "Rhodium"
+msgstr "Родий"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:33
+msgid "Gold"
+msgstr "Золото"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:34
+msgid "Rosegold"
+msgstr "Розовое золото"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:35
+msgid "Without"
+msgstr "Без"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:36
+msgid "Steel"
+msgstr "Сталь"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:37
+msgid "Brass"
+msgstr "Латунь"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:38
+msgid "Silver"
+msgstr "Серебро"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:41
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:160
+#: .\shop\templates\widgets\navigation_bar.html:84
+msgid "All"
+msgstr "Все"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:42
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:51
+#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:36
+#: .\shop\templates\widgets\mobile_links_panel.html:33
+#: .\shop\templates\widgets\navigation_bar.html:76
+msgid "Necklaces"
+msgstr "Ожерелья"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:45
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:57
+#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:39
+#: .\shop\templates\widgets\mobile_links_panel.html:36
+#: .\shop\templates\widgets\navigation_bar.html:79
+msgid "Bracelets"
+msgstr "Браслеты"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:46
+#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:41
+#: .\shop\templates\widgets\mobile_links_panel.html:37
+#: .\shop\templates\widgets\navigation_bar.html:80
+msgid "Accessories"
+msgstr "Аксессуары"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:47
+msgid "Pendants"
+msgstr "Кулоны"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:48
+msgid "Chains"
+msgstr "Цепи"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:49
+msgid "Colliers"
+msgstr "Колье"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:50
+msgid "Pearlchains"
+msgstr "Жемчужные цепочки"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:53
+msgid "Hoops"
+msgstr "Серьги-кольца"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:54
+msgid "Creoles"
+msgstr "Креолы"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:55
+msgid "Clips"
+msgstr "Клипсы"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:56
+msgid "Piercings"
+msgstr "Пирсинг"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:58
+msgid "Bangles"
+msgstr "Бенглы"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:59
+#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:40
+msgid "Anklets"
+msgstr "Анклеты"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:60
+#: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:38
+#: .\shop\templates\widgets\mobile_links_panel.html:35
+#: .\shop\templates\widgets\navigation_bar.html:78
+msgid "Rings"
+msgstr "Кольца"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:61
+msgid "Matches"
+msgstr "Гарнитуры"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:62
+msgid "Pens"
+msgstr "Ручки"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:63
+msgid "Keys"
+msgstr "Ключи"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:64
+msgid "Brooches"
+msgstr "Броши"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:65
+msgid "Nailfiles"
+msgstr "Пилочки для ногтей"
+
+#: .\shop\templates\dedicated_templates\translation_vocabulary.html:66
+msgid "Extensions"
+msgstr "Расширения"
+
+#: .\shop\templates\home.html:52
 msgid "ELEGANT JEWELRY AND ACCESSORIES"
 msgstr "ЭЛЕГАНТНЫЕ ЮВЕЛИРНЫЕ УКРАШЕНИЯ И АКСЕССУАРЫ"
 
-#: .\shop\templates\home.html:103
+#: .\shop\templates\home.html:104
 msgid "BEST SELLERS"
 msgstr "БЕСТСЕЛЛЕРЫ"
-
-#: .\shop\templates\home.html:381
-#: .\shop\templates\profile\profile_favourites.html:64
-msgid "Steel Brass"
-msgstr "Сталь Латунь"
 
 #: .\shop\templates\mobile_version\mobile_widgets\navigation_bar.html:35
 #: .\shop\templates\widgets\mobile_links_panel.html:22
@@ -920,7 +869,7 @@ msgid "Loading..."
 msgstr "Загрузка ..."
 
 #: .\shop\templates\profile\profile_chat.html:15
-#: .\shop\views_scripts\checkout_cart_views.py:345
+#: .\shop\views_scripts\checkout_cart_views.py:352
 #: .\venv\Lib\site-packages\django\forms\formsets.py:484
 #: .\venv\Lib\site-packages\django\forms\formsets.py:491
 msgid "Order"
@@ -992,11 +941,11 @@ msgstr "и"
 msgid "edit your password and account details"
 msgstr "отредактируйте свой пароль и данные учетной записи"
 
-#: .\shop\templates\profile\profile_favourites.html:11
+#: .\shop\templates\profile\profile_favourites.html:12
 msgid "Favorite products"
 msgstr "Любимые продукты"
 
-#: .\shop\templates\profile\profile_favourites.html:242
+#: .\shop\templates\profile\profile_favourites.html:196
 msgid "This item is only available for pre-order"
 msgstr "Этот товар доступен только для предварительного заказа"
 
@@ -1088,7 +1037,7 @@ msgid "Order ID"
 msgstr "Идентификатор заказа"
 
 #: .\shop\templates\profile\profile_orders.html:97
-#: .\shop\views_scripts\checkout_cart_views.py:350
+#: .\shop\views_scripts\checkout_cart_views.py:357
 msgid "Date"
 msgstr "Дата"
 
@@ -1097,7 +1046,7 @@ msgid "Total price"
 msgstr "Общая стоимость"
 
 #: .\shop\templates\profile\profile_orders.html:99
-#: .\shop\views_scripts\checkout_cart_views.py:491
+#: .\shop\views_scripts\checkout_cart_views.py:498
 msgid "Shipping price"
 msgstr "Цена доставки"
 
@@ -1181,9 +1130,9 @@ msgid "Description"
 msgstr "Описание"
 
 #: .\shop\templates\profile\profile_orders.html:336
-#: .\shop\templates\widgets\mini_cart.html:115 .\shop\views.py:668
-#: .\shop\views_scripts\checkout_cart_views.py:446
-#: .\shop\views_scripts\checkout_cart_views.py:448
+#: .\shop\templates\widgets\mini_cart.html:115 .\shop\views.py:671
+#: .\shop\views_scripts\checkout_cart_views.py:453
+#: .\shop\views_scripts\checkout_cart_views.py:455
 msgid "Quantity"
 msgstr "Количество"
 
@@ -1193,7 +1142,7 @@ msgstr "Краткое содержание"
 
 #: .\shop\templates\profile\profile_orders.html:338
 #: .\shop\templates\shop_page.html:112 .\shop\templates\shop_page.html:118
-#: .\shop\views.py:656
+#: .\shop\views.py:659
 msgid "In stock"
 msgstr "В наличии"
 
@@ -4331,15 +4280,15 @@ msgstr "Покрытие"
 msgid "Stone"
 msgstr "Камень"
 
-#: .\shop\templates\shop_page.html:71 .\shop\views.py:676
+#: .\shop\templates\shop_page.html:71 .\shop\views.py:679
 msgid "Product width"
 msgstr "Ширина продукта"
 
-#: .\shop\templates\shop_page.html:81 .\shop\views.py:677
+#: .\shop\templates\shop_page.html:81 .\shop\views.py:680
 msgid "Product height"
 msgstr "Высота продукта"
 
-#: .\shop\templates\shop_page.html:92 .\shop\views.py:678
+#: .\shop\templates\shop_page.html:92 .\shop\views.py:681
 msgid "Chain length"
 msgstr "Длина цепи"
 
@@ -4347,11 +4296,11 @@ msgstr "Длина цепи"
 msgid "Out of stock"
 msgstr "Распродано"
 
-#: .\shop\templates\shop_page.html:120 .\shop\views.py:657
+#: .\shop\templates\shop_page.html:120 .\shop\views.py:660
 msgid "Less than 5 pieces left!"
 msgstr "Осталось меньше 5 штук!"
 
-#: .\shop\templates\shop_page.html:129 .\shop\views.py:673
+#: .\shop\templates\shop_page.html:129 .\shop\views.py:676
 msgid "Add to cart"
 msgstr "Добавить в корзину"
 
@@ -4359,11 +4308,11 @@ msgstr "Добавить в корзину"
 msgid "Oops... searched product is not available"
 msgstr "К сожалению... искомый товар недоступен"
 
-#: .\shop\templates\shop_page.html:223 .\shop\views.py:664
+#: .\shop\templates\shop_page.html:189 .\shop\views.py:667
 msgid "An error occured"
 msgstr "Произошла ошибка"
 
-#: .\shop\templates\shop_page.html:236 .\shop\views.py:662
+#: .\shop\templates\shop_page.html:202 .\shop\views.py:665
 msgid ""
 "Quantity number has to be less than or equal to quantity number in stock or "
 "and be greater than 0"
@@ -4371,11 +4320,11 @@ msgstr ""
 "Количество должно быть меньше или равно количеству количества на складе или "
 "быть больше 0."
 
-#: .\shop\templates\shop_page.html:246 .\shop\views.py:675
+#: .\shop\templates\shop_page.html:212 .\shop\views.py:678
 msgid "Maximum items for pre-order is 20, minimum is 1"
 msgstr "Максимум товаров для предзаказа — 20, минимум — 1."
 
-#: .\shop\templates\shop_page.html:291
+#: .\shop\templates\shop_page.html:257
 msgid "Current quantity"
 msgstr "Текущее количество"
 
@@ -4477,56 +4426,55 @@ msgstr "ВСЕ ТОВАРЫ"
 msgid "COLLECTIONS"
 msgstr "КОЛЛЕКЦИИ"
 
-#: .\shop\views.py:658
+#: .\shop\views.py:661
 msgid "Plating Material"
 msgstr "Материал покрытия"
 
-#: .\shop\views.py:659
+#: .\shop\views.py:662
 msgid "Stone color"
 msgstr "Цвет камня"
 
-#: .\shop\views.py:663
+#: .\shop\views.py:666
 msgid "Processing"
 msgstr "Обработка"
 
-#: .\shop\views.py:665
+#: .\shop\views.py:668
 msgid "Product successfully added to your shopping cart"
 msgstr "Товар успешно добавлен в корзину"
 
-#: .\shop\views.py:669
+#: .\shop\views.py:672
 msgid "Number of items in your cart:"
 msgstr "Количество товаров в корзине:"
 
-#: .\shop\views.py:674
+#: .\shop\views.py:677
 msgid "This item is only available for pre-order!"
 msgstr "Этот товар доступен только для предзаказа!"
 
-#: .\shop\views.py:681
+#: .\shop\views.py:684
 msgid "Copy link"
 msgstr "Копировать ссылку"
 
-#: .\shop\views.py:682
+#: .\shop\views.py:685
 msgid "Copied!"
 msgstr "Скопировано!"
 
-#: .\shop\views.py:684
-#| msgid "All products"
+#: .\shop\views.py:687
 msgid "Similar products"
 msgstr "Подобные продукты"
 
-#: .\shop\views.py:685
+#: .\shop\views.py:688
 msgid "Turn off the magnifying glass"
 msgstr "Выключите увеличительное стекло"
 
-#: .\shop\views.py:686
+#: .\shop\views.py:689
 msgid "Turn on the magnifying glass"
 msgstr "Включить увеличительное стекло"
 
-#: .\shop\views.py:702
+#: .\shop\views.py:705
 msgid "Welcome to my site."
 msgstr "Добро пожаловать на мой сайт."
 
-#: .\shop\views_scripts\checkout_cart_views.py:223
+#: .\shop\views_scripts\checkout_cart_views.py:230
 msgid ""
 "Dear Customer,\n"
 "\n"
@@ -4542,7 +4490,7 @@ msgstr ""
 "            Ваш заказ успешно обработан, и квитанция приложена к этому письму.\n"
 "            Номер вашего заказа"
 
-#: .\shop\views_scripts\checkout_cart_views.py:229
+#: .\shop\views_scripts\checkout_cart_views.py:236
 #: .\shop\views_scripts\profile_orders_pay.py:131
 msgid ""
 "Thank you for choosing Oliver Weber. We look forward to seeing you again!\n"
@@ -4555,15 +4503,15 @@ msgstr ""
 "            С уважением,  \n"
 "            Команда Oliver Weber"
 
-#: .\shop\views_scripts\checkout_cart_views.py:235
+#: .\shop\views_scripts\checkout_cart_views.py:242
 msgid "Thank You for Your Order with Oliver Weber!"
 msgstr "Благодарим вас за заказ у Оливера Вебера!"
 
-#: .\shop\views_scripts\checkout_cart_views.py:328
+#: .\shop\views_scripts\checkout_cart_views.py:335
 msgid "Thank you for shopping with Oliver Weber Shop."
 msgstr "Благодарим вас за покупку в магазине Oliver Weber."
 
-#: .\shop\views_scripts\checkout_cart_views.py:330
+#: .\shop\views_scripts\checkout_cart_views.py:337
 msgid ""
 "You'll find your Order Summary below. If you have any questions regarding "
 "your order, please contact us."
@@ -4571,78 +4519,78 @@ msgstr ""
 "Ниже вы найдете сводную информацию о своем заказе. Если у вас есть какие-"
 "либо вопросы относительно вашего заказа, пожалуйста, свяжитесь с нами."
 
-#: .\shop\views_scripts\checkout_cart_views.py:344
+#: .\shop\views_scripts\checkout_cart_views.py:351
 msgid "Order Status"
 msgstr "Статус заказа"
 
-#: .\shop\views_scripts\checkout_cart_views.py:346
+#: .\shop\views_scripts\checkout_cart_views.py:353
 msgid "Shipping Date"
 msgstr "Дата доставки"
 
-#: .\shop\views_scripts\checkout_cart_views.py:347
+#: .\shop\views_scripts\checkout_cart_views.py:354
 msgid "Receipt"
 msgstr "Квитанция"
 
-#: .\shop\views_scripts\checkout_cart_views.py:349
+#: .\shop\views_scripts\checkout_cart_views.py:356
 msgid "Customer Code"
 msgstr "Код клиента"
 
-#: .\shop\views_scripts\checkout_cart_views.py:357
+#: .\shop\views_scripts\checkout_cart_views.py:364
 msgid "Phone:"
 msgstr "Телефон:"
 
-#: .\shop\views_scripts\checkout_cart_views.py:410
+#: .\shop\views_scripts\checkout_cart_views.py:417
 msgid "Customer Billing Details"
 msgstr "Платежные данные клиента"
 
-#: .\shop\views_scripts\checkout_cart_views.py:410
+#: .\shop\views_scripts\checkout_cart_views.py:417
 msgid "Delivery Details"
 msgstr "Детали доставки"
 
-#: .\shop\views_scripts\checkout_cart_views.py:411
+#: .\shop\views_scripts\checkout_cart_views.py:418
 msgid "Contact Phone"
 msgstr "Контактный телефон"
 
-#: .\shop\views_scripts\checkout_cart_views.py:412
+#: .\shop\views_scripts\checkout_cart_views.py:419
 msgid "Ship-To Code"
 msgstr "Код доставки"
 
-#: .\shop\views_scripts\checkout_cart_views.py:413
+#: .\shop\views_scripts\checkout_cart_views.py:420
 msgid "Billing Address"
 msgstr "Адрес для выставления счета"
 
-#: .\shop\views_scripts\checkout_cart_views.py:415
+#: .\shop\views_scripts\checkout_cart_views.py:422
 msgid "Ship-To Name"
 msgstr "Имя получателя"
 
-#: .\shop\views_scripts\checkout_cart_views.py:420
+#: .\shop\views_scripts\checkout_cart_views.py:427
 msgid "Shipping Address"
 msgstr "Адрес доставки"
 
-#: .\shop\views_scripts\checkout_cart_views.py:445
-#: .\shop\views_scripts\checkout_cart_views.py:447
+#: .\shop\views_scripts\checkout_cart_views.py:452
+#: .\shop\views_scripts\checkout_cart_views.py:454
 msgid "Product"
 msgstr "Продукт"
 
-#: .\shop\views_scripts\checkout_cart_views.py:445
+#: .\shop\views_scripts\checkout_cart_views.py:452
 msgid "Photo"
 msgstr "Фото"
 
-#: .\shop\views_scripts\checkout_cart_views.py:446
-#: .\shop\views_scripts\checkout_cart_views.py:448
+#: .\shop\views_scripts\checkout_cart_views.py:453
+#: .\shop\views_scripts\checkout_cart_views.py:455
 msgid "Item Details"
 msgstr "Детали товара"
 
-#: .\shop\views_scripts\checkout_cart_views.py:447
-#: .\shop\views_scripts\checkout_cart_views.py:449
+#: .\shop\views_scripts\checkout_cart_views.py:454
+#: .\shop\views_scripts\checkout_cart_views.py:456
 msgid "Unit Price"
 msgstr "Цена за единицу товара"
 
-#: .\shop\views_scripts\checkout_cart_views.py:492
+#: .\shop\views_scripts\checkout_cart_views.py:499
 msgid "Shipping VAT"
 msgstr "VAT доставки"
 
-#: .\shop\views_scripts\checkout_cart_views.py:494
+#: .\shop\views_scripts\checkout_cart_views.py:501
 msgid "TOTAL"
 msgstr "ВСЕГО"
 
@@ -4662,32 +4610,32 @@ msgstr ""
 msgid "Your Payment Confirmation from Oliver Weber"
 msgstr "Подтверждение вашего платежа от Оливера Вебера"
 
-#: .\shop\views_scripts\profile_views.py:396
+#: .\shop\views_scripts\profile_views.py:397
 msgid "Invalid file format. Only .xlsx or .xls are allowed"
 msgstr "Неверный формат файла. Разрешены только .xlsx или .xls."
 
-#: .\shop\views_scripts\profile_views.py:408
-#: .\shop\views_scripts\profile_views.py:421
+#: .\shop\views_scripts\profile_views.py:409
+#: .\shop\views_scripts\profile_views.py:422
 msgid "Invalid data in row"
 msgstr "Неверные данные в строке"
 
-#: .\shop\views_scripts\profile_views.py:424
+#: .\shop\views_scripts\profile_views.py:425
 msgid "Quantity can only be greater than 0)"
 msgstr "Количество может быть только больше 0)"
 
-#: .\shop\views_scripts\profile_views.py:429
+#: .\shop\views_scripts\profile_views.py:430
 msgid "Product not found"
 msgstr "Товар не найден"
 
-#: .\shop\views_scripts\profile_views.py:433
+#: .\shop\views_scripts\profile_views.py:434
 msgid "Requested quantity"
 msgstr "Запрошенное количество"
 
-#: .\shop\views_scripts\profile_views.py:433
+#: .\shop\views_scripts\profile_views.py:434
 msgid "is less than number of products in storage for product"
 msgstr "меньше количества продуктов на складе для продукта"
 
-#: .\shop\views_scripts\profile_views.py:453
+#: .\shop\views_scripts\profile_views.py:454
 msgid "Error updating cart for product"
 msgstr "Ошибка обновления корзины для товара."
 
@@ -7658,6 +7606,12 @@ msgstr "Подключено к qpid с помощью механизма SASL %
 #, python-format
 msgid "Unable to connect to qpid with SASL mechanism %s"
 msgstr "Невозможно подключиться к qpid с помощью механизма SASL %s"
+
+#~ msgid "Included shippinh"
+#~ msgstr "Включенная доставка"
+
+#~ msgid "Steel Brass"
+#~ msgstr "Сталь Латунь"
 
 #~ msgid "Collections"
 #~ msgstr "Коллекции"
