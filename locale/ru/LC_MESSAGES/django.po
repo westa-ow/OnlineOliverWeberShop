@@ -147,7 +147,6 @@ msgid "Continue shopping"
 msgstr "Продолжить покупки"
 
 #: .\shop\templates\cart.html:78
-#, fuzzy
 #| msgid "Number of items in your cart:"
 msgid "Recommended based on items in your cart"
 msgstr "Рекомендуется на основе предметов в вашей корзине"
