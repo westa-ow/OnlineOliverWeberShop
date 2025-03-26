@@ -155,6 +155,7 @@
     <script src="{% static "js/catalog/setupFilters.js" %}"></script>
     <script src="{% static "js/catalog/setupSliderFilter.js" %}"></script>
     <script src="{% static "js/productsTransmutation.js" %}"></script>
+    <script src="{% static "js/firebaseFunctions.js" %}"></script>
     <link rel="icon" href="{% static "images/icons/web-icon.png" %}" type="image/x-icon">
 
 </head>
@@ -345,18 +346,7 @@
 </body>
 
 <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
-
-    import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
-
-    let firebaseConfig = {
-        apiKey: "AIzaSyAM0wDc_WO0wP3-_TPRPLENZDIHbezH7U4",
-        authDomain: "flutterapp-fd5c3.firebaseapp.com",
-        projectId: "flutterapp-fd5c3"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    import { fetchAllItems, fetchFavouriteItems, fetchStones } from '{% static "js/firebaseFunctions.js" %}';
 
     document.addEventListener("DOMContentLoaded", async function () {
         showOverlay();
@@ -367,7 +357,9 @@
 
         favouriteItems = await fetchFavouriteItems("{{ user.email }}");
 
-        stones = await fetchStones();
+        let result = await fetchStones();
+        stones = result.all;
+        stones_reversed = result.reversed;
 
         allItems = productsTransmutation(unfilteredItems, price_category, sale, stones, "{{ customer_type }}"==="B2B");
 
@@ -379,20 +371,13 @@
         changePage(currentPage);
 
         constructCategories();
-        {#constructCollections();#}
         const categoriesLabel = document.querySelector('.categories-label');
         const categories = document.querySelector('.categories');
 
         categoriesLabel.addEventListener('click', function() {
-            categories.classList.toggle('collapsed'); // Переключить класс для анимации
-
+            categories.classList.toggle('collapsed');
         });
-        {#const collectionsLabel = document.querySelector('.collections-label');#}
-        {#const collections = document.querySelector('.collections');#}
-        {#collectionsLabel.addEventListener('click', function() {#}
-        {#    collections.classList.toggle('collapsed'); // Переключить класс для анимации#}
-        {#);#}
-        {#collections.classList.toggle('collapsed');#}
+
         const static_folder = "{% static "images/crystals" %}";
 
         constructFilters(allItems, filters_dict, static_folder);
@@ -410,7 +395,6 @@
         let mql = window.matchMedia("(max-width: 769px)");
         if( mql.matches) {
             document.getElementById('categoriesPanel').classList.toggle('collapsed');
-            {#document.getElementById('collectionsPanel').classList.toggle('collapsed');#}
             document.getElementById('filtersPanel').classList.toggle('collapsed-filters');
             document.getElementById('iconFiltersCollaps').classList.remove('fa-plus');
             document.getElementById('iconFiltersCollaps').classList.add('fa-minus');
@@ -1217,56 +1201,7 @@ fromSlider.addEventListener('change', applyFilters);
 toSlider.addEventListener('change', applyFilters);
 
 
-async function fetchAllItems() {
-    const itemsQuery1 = query(collection(db, "item"), where("quantity", ">", 0));
 
-    // Second query: where pre_order is true
-    const itemsQuery2 = query(collection(db, "item"), where("pre_order", "==", true));
-
-    // Fetch both queries in parallel
-    const [querySnapshot1, querySnapshot2] = await Promise.all([
-        getDocs(itemsQuery1),
-        getDocs(itemsQuery2)
-    ]);
-
-    // Get the data from both queries and combine the results
-    const items1 = querySnapshot1.docs.map(doc => doc.data());
-    const items2 = querySnapshot2.docs.map(doc => doc.data());
-
-    // Combine the two arrays and return unique items if needed
-    // Optionally, you can filter out duplicates if there are overlapping items
-    return [...items1, ...items2];
-}
-
-
-async function fetchFavouriteItems(userEmail) {
-    const favouritesQuery = query(collection(db, "Favourites"), where("email", "==", userEmail));
-    const querySnapshot = await getDocs(favouritesQuery);
-    return querySnapshot.docs.map(doc => doc.data());
-}
-
-
-async function fetchStones() {
-    const stonesQuery = query(collection(db, "Stones")); // Запрос к коллекции Stones
-    const querySnapshot = await getDocs(stonesQuery);
-
-    // Convert documents into an object { “id”: “name” }
-    const all_stones = {};
-    querySnapshot.docs.forEach(doc => {
-        const data = doc.data();
-        if (data.id && data.name) { // Убедимся, что данные существуют
-            all_stones[data.id] = data.name;
-        }
-    });
-    querySnapshot.docs.forEach(doc => {
-        const data = doc.data();
-        if (data.id && data.name) { // Убедимся, что данные существуют
-            stones_reversed[data.name] = data.id;
-        }
-    });
-
-    return all_stones;
-}
 
 
 function paginateItems(items, pageNumber, pageSize) {

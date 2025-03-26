@@ -5,6 +5,7 @@
 <link rel="stylesheet"  href="{% static 'css/SeparateWidgets/product_card.css' %}">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{% static "js/product_cards.js" %}"></script>
+<script src="{% static "js/firebaseFunctions.js" %}"></script>
 <section id="content" class="page-content col-md-12 col-lg-9 myacc_content">
     <header class="page-header">
         <h1>
@@ -27,8 +28,8 @@
 </dialog>
 {% include 'widgets/overlay.html' %}
 <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
-    import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
+    import {fetchFavouriteItems} from '{% static "js/firebaseFunctions.js" %}';
+
     let translations_categories = {
     "Earrings": "{{ _("Earrings")|escapejs }}",
     "Pendant": "{{ _("Pendant")|escapejs }}",
@@ -64,14 +65,6 @@ let filters_dict = {
     "Steel Brass": "{{ _("Steel Brass")|escapejs }}",
     "Silver": "{{ _("Silver")|escapejs }}",
 }
-    let firebaseConfig = {
-        apiKey: "AIzaSyAM0wDc_WO0wP3-_TPRPLENZDIHbezH7U4",
-        authDomain: "flutterapp-fd5c3.firebaseapp.com",
-        projectId: "flutterapp-fd5c3"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
 
     const show_quantities = "{{ show_quantities|safe }}" !== "False";
     let favouriteItems = [];
@@ -84,11 +77,6 @@ let filters_dict = {
     });
 
 
-    async function fetchFavouriteItems(userEmail) {
-        const favouritesQuery = query(collection(db, "Favourites"), where("email", "==", userEmail));
-        const querySnapshot = await getDocs(favouritesQuery);
-        return querySnapshot.docs.map(doc => doc.data());
-    }
 
     function buildPageFavourites(items){
         if (favouriteItems.length > 0){
