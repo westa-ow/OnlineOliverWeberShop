@@ -937,6 +937,7 @@ function setupZoom(image_container, image, vocabulary){
 
     const zoomSlider = document.createElement('input');
     zoomSlider.type = 'range';
+    zoomSlider.classList.add('zoom-slider');
     zoomSlider.min = '1'; // Minimal scale
     zoomSlider.max = '4'; // Maximum scale
     zoomSlider.step = '0.1'; // Step change
