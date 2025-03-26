@@ -1,21 +1,15 @@
+const regex = /^[a-zA-Z]{0,2}\d{5}[a-zA-Z]{0,5}$/;
 function productsTransmutation(items, price_category, sale, stones, isB2B){
 
     let products = {};
-    const regex = /^[a-zA-Z]{0,2}\d{5}[a-zA-Z]{0,5}$/;
+
     items.forEach(item => {
         if(item.Visible === false || item.b2b_only === true && !isB2B){
             return;
         }
         let itemName = item.name;
         let stone = stones[item.stone] !== undefined ? stones[item.stone] : item.stone;
-        itemName = itemName.split(' ')[0];
-         if (regex.test(itemName)) {
-            let processedName = itemName.match(/^([a-zA-Z]{0,2})(\d{5})/);
-             // This includes both the initial letters and the 5 digits
-             itemName = processedName[0];
-        } else {
-            itemName = (item.name).split(' ')[0];
-        }
+        getNormalizedItemName(itemName, item);
 
         if (!products[itemName] ) { //&& item.plating && item.stone
                 products[itemName] = {
@@ -131,4 +125,16 @@ function calculatePrice(item, price_category, sale) {
              price_category === "Default_USD" ? (item.priceUSD * (1 - sale)) :
              price_category === "Default_High" ? (item.priceVK4 * 1.3) :
              (item.priceVK4 * (1 - sale)))).toFixed(1))).toFixed(2);
+}
+
+function getNormalizedItemName(itemName, item){
+    itemName = itemName.split(' ')[0];
+     if (regex.test(itemName)) {
+        let processedName = itemName.match(/^([a-zA-Z]{0,2})(\d{5})/);
+         // This includes both the initial letters and the 5 digits
+         itemName = processedName[0];
+    } else {
+        itemName = (item.name).split(' ')[0];
+    }
+    return itemName;
 }

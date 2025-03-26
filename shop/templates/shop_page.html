@@ -145,6 +145,7 @@
 
 <script></script>
 {% include "widgets/footer.html" %}
+{% include "dedicated_templates/translation_vocabulary.html" %}
 </body>
 
     {{ document|json_script:"document" }}
@@ -159,42 +160,7 @@
     let csrftoken = getCookie('csrftoken');
     let product_dict = JSON.parse(document.getElementById('document').textContent);
 
-    let translations_categories = {
-        "Earrings": "{{ _("Earrings")|escapejs }}",
-        "Pendant": "{{ _("Pendant")|escapejs }}",
-        "Chain": "{{ _("Chain")|escapejs }}",
-        "Collier": "{{ _("Collier")|escapejs }}",
-        "Pearlchain": "{{ _("Pearlchain")|escapejs }}",
-        "Necklace": "{{ _("Necklace")|escapejs }}",
-        "Post Earrings": "{{ _("Post earrings")|escapejs }}",
-        "Hoop": "{{ _("Hoop")|escapejs }}",
-        "Creole": "{{ _("Creole")|escapejs }}",
-        "Clip": "{{ _("Clip")|escapejs }}",
-        "Piercing": "{{ _("Piercing")|escapejs }}",
-        "Bracelet": "{{ _("Bracelet")|escapejs }}",
-        "Bangle": "{{ _("Bangle")|escapejs }}",
-        "Anklet": "{{ _("Anklet")|escapejs }}",
-        "Ring": "{{ _("Ring")|escapejs }}",
-        "Match": "{{ _("Match")|escapejs }}",
-        "Pen": "{{ _("Pen")|escapejs }}",
-        "Key": "{{ _("Key")|escapejs }}",
-        "Brooch": "{{ _("Brooch")|escapejs }}",
-        "Nailfile": "{{ _("Nailfile")|escapejs }}",
-        "Extension": "{{ _("Extension")|escapejs }}",
-        "UV": "{{ _("UV")|escapejs }}"
-    }
-
-    let filters_dict = {
-        "Default": "{{ _("Default")|escapejs }}",
-        "Rhodium": "{{ _("Rhodium")|escapejs }}",
-        "Gold": "{{ _("Gold")|escapejs }}",
-        "Rosegold": "{{ _("Rosegold")|escapejs }}",
-        "Without": "{{ _("Without")|escapejs }}",
-        "Steel": "{{ _("Steel")|escapejs }}",
-        "Brass": "{{ _("Brass")|escapejs }}",
-        "Silver": "{{ _("Silver")|escapejs }}",
-    }
-    let vocabulary = Object.assign({{ vocabulary|safe }}, translations_categories, filters_dict);
+    let vocabulary = getVocabulary();
 
 
     document.getElementById('add-to-cart-search').addEventListener('click', function (){
