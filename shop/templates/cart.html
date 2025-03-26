@@ -187,6 +187,18 @@ document.addEventListener('DOMContentLoaded', async function() {
    isCheckout = true;
    init();
 
+   document.querySelectorAll('.document-container').forEach(documentContainer => {
+      const dataDocument = documentContainer.getAttribute('data-document');
+      const doc = JSON.parse(dataDocument.replaceAll("'",'"'));
+
+      saveState('quantity-'+doc.name, doc.quantity)
+   });
+   updateCarouselItems();
+
+   hideOverlay();
+});
+
+function updateCarouselItems(){
    let similarItems = [];
    product_documents.forEach(product => {
      similarItems.push(...productGroups[product.product_name]);
@@ -197,16 +209,8 @@ document.addEventListener('DOMContentLoaded', async function() {
       console.log(product_documents);
       return !product_documents.some(cartItem => getNormalizedItemName(cartItem.name, cartItem) === similarItem);
    });
-
-
-   document.querySelectorAll('.document-container').forEach(documentContainer => {
-      const dataDocument = documentContainer.getAttribute('data-document');
-      const doc = JSON.parse(dataDocument.replaceAll("'",'"'));
-
-      saveState('quantity-'+doc.name, doc.quantity)
-   });
-
    const filteredItems = allItems.filter(item => similarItems.includes(getNormalizedItemName(item.name, item)));
+   console.log(product_documents);
    if (filteredItems.length > 0){
        const containerCarousel = document.querySelector('.complementary-products');
        containerCarousel.style.display = "block";
@@ -236,8 +240,7 @@ document.addEventListener('DOMContentLoaded', async function() {
        const containerCarousel = document.querySelector('.complementary-products');
        containerCarousel.style.display = "none";
    }
-   hideOverlay();
-});
+}
 
 function constructCarousel(){
   const leftArrow = document.querySelector('.left-arrow');
@@ -376,6 +379,7 @@ function deleteBut(documentId, documentContainer){
         .then(data => {
             if (data.status === 'success') {
                 let documents = product_documents.filter(doc => doc.name !== documentId);
+                product_documents = product_documents.filter(doc => doc.name !== documentId);
                 console.log('Document deleted successfully');
                 documentContainer.remove();
 
@@ -384,6 +388,7 @@ function deleteBut(documentId, documentContainer){
                     let docElement = document.querySelector(`[data-document-id="${doc.id}"]`);
                     console.log(docElement);
                 });
+                updateCarouselItems();
                 calculate_final(0,0, currency, documents);
               } else {
                   console.error('Error in deletion');
