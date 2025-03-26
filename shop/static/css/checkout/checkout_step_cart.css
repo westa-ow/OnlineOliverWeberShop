@@ -1,6 +1,12 @@
 *{
     font-family: inherit;!important;
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: auto !important;
+}input[type=number] {
+  -moz-appearance: auto !important;
+}
 input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
@@ -229,9 +235,14 @@ input[type="range"]::-webkit-slider-thumb {
     font-size: 14px;
 }
 
+.product-container{
+    flex: 0;
+}
+
 .complementary-products {
   margin: 2rem 0;
   text-align: center;
+  display: none;
 }
 
 .carousel-container {
@@ -239,15 +250,29 @@ input[type="range"]::-webkit-slider-thumb {
   display: flex;
   align-items: center;
   overflow: hidden;
+  justify-content: center;
 }
 
+@media (max-width: 768px) {
+   .carousel-items{
+     max-width: 80vw;
+   }
+}
+@media (min-width: 769px) {
+   .carousel-items{
+     max-width: 90%;
+   }
+}
 .carousel-items {
   display: flex;
+  width: 100%;
+
   overflow-x: auto;
   scroll-behavior: smooth;
   gap: 1rem;
-  padding: 1rem 0;
+  padding: 1rem 2vw;
 }
+
 
 .carousel-product {
   flex: 0 0 auto;
@@ -267,12 +292,4 @@ input[type="range"]::-webkit-slider-thumb {
   font-size: 2rem;
   cursor: pointer;
   z-index: 1;
-}
-
-.left-arrow {
-  margin-right: -2rem;
-}
-
-.right-arrow {
-  margin-left: -2rem;
 }
