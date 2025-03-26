@@ -138,10 +138,10 @@
 <script type="module">
 import { fetchAllItems } from '{% static "js/firebaseFunctions.js" %}';
 
-let documentss = [];
+let product_documents = [];
 function init() {
-    documentss = {{ documents|safe }};
-    calculate_final(0, 0, currency, documentss);
+    product_documents = {{ documents|safe }};
+    calculate_final(0, 0, currency, product_documents);
 }
 
 document.addEventListener('DOMContentLoaded', async function() {
@@ -161,14 +161,14 @@ document.addEventListener('DOMContentLoaded', async function() {
 });
 
 function parameters_final(productId, newQuantity){
-    documentss = documentss.map(doc => {
+    product_documents = product_documents.map(doc => {
         if (doc.name === productId) {
             doc.quantity = newQuantity;
         }
         return doc;
 
     });
-    calculate_final(0,0, currency, documentss);
+    calculate_final(0,0, currency, product_documents);
 }
 function saveState(name, value) {
     localStorage.setItem(name, value);
@@ -276,11 +276,10 @@ function deleteBut(documentId, documentContainer){
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                let documents = documentss.filter(doc => doc.name !== documentId);
+                let documents = product_documents.filter(doc => doc.name !== documentId);
                 console.log('Document deleted successfully');
                 documentContainer.remove();
 
-                {#console.log(data.updated_document);#}
                 data.updated_documents.forEach(doc => {
                     console.log(`${doc.id}`);
                     let docElement = document.querySelector(`[data-document-id="${doc.id}"]`);
