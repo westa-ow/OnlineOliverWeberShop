@@ -408,8 +408,7 @@ let filters_dict = {
         let unfilteredItems = await fetchItemsWithQuantityGreaterThan30(); // Fetch all items on load
         let email = "{{ user.email }}"
         favouriteitems = await fetchFavouriteItems(email);
-        let result = await fetchStones();
-        let stones = result.all;
+        let {all: stones} = await fetchStones();
         allItems = productsTransmutation(unfilteredItems, price_category, sale, stones, "{{ customer_type }}"==="B2B");
         shuffleArray(allItems);
         allItems = allItems.slice(0, 15);

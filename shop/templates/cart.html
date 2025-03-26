@@ -15,6 +15,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/checkout_cart.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/checkout/checkout_step_cart.css' %}">
     <script src="{% static "js/firebaseFunctions.js" %}"></script>
+    <script src="{% static "js/productsTransmutation.js" %}"></script>
     <link rel="icon" href="{% static "images/icons/web-icon.png" %}" type="image/x-icon">
 </head>
 <body>
@@ -141,6 +142,7 @@ import { fetchAllItems, fetchFavouriteItems, fetchStones } from '{% static "js/f
 let product_documents = [];
 let sale = {{ sale|safe }};
 let price_category = "{{ price_category|safe }}";
+let allItems = {};
 let favouriteItems = {};
 function init() {
     product_documents = {{ documents|safe }};
