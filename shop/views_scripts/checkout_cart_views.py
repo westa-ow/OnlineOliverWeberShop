@@ -12,7 +12,7 @@ from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, g
     get_user_category, get_user_session_type, metadata_ref, users_ref, update_email_in_db, get_user_prices, \
     get_user_info, get_address_info, get_vat_info, get_shipping_price, get_order, get_order_items, \
     active_promocodes_ref, active_cart_coupon, get_active_coupon, delete_user_coupons, used_promocodes_ref, \
-    mark_user_coupons_as_used, get_user_sale
+    mark_user_coupons_as_used, get_user_sale, productGroups, get_vocabulary_product_card
 import ast
 import random
 from datetime import datetime
@@ -85,10 +85,14 @@ def cart_page(request):
     info = get_user_info(email) or {}
     active_coupon = get_active_coupon(email)
 
+    cart_products = sorted(get_cart(email), key=lambda x: x['number'])
+
     context = {
+        'show_quantities': info.get("show_quantities", False),
         'sale': get_user_sale(info),
         'price_category': category,
-        'documents': sorted(get_cart(email), key=lambda x: x['number']),
+        'vocabulary': get_vocabulary_product_card(),
+        'documents': cart_products,
         'currency': currency,
         'active_coupon': active_coupon if len(active_coupon.keys()) != 0 else False,
     }
@@ -701,7 +705,7 @@ def checkout_addresses(request):
     elif currency == "Dollar":
         currency = "$"
     info = get_user_info(email) or {}
-    customer_type = info['customer_type'] if 'customer_type' in info else "Customer"
+    customer_type = info.get('customer_type', "Customer")
     form_register = UserRegisterForm()
     form_login = AuthenticationForm()
     active_coupon_data = get_active_coupon(email)

@@ -27,44 +27,9 @@
 
 </dialog>
 {% include 'widgets/overlay.html' %}
+{% include "dedicated_templates/translation_vocabulary.html" %}
 <script type="module">
     import {fetchFavouriteItems} from '{% static "js/firebaseFunctions.js" %}';
-
-    let translations_categories = {
-    "Earrings": "{{ _("Earrings")|escapejs }}",
-    "Pendant": "{{ _("Pendant")|escapejs }}",
-    "Chain": "{{ _("Chain")|escapejs }}",
-    "Collier": "{{ _("Collier")|escapejs }}",
-    "Pearlchain": "{{ _("Pearlchain")|escapejs }}",
-    "Necklace": "{{ _("Necklace")|escapejs }}",
-    "Post Earrings": "{{ _("Post earrings")|escapejs }}",
-    "Hoop": "{{ _("Hoop")|escapejs }}",
-    "Creole": "{{ _("Creole")|escapejs }}",
-    "Clip": "{{ _("Clip")|escapejs }}",
-    "Piercing": "{{ _("Piercing")|escapejs }}",
-    "Bracelet": "{{ _("Bracelet")|escapejs }}",
-    "Bangle": "{{ _("Bangle")|escapejs }}",
-    "Anklet": "{{ _("Anklet")|escapejs }}",
-    "Ring": "{{ _("Ring")|escapejs }}",
-    "Match": "{{ _("Match")|escapejs }}",
-    "Pen": "{{ _("Pen")|escapejs }}",
-    "Key": "{{ _("Key")|escapejs }}",
-    "Brooch": "{{ _("Brooch")|escapejs }}",
-    "Nailfile": "{{ _("Nailfile")|escapejs }}",
-    "Extension": "{{ _("Extension")|escapejs }}",
-    "UV": "{{ _("UV")|escapejs }}"
-}
-
-let filters_dict = {
-    "Default": "{{ _("Default")|escapejs }}",
-    "Rhodium": "{{ _("Rhodium")|escapejs }}",
-    "Gold": "{{ _("Gold")|escapejs }}",
-    "Rosegold": "{{ _("Rosegold")|escapejs }}",
-    "Without": "{{ _("Without")|escapejs }}",
-    "Steel": "{{ _("Steel")|escapejs }}",
-    "Steel Brass": "{{ _("Steel Brass")|escapejs }}",
-    "Silver": "{{ _("Silver")|escapejs }}",
-}
 
     const show_quantities = "{{ show_quantities|safe }}" !== "False";
     let favouriteItems = [];
@@ -83,8 +48,8 @@ let filters_dict = {
             const productsGrid = document.querySelector('.products-grid');
             productsGrid.innerHTML = '';
             let itemId= 0;
-            let vocabulary_dialog = {{ vocabulary|safe}};
-            let vocabulary = Object.assign(vocabulary_dialog, translations_categories, filters_dict);
+
+            let vocabulary = getVocabulary();
             items.forEach((item) => {
                 const productContainer = document.createElement('div');
                 productContainer.className = 'product-container';
@@ -109,7 +74,8 @@ let filters_dict = {
                     favouriteItems,
                     "{% static "icons/pre-order-icon.webp" %}",
                     "{% url "change_favorite_state" %}",
-                    translations_categories
+                    translations_categories,
+                    false
                 );
                 });
 

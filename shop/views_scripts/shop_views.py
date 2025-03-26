@@ -43,7 +43,7 @@ def form_page(request, product_id):
     stones = get_stones()
     info = get_user_info(email) or {}
     sale = get_user_sale(info)
-    show_quantities = False if "show_quantities" not in info else info['show_quantities']
+    show_quantities = info.get("show_quantities", False)
     cart = get_cart(email)
 
     # Set currency symbol

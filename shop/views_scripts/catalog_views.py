@@ -101,7 +101,7 @@ def catalog_view(request):
     info = get_user_info(email) or {}
     sale = get_user_sale(info)
 
-    show_quantities = info['show_quantities'] if 'show_quantities' in info else False
+    show_quantities = info.get('show_quantities', False)
     context = {
         "currency": "€" if currency == "Euro" else "$",
         "category": category,
@@ -129,7 +129,7 @@ def param_catalog(request, category_id, category_name):
     info = get_user_info(email) or {}
     sale = get_user_sale(info)
 
-    show_quantities = info['show_quantities'] if 'show_quantities' in info else False
+    show_quantities = info.get('show_quantities', False)
     context = {
         "currency": "€" if currency == "Euro" else "$",
         "category": category,

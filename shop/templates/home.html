@@ -129,6 +129,7 @@
 
 </dialog>
 {% include "widgets/footer.html" %}
+{% include "dedicated_templates/translation_vocabulary.html" %}
 </body>
 <script type="module">
     import { fetchItemsWithQuantityGreaterThan30, fetchFavouriteItems, fetchStones } from '{% static "js/firebaseFunctions.js" %}';
@@ -337,42 +338,6 @@
         }
     }
 }];
-    let translations_categories = {
-    "Earrings": "{{ _("Earrings")|escapejs }}",
-    "Pendant": "{{ _("Pendant")|escapejs }}",
-    "Chain": "{{ _("Chain")|escapejs }}",
-    "Collier": "{{ _("Collier")|escapejs }}",
-    "Pearlchain": "{{ _("Pearlchain")|escapejs }}",
-    "Necklace": "{{ _("Necklace")|escapejs }}",
-    "Post Earrings": "{{ _("Post earrings")|escapejs }}",
-    "Hoop": "{{ _("Hoop")|escapejs }}",
-    "Creole": "{{ _("Creole")|escapejs }}",
-    "Clip": "{{ _("Clip")|escapejs }}",
-    "Piercing": "{{ _("Piercing")|escapejs }}",
-    "Bracelet": "{{ _("Bracelet")|escapejs }}",
-    "Bangle": "{{ _("Bangle")|escapejs }}",
-    "Anklet": "{{ _("Anklet")|escapejs }}",
-    "Ring": "{{ _("Ring")|escapejs }}",
-    "Match": "{{ _("Match")|escapejs }}",
-    "Pen": "{{ _("Pen")|escapejs }}",
-    "Key": "{{ _("Key")|escapejs }}",
-    "Brooch": "{{ _("Brooch")|escapejs }}",
-    "Nailfile": "{{ _("Nailfile")|escapejs }}",
-    "Extension": "{{ _("Extension")|escapejs }}",
-    "UV": "{{ _("UV")|escapejs }}"
-}
-
-let filters_dict = {
-    "Default": "{{ _("Default")|escapejs }}",
-    "Rhodium": "{{ _("Rhodium")|escapejs }}",
-    "Gold": "{{ _("Gold")|escapejs }}",
-    "Rosegold": "{{ _("Rosegold")|escapejs }}",
-    "Without": "{{ _("Without")|escapejs }}",
-    "Steel": "{{ _("Steel")|escapejs }}",
-    "Steel Brass": "{{ _("Steel Brass")|escapejs }}",
-    "Silver": "{{ _("Silver")|escapejs }}",
-}
-    let vocabulary_dialog = {{ vocabulary_dialog|safe }};
 
     let sale = {{ sale|safe }};
     const price_category = "{{ category|safe }}";
@@ -505,7 +470,7 @@ let filters_dict = {
             items.forEach((item) => {
 
                 // Append the product container to the products grid
-                productsGrid.appendChild(createProductCard(false, item, itemCounter, allItems, allItems, favouriteitems, "{% static "icons/pre-order-icon.webp" %}", vocabulary, translations_categories, currency, "{% url "change_favorite_state" %}", show_quantities, "{% url 'add_from_catalog' %}", getCookie('csrftoken'), "{% url 'cart' %}", "{{ user.is_authenticated|safe }}", "{{ shop_page_url }}"));
+                productsGrid.appendChild(createProductCard(false, item, itemCounter, allItems, allItems, favouriteitems, "{% static "icons/pre-order-icon.webp" %}", vocabulary, translations_categories, currency, "{% url "change_favorite_state" %}", show_quantities, "{% url 'add_from_catalog' %}", getCookie('csrftoken'), "{% url 'cart' %}", "{{ user.is_authenticated|safe }}", "{{ shop_page_url }}", false));
                 itemCounter+=1;
             });
         }
@@ -599,7 +564,8 @@ document.addEventListener('click', (event) => {
                     favouriteitems,
                     "{% static "icons/pre-order-icon.webp" %}",
                     "{% url "change_favorite_state" %}",
-                    translations_categories
+                    translations_categories,
+                    false
                 );
             },
             { once: true } // Remove the handler after the first execution
@@ -607,9 +573,6 @@ document.addEventListener('click', (event) => {
     }
 });
 
-function getVocabulary(){
-    return Object.assign(vocabulary_dialog, translations_categories, filters_dict);
-}
 </script>
 </html>
 {%endblock%}
