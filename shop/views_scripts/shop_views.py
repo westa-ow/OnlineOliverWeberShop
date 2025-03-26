@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 
 from shop.decorators import login_required_or_session
 from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, get_cart, cart_ref, users_ref, \
-    get_user_category, get_user_info, get_user_session_type, get_user_prices, get_vocabulary_product_card, get_stones
+    get_user_category, get_user_info, get_user_session_type, get_user_prices, get_vocabulary_product_card, get_stones, \
+    get_user_sale
 import ast
 import random
 from datetime import datetime
@@ -41,7 +42,7 @@ def form_page(request, product_id):
     category, currency = get_user_prices(request, email)
     stones = get_stones()
     info = get_user_info(email) or {}
-    sale = round((0 if "sale" not in info else info['sale']) / 100, 3) or 0
+    sale = get_user_sale(info)
     show_quantities = False if "show_quantities" not in info else info['show_quantities']
     cart = get_cart(email)
 

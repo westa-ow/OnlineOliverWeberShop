@@ -357,11 +357,10 @@
 
         favouriteItems = await fetchFavouriteItems("{{ user.email }}");
 
-        let result = await fetchStones();
-        stones = result.all;
-        stones_reversed = result.reversed;
+        ({ all: stones, reversed: stones_reversed } = await fetchStones());
 
         allItems = productsTransmutation(unfilteredItems, price_category, sale, stones, "{{ customer_type }}"==="B2B");
+
 
         total_pages = Math.ceil(allItems.length / itemsPerPage);
 

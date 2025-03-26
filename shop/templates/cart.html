@@ -136,9 +136,12 @@
 </body>
 
 <script type="module">
-import { fetchAllItems } from '{% static "js/firebaseFunctions.js" %}';
+import { fetchAllItems, fetchFavouriteItems, fetchStones } from '{% static "js/firebaseFunctions.js" %}';
 
 let product_documents = [];
+let sale = {{ sale|safe }};
+let price_category = "{{ price_category|safe }}";
+let favouriteItems = {};
 function init() {
     product_documents = {{ documents|safe }};
     calculate_final(0, 0, currency, product_documents);
@@ -148,6 +151,12 @@ document.addEventListener('DOMContentLoaded', async function() {
     showOverlay();
 
     let unfilteredItems = await fetchAllItems();
+    let email = "{{ user.email }}";
+    favouriteItems = await fetchFavouriteItems(email);
+    let {all: stones} = await fetchStones();
+
+    allItems = productsTransmutation(unfilteredItems, price_category, sale, stones, "{{ customer_type }}"==="B2B");
+
     isCheckout = true;
     init();
 
@@ -157,7 +166,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
        saveState('quantity-'+doc.name, doc.quantity)
     });
-
+    hideOverlay();
 });
 
 function parameters_final(productId, newQuantity){
