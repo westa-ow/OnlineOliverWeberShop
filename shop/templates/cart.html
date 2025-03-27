@@ -368,33 +368,33 @@ function updateQuantityInput(product_id, quantity_new, doc) {
 
 function deleteBut(documentId, documentContainer){
     fetch('{% url "delete_document" %}', {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': getCookie('csrftoken'),
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ document_id: documentId })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                let documents = product_documents.filter(doc => doc.name !== documentId);
-                product_documents = product_documents.filter(doc => doc.name !== documentId);
-                console.log('Document deleted successfully');
-                documentContainer.remove();
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ document_id: documentId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            let documents = product_documents.filter(doc => doc.name !== documentId);
+            product_documents = product_documents.filter(doc => doc.name !== documentId);
+            console.log('Document deleted successfully');
+            documentContainer.remove();
 
-                data.updated_documents.forEach(doc => {
-                    console.log(`${doc.id}`);
-                    let docElement = document.querySelector(`[data-document-id="${doc.id}"]`);
-                    console.log(docElement);
-                });
-                updateCarouselItems();
-                calculate_final(0,0, currency, documents);
-              } else {
-                  console.error('Error in deletion');
-              }
-        })
-        .catch(error => console.error('Error:', error));
+            data.updated_documents.forEach(doc => {
+                console.log(`${doc.id}`);
+                let docElement = document.querySelector(`[data-document-id="${doc.id}"]`);
+                console.log(docElement);
+            });
+            updateCarouselItems();
+            calculate_final(0,0, currency, documents);
+          } else {
+              console.error('Error in deletion');
+          }
+    })
+    .catch(error => console.error('Error:', error));
 }
 document.getElementById('finishOrderButton').addEventListener('click', function() {
     if (product_documents.length > 0){
