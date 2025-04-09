@@ -51,7 +51,7 @@ export async function fetchStones() {
     return {"all": all_stones, "reversed": stones_reversed};
 }
 
-export async function fetchItemsWithQuantityGreaterThan30() {
+export async function fetchItemsWithQuantityGreaterThan30(elements) {
         const maxElementsPerQuery = 10;
         let items = [];
 

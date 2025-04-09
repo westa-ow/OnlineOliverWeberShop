@@ -707,6 +707,68 @@ def home_page(request):
 
     category, currency = get_user_prices(request, email)  # For users, the currency is determined by IP
 
+    bestseller_items = [{"name": "22697", "product_name": "Post Earrings earring", "description": "Earrings ArtTwo RH multi",
+                 "price": "52.00", "category": "Post Earrings", "material": "Steel",
+                 "preview_image": "https://storage.googleapis.com/flutterapp-fd5c3.appspot.com/Images/22697.jpg",
+                 "platings": {"Default": {"stones": {"Default": {"sizes": {},
+                                                                 "image": "https://storage.googleapis.com/flutterapp-fd5c3.appspot.com/Images/22697.jpg",
+                                                                 "real_name": "22697", "quantity": 89}}}}},
+                {"name": "22066", "product_name": "Post Earrings Diamond", "description": "Earrings Diamond RH CRY",
+                 "price": "23.00", "category": "Post Earrings", "material": "Steel",
+                 "preview_image": "https://storage.googleapis.com/flutterapp-fd5c3.appspot.com/Images/22066R.jpg",
+                 "platings": {"Rhodium": {"stones": {"Default": {"sizes": {},
+                                                                 "image": "https://storage.googleapis.com/flutterapp-fd5c3.appspot.com/Images/22066R.jpg",
+                                                                 "real_name": "22066R", "quantity": 53}}}}},
+                {"name": "22821", "product_name": "Earrings Joice", "description": "Earrings Joice RH aqua",
+                 "price": "39.00", "category": "Earrings", "material": "Steel",
+                 "preview_image": "https://storage.googleapis.com/flutterapp-fd5c3.appspot.com/Images/22821%20202.jpg",
+                 "platings": {"Default": {"stones": {"202": {"sizes": {},
+                                                             "image": "https://storage.googleapis.com/flutterapp-fd5c3.appspot.com/Images/22821%20202.jpg",
+                                                             "real_name": "22821 202", "quantity": 412}}}}},
+                {"name": "22186", "product_name": "Post Earrings earring",
+                 "description": "Earrings Ladybug mini RH CRY", "price": "31.00", "category": "Post Earrings",
+                 "material": "Steel",
+                 "preview_image": "https://storage.googleapis.com/flutterapp-fd5c3.appspot.com/Images/22186.jpg",
+                 "platings": {"Default": {"stones": {"Default": {"sizes": {},
+                                                                 "image": "https://storage.googleapis.com/flutterapp-fd5c3.appspot.com/Images/22186.jpg",
+                                                                 "real_name": "22186", "quantity": 90}}}}},
+                {"name": "22388", "product_name": "Post Earrings Club", "description": "Earrings Club RH CRY",
+                 "price": "48.00", "category": "Post Earrings", "material": "Steel",
+                 "preview_image": "https://storage.googleapis.com/flutterapp-fd5c3.appspot.com/Images/22388%20001.jpg",
+                 "platings": {"Default": {"stones": {"1": {"sizes": {},
+                                                           "image": "https://storage.googleapis.com/flutterapp-fd5c3.appspot.com/Images/22388%20001.jpg",
+                                                           "real_name": "22388 001", "quantity": 40}}}}},
+                {"name": "11792", "product_name": "Pendant Leaf", "description": "Pendant Leaf RH blue",
+                 "price": "73.00", "category": "Pendant", "material": "Steel",
+                 "preview_image": "https://storage.googleapis.com/flutterapp-fd5c3.appspot.com/Images/11792%20BLU.jpg",
+                 "platings": {"Default": {"stones": {"BLU": {"sizes": {},
+                                                             "image": "https://storage.googleapis.com/flutterapp-fd5c3.appspot.com/Images/11792%20BLU.jpg",
+                                                             "real_name": "11792 BLU", "quantity": 78}}}}},
+                {"name": "11713", "product_name": "Pendant Art", "description": "Pendant Art Two RHmulti",
+                 "price": "74.00", "category": "Pendant", "material": "Steel",
+                 "preview_image": "https://storage.googleapis.com/flutterapp-fd5c3.appspot.com/Images/11713.jpg",
+                 "platings": {"Default": {"stones": {"Default": {"sizes": {},
+                                                                 "image": "https://storage.googleapis.com/flutterapp-fd5c3.appspot.com/Images/11713.jpg",
+                                                                 "real_name": "11713", "quantity": 61}}}}},
+                {"name": "11512", "product_name": "Pendant Giant", "description": "Pendant Giant GP silver night",
+                 "price": "55.00", "category": "Pendant", "material": "Steel",
+                 "preview_image": "https://storage.googleapis.com/flutterapp-fd5c3.appspot.com/Images/11512G.jpg",
+                 "platings": {"Gold": {"stones": {"Default": {"sizes": {},
+                                                              "image": "https://storage.googleapis.com/flutterapp-fd5c3.appspot.com/Images/11512G.jpg",
+                                                              "real_name": "11512G", "quantity": 109}}}}},
+                {"name": "11640", "product_name": "Pendant Simple", "description": "Pendant Simple RH CRY",
+                 "price": "32.00", "category": "Pendant", "material": "Steel",
+                 "preview_image": "https://storage.googleapis.com/flutterapp-fd5c3.appspot.com/Images/11640R.jpg",
+                 "platings": {"Rhodium": {"stones": {"Default": {"sizes": {},
+                                                                 "image": "https://storage.googleapis.com/flutterapp-fd5c3.appspot.com/Images/11640R.jpg",
+                                                                 "real_name": "11640R", "quantity": 98}}}}},
+                {"name": "23140", "product_name": "Earrings Sinann", "description": "Earrings Sinann STE GP CZ",
+                 "price": "42.00", "category": "Earrings", "material": "Steel",
+                 "preview_image": "https://storage.googleapis.com/flutterapp-fd5c3.appspot.com/Images/23140G.jpg",
+                 "platings": {"Gold": {"stones": {"Default": {"sizes": {},
+                                                              "image": "https://storage.googleapis.com/flutterapp-fd5c3.appspot.com/Images/23140G.jpg",
+                                                              "real_name": "23140G", "quantity": 342}}}}}]
+
     currency = '€' if currency == 'Euro' else '$'
     info = get_user_info(email) or {}
     sale = get_user_sale(info)
@@ -716,6 +778,7 @@ def home_page(request):
     context['sale'] = sale
     context['show_quantities'] = show_quantities
     context['hello'] = test_text
+    context['bestseller_items'] = bestseller_items
     context['vocabulary'] = get_vocabulary_product_card()
     print(context['hello'])
     return render(request, 'home.html', context)
