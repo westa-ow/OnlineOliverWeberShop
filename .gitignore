@@ -2,6 +2,8 @@
 
 shop/static/key2.json
 
+logs/*
+
 venv/
 
 OnlineShop/.env
