@@ -19,15 +19,16 @@ from firebase_admin import credentials, firestore
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-# dotenv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
-# load_dotenv(dotenv_path)
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 dotenv_path = BASE_DIR / 'OnlineShop/.env'
 
 load_dotenv(dotenv_path)
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-av+bzqy62h9m=9%^%c11v16=7h(aq(e*j2zn9-vk6r20wpn%_n'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+if not SECRET_KEY:
+    raise ValueError("SECRET_KEY is not stored in .env file")
 CURRENT_DOMAIN = os.getenv('DJANGO_ALLOWED_HOSTS', '')
 
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
@@ -44,32 +45,32 @@ elif CURRENT_DOMAIN == 'oliverweber.online':
 else:
     raise ValueError("Unknown domain configuration")
 
-PAYPAL_MODE = os.getenv('PAYPAL_MODE', 'sandbox')  # По умолчанию 'sandbox' для тестирования
+PAYPAL_MODE = os.getenv('PAYPAL_MODE', 'sandbox')  # By default 'sandbox' for testing
 PAYPAL_CLIENT_ID = os.getenv('PAYPAL_CLIENT_ID')
 PAYPAL_CLIENT_SECRET = os.getenv('PAYPAL_CLIENT_SECRET')
-# SECURITY WARNING: don't run with debug turned on in production!
 
+# SECURITY WARNING: don't run with debug turned on in production!
 FIREBASE_CREDENTIALS_FILE = os.path.join(BASE_DIR, "shop", "static", "key2.json")
 
-# Инициализация Firebase (только один раз)
+# Initialization Firebase (just once)
 if not firebase_admin._apps:
     FIREBASE_CREDENTIALS = credentials.Certificate(FIREBASE_CREDENTIALS_FILE)
     firebase_admin.initialize_app(FIREBASE_CREDENTIALS)
 
-# Firestore client (глобальный объект)
+# Firestore client (global object)
 FIRESTORE_CLIENT = firestore.client()
 
 GEOIP_config = os.path.join(BASE_DIR, "shop", "static", "GEOIP", "GeoLite2-Country.mmdb")
 
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ['oliverweber.com', 'www.oliverweber.com', 'oliverweber.online', 'www.oliverweber.online']
 
-GEOIP_PATH = os.path.join(BASE_DIR, 'shop/static/GEOIP'),
-SECURE_SSL_REDIRECT = False
+GEOIP_PATH = os.path.join(BASE_DIR, 'shop/static/GEOIP')
+SECURE_SSL_REDIRECT = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-# Application definition
 
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -95,18 +96,12 @@ MIDDLEWARE = [
 
     'shop.middleware.ensure_anon_session_middleware.EnsureAnonymousSessionMiddleware',
     'shop.middleware.redirect_en_to_gb_middleware.RedirectENtoGBMiddleware',
-    # 'shop.middleware.DefaultLanguageMiddlware.DefaultLanguageMiddleware',
-    # 'django.middleware.cache.UpdateCacheMiddleware',
-    # 'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.cache.FetchFromCacheMiddleware',
 
 ]
-# CACHE_MIDDLEWARE_ALIAS = 'default'
-# CACHE_MIDDLEWARE_SECONDS = 600  # Cache for 10 minutes
-# CACHE_MIDDLEWARE_KEY_PREFIX = ''
+
 ROOT_URLCONF = 'OnlineShop.urls'
-CSRF_COOKIE_HTTPONLY = False  # Убедитесь, что JavaScript может читать cookie
-CSRF_COOKIE_SECURE = True     # Только если используется HTTPS
+CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_SECURE = True     # Only if https is used
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -188,22 +183,75 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'westadatabase@gmail.com'
-# EMAIL_HOST_PASSWORD = 'avrt uxcf vahg ixbe'
-EMAIL_HOST_PASSWORD = 'thfx sduu sgeu urhz'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
-
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'shop/static'),
 ]
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'shop/media')
-# URL, по которому файлы будут доступны
+MEDIA_ROOT = os.path.join(BASE_DIR, 'shop/media'
+                          )
+# URL, where the files will be accessed
 MEDIA_URL = '/media/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOG_DIR = os.path.join(BASE_DIR, 'logs')
+if not os.path.exists(LOG_DIR):
+    os.makedirs(LOG_DIR)
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,  # Save Django's default loggers
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname}: {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'INFO',  # INFO or WARN can be selected for production
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOG_DIR, 'django.log'),
+            'maxBytes': 1024 * 1024 * 5,  # 5 MB
+            'backupCount': 5,
+            'formatter': 'verbose',
+        },
+        'console': {
+            'level': 'DEBUG',  # You can use DEBUG for development
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'loggers': {
+        # Generic logger for Django (includes standard behavior)
+        'django': {
+            'handlers': ['file', 'console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        # Logger for queries - only errors are logged
+        'django.request': {
+            'handlers': ['file'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        # Example for your application ('shop' is the name of the application)
+        'shop': {
+            'handlers': ['file', 'console'],
+            'level': 'DEBUG',  # DEBUG can be enabled here for detailed tracking
+            'propagate': True,
+        },
+    },
+}

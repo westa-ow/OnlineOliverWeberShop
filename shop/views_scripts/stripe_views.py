@@ -16,9 +16,10 @@ from OnlineShop import settings
 from shop.views import addresses_ref, country_dict, users_ref, get_user_category, get_user_prices, \
     get_user_session_type, get_cart, orders_ref, single_order_ref, delete_user_coupons, get_active_coupon, \
     mark_user_coupons_as_used
-from shop.views_scripts.checkout_cart_views import clear_all_cart, email_process, get_check_id
+from shop.views_scripts.checkout_cart_views import clear_all_cart, email_process, get_check_id, generate_unique_order_id
 from shop.views_scripts.profile_orders_pay import stripe_partial_checkout
 
+logger = logging.getLogger(__name__)
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class SuccessView(TemplateView):
@@ -81,11 +82,17 @@ def create_checkout_session(request):
                 currency = "eur"
             elif currency == "Dollar":
                 currency = "usd"
-            order_id = random.randint(1000000, 100000000)
+            else:
+                currency = "usd"
+            order_id = generate_unique_order_id()
             cart = get_cart(email)
             full_price = round(sum(float(item["sum"]) for item in cart), 2)
             paid_sum = 0 + full_price
             full_price += shipping
+
+            logger.info(
+                f"Start creating Stripe checkout session for order_id {order_id}, email {email}, full_price {full_price}")
+
             metadata = {"payment_type": "Stripe", "paid_sum": paid_sum, "Id": order_id, "email": email, "full_name": request.user.first_name + " " + request.user.last_name, "vat": data.get('vat', 0), "shippingPrice": shipping, "shippingAddress": shippingAddress, 'billingAddress': billingAddress, 'lang_code': language_code}
 
             request.session['order_total'] = full_price
@@ -112,6 +119,7 @@ def create_checkout_session(request):
             )
             return JsonResponse({'id': checkout_session['id']})
         except Exception as e:
+            logger.error(f"Error during checkout session creation: {e}", exc_info=True)
             return JsonResponse({'error': str(e)})
 
     # Processing for GET request or other methods
@@ -125,10 +133,13 @@ def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddr
     """
 
     order_id = int(order_id)
+
+    logger.info(f"Start of stripe_checkout execution for order {order_id} user {email}")
+
     # Check if there is an order with this order_id
     existing_orders = orders_ref.where('order_id', '==', order_id).stream()
     if any(existing_orders):
-        logging.info(f"Order {order_id} already exists. Skipping duplicate creation.")
+        logger.info(f"Order {order_id} already exists. Skipping duplicate creation.")
         return 0  # Or return the current amount/status if needed
 
     # Next, the code for creating an order (calculating the amount, creating a record in the database, etc.)
@@ -181,7 +192,7 @@ def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddr
         item_refs.append(doc_ref)
 
         csv_writer.writerow([name, quantity])
-
+    logger.info(f"Shopping cart processing is complete, order total: {total_sum}")
     csv_output.seek(0)
     csv_content = csv_output.getvalue()
     csv_output.close()
@@ -203,9 +214,14 @@ def stripe_checkout(email, user_name, order_id, vat, shippingPrice, shippingAddr
         'payment_type': payment_type,
     }
     orders_ref.add(new_order)
+
+    logger.info(f"A new order {order_id} was successfully created in Firestore for user {user_email}")
+
     new_order['date'] = new_order['date'].isoformat()
     email_process(new_order, user_email, order_id, csv_content, lang_code, checkout_admins_message)
     clear_all_cart(user_email)
+
+    logger.info(f"stripe_checkout completed for order {order_id}. Total amount: {total_sum}")
     return total_sum
 
 @csrf_exempt
@@ -225,17 +241,16 @@ def stripe_webhook(request):
         )
     except ValueError as e:
         # Invalid payload
-        print("PAYLOAD")
-        logging.error(f"Invalid payload: {e}")
+        logger.error(f"Invalid payload: {e}")
         return HttpResponse(status=400)
     except stripe.error.SignatureVerificationError as e:
         # Invalid signature
-        logging.error(f"Signature verification error: {e}")
-        print("SIGNATURE")
+        logger.error(f"Signature verification error: {e}")
         return HttpResponse(status=400)
 
-    # Logging the event data
-    logging.info(event)
+
+    logger.info(f"Stripe webhook event received: {event['type']}, ID: {event['data']['object']['id']}")
+
     if event['type'] == 'checkout.session.completed':
         # Extract the session ID from the event data
         session_id = event['data']['object']['id']
@@ -253,6 +268,6 @@ def stripe_webhook(request):
                 stripe_checkout(metadata.get('email'), metadata.get('full_name'), order_id, metadata.get('vat'), metadata.get('shippingPrice'), metadata.get('shippingAddress'), metadata.get('billingAddress'), "STRIPE", metadata.get("lang_code", "gb"))
             elif metadata.get('payment_type') == "BANK TRANSFER":
                 stripe_partial_checkout(metadata.get('email'), metadata.get('paid_sum'),  order_id, metadata.get("lang_code", "gb"))
-            print(f"Order {order_id} has been marked as paid.")
+            logger.info(f"Order {order_id} has been successfully updated and marked as paid.")
 
     return HttpResponse(status=200)
