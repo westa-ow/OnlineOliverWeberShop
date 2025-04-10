@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 
+from django.utils.translation import gettext_lazy as _
 import firebase_admin
 from django.utils.translation import gettext_lazy as _
 from dotenv import load_dotenv
@@ -67,7 +68,7 @@ DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = ['oliverweber.com', 'www.oliverweber.com', 'oliverweber.online', 'www.oliverweber.online']
 
 GEOIP_PATH = os.path.join(BASE_DIR, 'shop/static/GEOIP')
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = not DEBUG # false ONLY for localhost. For production we have to use TRUE
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Application definition
@@ -167,7 +168,6 @@ LOGIN_URL = 'login'
 USE_I18N = True
 USE_L10N = True
 LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
-from django.utils.translation import gettext_lazy as _
 LANGUAGES = [
     ('gb', _('English')),
     ('de', _('German')),
@@ -194,10 +194,11 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'shop/static'),
 ]
 
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'shop/media'
                           )
 # URL, where the files will be accessed
-MEDIA_URL = '/media/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -219,6 +220,11 @@ LOGGING = {
             'style': '{',
         },
     },
+    'filters': {
+        'ignore_static': {
+            '()': 'shop.logging_filters.IgnoreStaticFilesFilter',
+        },
+    },
     'handlers': {
         'file': {
             'level': 'INFO',  # INFO or WARN can be selected for production
@@ -226,12 +232,14 @@ LOGGING = {
             'filename': os.path.join(LOG_DIR, 'django.log'),
             'maxBytes': 1024 * 1024 * 5,  # 5 MB
             'backupCount': 5,
+            'filters': ['ignore_static'],
             'formatter': 'verbose',
         },
         'console': {
             'level': 'DEBUG',  # You can use DEBUG for development
             'class': 'logging.StreamHandler',
             'formatter': 'simple',
+            'filters': ['ignore_static'],
         },
     },
     'loggers': {
