@@ -201,8 +201,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 function updateCarouselItems(){
    let similarItems = [];
    product_documents.forEach(product => {
-     similarItems.push(...productGroups[product.product_name]);
-
+     similarItems.push(...(productGroups[product.product_name] || []));
    });
    similarItems = [...new Set(similarItems)];
    similarItems = similarItems.filter(similarItem => {
