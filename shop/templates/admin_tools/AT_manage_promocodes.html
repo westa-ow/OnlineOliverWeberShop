@@ -41,6 +41,7 @@
     <div id="modal-overlay-promocode" class="overlay-promocode hidden"></div>
     <div id="modal-promocode" class="modal-promocode hidden">
         <form id="promocode-form" class="styled-form">
+            {% csrf_token %}
             <h2 id="form-title">Create Promo Code</h2>
             <label for="code">Promo Code: </label>
             <input type="text" id="code" name="code" required><br>

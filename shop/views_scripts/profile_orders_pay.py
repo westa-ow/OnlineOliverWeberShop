@@ -35,7 +35,7 @@ def stripe_config(request):
         stripe_config = {'publicKey': settings.STRIPE_PUBLISHABLE_KEY}
         return JsonResponse(stripe_config, safe=False)
 
-@csrf_exempt
+
 @login_required
 def create_partial_checkout_session(request):
     if request.method == 'POST':

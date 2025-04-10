@@ -8,6 +8,7 @@
     <div class="address-form">
         <div class="js-address-form">
             <form method="POST" id="form-address-form" data-id-address="0" data-refresh-url="">
+                {% csrf_token %}
                 <section class="form-fields">
                     <input type="hidden" name="back" value="">
                     <input type="hidden" name="token" value="c87fbdeef3c62a3cece683f5dd3cd320">

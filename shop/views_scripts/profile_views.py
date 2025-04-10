@@ -283,7 +283,7 @@ def get_user_addresses(email):
     return addresses, addresses_dict
 
 
-@csrf_exempt
+
 @login_required
 def update_user_account(request):
     """

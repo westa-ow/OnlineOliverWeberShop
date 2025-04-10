@@ -422,22 +422,9 @@ function pay_for_order(amount, current_order) {
     console.log(amount);
 
     current_order['sum'] = amount
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = "{% url 'create_partial_checkout_session' %}";
-
     const csrfToken = getCookie('csrftoken');
-    const csrfInput = document.createElement('input');
-    csrfInput.type = 'hidden';
-    csrfInput.name = 'csrfmiddlewaretoken';
-    csrfInput.value = csrfToken;
-    form.appendChild(csrfInput);
 
-    // Add the form to the page and submit
-    document.body.appendChild(form);
-
-    // Submit the form and get the session ID from the server
-    fetch(form.action, {
+    fetch("{% url 'create_partial_checkout_session' %}", {
         method: 'POST',
         headers: {
             'X-CSRFToken': csrfToken,
@@ -448,14 +435,10 @@ function pay_for_order(amount, current_order) {
     .then(response => response.json())
     .then(data => {
         if (data.id) {
-            // Initialize Stripe with publishable key
             const stripe = Stripe('{{ STRIPE_PUBLISHABLE_KEY }}');
-
-            // Redirect the user to the Stripe payment page
             stripe.redirectToCheckout({ sessionId: data.id })
                 .then(function (result) {
                     if (result.error) {
-                        // Handle errors if they occur
                         console.error('Error redirecting to Stripe checkout:', result.error.message);
                     }
                 });
@@ -466,7 +449,7 @@ function pay_for_order(amount, current_order) {
     .catch(error => {
         console.error('Error:', error);
     })
-    .finally(() => closeModal()); // Closing the window after payment
+    .finally(() => closeModal());
 }
 
 </script>

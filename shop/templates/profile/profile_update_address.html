@@ -9,6 +9,7 @@
     <div class="address-form">
         <div class="js-address-form">
             <form method="POST" id="form-address-form" data-id-address="0" >
+                {% csrf_token %}
                 <section class="form-fields">
                     <input type="hidden" name="back" value="">
                     <input type="hidden" name="token" >
