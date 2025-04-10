@@ -328,3 +328,10 @@ body{
         transform: translateY(0);
     }
 }
+
+.no-select {
+  -webkit-user-select: none; /* для браузеров на базе WebKit (Chrome, Safari) */
+  -moz-user-select: none;    /* для Firefox */
+  -ms-user-select: none;     /* для Internet Explorer и Edge (старые версии) */
+  user-select: none;         /* стандартное свойство */
+}

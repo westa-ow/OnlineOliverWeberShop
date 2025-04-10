@@ -485,6 +485,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     const button_minus = document.createElement('button');
     button_minus.innerText = '-';
     button_minus.classList.add('minus-button-dialog');
+    button_minus.classList.add('no-select');
 
     inputQuantity.type = 'number';
     inputQuantity.style.textAlign = 'center';
@@ -522,6 +523,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     const button_plus = document.createElement('button');
     button_plus.innerText = '+';
     button_plus.classList.add('plus-button-dialog');
+    button_plus.classList.add('no-select');
     button_plus.addEventListener('click', () => {
         if(!item.pre_order) {
             if (inputQuantity.value < quantity_max) {
