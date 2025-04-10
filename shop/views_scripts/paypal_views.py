@@ -15,7 +15,7 @@ from django.views.generic import TemplateView
 from OnlineShop import settings
 from shop.views import addresses_ref, country_dict, users_ref, get_user_category, get_user_prices, \
     get_user_session_type, get_cart, orders_ref, single_order_ref
-from shop.views_scripts.checkout_cart_views import clear_all_cart, email_process
+from shop.views_scripts.checkout_cart_views import clear_all_cart, email_process, generate_unique_order_id
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 from django.http import JsonResponse, HttpResponse
@@ -57,7 +57,7 @@ def create_paypal_payment(request):
             elif currency == "Dollar":
                 currency = "USD"
 
-            order_id = random.randint(1000000, 100000000)
+            order_id = generate_unique_order_id()
             cart = get_cart(email)
             shipping = data.get('shipping', 0)
             full_price = round(sum(item["price"] for item in cart), 2)
