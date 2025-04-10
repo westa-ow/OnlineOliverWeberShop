@@ -42,7 +42,8 @@ class PayPalSuccessView(TemplateView):
 # Cancelled view
 class PayPalCancelledView(TemplateView):
     template_name = 'stripe/cancelled.html'
-@csrf_exempt
+
+
 def create_paypal_payment(request):
     if request.method == 'POST':
         domain_url = 'https://www.oliverweber.online/'

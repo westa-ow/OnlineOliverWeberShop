@@ -333,21 +333,8 @@ document.addEventListener("DOMContentLoaded", function() {
 document.getElementById('continueCheckoutBtn').addEventListener('click', function (){
 
      if (product_documents.length !== 0){
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = "{% url 'create_checkout_session' %}";
-
         const csrfToken = getCookie('csrftoken');
-        const csrfInput = document.createElement('input');
-        csrfInput.type = 'hidden';
-        csrfInput.name = 'csrfmiddlewaretoken';
-        csrfInput.value = csrfToken;
-        form.appendChild(csrfInput);
-
-        // Add the form to the page and submit
-        document.body.appendChild(form);
-
-        fetch(form.action, {
+        fetch("{% url 'create_checkout_session' %}", {
             method: 'POST',
             headers: {
                 'X-CSRFToken': csrfToken,
@@ -365,7 +352,6 @@ document.getElementById('continueCheckoutBtn').addEventListener('click', functio
                 stripe.redirectToCheckout({ sessionId: data.id })
                     .then(function (result) {
                         if (result.error) {
-                            // Handle errors if they occur
                             console.error('Error redirecting to Stripe checkout:', result.error.message);
                         }
                     });
