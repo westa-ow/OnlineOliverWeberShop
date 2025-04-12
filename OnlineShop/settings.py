@@ -10,8 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
+from datetime import timedelta
 from pathlib import Path
 
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 import firebase_admin
 from django.utils.translation import gettext_lazy as _
@@ -50,6 +52,10 @@ PAYPAL_MODE = os.getenv('PAYPAL_MODE', 'sandbox')  # By default 'sandbox' for te
 PAYPAL_CLIENT_ID = os.getenv('PAYPAL_CLIENT_ID')
 PAYPAL_CLIENT_SECRET = os.getenv('PAYPAL_CLIENT_SECRET')
 
+RECAPTCHA_SITE_KEY = os.environ.get('RECAPTCHA_SITE_KEY')
+RECAPTCHA_SECRET_KEY = os.environ.get('RECAPTCHA_SECRET_KEY')
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 FIREBASE_CREDENTIALS_FILE = os.path.join(BASE_DIR, "shop", "static", "key2.json")
 
@@ -82,6 +88,7 @@ INSTALLED_APPS = [
     'background_task',
     'widget_tweaks',
     'shop',
+    'axes',
     # 'autotranslate',
 ]
 
@@ -91,6 +98,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'axes.middleware.AxesMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -99,6 +107,15 @@ MIDDLEWARE = [
     'shop.middleware.redirect_en_to_gb_middleware.RedirectENtoGBMiddleware',
 
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'axes.backends.AxesStandaloneBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+AXES_FAILURE_LIMIT = 10                 # Number of unsuccessful login attempts before blocking
+AXES_COOLOFF_TIME = timedelta(minutes=10)                   # Lock time in hours (can be set in minutes, e.g. '1' means 1 hour)
+AXES_LOCKOUT_URL = 'lockout/'  # Template used to display lockout page
 
 ROOT_URLCONF = 'OnlineShop.urls'
 CSRF_COOKIE_HTTPONLY = False
