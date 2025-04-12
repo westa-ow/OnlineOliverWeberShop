@@ -34,7 +34,8 @@ from shop.views_scripts.service_views import service_pages_view
 from shop.views_scripts.stripe_views import stripe_config, create_checkout_session, CancelledView, SuccessView, \
     stripe_webhook
 from shop.views_scripts.users_control.at_uc_bulk_actions import disable_users, enable_users
-from shop.views_scripts.auth_views import register, logout_view, login_view, CustomPasswordResetConfirmView
+from shop.views_scripts.auth_views import register, logout_view, login_view, CustomPasswordResetConfirmView, \
+    lockout_view
 from shop.views_scripts.catalog_views import add_to_cart_from_catalog, catalog_view, change_favorite_state
 from shop.views_scripts.checkout_cart_views import sort_documents, send_email, cart_page, anonym_cart_info, \
     register_anonym_cart_info, login_anonym_cart_info, checkout_addresses, checkout_payment_type, check_promo_code
@@ -65,6 +66,7 @@ urlpatterns = i18n_patterns(
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', CustomPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    path('lockout/', lockout_view, name='lockout_view'),
 
     # Product search urls
     path('shop/<str:product_id>', form_page, name='shop_page'),

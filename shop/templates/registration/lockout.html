@@ -1,0 +1,39 @@
+{% extends 'widgets/base.html' %}
+{% block title %} Login {% endblock %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="{% static "css/profile/profile_information.css" %}">
+    <link rel="stylesheet" href="{% static "css/auth/login.css" %}">
+</head>
+<body>
+    {% include 'widgets/navigation_bar.html' %}
+    <section id="wrapper" class="stick_parent_lb">
+        <div id="top_column">
+            <div class="container">
+            </div>
+        </div>
+        <header class="page-header" style="text-align: center">
+            <h1>{{ _("Account Locked") }}</h1>
+            <p>{{ _("Your account has been locked due to too many failed login attempts.") }}</p>
+            {% if unlock_time %}
+                <p>{% trans "Please try again after:" %} {{ unlock_time }}</p>
+            {% else %}
+                <p>{% trans "Your account is currently locked." %}</p>
+            {% endif %}
+            <p>
+              {{ _("If you forgot your password, please") }}
+              <a href="{% url 'password_reset' %}">{{ _("click here to reset it") }}</a>.
+            </p>
+        </header>
+    </section>
+</body>
+{% endblock %}
