@@ -205,11 +205,10 @@ function updateCarouselItems(){
    });
    similarItems = [...new Set(similarItems)];
    similarItems = similarItems.filter(similarItem => {
-      console.log(product_documents);
       return !product_documents.some(cartItem => getNormalizedItemName(cartItem.name, cartItem) === similarItem);
    });
    const filteredItems = allItems.filter(item => similarItems.includes(getNormalizedItemName(item.name, item)));
-   console.log(product_documents);
+
    if (filteredItems.length > 0){
        const containerCarousel = document.querySelector('.complementary-products');
        containerCarousel.style.display = "block";
