@@ -1,3 +1,5 @@
+@import "separateElements/photoThumbnails.css";
+@import "separateElements/magnifier.css";
 * {
     font-family: 'Poppins', Verdana, sans-serif;
 }
@@ -7,7 +9,6 @@
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 #product-card-success.show{
-    /*!*display: block; !* Показываем окно *!*!*!*/
     opacity: 1;
     transform: scale(1);
 }
@@ -31,131 +32,7 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 0;
   text-transform: none;
 }
-.products{
 
-    }
-    input{
-        width: 250px;
-        box-sizing: border-box;
-        padding: 8px;
-        margin-top: 5px;
-    }
-    .search{
-        background-color: #0f790f;
-        color: #fff;
-        padding: 10px;
-        border: none;
-        font-size: 18px;
-        width: 100px;
-        border-radius: 5px;
-        margin-top: -11px;
-
-        /*margin-left: 100px;*/
-    }
-    .search:hover{
-        background-color: #139313;
-
-    }
-    .search:active{
-        background-color: #19be19;
-    }
-    .search:focus{
-    }
-.form {
-        position: relative;
-        text-align: center;
-    }
-
-.results{
-text-align: center;
-}
-.NoRes{
-    text-align: center;
-    font-size: 20px;
-    margin-top: 200px;
-
-}
-.document-container {
-    padding: 0 0 10px 10px;
-    margin: 0 auto;
-    display: flex;
-    border: 2px solid #ddd;
-    margin-bottom: 10px;
-    width: 1000px;
-    height: 350px;
-    border-radius: 10px;
-}
-
-.document-image {
-    width: 319px;
-    height: 296px;
-    margin: auto auto;
-    right: 0;
-}
-.number-in-cart{
-    width: 32px;
-    height: 346px;
-    margin-right: 10px;
-    border-right:  2px solid #ddd;
-    text-align: center;
-    display: flex;        /* Use flexbox */
-    justify-content: center; /* Center horizontally */
-    align-items: center;  /* Center vertically */
-    font-size: 30px;
-    position: relative;
-    padding-right: 10px;
-}
-
-.document-info {
-
-    position: relative;
-    flex-grow: 1;
-    padding-top: 10px;
-}
-
-.document-number {
-    padding-top: 10px;
-    position: absolute;
-    font-size: 24px;
-    margin-left: 245px;
-    text-align: center;
-    font-weight: bold;
-}
-
-.document-price {
-    position: absolute;
-    left: 0;
-    font-weight: 600;
-    font-size: 25px;
-}
-.document-in-stock{
-    position: absolute;
-    font-size: 19px;
-    padding-bottom: 35px;
-    font-weight: 600;
-    margin-left: 480px;
-}
- #dropdown {
-        max-height: 200px;
-        overflow-y: auto;
-        width: 250px; /* Match the width of your input field */
-        background-color: white;
-        border: 1px solid #ddd;
-        position: absolute;
-        left: 50%; /* Set left to 50% of the parent element */
-        transform: translateX(-50%); /* Move back by 50% of its own width */
-        top: 80px; /* Adjust based on the height of your input field and label */
-        z-index: 1000;
-    }
-
-    #dropdown div {
-        cursor: pointer;
-        padding: 5px;
-    }
-
-    #dropdown div:hover {
-        background-color: #f0f0f0;
-    }
 @media only screen and (min-width: 769px)  {
     .card-content {
         display: grid;
@@ -483,4 +360,20 @@ input[type=number] {
 .wrong-product{
     font-size: 20px;
     font-weight: 600;
+}
+
+.image-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    display: flex;
+    gap:10px;
+    justify-content: center;
+    align-items: center;
+}
+.img-card {
+    user-select: none;           /* Основное свойство */
+    -webkit-user-select: none;   /* Для Safari */
+    -moz-user-select: none;      /* Для Firefox */
+    -ms-user-select: none;       /* Для IE/Edge */
 }
