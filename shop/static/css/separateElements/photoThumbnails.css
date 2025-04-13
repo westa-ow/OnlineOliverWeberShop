@@ -1,0 +1,39 @@
+.arrow-left,
+.arrow-right {
+
+    border-radius: 5px;
+    border: 2px #505050 solid;
+    color: #424242;
+    width: 30px;
+    height: 90px;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: opacity 0.2s ease-in-out; /* плавное появление/исчезновение */
+}
+
+.arrow-left {
+    left: 10px;
+}
+
+.arrow-right {
+    right: 10px;
+}
+
+.thumbnails-container {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.thumbnail-item {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.thumbnail-item.active {
+    border: 2px solid #000;
+    border-radius: 5px;
+    opacity: 1;
+}

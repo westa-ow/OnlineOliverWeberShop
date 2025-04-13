@@ -55,6 +55,7 @@ function productsTransmutation(items, price_category, sale, stones, isB2B){
                         products[itemName].platings[item.plating].stones[stone] = {
                             sizes: {},
                             image: item.image_url,
+                            images: item.images ? item.images : [],
                             real_name: item.name,
                         };
 

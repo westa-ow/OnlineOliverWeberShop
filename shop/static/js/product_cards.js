@@ -137,7 +137,7 @@ function bindGlobalClickEvent(dialog) {
     );
 }
 
-function dialogCommonSetup(dialog, image_url, card_content){
+function dialogCommonSetup(dialog, card_content){
 
     const close_dialog = document.createElement('div');
     const icon_close = document.createElement('i');
@@ -213,7 +213,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     let quantity_max = 1;
     document.body.style.overflow = 'hidden';
     const item = items_array.find(item => item.name === id);
-
+    console.log(item);
     if (!item) {
         console.error('Item not found');
         return;
@@ -232,9 +232,6 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
 
 
     const dialog = document.getElementById('product-card');
-    const image = document.createElement('img');
-    image.classList.add('zoom-image');
-    bindGlobalClickEvent(dialog);
     dialog.innerHTML = '';
 
     const card = document.createElement('div');
@@ -243,32 +240,128 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     const card_content = document.createElement('div');
     card_content.classList.add('card-content');
 
-    let imagePath = '';
-    let single_product_address = "";
+    const div_container = document.createElement('div');
 
+    const containerWrapper = document.createElement('div');
+    containerWrapper.classList.add('image-wrapper');
+
+    const image_container = document.createElement('div');
+    image_container.classList.add('image-container');
+
+    const image = document.createElement('img');
+    image.classList.add('zoom-image', 'img-card');
+    image.width = 400;
+    image.height = 400;
+
+    let imagesArray = (firstStone && firstStone.images && firstStone.images.length) ? firstStone.images : [];
+    if (!imagesArray.length && firstStone && firstStone.image) {
+        imagesArray.push(firstStone.image);
+    }
+    let single_product_address = "";
     if (firstStone) {
-        imagePath = firstStone.image || '';
         single_product_address = single_product_url.replace('REPLACE', firstStone.real_name);
         quantity_max = Object.keys(firstStone.sizes || {}).length === 0 ? firstStone.quantity : firstSizeQuantity;
     }
 
-    image.src = imagePath;
-    image.width = `400`;
-    image.height = `400`;
-    image.classList.add('img-card');
-    const image_container = document.createElement('div');
-    image_container.classList.add('image-container');
-    image_container.appendChild(image);
+    let currentIndex = 0;
+    image.src = imagesArray.length ? imagesArray[0] : '';
 
-    const div_container = document.createElement('div');
-    if (window.matchMedia("(min-width: 769px)").matches) {
-        setupZoom(image_container, image, vocabulary);
+
+
+    if (imagesArray.length > 1) {
+
+        const arrowLeft = document.createElement('button');
+        arrowLeft.classList.add('arrow-left');
+        arrowLeft.innerHTML = `<i class="fas fa-arrow-left"></i>`;
+
+        const arrowRight = document.createElement('button');
+        arrowRight.classList.add('arrow-right');
+        arrowRight.innerHTML = `<i class="fas fa-arrow-right"></i>`;
+
+        // Обработчики кликов для стрелок
+        arrowLeft.addEventListener('click', function () {
+            if (currentIndex > 0) {
+                updateImage(currentIndex - 1);
+            }
+        });
+        arrowRight.addEventListener('click', function () {
+            if (currentIndex < imagesArray.length - 1) {
+                updateImage(currentIndex + 1);
+            }
+        });
+        image_container.appendChild(arrowLeft);
+        image_container.appendChild(image);
+        image_container.appendChild(arrowRight);
+
+        // Функция обновления изображения и управления видимостью стрелок
+        function updateImage(index) {
+            currentIndex = index;
+            image.src = imagesArray[index];
+
+            // Если мы на первом изображении, делаем левую стрелку прозрачной и не кликабельной, иначе показываем её
+            if (index === 0) {
+                arrowLeft.style.opacity = '0';
+                arrowLeft.style.pointerEvents = 'none';
+            } else {
+                arrowLeft.style.opacity = '1';
+                arrowLeft.style.pointerEvents = 'auto';
+            }
+
+            // Если мы на последнем изображении, делаем правую стрелку прозрачной и не кликабельной, иначе показываем её
+            if (index === imagesArray.length - 1) {
+                arrowRight.style.opacity = '0';
+                arrowRight.style.pointerEvents = 'none';
+            } else {
+                arrowRight.style.opacity = '1';
+                arrowRight.style.pointerEvents = 'auto';
+            }
+
+            // Обновляем активное состояние миниатюр
+            const thumbItems = thumbnailsContainer.querySelectorAll('.thumbnail-item');
+            thumbItems.forEach((thumb, idx) => {
+                thumb.classList.toggle('active', idx === index);
+            });
+        }
+
+        // При первой загрузке устанавливаем состояние стрелок
+
+
+        // Контейнер миниатюр
+        const thumbnailsContainer = document.createElement('div');
+        thumbnailsContainer.classList.add('thumbnails-container');
+        imagesArray.forEach((imgUrl, index) => {
+            const thumb = document.createElement('img');
+            thumb.src = imgUrl;
+            thumb.classList.add('thumbnail-item');
+            thumb.width = 90;
+            thumb.height = 90;
+            if (index === 0) thumb.classList.add('active');
+            thumb.addEventListener('click', function () {
+                updateImage(index);
+            });
+            thumbnailsContainer.appendChild(thumb);
+        });
+
+        containerWrapper.appendChild(image_container);
+        containerWrapper.appendChild(thumbnailsContainer);
+        updateImage(0);
+    } else {
+        // Если изображение одно
+        image_container.appendChild(image);
+        containerWrapper.appendChild(image_container);
     }
 
-    div_container.appendChild(image_container);
+    bindGlobalClickEvent(dialog);
+
+
+    if (window.matchMedia("(min-width: 769px)").matches) {
+        setupZoom(containerWrapper, image, vocabulary, false);
+    }
+
+    div_container.appendChild(containerWrapper);
     card_content.appendChild(div_container);
 
-    dialogCommonSetup(dialog, imagePath, card_content);
+    dialogCommonSetup(dialog, card_content);
 
 
     const secondColumn = document.createElement('div');
@@ -790,7 +883,7 @@ function activate_success_card(item, quantity, cart_count, subtotalValue, curren
     image.classList.add('img-card');
     card_content.appendChild(image);
 
-    dialogCommonSetup(dialog, item.image_url, card_content);
+    dialogCommonSetup(dialog, card_content);
 
     //Column with text information and everything about added to cart product
     const secondColumn = document.createElement('div');
@@ -836,7 +929,7 @@ function activate_success_card_shop(item, quantity, cart_count, subtotalValue, c
     image.classList.add('img-card');
     card_content.appendChild(image);
 
-    dialogCommonSetup(dialog, item.image_url, card_content);
+    dialogCommonSetup(dialog, card_content);
 
     //Column with text information and everything about added to cart product
     const secondColumn = document.createElement('div');
@@ -925,7 +1018,7 @@ function manageButtonsSuccessSetup(dialog, column, vocabulary, checkout_url){
 }
 
 
-function setupZoom(image_container, image, vocabulary){
+function setupZoom(image_container, image, vocabulary, isSearchPage){
     const magnifier = document.createElement('div');
     magnifier.classList.add('magnifier');
 
@@ -1037,8 +1130,9 @@ function setupZoom(image_container, image, vocabulary){
 
         // Position the magnifier relative to the container
         // (CSS transform centers it automatically)
-        magnifier.style.left = `${e.clientX - containerRect.left}px`;
-        magnifier.style.top = `${e.clientY - containerRect.top}px`;
+
+        magnifier.style.left = isSearchPage ? `${e.pageX}px` : `${e.clientX - containerRect.left}px`;
+        magnifier.style.top = isSearchPage ? `${e.pageY}px` : `${e.clientY - containerRect.top}px`;
 
         // Set the background image and its size/position
         magnifier.style.backgroundImage = `url(${image.src})`;
