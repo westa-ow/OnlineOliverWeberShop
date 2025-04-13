@@ -237,6 +237,7 @@
     pointer-events: none; /* Allows mouse events to pass through the tooltip */
     box-shadow: 0 4px 6px rgba(0,0,0,0.2); /* Shadow added here */
 }
+
 .price-element{
     font-size: 20px;
     font-weight: 600;
@@ -386,6 +387,7 @@
     justify-content: center;
     align-items: center;
 }
+
 .card-fav-icon-no path, .card-fav-icon-yes path{
 
 }
