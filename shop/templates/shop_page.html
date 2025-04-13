@@ -10,7 +10,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
-    <link rel="stylesheet" href="{% static "shop_page.css" %}">
+    <link rel="stylesheet" href="{% static "css/shop_page.css" %}">
     <link rel="stylesheet"  href="{% static 'css/catalog.css' %}">
     <link rel="icon" href="{% static "images/icons/web-icon.png" %}" type="image/x-icon">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -29,7 +29,25 @@
 <div id="product-card" {% if not is_available %} style="height: 50vh" {% endif %}>
     {% if is_available %}
         <div class="card-content">
-            <img class="img-card" src="{{ document.image_url }}" width="400" height="400">
+            <div>
+                <div class="image-wrapper">
+                    <div class="image-container">
+                        <button class="arrow-left"><i class="fas fa-arrow-left" aria-hidden="true"></i></button>
+                        <img class="zoom-image img-card" id="main-page-image" alt="{{ document.name }}" src="{{ document.image_url }}" width="400" height="400">
+                        <button class="arrow-right"><i class="fas fa-arrow-right" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="thumbnails-container">
+                        {% if document.images %}
+                            {% for image in document.images %}
+                                <img class="thumbnail-item {% if forloop.first %}active{% endif %}" alt="" src="{{ image }}" width="90" height="90">
+                            {% endfor %}
+                        {% else %}
+
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
             <div class="close-card">
                 <i class="fa-solid fa-close" aria-hidden="true"></i>
             </div>
@@ -153,14 +171,78 @@
 <script>
 
     const currency_symbol = "{{ currency|safe }}";
+    let current_thumbnail_index = 0;
     document.addEventListener('DOMContentLoaded', function() {
-
+        current_thumbnail_index = 0;
     });
 
     let csrftoken = getCookie('csrftoken');
     let product_dict = JSON.parse(document.getElementById('document').textContent);
 
 
+    document.addEventListener("DOMContentLoaded", async function () {
+        let containerWrapper = document.querySelector('.image-wrapper');
+        let image = document.getElementById('main-page-image');
+        if (window.matchMedia("(min-width: 769px)").matches) {
+            setupZoom(containerWrapper, image, vocabulary, true);
+        }
+        thumbnailsSetup();
+    });
+
+    function thumbnailsSetup(){
+        const arrowLeft = document.querySelector(".arrow-left");
+        const arrowRight = document.querySelector(".arrow-right");
+        const items = document.querySelectorAll('.thumbnail-item');
+        // Click handlers for arrows
+        arrowLeft.addEventListener('click', function () {
+            if (current_thumbnail_index > 0) {
+                updateImage(current_thumbnail_index - 1);
+            }
+        });
+        arrowRight.addEventListener('click', function () {
+            if (current_thumbnail_index < items.length - 1) {
+                updateImage(current_thumbnail_index + 1);
+            }
+        });
+
+        // Image refresh function and arrow visibility control
+        function updateImage(index) {
+            current_thumbnail_index = index;
+            // If we are in the first image, make the left arrow transparent and not clickable, otherwise show it
+            if (index === 0) {
+                arrowLeft.style.opacity = '0';
+                arrowLeft.style.pointerEvents = 'none';
+            } else {
+                arrowLeft.style.opacity = '1';
+                arrowLeft.style.pointerEvents = 'auto';
+            }
+
+            // If we are in the last image, make the right arrow transparent and not clickable, otherwise show it
+            if (index === items.length - 1) {
+                arrowRight.style.opacity = '0';
+                arrowRight.style.pointerEvents = 'none';
+            } else {
+                arrowRight.style.opacity = '1';
+                arrowRight.style.pointerEvents = 'auto';
+            }
+
+            // Обновляем активное состояние миниатюр
+            const thumbItems = document.querySelectorAll('.thumbnail-item');
+            thumbItems.forEach((thumb, idx) => {
+                thumb.classList.toggle('active', idx === index);
+            });
+        }
+
+        const thumbnails = document.querySelectorAll('.thumbnail-item');
+        thumbnails.forEach((thumb, index) => {
+
+            if (index === 0) thumb.classList.add('active');
+            thumb.addEventListener('click', function () {
+                updateImage(index);
+            });
+        });
+        updateImage(0);
+    }
 
     document.getElementById('add-to-cart-search').addEventListener('click', function (){
         let input = document.getElementById('input-quantity');
