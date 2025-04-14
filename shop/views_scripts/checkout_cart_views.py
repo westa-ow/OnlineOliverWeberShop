@@ -583,7 +583,7 @@ def login_anonym_cart_info(request):
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
+            user = authenticate(request=request, username=username, password=password)
             if user is not None:
                 email2 = form.cleaned_data.get('email') or user.email
 
@@ -684,7 +684,7 @@ def register_anonym_cart_info(request):
 
                 password = form.cleaned_data.get('password1')
                 form.save()
-                user = authenticate(username=username, password=password)
+                user = authenticate(request=request,username=username, password=password)
                 if user:
                     clear_all_cart(email2)
                     login(request, user)
