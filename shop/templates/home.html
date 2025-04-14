@@ -37,7 +37,7 @@
     <div class="cl">
         <div id="carousel" class="carousel">
             {% for banner in banners %}
-                <div class="carousel-item active" style="opacity: 0; display: none"><a {% if banner.withLink %}href="{% url "param_catalog" category_id="0" category_name="all" %}?collection={{ banner.link }}"{% endif %}><img src="{{ banner.image.url }}" alt="Image {{ banner.priority }}"  ></a></div>
+                <div class="carousel-item active" style="opacity: 0; display: none"><a {% if banner.banner.withLink %}href="{% url "param_catalog" category_id="0" category_name="all" %}?collection={{ banner.banner.link }}"{% endif %}><img src="{{ banner.banner.image.url }}" alt="Image {{ banner.priority }}"  ></a></div>
             {% endfor %}
         </div>
     </div>

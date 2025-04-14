@@ -23,7 +23,8 @@ from shop.views_scripts.profile_orders_pay import create_partial_checkout_sessio
 from shop.views_scripts.router_viewsets import PromoCodeViewSet
 from shop.views_scripts import profile_views, paypal_views
 from shop.views_scripts.adresses_views import update_address, delete_address, create_address
-from shop.views_scripts.manage_banners.banners_managing import move_down, move_up, delete_banner
+from shop.views_scripts.manage_banners.banners_managing import move_down, move_up, delete_banner_all, \
+    delete_banner_relationship, edit_banner
 from shop.views_scripts.orders_control.bulk_change_statuses import change_statuses
 from shop.views_scripts import catalog_views
 from shop.views_scripts.orders_control.download_order import download_csv_order, download_pdf_w_img, \
@@ -131,7 +132,9 @@ urlpatterns = i18n_patterns(
 
     #Service urls
     path('content/<str:service_page>', service_pages_view, name='services'),
-    path('delete-banner/<int:banner_id>/', delete_banner, name='delete_banner'),
+    path('delete-banner-relationship/<int:rel_id>/', delete_banner_relationship, name='delete_banner_relationship'),
+    path('delete-banner-languages/<int:banner_id>/', delete_banner_all, name='delete_banner_all'),
+    path('edit-banner/<int:banner_id>/', edit_banner, name='edit_banner'),
     path('move-up/<int:banner_id>/', move_up, name='move_up'),
     path('move-down/<int:banner_id>/', move_down, name='move_down'),
 

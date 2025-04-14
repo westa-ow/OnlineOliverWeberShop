@@ -1,0 +1,53 @@
+{% load static %}
+{% load i18n %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<div class="edit-banner-container">
+
+    <div class="current-image">
+        <img class="edit-form-image" src="{{ banner.image.url }}" alt="{{ banner.title }}">
+    </div>
+
+    <form method="post" id="banner-edit-form">
+        {% csrf_token %}
+        <h2>Edit Banner</h2>
+        <div class="form-group">
+            {{ form.withLink.label_tag }}<br>
+            {{ form.withLink }}
+        </div>
+        <div class="form-group link-input-group">
+            {{ form.link.label_tag }}<br>
+            {{ form.link }}
+        </div>
+        <div class="form-group">
+            <label>{{ form.languages.label }}</label>
+            {{ form.languages }}
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn submit">Save Changes</button>
+            <button type="button" class="btn cancel">Cancel</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    $('#banner-edit-form').on('submit', function(e) {
+        e.preventDefault();
+        let formData = new FormData(this);
+        $.ajax({
+            url: "{% url 'edit_banner' banner.id %}",
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response.status === 'ok') {
+                    alert("Banner updated successfully");
+                    closeModal();
+                    window.location.reload();
+                } else {
+                    $('#modal-content').html(response.html);
+                }
+            }
+        });
+    });
+</script>
