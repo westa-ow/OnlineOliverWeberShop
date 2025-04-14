@@ -1,109 +1,243 @@
 {% load static %}
 {% load i18n %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<style>
+<link rel="stylesheet" href="{% static "css/admin_tools/at_manage_banners.css" %}">
 
-    .down-button, .up-button{
-        width: 30px;
-        height: 30px;
-        background-color: transparent;
-        border-radius: 10px;
-        border: 1px solid #e2e2e2;
-        cursor: pointer;
-        transition: all 0.3s;
-    }
-    .up-button:hover, .down-button:hover, .delete-button:hover, .submit:hover, .cancel:hover{
-        background-color: #d8d8d8;
-    }
-    .delete-button, .submit, .cancel{
-        width: 100px;
-        height: 40px;
-        background-color: transparent;
-        border-radius: 10px;
-        border: 2px solid #e2e2e2;
-        transition: all 0.3s;
-        cursor: pointer;
-    }
-
-    .add-new-banner{
-        margin-top: 20px;
-        {#text-decoration: underline;#}
-        font-size: 20px;
-        background-color: transparent;
-        width: 500px;
-        border: 3px solid #e2e2e2;
-        border-radius: 10px;
-        cursor: pointer;
-    }
-
-    form{
-        width: 250px;
-        height: 200px;
-    }
-</style>
 <section id="content" class="page-content col-md-12 col-lg-9 myacc_content" >
-<h1 style="font-weight: 600">Here you can manage banners on home page</h1>
+    <h1 style="font-weight: 600">Here you can manage banners on home page</h1>
+    <div id="language-selector" style="margin-bottom: 20px;">
+        <label for="language-dropdown">Select Language:</label>
+        <select id="language-dropdown">
+            {% for lang in all_languages %}
+                <option value="{{ lang.code }}" {% if lang.code == current_language %}selected{% endif %}>
+                    {{ lang.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
     {% if banners %}
-    <ul id="banners-list">
-        {% for banner in banners %}
-            <li id="banner-{{ banner.id }}" data-priority="{{ banner.priority }}" style="display: flex;margin: 50px 0 0;">
-                <img src="{{ banner.image.url }}" alt="{{ banner.title }}" height="120" width="300" style="">
-                <div style="display: flex;flex-direction: column; margin: auto 10px; align-items: center">
-                    <button class="up-button" onclick="moveUp(this, '{{ banner.id }}')" data-url="{% url 'move_up' banner_id=banner.id %}"><i class="fa-solid fa-arrow-up"></i></button>
-                    <button class="down-button" onclick="moveDown(this, '{{ banner.id }}')" data-url="{% url 'move_down' banner_id=banner.id %}"><i class="fa-solid fa-arrow-down"></i></button>
-                    <button class="delete-button" onclick="deleteBanner(this, '{{ banner.id }}')" data-url="{% url 'delete_banner' banner_id=banner.id %}" style="margin-top: 15px">Delete</button>
-                </div>
-            </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p><h1>No banners yet.</h1></p>
-{% endif %}
+        <ul id="banners-list">
+            {% for banner_lang in banners %}
+                <li class="banner-element" id="banner-{{ banner_lang.id }}" data-priority="{{ banner_lang.priority }}">
+                    <img src="{{ banner_lang.banner.image.url }}" alt="{{ banner_lang.banner.title }}" height="120" width="300">
+                    <div class="actions-container">
+                        <div class="left-actions-column">
+                            <button class="up-button" onclick="moveUp(this, '{{ banner_lang.id }}', '{{ banner_lang.language.code }}', '{{ current_language }}')" data-url="{% url 'move_up' banner_id=banner_lang.banner.id %}">
+                                <i class="fa-solid fa-arrow-up"></i>
+                            </button>
+                            <button class="down-button" onclick="moveDown(this, '{{ banner_lang.id }}', '{{ banner_lang.language.code }}', '{{ current_language }}')" data-url="{% url 'move_down' banner_id=banner_lang.banner.id %}">
+                                <i class="fa-solid fa-arrow-down"></i>
+                            </button>
+                        </div>
+                        <div class="right-actions-column">
+                            <button class="edit-button action-button"
+                                    onclick="editBanner(this, '{{ banner_lang.banner.id }}')"
+                                    data-url="{% url 'edit_banner' banner_id=banner_lang.banner.id %}">
+                                Edit
+                            </button>
+                            <button class="delete-current-button action-button"
+                                    onclick="deleteBannerCurrent(this, '{{ banner_lang.id }}')"
+                                    data-url="{% url 'delete_banner_relationship' rel_id=banner_lang.id %}">
+                                Delete for this language
+                            </button>
+                            <!-- Button: delete for all languages -->
+                            <button class="delete-all-button action-button"
+                                    onclick="deleteBannerAll(this, '{{ banner_lang.banner.id }}')"
+                                    data-url="{% url 'delete_banner_all' banner_id=banner_lang.banner.id %}">
+                                Delete for all
+                            </button>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p><h1>No banners yet.</h1></p>
+    {% endif %}
 <div class="banners-footer">
     <button class="add-new-banner" id="add-banner-btn">Add new banner</button>
 </div>
-<div id="banner-form" style="display:none;">
-    <form method="post"  enctype="multipart/form-data">
+<div id="modal-overlay">
+  <div id="modal">
+    <div class="modal-header-container">
+      <i class="fa-solid fa-remove close-button"></i>
+    </div>
+    <div class="modal-content-container" id="modal-content">
+      <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <h2>New banner</h2>
-        {{ form.as_p }}
+        <div class="form-group">
+            <label for="id_image">Banner Image</label>
+            <div class="custom-file-input">
+                {{ form.image }}
+                <button type="button" class="btn-file" onclick="$('#id_image').click();">
+                    Choose File
+                </button>
+                <span id="file-name">No file chosen</span>
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form.withLink.label_tag }}
+            {{ form.withLink }}
+        </div>
+        <div class="form-group link-input-group">
+            {{ form.link.label_tag }}
+            {{ form.link }}
+        </div>
+
+        <div class="form-group languages-group">
+          <label>Select Languages:</label>
+          <div class="languages-options">
+            {% for lang in all_languages %}
+              <label class="language-option">
+                <input type="checkbox" name="languages" value="{{ lang.id }}">
+                {{ lang.name }}
+              </label>
+            {% endfor %}
+          </div>
+        </div>
+
         <button class="submit" type="submit">Submit</button>
-        <button class="cancel" type="button" onclick="cancelForm()">Cancel</button>
-    </form>
+        <button class="cancel" type="button">Cancel</button>
+      </form>
+    </div>
+  </div>
 </div>
 </section>
 <script>
-    document.getElementById('add-banner-btn').addEventListener('click', function() {
-    document.getElementById('banner-form').style.display = 'block';
+$('#language-dropdown').on('change', function() {
+    let selectedLang = $(this).val();
+    window.location.href = window.location.pathname + '?lang=' + selectedLang;
+});
+$(document).ready(function() {
+    // Объявляем функцию closeModal в глобальном пространстве имен
+    window.closeModal = function() {
+        $('#modal-overlay').fadeOut();
+        $('body').css('overflow', '');  // возвращаем прокрутку
+        // Если нужно сбрасывать форму (учтите, что если в модальном окне
+        // динамически подменяются формы, этот селектор может потребовать уточнения)
+        $('#modal form')[0].reset();
+    };
+
+    let defaultModalContent = $('#modal-content').html();
+    $('#add-banner-btn').click(function() {
+        $('#modal-content').html(defaultModalContent);
+        updateLinkInputState();
+        $('#modal-overlay').fadeIn();
+        $('body').css('overflow', 'hidden');
+    });
+
+    $(document).on('change', '#id_image', function() {
+      let fileName = $(this).val().split('\\').pop();
+      $('#file-name').text(fileName || "No file chosen");
+    });
+
+   $('#modal-overlay').click(function(event) {
+     if (event.target === this) {
+       closeModal();
+     }
+   });
+
+   $('.close-button, .cancel').click(function() {
+     closeModal();
+   });
+    window.updateLinkInputState = function() {
+      if ($('#id_withLink').length) {
+         if ($('#id_withLink').is(':checked')) {
+             $('.link-input-group').addClass('active').show();
+             $('#id_link').prop('required', true).prop('disabled', false);
+         } else {
+             $('.link-input-group').removeClass('active').hide();
+             $('#id_link').prop('required', false).prop('disabled', true);
+         }
+      }
+   }
+   $(document).on('change', '#id_withLink', function() {
+        updateLinkInputState();
+   });
+
+    $(document).on('click', '.cancel', function() {
+        closeModal();
+   });
+
 });
 
-function cancelForm() {
-    document.getElementById('banner-form').style.display = 'none';
-    document.getElementById('banner-form').reset();
+function editBanner(element, bannerId) {
+    let url = $(element).data('url');
+    // Отправляем AJAX-запрос для получения формы редактирования
+    $.ajax({
+        url: url,
+        type: 'GET',
+        data: {},
+        success: function(response) {
+            if(response.status === 'ok'){
+                // Подставляем полученный HTML (например, из JSON-поля "html") в модальное окно
+                $('#modal-content').html(response.html);
+                updateLinkInputState();
+                $('#modal-overlay').fadeIn();
+                $('body').css('overflow', 'hidden');  // блокируем прокрутку фона
+            } else {
+                alert(response.message || "Error loading edit form");
+            }
+        }
+    });
 }
-function deleteBanner(element, bannerId) {
-    var url = $(element).data('url');  // Получаем URL из атрибута данных
+
+function deleteBannerCurrent(element, relId) {
+    if (!confirm("Are you sure you want to delete this banner for this language?")) {
+        return; // если пользователь отменил, дальше не выполняем функцию
+    }
+    let url = $(element).data('url');  // URL для удаления записи BannerLanguage
     $.ajax({
         url: url,
         type: 'POST',
         data: {
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-            'banner_id': bannerId
+            rel_id: relId
         },
-        success: function() {
-            $(`#banner-${bannerId}`).remove();  // Удаление элемента из DOM
+        success: function(response) {
+            if(response.status === 'ok'){
+                $(`#banner-${relId}`).remove();
+            } else {
+                alert(response.message || "Error deleting banner for current language");
+            }
+        }
+    });
+}
+
+
+
+function deleteBannerAll(element, bannerId) {
+    if (!confirm("Are you sure you want to delete this banner for this language?")) {
+        return; // если пользователь отменил, дальше не выполняем функцию
+    }
+    let url = $(element).data('url');  // URL для полного удаления баннера
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: {
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            banner_id: bannerId
+        },
+        success: function(response) {
+            if(response.status === 'ok'){
+                window.location.reload();
+            } else {
+                alert(response.message || "Error deleting banner fully");
+            }
         }
     });
 }
 
 // Функции moveUp и moveDown должны быть определены для изменения приоритета
-function moveUp(element, bannerId) {
-    var url = $(element).data('url');  // Получаем URL из атрибута данных
+function moveUp(element, bannerId, lang) {
+    let url = $(element).data('url');
     $.ajax({
         url: url,
         type: 'POST',
         data: {
-            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            lang: lang,
         },
         success: function() {
             let item = $(`#banner-${bannerId}`);
@@ -114,13 +248,13 @@ function moveUp(element, bannerId) {
     });
 }
 
-function moveDown(element, bannerId) {
-    var url = $(element).data('url');  // Получаем URL из атрибута данных
+function moveDown(element, bannerId, lang) {
+    let url = $(element).data('url');
     $.ajax({
         url: url,
         type: 'POST',
         data: {
-            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(), lang: lang,
         },
         success: function() {
             let item = $(`#banner-${bannerId}`);

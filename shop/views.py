@@ -30,7 +30,7 @@ from OnlineShop.settings import GEOIP_PATH, GEOIP_config
 from shop.forms import UserRegisterForm, User, BannerForm
 from django.utils.translation import gettext as _
 
-from shop.models import Banner, PromoCode
+from shop.models import Banner, PromoCode, BannerLanguage, Language
 from shop.views_scripts.serializers import PromoCodeSerializer
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -697,9 +697,15 @@ def home_page(request):
     :param request:
     :return:
     """
+    current_language = request.LANGUAGE_CODE
+    banners_for_lang = BannerLanguage.objects.filter(
+        language__code=current_language,
+        banner__active=True
+    ).order_by('priority')
+    print(banners_for_lang)
     context = {
         'address': request.META.get('REMOTE_ADDR'),
-        'banners': Banner.objects.all().order_by('priority')
+        'banners': banners_for_lang
     }
 
     test_text = _("Welcome to my site.")
@@ -1069,22 +1075,28 @@ def admin_tools(request, feature_name):
         if request.method == "POST":
             form = BannerForm(request.POST, request.FILES)
             if form.is_valid():
-                new_banner = form.save(commit=False)
-                new_banner.priority = Banner.objects.count()
-                new_banner.save()
+                new_banner = form.save()
                 return redirect('admin_tools', feature_name='manage_banners')
     email = request.user.email
     form = BannerForm()
     special = False
-    if email == "specialAdmin@oliverweber.at":  # HINT: HERE I HAVE TO PASTE EMAIL OF SPECIAL ADMIN
+    if email == "specialAdmin@oliverweber.at":
         special = True
-    banners = Banner.objects.all().order_by('priority')
-    print(Banner.objects.all())
+
+    current_language = request.GET.get('lang', request.LANGUAGE_CODE)
+
+    banners_for_lang = BannerLanguage.objects.filter(
+        language__code=current_language,
+        banner__active=True
+    ).order_by('priority')
+    all_languages = Language.objects.all()
     context = {
         "feature_name": feature_name,
-        'banners': banners,
+        'banners': banners_for_lang,
         'form': form,
-        'special': special
+        'special': special,
+        'all_languages': all_languages,
+        'current_language': current_language,
     }
     if feature_name == "manage_promocodes":
         context['promocodes'] = get_promo_codes()

@@ -9,6 +9,7 @@ from OnlineShop import settings
 db = settings.FIRESTORE_CLIENT
 promocodes_ref = db.collection('Promocodes')
 
+
 class User(AbstractUser):
     groups = models.ManyToManyField(
         'auth.Group',
@@ -26,22 +27,46 @@ class User(AbstractUser):
         related_name="%(app_label)s_user_set",
         related_query_name="user",
     )
+
     class Meta:
         app_label = 'shop'
+
+
+class Language(models.Model):
+    code = models.CharField(max_length=2, unique=True)  # 'gb', 'it', 'es', 'de', 'ru', 'fr'
+    name = models.CharField(max_length=50) # 'English', 'Italian', 'Spanish', 'German', 'Russian', 'French'
+
+    def __str__(self):
+        return self.name
 
 
 class Banner(models.Model):
     title = models.CharField(max_length=100)
     image = models.ImageField(upload_to='imgs/')
-    priority = models.IntegerField(default=0)
     active = models.BooleanField(default=True)
     withLink = models.BooleanField(default=False)
     link = models.CharField(max_length=100, default='')
+    # BannerLanguage - model that connects Banner and Language
+    languages = models.ManyToManyField(Language, through='BannerLanguage')
 
     class Meta:
         app_label = 'shop'
+
     def __str__(self):
         return self.title
+
+
+class BannerLanguage(models.Model):
+    banner = models.ForeignKey(Banner, on_delete=models.CASCADE, related_name='banner_languages')
+    language = models.ForeignKey(Language, on_delete=models.CASCADE)
+    priority = models.IntegerField(default=0)
+
+    class Meta:
+        unique_together = ('banner', 'language')
+        ordering = ['priority']
+
+    def __str__(self):
+        return f"{self.banner.title} – {self.language.code} (Priority: {self.priority})"
 
 
 class PromoCode:
