@@ -29,6 +29,8 @@ from django.core.mail import send_mail
 
 from shop.forms import UserRegisterForm, User
 
+
+@user_passes_test(is_admin)
 def upload_view(request):
     message = ""
     if request.method == "POST":
