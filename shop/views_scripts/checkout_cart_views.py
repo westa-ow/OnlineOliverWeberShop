@@ -779,6 +779,13 @@ def check_promo_code(request):
 
             promo_dict = promo_data.to_dict()
 
+            expires_at = promo_dict.get('expires_at')
+            if expires_at:
+                # Преобразуем строку в datetime, предполагаем формат "YYYY-MM-DD"
+                expires_at_date = datetime.strptime(expires_at, "%Y-%m-%d")
+                if datetime.now() > expires_at_date:
+                    return JsonResponse({'status': 'error', 'message': 'Promo code is out of date'})
+
             b2b_only = promo_dict.get('b2b_only', False)
             customer_type = get_user_info(email).get('customer_type', 'Customer')
             if (b2b_only and customer_type == 'Customer') or (not b2b_only and customer_type == 'B2B'):
