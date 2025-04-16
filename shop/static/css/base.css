@@ -15,11 +15,6 @@
     .pc-view {
         display: flex;
     }
-    .logo img {
-        margin-left: 10px;
-        margin-right: 10px;
-        height: 70px;
-    }
 
     .mobile-view{
         display: none;
@@ -29,33 +24,12 @@
     .pc-view{
         display: none;
     }
-    .logo img {
-        margin-left: 10px;
-        margin-right: 10px;
-        height: 70px;
-    }
     .mobile-view {
         /*display: flex;*/
     }
 
-
 }
 
-.toolbar {
-    background-color: #003765;
-    padding: 6px;
-    display: flex;
-    width: 100vw;
-    align-items: center;
-    text-align: center;
-    justify-content: space-between;
-    position: fixed; /* Make it stick to the top */
-    top: 0;
-    left: 0;
-    z-index: 10; /* Ensure it's above other content */
-    transition: height 0.2s ease-in-out; /* Smooth transition for height change */
-    margin-bottom: 100px;
-}
 body{
     display: flex;
     flex-direction: column;
@@ -65,47 +39,10 @@ body{
     box-sizing: border-box;
 }
 
-
-
-/* Initial and expanded height */
-.toolbar.large { height: 110px; }
-.toolbar.small { height: 90px; }
-
-.toolbar.mobile { height: 130px; align-items: center; justify-content: center;  }
-
-.dropdown-container {
-    position: relative;
-    display: inline-block; /* Keeps the icon and the menu aligned nicely */
-}
-
-
-.menu {
-    display: none;
-    position: absolute;
-    background-color: white;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    padding: 10px;
-    list-style: none;
-    width: 150px; /* or any desired width */
-}
-
-.menu ul {
-    padding: 0;
-    margin: 0;
-}
-
-.menu li {
-    padding: 8px;
-    margin: 0;
-    cursor: pointer;
-}
 .modal-content{
     width: 60% !important;
     align-items: center;
 }
-
-
 
 .links {
     margin: 0 5px;
@@ -113,49 +50,6 @@ body{
     justify-content: center;
     align-items: center;
 }
-
-
-.toolbar .link, .icon-link {
-    font-family: 'Poppins', Verdana, sans-serif;
-    cursor: pointer;
-    color: white !important;
-
-    text-decoration: none !important;
-    padding: 5px;
-    font-family: 'Poppins', Verdana, sans-serif;
-    position: relative;
-    display: inline-block;
-}
-.toolbar .link{
-    font-size: 12px;
-    font-weight: 600;
-}
-.icon-link{
-    transition: opacity 0.2s;
-    max-height: 34px;
-}
-.icon-link:hover{
-    color: #ffffff !important;
-    opacity: 50%;
-}
-.link::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 5px;
-    width: 0%;
-    height: 1.5px;
-    background-color: #ffffff;
-    transition: width 0.3s ease;
-}
-.link:hover::after {
-    width: 100%;
-}
-
-.link:hover {
-    color: #ffffff !important;
-}
-
 
 .toolbar-icons-container{
     display: flex;

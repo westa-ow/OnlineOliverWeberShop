@@ -13,6 +13,7 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
+from csp.constants import SELF, NONE
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 import firebase_admin
@@ -77,6 +78,76 @@ GEOIP_PATH = os.path.join(BASE_DIR, 'shop/static/GEOIP')
 SECURE_SSL_REDIRECT = not DEBUG # false ONLY for localhost. For production we have to use TRUE
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# CONTENT_SECURITY_POLICY = {
+#     "EXCLUDE_URL_PREFIXES": [],  # Если необходимо, укажите URL-префиксы, для которых CSP не применяется.
+#     "DIRECTIVES": {
+#         "default-src": [SELF],
+#         "script-src": [SELF, "https://trusted.cdn.com"],
+#         "style-src": [SELF, "https://trusted.cdn.com"],
+#         "img-src": [SELF, "data:"],
+#         "font-src": [SELF],
+#         "connect-src": [SELF],
+#         "frame-ancestors": [SELF],
+#         "form-action": [SELF],
+#         "report-uri": "/gb/csp-report/",  # URL для приёма отчетов о нарушениях (если настроено соответствующее представление).
+#     },
+# }
+
+# Политика в режиме "report only". Браузер не будет блокировать ресурсы,
+# а только отправлять отчёты о нарушениях по указанному report-uri.
+# CONTENT_SECURITY_POLICY_REPORT_ONLY = {
+#     "EXCLUDE_URL_PREFIXES": [],
+#     "DIRECTIVES": {
+#         "default-src": ["'none'"],
+#         "media-src": ["'self'"],
+#         "script-src": [
+#             "'self'",
+#             "https://trusted.cdn.com",
+#             "https://kit.fontawesome.com",
+#             "https://www.googletagmanager.com",
+#             "https://sgw.stape.bg",  # для https://sgw.stape.bg/sdk/...
+#             "https://www.gstatic.com",
+#             "https://code.jquery.com",
+#             "https://js.stripe.com"
+#         ],
+#         "style-src": [
+#             "'self'",
+#             "https://trusted.cdn.com",
+#             "https://fonts.googleapis.com",
+#             "https://maxcdn.bootstrapcdn.com",
+#             "https://kit.fontawesome.com",
+#         ],
+#         "img-src": ["'self'", "data:", "https://storage.googleapis.com"],
+#         "font-src": [
+#             "'self'",
+#             "https://fonts.gstatic.com",
+#             "https://maxcdn.bootstrapcdn.com",
+#             "http://maxcdn.bootstrapcdn.com",
+#             "https://ka-f.fontawesome.com",
+#
+#         ],
+#         "connect-src": [
+#             "'self'",
+#             "https://firestore.googleapis.com",
+#             "https://maxcdn.bootstrapcdn.com",
+#             "https://www.googletagmanager.com",
+#             "https://ka-f.fontawesome.com",
+#             "https://sgw.stape.bg"
+#         ],
+#         "frame-ancestors": ["'self'"],
+#         "form-action": ["'self'"],
+#         "frame-src": ["'self'", "https://js.stripe.com"],
+#         "upgrade-insecure-requests": True,
+#         "report-uri": "/gb/csp-report/",
+#     },
+# }
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -89,6 +160,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'shop',
     'axes',
+    'csp'
     # 'autotranslate',
 ]
 
@@ -102,6 +174,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "csp.middleware.CSPMiddleware",
 
     'shop.middleware.ensure_anon_session_middleware.EnsureAnonymousSessionMiddleware',
     'shop.middleware.redirect_en_to_gb_middleware.RedirectENtoGBMiddleware',
@@ -251,6 +324,7 @@ LOGGING = {
             'backupCount': 5,
             'filters': ['ignore_static'],
             'formatter': 'verbose',
+            'delay': True,
         },
         'console': {
             'level': 'DEBUG',  # You can use DEBUG for development

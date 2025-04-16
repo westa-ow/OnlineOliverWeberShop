@@ -1,4 +1,5 @@
 import ast
+import logging
 import random
 import uuid
 from datetime import datetime
@@ -16,6 +17,8 @@ from django.contrib.auth import authenticate, login, logout, get_user_model, upd
 import os
 import json
 import firebase_admin
+from django.templatetags.static import static
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from firebase_admin import credentials, firestore
 from django.conf import settings
@@ -33,6 +36,7 @@ from django.utils.translation import gettext as _
 from shop.models import Banner, PromoCode, BannerLanguage, Language
 from shop.views_scripts.serializers import PromoCodeSerializer
 
+logger = logging.getLogger(__name__)
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 db = settings.FIRESTORE_CLIENT
@@ -667,6 +671,7 @@ def get_vocabulary_product_card():
         "An error occured": _("An error occured"),
         "Product successfully added to your shopping cart": _("Product successfully added to your shopping cart"),
         "Crystal color": _("Crystal color"),
+        "Plating": _("Plating"),
         "Base material": _("Base material"),
         "Quantity": _("Quantity"),
         "Number of items in your cart": _("Number of items in your cart:"),
@@ -680,6 +685,8 @@ def get_vocabulary_product_card():
         "Product height": _("Product height"),
         "Chain length": _("Chain length"),
         "Add to favorites": _("Add to favorites"),
+        "No items found": _("No items found"),
+        "Current page": _("Current page"),
         "Remove from favorites": _("Remove from favorites"),
         "Copy link": _("Copy link"),
         "Copied!": _("Copied!"),
@@ -687,6 +694,22 @@ def get_vocabulary_product_card():
         "Similar products": _("Similar products"),
         "Turn off the magnifying glass": _("Turn off the magnifying glass"),
         "Turn on the magnifying glass": _("Turn on the magnifying glass"),
+        "Back to shop": _("Back to shop"),
+        "Cart is empty": _("Cart is empty"),
+        "You cant delete items during checkout. Go back to shop pages to change your cart": _("You cant delete items during checkout. Go back to shop pages to change your cart"),
+        "Remove from cart": _("Remove from cart"),
+        "Please enter a valid amount.": _("Please enter a valid amount."),
+        "Show details": _("Show details"),
+        "Hide details": _("Hide details"),
+        "Name": _("Name"),
+        "Image": _("Image"),
+        "Description": _("Description"),
+        "Price": _("Price"),
+        "Summary": _("Summary"),
+        "Are you sure you want to delete this address?": _("Are you sure you want to delete this address?"),
+        "The address has been successfully added!": _("The address has been successfully added!"),
+        "The address has been successfully updated!": _("The address has been successfully updated!"),
+
 
     }
 
@@ -779,6 +802,9 @@ def home_page(request):
     info = get_user_info(email) or {}
     sale = get_user_sale(info)
     show_quantities = info.get('show_quantities', False)
+    config_data = {
+        "bestseller_items": bestseller_items,
+    }
     context['currency'] = currency
     context['category'] = category
     context['sale'] = sale
@@ -786,8 +812,32 @@ def home_page(request):
     context['hello'] = test_text
     context['bestseller_items'] = bestseller_items
     context['vocabulary'] = get_vocabulary_product_card()
+    context['config_data'] = config_data
     print(context['hello'])
     return render(request, 'home.html', context)
+
+
+@csrf_exempt
+def csp_report(request):
+    """
+    Processes CSP violation reports.
+    Browser sends POST request with JSON content.
+    """
+    if request.method == "POST":
+        try:
+            report_data = json.loads(request.body.decode("utf-8"))
+        except json.JSONDecodeError:
+            logger.error("Invalid JSON in CSP report.")
+            return JsonResponse({"error": "Invalid JSON"}, status=400)
+
+        # Log the received offence. Here you can configure other behaviour:
+        # for example, saving the report to the database or sending notifications.
+        logger.info("CSP Violation Report: %s", json.dumps(report_data, indent=2))
+
+        # Returning a response with no content
+        return JsonResponse({"status": "received"}, status=204)
+    else:
+        return JsonResponse({"error": "Method not allowed. Use POST."}, status=405)
 
 
 def get_user_sale(user_info):
@@ -1097,6 +1147,7 @@ def admin_tools(request, feature_name):
         'special': special,
         'all_languages': all_languages,
         'current_language': current_language,
+        'vocabulary': get_vocabulary_product_card(),
     }
     if feature_name == "manage_promocodes":
         context['promocodes'] = get_promo_codes()

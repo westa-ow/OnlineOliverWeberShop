@@ -1,0 +1,111 @@
+@media only screen and (min-width: 769px)  {
+
+}
+@media only screen and (max-width: 768px) {
+
+}
+.toolbar {
+    background-color: #003765;
+    padding: 6px;
+    display: flex;
+    width: 100vw;
+    align-items: center;
+    text-align: center;
+    justify-content: space-between;
+    position: fixed; /* Make it stick to the top */
+    top: 0;
+    left: 0;
+    z-index: 10; /* Ensure it's above other content */
+    transition: height 0.2s ease-in-out; /* Smooth transition for height change */
+    margin-bottom: 100px;
+}
+
+.toolbar.large { height: 110px; }
+.toolbar.small { height: 90px; }
+.toolbar.mobile { height: 130px; align-items: center; justify-content: center;  }
+
+.logo img {
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 70px;
+    cursor: pointer;
+}
+.icon-link{
+    font-style: italic;
+    font-size: 14px;
+    color: white;
+    font-family: 'Poppins',Verdana,sans-serif;
+}
+
+.toolbar .link, .icon-link {
+    font-family: 'Poppins', Verdana, sans-serif;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    padding: 5px;
+    position: relative;
+    display: inline-block;
+}
+.toolbar .link{
+    font-size: 12px;
+    font-weight: 600;
+}
+.icon-link{
+    transition: opacity 0.2s;
+    max-height: 34px;
+}
+.icon-link:hover{
+    color: #ffffff !important;
+    opacity: 50%;
+}
+
+.link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 5px;
+    width: 0%;
+    height: 1.5px;
+    background-color: #ffffff;
+    transition: width 0.3s ease;
+}
+
+.link:hover {
+    color: #ffffff !important;
+}
+
+.link:hover::after {
+    width: 100%;
+}
+
+#accountBtn{
+    display: flex;
+    align-items: end;
+}
+#accountBtnMobile{
+    display: flex;
+}
+#accountBtn i, #accountBtnMobile i{
+    width: 28px;
+    height: 28px;
+    margin-right: 4px
+}
+#accountBtn i svg path, #accountBtn i svg circle, #accountBtnMobile i svg path, #accountBtnMobile i svg circle{
+    fill:none;
+    stroke:#ffffff;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    stroke-width:1.8px
+}
+#searchBtn svg circle, #searchBtn svg line, #searchBtnMobile svg circle, #searchBtnMobile svg line{
+    fill:none;
+    stroke:#fff;
+    stroke-miterlimit:10;
+    stroke-width:2px
+}
+#cartBtn svg path, #cartBtnMobile svg path{
+    fill:none;
+    stroke:#fff;
+    stroke-miterlimit:10;
+    stroke-width:2px
+}

@@ -7,7 +7,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 
-from shop.views import addresses_ref, country_dict, users_ref, get_user_category, get_user_prices
+from shop.views import addresses_ref, country_dict, users_ref, get_user_category, get_user_prices, \
+    get_vocabulary_product_card
 
 
 @login_required
@@ -88,7 +89,8 @@ def create_address(request):
     context = {
         'feature_name': 'new_address',
         'user_ref': ref.get().to_dict(),
-        'currency':currency
+        'currency':currency,
+        'vocabulary': get_vocabulary_product_card()
     }
     return render(request, 'profile.html', context=context)
 
@@ -127,11 +129,16 @@ def update_address(request, address_id):
         for address in existing_address:
             address_ref = addresses_ref.document(address.id)
             address_dict = address_ref.get().to_dict()
+        config = {
+            "address": address_dict
+        }
         context = {
             'feature_name': 'update_address',
             'address': address_dict,
             'currency':currency,
             'address_dict': json.dumps(address_dict),
+            'config_data': config,
+            'vocabulary': get_vocabulary_product_card(),
         }
         return render(request, 'profile.html', context=context)
     return JsonResponse({'status': 'error'}, status=400)

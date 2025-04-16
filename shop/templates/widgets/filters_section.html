@@ -1,0 +1,129 @@
+{% load static %}
+{% load i18n %}
+<div class="filters-section">
+    <div class="categories" id="categoriesPanel">
+        <div class="categories-label">
+            {% trans "Categories" %}
+            <i class="fas fa-chevron-right chevron"></i>
+        </div>
+        <ul class="categories-list">
+
+        </ul>
+    </div>
+    <div class="filters">
+        <div class="filters-label"><div class="filters-label-title" id="filtersCollapsTrigger">{% trans "Filters" %}<i id="iconFiltersCollaps" class="fa-solid fa-plus"></i></div><hr></div><br>
+        <div id="filtersPanel" class="filter-panel">
+            <div class="filter-name">
+                <label for="contains-in-name">{% trans "Name, Product Article" %}</label>
+                <hr>
+                <input type="text" id="contains-in-name" placeholder="{% trans "Contains in name" %}..."><br>
+            </div><br>
+            <div class="filter-price">
+                <label for="slider-price">{% trans "Price" %}</label>
+                <hr>
+               <div class="range_container">
+                    <div class="sliders_control">
+                       <input id="fromSlider" type="range" value="0" min="0" max="800" step="5"/>
+                       <input id="toSlider" type="range" value="800" min="0" max="800" step="5"/>
+                    </div>
+                    <div class="form_control">
+                      <div class="form_control_container">
+                          <span class="fromInput-text">{{ currency }}0</span>
+                      </div>
+                          <div class="form_control_container">
+                             <span class="toInput-text">{{ currency }}800</span>
+                          </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-plating">
+                {% trans "Plating material" %}
+                <hr>
+                <div class="platings">
+                    <div id="plating1">
+                        <input class="plating-checkbox" type="checkbox" id="checkboxPL1" name="checkboxPL1" value="Rhodium">
+                        <label class="checkbox-label" for="checkboxPL1">Rhodium</label>
+                    </div>
+                    <div id="plating2">
+                        <input class="plating-checkbox" type="checkbox" id="checkboxPL2" name="checkboxPL2" value="Gold">
+                        <label class="checkbox-label" for="checkboxPL2">Gold</label>
+                    </div>
+                    <div id="plating3">
+                        <input class="plating-checkbox" type="checkbox" id="checkboxPL3" name="checkboxPL3" value="Rose Gold">
+                        <label class="checkbox-label" for="checkboxPL3">Rose Gold</label>
+                    </div>
+                    <div id="plating4">
+                        <input class="plating-checkbox" type="checkbox" id="checkboxPL4" name="checkboxPL4" value="Without">
+                        <label class="checkbox-label" for="checkboxPL4">Without</label>
+                    </div>
+                </div>
+               <div class="remove-filters-container" id="platings">  <span class="remove-filters"><i class="fa-solid fa-close"></i> {% trans "Reset this group" %}</span></div>
+            </div>
+            <br>
+            <div class="filter-base">
+                {% trans "Base material" %}
+                <hr>
+                <div class="bases">
+                    <div id="base1">
+                        <input class="base-checkbox" type="checkbox" id="checkboxB1" name="checkboxB1" value="Steel">
+                        <label class="checkbox-label" for="checkboxB1">Steel</label>
+                    </div>
+                    <div id="base2">
+                        <input class="base-checkbox" type="checkbox" id="checkboxB2" name="checkboxB2" value="Steel Brass">
+                        <label class="checkbox-label" for="checkboxB2">Steel Brass</label>
+                    </div>
+                </div>
+
+                <div class="remove-filters-container" id="bases">  <span class="remove-filters"><i class="fa-solid fa-close"></i> {% trans "Reset this group" %}</span></div>
+            </div><br>
+            <div class="filter-crystal-color">
+                {% trans "Crystal color" %}
+                <hr>
+
+                <div class="crystals">
+                    <div id="crystal1">
+                        <input class="crystal-checkbox" type="checkbox" id="checkbox1" name="checkbox1" value="Pink">
+                        <label class="checkbox-label" for="checkbox1">Pink</label>
+                    </div>
+                    <div id="crystal2">
+                        <input class="crystal-checkbox" type="checkbox" id="checkbox2" name="checkbox2" value="Red">
+                        <label class="checkbox-label" for="checkbox2">Red</label>
+                    </div>
+                    <div id="crystal3">
+                        <input class="crystal-checkbox" type="checkbox" id="checkbox3" name="checkbox3" value="Blue">
+                        <label class="checkbox-label" for="checkbox3">Blue</label>
+                    </div>
+                </div>
+                <div class="remove-filters-container" id="crystals">  <span class="remove-filters"><i class="fa-solid fa-close"></i> {% trans "Reset this group" %}</span></div>
+
+            </div>
+            <br>
+            <div class="filter-size">
+                {% trans "Size" %}
+                <hr>
+                <div class="sizes">
+                    <div id="size1">
+                        <input class="size-checkbox" type="checkbox" id="checkboxS1" name="checkboxS1" value="S">
+                        <label class="checkbox-label" for="checkboxS1">S</label>
+                    </div>
+                    <div id="size2">
+                        <input class="size-checkbox" type="checkbox" id="checkboxS2" name="checkboxS2" value="M">
+                        <label class="checkbox-label" for="checkboxS2">M</label>
+                    </div>
+                    <div id="size3">
+                        <input class="size-checkbox" type="checkbox" id="checkboxS3" name="checkboxS3" value="L">
+                        <label class="checkbox-label" for="checkboxS3">L</label>
+                    </div>
+                    <div id="size4">
+                        <input class="size-checkbox" type="checkbox" id="checkboxS4" name="checkboxS4" value="XL">
+                        <label class="checkbox-label" for="checkboxS4">XL</label>
+                    </div>
+                </div>
+
+                <div class="remove-filters-container" id="sizes">  <span class="remove-filters"><i class="fa-solid fa-close"></i> {% trans "Reset this group" %}</span></div>
+            </div>
+        </div>
+
+    </div>
+</div>

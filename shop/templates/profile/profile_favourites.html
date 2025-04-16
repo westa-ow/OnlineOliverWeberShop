@@ -5,7 +5,7 @@
 <link rel="stylesheet"  href="{% static 'css/SeparateWidgets/product_card.css' %}">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{% static "js/product_cards.js" %}"></script>
-<script src="{% static "js/firebaseFunctions.js" %}"></script>
+<script type="module" src="{% static "js/firebaseFunctions.js" %}"></script>
 <section id="content" class="page-content col-md-12 col-lg-9 myacc_content">
     <header class="page-header">
         <h1>
@@ -27,7 +27,7 @@
 
 </dialog>
 {% include 'widgets/overlay.html' %}
-{% include "dedicated_templates/translation_vocabulary.html" %}
+
 <script type="module">
     import {fetchFavouriteItems} from '{% static "js/firebaseFunctions.js" %}';
 

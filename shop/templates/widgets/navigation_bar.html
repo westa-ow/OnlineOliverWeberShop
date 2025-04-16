@@ -4,44 +4,26 @@
 {% load i18n %}
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
-    <script src="https://kit.fontawesome.com/ba99d1b9b2.js" crossorigin="anonymous"></script>
+    <link href="{% static "fonts/css/fontawesome.min.css" %}" rel="stylesheet" />
+    <link href="{% static "fonts/css/solid.min.css" %}" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/SeparateWidgets/navigation_bar.css' %}">
 
     <link rel="icon" href="{% static 'images/icons/web-icon.png' %}" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <meta name="currency" content="{{ currency|safe }}">
     <!-- Google tag (gtag.js) -->
+    <meta name="gtm-config" content="{% if request.get_host == 'www.oliverweber.com' %}G-K86D18Y6MG{% else %}G-S1MCG16BMH{% endif %}">
     {% if request.get_host == "www.oliverweber.com" %}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-K86D18Y6MG"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', 'G-K86D18Y6MG');
-        </script>
-    {% elif request.get_host == "www.oliverweber.online" %}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-S1MCG16BMH"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', 'G-S1MCG16BMH');
-        </script>
     {% else %}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-S1MCG16BMH"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', 'G-S1MCG16BMH');
-        </script>
     {% endif %}
+    <script src="{% static 'js/serverScripts/gtm.js' %}" defer></script>
 
 
     <!-- Signals Gateway Pixel Code -->
@@ -67,7 +49,7 @@
         <div class="toolbar large">
             <div class="logo" >
                 <a href="{% url "home" %}">
-                    <img class = "imag" src="{% static "logonormal.webp" %}" alt="OliverWeber" style="cursor:pointer" />
+                    <img src="{% static "logonormal.webp" %}" alt="OliverWeber"  />
                 </a>
             </div>
 
@@ -103,9 +85,15 @@
             </div>
             <span class="icons-container">
                 {% include "widgets/language_selector.html" %}
-                <span class="icon-link" style="font-style: italic; font-size: 14px; color: white;font-family: poppins,Verdana,sans-serif;">
-                    <a id="accountBtn" style="display: flex" ><i class="rts" data-size="28" data-color="#000000" style="width: 28px; height: 28px; margin-right: 4px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 28px; height: 28px; "><path d="M23.67,25V22.65A4.67,4.67,0,0,0,19,18H9.67A4.67,4.67,0,0,0,5,22.65V25" style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8px"></path><circle cx="14.33" cy="8.65" r="4.67" style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8px"></circle></svg></i>
-                        <span style="margin-top: 6px">
+                <span class="icon-link">
+                    <a id="accountBtn">
+                        <i class="rts account-icon" data-size="28" data-color="#000000" >
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" >
+                                <path d="M23.67,25V22.65A4.67,4.67,0,0,0,19,18H9.67A4.67,4.67,0,0,0,5,22.65V25"></path>
+                                <circle cx="14.33" cy="8.65" r="4.67"></circle>
+                            </svg>
+                        </i>
+                        <span>
                             {% if user.is_authenticated %}
                                 {% if user.first_name %}
                                     {{ user.first_name }}
@@ -120,15 +108,15 @@
                     </a>
                 </span>
                 <a class="icon-link" id="searchBtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 28px; height: 28px;">
-                        <circle cx="13.41" cy="12.91" r="9.41" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:2px"></circle>
-                        <line x1="25.18" y1="23.5" x2="21.65" y2="19.97" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:2px"></line>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="28" height="28">
+                        <circle cx="13.41" cy="12.91" r="9.41"></circle>
+                        <line x1="25.18" y1="23.5" x2="21.65" y2="19.97"></line>
                     </svg>
                 </a>
                 <a class="icon-link" id="cartBtn">
                     <svg width="28px" height="28px"  xmlns="http://www.w3.org/2000/svg">
-                      <path d="M21.46,26H6.54C4,26,4,23.86,4,22.46V2H24V22.46C24,23.86,24,26,21.46,26Z" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="2"/>
-                      <path d="M10,8v.78c0,2.68,1.8,4.88,4,4.88s4-2.19,4-4.88V8" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="2"/>
+                        <path d="M21.46,26H6.54C4,26,4,23.86,4,22.46V2H24V22.46C24,23.86,24,26,21.46,26Z"></path>
+                        <path d="M10,8v.78c0,2.68,1.8,4.88,4,4.88s4-2.19,4-4.88V8"></path>
                     </svg>
                 </a>
             </span>
@@ -141,27 +129,27 @@
             <div class="container-column">
                 <div class="logo" >
                     <a href="{% url "home" %}">
-                        <img class = "imag" src="{% static "logonormal.webp" %}" alt="OliverWeber" style="cursor:pointer" height="70px"/>
+                        <img class = "imag" src="{% static "logonormal.webp" %}" alt="OliverWeber" height="70px"/>
                     </a>
                 </div>
                 <div class="icons-container mobile">
                     <a class="icon-link" id="searchBtnMobile">
                         <svg width="22px" height="22px" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" >
-                            <circle cx="13.41" cy="12.91" r="9.41" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:2px"></circle>
-                            <line x1="25.18" y1="23.5" x2="21.65" y2="19.97" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:2px"></line>
+                            <circle cx="13.41" cy="12.91" r="9.41"></circle>
+                            <line x1="25.18" y1="23.5" x2="21.65" y2="19.97"></line>
                         </svg>
                     </a>
                     <a class="icon-link" id="cartBtnMobile">
                         <svg width="22px" height="22px" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M21.46,26H6.54C4,26,4,23.86,4,22.46V2H24V22.46C24,23.86,24,26,21.46,26Z" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="2"/>
-                          <path d="M10,8v.78c0,2.68,1.8,4.88,4,4.88s4-2.19,4-4.88V8" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="2"/>
+                            <path d="M21.46,26H6.54C4,26,4,23.86,4,22.46V2H24V22.46C24,23.86,24,26,21.46,26Z"></path>
+                            <path d="M10,8v.78c0,2.68,1.8,4.88,4,4.88s4-2.19,4-4.88V8"> </path>
                         </svg>
                     </a>
-                    <a class="icon-link" id="accountBtnMobile" style="display: flex" >
-                        <i class="rts" data-size="28" data-color="#000000" style="width: 28px; height: 28px; margin-right: 4px">
+                    <a class="icon-link" id="accountBtnMobile">
+                        <i class="rts" data-size="28" data-color="#000000">
                             <svg width="22px" height="22px" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" >
-                                <path d="M23.67,25V22.65A4.67,4.67,0,0,0,19,18H9.67A4.67,4.67,0,0,0,5,22.65V25" style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8px">
-                                </path><circle cx="14.33" cy="8.65" r="4.67" style="fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8px"></circle>
+                                <path d="M23.67,25V22.65A4.67,4.67,0,0,0,19,18H9.67A4.67,4.67,0,0,0,5,22.65V25"></path>
+                                <circle cx="14.33" cy="8.65" r="4.67"></circle>
                             </svg>
                         </i>
                     </a>
@@ -178,111 +166,14 @@
             </div>
         </div>
     </div>
+    {% include "dedicated_templates/translation_vocabulary.html" %}
     {% include "widgets/mini_cart.html" %}
     {% include "widgets/account_panel.html" %}
     {% include "widgets/mobile_links_panel.html" %}
     {% include "widgets/search.html" %}
     <div id="overlay" class="overlay"></div>
 </body>
-<script>
-
-    let isCheckout = false;
-    let key = "{{ session.session_key }}";
-    const currency="{{ currency|safe }}";
-
-
-    document.addEventListener("DOMContentLoaded", function () {
-        const toggle = document.getElementById("collections-toggle");
-        const menu = document.getElementById("collections-menu");
-
-        toggle.addEventListener("click", function (e) {
-            e.preventDefault();
-            menu.style.display = menu.style.display === "flex" ? "none" : "flex";
-        });
-
-        // Close the menu if the click is outside the dropdown
-        document.addEventListener("click", function (e) {
-            if (!toggle.contains(e.target) && !menu.contains(e.target)) {
-                menu.style.display = "none";
-            }
-        });
-    });
-
-    window.addEventListener('scroll', function() {
-        let toolbar = document.querySelector('.toolbar');
-        // Check if the page is scrolled more than 50 pixels
-        if(window.pageYOffset > 50) {
-            // User has scrolled down, shrink the toolbar
-            toolbar.classList.remove('large');
-            toolbar.classList.add('small');
-        } else {
-            // User is near the top of the page, expand the toolbar
-            toolbar.classList.remove('small');
-            toolbar.classList.add('large');
-        }
-    });
-
-
-
-// If we have a close button similar to the cartPanel's close button, you can add an event listener to it:
-document.querySelectorAll('.close_cross').forEach(button => button.addEventListener('click', function() {
-    let accPanel = document.getElementById('side_acc_wrap');
-    let overlay = document.getElementById('overlay');
-    let searchPanel = document.getElementById('side_search_wrap');
-    let menuPanel = document.getElementById('side_menu_wrap');
-
-
-    accPanel.classList.remove('open');
-    searchPanel.classList.remove('open');
-    overlay.style.display = 'none'; // Hide the overlay when the account panel is closed
-    menuPanel.classList.remove('open');
-    closeDropdownSearch();
-}));
-
-document.getElementById('searchBtnMobile').addEventListener('click', searchPanelPopUp);
-document.getElementById('searchBtn').addEventListener('click', searchPanelPopUp);
-function searchPanelPopUp(){
-    let searchPanel = document.getElementById('side_search_wrap');
-    let overlay = document.getElementById('overlay');
-
-    if (searchPanel.classList.contains('open')) {
-        searchPanel.classList.remove('open');
-        overlay.style.display = 'none'; // Hide overlay when the panel is closed
-    } else {
-        searchPanel.classList.add('open');
-        overlay.style.display = 'block'; // Show overlay when the panel is open
-    }
-}
-document.getElementById('overlay').addEventListener('click', function() {
-    document.getElementById('cartPanel').classList.remove('open');
-    document.getElementById('side_acc_wrap').classList.remove('open');
-    document.getElementById('side_search_wrap').classList.remove('open');
-    document.getElementById('side_menu_wrap').classList.remove('open');
-    closeDropdownSearch();
-    this.style.display = 'none'; // Hide the overlay
-});
-
-
-function closeDropdownSearch(){
-    document.getElementById('input-search').value = "";
-    document.getElementById('dropdown').innerHTML = '';
-}
-
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
+<script src="{% static "js/widgets/navigationBar.js" %}">
 </script>
 </html>
 {% endblock %}

@@ -14,7 +14,7 @@
 }
 
 .container-search-archive input:focus {
-    border-bottom: 2px solid #056cc2; /* Add a different color for focus state if needed */
+    border-bottom: 2px solid #056cc2;
 }
 
 #dropdown-archive {
@@ -26,7 +26,6 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    top: 134px;
     z-index: 1000;
     margin-top: 2px;
 }
@@ -50,4 +49,8 @@
     flex-direction: column;
 }
 .product-name-search{
+}
+
+.products-divider{
+    margin: 0 10px;
 }

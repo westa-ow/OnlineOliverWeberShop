@@ -16,7 +16,7 @@
     <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{% static "js/checkout/totalCalculation.js" %}"></script>
-    <script src="{% static "js/firebaseFunctions.js" %}"></script>
+    <script type="module" src="{% static "js/firebaseFunctions.js" %}"></script>
     <script src="{% static "js/productsTransmutation.js" %}"></script>
     <script src="{% static "js/product_cards.js" %}"></script>
     <link rel="icon" href="{% static "images/icons/web-icon.png" %}" type="image/x-icon">
@@ -157,7 +157,7 @@
 </div>
 
 {% include "widgets/overlay.html" %}
-{% include "dedicated_templates/translation_vocabulary.html" %}
+
 </body>
 
 <script type="module">

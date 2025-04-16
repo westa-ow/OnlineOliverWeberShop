@@ -114,42 +114,7 @@
     </aside>
 </section>
 
-<script>
-document.getElementById('form-address-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const formData = new FormData(document.getElementById('form-address-form'));
-    const jsonObject = {
-        address_data: Object.fromEntries(formData.entries())
-    };
-    const csrftoken = getCookie('csrftoken');
-    fetch('{% url "create_address" %}', { // Ensure the URL is correct
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrftoken,
-        },
-        body: JSON.stringify(jsonObject),
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-        alert("{{ _("The address has been successfully added!")|escapejs }}");
-        window.location.href = "{% url 'profile' feature_name='addresses' %}";
-    }).catch(error => console.error('Error:', error));
-});
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
+<script src="{% static "js/pages/profile/profileCreateAddress.js" %}">
+
+
 </script>

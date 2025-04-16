@@ -66,6 +66,7 @@ def profile(request, feature_name):
     context['username'] = info['first_name'] + " " + info['last_name']
     context['show_quantities'] = show_quantities
     context['STRIPE_PUBLISHABLE_KEY'] = settings.STRIPE_PUBLISHABLE_KEY
+    print(settings.STRIPE_PUBLISHABLE_KEY)
 
     if feature_name == "catalogs":
         pdf_files = [
@@ -225,7 +226,11 @@ def build_context(feature_name, email, orders, order_details):
     currencies_dict ={}
     for order in orders:
         currencies_dict[order['order_id']] = order['currency']
-
+    config = {
+        "orders": orders,
+        "currencies": currencies_dict,
+        "products": order_details
+    }
     context = {
         'currencies': currencies_dict,
         'orders': orders,
@@ -241,7 +246,10 @@ def build_context(feature_name, email, orders, order_details):
         addresses, addresses_dict = get_user_addresses(email)
         context['my_addresses'] = addresses
         context['addresses_dict'] = addresses_dict
+        config['my_addresses'] = addresses
+        config['addresses_dict'] = addresses_dict
 
+    context['config_data'] = config
     return context
 
 
