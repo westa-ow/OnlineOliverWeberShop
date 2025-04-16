@@ -7,7 +7,8 @@ from background_task import background
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 
-from shop.decorators import login_required_or_session, logout_required
+from shop.decorators import login_required_or_session, logout_required, not_logged_in, ratelimit_with_logging
+from shop.recaptcha_utils import verify_recaptcha
 from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, get_cart, cart_ref, single_order_ref, \
     get_user_category, get_user_session_type, metadata_ref, users_ref, update_email_in_db, get_user_prices, \
     get_user_info, get_address_info, get_vat_info, get_shipping_price, get_order, get_order_items, \
@@ -565,149 +566,158 @@ def anonym_cart_info(request):
         currency = "$"
     form_register = UserRegisterForm()
     form_login = AuthenticationForm()
+    print(form_register)
     context = {
         'documents': sorted(get_cart(email), key=lambda x: x['number']),
         'currency': currency,
         'form_register':form_register,
         'form_login':form_login,
-        'error_messages': []
+        'error_messages': [],
+        'RECAPTCHA_SITE_KEY': settings.RECAPTCHA_SITE_KEY,
     }
 
     return render(request, 'checkout/Checkout_Account_Auth.html', context=context)
 
 
+@not_logged_in
 def login_anonym_cart_info(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request, request.POST)
-        email1 = get_user_session_type(request)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(request=request, username=username, password=password)
-            if user is not None:
-                email2 = form.cleaned_data.get('email') or user.email
+    email1 = get_user_session_type(request)
+    documents = sorted(get_cart(email1), key=lambda x: x['number'])
+    category, currency = get_user_prices(request, email1)
+    if currency == "Euro":
+        currency_symbol = "€"
+    elif currency == "Dollar":
+        currency_symbol = "$"
+    else:
+        currency_symbol = currency
 
-                # Query Firebase Firestore to check the user's Enabled status
-                firebase_user_doc = users_ref.where('email', '==', email2).limit(1).get()
-                if firebase_user_doc and firebase_user_doc[0].to_dict().get('Enabled', True) == False:
-                    # Redirect to home with an error message
-                    messages.error(request, "Your account was disabled")
-                    form.add_error(None, "Your account was disabled")
-                    return render(request, 'checkout/Checkout_Account_Auth.html', {'form': form,
-                                                                                   'error_messages': get_all_errors(form)})
+    if request.method == 'POST':
+        form_login = AuthenticationForm(request, request.POST)
+
+        locked_until = request.session.get('axes_locked_until')
+        if locked_until:
+            now = time.time()
+            if now < locked_until:
+                unlock_time = datetime.fromtimestamp(locked_until).strftime('%H:%M:%S')
+                form_login.add_error(
+                    None,
+                    f"Your account is locked due to too many failed login attempts. "
+                    f"Please try again after {unlock_time}."
+                )
+            else:
+                request.session.pop('axes_locked_until', None)
+
+        if form_login.is_valid():
+            username = form_login.cleaned_data['username']
+            password = form_login.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user:
+                email2 = user.email
+
+                docs = users_ref.where('email', '==', email2).limit(1).get()
+                if docs and not docs[0].to_dict().get('Enabled', True):
+                    form_login.add_error(None, "Your account has been disabled.")
                 else:
-                    # Proceed to log the user in
                     login(request, user)
                     update_email_in_db(email1, email2)
                     return redirect('checkout_addresses')
     else:
-        form = UserRegisterForm()
-    email = get_user_session_type(request)
-    category, currency = get_user_prices(request, email)
-    if currency == "Euro":
-        currency = "€"
-    elif currency == "Dollar":
-        currency = "$"
+        form_login = AuthenticationForm()
+
     form_register = UserRegisterForm()
 
-    context = {
-        'documents': sorted(get_cart(email), key=lambda x: x['number']),
-        'currency': currency,
+    return render(request, 'checkout/Checkout_Account_Auth.html', {
+        'documents': documents,
+        'currency': currency_symbol,
+        'form_login': form_login,
         'form_register': form_register,
-        'form_login': form,
-        'errors': form.errors,
-        'error_form': form,
-        'error_messages': get_all_errors([form, form_register]),
-    }
-    return render(request, 'checkout/Checkout_Account_Auth.html', context)
+        'error_messages': get_all_errors([form_login, form_register]),
+        'RECAPTCHA_SITE_KEY': settings.RECAPTCHA_SITE_KEY,
+    })
 
-
+@not_logged_in
+@ratelimit_with_logging(key='ip', rate='5/m', block=True)
 def register_anonym_cart_info(request):
+    email_before = get_user_session_type(request)
+    documents = sorted(get_cart(email_before), key=lambda x: x['number'])
+    category, currency = get_user_prices(request, email_before)
+    currency_symbol = {'Euro': '€', 'Dollar': '$'}.get(currency, currency)
+
+    # 2) Инициализируем формы
+    form_register = UserRegisterForm(request.POST or None)
+    form_login = AuthenticationForm()
+
+    # 3) Обработка POST-запроса (регистрация)
     if request.method == 'POST':
-        form = UserRegisterForm(request.POST)
-        email1 = get_user_session_type(request)
-        print(form.errors)
-        if form.is_valid():
-
-            email2 = form.cleaned_data.get('email')
-
-            existing_user = users_ref.where('email', '==', email2).limit(1).get()
-
-            if list(existing_user):  # Convert to list to check if it's non-empty
-                print('Error: User with this Email already exists.')
-                form.add_error('email', 'User with this Email already exists.')
-                return render(request, 'registration/register.html', {'form': form, 'error_messages': get_all_errors(form)})
+        # 3.1 Проверяем reCAPTCHA
+        recaptcha_response = request.POST.get('g-recaptcha-response')
+        if not verify_recaptcha(recaptcha_response):
+            form_register.add_error(None, 'Invalid reCAPTCHA. Please try again.')
+            logger.error(
+                "Registration failed: invalid reCAPTCHA. Errors: %s",
+                form_register.errors.as_json()
+            )
+        # 3.2 Если reCAPTCHA ок и форма валидна — проверяем уникальность email
+        elif form_register.is_valid():
+            email_after = form_register.cleaned_data['email']
+            existing = users_ref.where('email', '==', email_after).limit(1).get()
+            if existing:
+                form_register.add_error('email', 'User with this email already exists.')
             else:
-
-                user_id = get_new_user_id()
-                current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                first_name = form.cleaned_data.get('first_name')
-                last_name = form.cleaned_data.get('last_name')
-                birthdate = form.cleaned_data.get('birthdate')
-                social_title = "Mr" if form.cleaned_data.get('social_title') == "1" else "Mrs"
-                customer_type = "Customer"
-                offers = form.cleaned_data.get('offers')
-                newsletter = form.cleaned_data.get('receive_newsletter')
-                category, currency = get_user_prices(request, email2)
+                # 3.3 Создаём запись в Firestore
+                user_id    = get_new_user_id()
+                now_str    = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                social     = "Mr" if form_register.cleaned_data.get('social_title') == "1" else "Mrs"
+                offers     = form_register.cleaned_data['offers']
+                newsletter = form_register.cleaned_data['receive_newsletter']
+                cat, curr  = get_user_prices(request, email_after)
                 new_user = {
                     'Enabled': True,
-                    "display_name": "undefined",
-                    'social_title': social_title,
-                    'first_name': first_name,
-                    'last_name': last_name,
-                    'email': email2,
-                    'birthday': birthdate,
-                    'country': "",
-                    "agent_number": "",
-                    'price_category': category,
-                    'currency': currency,
+                    'display_name': 'undefined',
+                    'social_title': social,
+                    'first_name': form_register.cleaned_data['first_name'],
+                    'last_name':  form_register.cleaned_data['last_name'],
+                    'email':      email_after,
+                    'birthday':   form_register.cleaned_data.get('birthdate'),
+                    'price_category': cat,
+                    'currency':       curr,
                     'receive_offers': offers,
                     'receive_newsletter': newsletter,
-                    'registrationDate': current_time,
-                    'userId': user_id,
-                    'sale': 0,
-                    'customer_type': customer_type,
-                    'show_quantities': False
-
+                    'registrationDate': now_str,
+                    'userId':      user_id,
+                    'sale':        0,
+                    'customer_type': 'Customer',
+                    'show_quantities': False,
                 }
                 users_ref.add(new_user)
 
-                username = email2
-                unique_suffix = 1
-                original_username = username
-                while User.objects.filter(username=username).exists():
-                    username = f"{original_username}{unique_suffix}"
-                    unique_suffix += 1
-                user = form.save(commit=False)
-                user.username = username  # Set the unique username
-                user.save()  # Now save the user to the database
+                # 3.4 Создаём и сохраняем Django‑пользователя
+                user = form_register.save(commit=False)
+                # Генерируем уникальный username на основе email
+                user.username = email_after
+                # Устанавливаем пароль (UserCreationForm уже хэширует)
+                user.set_password(form_register.cleaned_data['password1'])
+                user.save()
 
-                password = form.cleaned_data.get('password1')
-                form.save()
-                user = authenticate(request=request,username=username, password=password)
+                # 3.5 Аутентификация и очистка старой корзины
+                user = authenticate(request, username=user.username,
+                                    password=form_register.cleaned_data['password1'])
                 if user:
-                    clear_all_cart(email2)
+                    clear_all_cart(email_after)
                     login(request, user)
-                    update_email_in_db(email1, email2)
+                    update_email_in_db(email_before, email_after)
                     return redirect('checkout_addresses')
-    else:
-        form = UserRegisterForm()
-    email = get_user_session_type(request)
-    category, currency = get_user_prices(request, email)
-    if currency == "Euro":
-        currency = "€"
-    elif currency == "Dollar":
-        currency = "$"
-    form_login = AuthenticationForm()
+
+    # 4) Общий контекст и рендер одного шаблона
     context = {
-        'documents': sorted(get_cart(email), key=lambda x: x['number']),
-        'currency': currency,
-        'form_register': form,
-        'form_login': form_login,
-        'errors': form.errors,
-        'error_form': form,
-        'error_messages': get_all_errors([form, form_login])
+        'documents':      documents,
+        'currency':       currency_symbol,
+        'form_login':     form_login,
+        'form_register':  form_register,
+        'error_messages': get_all_errors([form_register, form_login]),
+        'RECAPTCHA_SITE_KEY': settings.RECAPTCHA_SITE_KEY,
     }
+    print(context["RECAPTCHA_SITE_KEY"])
     return render(request, 'checkout/Checkout_Account_Auth.html', context)
 
 

@@ -5,12 +5,12 @@
 {% block content %}
 <meta charset="UTF-8">
 <title>Checkout user info</title>
-<script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
-
 <link rel="icon" href="{% static "images/icons/web-icon.png" %}" type="image/x-icon">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" type="text/css" href="{% static 'css/checkout_cart.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/checkout/checkout_auth.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/checkout/checkout_auth.css' %}">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <link rel="stylesheet" href="{% static "css/profile/profile_information.css" %}">
 <script src="{% static "js/checkout/totalCalculation.js" %}"></script>
 
@@ -179,12 +179,29 @@
                                                 <div class="form-group row ">
                                                     <div class="col-md-12">
                                                         <label></label>
-                                                        <label class="help-msg-register">
-                                                                {% trans "If you want to register as a B2B customer, please contact us." %}
+                                                        <span class="custom-checkbox">
+                                                            {{ form_register.gdpr_consent|add_class:"form-control"| attr:"" }}
+                                                            <span>
+                                                                <i class="material-icons rtl-no-flip checkbox-checked"></i>
+                                                            </span>
+                                                            <label>
+                                                                {% trans "I consent to the processing and use of my personal data in accordance with GDPR" %}
                                                             </label>
+                                                        </span>
                                                     </div>
                                                     <div class="col-md-12 form-control-comment"></div>
                                                 </div>
+
+                                                <div class="form-group row ">
+                                                    <div class="col-md-12">
+                                                        <label></label>
+                                                        <label class="help-msg-register">
+                                                            {% trans "If you want to register as a B2B customer, please contact us." %}
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-12 form-control-comment"></div>
+                                                </div>
+                                                <div class="g-recaptcha" data-sitekey="{{ RECAPTCHA_SITE_KEY }}"></div>
                                             </div>
                                             <footer class="form-footer clearfix">
                                                 <button class="btn btn-primary wide form-control-submit float-xs-right" data-link-action="save-customer" type="submit" value="REGISTER">{% trans "Continue"%} </button>

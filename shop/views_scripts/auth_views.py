@@ -157,7 +157,6 @@ def login_view(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, request.POST)
 
-        # If the session has a lockout period set, check it
         locked_until = request.session.get('axes_locked_until')
         if locked_until:
             current_time = time.time()  # Current time in seconds
