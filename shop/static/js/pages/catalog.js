@@ -45,6 +45,10 @@ import(window.config.firebaseFunctionScriptUrl)
         let all_crystals = [];
         let all_platings = [];
         let all_bases = [];
+        const fromSlider = document.querySelector('#fromSlider');
+        const toSlider = document.querySelector('#toSlider');
+        const fromInputText = document.querySelector('.fromInput-text');
+        const toInputText = document.querySelector('.toInput-text');
 
         document.addEventListener("DOMContentLoaded", async function () {
             showOverlay();
@@ -688,10 +692,7 @@ import(window.config.firebaseFunctionScriptUrl)
 
         document.getElementById('contains-in-name').addEventListener('input', applyFilters);
 
-        const fromSlider = document.querySelector('#fromSlider');
-        const toSlider = document.querySelector('#toSlider');
-        const fromInputText = document.querySelector('.fromInput-text');
-        const toInputText = document.querySelector('.toInput-text');
+
         fillSlider(fromSlider, toSlider, '#C6C6C6', '#003665', toSlider);
         setToggleAccessible(toSlider);
 
