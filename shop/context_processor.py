@@ -49,3 +49,8 @@ def shop_page_url(request):
         full_url = None
 
     return {'shop_page_url': full_url}
+
+
+def hotjar(request):
+    from django.conf import settings
+    return {'USE_HOTJAR': getattr(settings, 'USE_HOTJAR', False)}

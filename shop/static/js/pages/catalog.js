@@ -12,7 +12,10 @@ function getCatalogMetaConfig() {
     }
     return {};
 }
-window.config = getCatalogMetaConfig();
+window.config = {
+  ...(window.config || {}),
+  ...getCatalogMetaConfig()
+};
 
 import(window.config.firebaseFunctionScriptUrl)
     .then(module => {
