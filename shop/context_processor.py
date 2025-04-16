@@ -55,6 +55,10 @@ def hotjar(request):
     from django.conf import settings
     return {'USE_HOTJAR': getattr(settings, 'USE_HOTJAR', False)}
 
+def hotjar_id(request):
+    from django.conf import settings
+    return {'HOTJAR_ID': getattr(settings, 'HOTJAR_ID', '')}
+
 
 def vocabulary_translation(request):
     return {'vocabulary': get_vocabulary_product_card()}

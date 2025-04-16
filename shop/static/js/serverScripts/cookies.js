@@ -5,6 +5,13 @@ function getPrivacyPolicyConfig() {
     : {};
 }
 
+function getHotJarId() {
+  const meta = document.querySelector('meta[name="HOTJARID"]');
+  return meta
+    ? { HOTJAR_ID: meta.content }
+    : {};
+}
+
 function enableHotjar() {
   (function (c, s, q, u, a, r, e) {
     c.hj = c.hj || function () {
@@ -16,12 +23,13 @@ function enableHotjar() {
     e.async = true;
     e.src = q + c._hjSettings.hjid + u;
     r.appendChild(e);
-  })(window, document, 'https://static.hj.contentsquare.net/c/csq-', '.js', 6373134);
+  })(window, document, 'https://static.hj.contentsquare.net/c/csq-', '.js', window.config.HOTJAR_ID);
 }
 window.addEventListener("load", function(){
       window.config = {
         ...(window.config || {}),
-        ...getPrivacyPolicyConfig()
+        ...getPrivacyPolicyConfig(),
+        ...getHotJarId(),
       };
       window.cookieconsent.initialise({
         palette: {
