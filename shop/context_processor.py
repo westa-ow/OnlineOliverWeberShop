@@ -1,6 +1,6 @@
 from django.urls import reverse
 
-from shop.views import get_user_info
+from shop.views import get_user_info, get_vocabulary_product_card
 
 
 def user_role(request):
@@ -54,3 +54,7 @@ def shop_page_url(request):
 def hotjar(request):
     from django.conf import settings
     return {'USE_HOTJAR': getattr(settings, 'USE_HOTJAR', False)}
+
+
+def vocabulary_translation(request):
+    return {'vocabulary': get_vocabulary_product_card()}
