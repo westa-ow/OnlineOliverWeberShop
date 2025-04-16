@@ -73,7 +73,13 @@ GEOIP_config = os.path.join(BASE_DIR, "shop", "static", "GEOIP", "GeoLite2-Count
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 
 USE_HOTJAR = not DEBUG
-
+HOTJAR_ID = os.getenv('HOTJAR_ID')
+if CURRENT_DOMAIN == 'oliverweber.com':
+    HOTJAR_ID = os.getenv('HOTJAR_ID_MIRROR')
+elif CURRENT_DOMAIN == 'oliverweber.online':
+    HOTJAR_ID = os.getenv('HOTJAR_ID')
+else:
+    HOTJAR_ID = os.getenv('HOTJAR_ID')
 ALLOWED_HOSTS = ['oliverweber.com', 'www.oliverweber.com', 'oliverweber.online', 'www.oliverweber.online']
 
 GEOIP_PATH = os.path.join(BASE_DIR, 'shop/static/GEOIP')
@@ -162,7 +168,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'shop',
     'axes',
-    'csp'
+    'csp',
     # 'autotranslate',
 ]
 
