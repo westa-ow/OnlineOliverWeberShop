@@ -32,7 +32,7 @@ window.addEventListener("load", function(){
         type: "opt-in",           // включаем режим Accept/Decline
         content: {
           message: vocabulary["We use cookies to personalize content and improve your browsing experience. By continuing, you accept our cookie policy."],
-          dismiss: vocabulary["Accept"],
+          allow: vocabulary["Accept"],
           deny: vocabulary["Decline"],
           link: vocabulary["Privacy Policy"],
           href: window.config.privacyPolicyUrl
