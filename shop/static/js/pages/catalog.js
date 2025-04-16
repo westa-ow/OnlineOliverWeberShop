@@ -19,10 +19,12 @@ import(window.config.firebaseFunctionScriptUrl)
         const {fetchAllItems, fetchFavouriteItems, fetchStones} = module;
 
         let vocabulary = getVocabulary()
+
         let sale = window.config.sale;
         const price_category = window.config.price_category;
         const show_quantities = window.config.show_quantities;
         let itemsPerPage = 20;
+
         let order_name = "Name";
         let order_type = "asc";
         let number_of_documents;
@@ -34,6 +36,7 @@ import(window.config.firebaseFunctionScriptUrl)
         let filters = [];
         let stones = {};
         let stones_reversed = {};
+
         let platingFilters =  window.config.plating_catalog ? [window.config.plating_catalog] : [];
         let baseFilters = window.config.base_catalog ? [window.config.base_catalog] : [];
         let stoneFilters = [];
@@ -43,30 +46,34 @@ import(window.config.firebaseFunctionScriptUrl)
         let collection_catalog = window.config.collection_catalog || "";
         let categories = [""];
         let all_crystals = [];
+
         let all_platings = [];
         let all_bases = [];
         let fromSlider = document.querySelector('#fromSlider');
         let toSlider = document.querySelector('#toSlider');
+
         let fromInputText = document.querySelector('.fromInput-text');
         let toInputText = document.querySelector('.toInput-text');
+        console.log("readyState is", document.readyState);
+        async function init() {
 
-        document.addEventListener("DOMContentLoaded", async function () {
             fromSlider = document.querySelector('#fromSlider');
             toSlider = document.querySelector('#toSlider');
             fromInputText = document.querySelector('.fromInput-text');
             toInputText = document.querySelector('.toInput-text');
+            console.log("TEST 0");
             showOverlay();
-
+            console.log("TEST 1");
             itemsPerPage = Number(document.getElementById('select-items-per-page').value);
-
+            console.log("TEST 2");
             let unfilteredItems = await fetchAllItems(); // Fetch all items on load
-
+console.log("TEST 3");
             favouriteItems = await fetchFavouriteItems(window.config.userEmail);
-
+console.log("TEST 4");
             ({ all: stones, reversed: stones_reversed } = await fetchStones());
-
+console.log("TEST 5");
             allItems = productsTransmutation(unfilteredItems, price_category, sale, stones, window.config.customer_type==="B2B");
-
+console.log("TEST 6");
 
             total_pages = Math.ceil(allItems.length / itemsPerPage);
 
@@ -95,7 +102,7 @@ import(window.config.firebaseFunctionScriptUrl)
             updateURL();
             hideOverlay();
             responsiveLayout();
-        });
+        }
         function responsiveLayout(){
             let mql = window.matchMedia("(max-width: 769px)");
             if( mql.matches) {
@@ -1111,7 +1118,11 @@ import(window.config.firebaseFunctionScriptUrl)
                 console.error('Error updating favorites:', error);
             }
         });
-
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', init);
+        } else {
+          init();
+        }
     })
     .catch(error => {
         console.error("Ошибка при динамическом импорте:", error);
