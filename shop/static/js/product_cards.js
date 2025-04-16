@@ -339,8 +339,8 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
         heartIconContainer.className = 'mobile-heart-container';
         heartIconContainer.setAttribute('data-item-name', JSON.stringify(item));
         heartIconContainer.innerHTML = isFavourite ?
-        `<div class="favourites-mobile-container"><span class="mobile-favourites-btn"> ${vocabulary["Remove from favorites"]} <i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:#000000;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i> </span></div>` :
-        `<div class="favourites-mobile-container"><span class="mobile-favourites-btn"> ${vocabulary["Add to favorites"]} <i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i> </span></div>`; // Example with FontAwesome
+        `<div class="favourites-mobile-container"><span class="mobile-favourites-btn"> ${vocabulary["Remove from favorites"]} <i class="rts" data-size="24" data-color="#000000"><svg xmlns="http://www.w3.org/2000/svg" class="card-fav-icon-yes" viewBox="0 0 28 28" width="24" height="24"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z"></path></svg></i> </span></div>` :
+        `<div class="favourites-mobile-container"><span class="mobile-favourites-btn"> ${vocabulary["Add to favorites"]} <i class="rts" data-size="24" data-color="#000000" ><svg xmlns="http://www.w3.org/2000/svg" class="card-fav-icon-no" viewBox="0 0 28 28" width="24" height="24"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z"></path></svg></i> </span></div>`; // Example with FontAwesome
         secondColumn.appendChild(heartIconContainer);
     }
 
@@ -1124,25 +1124,23 @@ function createProductCard(isCarousel, item, itemCounter, allItems, filteredItem
     img.src = item.preview_image;
     img.style.borderRadius = '10px';
 
+    // IF YOU WILL BE HERE AGAIN - CHECK IF USER IF AUTH. FAVOURITES WORK ONLY IF USER IS AUTH
     const iconContainer = document.createElement('div');
     iconContainer.className = 'icon-container';
-
     const heartIconContainer = document.createElement('div');
     heartIconContainer.className = 'heart-icon-container';
      // Converts the result to a boolean
-
     heartIconContainer.innerHTML = itemIsFavourite ?
-    `<i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:#000000;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i>` :
-    `<i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i>`; // Example with FontAwesome
+    `<i class="rts" data-size="24" data-color="#000000"><svg xmlns="http://www.w3.org/2000/svg" class="card-fav-icon-yes" viewBox="0 0 28 28" width="24" height="24"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" ></path></svg></i>` :
+    `<i class="rts" data-size="24" data-color="#000000"><svg xmlns="http://www.w3.org/2000/svg" class="card-fav-icon-no" viewBox="0 0 28 28" width="24" height="24"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" ></path></svg></i>`; // Example with FontAwesome
 
     // Adding your new icon
     const newIconContainer = document.createElement('div');
     newIconContainer.className = 'new-icon-container';
-    newIconContainer.innerHTML = `<i class="rts" data-size="24" data-color="#000000" style="width: 26px; height: 26px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M21.46,26H6.54C4,26,4,23.86,4,22.46V2H24V22.46C24,23.86,24,26,21.46,26Z" style="fill:none;stroke:#000000;stroke-miterlimit:10;stroke-width:2px"></path><path d="M10,8v.78c0,2.68,1.8,4.88,4,4.88s4-2.19,4-4.88V8" style="fill:none;stroke:#000000;stroke-miterlimit:10;stroke-width:2px"></path></svg></i>`;
-
+    newIconContainer.innerHTML = `<i class="rts" data-size="24" data-color="#000000"><svg xmlns="http://www.w3.org/2000/svg" class="card-new-icon" viewBox="0 0 28 28" width="24" height="24"><path d="M21.46,26H6.54C4,26,4,23.86,4,22.46V2H24V22.46C24,23.86,24,26,21.46,26Z" ></path><path d="M10,8v.78c0,2.68,1.8,4.88,4,4.88s4-2.19,4-4.88V8"></path></svg></i>`;
 
     heartIconContainer.addEventListener('mouseenter', (event) => {
-
+        console.log("mouse enter");
         const favouriteItem = favouriteItems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
         const isFavBefore = Boolean(favouriteItem); // Converts the result to a boolean
         let message_fav = isFavBefore ? vocabulary["Remove from favorites"] : vocabulary["Add to favorites"];
@@ -1186,8 +1184,8 @@ function createProductCard(isCarousel, item, itemCounter, allItems, filteredItem
 
             // Update the heart icon based on `isFavourite`
             heartIconContainer.innerHTML = isFavourite ?
-                `<i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:#000000;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i>` :
-                `<i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg></i>`;
+                `<i class="rts" data-size="24" data-color="#000000"><svg xmlns="http://www.w3.org/2000/svg" class="card-fav-icon-yes" viewBox="0 0 28 28" width="24" height="24"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" ></path></svg></i>` :
+                `<i class="rts" data-size="24" data-color="#000000"><svg xmlns="http://www.w3.org/2000/svg" class="card-fav-icon-no" viewBox="0 0 28 28" width="24" height="24"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" ></path></svg></i>`;
         } catch (error) {
             console.error('Error updating favorites:', error);
         }
@@ -1201,9 +1199,10 @@ function createProductCard(isCarousel, item, itemCounter, allItems, filteredItem
 
     // Finally, append the iconContainer to the imgWrapper or imgSection
     imgWrapper.appendChild(img);
-    if (window.matchMedia("(min-width: 769px)").matches && user_auth === "True") {
+    if (window.matchMedia("(min-width: 769px)").matches && user_auth) {
         imgWrapper.appendChild(iconContainer);
     }
+    console.log(user_auth);
     // Append the imgWrapper to the imgSection
     imgSection.appendChild(imgWrapper);
 

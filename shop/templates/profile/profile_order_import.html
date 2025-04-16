@@ -38,8 +38,8 @@
     });
 
     document.getElementById('file-input').addEventListener('change', function() {
-        var fileInput = document.getElementById('file-input');
-        var formData = new FormData();
+        let fileInput = document.getElementById('file-input');
+        let formData = new FormData();
         formData.append('file', fileInput.files[0]);
 
         fetch("{% url 'upload_cart' %}", {

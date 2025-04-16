@@ -19,6 +19,9 @@
     line-height: 28px;
     display: inline-block;
     color: #777;
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: normal;
 }
 
 .myaccount .links a{
@@ -108,4 +111,26 @@
         padding: 15px;
         border-radius: 15px;
     }
+}
+
+.profile-icon-orders path, .profile-icon-orders polyline, .profile-icon-orders line{
+    fill:none;
+    stroke:#000;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    stroke-width:2px;
+}
+.profile-icon-account path, .profile-icon-account circle, .profile-icon-account polygon{
+    fill:none;
+    stroke:#000;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    stroke-width:2px;
+}
+.profile-icon-fav path{
+    fill:none;
+    stroke:#000000;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    stroke-width:2px;
 }

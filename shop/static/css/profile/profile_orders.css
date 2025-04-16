@@ -1,3 +1,84 @@
+#wait-please-dialog {
+    border: 1px solid #f2f2f2; /* Light grey border */
+    padding: 20px; /* Padding inside the dialog */
+    width: auto; /* Auto width based on content size */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Optional: adds shadow for better visibility */
+    display: none; /* Keeps the dialog hidden until .showModal() is called */
+    margin: auto; /* Center the dialog horizontally */
+    position: fixed; /* Positioned relative to the viewport */
+    top: 50%; /* Push down from the top to 50% of the viewport height */
+    left: 50%; /* Push right from the left to 50% of the viewport width */
+    transform: translate(-50%, -100%); /* Offset the dialog to truly center it */
+    max-width: 90%; /* Maximum width, ensuring it doesn't touch the viewport edges */
+    box-sizing: border-box; /* Ensures padding and border are included in the width/height */
+}
+
+/* Styles for the h3 element inside the dialog */
+#wait-please-dialog h3 {
+    color: #333; /* Dark grey text color */
+    font-size: 1.5em; /* Slightly larger text */
+    text-align: center; /* Center-align the text */
+    margin-top: 0;
+    margin-bottom: 20px; /* Space below the text */
+}
+
+/* Styles for the button inside the dialog */
+#wait-please-dialog button {
+    background-color: #e2e2e2; /* Light grey background */
+    border: 1px solid #f2f2f2; /* Light grey border */
+    padding: 10px 20px; /* Padding inside the button */
+    cursor: pointer; /* Cursor indicates the element is clickable */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    display: block; /* Block display to take full width available */
+    margin: 0 auto; /* Center the button horizontally */
+}
+
+/* Optional: Use Flexbox for vertical centering inside the dialog */
+#wait-please-dialog .modal-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+.td-outer:last-child div {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+
+}
+.menus-link{
+    color: black!important;
+    transition: none;
+}
+.menus-link::before{
+    height: 0px;
+    transition: none;
+}
+.context-menu {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.context-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.context-menu ul li {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.context-menu ul li:hover {
+    background-color: #f1f1f1;
+}
 
 @media (min-width: 769px) {
     .section-orders{
@@ -35,7 +116,9 @@ table {
     color: #777!important;
     background-color: rgba(0,0,0,0);
 }
-
+.outer-table{
+    border:1px solid;
+}
 .table-bordered{
     border: 2px solid #f6f6f6;
 
@@ -84,6 +167,19 @@ table tbody tr:nth-of-type(2n+1) {
     transition: max-height 0.5s ease, opacity 0.5s ease;
     overflow: hidden;
 }
+
+.nested-table tbody tr .image-cell{
+    text-align: center;
+}
+.nested-table tbody tr .mark-cell{
+    text-align: center;
+    width: 10%;
+    > span{
+      font-size: 20px;
+    }
+}
+
+
 .show-content{
     font-weight: 600;
     font-size: 14px;
@@ -122,6 +218,7 @@ section .show-content:hover::before, section .show-content:focus::before {
 }
 
 #custom-modal-overlay {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -130,9 +227,13 @@ section .show-content:hover::before, section .show-content:focus::before {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 9998;
 }
+.i-menu-points{
+    cursor: pointer;
+}
 
 /* Modal */
 #custom-modal {
+    display: none;
     position: fixed;
     top: 50%;
     left: 50%;

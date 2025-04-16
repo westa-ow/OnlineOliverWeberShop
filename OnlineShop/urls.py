@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 
 from shop import views
+from shop.views import csp_report
 from shop.views_scripts.admin_views import upload_view
 from shop.views_scripts.profile_orders_pay import create_partial_checkout_session
 from shop.views_scripts.router_viewsets import PromoCodeViewSet
@@ -80,7 +81,7 @@ urlpatterns = i18n_patterns(
     # Promo-codes
     path('api/', include(router.urls)),
 
-    #Checkout urls
+    # Checkout urls
     path('cart/', cart_page, name='cart'),
     path('checkout/check-promocode/', check_promo_code, name='check_promocode'),
     path('order/anonymous/info', anonym_cart_info, name='cart_anonymous'),
@@ -127,28 +128,31 @@ urlpatterns = i18n_patterns(
     path('admin_tools/orders_control/delete_order/<str:order_id>/', at_delete_order, name='at_delete_order'),
     path('admin_tools/orders_control/edit_product_in_stock/', change_in_stock, name='change_in_stock'),
     path('admin_tools/orders_control/upload_in_stock/<str:order_id>/', upload_in_stock, name='upload_in_stock'),
-
     path('upload-db-update/', upload_view, name='upload_db_update'),
 
-    #Service urls
-    path('content/<str:service_page>', service_pages_view, name='services'),
+    # Manage banners urls
     path('delete-banner-relationship/<int:rel_id>/', delete_banner_relationship, name='delete_banner_relationship'),
     path('delete-banner-languages/<int:banner_id>/', delete_banner_all, name='delete_banner_all'),
     path('edit-banner/<int:banner_id>/', edit_banner, name='edit_banner'),
     path('move-up/<int:banner_id>/', move_up, name='move_up'),
     path('move-down/<int:banner_id>/', move_down, name='move_down'),
 
+    # Safety urls
+    path('csp-report/', csp_report, name='csp_report'),
 
-    #STRIPE
+    # Service urls
+    path('content/<str:service_page>', service_pages_view, name='services'),
+
+    # STRIPE
     path('config/', stripe_config, name='stripe_config'),
-    path('create-checkout-session/', create_checkout_session, name='create_checkout_session'),  # Creating a payment session
+    path('create-checkout-session/', create_checkout_session, name='create_checkout_session'), # Creating a payment session
     path('success/', SuccessView.as_view(), name='success'),  # Success Page
     path('cancelled/', CancelledView.as_view(), name='cancelled'),  # Cancellation Page
     path('webhook/', stripe_webhook, name='stripe_webhook'),
-    path('create-partial-checkout-session/', create_partial_checkout_session, name='create_partial_checkout_session'),  # Creating a payment session for partial payment
+    # Creating a payment session for partial payment
+    path('create-partial-checkout-session/', create_partial_checkout_session, name='create_partial_checkout_session'),
 
-
-    #PAYPAL
+    # PAYPAL
     path('paypal/success/', paypal_views.PayPalSuccessView.as_view(), name='paypal-success'),
     path('paypal/cancelled/', paypal_views.PayPalCancelledView.as_view(), name='paypal-cancelled'),
     path('paypal/create-payment/', paypal_views.create_paypal_payment, name='create-paypal-payment'),

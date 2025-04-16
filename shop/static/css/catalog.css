@@ -143,7 +143,7 @@ body::-webkit-scrollbar {
      }
 }
 .everything{
-
+    margin-top: 120px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -156,6 +156,10 @@ body::-webkit-scrollbar {
     margin: 10px 20px 0 20px;
     padding: 20px;
     border-radius: 3px;
+}
+
+#categoriesPanel{
+    display: none;
 }
 
 .filters .filter-price hr,.filters .filter-crystal-color hr, .filters .filter-plating hr, .filters .filter-base hr, .filters .filter-size hr, .filters .filter-name hr{
@@ -528,6 +532,11 @@ input[type='number']::-webkit-outer-spin-button {
 }
 input[type='number'] {
     -moz-appearance: textfield;
+}
+
+.sections-divider{
+    width: 94%;
+    float:left;
 }
 
 

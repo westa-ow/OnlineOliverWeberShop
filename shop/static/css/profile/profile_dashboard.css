@@ -13,3 +13,7 @@
 .upload-btn:hover{
     background-color: #008011;
 }
+
+h1{
+    margin-bottom: 30px; color: #0a0a0a!important;
+}

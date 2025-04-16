@@ -74,3 +74,19 @@
     /* Other styles... */
     line-height: 22px; /* Set this to the height of your SVG icon */
 }
+
+.panel-cross, .panel-dashboard, .panel-fav, .panel-orders, .panel-acc, .panel-address, .panel-logout{
+    fill:none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width:2px;
+}
+.panel-catalogs{
+    fill:none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width:1px;
+}
+.panel-dashboard, .panel-fav, .panel-orders, .panel-acc, .panel-address, .panel-catalogs, .panel-logout{
+    stroke:#000;
+}

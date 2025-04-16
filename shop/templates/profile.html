@@ -6,14 +6,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Profile</title>
+    <meta name="profile-config" content='{
+        "b2b_can_pay": {{ b2b_can_pay|yesno:"true,false" }},
+        "downloadCsvDummyUrl": "{% url "at_download_csv" order_id="BIG" %}",
+        "downloadPdfWImgsDummyUrl": "{% url "at_download_pdf_w_img" order_id="BIG" %}",
+        "downloadPdfWithoutImgsDummyUrl": "{% url "at_download_pdf_no_img" order_id="BIG" %}",
+        "partialPaymentUrl": "{% url 'create_partial_checkout_session' %}",
+        "stripePublicKey": "{{ STRIPE_PUBLISHABLE_KEY }}",
+        "deleteAddressUrl": "{% url "delete_address" address_id="BIG" %}",
+        "createAddressUrl": "{% url "create_address" %}",
+        "profileAddressesUrl": "{% url "profile" feature_name="addresses" %}",
+        "updateAddressUrl": "{% url "update_address" address_id="BIG" %}",
+        "shopPageUrlPattern": "{% url "shop_page" "DUMMY_ID" %}",
+        "fetchNumbersUrl": "{% url "fetch_numbers" %}"
+    }'>
+    {{ config_data|json_script:"config-data" }}
     <link rel="stylesheet" href="{% static 'css/profile/profile_main.css' %}">
     <link rel="icon" href="{% static "images/icons/web-icon.png" %}" type="image/x-icon">
+    <script src="{% static "js/pages/profile/profile_main.js" %}"></script>
 </head>
-<style>
-</style>
 <body>
 {% include 'widgets/navigation_bar.html' %}
-<div class="cont1-1" style="margin-top: 150px">
+<div class="cont1-1">
     {% include 'profile/profile_side_menu.html' %}
     {% if feature_name == 'dashboard' %}
         {% include 'profile/profile_dashboard.html' %}
@@ -40,8 +54,8 @@
     {% endif %}
 </div>
 {% include "widgets/footer.html" %}
-</body>
 
+</body>
 </html>
 
 {% endblock %}

@@ -10,7 +10,10 @@
         </h4>
         <span class="close_cross" >
             <i>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" class="feather feather-x panel-cross">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
             </i>
         </span>
     </div>
@@ -22,38 +25,56 @@
         </span>
         <a href="{% url 'profile' feature_name="dashboard" %}" class="show">
             <i>
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-monitor"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" class="feather feather-monitor panel-dashboard">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                </svg>
             </i>
             {% trans "Dashboard"%}
         </a>
         <a href="{% url 'profile' feature_name="favourites" %}" class="show">
-            <i class="rts" data-size="24" data-color="#000000" style="width: 24px; height: 24px;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" style="width: 24px; height: 24px;"><path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path></svg>
+            <i class="rts" data-size="24" data-color="#000000">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 28 28" class="panel-fav">
+                    <path d="M14.05,6.72C8.17.2,2.57,7.54,3.67,11.76,5.56,19,14.05,23.57,14.05,23.57s7.74-4.16,10.39-11.81C25.86,7.64,20.24.13,14.05,6.72Z"></path>
+                </svg>
             </i>
             {% trans "Favorites"%}
         </a>
         <a id="history-link" href="{% url 'profile' feature_name="orders" %}" class="show">
             <i>
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 28 28"><path d="M15,2.28l8.8,4.43a2.22,2.22,0,0,1,1.22,2V19.24a2.22,2.22,0,0,1-1.22,2L15,25.66a2.19,2.19,0,0,1-2,0l-8.8-4.43a2.22,2.22,0,0,1-1.21-2V8.69a2.22,2.22,0,0,1,1.22-2L13,2.28A2.19,2.19,0,0,1,15,2.28Z" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path><polyline points="3.45 7.51 14.08 12.86 24.7 7.51" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></polyline><line x1="14" y1="26" x2="14" y2="13" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></line><line x1="8.59" y1="4.57" x2="19.57" y2="10.09" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></line></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 28 28" class="panel-orders">
+                    <path d="M15,2.28l8.8,4.43a2.22,2.22,0,0,1,1.22,2V19.24a2.22,2.22,0,0,1-1.22,2L15,25.66a2.19,2.19,0,0,1-2,0l-8.8-4.43a2.22,2.22,0,0,1-1.21-2V8.69a2.22,2.22,0,0,1,1.22-2L13,2.28A2.19,2.19,0,0,1,15,2.28Z"></path>
+                    <polyline points="3.45 7.51 14.08 12.86 24.7 7.51"></polyline>
+                    <line x1="14" y1="26" x2="14" y2="13"></line>
+                    <line x1="8.59" y1="4.57" x2="19.57" y2="10.09"></line>
+                </svg>
             </i>
             {% trans "Orders" %}
         </a>
         <a id="identity-link" href="{% url 'profile' feature_name="account" %}" class="show">
             <i>
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 28 28"><path d="M16.26,15.7A4,4,0,0,0,14,15H7a4,4,0,0,0-4,4v2l1,2h7" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></path><circle cx="10.5" cy="7" r="4" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></circle><polygon points="22.96 14.85 26.15 18.04 18.18 26 15 26 15 22.82 22.96 14.85" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></polygon></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 28 28" class="panel-acc">
+                    <path d="M16.26,15.7A4,4,0,0,0,14,15H7a4,4,0,0,0-4,4v2l1,2h7"></path>
+                    <circle cx="10.5" cy="7" r="4"></circle>
+                    <polygon points="22.96 14.85 26.15 18.04 18.18 26 15 26 15 22.82 22.96 14.85"></polygon>
+                </svg>
             </i>
             {% trans "Information"%}
         </a>
         <a id="addresses-link" href="{% url 'profile' feature_name="addresses" %}" class="show">
             <i>
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" class="feather feather-map-pin panel-address">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                </svg>
             </i>
             {% trans "Addresses"%}
         </a>
         <a id="catalogs-link" href="{% url 'profile' feature_name="catalogs" %}" class="show">
             <i>
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin">
-                  <path d="m19.5,6h-.5v-3.5c0-1.379-1.121-2.5-2.5-2.5H4.5C2.019,0,0,2.019,0,4.5v9c0,2.481,2.019,4.5,4.5,4.5h.5v1.5c0,2.481,2.019,4.5,4.5,4.5h10c2.481,0,4.5-2.019,4.5-4.5v-9c0-2.481-2.019-4.5-4.5-4.5Zm-1.5,0H7.776L17.59,1.471c.254.269.41.631.41,1.029v3.5Zm-13.5,11c-1.93,0-3.5-1.57-3.5-3.5V4.5c0-1.93,1.57-3.5,3.5-3.5h11.723L7.033,5.241c-1.235.57-2.033,1.817-2.033,3.179v8.58h-.5Zm18.5,2.5c0,1.93-1.57,3.5-3.5,3.5h-10c-1.93,0-3.5-1.57-3.5-3.5v-11.08c0-.518.161-1.012.445-1.423.019.002.036.003.055.003h13c1.93,0,3.5,1.57,3.5,3.5v9Zm-3-7.5c0,.276-.224.5-.5.5h-4c-.276,0-.5-.224-.5-.5s.224-.5.5-.5h4c.276,0,.5.224.5.5Zm-8.5-2h-1c-.827,0-1.5.673-1.5,1.5v1c0,.827.673,1.5,1.5,1.5h1c.827,0,1.5-.673,1.5-1.5v-1c0-.827-.673-1.5-1.5-1.5Zm.5,2.5c0,.275-.225.5-.5.5h-1c-.275,0-.5-.225-.5-.5v-1c0-.275.225-.5.5-.5h1c.275,0,.5.225.5.5v1Zm8,5.5c0,.276-.224.5-.5.5h-4c-.276,0-.5-.224-.5-.5s.224-.5.5-.5h4c.276,0,.5.224.5.5Zm-8.5-2h-1c-.827,0-1.5.673-1.5,1.5v1c0,.827.673,1.5,1.5,1.5h1c.827,0,1.5-.673,1.5-1.5v-1c0-.827-.673-1.5-1.5-1.5Zm.5,2.5c0,.275-.225.5-.5.5h-1c-.275,0-.5-.225-.5-.5v-1c0-.275.225-.5.5-.5h1c.275,0,.5.225.5.5v1Z"/>
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="24" viewBox="0 0 24 24" class="feather feather-map-pin panel-catalogs">
+                    <path d="m19.5,6h-.5v-3.5c0-1.379-1.121-2.5-2.5-2.5H4.5C2.019,0,0,2.019,0,4.5v9c0,2.481,2.019,4.5,4.5,4.5h.5v1.5c0,2.481,2.019,4.5,4.5,4.5h10c2.481,0,4.5-2.019,4.5-4.5v-9c0-2.481-2.019-4.5-4.5-4.5Zm-1.5,0H7.776L17.59,1.471c.254.269.41.631.41,1.029v3.5Zm-13.5,11c-1.93,0-3.5-1.57-3.5-3.5V4.5c0-1.93,1.57-3.5,3.5-3.5h11.723L7.033,5.241c-1.235.57-2.033,1.817-2.033,3.179v8.58h-.5Zm18.5,2.5c0,1.93-1.57,3.5-3.5,3.5h-10c-1.93,0-3.5-1.57-3.5-3.5v-11.08c0-.518.161-1.012.445-1.423.019.002.036.003.055.003h13c1.93,0,3.5,1.57,3.5,3.5v9Zm-3-7.5c0,.276-.224.5-.5.5h-4c-.276,0-.5-.224-.5-.5s.224-.5.5-.5h4c.276,0,.5.224.5.5Zm-8.5-2h-1c-.827,0-1.5.673-1.5,1.5v1c0,.827.673,1.5,1.5,1.5h1c.827,0,1.5-.673,1.5-1.5v-1c0-.827-.673-1.5-1.5-1.5Zm.5,2.5c0,.275-.225.5-.5.5h-1c-.275,0-.5-.225-.5-.5v-1c0-.275.225-.5.5-.5h1c.275,0,.5.225.5.5v1Zm8,5.5c0,.276-.224.5-.5.5h-4c-.276,0-.5-.224-.5-.5s.224-.5.5-.5h4c.276,0,.5.224.5.5Zm-8.5-2h-1c-.827,0-1.5.673-1.5,1.5v1c0,.827.673,1.5,1.5,1.5h1c.827,0,1.5-.673,1.5-1.5v-1c0-.827-.673-1.5-1.5-1.5Zm.5,2.5c0,.275-.225.5-.5.5h-1c-.275,0-.5-.225-.5-.5v-1c0-.275.225-.5.5-.5h1c.275,0,.5.225.5.5v1Z"></path>
                 </svg>
             </i>
             {% trans "Catalogs"%}
@@ -61,15 +82,21 @@
         {% if customer_type == "B2B" %}
             <a id="import-link" href="{% url 'profile' feature_name="order_import" %}" class="show">
                 <i>
-                    <svg width="22" height="22" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 99.09 122.88"><path d="M64.64,13,86.77,36.21H64.64V13ZM42.58,71.67a3.25,3.25,0,0,1-4.92-4.25l9.42-10.91a3.26,3.26,0,0,1,4.59-.33,5.14,5.14,0,0,1,.4.41l9.3,10.28a3.24,3.24,0,0,1-4.81,4.35L52.8,67.07V82.52a3.26,3.26,0,1,1-6.52,0V67.38l-3.7,4.29ZM24.22,85.42a3.26,3.26,0,1,1,6.52,0v7.46H68.36V85.42a3.26,3.26,0,1,1,6.51,0V96.14a3.26,3.26,0,0,1-3.26,3.26H27.48a3.26,3.26,0,0,1-3.26-3.26V85.42ZM99.08,39.19c.15-.57-1.18-2.07-2.68-3.56L63.8,1.36A3.63,3.63,0,0,0,61,0H6.62A6.62,6.62,0,0,0,0,6.62V116.26a6.62,6.62,0,0,0,6.62,6.62H92.46a6.62,6.62,0,0,0,6.62-6.62V39.19Zm-7.4,4.42v71.87H7.4V7.37H57.25V39.9A3.71,3.71,0,0,0,61,43.61Z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"  viewBox="0 0 99.09 122.88" class="panel-import">
+                        <path d="M64.64,13,86.77,36.21H64.64V13ZM42.58,71.67a3.25,3.25,0,0,1-4.92-4.25l9.42-10.91a3.26,3.26,0,0,1,4.59-.33,5.14,5.14,0,0,1,.4.41l9.3,10.28a3.24,3.24,0,0,1-4.81,4.35L52.8,67.07V82.52a3.26,3.26,0,1,1-6.52,0V67.38l-3.7,4.29ZM24.22,85.42a3.26,3.26,0,1,1,6.52,0v7.46H68.36V85.42a3.26,3.26,0,1,1,6.51,0V96.14a3.26,3.26,0,0,1-3.26,3.26H27.48a3.26,3.26,0,0,1-3.26-3.26V85.42ZM99.08,39.19c.15-.57-1.18-2.07-2.68-3.56L63.8,1.36A3.63,3.63,0,0,0,61,0H6.62A6.62,6.62,0,0,0,0,6.62V116.26a6.62,6.62,0,0,0,6.62,6.62H92.46a6.62,6.62,0,0,0,6.62-6.62V39.19Zm-7.4,4.42v71.87H7.4V7.37H57.25V39.9A3.71,3.71,0,0,0,61,43.61Z"></path>
+                    </svg>
                 </i>
                 {% trans "Order import"%}
             </a>
             <a id="archive-link" href="{% url 'profile' feature_name="archive_search" %}" class="show">
                 <i>
-                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0,0,256,256">
-                            <g  fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(2,2)"><path d="M52.34961,14.40039c-9.725,0 -19.44961,3.69961 -26.84961,11.09961c-14.8,14.8 -14.8,38.89922 0,53.69922c7.4,7.4 17.10039,11.10156 26.90039,11.10156c9.8,0 19.50039,-3.70156 26.90039,-11.10156c14.7,-14.8 14.69844,-38.89922 -0.10156,-53.69922c-7.4,-7.4 -17.12461,-11.09961 -26.84961,-11.09961zM52.30078,20.30078c8.2,0 16.39961,3.09844 22.59961,9.39844c12.5,12.5 12.49961,32.80078 0.09961,45.30078c-12.5,12.5 -32.80078,12.5 -45.30078,0c-12.5,-12.5 -12.5,-32.80078 0,-45.30078c6.2,-6.2 14.40156,-9.39844 22.60156,-9.39844zM52.30078,26.30078c-6.9,0 -13.40078,2.69922 -18.30078,7.69922c-4.7,4.7 -7.29961,10.80039 -7.59961,17.40039c-0.1,1.7 1.20039,2.99961 2.90039,3.09961h0.09961c1.6,0 2.9,-1.30039 3,-2.90039c0.2,-5.1 2.29883,-9.80039 5.79883,-13.40039c3.8,-3.8 8.80156,-5.89844 14.10156,-5.89844c1.7,0 3,-1.3 3,-3c0,-1.7 -1.3,-3 -3,-3zM35,64c-1.65685,0 -3,1.34315 -3,3c0,1.65685 1.34315,3 3,3c1.65685,0 3,-1.34315 3,-3c0,-1.65685 -1.34315,-3 -3,-3zM83.36328,80.5c-0.7625,0 -1.5125,0.30039 -2.0625,0.90039c-1.2,1.2 -1.2,3.09922 0,4.19922l2.5,2.5c-0.6,1.2 -0.90039,2.50039 -0.90039,3.90039c0,2.4 0.89961,4.70039 2.59961,6.40039l12.80078,12.59961c1.8,1.8 4.09844,2.69922 6.39844,2.69922c2.3,0 4.60039,-0.89961 6.40039,-2.59961c3.5,-3.5 3.5,-9.19922 0,-12.69922l-12.79883,-12.80078c-1.7,-1.7 -4.00039,-2.59961 -6.40039,-2.59961c-1.4,0 -2.70039,0.30039 -3.90039,0.90039l-2.5,-2.5c-0.6,-0.6 -1.37422,-0.90039 -2.13672,-0.90039zM91.90039,88.90039c0.8,0 1.59961,0.30039 2.09961,0.90039l12.69922,12.69922c1.2,1.2 1.2,3.09922 0,4.19922c-1.2,1.2 -3.09922,1.2 -4.19922,0l-12.69922,-12.59961c-0.6,-0.6 -0.90039,-1.39922 -0.90039,-2.19922c0,-0.8 0.30039,-1.59961 0.90039,-2.09961c0.6,-0.6 1.29961,-0.90039 2.09961,-0.90039z"></path></g></g>
-                           </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0,0,256,256" class="panel-archive-search">
+                        <g fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10">
+                            <g transform="scale(2,2)">
+                                <path d="M52.34961,14.40039c-9.725,0 -19.44961,3.69961 -26.84961,11.09961c-14.8,14.8 -14.8,38.89922 0,53.69922c7.4,7.4 17.10039,11.10156 26.90039,11.10156c9.8,0 19.50039,-3.70156 26.90039,-11.10156c14.7,-14.8 14.69844,-38.89922 -0.10156,-53.69922c-7.4,-7.4 -17.12461,-11.09961 -26.84961,-11.09961zM52.30078,20.30078c8.2,0 16.39961,3.09844 22.59961,9.39844c12.5,12.5 12.49961,32.80078 0.09961,45.30078c-12.5,12.5 -32.80078,12.5 -45.30078,0c-12.5,-12.5 -12.5,-32.80078 0,-45.30078c6.2,-6.2 14.40156,-9.39844 22.60156,-9.39844zM52.30078,26.30078c-6.9,0 -13.40078,2.69922 -18.30078,7.69922c-4.7,4.7 -7.29961,10.80039 -7.59961,17.40039c-0.1,1.7 1.20039,2.99961 2.90039,3.09961h0.09961c1.6,0 2.9,-1.30039 3,-2.90039c0.2,-5.1 2.29883,-9.80039 5.79883,-13.40039c3.8,-3.8 8.80156,-5.89844 14.10156,-5.89844c1.7,0 3,-1.3 3,-3c0,-1.7 -1.3,-3 -3,-3zM35,64c-1.65685,0 -3,1.34315 -3,3c0,1.65685 1.34315,3 3,3c1.65685,0 3,-1.34315 3,-3c0,-1.65685 -1.34315,-3 -3,-3zM83.36328,80.5c-0.7625,0 -1.5125,0.30039 -2.0625,0.90039c-1.2,1.2 -1.2,3.09922 0,4.19922l2.5,2.5c-0.6,1.2 -0.90039,2.50039 -0.90039,3.90039c0,2.4 0.89961,4.70039 2.59961,6.40039l12.80078,12.59961c1.8,1.8 4.09844,2.69922 6.39844,2.69922c2.3,0 4.60039,-0.89961 6.40039,-2.59961c3.5,-3.5 3.5,-9.19922 0,-12.69922l-12.79883,-12.80078c-1.7,-1.7 -4.00039,-2.59961 -6.40039,-2.59961c-1.4,0 -2.70039,0.30039 -3.90039,0.90039l-2.5,-2.5c-0.6,-0.6 -1.37422,-0.90039 -2.13672,-0.90039zM91.90039,88.90039c0.8,0 1.59961,0.30039 2.09961,0.90039l12.69922,12.69922c1.2,1.2 1.2,3.09922 0,4.19922c-1.2,1.2 -3.09922,1.2 -4.19922,0l-12.69922,-12.59961c-0.6,-0.6 -0.90039,-1.39922 -0.90039,-2.19922c0,-0.8 0.30039,-1.59961 0.90039,-2.09961c0.6,-0.6 1.29961,-0.90039 2.09961,-0.90039z"></path>
+                            </g>
+                        </g>
+                    </svg>
                 </i>
                 {% trans "Archive search"%}
             </a>
@@ -77,13 +104,23 @@
         {% if user.is_authenticated %}
             <a id="support-link" href="{% url 'profile' feature_name="customer_chat" %}" class="show">
                 <i>
-                    <svg fill="#000000" height="28px" width="28px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 459.579 459.579" xml:space="preserve" stroke="#003765"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <g> <path d="M429.579,14.7H139.935c-16.569,0-30,13.431-30,30v80.993h30V44.7h289.644v183.393h-48.495v30h48.495 c16.568,0,30-13.431,30-30V44.7C459.579,28.132,446.148,14.7,429.579,14.7z"></path> <path d="M319.644,155.693H30c-16.565,0-30,13.427-30,30v183.393c0,16.569,13.431,30,30,30h92.333l29.531,35.11 c11.99,14.255,33.945,14.234,45.917,0l29.531-35.11h92.333c9.32,0,17.647-4.25,23.149-10.917c0.306-0.37,0.603-0.748,0.891-1.133 c3.743-5.005,5.96-11.219,5.96-17.95V185.693C349.644,169.126,336.214,155.693,319.644,155.693z M319.644,369.086h-106.3 l-38.522,45.799L136.3,369.086H30V185.693h289.644V369.086z"></path> <path d="M80.011,257.792h189.621c8.284,0,15-6.716,15-15s-6.716-15-15-15H80.011c-8.284,0-15,6.716-15,15 S71.727,257.792,80.011,257.792z"></path> <path d="M80.011,325.573h77.621c8.284,0,15-6.716,15-15s-6.716-15-15-15H80.011c-8.284,0-15,6.716-15,15 S71.727,325.573,80.011,325.573z"></path> </g> </g> </g> </g></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="28px" width="28px" viewBox="0 0 459.579 459.579">
+                        <g>
+                            <path d="M429.579,14.7H139.935c-16.569,0-30,13.431-30,30v80.993h30V44.7h289.644v183.393h-48.495v30h48.495 c16.568,0,30-13.431,30-30V44.7C459.579,28.132,446.148,14.7,429.579,14.7z"></path>
+                            <path d="M319.644,155.693H30c-16.565,0-30,13.427-30,30v183.393c0,16.569,13.431,30,30,30h92.333l29.531,35.11 c11.99,14.255,33.945,14.234,45.917,0l29.531-35.11h92.333c9.32,0,17.647-4.25,23.149-10.917c0.306-0.37,0.603-0.748,0.891-1.133 c3.743-5.005,5.96-11.219,5.96-17.95V185.693C349.644,169.126,336.214,155.693,319.644,155.693z M319.644,369.086h-106.3 l-38.522,45.799L136.3,369.086H30V185.693h289.644V369.086z"></path>
+                            <path d="M80.011,257.792h189.621c8.284,0,15-6.716,15-15s-6.716-15-15-15H80.011c-8.284,0-15,6.716-15,15 S71.727,257.792,80.011,257.792z"></path>
+                            <path d="M80.011,325.573h77.621c8.284,0,15-6.716,15-15s-6.716-15-15-15H80.011c-8.284,0-15,6.716-15,15 S71.727,325.573,80.011,325.573z"></path>
+                        </g>
+                    </svg>
                 </i>
                 {% trans "Support"%}
             </a>
             <a class="logout show" href="{% url 'logout'%}" rel="nofollow">
                 <i>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-power"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="feather feather-power panel-logout">
+                        <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+                        <line x1="12" y1="2" x2="12" y2="12"></line>
+                    </svg>
                 </i>
                 {% trans "Sign out" %}
             </a>
@@ -101,34 +138,5 @@
         {% endif %}
     </div>
 </div>
-<script>
-    document.getElementById('accountBtnMobile').addEventListener('click', accountPanelOpen);
-    document.getElementById('accountBtn').addEventListener('click', accountPanelOpen);
-    function accountPanelOpen() {
-            let accPanel = document.getElementById('side_acc_wrap');
-            let overlay = document.getElementById('overlay');
-
-            if (accPanel.classList.contains('open')) {
-                accPanel.classList.remove('open');
-                overlay.style.display = 'none'; // Hide the overlay when the account panel is closed
-            } else {
-                // Unlike the cart, we don't need to load data here since we're not populating with dynamic content
-                // Open the account panel and overlay
-                accPanel.classList.add('open');
-                overlay.style.display = 'block';
-            }
-        };
-    function confirmLogout(event) {
-        // Show a confirmation dialog
-        let confirmation = confirm("Are you sure you want to log out?");
-
-        // If the user clicks "Cancel", prevent the default link action
-        if (!confirmation) {
-          event.preventDefault();
-          return false;
-        }
-        // If the user confirms, allow the default link action (logout)
-        return true;
-    }
-</script>
+<script src="{% static "js/widgets/account_panel.js" %}" ></script>
 {% endblock %}
