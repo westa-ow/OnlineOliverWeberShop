@@ -45,12 +45,13 @@ import(window.config.firebaseFunctionScriptUrl)
         let all_crystals = [];
         let all_platings = [];
         let all_bases = [];
-        const fromSlider = document.querySelector('#fromSlider');
-        const toSlider = document.querySelector('#toSlider');
-        const fromInputText = document.querySelector('.fromInput-text');
-        const toInputText = document.querySelector('.toInput-text');
+
 
         document.addEventListener("DOMContentLoaded", async function () {
+            const fromSlider = document.querySelector('#fromSlider');
+            const toSlider = document.querySelector('#toSlider');
+            const fromInputText = document.querySelector('.fromInput-text');
+            const toInputText = document.querySelector('.toInput-text');
             showOverlay();
 
             itemsPerPage = Number(document.getElementById('select-items-per-page').value);
