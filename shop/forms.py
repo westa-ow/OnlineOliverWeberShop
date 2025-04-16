@@ -108,6 +108,14 @@ class UserRegisterForm(UserCreationForm):
         label="Social title",
         required=False
     )
+
+    gdpr_consent = forms.BooleanField(
+        required=True,
+        label=_("I consent to the processing and use of my personal data in accordance with GDPR"),
+        error_messages={
+            'required': _("You must agree to the processing of your personal data to register.")
+        }
+    )
     class Meta(UserCreationForm.Meta):
         model =User
         fields = ("social_title", "first_name", "last_name",  "email",  "birthdate", "offers", "receive_newsletter")

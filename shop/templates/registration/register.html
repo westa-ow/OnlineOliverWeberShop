@@ -163,6 +163,26 @@
                                     </div>
                                     <div class="col-md-12 form-control-comment"></div>
                                 </div>
+                                <div class="form-group row">
+                                  <div class="col-md-12">
+                                    <div class="custom-checkbox">
+                                      <span class="custom-checkbox">
+                                          {{ form.gdpr_consent|add_class:"form-control" }}
+                                          <span>
+                                              <i class="material-icons rtl-no-flip checkbox-checked"></i>
+                                          </span>
+                                          <label for="{{ form.gdpr_consent.id_for_label }}">
+                                            {% trans "I consent to the processing and use of my personal data in accordance with GDPR" %}
+                                          </label>
+                                          {% if form.gdpr_consent.errors %}
+                                            <div class="text-danger">
+                                              {{ form.gdpr_consent.errors.as_text }}
+                                            </div>
+                                          {% endif %}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
                                 <div class="form-group row ">
                                     <div class="col-md-12">
                                         <label></label>
