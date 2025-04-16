@@ -57,6 +57,7 @@ def hotjar(request):
 
 def hotjar_id(request):
     from django.conf import settings
+
     return {'HOTJAR_ID': getattr(settings, 'HOTJAR_ID', '')}
 
 
