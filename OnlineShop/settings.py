@@ -219,7 +219,9 @@ TEMPLATES = [
                 'shop.context_processor.shop_page_url',
                 'shop.context_processor.b2b_can_pay',
                 'shop.context_processor.hotjar',
-                'shop.context_processor.vocabulary_translation'
+                'shop.context_processor.vocabulary_translation',
+                'shop.context_processor.hotjar_id',
+
             ],
         },
     },
