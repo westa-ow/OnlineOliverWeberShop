@@ -72,7 +72,7 @@ GEOIP_config = os.path.join(BASE_DIR, "shop", "static", "GEOIP", "GeoLite2-Count
 
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 
-USE_HOTJAR = True
+USE_HOTJAR = not DEBUG
 
 ALLOWED_HOSTS = ['oliverweber.com', 'www.oliverweber.com', 'oliverweber.online', 'www.oliverweber.online']
 
