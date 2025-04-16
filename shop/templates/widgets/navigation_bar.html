@@ -12,6 +12,8 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/SeparateWidgets/navigation_bar.css' %}">
+    <meta name="privacyPolicyUrl"
+      content="{% url 'services' service_page='21-website-privacy-policy' %}">
 
     <link rel="icon" href="{% static 'images/icons/web-icon.png' %}" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,8 +26,11 @@
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-S1MCG16BMH"></script>
     {% endif %}
     <script src="{% static 'js/serverScripts/gtm.js' %}" defer></script>
-
-
+    {% if USE_HOTJAR %}
+        <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
+        <script src="{% static "js/serverScripts/cookies.js" %}"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+    {% endif %}
     <!-- Signals Gateway Pixel Code -->
 {#    <script>#}
 {#        !function(a,h,e,v,n,t,s)#}

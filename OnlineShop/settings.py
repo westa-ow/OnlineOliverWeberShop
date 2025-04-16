@@ -72,6 +72,8 @@ GEOIP_config = os.path.join(BASE_DIR, "shop", "static", "GEOIP", "GeoLite2-Count
 
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 
+USE_HOTJAR = True
+
 ALLOWED_HOSTS = ['oliverweber.com', 'www.oliverweber.com', 'oliverweber.online', 'www.oliverweber.online']
 
 GEOIP_PATH = os.path.join(BASE_DIR, 'shop/static/GEOIP')
@@ -210,6 +212,7 @@ TEMPLATES = [
                 'shop.context_processor.customer_type',
                 'shop.context_processor.shop_page_url',
                 'shop.context_processor.b2b_can_pay',
+                'shop.context_processor.hotjar',
             ],
         },
     },

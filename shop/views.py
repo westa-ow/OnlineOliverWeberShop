@@ -709,7 +709,10 @@ def get_vocabulary_product_card():
         "Are you sure you want to delete this address?": _("Are you sure you want to delete this address?"),
         "The address has been successfully added!": _("The address has been successfully added!"),
         "The address has been successfully updated!": _("The address has been successfully updated!"),
-
+        "We use cookies to personalize content and improve your browsing experience. By continuing, you accept our cookie policy.": _("We use cookies to personalize content and improve your browsing experience. By continuing, you accept our cookie policy."),
+        "Decline": _("Decline"),
+        "Privacy Policy": _("Privacy Policy"),
+        "Accept": _("Accept")
 
     }
 
