@@ -66,55 +66,46 @@ def profile(request, feature_name):
     context['username'] = info['first_name'] + " " + info['last_name']
     context['show_quantities'] = show_quantities
     context['STRIPE_PUBLISHABLE_KEY'] = settings.STRIPE_PUBLISHABLE_KEY
-    print(settings.STRIPE_PUBLISHABLE_KEY)
 
     if feature_name == "catalogs":
         pdf_files = [
             {
-                'name': 'Main Catalog',
+                'name': 'Main Catalog 2024',
+                'preview_img_url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs_previews%2Fmain2024_preview.png?alt=media&token=ec4e8220-76a2-4e28-95b6-a4b014bc3ef5',
+                'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FMain%20Catalog%20with%20Price%20NO%20barcodes%20LOW.pdf?alt=media&token=d2d7146e-30f8-4865-8875-f72ef36dc1cc'
+            },
+            {
+                'name': 'Fortune, Fame, Love',
+                'preview_img_url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs_previews%2Ffortunelove_preview.png?alt=media&token=2b47d026-e775-41d8-ba83-512d3015f5aa',
+                'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FFortune_Fame_Love.pdf?alt=media&token=31084978-b337-40ea-aa75-28e23cb5385f'
+            },
+            {
+                'name': 'Summer Collection',
+                'preview_img_url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs_previews%2Fsummer2024_preview.png?alt=media&token=18982b88-27dd-41fe-a617-58df02e9b092',
+                'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FCatalog%20Summer%202024_with%20Price%20HIGH.pdf?alt=media&token=1086d001-13c2-4f02-803b-298d424013a1'
+            },
+            {
+                'name': 'Showcase & Display',
+                'preview_img_url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs_previews%2Fshowcase2024_preview.png?alt=media&token=9456eb76-f230-48d5-92d1-9048ad4ca911',
+                'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FShowcase%20%26%20Display%20Spirits%202024.pdf?alt=media&token=29e6fea9-a93b-4fe6-844d-26a388811eb3'
+            },
+
+            {
+                'name': 'Main Catalog 2025',
                 'preview_img_url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs_previews%2Fmainpreview.png?alt=media&token=e26efe00-5db1-47c8-bdcf-721651aa5125',
                 'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FHauptkatalog%202025_without%20price_compressed.pdf?alt=media&token=7a6a350d-34fd-466f-847f-391f021c1480'
             },
             {
                 'name': 'Winter Catalog',
-                'preview_img_url':'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs_previews%2Fwinterpreview.png?alt=media&token=23275c09-ad2e-4cef-a0a4-2534bc28c6be',
-                'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FCatalog%20NEW%20COLLECTION2025_WITHOUT%20PRICE_compressed.pdf?alt=media&token=2b2ea167-9dfa-40e1-94f4-bcecac36970c'
-             },
-            {
-                'name': 'Spring Catalog',
-                'preview_img_url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs_previews%2Fspringpreview.png?alt=media&token=154458a3-92e6-470c-87d9-1ff1dbdf3ddd',
-                'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FCatalog%20Spring%202025_WITHOUT%20price_singlepages.pdf?alt=media&token=9651627f-2039-41c8-8013-16ab56a45142'
-            },
-            {
-                'name': 'Main Catalog',
-                'preview_img_url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs_previews%2Fmainpreview.png?alt=media&token=e26efe00-5db1-47c8-bdcf-721651aa5125',
-                'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FHauptkatalog%202025_without%20price_compressed.pdf?alt=media&token=7a6a350d-34fd-466f-847f-391f021c1480'
-            },
-            {
-                'name': 'Winter Catalog',
-                'preview_img_url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs_previews%2Fwinterpreview.png?alt=media&token=23275c09-ad2e-4cef-a0a4-2534bc28c6be',
+                'preview_img_url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs_previews%2Fwinter2025_preview.png?alt=media&token=6f71dc5e-0128-4b2a-bbd5-30f072d08d85',
                 'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FCatalog%20NEW%20COLLECTION2025_WITHOUT%20PRICE_compressed.pdf?alt=media&token=2b2ea167-9dfa-40e1-94f4-bcecac36970c'
             },
             {
                 'name': 'Spring Catalog',
                 'preview_img_url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs_previews%2Fspringpreview.png?alt=media&token=154458a3-92e6-470c-87d9-1ff1dbdf3ddd',
-                'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FCatalog%20Spring%202025_WITHOUT%20price_singlepages.pdf?alt=media&token=9651627f-2039-41c8-8013-16ab56a45142'
+                'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FCatalog%20SPRING%202025%20WITH%20price%20PRINT.pdf?alt=media&token=756d9c51-d9c1-46c8-bd79-b3404eb99e05'
             },
-            {
-                'name': 'Main Catalog',
-                'preview_img_url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs_previews%2Fmainpreview.png?alt=media&token=e26efe00-5db1-47c8-bdcf-721651aa5125',
-                'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FHauptkatalog%202025_without%20price_compressed.pdf?alt=media&token=7a6a350d-34fd-466f-847f-391f021c1480'
-            },
-            {
-                'name': 'Winter Catalog',
-                'preview_img_url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs_previews%2Fwinterpreview.png?alt=media&token=23275c09-ad2e-4cef-a0a4-2534bc28c6be',
-                'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FCatalog%20NEW%20COLLECTION2025_WITHOUT%20PRICE_compressed.pdf?alt=media&token=2b2ea167-9dfa-40e1-94f4-bcecac36970c'
-            },
-            {
-                'name': 'Spring Catalog',
-                'preview_img_url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs_previews%2Fspringpreview.png?alt=media&token=154458a3-92e6-470c-87d9-1ff1dbdf3ddd',
-                'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FCatalog%20Spring%202025_WITHOUT%20price_singlepages.pdf?alt=media&token=9651627f-2039-41c8-8013-16ab56a45142'
-            },
+
         ]
         context['pdf_files'] = pdf_files
 
