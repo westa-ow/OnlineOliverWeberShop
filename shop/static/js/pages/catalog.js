@@ -87,7 +87,7 @@ import(window.config.firebaseFunctionScriptUrl)
             updateURL();
             hideOverlay();
             responsiveLayout();
-        });
+
         function responsiveLayout(){
             let mql = window.matchMedia("(max-width: 769px)");
             if( mql.matches) {
@@ -1106,4 +1106,8 @@ import(window.config.firebaseFunctionScriptUrl)
                 console.error('Error updating favorites:', error);
             }
         });
+        });
     })
+    .catch(error => {
+        console.error("Ошибка при динамическом импорте:", error);
+    });
