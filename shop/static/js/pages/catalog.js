@@ -45,13 +45,16 @@ import(window.config.firebaseFunctionScriptUrl)
         let all_crystals = [];
         let all_platings = [];
         let all_bases = [];
-
+        let fromSlider = document.querySelector('#fromSlider');
+        let toSlider = document.querySelector('#toSlider');
+        let fromInputText = document.querySelector('.fromInput-text');
+        let toInputText = document.querySelector('.toInput-text');
 
         document.addEventListener("DOMContentLoaded", async function () {
-            const fromSlider = document.querySelector('#fromSlider');
-            const toSlider = document.querySelector('#toSlider');
-            const fromInputText = document.querySelector('.fromInput-text');
-            const toInputText = document.querySelector('.toInput-text');
+            fromSlider = document.querySelector('#fromSlider');
+            toSlider = document.querySelector('#toSlider');
+            fromInputText = document.querySelector('.fromInput-text');
+            toInputText = document.querySelector('.toInput-text');
             showOverlay();
 
             itemsPerPage = Number(document.getElementById('select-items-per-page').value);
@@ -92,7 +95,7 @@ import(window.config.firebaseFunctionScriptUrl)
             updateURL();
             hideOverlay();
             responsiveLayout();
-
+        });
         function responsiveLayout(){
             let mql = window.matchMedia("(max-width: 769px)");
             if( mql.matches) {
@@ -1108,7 +1111,7 @@ import(window.config.firebaseFunctionScriptUrl)
                 console.error('Error updating favorites:', error);
             }
         });
-        });
+
     })
     .catch(error => {
         console.error("Ошибка при динамическом импорте:", error);
