@@ -80,7 +80,7 @@ def profile(request, feature_name):
                 'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FFortune_Fame_Love.pdf?alt=media&token=31084978-b337-40ea-aa75-28e23cb5385f'
             },
             {
-                'name': 'Summer Collection',
+                'name': 'Summer Collection 2024',
                 'preview_img_url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs_previews%2Fsummer2024_preview.png?alt=media&token=18982b88-27dd-41fe-a617-58df02e9b092',
                 'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FCatalog%20Summer%202024_with%20Price%20HIGH.pdf?alt=media&token=1086d001-13c2-4f02-803b-298d424013a1'
             },
@@ -96,12 +96,12 @@ def profile(request, feature_name):
                 'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FHauptkatalog%202025_without%20price_compressed.pdf?alt=media&token=7a6a350d-34fd-466f-847f-391f021c1480'
             },
             {
-                'name': 'Winter Catalog',
+                'name': 'Winter Catalog 2025',
                 'preview_img_url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs_previews%2Fwinter2025_preview.png?alt=media&token=6f71dc5e-0128-4b2a-bbd5-30f072d08d85',
                 'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FCatalog%20NEW%20COLLECTION2025_WITHOUT%20PRICE_compressed.pdf?alt=media&token=2b2ea167-9dfa-40e1-94f4-bcecac36970c'
             },
             {
-                'name': 'Spring Catalog',
+                'name': 'Spring Catalog 2025',
                 'preview_img_url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs_previews%2Fspringpreview.png?alt=media&token=154458a3-92e6-470c-87d9-1ff1dbdf3ddd',
                 'url': 'https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/website%2Fcatalogs%2FCatalog%20SPRING%202025%20WITH%20price%20PRINT.pdf?alt=media&token=756d9c51-d9c1-46c8-bd79-b3404eb99e05'
             },
