@@ -23,86 +23,7 @@
   height: auto;
   display: block;
 }
-#pdf-viewer-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* полупрозрачный фон */
-  display: none;
-  z-index: 1000;
-  align-items: center;
-  justify-content: center;
-}
 
-/* Контейнер модального содержимого */
-.modal-content-pdf {
-  background: #fff;
-  padding: 20px;
-  width: auto;
-  height: auto;
-  max-width: 90vw;
-  max-height: 90vh;
-  overflow: auto;
-  border-radius: 8px;
-  position: relative;
-}
-
-/* Индикатор загрузки */
-#pdf-loading {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 1.2em;
-  background: rgba(255,255,255,0.8);
-  padding: 10px 20px;
-  border-radius: 4px;
-  z-index: 1100;
-}
-
-.modal-close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 2em;
-  cursor: pointer;
-  color: #000;
-  z-index: 1200;
-}
-
-#pdf-nav-left,
-#pdf-nav-right {
-  position: fixed; /* фиксированные по сторонам окна */
-  top: 0;
-  bottom: 0;
-  width: 80px; /* увеличенная зона для касания */
-  background: rgba(0, 0, 0, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 2.5em;
-  cursor: pointer;
-  z-index: 1200; /* выше, чем модальное содержимое */
-  user-select: none;
-}
-
-/* Расположение кнопок по краям */
-#pdf-nav-left {
-  left: 0;
-}
-
-#pdf-nav-right {
-  right: 0;
-}
-
-/* При наведении можно увеличить непрозрачность */
-#pdf-nav-left:hover,
-#pdf-nav-right:hover {
-  background: rgba(0, 0, 0, 0.4);
-}
 .file-name{
   padding: 5px 0;
 }
@@ -122,19 +43,17 @@
   color: #fff;
 }
 
-.minus-button, .plus-button{
-  background-color: #003665;
-  border-radius: 8px;
-  padding: 8px 13px;
-  color: #fff;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-.minus-button:hover, .plus-button:hover{
-  background-color: #013d72;
+.file-name {
+  display: flex;
+  flex-direction: column;
 }
 
+.file-name .download-btn {
+  align-self: flex-end;
+  margin-top: 0.25em;  /* немного отступа над ссылкой */
+}
 
-#pdf-navigation{
-  text-align: center;
+/* если хотите чуть увеличить зону клика по иконке */
+.file-name .download-btn i {
+  font-size: 1.2em;
 }
