@@ -28,8 +28,8 @@ import(window.config.firebaseFunctionScriptUrl)
         const show_quantities = window.config.show_quantities;
         let itemsPerPage = 20;
 
-        let order_name = "Name";
-        let order_type = "asc";
+        let order_name = "";
+        let order_type = "";
         let number_of_documents;
         let currentPage = 1;
         let total_pages = 1;
@@ -64,19 +64,13 @@ import(window.config.firebaseFunctionScriptUrl)
             toSlider = document.querySelector('#toSlider');
             fromInputText = document.querySelector('.fromInput-text');
             toInputText = document.querySelector('.toInput-text');
-            console.log("TEST 0");
+
             showOverlay();
-            console.log("TEST 1");
             itemsPerPage = Number(document.getElementById('select-items-per-page').value);
-            console.log("TEST 2");
             let unfilteredItems = await fetchAllItems(); // Fetch all items on load
-console.log("TEST 3");
             favouriteItems = await fetchFavouriteItems(window.config.userEmail);
-console.log("TEST 4");
             ({ all: stones, reversed: stones_reversed } = await fetchStones());
-console.log("TEST 5");
             allItems = productsTransmutation(unfilteredItems, price_category, sale, stones, window.config.customer_type==="B2B");
-console.log("TEST 6");
 
             total_pages = Math.ceil(allItems.length / itemsPerPage);
 
@@ -930,46 +924,58 @@ console.log("TEST 6");
         }
 
         function order(array) {
-            // Establishing the order of platings
-            const defaultPlatingOrder = ["Rhodium", "Gold", "Rosegold"];
+          const defaultPlatingOrder = ["Rhodium", "Gold", "Rosegold"];
+          const seen = new Set();
+          const result = [];
 
-            // Grouping elements by coverage
-            const grouped = defaultPlatingOrder.map(plating =>
-                array.filter(item => Object.keys(item.platings).includes(plating))
+          // Функция сортировки внутри группы
+          function sortGroup(group) {
+            if (order_name === "Name") {
+              group.sort((a, b) =>
+                order_type === "asc"
+                  ? (a.product_name).localeCompare(b.product_name)
+                  : (b.product_name).localeCompare(a.product_name)
+              );
+            } else if (order_name === "Price") {
+              group.sort((a, b) =>
+                order_type === "asc"
+                  ? parseFloat(a.price) - parseFloat(b.price)
+                  : parseFloat(b.price) - parseFloat(a.price)
+              );
+            }
+          }
+
+          // 1) Выбираем по приоритету платингу
+          defaultPlatingOrder.forEach(plating => {
+            // отфильтровать товары, у которых есть этот plating, и которых ещё нет в seen
+            const group = array.filter(item =>
+              !seen.has(item.name) &&
+              Object.prototype.hasOwnProperty.call(item.platings, plating)
             );
 
-            // Function for sorting within a group
-            function sortGroup(group) {
-                if (order_name === "Name") {
-                    group.sort((a, b) => {
-                        if (order_type === "asc") {
-                            return a.name.localeCompare(b.name);
-                        } else if (order_type === "desc") {
-                            return b.name.localeCompare(a.name);
-                        }
-                    });
-                } else if (order_name === "Price") {
-                    group.sort((a, b) => {
-                        if (order_type === "asc") {
-                            return parseFloat(a.price) - parseFloat(b.price);
-                        } else if (order_type === "desc") {
-                            return parseFloat(b.price) - parseFloat(a.price);
-                        }
-                    });
-                }
-            }
+            sortGroup(group);
+            console.log(group);
+            group.forEach(item => {
+              seen.add(item.name);
+              result.push(item);
+            });
+          });
 
-            // Sort each group
-            grouped.forEach(group => sortGroup(group));
+          // 2) (опционально) добавить в конец все оставшиеся товары
+          const leftovers = array.filter(item => !seen.has(item.name));
+          if (leftovers.length) {
+            sortGroup(leftovers);
+            leftovers.forEach(item => result.push(item));
+          }
 
-            // Combining groups into one array
-            return grouped.flat();
+          return result;
         }
 
 
         function updatePage() {
             let paginatedItems;
             let found = true;
+            console.log(filteredItems.length);
             if(filteredItems.length === 0){
                 order(allItems);
                 paginatedItems = paginateItems(allItems, currentPage, itemsPerPage);
@@ -981,7 +987,7 @@ console.log("TEST 6");
                     found = false;
                 }
                 else {
-                    order(filteredItems);
+                    filteredItems = order(filteredItems);
                     paginatedItems = paginateItems(filteredItems, currentPage, itemsPerPage);
                 }
             }
@@ -1042,10 +1048,11 @@ console.log("TEST 6");
 
 
         document.getElementById('select-order').addEventListener('change', function (event) {
-            let order = (event.target.value).split(', ');
 
+            let order = (event.target.value).split(', ');
             order_name = order[0];
-            order_type=order[1];
+            order_type = order[1];
+            console.log("12e12e12");
             changePage(1);
         });
 

@@ -846,8 +846,6 @@ function activate_success_card_shop(item, quantity, cart_count, subtotalValue, c
         // Показываем модальное окно
         dialog.showModal();
     }
-
-    console.log("IT WORKDS FINE here2");
 }
 
 
@@ -1202,7 +1200,6 @@ function createProductCard(isCarousel, item, itemCounter, allItems, filteredItem
     if (window.matchMedia("(min-width: 769px)").matches && user_auth) {
         imgWrapper.appendChild(iconContainer);
     }
-    console.log(user_auth);
     // Append the imgWrapper to the imgSection
     imgSection.appendChild(imgWrapper);
 
