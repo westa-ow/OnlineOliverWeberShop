@@ -958,7 +958,6 @@ import(window.config.firebaseFunctionScriptUrl)
             );
 
             sortGroup(group);
-            console.log(group);
             group.forEach(item => {
               seen.add(item.name);
               result.push(item);
@@ -979,7 +978,6 @@ import(window.config.firebaseFunctionScriptUrl)
         function updatePage() {
             let paginatedItems;
             let found = true;
-            console.log(filteredItems.length);
             if(filteredItems.length === 0){
                 order(allItems);
                 paginatedItems = paginateItems(allItems, currentPage, itemsPerPage);
