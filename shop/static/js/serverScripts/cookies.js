@@ -38,6 +38,11 @@ window.addEventListener("load", function(){
         },
         theme: "classic",
         type: "opt-in",           // включаем режим Accept/Decline
+        cookie: {
+          name: "cookie_consent_status",  // имя куки
+          expiryDays: 365,                // хранить выбор 365 дней
+          path: "/"                       // доступно на всём сайте
+        },
         content: {
           message: vocabulary["We use cookies to personalize content and improve your browsing experience. By continuing, you accept our cookie policy."],
           allow: vocabulary["Accept"],
