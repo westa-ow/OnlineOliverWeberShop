@@ -46,7 +46,6 @@ def profile(request, feature_name):
     """
     email = request.user.email
     orders = get_orders_for_user(email)
-    print(orders)
     order_details = get_order_details(orders)
     email = request.user.email
     category, currency = get_user_prices(request,email)
