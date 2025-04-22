@@ -9,7 +9,7 @@ function productsTransmutation(items, price_category, sale, stones, isB2B){
         }
         let itemName = item.name;
         let stone = stones[item.stone] !== undefined ? stones[item.stone] : item.stone;
-        getNormalizedItemName(itemName, item);
+        itemName = getNormalizedItemName(itemName, item);
 
         if (!products[itemName] ) { //&& item.plating && item.stone
                 products[itemName] = {
