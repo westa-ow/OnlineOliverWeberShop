@@ -28,7 +28,7 @@ msgstr "Alemán"
 
 #: .\OnlineShop\settings.py:268
 msgid "Italian"
-msgstr "italiano"
+msgstr "Italiano"
 
 #: .\OnlineShop\settings.py:269
 msgid "French"
@@ -40,7 +40,7 @@ msgstr "Español"
 
 #: .\OnlineShop\settings.py:271
 msgid "Russian"
-msgstr "ruso"
+msgstr "Ruso"
 
 #: .\shop\forms.py:114
 #: .\shop\templates\checkout\Checkout_Account_Auth.html:188
@@ -151,7 +151,7 @@ msgstr "Carro de la compra"
 
 #: .\shop\templates\cart.html:48 .\shop\templates\cart.html:473
 msgid "In cart"
-msgstr "en carrito"
+msgstr "En carrito"
 
 #: .\shop\templates\cart.html:55
 msgid "Less than 5 items left"
@@ -298,7 +298,7 @@ msgstr "Crear una cuenta"
 #: .\shop\templates\profile\profile_information.html:15
 #: .\shop\templates\registration\register.html:48
 msgid "Social title"
-msgstr "título social"
+msgstr "Título social"
 
 #: .\shop\templates\checkout\Checkout_Account_Auth.html:80
 #: .\shop\templates\checkout\Checkout_Addresses.html:167
@@ -536,7 +536,7 @@ msgstr "Minero"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:9
 msgid "Pearlchain"
-msgstr "cadena de perlas"
+msgstr "Cadena de perlas"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:10
 msgid "Necklace"
@@ -553,7 +553,7 @@ msgstr "Aro"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:13
 msgid "Creole"
-msgstr "criollo"
+msgstr "Criollo"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:14
 msgid "Clip"
@@ -606,7 +606,7 @@ msgstr "Extensión"
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:26
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:65
 msgid "UV"
-msgstr "ultravioleta"
+msgstr "UV"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:29
 msgid "Default"
@@ -622,7 +622,7 @@ msgstr "Oro"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:32
 msgid "Rosegold"
-msgstr "oro rosa"
+msgstr "Oro rosa"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:33
 msgid "Without"
@@ -730,7 +730,7 @@ msgstr "Broches"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:63
 msgid "Nailfiles"
-msgstr "limas de uñas"
+msgstr "Limas de uñas"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:64
 msgid "Extensions"
@@ -996,7 +996,7 @@ msgstr "Descargar pdf sin imagenes"
 
 #: .\shop\templates\profile\profile_orders.html:53
 msgid "Pay for the order"
-msgstr "pagar el pedido"
+msgstr "Pagar el pedido"
 
 #: .\shop\templates\profile\profile_orders.html:59
 msgid "File is downloading"
@@ -1020,7 +1020,7 @@ msgstr "Ingrese la cantidad"
 
 #: .\shop\templates\profile\profile_orders.html:73
 msgid "Pay for order"
-msgstr "pagar el pedido"
+msgstr "Pagar el pedido"
 
 #: .\shop\templates\profile\profile_side_menu.html:15
 #: .\shop\templates\widgets\account_panel.html:34
@@ -1058,7 +1058,7 @@ msgstr "Apoyo"
 #: .\shop\templates\profile\profile_side_menu.html:67
 #: .\shop\templates\widgets\account_panel.html:125
 msgid "Sign out"
-msgstr "desconectar"
+msgstr "Desconectar"
 
 #: .\shop\templates\profile\profile_update_address.html:7
 msgid "Update your address"
@@ -1331,7 +1331,7 @@ msgstr ""
 
 #: .\shop\templates\service_pages\Olivers_Weber_World.html:52
 msgid "The founder"
-msgstr "el fundador"
+msgstr "El fundador"
 
 #: .\shop\templates\service_pages\Olivers_Weber_World.html:53
 msgid ""
@@ -1517,7 +1517,7 @@ msgstr ""
 
 #: .\shop\templates\service_pages\Privacy_policy.html:70
 msgid "Customer account"
-msgstr "cuenta de cliente"
+msgstr "Cuenta de cliente"
 
 #: .\shop\templates\service_pages\Privacy_policy.html:71
 msgid ""
@@ -1858,7 +1858,7 @@ msgstr "Cookies y otras tecnologías"
 
 #: .\shop\templates\service_pages\Privacy_policy.html:102
 msgid "General information"
-msgstr "información general"
+msgstr "Información general"
 
 #: .\shop\templates\service_pages\Privacy_policy.html:103
 msgid ""
@@ -4384,7 +4384,7 @@ msgstr "Contiene en el nombre"
 
 #: .\shop\templates\widgets\filters_section.html:41
 msgid "Plating material"
-msgstr "material de revestimiento"
+msgstr "Material de revestimiento"
 
 #: .\shop\templates\widgets\filters_section.html:61
 #: .\shop\templates\widgets\filters_section.html:78
@@ -4399,7 +4399,7 @@ msgstr "Materia prima"
 
 #: .\shop\templates\widgets\filters_section.html:81 .\shop\views.py:673
 msgid "Crystal color"
-msgstr "color cristal"
+msgstr "Color cristal"
 
 #: .\shop\templates\widgets\footer.html:12
 msgid "Customer Service"
@@ -4407,7 +4407,7 @@ msgstr "Servicio al cliente"
 
 #: .\shop\templates\widgets\footer.html:26
 msgid "Our company"
-msgstr "nuestra empresa"
+msgstr "Nuestra empresa"
 
 #: .\shop\templates\widgets\footer.html:30
 msgid "Oliver Weber's World"
@@ -4529,7 +4529,7 @@ msgstr "Enciende la lupa"
 
 #: .\shop\views.py:697
 msgid "Back to shop"
-msgstr "volver a la tienda"
+msgstr "Volver a la tienda"
 
 #: .\shop\views.py:698
 msgid "Cart is empty"
@@ -4879,7 +4879,7 @@ msgstr "Valor no válido para {param_hint}: {message}"
 
 #: .\venv\Lib\site-packages\click\exceptions.py:179
 msgid "Missing argument"
-msgstr "argumento faltante"
+msgstr "Argumento faltante"
 
 #: .\venv\Lib\site-packages\click\exceptions.py:181
 msgid "Missing option"
@@ -5367,7 +5367,7 @@ msgstr "El valor “%(value)s” debe ser un número decimal."
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1687
 msgid "Decimal number"
-msgstr "numero decimal"
+msgstr "Numero decimal"
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1848
 #, python-format
@@ -5397,7 +5397,7 @@ msgstr "El valor “%(value)s” debe ser un valor flotante."
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2009
 msgid "Floating point number"
-msgstr "número de coma flotante"
+msgstr "Número de coma flotante"
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2049
 #, python-format
@@ -5418,11 +5418,11 @@ msgstr "Entero pequeño"
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2172
 msgid "IPv4 address"
-msgstr "dirección IPv4"
+msgstr "Dirección IPv4"
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2203
 msgid "IP address"
-msgstr "dirección IP"
+msgstr "Dirección IP"
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2296
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2297
@@ -6402,11 +6402,11 @@ msgstr "Final del bloque de rango de IP, como número entero"
 
 #: .\venv\Lib\site-packages\django_geoip\models.py:130
 msgid "IP range"
-msgstr "rango de IP"
+msgstr "Rango de IP"
 
 #: .\venv\Lib\site-packages\django_geoip\models.py:131
 msgid "IP ranges"
-msgstr "rangos de IP"
+msgstr "Rangos de IP"
 
 #: .\venv\Lib\site-packages\git_filter_repo.py:139
 #, python-format

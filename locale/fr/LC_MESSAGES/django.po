@@ -28,7 +28,7 @@ msgstr "Allemand"
 
 #: .\OnlineShop\settings.py:268
 msgid "Italian"
-msgstr "italien"
+msgstr "Italien"
 
 #: .\OnlineShop\settings.py:269
 msgid "French"
@@ -40,7 +40,7 @@ msgstr "Espagnol"
 
 #: .\OnlineShop\settings.py:271
 msgid "Russian"
-msgstr "russe"
+msgstr "Russe"
 
 #: .\shop\forms.py:114
 #: .\shop\templates\checkout\Checkout_Account_Auth.html:188
@@ -556,7 +556,7 @@ msgstr "Cerceau"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:13
 msgid "Creole"
-msgstr "créole"
+msgstr "Créole"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:14
 msgid "Clip"
@@ -1065,7 +1065,7 @@ msgstr "Soutien"
 #: .\shop\templates\profile\profile_side_menu.html:67
 #: .\shop\templates\widgets\account_panel.html:125
 msgid "Sign out"
-msgstr "se déconnecter"
+msgstr "Se déconnecter"
 
 #: .\shop\templates\profile\profile_update_address.html:7
 msgid "Update your address"
@@ -1873,7 +1873,7 @@ msgstr "Cookies et autres technologies"
 
 #: .\shop\templates\service_pages\Privacy_policy.html:102
 msgid "General information"
-msgstr "informations générales"
+msgstr "Informations générales"
 
 #: .\shop\templates\service_pages\Privacy_policy.html:103
 msgid ""

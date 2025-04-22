@@ -205,7 +205,7 @@ msgstr "Gesamt"
 #: .\shop\templates\checkout\Checkout_Payment_Type.html:322
 #: .\shop\templates\checkout\checkout_widget.html:26
 msgid "VAT Incl."
-msgstr "inkl. MwSt."
+msgstr "Inkl. MwSt."
 
 #: .\shop\templates\cart.html:125
 #: .\shop\templates\checkout\checkout_widget.html:18
@@ -290,7 +290,7 @@ msgstr "Als Gast bestellen"
 #: .\shop\templates\checkout\Checkout_Account_Auth.html:32
 #: .\shop\templates\registration\login.html:77
 msgid "Sign in"
-msgstr "anmelden"
+msgstr "Anmelden"
 
 #: .\shop\templates\checkout\Checkout_Account_Auth.html:48
 #: .\shop\templates\registration\register.html:35
@@ -550,7 +550,7 @@ msgstr "Halskette"
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:11
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:50
 msgid "Post earrings"
-msgstr "Post-Ohrringe"
+msgstr "Post Ohrringe"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:12
 msgid "Hoop"
@@ -1869,7 +1869,7 @@ msgstr "Cookies und weitere Technologien"
 
 #: .\shop\templates\service_pages\Privacy_policy.html:102
 msgid "General information"
-msgstr "allgemeine Informationen"
+msgstr "Allgemeine Informationen"
 
 #: .\shop\templates\service_pages\Privacy_policy.html:103
 msgid ""
@@ -4176,7 +4176,7 @@ msgstr "Standardversand Europa: 5,70 € "
 
 #: .\shop\templates\service_pages\shipping_information.html:58
 msgid "VAT excl."
-msgstr "zzgl. MwSt."
+msgstr "Zzgl. MwSt."
 
 #: .\shop\templates\service_pages\shipping_information.html:58
 msgid "&nbsp;2-10 business days"
@@ -4189,7 +4189,7 @@ msgstr "Expressversand: 15,75 € "
 #: .\shop\templates\service_pages\shipping_information.html:59
 #: .\shop\templates\service_pages\shipping_information.html:60
 msgid "VAT excl.&nbsp;"
-msgstr "zzgl. MwSt. "
+msgstr "Zzgl. MwSt. "
 
 #: .\shop\templates\service_pages\shipping_information.html:59
 msgid "for Europe"
