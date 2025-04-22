@@ -927,16 +927,20 @@ import(window.config.firebaseFunctionScriptUrl)
           const defaultPlatingOrder = ["Rhodium", "Gold", "Rosegold"];
           const seen = new Set();
           const result = [];
+          const getKey = item =>
+            String(item.product_group_name ?? item.product_name ?? "");
 
           // Функция сортировки внутри группы
           function sortGroup(group) {
-            if (order_name === "Name") {
-              group.sort((a, b) =>
-                order_type === "asc"
-                  ? (a.product_name).localeCompare(b.product_name)
-                  : (b.product_name).localeCompare(a.product_name)
-              );
-            } else if (order_name === "Price") {
+            if (order_name === "name") {
+              group.sort((a, b) => {
+                  const nameA = getKey(a);
+                  const nameB = getKey(b);
+                  return order_type === "asc"
+                    ? nameA.localeCompare(nameB)
+                    : nameB.localeCompare(nameA);
+                });
+            } else if (order_name === "price") {
               group.sort((a, b) =>
                 order_type === "asc"
                   ? parseFloat(a.price) - parseFloat(b.price)
@@ -1049,10 +1053,7 @@ import(window.config.firebaseFunctionScriptUrl)
 
         document.getElementById('select-order').addEventListener('change', function (event) {
 
-            let order = (event.target.value).split(', ');
-            order_name = order[0];
-            order_type = order[1];
-            console.log("12e12e12");
+            [order_name, order_type] = event.target.value.split(',');
             changePage(1);
         });
 
