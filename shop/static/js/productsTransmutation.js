@@ -16,6 +16,7 @@ function productsTransmutation(items, price_category, sale, stones, isB2B){
                     name: itemName,
                     groupName: item.product_name,
                     product_name: item.category + " "+ item.product_name,
+                    product_group_name: item.product_name,
                     description: item.description,
                     price:calculatePrice(item, price_category, sale),
                     category: item.category,
