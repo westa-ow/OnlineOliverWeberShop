@@ -50,7 +50,7 @@
                     </header>
                 </section>
             </div>
-            <button class="btn btn-primary wide form-control-submit float-xs-right" id="continueCheckoutBtn"> {% trans "Continue"%} </button>
+            <button type="button" class="btn btn-primary wide form-control-submit float-xs-right" id="continueCheckoutBtn"> {% trans "Continue"%} </button>
         </div>
 
         {% include "checkout/checkout_widget.html" %}
@@ -330,8 +330,9 @@ document.addEventListener("DOMContentLoaded", function() {
     init();
 });
 
-document.getElementById('continueCheckoutBtn').addEventListener('click', function (){
 
+document.getElementById('continueCheckoutBtn').addEventListener('click', function (e){
+     e.preventDefault();
      if (product_documents.length !== 0){
         const csrfToken = getCookie('csrftoken');
         fetch("{% url 'create_checkout_session' %}", {
