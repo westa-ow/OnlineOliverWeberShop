@@ -229,3 +229,7 @@ body{
   -ms-user-select: none;     /* для Internet Explorer и Edge (старые версии) */
   user-select: none;         /* стандартное свойство */
 }
+
+.cc-revoke{
+    display: none!important;
+}

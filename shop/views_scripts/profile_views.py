@@ -131,8 +131,8 @@ def get_orders_for_user(email):
             'email': email,
             'list': order_info.get('list'),
             'order_id': order_id,
-            'sum': order_info.get('price'),
-            'shippingPrice': order_info.get('shippingPrice', 0),
+            'sum': round(order_info.get('price'), 2),
+            'shippingPrice': round(order_info.get('shippingPrice', 0), 2),
             'currency': "€" if order_info.get('currency') == "Euro" else "$",
             'payment_type': order_info.get('payment_type', "BANK TRANSFER"),
             'tracker': order_info.get('tracker', 'None'),
@@ -227,6 +227,7 @@ def build_context(feature_name, email, orders, order_details):
     currencies_dict ={}
     for order in orders:
         currencies_dict[order['order_id']] = order['currency']
+
     config = {
         "orders": orders,
         "currencies": currencies_dict,
