@@ -2,6 +2,7 @@ import concurrent
 
 from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
+from google.cloud.firestore_v1 import DocumentReference
 from openpyxl import load_workbook
 
 import xml.etree.ElementTree as ET
@@ -142,6 +143,16 @@ def get_orders_for_user(email):
     orders.sort(key=lambda x: x['date'], reverse=True)
     return orders
 
+def make_json_serializable(obj):
+    if isinstance(obj, DocumentReference):
+        # choose whichever you need on the client side:
+        return obj.path       # or obj.id
+    elif isinstance(obj, dict):
+        return {k: make_json_serializable(v) for k, v in obj.items()}
+    elif isinstance(obj, (list, tuple)):
+        return [make_json_serializable(v) for v in obj]
+    else:
+        return obj
 
 def format_date(date_obj):
     """
@@ -238,8 +249,8 @@ def build_context(feature_name, email, orders, order_details):
         context['addresses_dict'] = addresses_dict
         config['my_addresses'] = addresses
         config['addresses_dict'] = addresses_dict
-
-    context['config_data'] = config
+    config_data = make_json_serializable(config)
+    context['config_data'] = config_data
     return context
 
 
