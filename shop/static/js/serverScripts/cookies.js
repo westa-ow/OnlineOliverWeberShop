@@ -37,11 +37,11 @@ window.addEventListener("load", function(){
           button: { background: "#f1d600" }
         },
         theme: "classic",
-        type: "opt-in",           // включаем режим Accept/Decline
+        type: "opt-in",
         cookie: {
-          name: "cookie_consent_status",  // имя куки
-          expiryDays: 365,                // хранить выбор 365 дней
-          path: "/"                       // доступно на всём сайте
+          name: "cookieconsent_status",
+          expiryDays: 365,
+          path: "/"
         },
         content: {
           message: vocabulary["We use cookies to personalize content and improve your browsing experience. By continuing, you accept our cookie policy."],
@@ -50,6 +50,7 @@ window.addEventListener("load", function(){
           link: vocabulary["Privacy Policy"],
           href: window.config.privacyPolicyUrl
         },
+
         onInitialise: function(status) {
           if (status === 'allow') {
             enableHotjar();
