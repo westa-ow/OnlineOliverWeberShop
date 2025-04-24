@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-16 23:33+0200\n"
+"POT-Creation-Date: 2025-04-24 13:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\OnlineShop\settings.py:266
+#: .\OnlineShop\settings.py:275
 msgid "English"
 msgstr "Inglese"
 
-#: .\OnlineShop\settings.py:267
+#: .\OnlineShop\settings.py:276
 msgid "German"
 msgstr "Tedesco"
 
-#: .\OnlineShop\settings.py:268
+#: .\OnlineShop\settings.py:277
 msgid "Italian"
 msgstr "Italiano"
 
-#: .\OnlineShop\settings.py:269
+#: .\OnlineShop\settings.py:278
 msgid "French"
 msgstr "Francese"
 
-#: .\OnlineShop\settings.py:270
+#: .\OnlineShop\settings.py:279
 msgid "Spanish"
 msgstr "Spagnolo"
 
-#: .\OnlineShop\settings.py:271
+#: .\OnlineShop\settings.py:280
 msgid "Russian"
 msgstr "Russo"
 
@@ -53,9 +53,6 @@ msgstr ""
 " il GDPR"
 
 #: .\shop\forms.py:116
-#| msgid ""
-#| "the right to request restriction of processing of your personal data, "
-#| "insofar as"
 msgid "You must agree to the processing of your personal data to register."
 msgstr ""
 "È necessario accettare l'elaborazione dei tuoi dati personali per la "
@@ -80,6 +77,48 @@ msgstr "e gestire"
 #: .\shop\templates\admin_tools\AT_dashboard.html:13
 msgid "users' accounts"
 msgstr "account degli utenti"
+
+#: .\shop\templates\admin_tools\AT_stores.html:22
+#: .\shop\templates\admin_tools\AT_stores.html:43
+#: .\shop\templates\admin_tools\AT_stores.html:56
+#: .\shop\templates\checkout\Checkout_Addresses.html:195
+#: .\shop\templates\profile\profile_create_address.html:50
+#: .\shop\templates\profile\profile_update_address.html:51 .\shop\views.py:719
+msgid "Address"
+msgstr "Indirizzo"
+
+#: .\shop\templates\admin_tools\AT_stores.html:23 .\shop\views.py:716
+msgid "Latitude"
+msgstr "Latitudine"
+
+#: .\shop\templates\admin_tools\AT_stores.html:24 .\shop\views.py:717
+msgid "Longitude"
+msgstr "Longitudine"
+
+#: .\shop\templates\admin_tools\AT_stores.html:25
+#: .\shop\templates\admin_tools\AT_users_control.html:38
+msgid "Actions"
+msgstr "Azioni"
+
+#: .\shop\templates\admin_tools\AT_stores.html:33
+#: .\shop\templates\admin_tools\AT_stores.html:39
+#| msgid "Add new address"
+msgid "Add new store"
+msgstr "Aggiungi nuovo negozio"
+
+#: .\shop\templates\admin_tools\AT_stores.html:34
+msgid "Reload stores list"
+msgstr "Elenco dei negozi di ricarica"
+
+#: .\shop\templates\admin_tools\AT_stores.html:52
+#| msgid "Update your address"
+msgid "Edit store address"
+msgstr "Modifica l'indirizzo del negozio"
+
+#: .\shop\templates\admin_tools\AT_stores.html:60
+#| msgid "has stashed changes"
+msgid "Save changes"
+msgstr "Salva le modifiche"
 
 #: .\shop\templates\admin_tools\AT_users_control.html:16
 msgid "Bulk actions"
@@ -129,10 +168,6 @@ msgstr "Offerta partner"
 msgid "Registration Date"
 msgstr "Data di registrazione"
 
-#: .\shop\templates\admin_tools\AT_users_control.html:38
-msgid "Actions"
-msgstr "Azioni"
-
 #: .\shop\templates\admin_tools\AT_users_control.html:53
 #: .\shop\templates\catalog.html:190
 msgid "Items per page"
@@ -162,7 +197,7 @@ msgstr "Meno di 5 articoli rimasti"
 msgid "Confirm"
 msgstr "Confermare"
 
-#: .\shop\templates\cart.html:73 .\shop\views.py:679
+#: .\shop\templates\cart.html:73 .\shop\views.py:663
 msgid "Continue shopping"
 msgstr "Continua a fare acquisti"
 
@@ -171,7 +206,7 @@ msgid "Recommended based on items in your cart"
 msgstr "Consigliato in base agli articoli nel carrello"
 
 #: .\shop\templates\cart.html:99
-#: .\shop\templates\checkout\checkout_widget.html:9 .\shop\views.py:678
+#: .\shop\templates\checkout\checkout_widget.html:9 .\shop\views.py:662
 #: .\shop\views_scripts\checkout_cart_views.py:509
 msgid "Subtotal"
 msgstr "Totale parziale"
@@ -217,7 +252,7 @@ msgstr "Tasse incluse"
 msgid "Included shipping"
 msgstr "Spedizione inclusa"
 
-#: .\shop\templates\cart.html:135 .\shop\views.py:680
+#: .\shop\templates\cart.html:135 .\shop\views.py:664
 msgid "Proceed to checkout"
 msgstr "Procedere al checkout"
 
@@ -255,25 +290,25 @@ msgstr ""
 msgid "Order by"
 msgstr "Ordina per"
 
-#: .\shop\templates\catalog.html:200 .\shop\templates\catalog.html:201
-#: .\shop\views.py:704
+#: .\shop\templates\catalog.html:201 .\shop\templates\catalog.html:202
+#: .\shop\views.py:688
 msgid "Name"
 msgstr "Nome"
 
-#: .\shop\templates\catalog.html:202 .\shop\templates\catalog.html:203
-#: .\shop\templates\widgets\filters_section.html:22 .\shop\views.py:707
+#: .\shop\templates\catalog.html:203 .\shop\templates\catalog.html:204
+#: .\shop\templates\widgets\filters_section.html:22 .\shop\views.py:691
 msgid "Price"
 msgstr "Prezzo"
 
-#: .\shop\templates\catalog.html:225
+#: .\shop\templates\catalog.html:226
 msgid "Previous"
 msgstr "Precedente"
 
-#: .\shop\templates\catalog.html:227
+#: .\shop\templates\catalog.html:228
 msgid "Next"
 msgstr "Prossimo"
 
-#: .\shop\templates\catalog.html:232
+#: .\shop\templates\catalog.html:233
 msgid "Jump"
 msgstr "Salto"
 
@@ -376,7 +411,7 @@ msgstr "Continuare"
 #: .\shop\templates\checkout\Checkout_Account_Auth.html:229
 #: .\shop\templates\widgets\account_panel.html:131
 #: .\shop\templates\widgets\mobile_links_panel.html:46
-#: .\shop\templates\widgets\navigation_bar.html:72
+#: .\shop\templates\widgets\navigation_bar.html:76
 msgid "Login"
 msgstr "Login"
 
@@ -393,13 +428,13 @@ msgstr "Indirizzo di spedizione"
 
 #: .\shop\templates\checkout\Checkout_Addresses.html:61
 #: .\shop\templates\checkout\Checkout_Addresses.html:120
-#: .\shop\templates\profile\profile_addresses.html:33
+#: .\shop\templates\profile\profile_addresses.html:33 .\shop\views.py:720
 msgid "Update"
 msgstr "Aggiornamento"
 
 #: .\shop\templates\checkout\Checkout_Addresses.html:67
 #: .\shop\templates\checkout\Checkout_Addresses.html:126
-#: .\shop\templates\profile\profile_addresses.html:39
+#: .\shop\templates\profile\profile_addresses.html:39 .\shop\views.py:721
 #: .\venv\Lib\site-packages\django\forms\formsets.py:499
 msgid "Delete"
 msgstr "Eliminare"
@@ -426,12 +461,6 @@ msgstr "L'indirizzo di fatturazione è lo stesso dell'indirizzo di spedizione"
 #: .\shop\templates\profile\profile_update_address.html:43
 msgid "Company"
 msgstr "Azienda"
-
-#: .\shop\templates\checkout\Checkout_Addresses.html:195
-#: .\shop\templates\profile\profile_create_address.html:50
-#: .\shop\templates\profile\profile_update_address.html:51
-msgid "Address"
-msgstr "Indirizzo"
 
 #: .\shop\templates\checkout\Checkout_Addresses.html:202
 #: .\shop\templates\profile\profile_create_address.html:59
@@ -479,11 +508,11 @@ msgstr "Salva"
 msgid "Please select a shipping address first"
 msgstr "Seleziona prima un indirizzo di spedizione"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:740 .\shop\views.py:710
+#: .\shop\templates\checkout\Checkout_Addresses.html:740 .\shop\views.py:694
 msgid "The address has been successfully added!"
 msgstr "L'indirizzo è stato aggiunto con successo!"
 
-#: .\shop\templates\checkout\Checkout_Addresses.html:754 .\shop\views.py:709
+#: .\shop\templates\checkout\Checkout_Addresses.html:754 .\shop\views.py:693
 msgid "Are you sure you want to delete this address?"
 msgstr "Sei sicuro di voler eliminare questo indirizzo?"
 
@@ -492,7 +521,7 @@ msgid "Order will be delivered to your email"
 msgstr "L'ordine verrà consegnato alla tua email"
 
 #: .\shop\templates\checkout\Checkout_Addresses.html:871
-#: .\shop\templates\checkout\Checkout_Payment_Type.html:368
+#: .\shop\templates\checkout\Checkout_Payment_Type.html:369
 msgid "You have to add at least 1 item to finish order"
 msgstr "Devi aggiungere almeno 1 articolo per completare l'ordine"
 
@@ -520,7 +549,7 @@ msgstr "Paga con carta di credito tramite Stripe"
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:41
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:42
 #: .\shop\templates\widgets\mobile_links_panel.html:34
-#: .\shop\templates\widgets\navigation_bar.html:49
+#: .\shop\templates\widgets\navigation_bar.html:53
 msgid "Earrings"
 msgstr "Orecchini"
 
@@ -644,27 +673,27 @@ msgstr "Argento"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:39
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:158
-#: .\shop\templates\widgets\navigation_bar.html:56
+#: .\shop\templates\widgets\navigation_bar.html:60
 msgid "All"
 msgstr "Tutto"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:40
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:49
 #: .\shop\templates\widgets\mobile_links_panel.html:33
-#: .\shop\templates\widgets\navigation_bar.html:48
+#: .\shop\templates\widgets\navigation_bar.html:52
 msgid "Necklaces"
 msgstr "Collane"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:43
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:55
 #: .\shop\templates\widgets\mobile_links_panel.html:36
-#: .\shop\templates\widgets\navigation_bar.html:51
+#: .\shop\templates\widgets\navigation_bar.html:55
 msgid "Bracelets"
 msgstr "Bracciali"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:44
 #: .\shop\templates\widgets\mobile_links_panel.html:37
-#: .\shop\templates\widgets\navigation_bar.html:52
+#: .\shop\templates\widgets\navigation_bar.html:56
 msgid "Accessories"
 msgstr "Accessori"
 
@@ -710,7 +739,7 @@ msgstr "Cavigliere"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:58
 #: .\shop\templates\widgets\mobile_links_panel.html:35
-#: .\shop\templates\widgets\navigation_bar.html:50
+#: .\shop\templates\widgets\navigation_bar.html:54
 msgid "Rings"
 msgstr "Anelli"
 
@@ -768,13 +797,10 @@ msgid "Start typing here..."
 msgstr "Inizia a scrivere qui..."
 
 #: .\shop\templates\profile\profile_catalogs.html:10
+#: .\shop\templates\profile\profile_side_menu.html:45
 #: .\shop\templates\widgets\account_panel.html:80
 msgid "Catalogs"
 msgstr "Cataloghi"
-
-#: .\shop\templates\profile\profile_catalogs.html:30
-msgid "Loading..."
-msgstr "Caricamento..."
 
 #: .\shop\templates\profile\profile_chat.html:15
 #: .\shop\views_scripts\checkout_cart_views.py:364
@@ -855,12 +881,12 @@ msgid "Favorite products"
 msgstr "Prodotti preferiti"
 
 #: .\shop\templates\profile\profile_favourites.html:125
-#: .\shop\templates\profile\profile_favourites.html:313 .\shop\views.py:690
+#: .\shop\templates\profile\profile_favourites.html:313 .\shop\views.py:674
 msgid "Remove from favorites"
 msgstr "Rimuovi dai preferiti"
 
 #: .\shop\templates\profile\profile_favourites.html:125
-#: .\shop\templates\profile\profile_favourites.html:314 .\shop\views.py:687
+#: .\shop\templates\profile\profile_favourites.html:314 .\shop\views.py:671
 msgid "Add to favorites"
 msgstr "Aggiungi ai preferiti"
 
@@ -1045,20 +1071,20 @@ msgstr "Informazioni"
 msgid "Favorites"
 msgstr "Preferiti"
 
-#: .\shop\templates\profile\profile_side_menu.html:44
+#: .\shop\templates\profile\profile_side_menu.html:52
 msgid "Order Import"
 msgstr "Importazione ordini"
 
-#: .\shop\templates\profile\profile_side_menu.html:55
+#: .\shop\templates\profile\profile_side_menu.html:63
 msgid "Archive Search"
 msgstr "Ricerca nell'archivio"
 
-#: .\shop\templates\profile\profile_side_menu.html:62
+#: .\shop\templates\profile\profile_side_menu.html:70
 #: .\shop\templates\widgets\account_panel.html:116
 msgid "Support"
 msgstr "Supporto"
 
-#: .\shop\templates\profile\profile_side_menu.html:67
+#: .\shop\templates\profile\profile_side_menu.html:75
 #: .\shop\templates\widgets\account_panel.html:125
 msgid "Sign out"
 msgstr "Disconnessione"
@@ -1068,7 +1094,6 @@ msgid "Update your address"
 msgstr "Aggiorna il tuo indirizzo"
 
 #: .\shop\templates\registration\lockout.html:25
-#| msgid "Account"
 msgid "Account Locked"
 msgstr "Account bloccato"
 
@@ -1079,12 +1104,10 @@ msgstr ""
 "riusciti."
 
 #: .\shop\templates\registration\lockout.html:28
-#| msgid "Please enter a valid amount."
 msgid "Please try again after:"
 msgstr "Riprova dopo:"
 
 #: .\shop\templates\registration\lockout.html:30
-#| msgid "Your payment was cancelled."
 msgid "Your account is currently locked."
 msgstr "Il tuo account è attualmente bloccato."
 
@@ -1101,7 +1124,6 @@ msgid "Log in to your account"
 msgstr "Accedi al tuo account"
 
 #: .\shop\templates\registration\login.html:69
-#| msgid "Confirm you password"
 msgid "Forgot your password?"
 msgstr "Hai dimenticato la password?"
 
@@ -1112,7 +1134,6 @@ msgid "No account? Create one here"
 msgstr "Nessun conto? Creane uno qui"
 
 #: .\shop\templates\registration\password_reset_complete.html:28
-#| msgid "The address has been successfully added!"
 msgid "Your password has been successfully changed!"
 msgstr "La tua password è stata cambiata con successo!"
 
@@ -1125,22 +1146,18 @@ msgid "log in"
 msgstr "login"
 
 #: .\shop\templates\registration\password_reset_complete.html:29
-#| msgid "Log in to your account"
 msgid "to your account."
 msgstr "al tuo account."
 
 #: .\shop\templates\registration\password_reset_confirm.html:28
-#| msgid "Password is required"
 msgid "Password recovery"
 msgstr "Recupero della password"
 
 #: .\shop\templates\registration\password_reset_confirm.html:60
-#| msgid "Repeat for confirmation"
 msgid "Password confirmation "
 msgstr "Conferma della password"
 
 #: .\shop\templates\registration\password_reset_confirm.html:78
-#| msgid "New password"
 msgid "Reset password"
 msgstr "Reimpostare la password"
 
@@ -4265,7 +4282,37 @@ msgstr ""
 "Se il tuo pacco non viene trovato, contatta il nostro servizio clienti. "
 "Tieni a portata di mano il tuo ordine e il numero di tracciabilità."
 
-#: .\shop\templates\shop_page.html:43 .\shop\views.py:674
+#: .\shop\templates\service_pages\stores.html:12
+#| msgid "Order history"
+msgid "Our stores"
+msgstr "I nostri negozi"
+
+#: .\shop\templates\service_pages\stores.html:18
+msgid ""
+"Enter a location (e.g. zip/postal code, address, city or country) in order "
+"to find the nearest stores."
+msgstr ""
+"Immettere una posizione (ad es. Codice zip/postale, indirizzo, città o "
+"paese) per trovare i negozi più vicini."
+
+#: .\shop\templates\service_pages\stores.html:23
+#| msgid "Duration"
+msgid "Your location: "
+msgstr "La tua posizione:"
+
+#: .\shop\templates\service_pages\stores.html:24
+msgid "Address, zip / postal code, city, state or country"
+msgstr "Indirizzo, Codice zip / postale, città, stato o paese"
+
+#: .\shop\templates\service_pages\stores.html:28
+msgid "Radius: "
+msgstr "Raggio:"
+
+#: .\shop\templates\service_pages\stores.html:36
+msgid "Search"
+msgstr "Ricerca"
+
+#: .\shop\templates\shop_page.html:43 .\shop\views.py:658
 msgid "Plating"
 msgstr "Placcatura"
 
@@ -4274,24 +4321,24 @@ msgid "Stone"
 msgstr "Calcolo"
 
 #: .\shop\templates\shop_page.html:60
-#: .\shop\templates\widgets\filters_section.html:103 .\shop\views.py:667
+#: .\shop\templates\widgets\filters_section.html:103 .\shop\views.py:651
 msgid "Size"
 msgstr "Misurare"
 
-#: .\shop\templates\shop_page.html:71 .\shop\views.py:684
+#: .\shop\templates\shop_page.html:71 .\shop\views.py:668
 msgid "Product width"
 msgstr "Larghezza del prodotto"
 
-#: .\shop\templates\shop_page.html:81 .\shop\views.py:685
+#: .\shop\templates\shop_page.html:81 .\shop\views.py:669
 msgid "Product height"
 msgstr "Altezza del prodotto"
 
-#: .\shop\templates\shop_page.html:92 .\shop\views.py:686
+#: .\shop\templates\shop_page.html:92 .\shop\views.py:670
 msgid "Chain length"
 msgstr "Lunghezza della catena"
 
 #: .\shop\templates\shop_page.html:112 .\shop\templates\shop_page.html:118
-#: .\shop\views.py:663
+#: .\shop\views.py:647
 msgid "In stock"
 msgstr "In magazzino"
 
@@ -4299,11 +4346,11 @@ msgstr "In magazzino"
 msgid "Out of stock"
 msgstr "Esaurito"
 
-#: .\shop\templates\shop_page.html:120 .\shop\views.py:664
+#: .\shop\templates\shop_page.html:120 .\shop\views.py:648
 msgid "Less than 5 pieces left!"
 msgstr "Meno di 5 pezzi rimasti!"
 
-#: .\shop\templates\shop_page.html:129 .\shop\views.py:681
+#: .\shop\templates\shop_page.html:129 .\shop\views.py:665
 msgid "Add to cart"
 msgstr "Aggiungi al carrello"
 
@@ -4311,11 +4358,11 @@ msgstr "Aggiungi al carrello"
 msgid "Oops... searched product is not available"
 msgstr "Spiacenti... il prodotto cercato non è disponibile"
 
-#: .\shop\templates\shop_page.html:189 .\shop\views.py:671
+#: .\shop\templates\shop_page.html:189 .\shop\views.py:655
 msgid "An error occured"
 msgstr "Si è verificato un errore"
 
-#: .\shop\templates\shop_page.html:202 .\shop\views.py:669
+#: .\shop\templates\shop_page.html:202 .\shop\views.py:653
 msgid ""
 "Quantity number has to be less than or equal to quantity number in stock or "
 "and be greater than 0"
@@ -4323,7 +4370,7 @@ msgstr ""
 "Il numero di quantità deve essere inferiore o uguale al numero di quantità "
 "in magazzino o maggiore di 0"
 
-#: .\shop\templates\shop_page.html:212 .\shop\views.py:683
+#: .\shop\templates\shop_page.html:212 .\shop\views.py:667
 msgid "Maximum items for pre-order is 20, minimum is 1"
 msgstr "Il numero massimo di articoli preordinabili è 20, il minimo è 1"
 
@@ -4360,7 +4407,7 @@ msgstr "Account"
 
 #: .\shop\templates\widgets\account_panel.html:135
 #: .\shop\templates\widgets\mobile_links_panel.html:47
-#: .\shop\templates\widgets\navigation_bar.html:73
+#: .\shop\templates\widgets\navigation_bar.html:77
 msgid "Register"
 msgstr "Registro"
 
@@ -4387,15 +4434,15 @@ msgstr "Materiale di placcatura"
 #: .\shop\templates\widgets\filters_section.html:61
 #: .\shop\templates\widgets\filters_section.html:78
 #: .\shop\templates\widgets\filters_section.html:98
-#: .\shop\templates\widgets\filters_section.html:124 .\shop\views.py:693
+#: .\shop\templates\widgets\filters_section.html:124 .\shop\views.py:677
 msgid "Reset this group"
 msgstr "Ripristina questo gruppo"
 
-#: .\shop\templates\widgets\filters_section.html:65 .\shop\views.py:675
+#: .\shop\templates\widgets\filters_section.html:65 .\shop\views.py:659
 msgid "Base material"
 msgstr "Materiale di base"
 
-#: .\shop\templates\widgets\filters_section.html:81 .\shop\views.py:673
+#: .\shop\templates\widgets\filters_section.html:81 .\shop\views.py:657
 msgid "Crystal color"
 msgstr "Colore cristallo"
 
@@ -4415,7 +4462,7 @@ msgstr "Il mondo di Oliver Weber"
 msgid "Impressum"
 msgstr "Impronta"
 
-#: .\shop\templates\widgets\footer.html:42
+#: .\shop\templates\widgets\footer.html:43
 msgid "Follow us"
 msgstr "Seguici"
 
@@ -4436,104 +4483,104 @@ msgid "All products"
 msgstr "Tutti i prodotti"
 
 #: .\shop\templates\widgets\mobile_links_panel.html:33
-#: .\shop\templates\widgets\navigation_bar.html:48
+#: .\shop\templates\widgets\navigation_bar.html:52
 msgid "NECKLACES"
 msgstr "COLLANE"
 
 #: .\shop\templates\widgets\mobile_links_panel.html:34
-#: .\shop\templates\widgets\navigation_bar.html:49
+#: .\shop\templates\widgets\navigation_bar.html:53
 msgid "EARRINGS"
 msgstr "ORECCHINI"
 
 #: .\shop\templates\widgets\mobile_links_panel.html:35
-#: .\shop\templates\widgets\navigation_bar.html:50
+#: .\shop\templates\widgets\navigation_bar.html:54
 msgid "RINGS"
 msgstr "ANELLI"
 
 #: .\shop\templates\widgets\mobile_links_panel.html:36
-#: .\shop\templates\widgets\navigation_bar.html:51
+#: .\shop\templates\widgets\navigation_bar.html:55
 msgid "BRACELETS"
 msgstr "BRACCIALETTI"
 
 #: .\shop\templates\widgets\mobile_links_panel.html:37
-#: .\shop\templates\widgets\navigation_bar.html:52
+#: .\shop\templates\widgets\navigation_bar.html:56
 msgid "ACCESSORIES"
 msgstr "ACCESSORI"
 
-#: .\shop\templates\widgets\navigation_bar.html:47
+#: .\shop\templates\widgets\navigation_bar.html:51
 msgid "ALL PRODUCTS"
 msgstr "TUTTI I PRODOTTI"
 
-#: .\shop\templates\widgets\navigation_bar.html:54
+#: .\shop\templates\widgets\navigation_bar.html:58
 msgid "COLLECTIONS"
 msgstr "Collezioni"
 
-#: .\shop\views.py:665
+#: .\shop\views.py:649
 msgid "Plating Material"
 msgstr "Materiale di placcatura"
 
-#: .\shop\views.py:666
+#: .\shop\views.py:650
 msgid "Stone color"
 msgstr "Colore pietra"
 
-#: .\shop\views.py:670
+#: .\shop\views.py:654
 msgid "Processing"
 msgstr "Elaborazione"
 
-#: .\shop\views.py:672
+#: .\shop\views.py:656
 msgid "Product successfully added to your shopping cart"
 msgstr "Prodotto aggiunto con successo al tuo carrello"
 
-#: .\shop\views.py:676 .\shop\views_scripts\checkout_cart_views.py:465
+#: .\shop\views.py:660 .\shop\views_scripts\checkout_cart_views.py:465
 #: .\shop\views_scripts\checkout_cart_views.py:467
 msgid "Quantity"
 msgstr "Quantità"
 
-#: .\shop\views.py:677
+#: .\shop\views.py:661
 msgid "Number of items in your cart:"
 msgstr "Numero di articoli nel carrello:"
 
-#: .\shop\views.py:682
+#: .\shop\views.py:666
 msgid "This item is only available for pre-order!"
 msgstr "Questo articolo è disponibile solo per il preordine!"
 
-#: .\shop\views.py:688
+#: .\shop\views.py:672
 msgid "No items found"
 msgstr "Nessun articolo trovato"
 
-#: .\shop\views.py:689
+#: .\shop\views.py:673
 msgid "Current page"
 msgstr "Pagina corrente"
 
-#: .\shop\views.py:691
+#: .\shop\views.py:675
 msgid "Copy link"
 msgstr "Copia collegamento"
 
-#: .\shop\views.py:692
+#: .\shop\views.py:676
 msgid "Copied!"
 msgstr "Copiato!"
 
-#: .\shop\views.py:694
+#: .\shop\views.py:678
 msgid "Similar products"
 msgstr "Prodotti simili"
 
-#: .\shop\views.py:695
+#: .\shop\views.py:679
 msgid "Turn off the magnifying glass"
 msgstr "Spegni la lente d'ingrandimento"
 
-#: .\shop\views.py:696
+#: .\shop\views.py:680
 msgid "Turn on the magnifying glass"
 msgstr "Accendi la lente d'ingrandimento"
 
-#: .\shop\views.py:697
+#: .\shop\views.py:681
 msgid "Back to shop"
 msgstr "Ritorno al negozio"
 
-#: .\shop\views.py:698
+#: .\shop\views.py:682
 msgid "Cart is empty"
 msgstr "Il carrello è vuoto"
 
-#: .\shop\views.py:699
+#: .\shop\views.py:683
 msgid ""
 "You cant delete items during checkout. Go back to shop pages to change your "
 "cart"
@@ -4541,40 +4588,40 @@ msgstr ""
 "Non puoi eliminare gli articoli durante il checkout. Torna alle pagine del "
 "negozio per modificare il carrello"
 
-#: .\shop\views.py:700
+#: .\shop\views.py:684
 msgid "Remove from cart"
 msgstr "Rimuovi dal carrello"
 
-#: .\shop\views.py:701
+#: .\shop\views.py:685
 msgid "Please enter a valid amount."
 msgstr "Inserisci un importo valido."
 
-#: .\shop\views.py:702
+#: .\shop\views.py:686
 msgid "Show details"
 msgstr "Mostra dettagli"
 
-#: .\shop\views.py:703
+#: .\shop\views.py:687
 msgid "Hide details"
 msgstr "Nascondi dettagli"
 
-#: .\shop\views.py:705
+#: .\shop\views.py:689
 #: .\venv\Lib\site-packages\django\db\models\fields\files.py:393
 msgid "Image"
 msgstr "Immagine"
 
-#: .\shop\views.py:706
+#: .\shop\views.py:690
 msgid "Description"
 msgstr "Descrizione"
 
-#: .\shop\views.py:708
+#: .\shop\views.py:692
 msgid "Summary"
 msgstr "Riepilogo"
 
-#: .\shop\views.py:711
+#: .\shop\views.py:695
 msgid "The address has been successfully updated!"
 msgstr "L'indirizzo è stato aggiornato con successo!"
 
-#: .\shop\views.py:712
+#: .\shop\views.py:696
 msgid ""
 "We use cookies to personalize content and improve your browsing experience. "
 "By continuing, you accept our cookie policy."
@@ -4583,20 +4630,89 @@ msgstr ""
 "esperienza di navigazione. Continuando, accetti la nostra politica sui "
 "cookie."
 
-#: .\shop\views.py:713
+#: .\shop\views.py:697
 msgid "Decline"
 msgstr "Declino"
 
-#: .\shop\views.py:714
-#| msgid "Website Privacy Policy"
+#: .\shop\views.py:698
 msgid "Privacy Policy"
 msgstr "Politica sulla riservatezza"
 
-#: .\shop\views.py:715
+#: .\shop\views.py:699
 msgid "Accept"
 msgstr "Accettare"
 
-#: .\shop\views.py:737
+#: .\shop\views.py:701
+msgid "Store address update error"
+msgstr "Errore di aggiornamento dell'indirizzo dell'archiviazione"
+
+#: .\shop\views.py:702
+msgid "Store address delete error"
+msgstr "STORE INDIRIZZO Elimina ERRORE"
+
+#: .\shop\views.py:703
+msgid "Store address create error"
+msgstr "Store l'indirizzo Creare l'errore"
+
+#: .\shop\views.py:704
+#| msgid "unknown error"
+msgid "Unknown error"
+msgstr "Errore sconosciuto"
+
+#: .\shop\views.py:705
+#| msgid "The address has been successfully added!"
+msgid "The store address has been successfully added."
+msgstr "L'indirizzo del negozio è stato aggiunto con successo."
+
+#: .\shop\views.py:706
+msgid "Store address with ID"
+msgstr "Indirizzo del negozio con ID"
+
+#: .\shop\views.py:707
+#| msgid "Items were successfully added!"
+msgid "was successfully added"
+msgstr "è stato aggiunto con successo"
+
+#: .\shop\views.py:708
+#| msgid "The address has been successfully updated!"
+msgid "was successfully updated"
+msgstr "è stato aggiornato con successo"
+
+#: .\shop\views.py:709
+#| msgid "Items were successfully added!"
+msgid "was successfully deleted"
+msgstr "è stato eliminato con successo"
+
+#: .\shop\views.py:710
+msgid "Show route"
+msgstr "Mostra rotta"
+
+#: .\shop\views.py:711
+msgid "Please enter the address, zip / postal code, city or country."
+msgstr ""
+"Inserisci l'indirizzo, il codice postale / postale, la città o il paese."
+
+#: .\shop\views.py:712
+msgid "No stores were found in the area."
+msgstr "Non sono stati trovati negozi nella zona."
+
+#: .\shop\views.py:713
+msgid "An error occurred while loading stores."
+msgstr "Si è verificato un errore durante il caricamento dei negozi."
+
+#: .\shop\views.py:714
+msgid "Network error when loading stores."
+msgstr "Errore di rete durante il caricamento dei negozi."
+
+#: .\shop\views.py:715
+msgid "Error loading stores."
+msgstr "Errore di caricamento dei negozi."
+
+#: .\shop\views.py:718
+msgid "Loading..."
+msgstr "Caricamento..."
+
+#: .\shop\views.py:744
 msgid "Welcome to my site."
 msgstr "Benvenuti nel mio sito."
 
@@ -4736,32 +4852,32 @@ msgstr ""
 msgid "Your Payment Confirmation from Oliver Weber"
 msgstr "La tua conferma di pagamento da parte di Oliver Weber"
 
-#: .\shop\views_scripts\profile_views.py:405
+#: .\shop\views_scripts\profile_views.py:413
 msgid "Invalid file format. Only .xlsx or .xls are allowed"
 msgstr "Formato file non valido. Sono consentiti solo i file .xlsx o .xls"
 
-#: .\shop\views_scripts\profile_views.py:417
-#: .\shop\views_scripts\profile_views.py:430
+#: .\shop\views_scripts\profile_views.py:425
+#: .\shop\views_scripts\profile_views.py:438
 msgid "Invalid data in row"
 msgstr "Dati non validi nella riga"
 
-#: .\shop\views_scripts\profile_views.py:433
+#: .\shop\views_scripts\profile_views.py:441
 msgid "Quantity can only be greater than 0)"
 msgstr "La quantità può essere solo maggiore di 0)"
 
-#: .\shop\views_scripts\profile_views.py:438
+#: .\shop\views_scripts\profile_views.py:446
 msgid "Product not found"
 msgstr "Prodotto non trovato"
 
-#: .\shop\views_scripts\profile_views.py:442
+#: .\shop\views_scripts\profile_views.py:450
 msgid "Requested quantity"
 msgstr "Quantità richiesta"
 
-#: .\shop\views_scripts\profile_views.py:442
+#: .\shop\views_scripts\profile_views.py:450
 msgid "is less than number of products in storage for product"
 msgstr "è inferiore al numero di prodotti in magazzino per prodotto"
 
-#: .\shop\views_scripts\profile_views.py:462
+#: .\shop\views_scripts\profile_views.py:470
 msgid "Error updating cart for product"
 msgstr "Errore durante l'aggiornamento del carrello per il prodotto"
 
@@ -7976,9 +8092,6 @@ msgstr "Valore troppo lungo per il campo \"{field_name}\"."
 
 #~ msgid "User type"
 #~ msgstr "Tipo di utente"
-
-#~ msgid "Search"
-#~ msgstr "Ricerca"
 
 #~ msgid "Searched Results for"
 #~ msgstr "Risultati cercati per"
