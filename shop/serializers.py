@@ -1,5 +1,4 @@
 import googlemaps
-from geopy import Nominatim
 from rest_framework import serializers
 
 from OnlineShop import settings
