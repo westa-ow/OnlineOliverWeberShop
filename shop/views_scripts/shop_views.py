@@ -109,13 +109,19 @@ def fetch_numbers(request):
     if search_term != '':
         # Perform two separate queries to search by 'name' and 'product_name'
         # (case-insensitive search is applied in Python)
-        name_query = itemsRef.where('name', '>=', search_term).where('name', '<=', search_term + '\uf8ff').stream()
-        product_name_query = itemsRef.where('product_name', '>=', search_term).where('product_name', '<=',
-                                                                                     search_term + '\uf8ff').stream()
+
+        raw = request.GET.get('term', '')
+        low = raw.lower()
+        formatted = low[:1].upper() + low[1:]
+        name_query = itemsRef.where('name', '>=', formatted).where('name', '<=', formatted + '\uf8ff').stream()
+        product_name_query = itemsRef.where('product_name', '>=', formatted).where('product_name', '<=',
+                                                                                     formatted + '\uf8ff').stream()
 
         # Combine the results of both queries
         combined_docs = list(name_query) + list(product_name_query)
-
+        print("Combined Docs:")
+        for doc in combined_docs:
+            print(doc.id, doc.to_dict())
         # Remove duplicates if a document matches both queries
         seen_ids = set()
         results = [
