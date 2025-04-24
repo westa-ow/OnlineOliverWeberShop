@@ -14,14 +14,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path
 
 from shop import views
 from shop.views import csp_report
 from shop.views_scripts.admin_views import upload_view
 from shop.views_scripts.profile_orders_pay import create_partial_checkout_session
-from shop.views_scripts.router_viewsets import PromoCodeViewSet
+from shop.router_viewsets import PromoCodeViewSet, StoreViewSet
 from shop.views_scripts import profile_views, paypal_views
 from shop.views_scripts.adresses_views import update_address, delete_address, create_address
 from shop.views_scripts.manage_banners.banners_managing import move_down, move_up, delete_banner_all, \
@@ -51,11 +49,12 @@ from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register(r'promocodes', PromoCodeViewSet, basename='promocodes')
+router.register(r'stores', StoreViewSet, basename='stores')
 urlpatterns = i18n_patterns(
     path('admin/', admin.site.urls),
     path('', views.home_page, name='home'),
@@ -74,11 +73,13 @@ urlpatterns = i18n_patterns(
     path('shop/<str:product_id>', form_page, name='shop_page'),
     path('fetch-numbers/', fetch_numbers, name='fetch_numbers'),
 
+    path('product-feed.<str:fmt>', generate_product_feed, name='product_feed'),
+
     # Catalog urls
     path('catalog/', catalog_view, name='catalog'),
     path('<str:category_id>-<str:category_name>', catalog_views.param_catalog, name='param_catalog'),
 
-    # Promo-codes
+    # Rest api endpoints
     path('api/', include(router.urls)),
 
     # Checkout urls
@@ -99,7 +100,6 @@ urlpatterns = i18n_patterns(
     path('profile/<str:feature_name>/', profile_views.profile, name='profile'),
     path('update_user_account/', update_user_account, name='update_user_account'),
     path('upload-file-cart/', upload_file, name='upload_cart'),
-    path('product_feed.xml', generate_product_feed, name='product_feed'),
 
     path('delete-document/', views.deleteProduct, name='delete_document'),
     path('update_quantity_input/', views.update_quantity_input, name='update_input'),

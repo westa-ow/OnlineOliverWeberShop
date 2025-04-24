@@ -1,6 +1,8 @@
 from django.contrib import admin
-from .models import Banner, BannerLanguage, Language
+from .models import Banner, BannerLanguage, Language, Store
 
+
+admin.site.register(Store)
 
 class BannerLanguageInline(admin.TabularInline):
     model = BannerLanguage
