@@ -1,22 +1,3 @@
-.styled-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 25px 0;
-    font-size: 18px;
-    text-align: left;
-}
-.styled-table th, .styled-table td {
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-}
-.styled-table th {
-    background-color: #f4f4f4;
-}
-.styled-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-/* Модальное окно */
 .overlay {
     position: fixed;
     top: 0;
@@ -38,9 +19,6 @@
     z-index: 1000;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-.hidden {
-    display: none;
-}
 
 /* Форма */
 .styled-form {
@@ -58,29 +36,8 @@
     border: 1px solid #ddd;
     border-radius: 4px;
 }
-.action-menu {
-    position: absolute;
-    background: #fff;
-    border: 1px solid #ddd;
-    padding: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-.action-menu button {
-    background: none;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-}
-.action-menu button:hover {
-    background: #f4f4f4;
-}
-.hidden {
-    display: none!important;
-}
+
+
 
 #modal {
     position: fixed;
@@ -92,26 +49,6 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1001;
-}
-
-#modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-}
-
-.overlay-promocode {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999;
 }
 
 .modal-promocode {
@@ -134,14 +71,7 @@
     width: 100%;
 
 }
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 15px;
-    border-bottom: 1px solid #ddd;
-    font-size: 16px;
-    font-weight: bold;
-}
+
 
 .close-button {
     background: none;
@@ -150,12 +80,7 @@
     cursor: pointer;
 }
 
-.modal-body {
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
+
 input[type='checkbox']{
     cursor: pointer;
     width: 20px;
@@ -177,13 +102,4 @@ button[type='submit']{
 }
 button[type='submit']:hover{
      background-color: #15ab15;
-}
-.action-btn{
-    cursor: pointer;
-    font-size: 28px;
-    font-weight: 700;
-    background-color: transparent;
-    border: 1px solid #ababab;
-    padding: 0 8px;
-    border-radius: 5px;
 }
