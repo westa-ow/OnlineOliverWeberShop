@@ -2,6 +2,9 @@
 {% load i18n %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="{% static "css/admin_tools/at_manage_promocodes.css" %}">
+<link rel="stylesheet" href="{% static "css/admin_tools/widgets/AT_styled_table.css" %}">
+<link rel="stylesheet" href="{% static "css/SeparateWidgets/overlay.css" %}">
+<link rel="stylesheet" href="{% static "css/SeparateWidgets/modal.css" %}">
 <style>
 
     form{
@@ -38,8 +41,8 @@
     </div>
 
     <!-- Модальное окно -->
-    <div id="modal-overlay-promocode" class="overlay-promocode hidden"></div>
-    <div id="modal-promocode" class="modal-promocode hidden">
+    <div id="modal-overlay-promocode" class="overlay-element hidden"></div>
+    <div id="modal-promocode" class="modal-element hidden">
         <form id="promocode-form" class="styled-form">
             {% csrf_token %}
             <h2 id="form-title">Create Promo Code</h2>
@@ -89,9 +92,8 @@
     // Разбиваем путь на части, используя "/"
     const pathSegments = path.split('/'); // ["", "de", "some-page", ""]
 
-    // Языковой код — это второй сегмент
     const languageCode = pathSegments[1]; // "de"
-    // Показать форму
+
     document.addEventListener('DOMContentLoaded', function () {
         const tableBody = document.querySelector('#promocodes-table tbody');
         const modalOverlay = document.getElementById('modal-overlay-promocode');
@@ -108,6 +110,7 @@
         function showModal(promoCode = null) {
             modal.classList.remove('hidden');
             modalOverlay.classList.remove('hidden');
+            document.body.classList.add('modal-open');
             form.reset();
             editingPromoCode = promoCode;
 
@@ -133,15 +136,14 @@
             }
         }
 
-        // Скрыть модальное окно
         function hideModal() {
             modal.classList.add('hidden');
             modalOverlay.classList.add('hidden');
             editingPromoCode = null;
+            document.body.classList.remove('modal-open');
         }
         modalOverlay.addEventListener('click', hideModal);
 
-        // Обработчик формы
         form.addEventListener('submit', function (e) {
             e.preventDefault();
             const data = {
@@ -192,52 +194,45 @@
                             </td>
                         `;
                         row.querySelector('.action-btn').addEventListener('click', function (event) {
-                        event.stopPropagation(); // Остановить всплытие, чтобы клик вне меню закрыл его
+                            event.stopPropagation(); // Остановить всплытие, чтобы клик вне меню закрыл его
 
-                        const existingMenu = document.querySelector('.action-menu');
-                        if (existingMenu) existingMenu.remove(); // Удалить предыдущее меню, если оно есть
+                            const existingMenu = document.querySelector('.action-menu');
+                            if (existingMenu) existingMenu.remove(); // Удалить предыдущее меню, если оно есть
 
-                        const menu = document.createElement('div');
-                        menu.classList.add('action-menu');
-                        menu.innerHTML = `
-                            <button class="update-btn">Update</button>
-                            <button class="delete-btn">Delete</button>
-                        `;
-                        document.body.appendChild(menu);
+                            const menu = document.createElement('div');
+                            menu.classList.add('action-menu');
+                            menu.innerHTML = `
+                                <button class="update-btn">Update</button>
+                                <button class="delete-btn">Delete</button>
+                            `;
+                            document.body.appendChild(menu);
 
-                        // Стилизация меню
-                        menu.style.position = 'absolute';
-                        menu.style.top = `${event.clientY}px`;
-                        menu.style.left = `${event.clientX}px`;
-                        menu.style.background = '#fff';
-                        menu.style.border = '1px solid #ddd';
-                        menu.style.padding = '10px';
-                        menu.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
-                        menu.style.zIndex = '1000';
+                            menu.style.top = `${event.clientY}px`;
+                            menu.style.left = `${event.clientX}px`;
 
-                        // Закрытие меню при клике вне
-                        document.addEventListener('click', () => {
-                            if (menu.parentNode) menu.remove();
-                        }, { once: true });
+                            // Закрытие меню при клике вне
+                            document.addEventListener('click', () => {
+                                if (menu.parentNode) menu.remove();
+                            }, { once: true });
 
-                        // Обработчики для Update и Delete
-                        menu.querySelector('.update-btn').addEventListener('click', () => {
-                            showModal(promoCode);
-                            menu.remove();
-                        });
-
-                        menu.querySelector('.delete-btn').addEventListener('click', () => {
-                            const confirmation = window.confirm("Are you sure you want to delete this promo code?");
-                            if (confirmation) {
-                                fetch(`/${languageCode}/api/promocodes/${promoCode.id}/`, { method: 'DELETE', headers: { 'Content-Type': 'application/json','X-CSRFToken': getCookie('csrftoken') } })
-                                    .then(() => loadPromoCodes())
-                                    .catch(console.error);
+                            // Обработчики для Update и Delete
+                            menu.querySelector('.update-btn').addEventListener('click', () => {
+                                showModal(promoCode);
                                 menu.remove();
-                            } else {
-                                menu.remove();
-                            }
+                            });
+
+                            menu.querySelector('.delete-btn').addEventListener('click', () => {
+                                const confirmation = window.confirm("Are you sure you want to delete this promo code?");
+                                if (confirmation) {
+                                    fetch(`/${languageCode}/api/promocodes/${promoCode.id}/`, { method: 'DELETE', headers: { 'Content-Type': 'application/json','X-CSRFToken': getCookie('csrftoken') } })
+                                        .then(() => loadPromoCodes())
+                                        .catch(console.error);
+                                    menu.remove();
+                                } else {
+                                    menu.remove();
+                                }
+                            });
                         });
-                    });
                         tableBody.appendChild(row);
                     });
                 })
@@ -266,5 +261,9 @@
             this.value = ''; // Очищаем поле, если условие не выполнено
             alert(`Number can't be less than 0 or greater than 100!`);
         }
+    });
+    window.addEventListener('scroll', () => {
+      const existingMenu = document.querySelector('.action-menu');
+      if (existingMenu) existingMenu.remove();
     });
 </script>

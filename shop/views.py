@@ -1,40 +1,24 @@
-import ast
 import logging
-import random
+import math
 import uuid
 from datetime import datetime
-from random import randint
 import geoip2.database
 
 import concurrent.futures
 
 import stripe
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.password_validation import validate_password
-from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout, get_user_model, update_session_auth_hash
-import os
 import json
-import firebase_admin
-from django.templatetags.static import static
-from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
-from firebase_admin import credentials, firestore
 from django.conf import settings
-from django.contrib import messages
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.core.mail import send_mail
-from rest_framework import viewsets, status
-from rest_framework.response import Response
 
-from OnlineShop.settings import GEOIP_PATH, GEOIP_config
-from shop.forms import UserRegisterForm, User, BannerForm
+from OnlineShop.settings import GEOIP_config
+from shop.forms import User, BannerForm
 from django.utils.translation import gettext as _
 
-from shop.models import Banner, PromoCode, BannerLanguage, Language
-from shop.views_scripts.serializers import PromoCodeSerializer
+from shop.models import BannerLanguage, Language
 
 logger = logging.getLogger(__name__)
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -712,7 +696,30 @@ def get_vocabulary_product_card():
         "We use cookies to personalize content and improve your browsing experience. By continuing, you accept our cookie policy.": _("We use cookies to personalize content and improve your browsing experience. By continuing, you accept our cookie policy."),
         "Decline": _("Decline"),
         "Privacy Policy": _("Privacy Policy"),
-        "Accept": _("Accept")
+        "Accept": _("Accept"),
+
+        "Store address update error": _("Store address update error"),
+        "Store address delete error": _("Store address delete error"),
+        "Store address create error": _("Store address create error"),
+        "Unknown error": _("Unknown error"),
+        "The store address has been successfully added.": _("The store address has been successfully added."),
+        "Store address with ID": _("Store address with ID"),
+        "was successfully added": _("was successfully added"),
+        "was successfully updated": _("was successfully updated"),
+        "was successfully deleted": _("was successfully deleted"),
+        "Show route": _("Show route"),
+        "Please enter the address, zip / postal code, city or country.": _("Please enter the address, zip / postal code, city or country."),
+        "No stores were found in the area.": _("No stores were found in the area."),
+        "An error occurred while loading stores.": _("An error occurred while loading stores."),
+        "Network error when loading stores.": _("Network error when loading stores."),
+        "Error loading stores.": _("Error loading stores."),
+        "Latitude": _("Latitude"),
+        "Longitude": _("Longitude"),
+        "Loading...": _("Loading..."),
+        "Address": _("Address"),
+        "Update": _("Update"),
+        "Delete": _("Delete"),
+
 
     }
 
@@ -1455,3 +1462,13 @@ def mark_user_coupons_as_used(email):
 
     except Exception as e:
         print(f"Error when transferring coupons to UsedPromocodes: {e}")
+
+
+def haversine(lat1, lon1, lat2, lon2):
+    # Great circle distance in km
+    R = 6371.0
+    a1, a2 = math.radians(lat1), math.radians(lat2)
+    da = math.radians(lat2 - lat1)
+    dl = math.radians(lon2 - lon1)
+    a = math.sin(da/2)**2 + math.cos(a1)*math.cos(a2)*math.sin(dl/2)**2
+    return R * 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
