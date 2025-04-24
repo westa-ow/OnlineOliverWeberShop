@@ -145,7 +145,7 @@ import(window.config.firebaseFunctionScriptUrl)
                             window.config.addToCatalogUrl,
                             vocabulary,
                             getCookie('csrftoken'),
-                            indow.config.cartUrl,
+                            window.config.cartUrl,
                             itemIsFavourite,
                             window.config.isAuthenticated,
                             window.config.shopPageUrl,
