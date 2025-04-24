@@ -21,6 +21,7 @@
     <link rel="icon" href="{% static 'images/icons/web-icon.png' %}" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="currency" content="{{ currency|safe }}">
+    <meta name="api-root" content="{% url 'api-root' %}">
     <!-- Google tag (gtag.js) -->
     <meta name="gtm-config" content="{% if request.get_host == 'www.oliverweber.com' %}G-K86D18Y6MG{% else %}G-S1MCG16BMH{% endif %}">
     {% if request.get_host == "www.oliverweber.com" %}

@@ -113,3 +113,16 @@ class PromoCode:
     def delete(doc_id):
         # Deleting a document
         promocodes_ref.document(doc_id).delete()
+
+
+class Store(models.Model):
+    address = models.CharField(max_length=255, verbose_name='Address')
+    latitude = models.FloatField(null=True, blank=True, verbose_name='Latitude')
+    longitude = models.FloatField(null=True, blank=True, verbose_name='Logitude')
+
+    class Meta:
+        verbose_name = 'Store'
+        verbose_name_plural = 'Stores'
+
+    def __str__(self):
+        return self.address

@@ -56,6 +56,7 @@ PAYPAL_CLIENT_SECRET = os.getenv('PAYPAL_CLIENT_SECRET')
 RECAPTCHA_SITE_KEY = os.environ.get('RECAPTCHA_SITE_KEY')
 RECAPTCHA_SECRET_KEY = os.environ.get('RECAPTCHA_SECRET_KEY')
 
+GOOGLE_MAPS_API_KEY = os.environ.get('GOOGLE_PLACES_API_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 FIREBASE_CREDENTIALS_FILE = os.path.join(BASE_DIR, "shop", "static", "key2.json")

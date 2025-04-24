@@ -1,0 +1,42 @@
+{% load static %}
+{% load i18n %}
+<head>
+    <title> Stores | Oliver Weber | Stores </title>
+    <link rel="stylesheet" href="{% static "css/pages/servicePages/stores.css" %}">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initMap"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header class="page-header">
+            <h1> {% trans "Our stores" %}</h1>
+        </header>
+        <div id="map"></div>
+        <ul id="result-list"></ul>
+        <p class="store-title">
+            <strong class="dark">
+                {% trans "Enter a location (e.g. zip/postal code, address, city or country) in order to find the nearest stores." %}
+            </strong>
+        </p>
+        <div class="store-content">
+            <div class="address-input">
+                <label for="user-address">{% trans "Your location: " %}</label>
+                <input id="user-address" class="form-control" type="text" placeholder="{% translate 'Address, zip / postal code, city, state or country' %}">
+                <div id="address-suggestions"></div>
+            </div>
+            <div class="radius-input">
+                <label for="radius">{% trans "Radius: " %}</label>
+                <select id="radius" class="form-control">
+                    <option value="5">5 km</option>
+                    <option value="10">10 km</option>
+                    <option value="20">20 km</option>
+                    <option value="50">50 km</option>
+                </select>
+            </div>
+            <div><button class="standart-blue-btn search-button" id="find">{% translate 'Search' %}</button></div>
+        </div>
+    </div>
+
+
+    <script src="{% static "js/pages/service_pages/SP_stores.js" %}"></script>
+</body>

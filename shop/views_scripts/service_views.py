@@ -36,6 +36,8 @@ def service_pages_view(request, service_page):
     :param service_page:
     :return:
     """
-    context = {"service_page":service_page}
+    context = {"service_page": service_page}
+    if service_page == 'stores':
+        context['GOOGLE_MAPS_API_KEY'] = settings.GOOGLE_MAPS_API_KEY
     return render(request, 'service_pages/main_service_template.html', context)
 
