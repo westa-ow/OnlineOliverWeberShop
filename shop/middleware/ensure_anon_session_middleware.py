@@ -16,9 +16,10 @@ class EnsureAnonymousSessionMiddleware:
         # Check: if it's a Stripe webhook, we don't perform the redirection
         webhook_paths = [
             reverse('stripe_webhook'),  # Make sure the path matches your webhook route
-            reverse('product_feed'),
             reverse('csp_report'),
         ]
+        for fmt in ('xml', 'csv', 'xlsx'):
+            webhook_paths.append(reverse('product_feed', kwargs={'fmt': fmt}))
 
         if request.path in webhook_paths:
             # If it's a webhook request, don't do a redirect
