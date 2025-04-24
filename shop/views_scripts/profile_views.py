@@ -1,4 +1,6 @@
 import concurrent
+import csv
+import io
 
 from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
@@ -6,6 +8,10 @@ from google.cloud.firestore_v1 import DocumentReference
 from openpyxl import load_workbook
 
 import xml.etree.ElementTree as ET
+
+from openpyxl.styles import Font, Alignment
+from openpyxl.utils import get_column_letter
+from openpyxl.workbook import Workbook
 
 from shop.views import db, orders_ref, serialize_firestore_document, users_ref, addresses_ref, update_email_in_db, \
     get_user_category, get_user_info, get_vocabulary_product_card, get_user_prices, get_user_session_type, itemsRef, \
@@ -28,7 +34,7 @@ from django.views.decorators.csrf import csrf_exempt
 from firebase_admin import credentials, firestore
 from django.conf import settings
 from django.contrib import messages
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, Http404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.mail import send_mail
 
@@ -472,37 +478,110 @@ def upload_file(request):
         return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
 
 
-def generate_product_feed(request):
+def generate_product_feed(request, fmt):
     """
     This function generates xml product feed.
     :param request:
+    :param fmt: format of the feed
     :return:
     """
-    products = itemsRef.stream()
+    products_stream = itemsRef.stream()
 
-    root = ET.Element("products")
-
-    for product in products:
-        data = product.to_dict()
-        if not data.get("Visible", False) or int(data.get('quantity', 0)) <= 0:
+    products = []
+    for doc in products_stream:
+        data = doc.to_dict()
+        if not data.get("Visible", False) or int(data.get("quantity", 0)) <= 0:
             continue
+        products.append(data)
 
-        product_element = ET.SubElement(root, "product")
-        ET.SubElement(product_element, "name").text = f"{data.get('category', '')} {data.get('product_name', '')}"
-        ET.SubElement(product_element, "article_number").text = data.get("name", "")
-        ET.SubElement(product_element, "ean_13").text = data.get("ean_13", "")
+    if fmt == 'xml':
+        root = ET.Element("products")
+        for data in products:
+            p = ET.SubElement(root, "product")
+            ET.SubElement(p, "name").text = f"{data.get('category', '')} {data.get('product_name', '')}"
+            ET.SubElement(p, "article_number").text = data.get("name", "")
+            ET.SubElement(p, "ean_13").text = data.get("ean_13", "")
 
-        ET.SubElement(product_element, "availability").text = "in stock" if data.get("quantity", 0) > 0 else "Out of stock"
-        ET.SubElement(product_element, "image").text = data.get("image_url", "https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/wall%2Fno_image.jpg?alt=media&token=22a7b907-01f6-45b6-8fb1-f1f884ab21d4")
-        ET.SubElement(product_element, "quantity").text = str(data.get("quantity", 0))
-        if data.get("product_width"):
-            ET.SubElement(product_element, "width").text = str(data.get("product_width", "")) + " cm"
-        if data.get("product_height"):
-            ET.SubElement(product_element, "height").text = str(data.get("product_height", "")) + " cm"
-        if data.get("chain_length"):
-            ET.SubElement(product_element, "length").text = str(data.get("chain_length", "")) + " cm"
+            ET.SubElement(p, "availability").text = "in stock" if data.get("quantity", 0) > 0 else "Out of stock"
+            ET.SubElement(p, "image").text = data.get("image_url", "https://firebasestorage.googleapis.com/v0/b/flutterapp-fd5c3.appspot.com/o/wall%2Fno_image.jpg?alt=media&token=22a7b907-01f6-45b6-8fb1-f1f884ab21d4")
+            ET.SubElement(p, "quantity").text = str(data.get("quantity", 0))
+            if data.get("product_width"):
+                ET.SubElement(p, "width").text = str(data.get("product_width", "")) + " cm"
+            if data.get("product_height"):
+                ET.SubElement(p, "height").text = str(data.get("product_height", "")) + " cm"
+            if data.get("chain_length"):
+                ET.SubElement(p, "length").text = str(data.get("chain_length", "")) + " cm"
 
 
-    xml_data = ET.tostring(root, encoding="utf-8")
+        xml_data = ET.tostring(root, encoding="utf-8")
 
-    return HttpResponse(xml_data, content_type="application/xml")
+        return HttpResponse(xml_data, content_type="application/xml")
+    elif fmt == 'csv':
+        buffer = io.StringIO()
+        writer = csv.writer(buffer)
+        writer.writerow([
+            "name", "article_number", "ean_13",
+            "availability", "image", "quantity",
+            "width", "height", "length"
+        ])
+        for data in products:
+            writer.writerow([
+                f"{data.get('category', '')} {data.get('product_name', '')}",
+                data.get("name", ""),
+                data.get("ean_13", ""),
+                "in stock",
+                data.get("image_url", ""),
+                data.get("quantity", 0),
+                f"{data.get('product_width')} cm" if data.get('product_width') else "",
+                f"{data.get('product_height')} cm" if data.get('product_height') else "",
+                f"{data.get('chain_length')} cm" if data.get('chain_length') else "",
+            ])
+        resp = HttpResponse(buffer.getvalue(), content_type="text/csv")
+        resp['Content-Disposition'] = 'attachment; filename="product_feed.csv"'
+        return resp
+    elif fmt == 'xlsx':
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "Products"
+        headers = [
+            "Name", "Article number", "EAN13",
+            "Availability", "Image", "Quantity",
+            "Width", "Height", "Length"
+        ]
+        ws.append(headers)
+        header_font = Font(size=16)
+        center_align = Alignment(horizontal='center', vertical='center')
+        for col_idx, _ in enumerate(headers, start=1):
+            cell = ws.cell(row=1, column=col_idx)
+            cell.font = header_font
+            cell.alignment = center_align
+
+            col_letter = get_column_letter(col_idx)
+            ws.column_dimensions[col_letter].width = 20
+        for data in products:
+            ws.append([
+                f"{data.get('category', '')} {data.get('product_name', '')}",
+                data.get("name", ""),
+                data.get("ean_13", ""),
+                "in stock",
+                data.get("image_url", ""),
+                data.get("quantity", 0),
+                f"{data.get('product_width')} cm" if data.get('product_width') else "",
+                f"{data.get('product_height')} cm" if data.get('product_height') else "",
+                f"{data.get('chain_length')} cm" if data.get('chain_length') else "",
+            ])
+        buffer = io.BytesIO()
+        wb.save(buffer)
+        buffer.seek(0)
+        resp = HttpResponse(
+            buffer,
+            content_type=(
+                "application/vnd.openxmlformats-officedocument."
+                "spreadsheetml.sheet"
+            )
+        )
+        resp['Content-Disposition'] = 'attachment; filename="product_feed.xlsx"'
+        return resp
+
+    else:
+        raise Http404("Unsupported format")
