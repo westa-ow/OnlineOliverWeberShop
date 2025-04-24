@@ -4246,8 +4246,8 @@ msgid ""
 "Enter a location (e.g. zip/postal code, address, city or country) in order "
 "to find the nearest stores."
 msgstr ""
-"Введите местоположение (например, почтовое/почтовое кодекс, адрес, город или"
-" страна), чтобы найти ближайшие магазины."
+"Введите местоположение (например почтовый индекс, адрес, город или страну"
+"), чтобы найти ближайшие магазины."
 
 #: .\shop\templates\service_pages\stores.html:23
 #| msgid "Duration"
@@ -4256,7 +4256,7 @@ msgstr "Ваша локация:"
 
 #: .\shop\templates\service_pages\stores.html:24
 msgid "Address, zip / postal code, city, state or country"
-msgstr "Адрес, почтовый индекс / почтовый кодекс, город, штат или страна"
+msgstr "Адрес, почтовый индекс, город, регион или страна"
 
 #: .\shop\templates\service_pages\stores.html:28
 msgid "Radius: "
