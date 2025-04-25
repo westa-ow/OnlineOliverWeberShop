@@ -28,8 +28,8 @@ import(window.config.firebaseFunctionScriptUrl)
         const show_quantities = window.config.show_quantities;
         let itemsPerPage = 20;
 
-        let order_name = "";
-        let order_type = "";
+        let order_name = "name";
+        let order_type = "asc";
         let number_of_documents;
         let currentPage = 1;
         let total_pages = 1;
