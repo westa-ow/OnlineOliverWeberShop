@@ -368,6 +368,17 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     }
     quantitySpan.classList.add('maximum-span');
 
+    const baseMaterial = document.createElement('div');
+    baseMaterial.classList.add('property-container');
+    const baseMaterialLabel = document.createElement('span');
+    baseMaterialLabel.innerText = `${vocabulary['Base material']}`;
+    baseMaterialLabel.classList.add('card-dropdown-label');
+    const baseMaterialSpan = document.createElement('div');
+    baseMaterialSpan.textContent = `${item.material}`;
+    baseMaterial.appendChild(baseMaterialLabel);
+    baseMaterial.appendChild(baseMaterialSpan);
+    secondColumn.appendChild(baseMaterial);
+
     const platingLabel = document.createElement('span');
     platingLabel.innerText = `${vocabulary['Plating Material']}`;
     platingLabel.classList.add('card-dropdown-label');

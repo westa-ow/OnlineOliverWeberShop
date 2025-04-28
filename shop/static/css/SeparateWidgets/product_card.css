@@ -99,7 +99,7 @@
     }
     .card-dropdown-label{
         font-weight: 500;
-        font-size: 16px;
+        font-size: 17px;
         color: #575757;
     }
     .card-dropdown{
@@ -191,7 +191,7 @@
 
             .card-dropdown-label{
                 font-weight: 500;
-                font-size: 16px;
+                font-size: 17px;
                 color: #575757;
             }
 
@@ -226,6 +226,7 @@
         text-align: center;
     }
 }
+
 .custom-tooltip {
     background-color: white;
     color: black;
@@ -240,6 +241,9 @@
 .price-element{
     font-size: 20px;
     font-weight: 600;
+    margin: 10px 0;
+}
+.property-container{
     margin: 10px 0;
 }
 .dimensions-container{
