@@ -31,7 +31,9 @@ function getMergedConfig() {
     return { ...metaConfig, ...scriptConfig };
 }
 
+
 window.config = {
   ...(window.config || {}),
   ...getMergedConfig()
 };
+

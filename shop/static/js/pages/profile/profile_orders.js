@@ -187,7 +187,9 @@ document.querySelectorAll('.show-content').forEach(button => {
                 nestedTableContent += `
                     <tr>
                         <td>${product.name}</td>
+
                         <td class="image-cell"> <img alt="Product image" src="${product.image_url ? product.image_url : product['image-url'] }" width="50" height="50"> </td>
+
                         <td>${product.description}</td>
                         <td>${order_currency}${(product.price).toFixed(2)}</td>
                         <td>${product.quantity}</td>

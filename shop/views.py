@@ -1,5 +1,6 @@
 import logging
 import math
+
 import uuid
 from datetime import datetime
 import geoip2.database
@@ -694,6 +695,7 @@ def get_vocabulary_product_card():
         "Are you sure you want to delete this address?": _("Are you sure you want to delete this address?"),
         "The address has been successfully added!": _("The address has been successfully added!"),
         "The address has been successfully updated!": _("The address has been successfully updated!"),
+
         "We use cookies to personalize content and improve your browsing experience. By continuing, you accept our cookie policy.": _("We use cookies to personalize content and improve your browsing experience. By continuing, you accept our cookie policy."),
         "Decline": _("Decline"),
         "Privacy Policy": _("Privacy Policy"),
@@ -728,7 +730,6 @@ def get_vocabulary_product_card():
         "Confirmed!": _("Confirmed"),
         "You must add at least 1 order to your cart to proceed to checkout": _("You must add at least 1 order to your cart to proceed to checkout"),
         "In cart": _("In cart"),
-
 
 
 

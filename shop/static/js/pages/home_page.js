@@ -39,10 +39,12 @@ function getMetaConfig() {
   }
 
   // Глобально задаём объединённую конфигурацию
+
 window.config = {
   ...(window.config || {}),
   ...getMergedConfig()
 };
+
 import(window.config.firebaseFunctionScriptUrl)
     .then(module => {
         const { fetchItemsWithQuantityGreaterThan30, fetchFavouriteItems, fetchStones } = module;
@@ -74,6 +76,7 @@ import(window.config.firebaseFunctionScriptUrl)
                     [array[i], array[j]] = [array[j], array[i]]; // Swap elements
                 }
             }
+
             async function init(){
 
                 setupItemsCarousel();
@@ -89,6 +92,7 @@ import(window.config.firebaseFunctionScriptUrl)
 
                 buildPageFavourites(bestseller_items);
             }
+
 
 
             function setupItemsCarousel(){
@@ -257,11 +261,13 @@ import(window.config.firebaseFunctionScriptUrl)
                 );
             }
         });
+
         if (document.readyState === 'loading') {
           document.addEventListener('DOMContentLoaded', init);
         } else {
           init();
         }
+
     })
     .catch(error => {
         console.error("Ошибка при динамическом импорте:", error);

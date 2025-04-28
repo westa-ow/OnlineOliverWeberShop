@@ -170,6 +170,7 @@ INSTALLED_APPS = [
     'shop',
     'axes',
     'csp',
+
     # 'autotranslate',
 ]
 

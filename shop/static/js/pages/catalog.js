@@ -12,10 +12,12 @@ function getCatalogMetaConfig() {
     }
     return {};
 }
+
 window.config = {
   ...(window.config || {}),
   ...getCatalogMetaConfig()
 };
+
 
 import(window.config.firebaseFunctionScriptUrl)
     .then(module => {
@@ -23,12 +25,15 @@ import(window.config.firebaseFunctionScriptUrl)
 
         let vocabulary = getVocabulary()
 
+
         let sale = window.config.sale;
         const price_category = window.config.price_category;
         const show_quantities = window.config.show_quantities;
         let itemsPerPage = 20;
 
+
         let order_name = "name";
+
         let order_type = "asc";
         let number_of_documents;
         let currentPage = 1;
@@ -40,6 +45,8 @@ import(window.config.firebaseFunctionScriptUrl)
         let stones = {};
         let stones_reversed = {};
 
+
+
         let platingFilters =  window.config.plating_catalog ? [window.config.plating_catalog] : [];
         let baseFilters = window.config.base_catalog ? [window.config.base_catalog] : [];
         let stoneFilters = [];
@@ -49,6 +56,7 @@ import(window.config.firebaseFunctionScriptUrl)
         let collection_catalog = window.config.collection_catalog || "";
         let categories = [""];
         let all_crystals = [];
+
 
         let all_platings = [];
         let all_bases = [];
@@ -99,6 +107,7 @@ import(window.config.firebaseFunctionScriptUrl)
             updateURL();
             hideOverlay();
             responsiveLayout();
+
         }
         function responsiveLayout(){
             let mql = window.matchMedia("(max-width: 769px)");
@@ -924,6 +933,7 @@ import(window.config.firebaseFunctionScriptUrl)
         }
 
         function order(array) {
+
           const defaultPlatingOrder = ["Rhodium", "Gold", "Rosegold"];
           const seen = new Set();
           const result = [];
@@ -972,6 +982,7 @@ import(window.config.firebaseFunctionScriptUrl)
           }
 
           return result;
+
         }
 
 
@@ -989,7 +1000,9 @@ import(window.config.firebaseFunctionScriptUrl)
                     found = false;
                 }
                 else {
+
                     filteredItems = order(filteredItems);
+
                     paginatedItems = paginateItems(filteredItems, currentPage, itemsPerPage);
                 }
             }
@@ -1052,6 +1065,7 @@ import(window.config.firebaseFunctionScriptUrl)
         document.getElementById('select-order').addEventListener('change', function (event) {
 
             [order_name, order_type] = event.target.value.split(',');
+
             changePage(1);
         });
 
@@ -1127,6 +1141,7 @@ import(window.config.firebaseFunctionScriptUrl)
                 console.error('Error updating favorites:', error);
             }
         });
+
         if (document.readyState === 'loading') {
           document.addEventListener('DOMContentLoaded', init);
         } else {
@@ -1136,3 +1151,4 @@ import(window.config.firebaseFunctionScriptUrl)
     .catch(error => {
         console.error("Ошибка при динамическом импорте:", error);
     });
+
