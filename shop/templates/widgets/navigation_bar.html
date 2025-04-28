@@ -4,8 +4,8 @@
 {% load i18n %}
 <html lang="en">
 <head>
-
     <meta charset="UTF-8">
+    <script src="{% static 'js/serverScripts/patch-csq-protocol.js' %}"></script>
     <link href="{% static "fonts/css/fontawesome.min.css" %}" rel="stylesheet" />
     <link href="{% static "fonts/css/solid.min.css" %}" rel="stylesheet" />
     <link href="{% static "fonts/css/all.min.css" %}" rel="stylesheet" />
@@ -17,6 +17,8 @@
       content="{% url 'services' service_page='21-website-privacy-policy' %}">
     <meta name="HOTJARID"
       content="{{ HOTJAR_ID }}">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <link rel="icon" href="{% static 'images/icons/web-icon.png' %}" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

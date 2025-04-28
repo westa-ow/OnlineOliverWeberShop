@@ -13,8 +13,28 @@
     <link rel="stylesheet"  href="{% static 'css/catalog.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/checkout_cart.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/checkout/checkout_step_cart.css' %}">
-    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <meta name="cartConfig" content='{
+        "sale": {{ sale|safe }},
+        "price_category": "{{ price_category|safe }}",
+        "show_quantities": {{ show_quantities|yesno:"true,false" }},
+        "user_email": "{{ user.email }}",
+        "customer_type": "{{ customer_type|escapejs }}",
+        "preOrderIconUrl": "{% static 'icons/pre-order-icon.webp' %}",
+        "changeFavouritesStateUrl": "{% url 'change_favorite_state' %}",
+        "addToCatalogUrl": "{% url 'add_from_catalog' %}",
+        "cartUrl": "{% url 'cart' %}",
+        "isAuthenticated": {{ user.is_authenticated|yesno:"true,false" }},
+        "shopPageUrl": "{{ shop_page_url|escapejs }}",
+        "updateInputUrl": "{% url "update_input" %}",
+        "deleteDocumentUrl": "{% url "delete_document" %}",
+        "checkoutAddressesUrl": "{% url 'checkout_addresses' %}",
+        "checkoutAnonymUrl": "{% url 'cart_anonymous' %}",
+        "checkPromocodeUrl": "{% url "check_promocode" %}",
+        "firebaseFunctionScriptUrl": "{% static 'js/firebaseFunctions.js' %}"
+
+    }'>
+    {{ config|json_script:"config-data" }}
     <script src="{% static "js/checkout/totalCalculation.js" %}"></script>
     <script type="module" src="{% static "js/firebaseFunctions.js" %}"></script>
     <script src="{% static "js/productsTransmutation.js" %}"></script>
@@ -23,126 +43,113 @@
 </head>
 <body>
 {% include 'widgets/navigation_bar.html' %}
-<div class="all" style="margin-top: 150px">
+<div class="page-content-container">
+    <div class="page-content">
+      <div class="doc-content">
 
-<div class="page-content">
-  <div class="doc-content">
-
-    <div class="shopping-cart-label">{% trans "Shopping cart"%}</div>
-    <ul id="documents-list">
-
-      {% for document in documents %}
-
-        <div class="document-container" data-document-id="{{ document.name }}" data-document="{{ document }}">
-            <div class="document-container-body">
-                <div><img class="document-image" src="{{ document.image_url }}" alt="{{ document.name }}"></div>
-                <div class="document-info" id="info-{{ document.name }}">
-                    <div class="row-1">
-                        <div class="document-number">{{ document.category }} {{ document.product_name }}</div>
-                        <div class="deleteBut"  data-product-id="{{ document.name }}" ><i class="fa-solid fa-remove"></i></div>
-                    </div>
-                    <div class="row-2">
-                        <div class="column-1">
-
-                            <div class="document-description">{{ document.description }}</div>
-                            <div class="current-quantity" id="current-quantity-{{ document.name }}">{% trans "In cart"%}: {{ document.quantity }}</div>
+        <div class="shopping-cart-label">{% trans "Shopping cart"%}</div>
+        <ul id="documents-list">
+          {% for document in documents %}
+            <div class="document-container" data-document-id="{{ document.name }}" data-document="{{ document }}">
+                <div class="document-container-body">
+                    <div><img class="document-image" src="{{ document.image_url }}" alt="{{ document.name }}"></div>
+                    <div class="document-info" id="info-{{ document.name }}">
+                        <div class="row-1">
+                            <div class="document-number">{{ document.category }} {{ document.product_name }}</div>
+                            <div class="deleteBut"  data-product-id="{{ document.name }}" ><i class="fa-solid fa-remove"></i></div>
                         </div>
-                        <div class="column-2">
-                            <div>
-                                <div class="quantity-slider" id="quantity-slider-{{ document.name }}" >
-                                    <div class="slider-body" >
-                                        <input class="inp" min=1 id="quantity-input-inp-{{ document.name }}" value="{{ document.quantity }}" type="number" placeholder="Enter the quantity">
-                                        {% if document.quantity_max < 5 %} <span> {% trans "Less than 5 items left" %} </span>{% endif %}
-                                        <button class="quantity-input-button" id="quantity-input-apply-{{ document.name }}">{% trans "Confirm"%}</button>
+                        <div class="row-2">
+                            <div class="column-1">
+
+                                <div class="document-description">{{ document.description }}</div>
+                                <div class="current-quantity" id="current-quantity-{{ document.name }}">{% trans "In cart"%}: {{ document.quantity }}</div>
+                            </div>
+                            <div class="column-2">
+                                <div>
+                                    <div class="quantity-slider" id="quantity-slider-{{ document.name }}" >
+                                        <div class="slider-body" >
+                                            <input class="inp" min=1 id="quantity-input-inp-{{ document.name }}" value="{{ document.quantity }}" type="number" placeholder="Enter the quantity">
+                                            {% if document.quantity_max < 5 %} <span> {% trans "Less than 5 items left" %} </span>{% endif %}
+                                            <button class="quantity-input-button" id="quantity-input-apply-{{ document.name }}">{% trans "Confirm"%}</button>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="sum" id="sum-{{ document.name }}">{{ currency }}{{ document.sum }}</div>
                             </div>
-                            <div class="sum" id="sum-{{ document.name }}">{{ currency }}{{ document.sum }}</div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
-            </div>
+          </div>
+        {% endfor %}
+
+        </ul>
+      <div class="back-button" >
+        <a class="back-to-shopping" href="{% url "catalog" %}">
+            <i class="fa-solid fa-chevron-left"> </i>
+            <span>{% trans "Continue shopping"%}</span>
+        </a>
       </div>
-    {% endfor %}
 
-    </ul>
-  <div class="back-button" >
-    <a class="back-to-shopping" href="{% url "catalog" %}">
-        <i class="fa-solid fa-chevron-left"> </i>
-        <span>{% trans "Continue shopping"%}</span>
-    </a>
-  </div>
+      <div class="complementary-products">
+          <h2>{% trans "Recommended based on items in your cart" %}:</h2>
 
-  <div class="complementary-products">
-      <h2>{% trans "Recommended based on items in your cart" %}:</h2>
+          <div class="carousel-container">
+            <button class="carousel-arrow left-arrow" aria-label="Scroll left">
+              <i class="fa-solid fa-chevron-left"></i>
+            </button>
 
-      <div class="carousel-container">
-        <button class="carousel-arrow left-arrow" aria-label="Scroll left">
-          <i class="fa-solid fa-chevron-left"></i>
-        </button>
+            <div class="carousel-items">
+              <!-- Example item structure; you would loop through your similar products -->
 
-        <div class="carousel-items">
-          <!-- Example item structure; you would loop through your similar products -->
+            </div>
 
+            <button class="carousel-arrow right-arrow" aria-label="Scroll right">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
         </div>
-
-        <button class="carousel-arrow right-arrow" aria-label="Scroll right">
-          <i class="fa-solid fa-chevron-right"></i>
-        </button>
       </div>
-    </div>
-</div>
-<div class="final-container">
-    <div class="finish-section">
-        <div class="card-detailed-totals">
-            <h4>{% trans "Subtotal" %}</h4>
-            <div class="info-cart-block">
-                <div class="block-total">
-                    <div class="final-unique-quantity">5 {% trans "items" %}</div>
-                    <div class="final-sum" id="final-sum">{{ currency }}0.00</div>
-                </div>
-            </div>
-                <div class="promo-block">
-                    {% if not active_coupon %}
-                        <div class="voucher">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag"> <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path> <line x1="7" y1="7" x2="7" y2="7"></line> </svg>
-                            <span class="label-voucher" id="promocode-label">{% trans "Have a promo code?" %}</span>
+        <div class="final-container">
+            <div class="finish-section">
+                <div class="card-detailed-totals">
+                    <h4>{% trans "Subtotal" %}</h4>
+                    <div class="info-cart-block">
+                        <div class="block-total">
+                            <div class="final-unique-quantity">5 {% trans "items" %}</div>
+                            <div class="final-sum" id="final-sum">{{ currency }}0.00</div>
                         </div>
-                    {% else %}
-                        <div>
-                            <div class="coupon">{% trans "Active promo code" %}: {{ active_coupon.coupon_code }} </div>
-                            <div class="coupon">({{ active_coupon.discount }}% {% trans "discount" %})</div>
+                    </div>
+                    <div class="promo-block">
+                        {% if not active_coupon %}
+                            <div class="voucher">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag"> <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path> <line x1="7" y1="7" x2="7" y2="7"></line> </svg>
+                                <span class="label-voucher" id="promocode-label">{% trans "Have a promo code?" %}</span>
+                            </div>
+                        {% else %}
+                            <div>
+                                <div class="coupon">{% trans "Active promo code" %}: {{ active_coupon.coupon_code }} </div>
+                                <div class="coupon">({{ active_coupon.discount }}% {% trans "discount" %})</div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="card-block-totals" >
+                        <div class="cart-total">
+                            <span class="label-total">{% trans "Total"  %} ({% trans "VAT Incl." %})</span>
+                            <span class="value-total">{{ currency }}0.00</span>
                         </div>
-                    {% endif %}
+                    </div>
                 </div>
-            <div class="card-block-totals" >
-                <div class="cart-total">
-                    <span class="label-total">{% trans "Total"  %} ({% trans "VAT Incl." %})</span>
-                    <span class="value-total">{{ currency }}0.00</span>
-                </div>
-                <div class="cart-taxes" style="display: none">
-                    <span class="label-taxes">{% trans "Included taxes"  %}:</span>
-                    <span class="value-taxes">{{ currency }}0.00</span>
-                </div>
-                <div class="cart-shipping" style="display: none">
-                    <span class="label-shippinh">{% trans "Included shipping"  %}:</span>
-                    <span class="value-shipping">{{ currency }}0.00</span>
+                <div class="cart-detailed-actions">
+                    <button class="finish-order" id="finishOrderButton">{% trans "Proceed to checkout"%}</button>
                 </div>
             </div>
         </div>
-        <div class="cart-detailed-actions">
-            <button class="finish-order" id="finishOrderButton">{% trans "Proceed to checkout"%}</button>
-        </div>
-
     </div>
-    </div >
-</div>
-
 </div>
 <dialog id="product-card">
 
-        </dialog>
+</dialog>
 <div id="overlay-cart" class="overlay-cart hidden"></div>
 <div id="promo-modal" class="modal-promocode hidden">
     <div class="modal-header">
@@ -160,323 +167,7 @@
 
 </body>
 
-<script type="module">
-import { fetchAllItems, fetchFavouriteItems, fetchStones } from '{% static "js/firebaseFunctions.js" %}';
-
-let product_documents = [];
-let sale = {{ sale|safe }};
-let price_category = "{{ price_category|safe }}";
-let allItems = {};
-let favouriteItems = {};
-const show_quantities = "{{ show_quantities|safe }}" !== "False";
-function init() {
-    product_documents = {{ documents|safe }};
-    calculate_final(0, 0, currency, product_documents);
-}
-
-document.addEventListener('DOMContentLoaded', async function() {
-   showOverlay();
-
-   let unfilteredItems = await fetchAllItems();
-   let email = "{{ user.email }}";
-   favouriteItems = await fetchFavouriteItems(email);
-   let {all: stones} = await fetchStones();
-
-   allItems = productsTransmutation(unfilteredItems, price_category, sale, stones, "{{ customer_type }}"==="B2B");
-
-   isCheckout = true;
-   init();
-
-   document.querySelectorAll('.document-container').forEach(documentContainer => {
-      const dataDocument = documentContainer.getAttribute('data-document');
-      const doc = JSON.parse(dataDocument.replaceAll("'",'"'));
-
-      saveState('quantity-'+doc.name, doc.quantity)
-   });
-   updateCarouselItems();
-
-   hideOverlay();
-});
-
-function updateCarouselItems(){
-   let similarItems = [];
-   product_documents.forEach(product => {
-     similarItems.push(...(productGroups[product.product_name] || []));
-   });
-   similarItems = [...new Set(similarItems)];
-   similarItems = similarItems.filter(similarItem => {
-      return !product_documents.some(cartItem => getNormalizedItemName(cartItem.name, cartItem) === similarItem);
-   });
-   const filteredItems = allItems.filter(item => similarItems.includes(getNormalizedItemName(item.name, item)));
-
-   if (filteredItems.length > 0){
-       const containerCarousel = document.querySelector('.complementary-products');
-       containerCarousel.style.display = "block";
-       // Now build the carousel items dynamically
-       const carouselContainer = document.querySelector('.carousel-items');
-
-       // Clear any existing content if necessary
-       carouselContainer.innerHTML = '';
-
-       filteredItems.forEach((item, index) => {
-          const carouselItem = document.createElement('div');
-          carouselItem.classList.add('carousel-product');
-
-          const img = document.createElement('img');
-          img.src = item.image_url;
-          img.alt = item.name;
-
-          const p = document.createElement('p');
-          p.textContent = `${index + 1}. ${item.name}`;
-
-          carouselContainer.appendChild(createProductCard(false, item, index, allItems, filteredItems, favouriteItems, "{% static "icons/pre-order-icon.webp" %}", getVocabulary(), translations_categories, currency, "{% url "change_favorite_state" %}", show_quantities, "{% url 'add_from_catalog' %}", getCookie('csrftoken'), "{% url 'cart' %}", "{{ user.is_authenticated|safe }}", "{{ shop_page_url }}", true));
-       });
-
-       constructCarousel();
-   }
-   else{
-       const containerCarousel = document.querySelector('.complementary-products');
-       containerCarousel.style.display = "none";
-   }
-}
-
-function constructCarousel(){
-  const leftArrow = document.querySelector('.left-arrow');
-  const rightArrow = document.querySelector('.right-arrow');
-  const carousel = document.querySelector('.carousel-items');
-
-  leftArrow.addEventListener('click', () => {
-    carousel.scrollBy({
-      left: -300, // adjust scroll distance as needed
-      behavior: 'smooth'
-    });
-  });
-
-  rightArrow.addEventListener('click', () => {
-    carousel.scrollBy({
-      left: 300, // adjust scroll distance as needed
-      behavior: 'smooth'
-    });
-  });
-}
-
-function parameters_final(productId, newQuantity){
-    product_documents = product_documents.map(doc => {
-        if (doc.name === productId) {
-            doc.quantity = newQuantity;
-        }
-        return doc;
-
-    });
-    calculate_final(0,0, currency, product_documents);
-}
-function saveState(name, value) {
-    localStorage.setItem(name, value);
-}
-
-
-document.querySelectorAll('.slider-body input[type="number"]').forEach(slider => slider.addEventListener('input', function(event) {
-     const input = event.target;
-     const documentContainer = input.closest('.document-container');
-     const documentValue = JSON.parse(documentContainer.getAttribute('data-document').replace(/'/g, '"'));
-     const productId = documentValue['name'];
-
-     const button = document.getElementById("quantity-input-apply-" + productId);
-     button.innerText = "{{ _("Confirm")|escapejs }}";
-     button.style.background = "#003665";
-
-     const inp = document.getElementById('quantity-input-inp-' + productId);
-     const quantity = parseInt(inp.value);
-
-     if (isNaN(quantity) || quantity <= 0) {
-        alert("{{ _("Type of written quantity has to be numeric and greater than 0")|escapejs }}");
-        inp.value = 1;
-     } else if (quantity > documentValue.quantity_max) {
-        alert("{{ _("Quantity has to be less than maximum on storage")|escapejs }}");
-        inp.value = documentValue.quantity_max;
-
-     }
-
-}));
-document.getElementById('documents-list').addEventListener('click', function(event) {
-
-    let deleteButton = event.target.closest('.deleteBut');
-    if (deleteButton) {
-        const documentId = deleteButton.getAttribute('data-product-id');
-        const documentContainer = deleteButton.closest('.document-container');
-
-        const confirmed = confirm("{{ _("Do you really want to delete this product from your cart?")|escapejs }}");
-
-        if (confirmed) {
-            deleteBut(documentId, documentContainer);
-        }
-    }
-
-    const quantityInputButton = event.target.closest('.quantity-input-button');
-    if (quantityInputButton) {
-        const documentContainer = quantityInputButton.closest('.document-container');
-        const documentValue = JSON.parse(documentContainer.getAttribute('data-document').replace(/'/g, '"'));
-        const productId = documentValue['name'];
-
-        const inp = document.getElementById('quantity-input-inp-' + productId);
-        const quantity = parseInt(inp.value);
-
-        if (isNaN(quantity) || quantity <= 0) {
-            alert("{{ _("Type of written quantity has to be numeric and greater than 0")|escapejs }}");
-        }
-        else if (quantity > documentValue.quantity_max) {
-            alert("{{ _("Quantity has to be less than maximum on storage")|escapejs }}");
-        }
-        else {
-            updateQuantityInput(productId, quantity, documentValue);
-        }
-    }
-});
-
-
-function updateQuantityInput(product_id, quantity_new, doc) {
-    fetch('{% url "update_input" %}', {
-        method: 'POST',
-        headers: {
-            'X-CSRFToken': getCookie('csrftoken'),
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ product_id: product_id, quantity_new: quantity_new, 'document': doc, price:doc.price})
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-
-            changeCurrentQuantityText(product_id, quantity_new);
-
-            const button = document.getElementById("quantity-input-apply-"+ product_id);
-            button.innerText = "{{ _("Confirmed!")|escapejs }}";
-            button.style.background = "#077a07";
-
-            const sum  = document.getElementById('sum-'+data.product_id);
-            sum.innerHTML = currency+ "" + data.sum;
-
-            saveState('sum-'+product_id, data.sum);
-            saveState('quantity-'+data.product_id, data.quantity);
-            parameters_final(product_id, quantity_new);
-        } else {
-        }
-    });
-}
-
-function deleteBut(documentId, documentContainer){
-    fetch('{% url "delete_document" %}', {
-        method: 'POST',
-        headers: {
-            'X-CSRFToken': getCookie('csrftoken'),
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ document_id: documentId })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-            let documents = product_documents.filter(doc => doc.name !== documentId);
-            product_documents = product_documents.filter(doc => doc.name !== documentId);
-            console.log('Document deleted successfully');
-            documentContainer.remove();
-
-            data.updated_documents.forEach(doc => {
-                console.log(`${doc.id}`);
-                let docElement = document.querySelector(`[data-document-id="${doc.id}"]`);
-                console.log(docElement);
-            });
-            updateCarouselItems();
-            calculate_final(0,0, currency, documents);
-          } else {
-              console.error('Error in deletion');
-          }
-    })
-    .catch(error => console.error('Error:', error));
-}
-document.getElementById('finishOrderButton').addEventListener('click', function() {
-    if (product_documents.length > 0){
-        {% if user.is_authenticated  %}
-            window.location.href = '{% url 'checkout_addresses' %}';
-        {% else %}
-            window.location.href = '{% url 'cart_anonymous' %}';
-        {% endif %}
-    }
-    else{
-        alert("{{ _("You must add at least 1 order to your cart to proceed to checkout")|escapejs }}")
-    }
-});
-
-document.getElementById("promocode-label").addEventListener('click', function () {
-    console.log("CLICKED HERE");
-    document.getElementById('overlay-cart').classList.remove('hidden');
-    document.getElementById('promo-modal').classList.remove('hidden');
-});
-
-document.getElementById('close-modal').addEventListener('click', closeModal);
-document.getElementById('overlay-cart').addEventListener('click', closeModal);
-
-document.getElementById('submit-promocode').addEventListener('click', function () {
-    const submitButton = document.getElementById('submit-promocode');
-    const promocode = document.getElementById('promocode-input').value;
-    const errorMessage = document.getElementById('error-message');
-    console.log(promocode);
-    submitButton.setAttribute('disabled', 'true');
-    fetch('{% url "check_promocode" %}', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')
-        },
-        body: JSON.stringify({ promocode: promocode })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-            window.location.reload();
-        } else {
-            errorMessage.classList.remove('hidden');
-            errorMessage.textContent = data.message || 'Something went wrong'; // Show error message
-            submitButton.removeAttribute('disabled');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        submitButton.removeAttribute('disabled');
-    });
-});
-
-function closeModal() {
-    document.getElementById('overlay-cart').classList.add('hidden');
-    document.getElementById('promo-modal').classList.add('hidden');
-    document.getElementById('promocode-input').value = '';
-    document.getElementById('error-message').classList.add('hidden');
-}
-
-
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-function changeCurrentQuantityText(productId, quantity){
-    const current_quantity = document.getElementById('current-quantity-'+productId);
-    current_quantity.innerText = "{% trans "In cart" %}" + ": "+ quantity;
-}
-
-
-
-
-</script>
+<script type="module" src="{% static "js/checkout/stepCart.js" %}"></script>
 </html>
 
 {%endblock%}

@@ -13,6 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
+from google.cloud.firestore_v1 import DocumentReference
 
 from OnlineShop.settings import GEOIP_config
 from shop.forms import User, BannerForm
@@ -719,6 +720,18 @@ def get_vocabulary_product_card():
         "Address": _("Address"),
         "Update": _("Update"),
         "Delete": _("Delete"),
+
+        "Confirm": _("Confirm"),
+        "Type of written quantity has to be numeric and greater than 0": _("Type of written quantity has to be numeric and greater than 0"),
+        "Quantity has to be less than maximum on storage": _("Quantity has to be less than maximum on storage"),
+        "Do you really want to delete this product from your cart?": _("Do you really want to delete this product from your cart?"),
+        "Confirmed!": _("Confirmed"),
+        "You must add at least 1 order to your cart to proceed to checkout": _("You must add at least 1 order to your cart to proceed to checkout"),
+        "In cart": _("In cart"),
+
+
+
+
 
 
     }
@@ -1472,3 +1485,15 @@ def haversine(lat1, lon1, lat2, lon2):
     dl = math.radians(lon2 - lon1)
     a = math.sin(da/2)**2 + math.cos(a1)*math.cos(a2)*math.sin(dl/2)**2
     return R * 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+
+
+def make_json_serializable(obj):
+    if isinstance(obj, DocumentReference):
+        # choose whichever you need on the client side:
+        return obj.path       # or obj.id
+    elif isinstance(obj, dict):
+        return {k: make_json_serializable(v) for k, v in obj.items()}
+    elif isinstance(obj, (list, tuple)):
+        return [make_json_serializable(v) for v in obj]
+    else:
+        return obj

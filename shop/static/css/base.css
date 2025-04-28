@@ -233,3 +233,7 @@ body{
 .cc-revoke{
     display: none!important;
 }
+
+.page-content-container{
+    margin-top: 150px;
+}

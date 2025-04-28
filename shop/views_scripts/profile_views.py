@@ -3,8 +3,7 @@ import csv
 import io
 
 from django.contrib.auth.decorators import login_required
-from django.core.files.storage import FileSystemStorage
-from google.cloud.firestore_v1 import DocumentReference
+
 from openpyxl import load_workbook
 
 import xml.etree.ElementTree as ET
@@ -15,7 +14,7 @@ from openpyxl.workbook import Workbook
 
 from shop.views import db, orders_ref, serialize_firestore_document, users_ref, addresses_ref, update_email_in_db, \
     get_user_category, get_user_info, get_vocabulary_product_card, get_user_prices, get_user_session_type, itemsRef, \
-    get_user_sale
+    get_user_sale, make_json_serializable
 import ast
 import random
 from datetime import datetime
@@ -149,16 +148,7 @@ def get_orders_for_user(email):
     orders.sort(key=lambda x: x['date'], reverse=True)
     return orders
 
-def make_json_serializable(obj):
-    if isinstance(obj, DocumentReference):
-        # choose whichever you need on the client side:
-        return obj.path       # or obj.id
-    elif isinstance(obj, dict):
-        return {k: make_json_serializable(v) for k, v in obj.items()}
-    elif isinstance(obj, (list, tuple)):
-        return [make_json_serializable(v) for v in obj]
-    else:
-        return obj
+
 
 def format_date(date_obj):
     """
