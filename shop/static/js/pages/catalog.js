@@ -748,7 +748,7 @@ import(window.config.firebaseFunctionScriptUrl)
                 if (!isMatch) {
                     return false;
                 }
-                let isCollectionMatch =((collection_catalog === "All" || collection_catalog === "")  || item.collection === collection_catalog);
+                let isCollectionMatch =((collection_catalog === "All" || collection_catalog.length === 0)  || item.collection === collection_catalog);
 
                 if(!isCollectionMatch){
                      return false;
