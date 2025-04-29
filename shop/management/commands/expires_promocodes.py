@@ -60,6 +60,7 @@ class Command(BaseCommand):
                         continue
 
                     original_price = price / (1 - discount) if discount > 0 else price
+                    original_price = round(original_price, 2)
 
                     cart_doc.reference.update({
                         'price': original_price,
