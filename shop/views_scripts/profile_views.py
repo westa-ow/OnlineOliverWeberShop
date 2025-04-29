@@ -71,7 +71,6 @@ def profile(request, feature_name):
     context['username'] = info['first_name'] + " " + info['last_name']
     context['show_quantities'] = show_quantities
     context['STRIPE_PUBLISHABLE_KEY'] = settings.STRIPE_PUBLISHABLE_KEY
-    print(settings.STRIPE_PUBLISHABLE_KEY)
 
     if feature_name == "catalogs":
         pdf_files = [
