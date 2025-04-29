@@ -792,7 +792,7 @@ def check_promo_code(request):
 
             promo_dict = promo_data.to_dict()
 
-            expires_at = promo_dict.get('expires_at')
+            expires_at = promo_dict.get('expiration_date')
             if expires_at:
                 # Преобразуем строку в datetime, предполагаем формат "YYYY-MM-DD"
                 expires_at_date = datetime.strptime(expires_at, "%Y-%m-%d")

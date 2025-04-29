@@ -72,6 +72,14 @@ import(window.config.firebaseFunctionScriptUrl)
            updateCarouselItems();
 
            hideOverlay();
+
+           const promoLabel = document.getElementById("promocode-label");
+           if (promoLabel) {
+              promoLabel.addEventListener('click', function () {
+                document.getElementById('overlay-cart').classList.remove('hidden');
+                document.getElementById('promo-modal').classList.remove('hidden');
+              });
+           }
         }
 
         function updateCarouselItems(){
@@ -283,10 +291,7 @@ import(window.config.firebaseFunctionScriptUrl)
             }
         });
 
-        document.getElementById("promocode-label").addEventListener('click', function () {
-            document.getElementById('overlay-cart').classList.remove('hidden');
-            document.getElementById('promo-modal').classList.remove('hidden');
-        });
+
 
         document.getElementById('close-modal').addEventListener('click', closeModal);
         document.getElementById('overlay-cart').addEventListener('click', closeModal);
