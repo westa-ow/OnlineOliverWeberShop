@@ -37,8 +37,8 @@
                         <button class="arrow-right"><i class="fas fa-arrow-right" aria-hidden="true"></i></button>
                     </div>
                     <div class="thumbnails-container">
-                        {% if document.images %}
-                            {% for image in document.images %}
+                        {% if document.additionalImages %}
+                            {% for image in document.additionalImages %}
                                 <img class="thumbnail-item {% if forloop.first %}active{% endif %}" alt="" src="{{ image }}" width="90" height="90">
                             {% endfor %}
                         {% else %}
@@ -193,6 +193,9 @@
         const arrowLeft = document.querySelector(".arrow-left");
         const arrowRight = document.querySelector(".arrow-right");
         const items = document.querySelectorAll('.thumbnail-item');
+        const mainImage = document.getElementById('main-page-image');
+        const itemsImages = Array.from(document.querySelectorAll('.thumbnail-item'))
+                   .map(img => img.src);
         // Click handlers for arrows
         arrowLeft.addEventListener('click', function () {
             if (current_thumbnail_index > 0) {
@@ -207,30 +210,22 @@
 
         // Image refresh function and arrow visibility control
         function updateImage(index) {
+            if (index < 0 || index >= items.length) return;
             current_thumbnail_index = index;
-            // If we are in the first image, make the left arrow transparent and not clickable, otherwise show it
-            if (index === 0) {
-                arrowLeft.style.opacity = '0';
-                arrowLeft.style.pointerEvents = 'none';
-            } else {
-                arrowLeft.style.opacity = '1';
-                arrowLeft.style.pointerEvents = 'auto';
-            }
 
-            // If we are in the last image, make the right arrow transparent and not clickable, otherwise show it
-            if (index === items.length - 1) {
-                arrowRight.style.opacity = '0';
-                arrowRight.style.pointerEvents = 'none';
-            } else {
-                arrowRight.style.opacity = '1';
-                arrowRight.style.pointerEvents = 'auto';
-            }
+            mainImage.src = itemsImages[index];
+            // If we are in the first image, make the left arrow transparent and not clickable, otherwise show it
+            arrowLeft .style.opacity       = index === 0           ? '0' : '1';
+            arrowLeft .style.pointerEvents = index === 0           ? 'none' : 'auto';
+            arrowRight.style.opacity       = index === items.length - 1 ? '0' : '1';
+            arrowRight.style.pointerEvents = index === items.length - 1 ? 'none' : 'auto';
 
             // Обновляем активное состояние миниатюр
             const thumbItems = document.querySelectorAll('.thumbnail-item');
             thumbItems.forEach((thumb, idx) => {
                 thumb.classList.toggle('active', idx === index);
             });
+
         }
 
         const thumbnails = document.querySelectorAll('.thumbnail-item');
@@ -243,6 +238,7 @@
         });
         updateImage(0);
     }
+
 
     document.getElementById('add-to-cart-search').addEventListener('click', function (){
         let input = document.getElementById('input-quantity');

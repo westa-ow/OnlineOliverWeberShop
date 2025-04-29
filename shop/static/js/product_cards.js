@@ -252,11 +252,14 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     image.classList.add('zoom-image', 'img-card');
     image.width = 400;
     image.height = 400;
+    let imagesArray =[firstStone.image];
 
-    let imagesArray = (firstStone && firstStone.images && firstStone.images.length) ? firstStone.images : [];
-    if (!imagesArray.length && firstStone && firstStone.image) {
-        imagesArray.push(firstStone.image);
+    if(firstStone && firstStone.images && firstStone.images.length){
+        imagesArray = [...imagesArray, ...firstStone.images];
     }
+    // if (!imagesArray.length && firstStone && firstStone.image) {
+    // imagesArray.push(firstStone.image);
+    // }
     let single_product_address = "";
     if (firstStone) {
         single_product_address = single_product_url.replace('REPLACE', firstStone.real_name);

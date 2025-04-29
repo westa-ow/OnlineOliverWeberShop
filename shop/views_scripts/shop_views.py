@@ -84,12 +84,16 @@ def form_page(request, product_id):
         else:
             obj['price'] = round(obj['priceVK4'] * (1 - sale), 1)
 
+    document = products[0]
+    if document.get('additionalImages'):
+        document['additionalImages'] = [document.get('image_url')] + document['additionalImages']
+    print(document)
     # Non-AJAX requests will return the rendered HTML page
     return render(request, 'shop_page.html', {
         'search_term': search_term,
         'cart': cart,
         'currency': currency,
-        'document': products[0],
+        'document': document,
         'show_quantities': show_quantities,
         'product_id': product_id,
         'vocabulary': get_vocabulary_product_card(),
