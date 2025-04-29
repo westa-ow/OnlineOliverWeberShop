@@ -4,14 +4,8 @@
 {% load i18n %}
 <html lang="en">
 <head>
-
     <meta charset="UTF-8">
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="icon" href="{% static 'images/icons/web-icon.png' %}" type="image/x-icon">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="currency" content="{{ currency|safe }}">
-    <meta name="api-root" content="{% url 'api-root' %}">
+    <script src="{% static 'js/serverScripts/patch-csq-protocol.js' %}"></script>
 
     <link href="{% static "fonts/css/fontawesome.min.css" %}" rel="stylesheet" />
     <link href="{% static "fonts/css/solid.min.css" %}" rel="stylesheet" />
@@ -26,9 +20,12 @@
     <meta name="HOTJARID"
       content="{{ HOTJAR_ID }}">
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <link rel="icon" href="{% static 'images/icons/web-icon.png' %}" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <meta name="currency" content="{{ currency|safe }}">
+    <meta name="api-root" content="{% url 'api-root' %}">
     <!-- Google tag (gtag.js) -->
     <meta name="gtm-config" content="{% if request.get_host == 'www.oliverweber.com' %}G-K86D18Y6MG{% else %}G-S1MCG16BMH{% endif %}">
     {% if request.get_host == "www.oliverweber.com" %}
@@ -36,17 +33,12 @@
     {% else %}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-S1MCG16BMH"></script>
     {% endif %}
-
-
     <script src="{% static 'js/serverScripts/gtm.js' %}" defer></script>
-
-
     {% if USE_HOTJAR %}
         <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
         <script src="{% static "js/serverScripts/cookies.js" %}"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
     {% endif %}
-
 </head>
 
 <body class="this-page">
