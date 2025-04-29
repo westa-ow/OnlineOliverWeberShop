@@ -43,7 +43,7 @@ import json
 import time
 import logging
 import tempfile
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 from subprocess import run
 from io import BytesIO, StringIO
 import urllib.request
@@ -792,10 +792,11 @@ def check_promo_code(request):
 
             promo_dict = promo_data.to_dict()
 
-            expires_at = promo_dict.get('expiration_date')
-            if expires_at:
+            expiration_date = promo_dict.get('expiration_date')
+            if expiration_date:
                 # Преобразуем строку в datetime, предполагаем формат "YYYY-MM-DD"
-                expires_at_date = datetime.strptime(expires_at, "%Y-%m-%d")
+                expires_at_date = datetime.strptime(expiration_date, "%Y-%m-%d")
+                expires_at_date = datetime.combine(expires_at_date.date(), time(23, 59, 59))
                 if datetime.now() > expires_at_date:
                     return JsonResponse({'status': 'error', 'message': 'Promo code is out of date'})
 
@@ -839,8 +840,8 @@ def check_promo_code(request):
                 'type': promo_dict.get('type'),
                 'discount': discount,
                 'single_use': promo_dict.get('single_use', False),
-                'expires_at': promo_dict.get('expires_at'),  # If there's an expiration date
-                'created_at': datetime.now()
+                'expiration_date': promo_dict.get('expiration_date'),  # If there's an expiration date
+                'creation_date': datetime.now()
             })
 
             # Calculate the discount as a fractional value

@@ -1377,8 +1377,8 @@ def get_active_coupon(email):
         coupon_data = active_coupon.to_dict()
 
         # Delete fields if they are present
-        coupon_data.pop('created_at', None)
-        coupon_data.pop('expires_at', None)
+        coupon_data.pop('creation_date', None)
+        coupon_data.pop('expiration_date', None)
 
         return coupon_data
     else:
@@ -1469,7 +1469,7 @@ def mark_user_coupons_as_used(email):
                 'email': email,
                 'coupon_code': coupon_data.get('coupon_code'),  # Take the coupon code from the active
                 'discount': coupon_data.get('discount'),  # Take the size of the discount
-                'created_at': datetime.now()
+                'creation_date': datetime.now()
             })
 
 
