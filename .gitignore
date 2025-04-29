@@ -12,3 +12,5 @@ db.sqlite3
 shop/media/imgs
 
 shop/migrations
+
+__pycache__/
