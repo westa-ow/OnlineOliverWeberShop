@@ -19,6 +19,7 @@ function updatePlatings(selectedPlating, stoneSelect, sizeSelect, image, maxQuan
         stoneSelect.removeChild(stoneSelect.firstChild);
     }
     fulfilDropdown(stoneSelect, selectedPlating.stones, vocabulary);
+    renderGallery(firstStone);
     return updateStones(firstStone, sizeSelect, image, maxQuantity, show_quantities, vocabulary,single_product_address, address, copy_address);
 }
 function updateStones(selectedStone, sizeSelect, image, maxQuantity, show_quantities, vocabulary,single_product_address, address, copy_address){
@@ -206,7 +207,91 @@ function removeTooltip(){
         existingTooltip.remove();
     }
 }
+function renderGallery(stone) {
+  // 1. Собираем URL’ы
+  let imagesArray = [stone.image];
+  if (stone.images && stone.images.length) {
+    imagesArray = imagesArray.concat(stone.images);
+  }
+  console.log(imagesArray.length);
+  // 2. Очищаем контейнер галереи
+  const galleryRoot = document.querySelector('#gallery-root');
+  galleryRoot.innerHTML = '';
 
+  // 3. Создаём элементы
+  const imageContainer = document.createElement('div');
+  imageContainer.classList.add('image-container');
+
+  const mainImg = document.createElement('img');
+  mainImg.classList.add('zoom-image','img-card');
+  mainImg.width = 400; mainImg.height = 400;
+  imageContainer.appendChild(mainImg);
+
+  let currentIndex = 0;
+  mainImg.src = imagesArray.length ? imagesArray[0] : '';
+  // 4. Стрелки
+  if (imagesArray.length > 1) {
+      const arrowLeft = document.createElement('button');
+      arrowLeft.classList.add('arrow-left');
+      arrowLeft.innerHTML = `<i class="fas fa-arrow-left"></i>`;
+      const arrowRight = document.createElement('button');
+      arrowRight.classList.add('arrow-right');
+      arrowRight.innerHTML = `<i class="fas fa-arrow-right"></i>`;
+      imageContainer.prepend(arrowLeft);
+      imageContainer.appendChild(arrowRight);
+
+      arrowLeft.addEventListener('click', () => updateImage(currentIndex-1));
+      arrowRight.addEventListener('click', () => updateImage(currentIndex+1));
+
+
+      // 5. Контейнер миниатюр
+      const thumbs = document.createElement('div');
+      thumbs.classList.add('thumbnails-container');
+      galleryRoot.appendChild(imageContainer);
+      galleryRoot.appendChild(thumbs);
+
+      // 6. Функция смены картинки
+      function updateImage(idx) {
+        if (idx<0||idx>=imagesArray.length) return;
+        currentIndex = idx;
+        mainImg.src = imagesArray[idx];
+
+        // Стрелки
+        if (imageContainer.querySelector('button:first-child')) {
+          const [left, , right] = imageContainer.children;
+          left.style.opacity  = idx===0               ? 0 : 1;
+          left.style.pointerEvents = idx===0          ? 'none':'auto';
+          right.style.opacity = idx===imagesArray.length-1 ? 0:1;
+          right.style.pointerEvents= idx===imagesArray.length-1?'none':'auto';
+        }
+
+        // Миниатюры
+        thumbs.querySelectorAll('img').forEach((t,i)=>
+          t.classList.toggle('active', i===idx)
+        );
+      }
+
+      // 7. Рендер миниатюр и начальная установка
+      imagesArray.forEach((url,i) => {
+        const t = document.createElement('img');
+        t.src = url; t.width=90; t.height=90;
+        t.classList.add('thumbnail-item');
+        if (i===0) t.classList.add('active');
+        t.addEventListener('click', ()=> updateImage(i));
+        thumbs.appendChild(t);
+      });
+      updateImage(0);
+  }
+  else{
+      imageContainer.appendChild(mainImg);
+      galleryRoot.appendChild(imageContainer);
+  }
+
+  if (window.matchMedia("(min-width: 769px)").matches) {
+        setupZoom(galleryRoot, mainImg, vocabulary, false);
+  }
+
+}
 let currentPlating = "";
 currentPlating = "";
 function generateDialogContent(id, items_array, currency, show_quantities, add_to_cart_url, vocabulary, cookie, checkout_url, isFavourite, user_auth, single_product_url, allItems, favouriteItems, pre_order_img_src, change_fav_state_url, translations_categories, isCheckout){
@@ -244,6 +329,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
 
     const containerWrapper = document.createElement('div');
     containerWrapper.classList.add('image-wrapper');
+    containerWrapper.setAttribute('id', 'gallery-root')
 
     const image_container = document.createElement('div');
     image_container.classList.add('image-container');
@@ -514,6 +600,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
         quantity_max = updatePlatings(selectedPlating, stoneSelect, sizeSelect, image, quantitySpan, show_quantities, vocabulary,single_product_url, address_page, copy_address_page);
 
         updateCarouselImages(selectedPlatingKey, allItems);
+
     });
 
     stoneSelect.addEventListener('change', (event) => {
@@ -523,7 +610,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
         const selectedStone = selectedPlating && selectedPlating.stones ? selectedPlating.stones[selectedStoneKey] : null;
         inputQuantity.value = '1';
         quantity_max = updateStones(selectedStone, sizeSelect, image, quantitySpan, show_quantities,vocabulary, single_product_url, address_page, copy_address_page);
-
+        renderGallery(selectedStone);
     });
 
     sizeSelect.addEventListener('change', (event) => {
