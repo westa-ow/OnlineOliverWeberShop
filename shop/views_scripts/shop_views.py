@@ -123,9 +123,7 @@ def fetch_numbers(request):
 
         # Combine the results of both queries
         combined_docs = list(name_query) + list(product_name_query)
-        print("Combined Docs:")
-        for doc in combined_docs:
-            print(doc.id, doc.to_dict())
+
         # Remove duplicates if a document matches both queries
         seen_ids = set()
         results = [

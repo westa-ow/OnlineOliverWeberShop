@@ -32,9 +32,13 @@
             <div>
                 <div class="image-wrapper">
                     <div class="image-container">
-                        <button class="arrow-left"><i class="fas fa-arrow-left" aria-hidden="true"></i></button>
+                        {% if document.additionalImages %}
+                            <button class="arrow-left"><i class="fas fa-arrow-left" aria-hidden="true"></i></button>
+                        {% endif %}
                         <img class="zoom-image img-card" id="main-page-image" alt="{{ document.name }}" src="{{ document.image_url }}" width="400" height="400">
-                        <button class="arrow-right"><i class="fas fa-arrow-right" aria-hidden="true"></i></button>
+                        {% if document.additionalImages %}
+                            <button class="arrow-right"><i class="fas fa-arrow-right" aria-hidden="true"></i></button>
+                        {% endif %}
                     </div>
                     <div class="thumbnails-container">
                         {% if document.additionalImages %}
@@ -197,16 +201,20 @@
         const itemsImages = Array.from(document.querySelectorAll('.thumbnail-item'))
                    .map(img => img.src);
         // Click handlers for arrows
-        arrowLeft.addEventListener('click', function () {
-            if (current_thumbnail_index > 0) {
-                updateImage(current_thumbnail_index - 1);
-            }
-        });
-        arrowRight.addEventListener('click', function () {
-            if (current_thumbnail_index < items.length - 1) {
-                updateImage(current_thumbnail_index + 1);
-            }
-        });
+        if (arrowLeft){
+            arrowLeft.addEventListener('click', function () {
+                if (current_thumbnail_index > 0) {
+                    updateImage(current_thumbnail_index - 1);
+                }
+            });
+        }
+        if (arrowRight) {
+            arrowRight.addEventListener('click', function () {
+                if (current_thumbnail_index < items.length - 1) {
+                    updateImage(current_thumbnail_index + 1);
+                }
+            });
+        }
 
         // Image refresh function and arrow visibility control
         function updateImage(index) {
