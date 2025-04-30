@@ -35,7 +35,7 @@ categories = {
     "3": "Necklaces",
     "203": "Necklace",
     "74": "Colliers",
-    "274": "Pendants",
+    "274": "Pendant",
     "76": "Pearls",
     "61": "rosegold-necklaces",
     "62": "gold-necklaces",

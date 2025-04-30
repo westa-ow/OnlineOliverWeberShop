@@ -213,7 +213,6 @@ function renderGallery(stone) {
   if (stone.images && stone.images.length) {
     imagesArray = imagesArray.concat(stone.images);
   }
-  console.log(imagesArray.length);
   // 2. Очищаем контейнер галереи
   const galleryRoot = document.querySelector('#gallery-root');
   galleryRoot.innerHTML = '';
@@ -528,7 +527,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
 
     const priceSpan = document.createElement('div');
     priceSpan.classList.add('price-element');
-    priceSpan.textContent = currency+`${item.price}`;
+    priceSpan.textContent = `${currency}${item.price}`;
     secondColumn.appendChild(priceSpan);
 
     const quantitySpan = document.createElement('div');
@@ -1058,7 +1057,7 @@ function informationSuccessSetup(column, item, actual_quantity, cart_count, cart
     column.appendChild(numberSpan);
 
     const priceSpan = document.createElement('div');
-    priceSpan.textContent = currency + `${item.price.toFixed(2)}`;
+    priceSpan.textContent = `${currency}${item.price.toFixed(2)}`;
     column.appendChild(priceSpan);
 
     const platingSpan = document.createElement('spanSucc');
@@ -1341,7 +1340,6 @@ function createProductCard(isCarousel, item, itemCounter, allItems, filteredItem
     newIconContainer.innerHTML = `<i class="rts" data-size="24" data-color="#000000"><svg xmlns="http://www.w3.org/2000/svg" class="card-new-icon" viewBox="0 0 28 28" width="24" height="24"><path d="M21.46,26H6.54C4,26,4,23.86,4,22.46V2H24V22.46C24,23.86,24,26,21.46,26Z" ></path><path d="M10,8v.78c0,2.68,1.8,4.88,4,4.88s4-2.19,4-4.88V8"></path></svg></i>`;
 
     heartIconContainer.addEventListener('mouseenter', (event) => {
-        console.log("mouse enter");
         const favouriteItem = favouriteItems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
         const isFavBefore = Boolean(favouriteItem); // Converts the result to a boolean
         let message_fav = isFavBefore ? vocabulary["Remove from favorites"] : vocabulary["Add to favorites"];
@@ -1432,7 +1430,7 @@ function createProductCard(isCarousel, item, itemCounter, allItems, filteredItem
     nameSpan.textContent = translations_categories[full_phrase] ? translations_categories[full_phrase]+ " " + last_word : item.product_name;
     const priceSpan = document.createElement('span');
     priceSpan.className = isCarousel ? 'carousel-price' : 'info-price';
-    priceSpan.textContent = currency + `${item.price}`;
+    priceSpan.textContent = `${currency}${(item.price)}`;
     infoSection.appendChild(nameSpan);
     infoSection.appendChild(document.createElement('br'));
     infoSection.appendChild(priceSpan);

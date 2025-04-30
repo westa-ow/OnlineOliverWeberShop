@@ -46,6 +46,7 @@ import(window.config.firebaseFunctionScriptUrl)
         let sizeFilters = [];
         let subcat = {"Necklaces": ["Necklace","Chain","Pearlchain", "Collier"], "All Earrings": ["Earrings","Post Earrings", "Clip", "Hoop", "Creole"], "Bracelets":["Bracelet","Bangle", "Anklet"],"Accessories":[ "Nailfile", "Key", "Match", "Extension", "Piercing"]}
         let category = window.config.category_catalog || "All";
+        console.log(`CATEGORU IS EQUALS TO ${category}`);
         let collection_catalog = window.config.collection_catalog || "";
         let categories = [""];
         let all_crystals = [];
@@ -57,7 +58,7 @@ import(window.config.firebaseFunctionScriptUrl)
 
         let fromInputText = document.querySelector('.fromInput-text');
         let toInputText = document.querySelector('.toInput-text');
-        console.log("readyState is", document.readyState);
+
         async function init() {
 
             fromSlider = document.querySelector('#fromSlider');
@@ -416,6 +417,7 @@ import(window.config.firebaseFunctionScriptUrl)
             span.addEventListener('click', () => {
                 document.querySelectorAll('.categories-list li span').forEach(li => li.style.fontWeight = "");
                 category = span.getAttribute("data-category-name"); // Assuming 'category' is a global variable
+
                 span.style.fontWeight = "600";
 
                 applyFilters(); // Call the applyFilters function
@@ -594,10 +596,14 @@ import(window.config.firebaseFunctionScriptUrl)
             let categoryPath = '';
 
             // Check if category is specified, add it to the path
+            console.log("===============");
+            console.log(category);
             if (category) {
 
                 let code = categories_codes[category.toString()];
+                console.log(code);
                 if(!code) code="404";
+                console.log(code);
                 let cat_name_url = code + "-" + categories_code_to_name[code];
                 // If there is already a category in the URL, replace it with
                 if (pathSegments[1]) {
@@ -965,10 +971,16 @@ import(window.config.firebaseFunctionScriptUrl)
           // 1) Выбираем по приоритету платингу
           defaultPlatingOrder.forEach(plating => {
             // отфильтровать товары, у которых есть этот plating, и которых ещё нет в seen
-            const group = array.filter(item =>
-              !seen.has(item.name) &&
-              Object.prototype.hasOwnProperty.call(item.platings, plating)
-            );
+            const group = array.filter(item => {
+              if (item.platings === undefined) {
+                console.log('Found item with undefined platings:', item);
+                return false;
+              }
+
+              // дальше ваша обычная логика
+              return !seen.has(item.name)
+                  && Object.prototype.hasOwnProperty.call(item.platings, plating);
+            });
 
             sortGroup(group);
             group.forEach(item => {
