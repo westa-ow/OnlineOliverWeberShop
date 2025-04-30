@@ -728,7 +728,7 @@ def get_vocabulary_product_card():
         "Confirmed!": _("Confirmed"),
         "You must add at least 1 order to your cart to proceed to checkout": _("You must add at least 1 order to your cart to proceed to checkout"),
         "In cart": _("In cart"),
-
+        "The product is made of silver": _("The product is made of silver"),
 
 
 

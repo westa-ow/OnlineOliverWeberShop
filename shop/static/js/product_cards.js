@@ -294,7 +294,7 @@ function renderGallery(stone) {
 }
 let currentPlating = "";
 currentPlating = "";
-function generateDialogContent(id, items_array, currency, show_quantities, add_to_cart_url, vocabulary, cookie, checkout_url, isFavourite, user_auth, single_product_url, allItems, favouriteItems, pre_order_img_src, change_fav_state_url, translations_categories, isCheckout){
+function generateDialogContent(id, items_array, currency, show_quantities, add_to_cart_url, vocabulary, cookie, checkout_url, isFavourite, user_auth, single_product_url, allItems, favouriteItems, pre_order_img_src, silverIconSrc, change_fav_state_url, translations_categories, isCheckout){
     let quantity_max = 1;
     document.body.style.overflow = 'hidden';
     const item = items_array.find(item => item.name === id);
@@ -771,7 +771,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
         const card_bottom_content = document.createElement('div');
         card_bottom_content.classList.add('card-bottom-content');
 
-        generateBottomPart(card_bottom_content, groupItems, items_array, currency, show_quantities, add_to_cart_url, vocabulary, cookie, checkout_url, isFavourite, user_auth, single_product_url, allItems, favouriteItems, pre_order_img_src, change_fav_state_url, translations_categories);
+        generateBottomPart(card_bottom_content, groupItems, items_array, currency, show_quantities, add_to_cart_url, vocabulary, cookie, checkout_url, isFavourite, user_auth, single_product_url, allItems, favouriteItems, pre_order_img_src, silverIconSrc, change_fav_state_url, translations_categories);
 
         card.appendChild(card_bottom_content);
     }
@@ -810,7 +810,7 @@ function updateCarouselImages(selectedPlatingKey, allItems) {
     });
 }
 
-function generateBottomPart(card_bottom_content, groupItems, items_array, currency, show_quantities, add_to_cart_url, vocabulary, cookie, checkout_url, isFavourite, user_auth, single_product_url, allItems, favouriteItems, pre_order_img_src, change_fav_state_url, translations_categories){
+function generateBottomPart(card_bottom_content, groupItems, items_array, currency, show_quantities, add_to_cart_url, vocabulary, cookie, checkout_url, isFavourite, user_auth, single_product_url, allItems, favouriteItems, pre_order_img_src, silverIconSrc, change_fav_state_url, translations_categories){
     const bottom_title = document.createElement('div');
     bottom_title.classList.add('card-bottom-title');
     bottom_title.textContent = `${vocabulary['Similar products']}`;
@@ -828,6 +828,7 @@ function generateBottomPart(card_bottom_content, groupItems, items_array, curren
                 items_array,
                 favouriteItems,
                 pre_order_img_src,
+                silverIconSrc,
                 vocabulary,
                 translations_categories,
                 currency,
@@ -1242,7 +1243,7 @@ function setupZoom(image_container, image, vocabulary, isSearchPage){
 }
 
 
-function createProductCard(isCarousel, item, itemCounter, allItems, filteredItems, favouriteItems, pre_order_img_src, vocabulary, translations_categories, currency, change_fav_state_url, show_quantities, add_to_cart_url, cookie, checkout_url, user_auth, single_product_url, isCheckout){
+function createProductCard(isCarousel, item, itemCounter, allItems, filteredItems, favouriteItems, pre_order_img_src, silverIconSrc,  vocabulary, translations_categories, currency, change_fav_state_url, show_quantities, add_to_cart_url, cookie, checkout_url, user_auth, single_product_url, isCheckout){
 
     const favouriteItem = favouriteItems.find(item_fav => item_fav.name === item.name); // Assuming `item.name` is the name of your current item
     // Check if the item was found in the favourites
@@ -1273,6 +1274,7 @@ function createProductCard(isCarousel, item, itemCounter, allItems, filteredItem
             allItems,
             favouriteItems,
             pre_order_img_src,
+            silverIconSrc,
             change_fav_state_url,
             translations_categories,
             isCheckout
@@ -1309,6 +1311,12 @@ function createProductCard(isCarousel, item, itemCounter, allItems, filteredItem
     pre_order_icon.className = 'icon-pre-order';
     pre_order_icon.src = pre_order_img_src;
     div_pre_order_icon.appendChild(pre_order_icon);
+
+    const div_silver_icon = document.createElement('div');
+    const silver_icon = document.createElement('img');
+    silver_icon.className = 'icon-silver';
+    silver_icon.src = silverIconSrc;
+    div_silver_icon.appendChild(silver_icon);
 
     const imgWrapper = document.createElement('div');
     imgWrapper.className = isCarousel ? 'card-img-wrapper' : 'img-wrapper';
@@ -1403,6 +1411,12 @@ function createProductCard(isCarousel, item, itemCounter, allItems, filteredItem
         imgSection.appendChild(div_pre_order_icon);
         div_pre_order_icon.addEventListener('mouseenter', (event) => {
             showTooltip(event, vocabulary["This item is only available for pre-order"]);
+        });
+    }
+    if (item.material === "Silver"){
+        imgSection.appendChild(div_silver_icon);
+        div_silver_icon.addEventListener('mouseenter', (event) => {
+            showTooltip(event, vocabulary["The product is made of silver"]);
         });
     }
     // Create the info section

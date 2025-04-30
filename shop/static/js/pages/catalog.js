@@ -44,7 +44,7 @@ import(window.config.firebaseFunctionScriptUrl)
         let baseFilters = window.config.base_catalog ? [window.config.base_catalog] : [];
         let stoneFilters = [];
         let sizeFilters = [];
-        let subcat = {"Necklaces": ["Necklace","Chain","Pearlchain", "Pendant", "Collier"], "All Earrings": ["Earrings","Post Earrings", "Clip", "Hoop", "Creole"], "Bracelets":["Bracelet","Bangle", "Anklet"],"Accessories":[ "Nailfile", "Pen","Key","Brooch", "Match", "Extension"]}
+        let subcat = {"Necklaces": ["Necklace","Chain","Pearlchain", "Collier"], "All Earrings": ["Earrings","Post Earrings", "Clip", "Hoop", "Creole"], "Bracelets":["Bracelet","Bangle", "Anklet"],"Accessories":[ "Nailfile", "Key", "Match", "Extension", "Piercing"]}
         let category = window.config.category_catalog || "All";
         let collection_catalog = window.config.collection_catalog || "";
         let categories = [""];
@@ -152,6 +152,7 @@ import(window.config.firebaseFunctionScriptUrl)
                             allItems,
                             favouriteItems,
                             window.config.preOrderIconUrl,
+                            window.config.silverIconUrl,
                             window.config.changeFavouritesStateUrl,
                             translations_categories,
                             false
@@ -244,46 +245,58 @@ import(window.config.firebaseFunctionScriptUrl)
             buildUpPages();
         }
         function constructCategories(){
+
             const categories_div = document.querySelector('.categories');
             const categoriesList = document.querySelector('.categories-list');
-            categoriesList.innerHTML = ''; // Clear existing list items
+            categoriesList.innerHTML = '';
 
-            // Assuming 'subcat' is defined globally
+            const priority = {
+                All: 1,
+                Necklaces: 2,
+                Pendant: 3,
+                Earrings: 4,
+                Bracelet: 5,
+
+            };
+
             const generalCategories = Object.keys(subcat);
             const subCategories = new Set([].concat(...Object.values(subcat)));
 
-            let categories = allItems.reduce((acc, item) => {
-                if (!acc.includes(item.category) && !subcat.hasOwnProperty(item.category)) {
-                    acc.push(item.category);
-                }
-                return acc;
+            const otherCategories = allItems.reduce((acc, item) => {
+              if (!acc.includes(item.category) && !subcat.hasOwnProperty(item.category)) {
+                acc.push(item.category);
+              }
+              return acc;
             }, []);
 
-            const categoryList = ["All", ...generalCategories, ...categories];
+            let categoryList = ["All", ...generalCategories, ...otherCategories];
+
+            categoryList = categoryList.sort((a, b) => {
+              const pa = priority[a] ?? 10;
+              const pb = priority[b] ?? 10;
+              return pa - pb;
+            });
 
             categoryList.forEach(categoryVar => {
+              if (subCategories.has(categoryVar)) return;
 
-                if (subCategories.has(categoryVar)) return; // Skip adding sub-categories here
+              const li = document.createElement("li");
+              const categorySpan = createCategorySpan(categoryVar);
+              const categoryDivForLi = document.createElement("div");
+              categoryDivForLi.classList.add("container-subcategories");
+              categoryDivForLi.appendChild(categorySpan);
+              li.appendChild(categoryDivForLi);
+              categoriesList.appendChild(li);
 
-                const li = document.createElement('li');
+              if (subcat.hasOwnProperty(categoryVar)) {
+                const chevron = createChevron();
+                categoryDivForLi.appendChild(chevron);
+                const ul = createSubCategoryList(subcat[categoryVar]);
+                li.appendChild(ul);
+                setupChevronToggle(chevron, ul);
+              }
 
-                const categorySpan = createCategorySpan(categoryVar);
-                const categoryDivForLi = document.createElement('div');
-                categoryDivForLi.classList.add('container-subcategories');
-                categoryDivForLi.appendChild(categorySpan);
-                li.appendChild(categoryDivForLi);
-                categoriesList.appendChild(li);
-
-                if (subcat.hasOwnProperty(categoryVar)) {
-                    const chevron = createChevron();
-                    categoryDivForLi.appendChild(chevron);
-                    const ul = createSubCategoryList(subcat[categoryVar]);
-                    li.appendChild(ul);
-
-                    setupChevronToggle(chevron, ul);
-                }
-
-                setupCategoryClickListener(categorySpan);
+              setupCategoryClickListener(categorySpan);
             });
 
             categories_div.style.display = 'block';
@@ -729,7 +742,7 @@ import(window.config.firebaseFunctionScriptUrl)
             let itemCounter= 0;
             items.forEach((item) => {
                 // Append the product container to the products grid
-                productsGrid.appendChild(createProductCard(false, item, itemCounter, allItems, filteredItems, favouriteItems, window.config.preOrderIconUrl, vocabulary, translations_categories, currency, window.config.changeFavouritesStateUrl, show_quantities, window.config.addToCatalogUrl, getCookie('csrftoken'), window.config.cartUrl, window.config.isAuthenticated, window.config.shopPageUrl, false));
+                productsGrid.appendChild(createProductCard(false, item, itemCounter, allItems, filteredItems, favouriteItems, window.config.preOrderIconUrl, window.config.silverIconUrl, vocabulary, translations_categories, currency, window.config.changeFavouritesStateUrl, show_quantities, window.config.addToCatalogUrl, getCookie('csrftoken'), window.config.cartUrl, window.config.isAuthenticated, window.config.shopPageUrl, false));
                 itemCounter+=1;
             });
         }

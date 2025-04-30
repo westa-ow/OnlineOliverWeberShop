@@ -113,7 +113,7 @@ import(window.config.firebaseFunctionScriptUrl)
                   const p = document.createElement('p');
                   p.textContent = `${index + 1}. ${item.name}`;
 
-                  carouselContainer.appendChild(createProductCard(false, item, index, allItems, filteredItems, favouriteItems, window.config.preOrderIconUrl, vocabulary, translations_categories, currency, window.config.changeFavouritesStateUrl, show_quantities, window.config.addToCatalogUrl, getCookie('csrftoken'), window.config.cartUrl, window.config.isAuthenticated, window.config.shopPageUrl, true));
+                  carouselContainer.appendChild(createProductCard(false, item, index, allItems, filteredItems, favouriteItems, window.config.preOrderIconUrl, window.config.silverIconUrl, vocabulary, translations_categories, currency, window.config.changeFavouritesStateUrl, show_quantities, window.config.addToCatalogUrl, getCookie('csrftoken'), window.config.cartUrl, window.config.isAuthenticated, window.config.shopPageUrl, true));
                });
 
                constructCarousel();

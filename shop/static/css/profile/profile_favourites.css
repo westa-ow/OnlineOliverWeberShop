@@ -120,12 +120,7 @@ article, aside, details, figcaption, figure, footer, header, main, menu, nav, se
     height: 250px !important;
     margin-bottom: 20px;
 }
-.icon-pre-order{
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 65px;
-}
+
 .info-section{
     margin-bottom: 10px;
 }
