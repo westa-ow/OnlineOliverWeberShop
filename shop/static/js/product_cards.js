@@ -208,16 +208,16 @@ function removeTooltip(){
     }
 }
 function renderGallery(stone) {
-  // 1. Собираем URL’ы
+
   let imagesArray = [stone.image];
   if (stone.images && stone.images.length) {
     imagesArray = imagesArray.concat(stone.images);
   }
-  // 2. Очищаем контейнер галереи
+
   const galleryRoot = document.querySelector('#gallery-root');
   galleryRoot.innerHTML = '';
 
-  // 3. Создаём элементы
+
   const imageContainer = document.createElement('div');
   imageContainer.classList.add('image-container');
 
@@ -228,7 +228,7 @@ function renderGallery(stone) {
 
   let currentIndex = 0;
   mainImg.src = imagesArray.length ? imagesArray[0] : '';
-  // 4. Стрелки
+
   if (imagesArray.length > 1) {
       const arrowLeft = document.createElement('button');
       arrowLeft.classList.add('arrow-left');
@@ -243,19 +243,18 @@ function renderGallery(stone) {
       arrowRight.addEventListener('click', () => updateImage(currentIndex+1));
 
 
-      // 5. Контейнер миниатюр
+
       const thumbs = document.createElement('div');
       thumbs.classList.add('thumbnails-container');
       galleryRoot.appendChild(imageContainer);
       galleryRoot.appendChild(thumbs);
 
-      // 6. Функция смены картинки
+
       function updateImage(idx) {
         if (idx<0||idx>=imagesArray.length) return;
         currentIndex = idx;
         mainImg.src = imagesArray[idx];
 
-        // Стрелки
         if (imageContainer.querySelector('button:first-child')) {
           const [left, , right] = imageContainer.children;
           left.style.opacity  = idx===0               ? 0 : 1;
@@ -264,10 +263,17 @@ function renderGallery(stone) {
           right.style.pointerEvents= idx===imagesArray.length-1?'none':'auto';
         }
 
-        // Миниатюры
-        thumbs.querySelectorAll('img').forEach((t,i)=>
-          t.classList.toggle('active', i===idx)
-        );
+        const thumbs_items = document.querySelectorAll('.thumbnail-item');
+        thumbs_items.forEach((thumb, i) => {
+            thumb.classList.toggle('active', i === idx);
+            if (i === idx) {
+              thumb.scrollIntoView({
+                behavior: 'smooth',
+                inline:   'center',
+                block:    'nearest'
+              });
+            }
+          });
       }
 
       // 7. Рендер миниатюр и начальная установка
@@ -682,7 +688,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
 
     inputQuantity.type = 'number';
     inputQuantity.style.textAlign = 'center';
-    inputQuantity.value = 1;
+    inputQuantity.value = '1';
     inputQuantity.classList.add('quantity-input-dialog');
     inputQuantity.min = '1';
 
@@ -692,26 +698,26 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
                 if (inputQuantity.value > quantity_max) {
                     inputQuantity.value = quantity_max;
                 } else {
-                    inputQuantity.value = 1;
+                    inputQuantity.value = '1';
                 }
                 alert(`${vocabulary['Quantity number has to be less than or equal to quantity number in stock or and be greater than 0']}`);
             }
         }
         else{
-            if (inputQuantity.value > 20 || inputQuantity.value < 1) {
-                if (inputQuantity.value > 20) {
-                    inputQuantity.value = 20;
-                } else {
-                    inputQuantity.value = 1;
-                }
-                alert(`${vocabulary['Maximum items for pre-order is 20, minimum is 1']}`);
+            if (inputQuantity.valueAsNumber > 20 || inputQuantity.valueAsNumber < 1) {
+              if (inputQuantity.valueAsNumber > 20) {
+                inputQuantity.value = '20';
+              } else {
+                inputQuantity.value = '1';
+              }
+              alert(vocabulary['Maximum items for pre-order is 20, minimum is 1']);
             }
         }
     });
 
     button_minus.addEventListener('click', () => {
         if(inputQuantity.value > 1)
-            inputQuantity.value -= 1;
+            inputQuantity.value = (inputQuantity.valueAsNumber - 1).toString();
     });
     const button_plus = document.createElement('button');
     button_plus.innerText = '+';
@@ -720,14 +726,14 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     button_plus.addEventListener('click', () => {
         if(!item.pre_order) {
             if (inputQuantity.value < quantity_max) {
-                let currentValue = Number(inputQuantity.value === "" ? 1 : inputQuantity.value);
-                inputQuantity.value = currentValue + 1;
+                const currentValue = inputQuantity.value === "" ? 1 : Number(inputQuantity.value);
+                inputQuantity.value = String(currentValue + 1);
             }
         }
         else{
             if (inputQuantity.value < 20) {
-                let currentValue = Number(inputQuantity.value === "" ? 1 : inputQuantity.value);
-                inputQuantity.value = currentValue + 1;
+                let currentValue = inputQuantity.value === "" ? 1 : Number(inputQuantity.value);
+                inputQuantity.value = String(currentValue + 1);
             }
         }
     });
@@ -857,7 +863,7 @@ function generateBottomPart(card_bottom_content, groupItems, items_array, curren
     prevButton.id = 'prev-btn-card';
     prevButton.className = 'prev-btn-card';
     prevButton.innerHTML = `
-        <svg viewBox="0 0 512 512" width="20" title="chevron-circle-left">
+        <svg viewBox="0 0 512 512" width="20">
             <path d="M256 504C119 504 8 393 8 256S119 8 256 8s248 111 248 248-111 248-248 248zM142.1 273l135.5 135.5c9.4 9.4 24.6 9.4 33.9 0l17-17c9.4-9.4 9.4-24.6 0-33.9L226.9 256l101.6-101.6c9.4-9.4 9.4-24.6 0-33.9l-17-17c-9.4-9.4-24.6-9.4-33.9 0L142.1 239c-9.4 9.4-9.4 24.6 0 34z" />
         </svg>
     `;
@@ -866,7 +872,7 @@ function generateBottomPart(card_bottom_content, groupItems, items_array, curren
     nextButton.id = 'next-btn-card';
     nextButton.className = 'next-btn-card';
     nextButton.innerHTML = `
-        <svg viewBox="0 0 512 512" width="20" title="chevron-circle-right">
+        <svg viewBox="0 0 512 512" width="20">
             <path d="M256 8c137 0 248 111 248 248S393 504 256 504 8 393 8 256 119 8 256 8zm113.9 231L234.4 103.5c-9.4-9.4-24.6-9.4-33.9 0l-17 17c-9.4 9.4-9.4 24.6 0 33.9L285.1 256 183.5 357.6c-9.4 9.4-9.4 24.6 0 33.9l17 17c-9.4 9.4 24.6 9.4 33.9 0L369.9 273c9.4-9.4 9.4-24.6 0-34z" />
         </svg>
     `;
@@ -1422,7 +1428,6 @@ function createProductCard(isCarousel, item, itemCounter, allItems, filteredItem
     const nameSpan = document.createElement('span');
     nameSpan.className = isCarousel ? 'carousel-price' : 'info-name';
 
-    console.log(item.product_name);
     let parts = item.product_name.split(" ");
     // Remove the last word
     let last_word = parts.pop();

@@ -410,8 +410,9 @@ fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width
 }
 .icon-silver{
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 35px;
+    bottom: -20px;
+    right: 0;
+    width: 25px;
+    margin: 0;
 }
 

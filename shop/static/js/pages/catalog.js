@@ -30,13 +30,11 @@ import(window.config.firebaseFunctionScriptUrl)
 
         let order_name = "name";
         let order_type = "asc";
-        let number_of_documents;
         let currentPage = 1;
         let total_pages = 1;
         let allItems = [];
         let favouriteItems = [];
         let filteredItems = [];
-        let filters = [];
         let stones = {};
         let stones_reversed = {};
 
@@ -47,11 +45,6 @@ import(window.config.firebaseFunctionScriptUrl)
         let subcat = {"Necklaces": ["Necklace","Chain","Pearlchain", "Collier"], "All Earrings": ["Earrings","Post Earrings", "Clip", "Hoop", "Creole"], "Bracelets":["Bracelet","Bangle", "Anklet"],"Accessories":[ "Nailfile", "Key", "Match", "Extension", "Piercing"]}
         let category = window.config.category_catalog || "All";
         let collection_catalog = window.config.collection_catalog || "";
-        let categories = [""];
-        let all_crystals = [];
-
-        let all_platings = [];
-        let all_bases = [];
         let fromSlider = document.querySelector('#fromSlider');
         let toSlider = document.querySelector('#toSlider');
 
@@ -302,64 +295,6 @@ import(window.config.firebaseFunctionScriptUrl)
             categories_div.style.display = 'block';
         }
 
-
-        function constructCollections(){
-            const collections_div = document.querySelector('.collections');
-            const collectionsList = document.querySelector('.collections-list');
-            collectionsList.innerHTML = ''; // Clear existing list items
-
-            let collections = allItems.reduce((acc, item) => {
-                if (!acc.includes(item.collection)) {
-                    acc.push(item.collection);
-                }
-                return acc;
-            }, []);
-            const index = collections.indexOf("");
-            if (index > -1) { // only splice array when item is found
-              collections.splice(index, 1); // 2nd parameter means remove one item only
-            }
-            const collectionList = ["All", ...collections];
-            collectionList.forEach(collectionVar => {
-
-                const li = document.createElement('li');
-
-                const collectionSpan = createCollectionSpan(collectionVar);
-                const collectionDivForLi = document.createElement('div');
-                collectionDivForLi.appendChild(collectionSpan);
-                li.appendChild(collectionDivForLi);
-                collectionsList.appendChild(li);
-
-                setupCollectionClickListener(collectionSpan);
-            });
-
-            collections_div.style.display = 'block';
-        }
-
-
-        function createCollectionSpan(currentCollection) {
-            const span = document.createElement('span');
-            span.textContent = synonyms_collections[currentCollection];
-            span.setAttribute("data-collection-name", currentCollection);
-            span.className = 'collection-name';
-
-            if (currentCollection === collection_catalog) span.style.fontWeight = "600";
-            return span;
-        }
-
-        // This function is used to set up a click listener for a category span element
-        function setupCollectionClickListener(span) {
-            span.addEventListener('click', () => {
-                document.querySelectorAll('.collections-list li span').forEach(li => li.style.fontWeight = "");
-                collection_catalog = span.getAttribute("data-collection-name"); // Assuming 'category' is a global variable
-                span.style.fontWeight = "600";
-                const newUrl = `?collection=${encodeURIComponent(collection_catalog)}`;
-                history.pushState({path: newUrl}, '', newUrl);
-
-                applyFilters(); // Call the applyFilters function
-                updateURL();
-            });
-        }
-
         // This function is used to create a span element for a category
         function createCategorySpan(currentCategory) {
             const span = document.createElement('span');
@@ -591,7 +526,7 @@ import(window.config.firebaseFunctionScriptUrl)
 
             // Extract the language code from the current path
             const pathSegments = currentUrl.pathname.split('/').filter(segment => segment); // Remove the empty segments
-            let categoryPath = '';
+            let categoryPath;
 
             // Check if category is specified, add it to the path
             if (category) {
@@ -729,12 +664,6 @@ import(window.config.firebaseFunctionScriptUrl)
         }
 
 
-        function filterItems(items, pageNumber, pageSize) {
-            const startIndex = (pageNumber - 1) * pageSize;
-            return items.slice(startIndex, startIndex + pageSize);
-        }
-
-
         function displayCurrentPage(items) {
             const productsGrid = document.querySelector('.products-grid');
             productsGrid.innerHTML = '';
@@ -742,7 +671,27 @@ import(window.config.firebaseFunctionScriptUrl)
             let itemCounter= 0;
             items.forEach((item) => {
                 // Append the product container to the products grid
-                productsGrid.appendChild(createProductCard(false, item, itemCounter, allItems, filteredItems, favouriteItems, window.config.preOrderIconUrl, window.config.silverIconUrl, vocabulary, translations_categories, currency, window.config.changeFavouritesStateUrl, show_quantities, window.config.addToCatalogUrl, getCookie('csrftoken'), window.config.cartUrl, window.config.isAuthenticated, window.config.shopPageUrl, false));
+                productsGrid.appendChild(createProductCard(
+                    false,
+                    item,
+                    itemCounter,
+                    allItems,
+                    filteredItems,
+                    favouriteItems,
+                    window.config.preOrderIconUrl,
+                    window.config.silverIconUrl,
+                    vocabulary,
+                    translations_categories,
+                    currency,
+                    window.config.changeFavouritesStateUrl,
+                    show_quantities,
+                    window.config.addToCatalogUrl,
+                    getCookie('csrftoken'),
+                    window.config.cartUrl,
+                    window.config.isAuthenticated,
+                    window.config.shopPageUrl,
+                    false)
+                );
                 itemCounter+=1;
             });
         }
