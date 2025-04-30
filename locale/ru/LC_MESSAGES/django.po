@@ -671,7 +671,7 @@ msgstr "Аксессуары"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:45
 msgid "Pendants with chains"
-msgstr "Подвески с цепью"
+msgstr "Кулоны на цепи"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:46
 msgid "Chains"
