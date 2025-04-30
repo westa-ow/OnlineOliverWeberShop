@@ -1403,7 +1403,6 @@ function createProductCard(isCarousel, item, itemCounter, allItems, filteredItem
     if (window.matchMedia("(min-width: 769px)").matches && user_auth) {
         imgWrapper.appendChild(iconContainer);
     }
-    console.log(user_auth);
     // Append the imgWrapper to the imgSection
     imgSection.appendChild(imgWrapper);
 
