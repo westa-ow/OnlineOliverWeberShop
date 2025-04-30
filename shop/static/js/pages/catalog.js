@@ -46,7 +46,6 @@ import(window.config.firebaseFunctionScriptUrl)
         let sizeFilters = [];
         let subcat = {"Necklaces": ["Necklace","Chain","Pearlchain", "Collier"], "All Earrings": ["Earrings","Post Earrings", "Clip", "Hoop", "Creole"], "Bracelets":["Bracelet","Bangle", "Anklet"],"Accessories":[ "Nailfile", "Key", "Match", "Extension", "Piercing"]}
         let category = window.config.category_catalog || "All";
-        console.log(`CATEGORU IS EQUALS TO ${category}`);
         let collection_catalog = window.config.collection_catalog || "";
         let categories = [""];
         let all_crystals = [];
@@ -368,7 +367,6 @@ import(window.config.firebaseFunctionScriptUrl)
             span.setAttribute("data-category-name", currentCategory);
             span.setAttribute("category-id", categories_codes[currentCategory]);
             span.className = 'category-name';
-            console.log(currentCategory);
 
             if (currentCategory === category) span.style.fontWeight = "600";
             return span;
@@ -596,14 +594,10 @@ import(window.config.firebaseFunctionScriptUrl)
             let categoryPath = '';
 
             // Check if category is specified, add it to the path
-            console.log("===============");
-            console.log(category);
             if (category) {
 
                 let code = categories_codes[category.toString()];
-                console.log(code);
                 if(!code) code="404";
-                console.log(code);
                 let cat_name_url = code + "-" + categories_code_to_name[code];
                 // If there is already a category in the URL, replace it with
                 if (pathSegments[1]) {
@@ -1008,7 +1002,7 @@ import(window.config.firebaseFunctionScriptUrl)
                 paginatedItems = paginateItems(allItems, currentPage, itemsPerPage);
             }
             else{
-                if(filteredItems[0] === "No items found"){
+                if(filteredItems[0] === vocabulary["No items found"]){
                     paginatedItems = paginateItems([], currentPage, itemsPerPage);
 
                     found = false;

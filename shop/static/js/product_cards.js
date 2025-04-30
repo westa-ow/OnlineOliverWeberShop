@@ -1255,7 +1255,7 @@ function createProductCard(isCarousel, item, itemCounter, allItems, filteredItem
     productContainer.setAttribute('data-id', itemCounter);
 
     productContainer.addEventListener('click', () => {
-        const targetItems = (filteredItems.length === 0 || filteredItems[0] === "No items found")
+        const targetItems = (filteredItems.length === 0 || filteredItems[0] === vocabulary["No items found"])
             ? allItems
             : filteredItems;
         generateDialogContent(
@@ -1422,6 +1422,7 @@ function createProductCard(isCarousel, item, itemCounter, allItems, filteredItem
     const nameSpan = document.createElement('span');
     nameSpan.className = isCarousel ? 'carousel-price' : 'info-name';
 
+    console.log(item.product_name);
     let parts = item.product_name.split(" ");
     // Remove the last word
     let last_word = parts.pop();
