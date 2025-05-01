@@ -1,0 +1,69 @@
+.auth-page-header{
+    text-align: center;
+}
+
+.logininstead a:hover {
+    text-decoration: none;
+    color: black;
+}
+.logininstead a {
+    color: black;
+}
+.logininstead{
+    padding: 30px;
+    text-align: center;
+    border: 2px solid #f2f2f2;
+    margin-top: 50px;
+}
+@media only screen and (min-width: 769px){
+    #wrapper{
+        opacity: 1;  width: 60%;
+        margin: 120px auto auto;
+    }
+}
+@media only screen and (max-width: 768px){
+    #wrapper{
+        opacity: 1;
+        margin-top: 120px
+    }
+    #main{
+        padding: 0!important;
+
+    }
+    .container.page-header.header-login{
+        display: block!important;
+    }
+    #top_column{
+        padding: 0!important;
+    }
+}
+@media (max-width: 991px) {
+  h1.page-header, h2.page-header, h3.page-header, h4.page-header, h5.page-header, h6.page-header, body:not(#authentication):not(#cart) #main h1:not(.product-title):not(.products-section-title):not(.active-filter-title) {
+    display: block!important;
+  }
+}
+
+.btn-confirm{
+    width: 100%;
+}
+
+/*PASSWORD RESTORE*/
+.forgot-password a:hover {
+    text-decoration: none;
+    color: #8d8d8d;
+}
+.forgot-password a {
+    color: black;
+    transition: all 0.3s;
+}
+
+/*LOCKOUT PAGE*/
+.reset-password{
+    color: black;
+    transition: all 0.3s;
+    font-weight: 600;
+}
+.reset-password:hover{
+    text-decoration: none;
+    color: #8d8d8d;
+}

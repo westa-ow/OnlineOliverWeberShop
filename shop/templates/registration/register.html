@@ -10,17 +10,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Registration</title>
-
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<link rel="stylesheet" href="{% static "css/profile/profile_information.css" %}">
-<link rel="stylesheet" href="{% static "css/auth/register.css" %}">
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "css/profile/profile_information.css" %}">
+    <link rel="stylesheet" href="{% static "css/auth/register.css" %}">
+    <link rel="stylesheet" href="{% static "css/auth/authMain.css" %}">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
 <body>
 
-{% if error_messages %}
-    {% include "registration/errorDialog.html" with errors=error_messages %}
-{% endif %}
+    {% if error_messages or form.errors %}
+        {% include "registration/errorDialog.html" %}
+    {% endif %}
 {% include "widgets/navigation_bar.html" %}
 <section id="wrapper" class="stick_parent_lb">
 
@@ -31,8 +31,8 @@
         <div id="content-wrapper">
             <section id="main">
                 <div class="container">
-                    <header class="page-header" style="text-align: center">
-                        <h1> {% trans "Create an account" %}</h1>
+                    <header class="auth-page-header">
+                        <h1 class="auth-header"> {% trans "Create an account" %}</h1>
                     </header>
                     <section id="content" class="page-content card card-block">
                         <section class="sociallogin displayCustomerAccountFormTop authentication hidden-print">
@@ -66,7 +66,6 @@
                                     <div class="col-md-12">
                                         <label>{% trans "First name" %}</label>
                                         {{ form.first_name | add_class:"form-control" | attr:"" }}
-
                                     </div>
                                 </div>
                                 <div class="form-group row ">
@@ -87,7 +86,6 @@
                                         <label>Email</label>
                                         {{ form.email | add_class:"form-control" | attr:"placeholder: "|attr:"autocomplete:off" }}
                                     </div>
-
                                 </div>
                                 <div class="form-group row ">
 
@@ -98,13 +96,7 @@
                                         <label>{% trans "Password" %}</label>
                                         <div class="input-group js-parent-focus">
                                             {{ form.password1 | add_class:"form-control js-child-focus js-visible-password" | attr:""|attr:"autocomplete:new-password" }}
-                                            <span class="input-group-btn" style="position: initial!important; ">
-                                                <button class="btn material-icons" type="button" data-action="show-password" data-text-show="" data-text-hide="">
-                                                    <i>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
-                                                    </i>
-                                                </button>
-                                            </span>
+                                            {% include "widgetElements/showPasswordBtn.html" with target="password1" %}
                                         </div>
                                     </div>
                                 </div>
@@ -117,13 +109,7 @@
                                         <label>{% trans "Confirm you password" %}</label>
                                         <div class="input-group js-parent-focus">
                                             {{ form.password2 | add_class:"form-control js-child-focus js-visible-password" | attr:""|attr:"autocomplete:new-password" }}
-                                            <span class="input-group-btn" style="position: initial!important; ">
-                                                <button class="btn material-icons" type="button" data-action="show-password" data-text-show="" data-text-hide="">
-                                                    <i>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
-                                                    </i>
-                                                </button>
-                                            </span>
+                                            {% include "widgetElements/showPasswordBtn.html" with target="password2" %}
                                         </div>
                                     </div>
                                 </div>
@@ -185,10 +171,9 @@
                                 </div>
                                 <div class="form-group row ">
                                     <div class="col-md-12">
-                                        <label></label>
                                         <label class="help-msg-register">
-                                                {% trans "If you want to register as a B2B customer, please contact us." %}
-                                            </label>
+                                            {% trans "If you want to register as a B2B customer, please contact us." %}
+                                        </label>
                                     </div>
                                     <div class="col-md-12 form-control-comment"></div>
                                 </div>
@@ -197,7 +182,7 @@
 
 
                             <footer class="form-footer clearfix">
-                                <button style="width: 100%" class="btn btn-primary wide form-control-submit float-xs-right" data-link-action="save-customer" type="submit" value="REGISTER"> {% trans "Save" %} </button>
+                                <button class="btn btn-primary btn-confirm wide form-control-submit float-xs-right" data-link-action="save-customer" type="submit" value="REGISTER"> {% trans "Save" %} </button>
                             </footer>
                         </form>
                     </section>
@@ -212,29 +197,6 @@
 </section>
 </body>
 {{ form.errors|json_script:"form_errors" }}
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const togglePasswordButtons = document.querySelectorAll('button[data-action="show-password"]');
-        // Listen for a click event on the button
-        togglePasswordButtons.forEach(togglePasswordButton =>
-            togglePasswordButton.addEventListener('click', function() {
-                // Select the password input
-                const passwordInput = this.parentElement.parentElement.querySelector('input');
-
-                // Check the current type of the password input and toggle
-                if (passwordInput.type === "password") {
-                    passwordInput.type = "text"; // Show the password
-                    // Change the SVG to 'eye'
-                    togglePasswordButton.innerHTML = '<i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></i>';
-                } else {
-                    passwordInput.type = "password"; // Hide the password
-                    // Change the SVG back to 'eye-off'
-                    togglePasswordButton.innerHTML = '<i><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg></i>';
-                }
-            }
-        ));
-    });
-</script>
 </html>
 
 {% endblock %}

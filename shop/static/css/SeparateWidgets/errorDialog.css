@@ -2,7 +2,9 @@
     text-align: center;
     font-size: 28px;
 }
-
+.errorModal{
+    display: none;
+}
 .modal{
     display: none;
     position: fixed;
@@ -18,13 +20,28 @@
 
 .modal-content {
     background-color: #fefefe;
-    margin: 16% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 60%;
+
     border-radius: 10px;
     text-align: center;
     display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+@media only screen and (min-width: 769px)  {
+    .modal-content {
+        margin: 8% auto;
+        max-height: 50vh;
+        width: 60%;
+    }
+}
+@media only screen and (max-width: 768px)  {
+    .modal-content {
+        margin: 10vh auto;
+        max-height: 80vh;
+        width: 90%;
+    }
 }
 
 .close-button {

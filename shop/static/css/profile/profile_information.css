@@ -10937,7 +10937,6 @@ tbody.collapse.in {
   border-left:0
 }
 .input-group-btn {
-  position:relative;
   font-size:0;
   white-space:nowrap
 }
@@ -13761,17 +13760,7 @@ a.text-gray-dark:hover {
     display:none!important
   }
 }
-@font-face {
-  font-family:'Material Icons';
-  font-style:normal;
-  font-weight:400;
-  src:url(../css/4674f8ded773cb03e824323bfc950537.eot);
-  src:local("Material Icons"),
-  local("MaterialIcons-Regular"),
-  url(../css/cff684e59ffb052d72cb8d5e49471553.woff2) format("woff2"),
-  url(../css/83bebaf37c09c7e1c3ee52682892ae14.woff) format("woff"),
-  url(../css/5e7382c63da0098d634a356ff441614e.ttf) format("truetype")
-}
+
 .material-icons {
   font-family:'Material Icons';
   font-weight:400;

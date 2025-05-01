@@ -1,49 +1,17 @@
 {% block content %}
 {% load static %}
 {% load i18n %}
+    {% if error_messages %}
+      {{ error_messages|json_script:"error-data" }}
+    {% elif form.errors %}
+      {{ form.errors.get_json_data|json_script:"error-data" }}
+    {% endif %}
     <link rel="stylesheet" href="{% static 'css/SeparateWidgets/errorDialog.css' %}">
-    <div id="errorModal" class="modal" style="display:none;">
+    <div id="errorModal" class="modal">
         <div class="modal-content">
             <span class="close-button"><i class="fa-solid fa-remove"></i></span>
-            <p id="errorText">
-                {% for error in errors %}
-                    {{ error }}<br>
-                {% endfor %}
-            </p>
+            <p id="errorText"></p>
             <button id="okButton">OK</button>
         </div>
-    </div>
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        console.log({{ errors|safe }});
-        let errorModal = document.getElementById("errorModal");
-        let okButton = document.getElementById("okButton");
-        let closeButton = document.querySelector(".close-button");
-
-        // Если модальное окно существует, показываем его
-        if (errorModal) {
-            errorModal.style.display = "block";
-            document.body.style.overflow = "hidden";
-        }
-
-        if (okButton) {
-            okButton.onclick = function() {
-                errorModal.style.display = "none";
-                document.body.style.overflow = "";
-            }
-        }
-        if (closeButton) {
-            closeButton.onclick = function() {
-                errorModal.style.display = "none";
-                document.body.style.overflow = "";
-            }
-        }
-        window.onclick = function(event) {
-            if (event.target === errorModal) {
-                errorModal.style.display = "none";
-                document.body.style.overflow = "";
-            }
-        }
-    });
-    </script>
+     </div>
 {% endblock %}

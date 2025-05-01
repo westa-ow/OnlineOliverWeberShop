@@ -7,34 +7,20 @@ from axes.models import AccessAttempt
 from axes.utils import reset
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import PasswordResetConfirmView
-from django.urls import reverse_lazy
-from django_ratelimit.decorators import ratelimit
+from django.urls import reverse, reverse_lazy
 
 from shop.decorators import ratelimit_with_logging, not_logged_in
 from shop.recaptcha_utils import verify_recaptcha
 from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, get_cart, cart_ref, single_order_ref, \
     is_admin, users_ref, metadata_ref, get_user_prices
-import ast
-import random
-from datetime import datetime
-from random import randint
 
-import concurrent.futures
+from datetime import datetime
+
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.password_validation import validate_password
-from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout, get_user_model, update_session_auth_hash
-import os
-import json
-import firebase_admin
-from django.views.decorators.csrf import csrf_exempt
 from firebase_admin import credentials, firestore
 from django.conf import settings
-from django.contrib import messages
-from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required, user_passes_test
-from django.core.mail import send_mail
 
 from shop.forms import UserRegisterForm, User
 
@@ -245,6 +231,9 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
 def lockout_view(request):
     unlock_timestamp = request.session.get("axes_locked_until")
     unlock_datetime = None
+
+    if not unlock_timestamp or time.time() >= unlock_timestamp:
+        return redirect(reverse('login'))
 
     if unlock_timestamp:
         unlock_datetime = datetime.fromtimestamp(unlock_timestamp)
