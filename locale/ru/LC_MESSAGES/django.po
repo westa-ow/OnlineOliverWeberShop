@@ -531,7 +531,7 @@ msgstr "Кулон"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:7
 msgid "Chain"
-msgstr "Цепь"
+msgstr "Подвеска"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:8
 msgid "Collier"
@@ -539,7 +539,7 @@ msgstr "Колье"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:9
 msgid "Pearlchain"
-msgstr "Жемчужная цепочка"
+msgstr "Жемчужная подвеска"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:10
 msgid "Necklace"
@@ -671,11 +671,11 @@ msgstr "Аксессуары"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:45
 msgid "Pendants with chains"
-msgstr "Кулоны на цепи"
+msgstr "Кулоны на подвеске"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:46
 msgid "Chains"
-msgstr "Цепи"
+msgstr "Подвески"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:47
 msgid "Colliers"
@@ -683,7 +683,7 @@ msgstr "Колье"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:48
 msgid "Pearlchains"
-msgstr "Жемчужные цепочки"
+msgstr "Жемчужные подвески"
 
 #: .\shop\templates\dedicated_templates\translation_vocabulary.html:51
 msgid "Hoops"
@@ -3749,7 +3749,7 @@ msgstr ""
 
 #: .\shop\templates\service_pages\faq.html:80
 msgid "Chain lengths by Oliver Weber?"
-msgstr "Длины цепочек от Оливера Вебера?"
+msgstr "Длины подвесок от Оливера Вебера?"
 
 #: .\shop\templates\service_pages\faq.html:83
 msgid "Which ring size do I need?"
@@ -4260,7 +4260,7 @@ msgstr "Высота продукта"
 
 #: .\shop\templates\shop_page.html:114 .\shop\views.py:671
 msgid "Chain length"
-msgstr "Длина цепи"
+msgstr "Длина подвески"
 
 #: .\shop\templates\shop_page.html:134 .\shop\templates\shop_page.html:140
 #: .\shop\views.py:648
@@ -7454,7 +7454,7 @@ msgstr ""
 "            чтобы пользователь мог просто разорвать сопряжение и сообщить только о неразрывном соединении\n"
 "            переименовывать пары пользователю.\n"
 "          * Возможность для пользователей по-разному переименовывать файлы в разных\n"
-"            ветвей означает, что наши цепочки переименований не обязательно будут\n"
+"            ветвей означает, что наши подвески переименований не обязательно будут\n"
 "            линейная, но может разветвляться."
 
 #: .\venv\Lib\site-packages\git_filter_repo.py:2587
