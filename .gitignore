@@ -1,16 +1,24 @@
 #GitIgnore
 
-credetionals/key2.json
+# Python bytecode
+**/__pycache__/
+*.py[cod]
 
-logs/
-
+# Virtualenv
 venv/
 
-OnlineShop/.env
+# Environment files
+.env
 
+# Django local DB
 db.sqlite3
-shop/media/imgs
 
-shop/migrations
+# Logs
+logs/
+*.log
 
-__pycache__/
+# Firebase service account (секрет)
+credentials/
+
+# User uploads
+shop/media/
