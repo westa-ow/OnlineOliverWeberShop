@@ -1,0 +1,101 @@
+├── OnlineShop
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── README.md
+├── credetionals
+│   └── key.json
+├── docs
+│   ├── project_tree.txt
+│   └── tree.py
+├── locale
+│   ├── de
+│   │   └── LC_MESSAGES
+│   ├── es
+│   │   └── LC_MESSAGES
+│   ├── fr
+│   │   └── LC_MESSAGES
+│   ├── gb
+│   │   └── LC_MESSAGES
+│   ├── it
+│   │   └── LC_MESSAGES
+│   └── ru
+│       └── LC_MESSAGES
+├── logs
+├── manage.py
+├── requirements.txt
+└── shop
+    ├── __init__.py
+    ├── admin.py
+    ├── apps.py
+    ├── axes_signals.py
+    ├── context_processor.py
+    ├── decorators.py
+    ├── forms.py
+    ├── logging_filters.py
+    ├── management
+    │   └── commands
+    ├── middleware
+    │   ├── DefaultLanguageMiddlware.py
+    │   ├── RedirectMainDomain.py
+    │   ├── ensure_anon_session_middleware.py
+    │   └── redirect_en_to_gb_middleware.py
+    ├── migrations
+    │   ├── 0001_initial.py
+    │   ├── 0002_alter_banner_image.py
+    │   ├── 0003_banner_link_banner_withlink_alter_banner_image.py
+    │   ├── 0004_language_remove_banner_priority_bannerlanguage_and_more.py
+    │   ├── 0005_store.py
+    │   └── __init__.py
+    ├── models.py
+    ├── recaptcha_utils.py
+    ├── router_viewsets.py
+    ├── serializers.py
+    ├── static
+    │   ├── GEOIP
+    │   ├── css
+    │   ├── files
+    │   ├── fonts
+    │   ├── icons
+    │   ├── images
+    │   ├── js
+    │   ├── logonormal.webp
+    │   └── videos
+    ├── tasks.py
+    ├── templates
+    │   ├── admin_tools
+    │   ├── admin_tools.html
+    │   ├── cart.html
+    │   ├── catalog.html
+    │   ├── checkout
+    │   ├── dedicated_templates
+    │   ├── example.html
+    │   ├── home.html
+    │   ├── profile
+    │   ├── profile.html
+    │   ├── registration
+    │   ├── service_pages
+    │   ├── shop_page.html
+    │   ├── stripe
+    │   ├── widgetElements
+    │   └── widgets
+    ├── tests.py
+    ├── views.py
+    └── views_scripts
+        ├── __init__.py
+        ├── admin_views.py
+        ├── adresses_views.py
+        ├── auth_views.py
+        ├── catalog_views.py
+        ├── checkout_cart_views.py
+        ├── manage_banners
+        ├── orders_control
+        ├── paypal_views.py
+        ├── profile_orders_pay.py
+        ├── profile_views.py
+        ├── service_views.py
+        ├── shop_views.py
+        ├── stripe_views.py
+        └── users_control
