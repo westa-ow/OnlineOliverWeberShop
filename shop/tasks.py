@@ -109,12 +109,12 @@ def send_email_with_logs(logs):
     Writes logs to a text file and sends an email with an attachment.
     """
     log_text = "\n".join(logs)
-    # Определяем имя файла с логами
+    # Define the name of the log file
     timestamp = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
     filename = f"processing_log_{timestamp}.txt"
     file_path = os.path.join(settings.BASE_DIR, filename)
 
-    # Записываем логи в файл
+    # Writing logs to a file
     try:
         with open(file_path, "w", encoding="utf-8") as f:
             f.write(log_text)
