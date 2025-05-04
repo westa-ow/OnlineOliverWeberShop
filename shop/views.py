@@ -721,6 +721,8 @@ def get_vocabulary_product_card():
         "Update": _("Update"),
         "Delete": _("Delete"),
 
+        "TEST STROKE": _("TEST STROKE"),
+
         "Confirm": _("Confirm"),
         "Type of written quantity has to be numeric and greater than 0": _("Type of written quantity has to be numeric and greater than 0"),
         "Quantity has to be less than maximum on storage": _("Quantity has to be less than maximum on storage"),

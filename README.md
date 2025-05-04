@@ -30,42 +30,47 @@ A Django-based e-commerce service with multi-language support and core shop func
    ```bash
    git clone https://github.com/westa-ow/OnlineOliverWeberShop
    cd OnlineOliverWeberShop
+   ```
    
 2. **Create & activate a clean virtual environment**
     ```bash
-    python -m venv .venv
-    source .venv/bin/activate    # macOS/Linux
-    .venv\Scripts\activate       # Windows
+    python -m venv venv
+    source venv/bin/activate    # macOS/Linux
+    venv\Scripts\activate       # Windows
+   ```
 
 3. **Install dependencies**
     ```bash
     pip install -r requirements.txt
+   ```
 
-4. **Configure environment variables**
+4. **Configure environment**  
 
-    Copy .env file to 
+   - 4.1. Copy `.env.example` to `.env`:
     ```bash
-    OnlineOliverWeberShop\.env
+    cp .env.example .env        # macOS/Linux
+    copy .env.example .env      # Windows
+    ```
+    ```env
+      DEBUG=True
+      ALLOWED_HOSTS=localhost,127.0.0.1
+      FIREBASE_CREDENTIALS=credentials/key.json
+    ```
+    and fill all variables 
+   
 
-5. **Add database key.json**
+   - 4.2 Place service Firebase key to credentials/key.json 
+    
 
-    Copy key.json file to 
-    ```bash
-    OnlineOliverWeberShop\credentials\key.json
-
-6. **Change variables in .env file to test mode**
-    ```bash
-    DEBUG=True
-    ALLOWED_HOSTS=...,127.0.0.1
-    FIREBASE_CREDENTIALS=/full/path/to/Project/credentials/key.json
-
-7. **Apply migrations**
+5. **Apply migrations**
     ```bash
     python manage.py migrate
+    ```
 
-8. **Run the dev server**
+6. **Run the dev server**
     ```bash
     python manage.py runserver
+    ```
    
 ---
 
@@ -85,6 +90,14 @@ see [`docs/project_tree.txt`](docs/project_tree.txt) for full tree
 ---
 
 ## Localization
+
+- All `.po`-files live in `locale/<lang>/LC_MESSAGES/`.  
+- To extract new strings:
+  ```
+  django-admin makemessages -l <lang_code>
+  python manage.py translate_messages --locale <lang_code> --untranslated   
+  python manage.py compilemessages
+  ```
 
 
 ---
