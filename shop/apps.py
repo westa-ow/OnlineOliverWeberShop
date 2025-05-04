@@ -6,5 +6,5 @@ class ShopConfig(AppConfig):
     name = 'shop'
 
     def ready(self):
-        # Импортируем модуль сигналов, чтобы зарегистрировать обработчик
+        # Import the signal module to register the handler
         import shop.axes_signals

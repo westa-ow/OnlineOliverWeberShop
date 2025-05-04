@@ -28,31 +28,31 @@ class BannerForm(forms.ModelForm):
         with_link = cleaned_data.get('withLink')
         link = cleaned_data.get('link')
 
-        # Если галочка установлена, поле link обязательно для заполнения
+        # If the checkbox is checked, the link field is mandatory
         if with_link and not link:
             self.add_error('link', 'Please enter a link if the option "With Link" is checked.')
-        # Если галочка не установлена, можно сбросить значение поля link
+        # If the checkbox is not checked, you can reset the value of the link field
         if not with_link:
             cleaned_data['link'] = ''
         return cleaned_data
 
     def save(self, commit=True):
-        # Сначала сохраняем базовый объект Banner
+        # First we save the base Banner object
         banner = super().save(commit=False)
         if commit:
             banner.save()
         else:
-            # Если commit=False, то позднее не получится создать отношения, т.к. pk баннера не будет задан
-            raise ValueError("commit=False не поддерживается в этой форме.")
+            # If commit=False, no relationship can be created later because the banner pk will not be set
+            raise ValueError("commit=False is not supported in this form.")
 
-        # После сохранения объекта очищаем (удаляем старые) связи и создаём новые
+        # After saving the object, clear (delete old) links and create new ones
         selected_languages = self.cleaned_data['languages']
-        # Если редактируется уже существующий баннер, удаляем уже созданные связи,
-        # чтобы затем создать новые согласно выбранным языкам.
+        # If you are editing an existing banner, delete the links already created,
+        # in order to create new ones according to the selected languages.
         BannerLanguage.objects.filter(banner=banner).delete()
 
         for language in selected_languages:
-            # Находим максимальный приоритет для данного языка и назначаем следующий порядковый номер
+            # Find the maximum priority for this language and assign the following sequence number
             max_priority = BannerLanguage.objects.filter(language=language).aggregate(Max('priority'))['priority__max'] or 0
             BannerLanguage.objects.create(
                 banner=banner,
@@ -76,10 +76,10 @@ class EditBannerForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Если редактируется существующий баннер, заполняем выбор языков
+        # If you are editing an existing banner, fill in the language selection
         self.fields['link'].required = False
         if self.instance and self.instance.pk:
-            # Передаём список id языков, связанных с баннером через промежуточную модель BannerLanguage.
+            # Pass the list of id languages associated with the banner through the BannerLanguage intermediate model.
             self.fields['languages'].initial = self.instance.banner_languages.all().values_list('language__id', flat=True)
 
 

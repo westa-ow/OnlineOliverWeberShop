@@ -398,9 +398,9 @@ input[type=number] {
     align-items: center;
 }
 .img-card {
-    user-select: none;           /* Основное свойство */
-    -webkit-user-select: none;   /* Для Safari */
-    -moz-user-select: none;      /* Для Firefox */
-    -ms-user-select: none;       /* Для IE/Edge */
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     border-radius: 4px;
 }

@@ -34,7 +34,7 @@ export async function fetchFavouriteItems(userEmail) {
 }
 
 export async function fetchStones() {
-    const stonesQuery = query(collection(db, "Stones")); // Запрос к коллекции Stones
+    const stonesQuery = query(collection(db, "Stones"));
     const querySnapshot = await getDocs(stonesQuery);
 
     // Convert documents into an object { “id”: “name” }
@@ -42,7 +42,7 @@ export async function fetchStones() {
     const all_stones = {};
     querySnapshot.docs.forEach(doc => {
         const data = doc.data();
-        if (data.id && data.name) { // Убедимся, что данные существуют
+        if (data.id && data.name) {
             all_stones[data.id] = data.name;
             stones_reversed[data.name] = data.id;
         }

@@ -646,13 +646,13 @@ def register_anonym_cart_info(request):
     category, currency = get_user_prices(request, email_before)
     currency_symbol = {'Euro': '€', 'Dollar': '$'}.get(currency, currency)
 
-    # 2) Инициализируем формы
+    # 2) Initializing forms
     form_register = UserRegisterForm(request.POST or None)
     form_login = AuthenticationForm()
 
-    # 3) Обработка POST-запроса (регистрация)
+    # 3) POST request processing (registration)
     if request.method == 'POST':
-        # 3.1 Проверяем reCAPTCHA
+        # 3.1 Checking reCAPTCHA
         recaptcha_response = request.POST.get('g-recaptcha-response')
         if not verify_recaptcha(recaptcha_response):
             form_register.add_error(None, 'Invalid reCAPTCHA. Please try again.')
@@ -660,14 +660,14 @@ def register_anonym_cart_info(request):
                 "Registration failed: invalid reCAPTCHA. Errors: %s",
                 form_register.errors.as_json()
             )
-        # 3.2 Если reCAPTCHA ок и форма валидна — проверяем уникальность email
+        # 3.2 If reCAPTCHA is ok and the form is valid - check email uniqueness
         elif form_register.is_valid():
             email_after = form_register.cleaned_data['email']
             existing = users_ref.where('email', '==', email_after).limit(1).get()
             if existing:
                 form_register.add_error('email', 'User with this email already exists.')
             else:
-                # 3.3 Создаём запись в Firestore
+                # 3.3 Create an entry in Firestore
                 user_id    = get_new_user_id()
                 now_str    = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 social     = "Mr" if form_register.cleaned_data.get('social_title') == "1" else "Mrs"
@@ -694,15 +694,15 @@ def register_anonym_cart_info(request):
                 }
                 users_ref.add(new_user)
 
-                # 3.4 Создаём и сохраняем Django‑пользователя
+                # 3.4 Create and save Django user
                 user = form_register.save(commit=False)
-                # Генерируем уникальный username на основе email
+                # Generate a unique username based on email
                 user.username = email_after
-                # Устанавливаем пароль (UserCreationForm уже хэширует)
+                # Set the password (UserCreationForm already hashes it)
                 user.set_password(form_register.cleaned_data['password1'])
                 user.save()
 
-                # 3.5 Аутентификация и очистка старой корзины
+                # 3.5 Authenticating and clearing the old shopping cart
                 user = authenticate(request, username=user.username,
                                     password=form_register.cleaned_data['password1'])
                 if user:
@@ -711,7 +711,7 @@ def register_anonym_cart_info(request):
                     update_email_in_db(email_before, email_after)
                     return redirect('checkout_addresses')
 
-    # 4) Общий контекст и рендер одного шаблона
+    # 4) The overall context and rendering of a single template
     context = {
         'documents':      documents,
         'currency':       currency_symbol,
@@ -794,7 +794,7 @@ def check_promo_code(request):
 
             expiration_date = promo_dict.get('expiration_date')
             if expiration_date:
-                # Преобразуем строку в datetime, предполагаем формат "YYYY-MM-DD"
+                # Convert the string to datetime, assuming the format “YYYYY-MM-DD”
                 expires_at_date = datetime.strptime(expiration_date, "%Y-%m-%d")
                 expires_at_date = datetime.combine(expires_at_date.date(), time(23, 59, 59))
                 if datetime.now() > expires_at_date:

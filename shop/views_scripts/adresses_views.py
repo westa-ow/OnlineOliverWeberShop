@@ -17,12 +17,10 @@ def delete_address(request, address_id):
         return render(request, 'profile/profile_addresses.html', {'feature_name': 'new_address'})
 
     try:
-        # Найти адрес по ID
         address_to_delete = addresses_ref.where('address_id', '==', address_id).limit(1).get()
         if not address_to_delete:
             return JsonResponse({'status': 'error', 'message': 'Address not found.'}, status=404)
 
-        # Обновить поле is_deleted в найденном адресе
         for address in address_to_delete:
             address_ref = addresses_ref.document(address.id)
             address_ref.update({'is_deleted': True})

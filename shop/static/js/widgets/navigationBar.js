@@ -7,7 +7,6 @@ const currency = getMetaContent("currency");
 let isCheckout = false;
 
 document.addEventListener("DOMContentLoaded", function () {
-  // Коллекция + меню
   const toggle = document.getElementById("collections-toggle");
   const menu = document.getElementById("collections-menu");
   if (toggle && menu) {
@@ -15,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
       e.preventDefault();
       menu.style.display = menu.style.display === "flex" ? "none" : "flex";
     });
-    // Закрытие меню при клике вне его
+    // Closing a menu when clicking outside of it
     document.addEventListener("click", function (e) {
       if (!toggle.contains(e.target) && !menu.contains(e.target)) {
         menu.style.display = "none";

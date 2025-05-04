@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", function () {
             menu.style.display = menu.style.display === "flex" ? "none" : "flex";
         });
 
-        // Закрываем меню, если клик вне dropdown
         document.addEventListener("click", function (e) {
             if (!toggle.contains(e.target) && !menu.contains(e.target)) {
                 menu.style.display = "none";

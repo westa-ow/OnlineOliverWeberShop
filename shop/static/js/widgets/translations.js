@@ -8,15 +8,14 @@ function getMetaJson(name) {
       return JSON.parse(metaTag.getAttribute("content"));
     } catch (error) {
 
-      console.error(`Ошибка при парсинге данных из meta tag "${name}":`, error);
+      console.error(`Error when parsing meta tag config "${name}":`, error);
     }
   } else {
-    console.error(`Meta tag с именем "${name}" не найден`);
+    console.error(`Meta tag with name "${name}" was not found`);
   }
   return {};
 }
 
-// Получаем данные из meta-тегов
 const translations_categories = getMetaJson("translations-categories");
 const filters_dict = getMetaJson("filters-dict");
 const synonyms = getMetaJson("synonyms");
@@ -30,10 +29,10 @@ function getVocabularyData() {
       try {
         return JSON.parse(el.textContent);
       } catch (err) {
-        console.error("Ошибка при парсинге vocabulary данных:", err);
+        console.error("Error while parsing vocabulary confing:", err);
       }
     } else {
-      console.error("Элемент с id 'vocabulary-data' не найден");
+      console.error("Element with id 'vocabulary-data' was not found");
     }
     return {};
   }

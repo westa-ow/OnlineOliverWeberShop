@@ -85,7 +85,6 @@ document.querySelectorAll('.i-menu-points').forEach(button => {
                         alert(vocabulary["Please enter a valid amount."]);
                         return;
                     }
-                    // Вызов функции оплаты
                     pay_for_order(amount, current_order);   // ADD HERE THE ADDRESS_DICT PARSER, WHICH SHOULD BE CREATED BY YOURSELF
                 };
             };

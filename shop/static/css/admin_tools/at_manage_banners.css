@@ -59,8 +59,6 @@
   z-index: 1000;
 }
 
-/* Стили для модального окна */
-/* Модальное окно */
 #modal {
   position: absolute;
   top: 50%;
@@ -77,7 +75,6 @@
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
 }
 
-/* Заголовок модального окна с кнопкой закрытия */
 .modal-header-container {
   display: flex;
   justify-content: flex-end;
@@ -88,7 +85,6 @@
   cursor: pointer;
 }
 
-/* Содержимое модального окна */
 .modal-content {
   margin-top: 10px;
 }
@@ -144,7 +140,6 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Заголовок формы */
 .modal-content-container form h2 {
   text-align: center;
   margin-bottom: 20px;
@@ -152,12 +147,10 @@
   font-size: 24px;
 }
 
-/* Общие стили для групп полей */
 .modal-content-container form .form-group {
   margin-bottom: 15px;
 }
 
-/* Стили для меток */
 .modal-content-container form label {
   display: block;
   margin-bottom: 5px;
@@ -165,7 +158,6 @@
   font-weight: 600;
 }
 
-/* Стили для полей ввода и textarea */
 .modal-content-container form input[type="text"],
 .modal-content-container form input[type="url"],
 .modal-content-container form input[type="email"],
@@ -178,7 +170,6 @@
     font-size: 14px;
 }
 
-/* Стили для кастомного блока выбора файла */
 .modal-content-container form .custom-file-input {
     display: flex;
     align-items: center;
@@ -188,7 +179,6 @@
     display: none;
 }
 
-/* Кнопка для выбора файла */
 .modal-content-container form .btn-file {
     background-color: #003665;
     color: #ffffff;
@@ -200,20 +190,16 @@
     margin-right: 10px;
 }
 
-/* Ховер для кнопки выбора файла */
 .modal-content-container form .btn-file:hover {
   background-color: #0056b3;
 }
 
-/* Название выбранного файла */
 .modal-content-container form #file-name {
   font-size: 0.9em;
   color: #666666;
 }
 
-/* Пример стиля для группы ввода ссылки (если требуется) */
 .modal-content-container form .form-group.link-input-group {
-  /* Если нужно скрыть или изменить отображение, раскомментируйте или измените стили */
    display: none;
 }
 .modal-content-container form .form-group.link-input-group.active {

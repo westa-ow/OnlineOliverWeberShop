@@ -2,47 +2,43 @@ function getMetaConfig() {
     const metaTag = document.querySelector('meta[name="config"]');
     if (metaTag) {
       try {
-        // Если JSON в meta-теге сформирован с одинарными кавычками,
-        // можно заменить их на двойные, чтобы JSON.parse сработал.
         const content = metaTag.getAttribute("content").replaceAll("'", '"');
         return JSON.parse(content);
       } catch (err) {
-        console.error("Ошибка при парсинге meta tag config:", err);
+        console.error("Error when parsing meta tag config:", err);
       }
     } else {
-      console.error('Meta tag с именем "config" не найден');
+      console.error('Meta tag with name "config" was not found');
     }
     return {};
   }
 
-  // Функция для получения данных из <script id="config-data">
-  function getScriptConfig() {
+function getScriptConfig() {
     const configScript = document.getElementById('config-data');
     if (configScript) {
       try {
         return JSON.parse(configScript.textContent);
       } catch (err) {
-        console.error("Ошибка при парсинге config-data из script:", err);
+        console.error("Error while parsing config-data from script:", err);
       }
     } else {
-      console.error('Элемент с id "config-data" не найден');
+      console.error('Element with id "config-data" was not found');
     }
     return {};
-  }
+}
 
-  // Функция объединяет оба объекта
-  function getMergedConfig() {
+function getMergedConfig() {
     const metaConfig = getMetaConfig();
     const scriptConfig = getScriptConfig();
-    // Объединяем: в случае совпадения ключей значения из scriptConfig будут иметь приоритет.
+    // Merge: if the keys match, the values from scriptConfig will take precedence.
     return { ...metaConfig, ...scriptConfig };
-  }
+}
 
-  // Глобально задаём объединённую конфигурацию
 window.config = {
   ...(window.config || {}),
   ...getMergedConfig()
 };
+
 import(window.config.firebaseFunctionScriptUrl)
     .then(module => {
         const { fetchItemsWithQuantityGreaterThan30, fetchFavouriteItems, fetchStones } = module;
@@ -217,7 +213,7 @@ import(window.config.firebaseFunctionScriptUrl)
         });
 
         document.addEventListener('click', (event) => {
-            const clickedElement = event.target.closest('.card-carousel-item'); // Ищем ближайший родитель с этим классом
+            const clickedElement = event.target.closest('.card-carousel-item');
 
             if (clickedElement) {
                 console.log("Clicked element has class card-carousel-item");
@@ -265,5 +261,5 @@ import(window.config.firebaseFunctionScriptUrl)
         }
     })
     .catch(error => {
-        console.error("Ошибка при динамическом импорте:", error);
+        console.error("Error during dynamic import:", error);
     });

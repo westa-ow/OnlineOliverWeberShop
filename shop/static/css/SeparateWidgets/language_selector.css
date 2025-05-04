@@ -30,16 +30,16 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background-size: 40px 40px; /* Размер флага */
+    background-size: 40px 40px;
     background-repeat: no-repeat;
     background-position: center;
-    width: 40px; /* Ширина, достаточная для отображения флага */
-    height: 40px; /* Высота, соответствующая флагу */
+    width: 40px;
+    height: 40px;
     padding-left: 10px;
     border-radius: 50px;
     border: 1px solid #ccc;
     cursor: pointer;
-    text-indent: 100%; /* Смещаем текст за пределы видимой области */
-    white-space: nowrap; /* Запрещаем перенос текста */
-    overflow: hidden; /* Скрываем всё, что не помещается */
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
 }

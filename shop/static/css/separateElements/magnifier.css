@@ -22,82 +22,79 @@
     /*position: absolute;*/
     right: 10px;
     bottom: -50px;
-    background: #003765; /* Тёмный цвет фона */
-    color: #fff; /* Белый текст */
-    border: 7px solid #003765; /* Толстая граница совпадает с фоном */
+    background: #003765;
+    color: #fff;
+    border: 7px solid #003765;
     padding: 3px 3px;
     cursor: pointer;
     border-radius: 5px;
     font-size: 14px;
     font-weight: bold;
-    transition: all 0.3s ease; /* Плавный переход */
+    transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
     justify-content: center;
 }
 
 .toggle-zoom-button i {
-    background: transparent; /* Прозрачный фон по умолчанию */
+    background: transparent;
     padding: 11px 13px;
-    border-radius: 3px; /* Закруглённые углы внутреннего элемента */
-    color: inherit; /* Наследуем цвет текста от кнопки */
-    transition: all 0.3s ease; /* Плавные переходы */
+    border-radius: 3px;
+    color: inherit;
+    transition: all 0.3s ease;
 }
 .toggle-zoom-button:active{
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Более глубокая тень */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Наведение на кнопку */
+
 .toggle-zoom-button:hover {
-    background: #074b91; /* Более светлый фон при наведении */
+    background: #074b91;
     border-color: #074b91;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15); /* Лёгкая тень */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }
 
-/* Состояние кнопки "нажата" */
 .toggle-zoom-button.active {
-    background: #033f72; /* Тёмный фон остаётся */
-    border-color: #033f72; /* Тёмная толстая граница */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15); /* Лёгкая тень */
+    background: #033f72;
+    border-color: #033f72;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
     transform: translateY(-5px);
 
 }
 
 .toggle-zoom-button.active i {
-    background: #074b91; /* Белый фон для внутреннего элемента */
-    color: #fff; /* Тёмный текст внутри */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Лёгкая тень вокруг */
+    background: #074b91;
+    color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Наведение на "нажатую" кнопку */
 .toggle-zoom-button.active:hover {
-    background: #003765; /* Тёмный фон */
+    background: #003765;
     border-color: #003765;
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Усиленная тень */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
 }
 
 .toggle-zoom-button.active:hover i {
-    background: #074b91; /* Светлее фон для внутреннего элемента */
-    color: #fff; /* Тёмный текст */
+    background: #074b91;
+    color: #fff;
 }
 
-/* Состояние кнопки "отжата" */
 .toggle-zoom-button:not(.active) {
-    background: #003765; /* Тёмный фон */
-    color: #fff; /* Белый текст */
-    border-color: #003765; /* Граница совпадает с фоном */
+    background: #003765;
+    color: #fff;
+    border-color: #003765;
 }
 
 .toggle-zoom-button:not(.active) i {
-    background: transparent; /* Прозрачный фон */
-    color: inherit; /* Наследуем цвет текста */
+    background: transparent;
+    color: inherit;
 }
 
 .zoom-settings {
     margin-top: 10px;
     display: flex;
     align-items: center;
-    gap: 10px; /* Расстояние между элементами */
+    gap: 10px;
 }
 
 .zoom-settings label {

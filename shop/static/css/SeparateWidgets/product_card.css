@@ -7,30 +7,27 @@
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 #product-card.show,#product-card-success.show{
-    /*!*display: block; !* Показываем окно *!*!*!*/
     opacity: 1;
     transform: scale(1);
 }
 
 .img-wrapper {
     position: relative;
-    display: flex; /* Flexbox для выравнивания */
-    justify-content: center; /* Центровка изображения по горизонтали */
-    align-items: center; /* Центровка изображения по вертикали */
-    /*width: 115px; !* Размер контейнера *!*/
-    /*height: 115px; !* Размер контейнера *!*/
-    border-radius: 10px; /* Скругленные углы */
-    overflow: hidden; /* Обрезка изображений, выходящих за пределы */
-    background-color: #f0f0f0; /* Фон для пустых частей */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #f0f0f0;
 
 }
 .img-wrapper img{
-      width: 100%; /* Растягивает изображение по ширине контейнера */
-      height: 100%; /* Растягивает изображение по высоте контейнера */
-      object-fit: contain; /* Указывает, что изображение должно вписываться внутрь с сохранением пропорций */
-      margin: 0; /* Убирает лишние отступы */
-      vertical-align: middle; /* Устраняет влияние линий базового текста */
-      border-style: none; /* Убирает возможную границу */
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    margin: 0;
+    vertical-align: middle;
+    border-style: none;
 }
 .card-main-body{
     max-width: 60vw;
@@ -47,7 +44,7 @@
     color: #101010;
     padding: 8px 10px;
     border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(128, 128, 128, 0.1);
+    box-shadow: 0 0 10px rgba(128, 128, 128, 0.1);
     cursor: pointer;
     text-decoration: none;
     transition: all 0.3s;
@@ -302,8 +299,8 @@
     justify-content: space-between;
     align-items: center;
     gap: 10px;
-    overflow: hidden; /* Скрываем элементы, выходящие за пределы */
-    position: relative; /* Для удобства управления кнопками */
+    overflow: hidden;
+    position: relative;
 }
 
 .card-bottom-title{
@@ -317,14 +314,14 @@
     display: flex;
     gap: 46px;
     scroll-behavior: smooth;
-    overflow-x: auto; /* Включаем горизонтальную прокрутку */
-    scroll-snap-type: x mandatory; /* Автоматическое прилипающее поведение */
-    max-width: calc(100% - 80px); /* Ограничиваем ширину карусели, минус место под кнопки */
-    flex-wrap: nowrap; /* Элементы не переходят на новую строку */
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    max-width: calc(100% - 80px);
+    flex-wrap: nowrap;
 }
 
 .card-carousel-item {
-    scroll-snap-align: start; /* Каждый элемент прилипающий */
+    scroll-snap-align: start;
     flex: 0 1 115px;
     text-align: center;
     cursor: pointer;
@@ -344,11 +341,11 @@
 }
 
 .prev-btn-card {
-    left: 0; /* Левая кнопка */
+    left: 0;
 }
 
 .next-btn-card {
-    right: 0; /* Правая кнопка */
+    right: 0;
 }
 
 .card-carousel-image {

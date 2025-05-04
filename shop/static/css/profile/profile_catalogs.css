@@ -50,10 +50,9 @@
 
 .file-name .download-btn {
   align-self: flex-end;
-  margin-top: 0.25em;  /* немного отступа над ссылкой */
+  margin-top: 0.25em;
 }
 
-/* если хотите чуть увеличить зону клика по иконке */
 .file-name .download-btn i {
   font-size: 1.2em;
 }

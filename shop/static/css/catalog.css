@@ -647,11 +647,10 @@ input[type=checkbox]{
 .categories-list, .collections-list {
     transition: max-height 0.5s ease-in-out;
     overflow: hidden;
-    /*max-height: 500px; !* Максимальная высота, достаточная для показа всех элементов *!*/
 }
 
 .categories.collapsed .categories-list, .collections.collapsed .collections-list {
-    max-height: 0; /* Скрыть список */
+    max-height: 0;
 }
 
 .categories-label, .collections-label {
@@ -664,7 +663,7 @@ input[type=checkbox]{
 }
 
 .categories.collapsed .chevron, .collections.collapsed .chevron {
-    transform: rotate(-90deg); /* Повернуть иконку, когда список свернут */
+    transform: rotate(-90deg);
 }
 
 .mobile-favourites-btn{

@@ -597,9 +597,8 @@
                 document.getElementById('downloadPdfWImg').addEventListener('click', function() {
                       // get the order ID somehow, maybe from an element or variable
 
-                      let orderId = order.orderId||order['order-id']; // Нужно получить настоящий ID заказа
+                      let orderId = order.orderId||order['order-id'];
 
-                      // Стартовое сообщение
                       let dialog = document.getElementById('wait-please-dialog');
                       dialog.style.display="block";
                       // Show the dialog

@@ -94,7 +94,6 @@ def create_partial_checkout_session(request):
 
 
 def stripe_partial_checkout(email, paid_price, order_id, lang_code):
-    # Создаю order
     user_email = email
 
     order_id = int(order_id)

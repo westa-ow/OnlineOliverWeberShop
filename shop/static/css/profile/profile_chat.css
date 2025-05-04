@@ -1,10 +1,10 @@
 .chat-container {
     opacity: 0;
     visibility: hidden;
-    border: none; /* По умолчанию убираем границу */
-    border-radius: 10px; /* Применяем скругление углов */
-    overflow: hidden; /* Применяем overflow, чтобы контент не выходил за скругленные углы */
-    padding: 15px; /* Добавляем отступы, чтобы контент не был обрезан */
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 15px;
     transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, border 0.3s ease-in-out;
 }
 .full-chat-container{
@@ -33,7 +33,6 @@ li{
     color: #f9f9f9;
 }
 
-/* Контейнер виджета чата для пользователя и админа */
 @media screen and (min-width: 769px) {
     .user-chat-widget, .admin-chat-widget {
         display: flex;
@@ -104,9 +103,6 @@ li{
 
 }
 
-/* Левая часть: Список чатов */
-
-
 .chat-list ul {
     list-style: none;
     padding: 0;
@@ -127,8 +123,6 @@ li{
     background-color: #e6e6e6;
 }
 
-/* Правая часть: Окно чата */
-
 
 .chat-messages {
     padding: 10px;
@@ -138,7 +132,6 @@ li{
     position: relative;
 }
 
-/* Стиль для каждого сообщения */
 .chat-message {
     margin-bottom: 10px;
 }
@@ -153,7 +146,6 @@ li{
     word-wrap: break-word;
 }
 
-/* Поле ввода сообщения */
 .chat-input {
     display: flex;
     padding: 10px;
@@ -227,11 +219,10 @@ li{
 
 }
 .message-customer {
-    /*border: 2px solid #f3b296;*/
     padding: 10px;
     margin: 5px 0;
     border-radius: 5px;
-    background-color: #f0f0f0; /* Light red background */
+    background-color: #f0f0f0;
     .message-text{
         color: #8a8a8a;
     }
@@ -241,12 +232,11 @@ li{
 }
 
 .message-admin {
-    /*border: 2px solid #002366;*/
     padding: 10px;
     margin: 5px 0;
     color: #f9f9f9;
     border-radius: 5px;
-    background-color: #002f77; /* Light blue background */
+    background-color: #002f77;
     .message-text{
         color: #e0e0e0;
     }
@@ -285,7 +275,6 @@ li{
     color: #a9a9a9;
 }
 
-/* Icon */
 .icon-functions {
     cursor: pointer;
     font-size: 20px;

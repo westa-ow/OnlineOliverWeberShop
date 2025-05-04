@@ -6,14 +6,14 @@ admin.site.register(Store)
 
 class BannerLanguageInline(admin.TabularInline):
     model = BannerLanguage
-    extra = 1  # Можно выставить нужное число «пустых» форм
+    extra = 1  # You can set the number of “empty” forms as desired
 
 
 @admin.register(Banner)
 class BannerAdmin(admin.ModelAdmin):
     list_display = ('title', 'active')
     inlines = [BannerLanguageInline]
-    # При необходимости можно добавить фильтр по языкам или настроить сортировку
+    # If necessary, you can add a filter by language or customize sorting
 
 
 @admin.register(Language)

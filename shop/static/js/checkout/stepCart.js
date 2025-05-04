@@ -5,10 +5,10 @@ function getCheckoutMetaConfig() {
         const content = metaTag.getAttribute("content").replaceAll("'", '"');
         return JSON.parse(content);
       } catch (err) {
-        console.error("Ошибка при парсинге meta tag config:", err);
+        console.error("Error when parsing meta tag config:", err);
       }
     } else {
-      console.error('Meta tag с именем "config" не найден');
+      console.error(`Meta tag with name "cartConfig" was not found`);
     }
     return {};
 }
@@ -18,10 +18,10 @@ function getScriptConfig() {
       try {
         return JSON.parse(configScript.textContent);
       } catch (err) {
-        console.error("Ошибка при парсинге config-data из script:", err);
+        console.error("Error when parsing meta tag config:", err);
       }
     } else {
-      console.error('Элемент с id "config-data" не найден');
+      console.error('Element with id "config-data" was not found');
     }
     return {};
 }
@@ -344,5 +344,5 @@ import(window.config.firebaseFunctionScriptUrl)
 
      })
     .catch(error => {
-        console.error("Ошибка при динамическом импорте:", error);
+        console.error("Error during dynamic import:", error);
     });

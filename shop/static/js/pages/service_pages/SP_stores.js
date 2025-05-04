@@ -5,7 +5,7 @@ const API_ROOT   = document.querySelector('meta[name="api-root"]').getAttribute(
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: 50.0755, lng: 14.4378 }, // Прага по умолчанию
+        center: { lat: 50.0755, lng: 14.4378 }, // Prague by default, its a plug
         zoom: 6,
         disableDefaultUI: true,
     });

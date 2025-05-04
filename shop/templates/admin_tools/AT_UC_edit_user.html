@@ -271,23 +271,21 @@
         });
         
         $('#is-b2b-id').change(function() {
-            let isB2BChecked = $(this).is(':checked'); // Проверяем, выбрана ли галочка
+            let isB2BChecked = $(this).is(':checked');
 
-            // Показываем или скрываем блок can-b2b-pay на основе выбора
             if (isB2BChecked) {
-                $('#container-can-b2b-pay').show(); // Показываем блок
+                $('#container-can-b2b-pay').show();
             } else {
-                $('#container-can-b2b-pay').hide(); // Скрываем блок
-                $('#check-can-b2b-pay').prop('checked', false); // Сбрасываем значение
+                $('#container-can-b2b-pay').hide();
+                $('#check-can-b2b-pay').prop('checked', false);
             }
         });
 
         let isB2BChecked = $('#is-b2b-id').is(':checked');
-            // Устанавливаем видимость блока на основе начального состояния
         if (isB2BChecked) {
-            $('#container-can-b2b-pay').show(); // Показываем, если выбрано
+            $('#container-can-b2b-pay').show();
         } else {
-            $('#container-can-b2b-pay').hide(); // Скрываем, если не выбрано
+            $('#container-can-b2b-pay').hide();
         }
         // Initially trigger the change event to apply the correct state
         $('#select-currency').change();

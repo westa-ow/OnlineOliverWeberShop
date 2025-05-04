@@ -276,7 +276,7 @@ function renderGallery(stone) {
           });
       }
 
-      // 7. Рендер миниатюр и начальная установка
+      // 7. Thumbnail Render and Initial Setup
       imagesArray.forEach((url,i) => {
         const t = document.createElement('img');
         t.src = url; t.width=90; t.height=90;
@@ -372,7 +372,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
         arrowRight.classList.add('arrow-right');
         arrowRight.innerHTML = `<i class="fas fa-arrow-right"></i>`;
 
-        // Обработчики кликов для стрелок
+        // Click handlers for arrows
         arrowLeft.addEventListener('click', function () {
             if (currentIndex > 0) {
                 updateImage(currentIndex - 1);
@@ -387,12 +387,12 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
         image_container.appendChild(image);
         image_container.appendChild(arrowRight);
 
-        // Функция обновления изображения и управления видимостью стрелок
+        // Image refresh and arrow visibility control function
         function updateImage(index) {
             currentIndex = index;
             image.src = imagesArray[index];
 
-            // Если мы на первом изображении, делаем левую стрелку прозрачной и не кликабельной, иначе показываем её
+            // If we are in the first image, we make the left arrow transparent and not clickable, otherwise we show it
             if (index === 0) {
                 arrowLeft.style.opacity = '0';
                 arrowLeft.style.pointerEvents = 'none';
@@ -401,7 +401,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
                 arrowLeft.style.pointerEvents = 'auto';
             }
 
-            // Если мы на последнем изображении, делаем правую стрелку прозрачной и не кликабельной, иначе показываем её
+            // If we are in the last image, make the right arrow transparent and not clickable, otherwise show it
             if (index === imagesArray.length - 1) {
                 arrowRight.style.opacity = '0';
                 arrowRight.style.pointerEvents = 'none';
@@ -410,17 +410,15 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
                 arrowRight.style.pointerEvents = 'auto';
             }
 
-            // Обновляем активное состояние миниатюр
+            // Updating the active state of the thumbnails
             const thumbItems = thumbnailsContainer.querySelectorAll('.thumbnail-item');
             thumbItems.forEach((thumb, idx) => {
                 thumb.classList.toggle('active', idx === index);
             });
         }
 
-        // При первой загрузке устанавливаем состояние стрелок
 
-
-        // Контейнер миниатюр
+        // Thumbnails container
         const thumbnailsContainer = document.createElement('div');
         thumbnailsContainer.classList.add('thumbnails-container');
         imagesArray.forEach((imgUrl, index) => {
@@ -440,7 +438,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
         containerWrapper.appendChild(thumbnailsContainer);
         updateImage(0);
     } else {
-        // Если изображение одно
+        // If the image is the only one
         image_container.appendChild(image);
         containerWrapper.appendChild(image_container);
     }
@@ -485,7 +483,7 @@ function generateDialogContent(id, items_array, currency, show_quantities, add_t
     const copy_address_page = document.createElement('span')
     copy_address_page.classList.add('copy-address-page');
     copy_address_page.setAttribute('data-link', single_product_address);
-    copy_address_page.textContent = `${vocabulary["Copy link"]} `; // Начальный текст кнопки
+    copy_address_page.textContent = `${vocabulary["Copy link"]} `;
     const copy_address_page_i = document.createElement('i');
     copy_address_page_i.classList.add('fa-solid', 'fa-link')
     copy_address_page.appendChild(copy_address_page_i);
@@ -1001,7 +999,6 @@ function activate_success_card(item, quantity, cart_count, subtotalValue, curren
             if (!dialog.open) {
                 dialog.classList.add('show');
                 dialog.offsetHeight;
-                // Показываем модальное окно
                 dialog.showModal();
             }
         },
@@ -1043,7 +1040,6 @@ function activate_success_card_shop(item, quantity, cart_count, subtotalValue, c
     if (!dialog.open) {
         dialog.classList.add('show');
         dialog.offsetHeight;
-        // Показываем модальное окно
         dialog.showModal();
     }
 }
@@ -1126,9 +1122,8 @@ function setupZoom(image_container, image, vocabulary, isSearchPage){
 
     const zoomSettings = document.createElement('div');
     zoomSettings.classList.add('zoom-settings');
-    zoomSettings.style.display = 'none'; // Скрываем настройки по умолчанию
+    zoomSettings.style.display = 'none';
 
-    // Добавляем ползунок для изменения уровня зума
     const zoom_container = document.createElement('div');
     zoom_container.classList.add('zoom-slider-container');
     const zoomLabel = document.createElement('span');

@@ -228,7 +228,6 @@
             arrowRight.style.opacity       = index === items.length - 1 ? '0' : '1';
             arrowRight.style.pointerEvents = index === items.length - 1 ? 'none' : 'auto';
 
-            // Обновляем активное состояние миниатюр
             const thumbItems = document.querySelectorAll('.thumbnail-item');
             thumbItems.forEach((thumb, idx) => {
                 thumb.classList.toggle('active', idx === index);

@@ -8,7 +8,7 @@ function getStaticUrls() {
     try {
       return JSON.parse(metaTag.getAttribute("content"));
     } catch (e) {
-      console.error("Ошибка при парсинге конфигурации static-urls", e);
+      console.error("Error while parsing config static-urls", e);
     }
   }
   return null;
@@ -17,7 +17,7 @@ function updateBackgroundImage(selectElement) {
     let imageUrl = '';
     const staticUrls = getStaticUrls();
     if (!staticUrls) {
-      console.error("Не удалось загрузить конфигурацию staticUrls");
+      console.error("Failed to load config staticUrls");
       return;
     }
     console.log(selectElement.value);

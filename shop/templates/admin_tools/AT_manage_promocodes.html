@@ -14,7 +14,6 @@
 <section id="content" class="page-content col-md-12 col-lg-9 myacc_content">
     <h1 style="font-weight: 600">Manage Promo Codes</h1>
 
-    <!-- Таблица с промокодами -->
     <table id="promocodes-table" class="styled-table">
         <thead>
             <tr>
@@ -28,19 +27,15 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Здесь динамически добавляются строки -->
         </tbody>
     </table>
 
-    <!-- Сообщение о результатах -->
     <div id="response-message" style="color: red; margin-top: 10px;"></div>
 
-    <!-- Кнопка "Create Promo Code" -->
     <div class="banners-footer">
         <button class="add-new-promocode standart-blue-btn" id="create-promocode-btn">Create Promo Code</button>
     </div>
 
-    <!-- Модальное окно -->
     <div id="modal-overlay-promocode" class="overlay-element hidden"></div>
     <div id="modal-promocode" class="modal-element hidden">
         <form id="promocode-form" class="styled-form">
@@ -87,9 +82,8 @@
 </section>
 
 <script>
-    const path = window.location.pathname; // Например, "/de/some-page/"
+    const path = window.location.pathname;
 
-    // Разбиваем путь на части, используя "/"
     const pathSegments = path.split('/'); // ["", "de", "some-page", ""]
 
     const languageCode = pathSegments[1]; // "de"
@@ -106,7 +100,6 @@
         const singleUseCheckbox = document.getElementById('single_use');
         let editingPromoCode = null;
 
-        // Показать модальное окно
         function showModal(promoCode = null) {
             modal.classList.remove('hidden');
             modalOverlay.classList.remove('hidden');
@@ -174,7 +167,6 @@
                 .catch(console.error);
         });
 
-        // Загрузить промокоды
         function loadPromoCodes() {
             fetch(`/${languageCode}/api/promocodes/`)
                 .then(response => response.json())
@@ -194,10 +186,10 @@
                             </td>
                         `;
                         row.querySelector('.action-btn').addEventListener('click', function (event) {
-                            event.stopPropagation(); // Остановить всплытие, чтобы клик вне меню закрыл его
+                            event.stopPropagation();
 
                             const existingMenu = document.querySelector('.action-menu');
-                            if (existingMenu) existingMenu.remove(); // Удалить предыдущее меню, если оно есть
+                            if (existingMenu) existingMenu.remove();
 
                             const menu = document.createElement('div');
                             menu.classList.add('action-menu');
@@ -210,12 +202,10 @@
                             menu.style.top = `${event.clientY}px`;
                             menu.style.left = `${event.clientX}px`;
 
-                            // Закрытие меню при клике вне
                             document.addEventListener('click', () => {
                                 if (menu.parentNode) menu.remove();
                             }, { once: true });
 
-                            // Обработчики для Update и Delete
                             menu.querySelector('.update-btn').addEventListener('click', () => {
                                 showModal(promoCode);
                                 menu.remove();
@@ -239,10 +229,8 @@
                 .catch(console.error);
         }
 
-        // Показать форму для создания
         createBtn.addEventListener('click', () => showModal());
 
-        // Показать/скрыть дату истечения
         canExpireCheckbox.addEventListener('change', function () {
             expirationDateGroup.classList.toggle('hidden', !this.checked);
         });
@@ -250,15 +238,13 @@
         loadPromoCodes();
     });
     document.getElementById('code').addEventListener('input', function (event) {
-        // Преобразует текст в верхний регистр и обновляет поле ввода
         this.value = this.value.toUpperCase();
     });
     document.getElementById('discount').addEventListener('input', function () {
-        const value = parseFloat(this.value); // Преобразуем значение в число
+        const value = parseFloat(this.value);
 
-        // Проверяем, чтобы значение было больше 0 и меньше или равно 100
         if (isNaN(value) || value <= 0 || value > 100) {
-            this.value = ''; // Очищаем поле, если условие не выполнено
+            this.value = '';
             alert(`Number can't be less than 0 or greater than 100!`);
         }
     });

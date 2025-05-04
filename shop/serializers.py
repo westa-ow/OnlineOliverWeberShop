@@ -24,7 +24,7 @@ class StoreSerializer(serializers.ModelSerializer):
         read_only_fields = ['latitude', 'longitude']
 
     def _geocode_address(self, address):
-        """Геокодирует адрес с помощью Google Geocoding API."""
+        """Geocodes an address using the Google Geocoding API."""
         gmaps = googlemaps.Client(key=settings.GOOGLE_MAPS_API_KEY)
         try:
             geocode_result = gmaps.geocode(address)
@@ -37,7 +37,7 @@ class StoreSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(f"Google geocoding error occurred: {e}")
 
     # def validate_address(self, value):
-    #     """Проверяем, удалось ли геокодировать адрес."""
+    #     """Check if the address has been geocoded with Nominatim"""
     #     geolocator = Nominatim(user_agent="ow_shop")
     #     try:
     #         print(value)
@@ -49,7 +49,7 @@ class StoreSerializer(serializers.ModelSerializer):
     #     return value
 
     def validate_address(self, value):
-        """Проверяем, удалось ли геокодировать адрес с помощью Google."""
+        """Let's check if Google was able to geocode the address."""
         latitude, longitude = self._geocode_address(value)
         if latitude is None or longitude is None:
             raise serializers.ValidationError(

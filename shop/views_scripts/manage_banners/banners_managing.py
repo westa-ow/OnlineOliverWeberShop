@@ -39,21 +39,19 @@ def delete_banner_relationship(request, rel_id):
         except BannerLanguage.DoesNotExist:
             return JsonResponse({'status': 'error', 'message': 'Banner relationship not found.'}, status=404)
 
-        # Получаем баннер и язык текущей записи
         banner = banner_lang.banner
         current_language = banner_lang.language.code
 
-        # Считаем количество связей для данного баннера
         rel_count = BannerLanguage.objects.filter(banner=banner).count()
 
         if rel_count > 1:
-            # Удаляем только связь для текущего языка
+            # Delete only the link for the current language
             banner_lang.delete()
             message = "Banner removed for current language."
         else:
-            # Если связь единственная, можно либо выполнить полное удаление,
-            # либо уведомить, что баннер удаляется полностью.
-            # Здесь предлагаем полное удаление.
+            # If the link is the only one, you can either perform a complete removal,
+            # or notify them that the banner is being removed completely.
+            # Here we suggest a complete removal.
             if banner.image:
                 image_path = banner.image.path
                 if default_storage.exists(image_path):
@@ -61,7 +59,6 @@ def delete_banner_relationship(request, rel_id):
             banner.delete()
             message = "Banner fully deleted."
 
-        # Переупорядочиваем оставшиеся связи для данного языка
         remaining_rels = BannerLanguage.objects.filter(language__code=current_language, banner__active=True).order_by(
             'priority')
         for index, rel in enumerate(remaining_rels):
@@ -81,17 +78,17 @@ def delete_banner_all(request, banner_id):
         except Banner.DoesNotExist:
             return JsonResponse({'status': 'error', 'message': 'Banner not found.'}, status=404)
 
-        # Если баннер имеет изображение, удаляем файл
+        # If the banner has an image, delete the file
         if banner.image:
             image_path = banner.image.path
             if default_storage.exists(image_path):
                 default_storage.delete(image_path)
 
-        # Полностью удаляем баннер; благодаря каскадному удалению Django связанные записи в BannerLanguage также будут удалены,
-        # либо можно удалить их явно, если требуется
+        # Completely remove the banner; thanks to Django's cascading removal, related entries in BannerLanguage will also be removed,
+        # or you can delete them explicitly if you want
         banner.delete()
 
-        # При необходимости можно выполнить переупорядочивание баннеров для каждого языка, но чаще обновление страницы достаточно
+        # If necessary, you can reorder banners for each language, but more often a page refresh is sufficient
         return JsonResponse({'status': 'ok', 'message': 'Banner fully deleted.'})
     else:
         return JsonResponse({'status': 'error', 'message': 'Invalid request method.'}, status=405)
@@ -120,12 +117,12 @@ def edit_banner(request, banner_id):
 def move_up(request, banner_id):
     language_code = request.POST.get('lang')
     try:
-        # Находим объект в промежуточной модели для баннера и заданного языка
+        # Find an object in the intermediate model for the banner and the specified language
         banner_lang = BannerLanguage.objects.get(banner_id=banner_id, language__code=language_code)
     except BannerLanguage.DoesNotExist:
-        return JsonResponse({'success': False, 'error': 'Banner для данного языка не найден.'}, status=404)
+        return JsonResponse({'success': False, 'error': 'Banner for this language was not found.'}, status=404)
 
-    # Ищем предыдущий баннер по порядку для этого же языка
+    # Look for the previous banner in order for the same language
     previous_banner = BannerLanguage.objects.filter(
         language__code=language_code,
         priority__lt=banner_lang.priority
@@ -137,7 +134,7 @@ def move_up(request, banner_id):
         previous_banner.save()
         return JsonResponse({'success': True})
     else:
-        return JsonResponse({'success': False, 'error': 'Нет баннера выше для этого языка.'})
+        return JsonResponse({'success': False, 'error': 'There is no banner above for this language.'})
 
 @login_required
 @user_passes_test(is_admin)
@@ -146,9 +143,9 @@ def move_down(request, banner_id):
     try:
         banner_lang = BannerLanguage.objects.get(banner_id=banner_id, language__code=language_code)
     except BannerLanguage.DoesNotExist:
-        return JsonResponse({'success': False, 'error': 'Banner для данного языка не найден.'}, status=404)
+        return JsonResponse({'success': False, 'error': 'Banner for this language was not found.'}, status=404)
 
-    # Ищем следующий баннер по порядку
+    # Looking for the next banner in order
     next_banner = BannerLanguage.objects.filter(
         language__code=language_code,
         priority__gt=banner_lang.priority
@@ -160,4 +157,4 @@ def move_down(request, banner_id):
         next_banner.save()
         return JsonResponse({'success': True})
     else:
-        return JsonResponse({'success': False, 'error': 'Нет баннера ниже для этого языка.'})
+        return JsonResponse({'success': False, 'error': 'There is no banner below for this language.'})

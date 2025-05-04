@@ -5,10 +5,10 @@ function getCatalogMetaConfig() {
         const content = metaTag.getAttribute("content").replaceAll("'", '"');
         return JSON.parse(content);
       } catch (err) {
-        console.error("Ошибка при парсинге meta tag config:", err);
+        console.error("Error while parsing meta tag config:", err);
       }
     } else {
-      console.error('Meta tag с именем "config" не найден');
+      console.error('Meta tag with name "catalog_config" was not found');
     }
     return {};
 }
@@ -892,7 +892,6 @@ import(window.config.firebaseFunctionScriptUrl)
           const getKey = item =>
             String(item.product_group_name ?? item.product_name ?? "");
 
-          // Функция сортировки внутри группы
           function sortGroup(group) {
             if (order_name === "name") {
               group.sort((a, b) => {
@@ -911,16 +910,15 @@ import(window.config.firebaseFunctionScriptUrl)
             }
           }
 
-          // 1) Выбираем по приоритету платингу
+          // 1) Prioritizing platting
           defaultPlatingOrder.forEach(plating => {
-            // отфильтровать товары, у которых есть этот plating, и которых ещё нет в seen
+            // filter products that have this plating and are not yet seen
             const group = array.filter(item => {
               if (item.platings === undefined) {
                 console.log('Found item with undefined platings:', item);
                 return false;
               }
 
-              // дальше ваша обычная логика
               return !seen.has(item.name)
                   && Object.prototype.hasOwnProperty.call(item.platings, plating);
             });
@@ -932,7 +930,7 @@ import(window.config.firebaseFunctionScriptUrl)
             });
           });
 
-          // 2) (опционально) добавить в конец все оставшиеся товары
+          // 2) (optional) add all remaining products at the end
           const leftovers = array.filter(item => !seen.has(item.name));
           if (leftovers.length) {
             sortGroup(leftovers);
@@ -1102,5 +1100,5 @@ import(window.config.firebaseFunctionScriptUrl)
         }
     })
     .catch(error => {
-        console.error("Ошибка при динамическом импорте:", error);
+        console.error("Error during dynamic import:", error);
     });
