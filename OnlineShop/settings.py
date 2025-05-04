@@ -59,7 +59,7 @@ RECAPTCHA_SECRET_KEY = os.environ.get('RECAPTCHA_SECRET_KEY')
 GOOGLE_MAPS_API_KEY = os.environ.get('GOOGLE_PLACES_API_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-FIREBASE_CREDENTIALS_FILE = os.path.join(BASE_DIR, "shop", "static", "key2.json")
+FIREBASE_CREDENTIALS_FILE = os.getenv('FIREBASE_CREDENTIALS')
 
 # Initialization Firebase (just once)
 if not firebase_admin._apps:
@@ -81,7 +81,9 @@ elif CURRENT_DOMAIN == 'oliverweber.online':
     HOTJAR_ID = os.getenv('HOTJAR_ID')
 else:
     HOTJAR_ID = os.getenv('HOTJAR_ID')
-ALLOWED_HOSTS = ['oliverweber.com', 'www.oliverweber.com', 'oliverweber.online', 'www.oliverweber.online']
+
+raw_hosts = os.getenv('ALLOWED_HOSTS', '')       # e.g. "a.com,b.com,127.0.0.1"
+ALLOWED_HOSTS = [h.strip() for h in raw_hosts.split(',') if h.strip()]
 
 GEOIP_PATH = os.path.join(BASE_DIR, 'shop/static/GEOIP')
 SECURE_SSL_REDIRECT = not DEBUG # false ONLY for localhost. For production we have to use TRUE
