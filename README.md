@@ -45,13 +45,13 @@ A Django-based e-commerce service with multi-language support and core shop func
 
     Copy .env file to 
     ```bash
-    OnlineOliverWeberShop\OnlineShop\.env
+    OnlineOliverWeberShop\.env
 
 5. **Add database key.json**
 
     Copy key.json file to 
     ```bash
-    OnlineOliverWeberShop\credetionals\key.json
+    OnlineOliverWeberShop\credentials\key.json
 
 6. **Change variables in .env file to test mode**
     ```bash
