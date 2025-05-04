@@ -112,72 +112,72 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 
 # Policy in “report only” mode. The browser will not block resources,
 # but will only send reports of violations to the specified report-uri.
-CONTENT_SECURITY_POLICY_REPORT_ONLY = {
-    "EXCLUDE_URL_PREFIXES": [],
-    "DIRECTIVES": {
-        "default-src": ["'none'"],
-        "media-src": ["'self'"],
-        "script-src": [
-            "'self'",
-            "blob:",
-            "https://trusted.cdn.com",
-            "https://kit.fontawesome.com",
-            "https://www.googletagmanager.com",
-            "https://sgw.stape.bg",
-            "https://www.gstatic.com",
-            "https://code.jquery.com",
-            "https://js.stripe.com",
-            "https://cdn.jsdelivr.net",
-            "https://static.hj.contentsquare.net",
-            "https://t.contentsquare.net",
-            "https://t.ba.contentsquare.net",
-            "https://www.google.com/recaptcha/"
-
-        ],
-        "style-src": [
-            "'self'",
-            "https://trusted.cdn.com",
-            "https://fonts.googleapis.com",
-            "https://maxcdn.bootstrapcdn.com",
-            "https://kit.fontawesome.com",
-            "https://cdn.jsdelivr.net"
-        ],
-        "img-src": [
-            "'self'",
-            "data:",
-            "https://storage.googleapis.com",
-            "https://c.ba.contentsquare.net"
-        ],
-        "font-src": [
-            "'self'",
-            "https://fonts.gstatic.com",
-            "https://maxcdn.bootstrapcdn.com",
-            "http://maxcdn.bootstrapcdn.com",
-            "https://ka-f.fontawesome.com",
-
-        ],
-        "connect-src": [
-            "'self'",
-            "https://firestore.googleapis.com",
-            "https://maxcdn.bootstrapcdn.com",
-            "https://www.googletagmanager.com",
-            "https://ka-f.fontawesome.com",
-            "https://sgw.stape.bg",
-            "https://c.ba.contentsquare.net",
-            "https://k.ba.contentsquare.net",
-            "https://www.google.com/recaptcha/"
-        ],
-        "frame-ancestors": ["'self'"],
-        "form-action": ["'self'"],
-        "frame-src": [
-            "'self'",
-            "https://js.stripe.com",
-            "https://www.google.com/recaptcha/"
-        ],
-        "upgrade-insecure-requests": True,
-        "report-uri": "/gb/csp-report/",
-    },
-}
+# CONTENT_SECURITY_POLICY_REPORT_ONLY = {
+#     "EXCLUDE_URL_PREFIXES": [],
+#     "DIRECTIVES": {
+#         "default-src": ["'none'"],
+#         "media-src": ["'self'"],
+#         "script-src": [
+#             "'self'",
+#             "blob:",
+#             "https://trusted.cdn.com",
+#             "https://kit.fontawesome.com",
+#             "https://www.googletagmanager.com",
+#             "https://sgw.stape.bg",
+#             "https://www.gstatic.com",
+#             "https://code.jquery.com",
+#             "https://js.stripe.com",
+#             "https://cdn.jsdelivr.net",
+#             "https://static.hj.contentsquare.net",
+#             "https://t.contentsquare.net",
+#             "https://t.ba.contentsquare.net",
+#             "https://www.google.com/recaptcha/"
+#
+#         ],
+#         "style-src": [
+#             "'self'",
+#             "https://trusted.cdn.com",
+#             "https://fonts.googleapis.com",
+#             "https://maxcdn.bootstrapcdn.com",
+#             "https://kit.fontawesome.com",
+#             "https://cdn.jsdelivr.net"
+#         ],
+#         "img-src": [
+#             "'self'",
+#             "data:",
+#             "https://storage.googleapis.com",
+#             "https://c.ba.contentsquare.net"
+#         ],
+#         "font-src": [
+#             "'self'",
+#             "https://fonts.gstatic.com",
+#             "https://maxcdn.bootstrapcdn.com",
+#             "http://maxcdn.bootstrapcdn.com",
+#             "https://ka-f.fontawesome.com",
+#
+#         ],
+#         "connect-src": [
+#             "'self'",
+#             "https://firestore.googleapis.com",
+#             "https://maxcdn.bootstrapcdn.com",
+#             "https://www.googletagmanager.com",
+#             "https://ka-f.fontawesome.com",
+#             "https://sgw.stape.bg",
+#             "https://c.ba.contentsquare.net",
+#             "https://k.ba.contentsquare.net",
+#             "https://www.google.com/recaptcha/"
+#         ],
+#         "frame-ancestors": ["'self'"],
+#         "form-action": ["'self'"],
+#         "frame-src": [
+#             "'self'",
+#             "https://js.stripe.com",
+#             "https://www.google.com/recaptcha/"
+#         ],
+#         "upgrade-insecure-requests": True,
+#         "report-uri": "/gb/csp-report/",
+#     },
+# }
 
 # Application definition
 INSTALLED_APPS = [
@@ -192,8 +192,7 @@ INSTALLED_APPS = [
     'shop',
     'axes',
     'csp',
-
-    # 'autotranslate',
+    'autotranslate',
 ]
 
 MIDDLEWARE = [
