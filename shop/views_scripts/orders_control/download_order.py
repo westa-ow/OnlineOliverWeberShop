@@ -1,42 +1,13 @@
-import ast
-import random
-from datetime import datetime
-from io import BytesIO
-from random import randint
-
-import concurrent.futures
-import requests
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.password_validation import validate_password
-from django.core.cache import cache
-from django.core.exceptions import ValidationError
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout, get_user_model, update_session_auth_hash
-import os
-import json
 import csv
-import firebase_admin
-from django.views.decorators.csrf import csrf_exempt
-from firebase_admin import credentials, firestore
-from django.conf import settings
-from django.contrib import messages
-from django.http import JsonResponse, HttpResponse
-from django.contrib.auth.decorators import login_required, user_passes_test
-from django.core.mail import send_mail
-from celery import shared_task
+from io import BytesIO
 
-from shop.forms import UserRegisterForm, User
-from shop.views import addresses_ref, cart_ref, get_user_category, serialize_firestore_document, users_ref, is_admin, \
-    orders_ref, itemsRef, db, process_items, get_order_items, single_order_ref, get_order
-from shop.views import get_user_info
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import A4
-from reportlab.lib.units import inch, cm
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, Image
-
+import requests
 from PIL import Image as PILImage
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.http import HttpResponse
 
+from shop.views import is_admin, \
+    orders_ref, db, get_order_items, single_order_ref, get_order
 from shop.views_scripts.checkout_cart_views import make_pdf
 
 

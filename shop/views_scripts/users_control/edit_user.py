@@ -1,13 +1,13 @@
+import json
+
+from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout, get_user_model, update_session_auth_hash
-import os
-import json
 from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.shortcuts import render
 
-from shop.views import get_user_category, users_ref, is_admin, update_email_in_db, currency_dict, groups_dict, \
+from shop.views import users_ref, is_admin, update_email_in_db, currency_dict, groups_dict, \
     serialize_firestore_document, get_user_prices
 
 
@@ -112,7 +112,7 @@ def edit_user(request, user_id):
 
     context = {
         'feature_name': "edit_user",
-        'currency':currency
+        'currency': currency
     }
     for user in existing_user:
         user_ref = users_ref.document(user.id)

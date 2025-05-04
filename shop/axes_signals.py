@@ -1,8 +1,8 @@
-from datetime import timedelta, datetime
+import logging
+from datetime import datetime
 
 from axes.signals import user_locked_out
 from django.dispatch import receiver
-import logging
 
 from OnlineShop import settings
 

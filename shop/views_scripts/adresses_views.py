@@ -1,13 +1,13 @@
+import json
 import random
 from datetime import datetime
 
-from django.shortcuts import render, redirect
-import json
-from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 
-from shop.views import addresses_ref, country_dict, users_ref, get_user_category, get_user_prices, \
+from shop.views import addresses_ref, country_dict, users_ref, get_user_prices, \
     get_vocabulary_product_card
 
 

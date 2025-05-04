@@ -1,33 +1,15 @@
-import csv
-import logging
-from datetime import datetime
-import random
-from io import StringIO
-
-import stripe
-from django.shortcuts import render, redirect
 import json
-from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse, HttpResponse
-from django.contrib.auth.decorators import login_required, user_passes_test
-from django.views.generic import TemplateView
+import logging
 
-from OnlineShop import settings
-from shop.views import addresses_ref, country_dict, users_ref, get_user_category, get_user_prices, \
-    get_user_session_type, get_cart, orders_ref, single_order_ref
-from shop.views_scripts.checkout_cart_views import clear_all_cart, email_process, generate_unique_order_id
-from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import TemplateView
-from django.http import JsonResponse, HttpResponse
-from django.conf import settings
 import paypalrestsdk
-import json
-import random
-from datetime import datetime
-from io import StringIO
-import csv
-import logging
+from django.conf import settings
+from django.http import JsonResponse, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import TemplateView
 
+from shop.views import get_user_prices, \
+    get_user_session_type, get_cart
+from shop.views_scripts.checkout_cart_views import generate_unique_order_id
 from shop.views_scripts.stripe_views import stripe_checkout
 
 paypalrestsdk.configure({

@@ -1,75 +1,45 @@
-import concurrent
 import csv
-import uuid
-from django.contrib.auth.decorators import login_required
-from reportlab.lib import colors
-from background_task import background
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
-
-from shop.decorators import login_required_or_session, logout_required, not_logged_in, ratelimit_with_logging
-from shop.recaptcha_utils import verify_recaptcha
-from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, get_cart, cart_ref, single_order_ref, \
-    get_user_category, get_user_session_type, metadata_ref, users_ref, update_email_in_db, get_user_prices, \
-    get_user_info, get_address_info, get_vat_info, get_shipping_price, get_order, get_order_items, \
-    active_promocodes_ref, active_cart_coupon, get_active_coupon, delete_user_coupons, used_promocodes_ref, \
-    mark_user_coupons_as_used, get_user_sale, productGroups, get_vocabulary_product_card
-import ast
-import random
-from datetime import datetime
-from random import randint
-from reportlab.platypus import Image
-import concurrent.futures
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.password_validation import validate_password
-from django.core.exceptions import ValidationError
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout, get_user_model, update_session_auth_hash
-import os
+import csv
 import json
-import firebase_admin
-from django.utils.translation import gettext as _, get_language, activate
-from django.views.decorators.csrf import csrf_exempt
-from firebase_admin import credentials, firestore
-from django.conf import settings
-from django.contrib import messages
-from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required, user_passes_test
-from django.core.mail import send_mail, EmailMessage
-
-from shop.forms import UserRegisterForm, User
-import os
-import json
-import time
 import logging
-import tempfile
-from datetime import datetime, timedelta, time
-from subprocess import run
+import os
+import random
+import time
+import uuid
+from datetime import datetime, time
 from io import BytesIO, StringIO
-import urllib.request
-import ftplib
-from django.views.generic import TemplateView
+
+from background_task import background
 # Django imports
 from django.conf import settings
 from django.contrib.auth import authenticate, login
-from django.http import HttpResponse, JsonResponse, FileResponse
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
+from django.core.mail import EmailMessage
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
-from django.views import View
-from django.views.decorators.csrf import csrf_exempt
-from django.template.loader import render_to_string
-
-# Third-party imports
-
-import firebase_admin
-from firebase_admin import credentials, firestore
-from reportlab.pdfgen import canvas
+from django.utils.translation import gettext as _, activate
+from firebase_admin import firestore
+from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
-from reportlab.lib.units import inch, cm
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.platypus import Image
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
 
+from shop.decorators import login_required_or_session, logout_required, not_logged_in, ratelimit_with_logging
+from shop.forms import UserRegisterForm
+from shop.recaptcha_utils import verify_recaptcha
+from shop.views import db, orders_ref, get_cart, cart_ref, single_order_ref, \
+    get_user_category, get_user_session_type, metadata_ref, users_ref, update_email_in_db, get_user_prices, \
+    get_user_info, get_address_info, get_order_items, \
+    active_promocodes_ref, active_cart_coupon, get_active_coupon, delete_user_coupons, used_promocodes_ref, \
+    mark_user_coupons_as_used, get_user_sale, get_vocabulary_product_card
 from shop.views_scripts.auth_views import get_new_user_id, get_all_errors
 from shop.views_scripts.profile_views import get_user_addresses, make_json_serializable
+
+# Third-party imports
 
 vats = {'Afghanistan': 0, 'Åland Islands': 0, 'Albania': 0, 'Algeria': 0, 'American Samoa': 0, 'Andorra': 0, 'Angola': 0, 'Anguilla': 0, 'Antarctica': 0, 'Antigua and Barbuda': 0, 'Argentina': 0, 'Armenia': 0, 'Aruba': 0, 'Australia': 0, 'Austria': 20, 'Azerbaijan': 0, 'Bahamas': 0, 'Bahrain': 0, 'Bangladesh': 0, 'Barbados': 0, 'Belarus': 0, 'Belgium': 21, 'Belize': 0, 'Benin': 0, 'Bermuda': 0, 'Bhutan': 0, 'Bolivia': 0, 'Bosnia and Herzegovina': 0, 'Botswana': 0, 'Bouvet Island': 0, 'Brazil': 0, 'British Indian Ocean Territory': 0, 'Brunei': 0, 'Bulgaria': 20, 'Burkina Faso': 0, 'Burma (Myanmar)': 0, 'Burundi': 0, 'Cambodia': 0, 'Cameroon': 0, 'Canada': 0, 'Cape Verde': 0, 'Cayman Islands': 0, 'Central African Republic': 0, 'Chad': 0, 'Chile': 0, 'China': 0, 'Christmas Island': 0, 'Cocos (Keeling) Islands': 0, 'Colombia': 0, 'Comoros': 0, 'Congo, Dem. Republic': 0, 'Congo, Republic': 0, 'Cook Islands': 0, 'Costa Rica': 0, 'Croatia': 25, 'Cuba': 0, 'Cyprus': 19, 'Czech Republic': 21, 'Denmark': 25, 'Djibouti': 0, 'Dominica': 0, 'Dominican Republic': 0, 'East Timor': 0, 'Ecuador': 0, 'Egypt': 0, 'El Salvador': 0, 'Equatorial Guinea': 0, 'Eritrea': 0, 'Estonia': 22, 'Ethiopia': 0, 'Falkland Islands': 0, 'Faroe Islands': 0, 'Fiji': 0, 'Finland': 24, 'France': 20, 'French Guiana': 0, 'French Polynesia': 0, 'French Southern Territories': 0, 'Gabon': 0, 'Gambia': 0, 'Georgia': 0, 'Germany': 19, 'Ghana': 0, 'Gibraltar': 0, 'Greece': 24, 'Greenland': 0, 'Grenada': 0, 'Guadeloupe': 0, 'Guam': 0, 'Guatemala': 0, 'Guernsey': 0, 'Guinea': 0, 'Guinea-Bissau': 0, 'Guyana': 0, 'Haiti': 0, 'Heard Island and McDonald Islands': 0, 'Honduras': 0, 'HongKong': 0, 'Hungary': 27, 'Iceland': 0, 'India': 0, 'Indonesia': 0, 'Iran': 0, 'Iraq': 0, 'Ireland': 23, 'Israel': 0, 'Italy': 22, 'Ivory Coast': 0, 'Jamaica': 0, 'Japan': 0, 'Jersey': 0, 'Jordan': 0, 'Kazakhstan': 0, 'Kenya': 0, 'Kiribati': 0, 'Dem. Republic of Korea': 0, 'Kuwait': 0, 'Kyrgyzstan': 0, 'Laos': 0, 'Latvia': 21, 'Lebanon': 0, 'Lesotho': 0, 'Liberia': 0, 'Libya': 0, 'Liechtenstein': 8.1, 'Lithuania': 21, 'Luxemburg': 0, 'Macau': 0, 'Macedonia': 0, 'Madagascar': 0, 'Malawi': 0, 'Malaysia': 0, 'Maldives': 0, 'Mali': 0, 'Malta': 18, 'Man Island': 0, 'Marshall Islands': 0, 'Martinique': 0, 'Mauritania': 0, 'Mauritius': 0, 'Mayotte': 0, 'Mexico': 0, 'Micronesia': 0, 'Moldova': 0, 'Monaco': 20, 'Mongolia': 0, 'Montenegro': 0, 'Montserrat': 0, 'Morocco': 0, 'Mozambique': 0, 'Namibia': 0, 'Nauru': 0, 'Nepal': 0, 'Netherlands': 21, 'Netherlands Antilles': 0, 'New Caledonia': 0, 'New Zealand': 0, 'Nicaragua': 0, 'Niger': 0, 'Nigeria': 0, 'Niue': 0, 'Norfolk Island': 0, 'Northern Ireland': 0, 'Northern Mariana Islands': 0, 'Norway': 0, 'Oman': 0, 'Pakistan': 0, 'Palau': 0, 'Palestinian Territories': 0, 'Panama': 0, 'Papua New Guinea': 0, 'Paraguay': 0, 'Peru': 0, 'Philippines': 0, 'Pitcairn': 0, 'Poland': 23, 'Portugal': 23, 'Puerto Rico': 0, 'Qatar': 0, 'Reunion Island': 0, 'Romania': 19, 'Russian Federation': 0, 'Rwanda': 0, 'Saint Barthelemy': 0, 'Saint Kitts and Nevis': 0, 'Saint Lucia': 0, 'Saint Martin': 0, 'Saint Pierre and Miquelon': 0, 'Saint Vincent and the Grenadines': 0, 'Samoa': 0, 'San Marino': 0, 'São Tomé and Príncipe': 0, 'Saudi Arabia': 0, 'Senegal': 0, 'Serbia': 0, 'Seychelles': 0, 'Sierra Leone': 0, 'Singapore': 0, 'Slovakia': 20, 'Slovenia': 22, 'Solomon Islands': 0, 'Somalia': 0, 'South Africa': 0, 'South Georgia and the South Sandwich Islands': 0, 'South Korea': 0, 'Spain': 21, 'Sri Lanka': 0, 'Sudan': 0, 'Suriname': 0, 'Svalbard and Jan Mayen': 0, 'Swaziland': 0, 'Sweden': 25, 'Switzerland': 8.1, 'Syria': 0, 'Taiwan': 0, 'Tajikistan': 0, 'Tanzania': 0, 'Thailand': 0, 'Togo': 0, 'Tokelau': 0, 'Tonga': 0, 'Trinidad and Tobago': 0, 'Tunisia': 0, 'Turkey': 0, 'Turkmenistan': 0, 'Turks and Caicos Islands': 0, 'Tuvalu': 0, 'Uganda': 0, 'Ukraine': 0, 'United Arab Emirates': 0, 'United Kingdom': 20, 'United States': 0, 'Uruguay': 0, 'Uzbekistan': 0, 'Vanuatu': 0, 'Vatican City State': 0, 'Venezuela': 0, 'Vietnam': 0, 'Virgin Islands (British)': 0, 'Virgin Islands (U.S.)': 0, 'Wallis and Futuna': 0, 'Western Sahara': 0, 'Yemen': 0, 'Zambia': 0, 'Zimbabwe': 0}
 

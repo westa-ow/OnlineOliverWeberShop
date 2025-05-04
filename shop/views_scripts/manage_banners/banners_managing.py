@@ -1,33 +1,12 @@
-import ast
-import random
-from datetime import datetime
-from random import randint
-import geoip2.database
-
-import concurrent.futures
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.password_validation import validate_password
-from django.core.exceptions import ValidationError
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login, logout, get_user_model, update_session_auth_hash
-import os
-import json
-import firebase_admin
-from django.template.loader import render_to_string
-from django.views.decorators.csrf import csrf_exempt
-from firebase_admin import credentials, firestore
-from django.conf import settings
-from django.contrib import messages
-from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.core.mail import send_mail
+from django.core.files.storage import default_storage
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.template.loader import render_to_string
 
-from shop.forms import UserRegisterForm, User, BannerForm, EditBannerForm
-from django.utils.translation import gettext as _
-
+from shop.forms import EditBannerForm
 from shop.models import Banner, BannerLanguage
 from shop.views import is_admin
-from django.core.files.storage import default_storage
 
 
 @login_required

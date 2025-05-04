@@ -1,34 +1,12 @@
-import concurrent
+import json
 
-from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.shortcuts import render
 
 from shop.decorators import login_required_or_session
-from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, cart_ref, get_cart, favourites_ref, \
-    get_user_category, get_user_info, get_user_session_type, get_vocabulary_product_card, get_user_prices, get_stones, \
+from shop.views import itemsRef, cart_ref, get_cart, favourites_ref, \
+    get_user_info, get_user_session_type, get_vocabulary_product_card, get_user_prices, get_stones, \
     get_active_coupon, get_user_sale
-import ast
-import random
-from datetime import datetime
-from random import randint
-
-import concurrent.futures
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.password_validation import validate_password
-from django.core.exceptions import ValidationError
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout, get_user_model, update_session_auth_hash
-import os
-import json
-import firebase_admin
-from django.views.decorators.csrf import csrf_exempt
-from firebase_admin import credentials, firestore
-from django.conf import settings
-from django.contrib import messages
-from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required, user_passes_test
-from django.core.mail import send_mail
-
-from shop.forms import UserRegisterForm, User
 
 categories = {
     "0": "All",

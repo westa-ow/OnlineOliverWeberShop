@@ -1,23 +1,17 @@
-import csv
-import logging
+import json
 from datetime import datetime
-import random
-from io import StringIO
 
 import stripe
-from django.shortcuts import render, redirect
-import json
-from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+from django.core.mail import EmailMessage
 from django.http import JsonResponse, HttpResponse
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.utils.translation import gettext as _, activate
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 
 from OnlineShop import settings
-from shop.views import addresses_ref, country_dict, users_ref, get_user_category, get_user_prices, \
-    get_user_session_type, get_cart, orders_ref, single_order_ref, delete_user_coupons
-from shop.views_scripts.checkout_cart_views import clear_all_cart, email_process, get_check_id
-from django.utils.translation import gettext as _, get_language, activate
-from django.core.mail import send_mail, EmailMessage
+from shop.views import get_user_prices, \
+    get_user_session_type, orders_ref
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 

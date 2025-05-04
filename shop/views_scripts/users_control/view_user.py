@@ -1,26 +1,8 @@
-import ast
-import random
-from datetime import datetime
-from random import randint
-
-import concurrent.futures
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.password_validation import validate_password
-from django.core.exceptions import ValidationError
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout, get_user_model, update_session_auth_hash
-import os
 import json
-import firebase_admin
-from django.views.decorators.csrf import csrf_exempt
-from firebase_admin import credentials, firestore
-from django.conf import settings
-from django.contrib import messages
-from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required, user_passes_test
-from django.core.mail import send_mail
 
-from shop.forms import UserRegisterForm, User
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.shortcuts import render
+
 from shop.views import addresses_ref, cart_ref, get_user_category, serialize_firestore_document, users_ref, is_admin
 
 

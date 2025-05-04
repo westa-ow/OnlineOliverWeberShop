@@ -1,28 +1,21 @@
-import concurrent
 import logging
 import time
-
-import requests
-from axes.models import AccessAttempt
-from axes.utils import reset
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import PasswordResetConfirmView
-from django.urls import reverse, reverse_lazy
-
-from shop.decorators import ratelimit_with_logging, not_logged_in
-from shop.recaptcha_utils import verify_recaptcha
-from shop.views import db, orders_ref, serialize_firestore_document, itemsRef, get_cart, cart_ref, single_order_ref, \
-    is_admin, users_ref, metadata_ref, get_user_prices
-
 from datetime import datetime
 
-from django.contrib.auth.forms import AuthenticationForm
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout, get_user_model, update_session_auth_hash
-from firebase_admin import credentials, firestore
+from axes.models import AccessAttempt
+from axes.utils import reset
 from django.conf import settings
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.views import PasswordResetConfirmView
+from django.shortcuts import render, redirect
+from django.urls import reverse, reverse_lazy
+from firebase_admin import firestore
 
+from shop.decorators import ratelimit_with_logging, not_logged_in
 from shop.forms import UserRegisterForm, User
+from shop.recaptcha_utils import verify_recaptcha
+from shop.views import db, users_ref, metadata_ref, get_user_prices
 
 logger = logging.getLogger(__name__)
 

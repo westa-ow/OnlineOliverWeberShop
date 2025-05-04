@@ -1,44 +1,24 @@
 import concurrent
+import concurrent.futures
 import csv
 import io
-
-from django.contrib.auth.decorators import login_required
-
-from openpyxl import load_workbook
-
+import json
 import xml.etree.ElementTree as ET
 
+from django.conf import settings
+from django.contrib.auth import get_user_model, update_session_auth_hash
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse, HttpResponse, Http404
+from django.shortcuts import render, redirect
+from django.utils.translation import gettext as _
+from openpyxl import load_workbook
 from openpyxl.styles import Font, Alignment
 from openpyxl.utils import get_column_letter
 from openpyxl.workbook import Workbook
 
 from shop.views import db, orders_ref, serialize_firestore_document, users_ref, addresses_ref, update_email_in_db, \
-    get_user_category, get_user_info, get_vocabulary_product_card, get_user_prices, get_user_session_type, itemsRef, \
+    get_user_info, get_vocabulary_product_card, get_user_prices, get_user_session_type, itemsRef, \
     get_user_sale, make_json_serializable
-import ast
-import random
-from datetime import datetime
-from random import randint
-
-import concurrent.futures
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.password_validation import validate_password
-from django.core.exceptions import ValidationError
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout, get_user_model, update_session_auth_hash
-import os
-import json
-import firebase_admin
-from django.views.decorators.csrf import csrf_exempt
-from firebase_admin import credentials, firestore
-from django.conf import settings
-from django.contrib import messages
-from django.http import JsonResponse, HttpResponse, Http404
-from django.contrib.auth.decorators import login_required, user_passes_test
-from django.core.mail import send_mail
-
-from django.utils.translation import gettext as _
-
 from shop.views_scripts.catalog_views import update_cart, get_full_product
 
 
